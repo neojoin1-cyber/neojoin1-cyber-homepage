@@ -456,11 +456,11 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
         <div><div class="lnk-name">경북직업교육연구회</div><div class="lnk-sub">사무국장으로 활동 중</div></div>
         <span class="lnk-arr">›</span>
       </a>
-      <a href="/cdn-cgi/l/email-protection#bcd7ded9fcd8ddc9d192d2d9c8" class="lnk">
+            <div onclick="location.href='mai'+'lto:'+'kbe@daum.net'" class="lnk" style="cursor:pointer">
         <div class="lnk-ico" style="background:#e3f2fd">✉️</div>
-        <div><div class="lnk-name">교육·협업 제안</div><div class="lnk-sub"><span class="__cf_email__" data-cfemail="2d464f486d494c584003434859">[email&#160;protected]</span></div></div>
+        <div><div class="lnk-name">교육·협업 제안</div><div class="lnk-sub">kbe [at] daum.net</div></div>
         <span class="lnk-arr">›</span>
-      </a>
+      </div>
     </div>
 
     <div class="home-closing">
@@ -893,11 +893,11 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
         <div><div class="lnk-name">경북직업교육연구회</div><div class="lnk-sub">사무국장으로 활동 중</div></div>
         <span class="lnk-arr">›</span>
       </a>
-      <a href="/cdn-cgi/l/email-protection#375c5552775356425a19595243" class="lnk">
+            <div onclick="location.href='mai'+'lto:'+'kbe@daum.net'" class="lnk" style="cursor:pointer">
         <div class="lnk-ico" style="background:#e3f2fd">✉️</div>
-        <div><div class="lnk-name">교육·협업 제안</div><div class="lnk-sub"><span class="__cf_email__" data-cfemail="dbb0b9be9bbfbaaeb6f5b5beaf">[email&#160;protected]</span> 으로 문의 환영</div></div>
+        <div><div class="lnk-name">교육·협업 제안</div><div class="lnk-sub">kbe [at] daum.net</div></div>
         <span class="lnk-arr">›</span>
-      </a>
+      </div>
     </div>
   </div>
 </div>
@@ -1065,4 +1065,24 @@ function showPage(id) {
 
 function toggleSub(id, el) {
   const sub = document.getElementById(id);
-  const isOpen = sub.classList.contains('
+  const isOpen = sub.classList.contains('open');
+  document.querySelectorAll('.sub-nav').forEach(s => {
+    if (s.id !== id) s.classList.remove('open');
+  });
+  document.querySelectorAll('.nav-item').forEach(i => {
+    if (i !== el) { i.classList.remove('open'); }
+  });
+  if (!isOpen) {
+    sub.classList.add('open');
+    el.classList.add('open');
+  } else {
+    sub.classList.remove('open');
+    el.classList.remove('open');
+  }
+}
+
+// 초기 로드
+showPage('home');
+</script>
+</body>
+</html>
