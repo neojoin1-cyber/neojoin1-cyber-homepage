@@ -186,25 +186,87 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 /* ── 모바일 ── */
 .mobile-toggle{display:none;position:fixed;top:12px;left:12px;z-index:200;background:var(--navy);color:#fff;border:none;width:36px;height:36px;border-radius:8px;font-size:17px;cursor:pointer;align-items:center;justify-content:center}
 @media(max-width:720px){
+  /* ── 모바일: 사이드바 완전 숨김, 모든 페이지 순서대로 표시 ── */
   :root{--sidebar:240px}
-  .sidebar{transform:translateX(-100%)}
-  .sidebar.open{transform:translateX(0)}
-  .main{margin-left:0}
-  .mobile-toggle{display:flex}
-  .home-hero,.page-header{padding-left:52px}
-  .home-stats,.home-body,.page-body{padding-left:18px;padding-right:18px}
-  .home-inner{grid-template-columns:1fr}.hero-photo{display:none}
-  .stats-row{grid-template-columns:repeat(3,1fr)}.st:nth-child(4),.st:nth-child(5){display:none}
-  .cards2{grid-template-columns:1fr}
-  .ach-grid{grid-template-columns:1fr 1fr}
-  .quick-grid,.connect-grid{grid-template-columns:1fr}
-  .mbc-grid{grid-template-columns:1fr 1fr}
-  .gallery{grid-template-columns:1fr 1fr}
-  .proj{grid-template-columns:1fr;gap:4px}
-  .timeline::before{left:54px}.tl{grid-template-columns:54px 1fr}.tl-dot{left:48px}
-  .story-flow-3{grid-template-columns:1fr}.story-flow-4{grid-template-columns:1fr}
-  .sf-arrow{display:none}
-  .special-grid,.global-grid{grid-template-columns:1fr 1fr}
+  .sidebar{display:none !important}
+  .mobile-toggle{display:none !important}
+  .main{margin-left:0 !important}
+
+  /* 모든 .page를 display:block으로 순서대로 표시 */
+  .page{display:block !important}
+
+  /* page-header 스타일 조정 */
+  .page-header{
+    padding:14px 16px 12px !important;
+    position:relative !important;
+    background:var(--bg) !important;
+    border-bottom:2px solid var(--teal) !important;
+    margin-top:0 !important;
+  }
+  .page-label{color:var(--teal)}
+  .page-title{font-size:16px !important}
+
+  /* home 페이지는 특별 처리 - 맨 위에 오도록 */
+  #page-home{order:-1}
+
+  /* 홈 히어로 */
+  .home-hero{padding:36px 16px 44px !important}
+  .home-inner{grid-template-columns:1fr !important}
+  .hero-photo{display:none !important}
+  .hero-h1{font-size:18px !important}
+  .home-stats{padding:14px 16px !important}
+  .stats-row{grid-template-columns:repeat(3,1fr) !important}
+  .st:nth-child(4),.st:nth-child(5){display:none}
+  .home-body{padding:20px 16px !important}
+  .quick-grid,.connect-grid{grid-template-columns:1fr !important}
+
+  /* 콘텐츠 패딩 */
+  .page-body{padding:18px 16px !important}
+
+  /* 그리드들 */
+  .cards2{grid-template-columns:1fr !important}
+  .ach-grid{grid-template-columns:1fr 1fr !important}
+  .mbc-grid{grid-template-columns:1fr 1fr !important}
+  .gallery{grid-template-columns:1fr 1fr !important}
+  .proj{grid-template-columns:1fr !important;gap:4px !important}
+  .special-grid,.global-grid{grid-template-columns:1fr 1fr !important}
+  .story-flow-3{grid-template-columns:1fr !important}
+  .story-flow-4{grid-template-columns:1fr !important}
+  .sf-arrow{display:none !important}
+
+  /* 타임라인 */
+  .timeline::before{left:54px !important}
+  .tl{grid-template-columns:54px 1fr !important}
+  .tl-dot{left:48px !important}
+
+  /* 챕터 구분선 */
+  .home-closing{border-radius:10px}
+
+  /* 섹션 구분 - 모바일에서 페이지 간 구분선 */
+  .page + .page{border-top:8px solid var(--border)}
+  /* 홈 다음 전산부는 더 진한 구분 */
+  #page-home + #page-dongari{border-top:0}
+
+  /* 모바일 상단 고정 헤더 */
+  .mobile-header{
+    display:flex !important;
+    position:sticky;top:0;z-index:50;
+    background:var(--navy);
+    padding:10px 16px;
+    align-items:center;justify-content:space-between;
+    border-bottom:2px solid rgba(255,255,255,.1);
+  }
+  .mobile-header-logo{
+    font-family:'Noto Serif KR',serif;
+    font-size:16px;color:#fff;font-weight:600;
+  }
+  .mobile-header-logo span{color:#7ec8e3}
+  .mobile-header-tag{font-size:10px;color:rgba(255,255,255,.5)}
+}
+
+@media(min-width:721px){
+  /* PC: 모바일 헤더 숨김 */
+  .mobile-header{display:none !important}
 }
 </style>
 </head>
@@ -263,6 +325,15 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
     <div class="sidebar-quote">"뒤처지지 않아도 돼.<br>같이 가면 돼."</div>
   </div>
 </nav>
+
+<!-- 모바일 전용 상단 헤더 -->
+<div class="mobile-header" style="display:none">
+  <div>
+    <div class="mobile-header-logo">설탕과소금<span>.</span></div>
+    <div class="mobile-header-tag">은퇴 정보교사 · 경북직업교육연구회</div>
+  </div>
+  <div style="font-family:'Noto Serif KR',serif;font-size:10px;color:rgba(255,255,255,.4);font-style:italic;text-align:right;line-height:1.6">"뒤처지지 않아도 돼.<br>같이 가면 돼."</div>
+</div>
 
 <!-- ══ MAIN ══ -->
 <div class="main" id="main-content">
@@ -918,6 +989,15 @@ const NAV_MAP = {
   'achievement':'nav-achievement','career':'nav-career','gallery':'nav-gallery','connect':'nav-connect'
 };
 function showPage(id) {
+  // 모바일(720px 이하)에서는 해당 섹션으로 스크롤
+  if (window.innerWidth <= 720) {
+    const target = document.getElementById('page-' + id);
+    if (target) {
+      target.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+    return;
+  }
+  // PC: 기존 페이지 전환
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const target = document.getElementById('page-' + id);
   if (target) target.classList.add('active');
@@ -979,7 +1059,12 @@ document.addEventListener('keydown', e => {
 });
 
 // 초기화
-showPage('home');
+if (window.innerWidth > 720) {
+  showPage('home');
+} else {
+  // 모바일: 모든 페이지 표시 상태 유지 (CSS로 처리됨)
+  // 페이지들에 active 클래스 제거 불필요
+}
 </script>
 </body>
 </html>
