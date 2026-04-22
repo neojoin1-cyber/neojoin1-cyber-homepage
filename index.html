@@ -289,6 +289,15 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
 @media(min-width:721px){
   .mobile-header{display:none !important}
 }
+.mob-menu-item{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 18px;font-size:14px;color:rgba(255,255,255,.75);
+  cursor:pointer;transition:all .15s;border-left:3px solid transparent;
+}
+.mob-menu-item:hover,.mob-menu-item:active{
+  background:rgba(255,255,255,.07);color:#fff;border-left-color:#7ec8e3;
+}
+.mob-menu-icon{font-size:15px;width:20px;text-align:center;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -352,15 +361,84 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
   <div style="display:flex;align-items:center;gap:10px">
     <div>
       <div class="mobile-header-logo">설탕과소금<span>.</span></div>
-      <div class="mobile-header-tag">홈</div>
+      <div class="mobile-header-tag" id="mob-section-name">홈</div>
     </div>
   </div>
-  <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false"
-     style="color:rgba(255,255,255,.5);font-size:11px;text-decoration:none;
-            background:rgba(255,255,255,.1);padding:5px 10px;border-radius:12px">
-    ↑ 맨 위로
-  </a>
+  <div style="display:flex;align-items:center;gap:8px">
+    <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false"
+       style="color:rgba(255,255,255,.5);font-size:11px;text-decoration:none;
+              background:rgba(255,255,255,.1);padding:5px 10px;border-radius:12px">
+      ↑ 맨 위로
+    </a>
+    <button onclick="toggleMobMenu()" id="mob-menu-btn"
+       style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+              color:#fff;width:36px;height:36px;border-radius:9px;font-size:18px;
+              cursor:pointer;display:flex;align-items:center;justify-content:center;
+              transition:background .2s;flex-shrink:0">☰</button>
+  </div>
 </div>
+
+<!-- 모바일 슬라이드 메뉴 패널 -->
+<div id="mob-menu-panel"
+     style="display:none;position:fixed;top:0;right:0;bottom:0;width:75%;max-width:280px;
+            background:var(--navy);z-index:500;overflow-y:auto;
+            box-shadow:-4px 0 20px rgba(0,0,0,.4);
+            transform:translateX(100%);transition:transform .28s ease">
+  <!-- 패널 헤더 -->
+  <div style="padding:18px 18px 14px;border-bottom:1px solid rgba(255,255,255,.1);
+              display:flex;align-items:center;justify-content:space-between">
+    <div>
+      <div style="font-family:'Noto Serif KR',serif;font-size:16px;font-weight:600;color:#fff">
+        설탕과소금<span style="color:#7ec8e3">.</span>
+      </div>
+      <div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:2px">메뉴</div>
+    </div>
+    <button onclick="closeMobMenu()"
+       style="background:rgba(255,255,255,.1);border:none;color:#fff;
+              width:32px;height:32px;border-radius:8px;font-size:18px;cursor:pointer">✕</button>
+  </div>
+  <!-- 메뉴 항목들 -->
+  <div style="padding:10px 0">
+    <div onclick="mobGoto('home')" class="mob-menu-item">
+      <span class="mob-menu-icon">🏠</span> 홈
+    </div>
+    <div style="padding:8px 18px 4px;font-size:10px;letter-spacing:.1em;
+                color:rgba(255,255,255,.3);font-weight:700;text-transform:uppercase">교직 이야기</div>
+    <div onclick="mobGoto('dongari')" class="mob-menu-item">
+      <span class="mob-menu-icon">💻</span> 전산부 23년
+    </div>
+    <div onclick="mobGoto('projects')" class="mob-menu-item">
+      <span class="mob-menu-icon">🏆</span> 국책사업 4선
+    </div>
+    <div onclick="mobGoto('achievement')" class="mob-menu-item">
+      <span class="mob-menu-icon">🌟</span> 성과 &amp; 활동
+    </div>
+    <div style="padding:8px 18px 4px;font-size:10px;letter-spacing:.1em;
+                color:rgba(255,255,255,.3);font-weight:700;text-transform:uppercase;margin-top:4px">더 보기</div>
+    <div onclick="mobGoto('career')" class="mob-menu-item">
+      <span class="mob-menu-icon">📋</span> 걸어온 길
+    </div>
+    <div onclick="mobGoto('gallery')" class="mob-menu-item">
+      <span class="mob-menu-icon">📷</span> 활동 갤러리
+    </div>
+    <div onclick="mobGoto('connect')" class="mob-menu-item">
+      <span class="mob-menu-icon">🔗</span> 함께 연결해요
+    </div>
+  </div>
+  <!-- 패널 하단 인용구 -->
+  <div style="padding:18px;border-top:1px solid rgba(255,255,255,.08);margin-top:auto">
+    <div style="font-family:'Noto Serif KR',serif;font-size:11px;
+                color:rgba(255,255,255,.3);font-style:italic;line-height:1.7">
+      "뒤처지지 않아도 돼.<br>같이 가면 돼."
+    </div>
+  </div>
+</div>
+
+<!-- 메뉴 열렸을 때 배경 딤 -->
+<div id="mob-menu-dim"
+     style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;
+            background:rgba(0,0,0,.5);z-index:499"
+     onclick="closeMobMenu()"></div>
 
 <!-- ══ MAIN ══ -->
 <div class="main" id="main-content">
@@ -1123,6 +1201,39 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight') lbNav(1);
 });
 
+// ── 모바일 슬라이드 메뉴 ──
+function toggleMobMenu() {
+  const panel = document.getElementById('mob-menu-panel');
+  const dim = document.getElementById('mob-menu-dim');
+  const btn = document.getElementById('mob-menu-btn');
+  const isOpen = panel.style.transform === 'translateX(0%)';
+  if (isOpen) {
+    closeMobMenu();
+  } else {
+    panel.style.display = 'flex';
+    panel.style.flexDirection = 'column';
+    dim.style.display = 'block';
+    requestAnimationFrame(() => { panel.style.transform = 'translateX(0%)'; });
+    btn.textContent = '✕';
+  }
+}
+function closeMobMenu() {
+  const panel = document.getElementById('mob-menu-panel');
+  const dim = document.getElementById('mob-menu-dim');
+  const btn = document.getElementById('mob-menu-btn');
+  panel.style.transform = 'translateX(100%)';
+  dim.style.display = 'none';
+  btn.textContent = '☰';
+  setTimeout(() => { if (panel.style.transform === 'translateX(100%)') panel.style.display = 'none'; }, 300);
+}
+function mobGoto(id) {
+  closeMobMenu();
+  setTimeout(() => {
+    const el = document.getElementById('page-' + id);
+    if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  }, 120);
+}
+
 // 초기화
 if (window.innerWidth > 720) {
   showPage('home');
@@ -1148,6 +1259,19 @@ if (window.innerWidth > 720) {
     if (tagEl && pageNames[current]) tagEl.textContent = pageNames[current];
   }
   window.addEventListener('scroll', updateMobileHeader, {passive:true});
+  // 섹션명 업데이트용 tagEl ID 수정
+  const tagElFixed = document.getElementById('mob-section-name');
+  function updateMobileHeaderFixed() {
+    const pages = document.querySelectorAll('.page');
+    let current = 'page-home';
+    pages.forEach(p => {
+      const rect = p.getBoundingClientRect();
+      if (rect.top <= 80) current = p.id;
+    });
+    if (tagElFixed && pageNames[current]) tagElFixed.textContent = pageNames[current];
+  }
+  window.removeEventListener('scroll', updateMobileHeader);
+  window.addEventListener('scroll', updateMobileHeaderFixed, {passive:true});
 }
 </script>
 </body>
