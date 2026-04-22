@@ -207,12 +207,32 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
   .mobile-toggle{display:none !important}
   .main{margin-left:0 !important;width:100% !important;max-width:100vw !important;overflow-x:hidden !important;display:block !important}
   .page{display:block !important;width:100% !important;flex:none !important}
-  .page + .page{border-top:6px solid #e8ecf0}
+  .page + .page{border-top:8px solid var(--bg);position:relative}
   .mobile-header{display:flex !important;position:sticky;top:0;z-index:200;background:var(--navy);padding:10px 16px;align-items:center;justify-content:space-between;border-bottom:2px solid rgba(255,255,255,.1);width:100%}
   .mobile-header-logo{font-family:'Noto Serif KR',serif;font-size:16px;color:#fff;font-weight:600}
   .mobile-header-logo span{color:#7ec8e3}
   .mobile-header-tag{font-size:10px;color:rgba(255,255,255,.5)}
-  .page-header{padding:12px 16px 10px !important;position:relative !important;border-bottom:2px solid var(--teal) !important;background:#fff !important}
+  .page-header{
+    padding:14px 16px 10px !important;
+    position:relative !important;
+    background:#fff !important;
+    border-top:none !important;
+    border-bottom:none !important;
+    margin-bottom:0 !important;
+  }
+  /* 섹션 헤더: 섹션 색상 바 */
+  .page-header::after{
+    content:'';display:block;
+    height:3px;margin-top:10px;
+    border-radius:2px;
+    background:var(--teal);
+  }
+  #page-dongari .page-header::after{background:#1a5ca8}
+  #page-projects .page-header::after{background:#9a7200}
+  #page-achievement .page-header::after{background:#2d6a40}
+  #page-career .page-header::after{background:#c4690a}
+  #page-gallery .page-header::after{background:#7a4a8a}
+  #page-connect .page-header::after{background:#1a5ca8}
   #page-dongari .page-header{border-bottom-color:#1a5ca8 !important}
   #page-projects .page-header{border-bottom-color:#9a7200 !important}
   #page-achievement .page-header{border-bottom-color:#2d6a40 !important}
@@ -329,11 +349,17 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
 
 <!-- 모바일 전용 상단 헤더 -->
 <div class="mobile-header" style="display:none">
-  <div>
-    <div class="mobile-header-logo">설탕과소금<span>.</span></div>
-    <div class="mobile-header-tag">은퇴 정보교사 · 경북직업교육연구회</div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div>
+      <div class="mobile-header-logo">설탕과소금<span>.</span></div>
+      <div class="mobile-header-tag">홈</div>
+    </div>
   </div>
-  <div style="font-family:'Noto Serif KR',serif;font-size:10px;color:rgba(255,255,255,.4);font-style:italic;text-align:right;line-height:1.6">"뒤처지지 않아도 돼.<br>같이 가면 돼."</div>
+  <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false"
+     style="color:rgba(255,255,255,.5);font-size:11px;text-decoration:none;
+            background:rgba(255,255,255,.1);padding:5px 10px;border-radius:12px">
+    ↑ 맨 위로
+  </a>
 </div>
 
 <!-- ══ MAIN ══ -->
@@ -402,8 +428,8 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
         <div style="display:flex;align-items:center;gap:9px;width:100%">
           <div class="lnk-ico" style="background:#e3f2fd">✉️</div>
           <div style="flex:1">
-            <div class="lnk-name">교육·협업 제안(kbe@daum.net)</div>
-            <div class="lnk-sub">강의·강연·콘텐츠 협업 문의 환영</div>
+            <div class="lnk-name">교육·협업 제안</div>
+            <div class="lnk-sub">강의·강연·콘텐츠 협업 문의 환영</div><div style="font-size:11.5px;color:var(--teal);margin-top:2px">kbe@daum.net · 010-3534-7163</div>
           </div>
         </div>
         <div class="connect-action-btns" style="display:none;gap:8px;width:100%;flex-wrap:wrap">
@@ -996,7 +1022,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
           <div class="lnk-ico" style="background:#e3f2fd">✉️</div>
           <div style="flex:1">
             <div class="lnk-name">교육·협업 제안</div>
-            <div class="lnk-sub">강의·강연·콘텐츠 협업 문의 환영</div>
+            <div class="lnk-sub">강의·강연·콘텐츠 협업 문의 환영</div><div style="font-size:11.5px;color:var(--teal);margin-top:2px">kbe@daum.net · 010-3534-7163</div>
           </div>
         </div>
         <div class="connect-action-btns" style="display:none;gap:8px;width:100%;flex-wrap:wrap">
@@ -1100,8 +1126,27 @@ document.addEventListener('keydown', e => {
 if (window.innerWidth > 720) {
   showPage('home');
 } else {
-  // 모바일: 모든 페이지 표시 상태 유지 (CSS로 처리됨)
-  // 페이지들에 active 클래스 제거 불필요
+  // 모바일: 스크롤 감지해서 상단 헤더에 현재 섹션 표시
+  const pageNames = {
+    'page-home': '홈',
+    'page-dongari': '전산부 23년',
+    'page-projects': '국책사업 4선',
+    'page-achievement': '성과 & 활동',
+    'page-career': '걸어온 길',
+    'page-gallery': '활동 갤러리',
+    'page-connect': '함께 연결해요'
+  };
+  function updateMobileHeader() {
+    const pages = document.querySelectorAll('.page');
+    let current = 'page-home';
+    pages.forEach(p => {
+      const rect = p.getBoundingClientRect();
+      if (rect.top <= 60) current = p.id;
+    });
+    const tagEl = document.querySelector('.mobile-header-tag');
+    if (tagEl && pageNames[current]) tagEl.textContent = pageNames[current];
+  }
+  window.addEventListener('scroll', updateMobileHeader, {passive:true});
 }
 </script>
 </body>
