@@ -284,6 +284,12 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
 }
 @media(min-width:721px){
   .mobile-header{display:none !important}
+  #mob-menu-panel,#mob-menu-dim{display:none !important}
+  .page{display:none !important}
+  .page.active{display:block !important;width:100% !important;overflow-x:hidden !important}
+  .page-body{padding:24px 28px !important;max-width:min(860px,100%) !important}
+  .page-title{font-size:clamp(17px,2.5vw,23px) !important}
+  .page-header{position:relative !important;border-bottom:1px solid var(--border) !important}
 }
 .mob-menu-item{
   display:flex;align-items:center;gap:10px;
