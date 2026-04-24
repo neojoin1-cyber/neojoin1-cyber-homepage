@@ -55,7 +55,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
 .page.active{display:block;width:100%;overflow-x:hidden}
 
 /* ── HOME ── */
-.home-hero{background:linear-gradient(135deg,#152333 0%,#1e3a50 55%,#16303f 100%);color:#fff;padding:52px 36px 60px;position:relative;overflow:hidden;width:100%;box-sizing:border-box}
+.home-hero{background:linear-gradient(135deg,#152333 0%,#1e3a50 55%,#16303f 100%);color:#fff;padding:52px 36px 60px;position:relative;overflow:hidden;width:100%;box-sizing:border-box;display:block}
 .home-hero::before{content:'';position:absolute;top:-80px;right:-60px;width:380px;height:380px;background:rgba(126,200,227,.04);border-radius:50%}
 .home-inner{max-width:680px;position:relative;z-index:1;display:grid;grid-template-columns:1fr 180px;gap:32px;align-items:center}
 .hero-badge{display:inline-flex;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:4px 13px;font-size:11px;letter-spacing:.08em;margin-bottom:13px;color:#a8cce0}
@@ -201,40 +201,14 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
   body{display:block !important}
   .sidebar{display:none !important;width:0 !important}
   .mobile-toggle{display:none !important}
-  .main{margin-left:0 !important;width:100% !important;max-width:100vw !important;overflow-x:hidden !important;display:block !important;padding-top:0 !important}
-  .page{display:block !important;width:100% !important;flex:none !important}
-  .page + .page{border-top:8px solid var(--bg);position:relative}
+  .main{margin-left:0 !important;width:100% !important;max-width:100vw !important;overflow-x:hidden !important;display:block !important}
+  .page{display:block !important;width:100% !important}
+  .page + .page{border-top:6px solid #e8ecf0}
   .mobile-header{display:flex !important;position:sticky;top:0;z-index:200;background:var(--navy);padding:10px 16px;align-items:center;justify-content:space-between;border-bottom:2px solid rgba(255,255,255,.1);width:100%}
   .mobile-header-logo{font-family:'Noto Serif KR',serif;font-size:16px;color:#fff;font-weight:600}
   .mobile-header-logo span{color:#7ec8e3}
   .mobile-header-tag{font-size:10px;color:rgba(255,255,255,.5)}
-  .page-header{
-    padding:14px 16px 10px !important;
-    position:relative !important;
-    background:#fff !important;
-    border-top:none !important;
-    border-bottom:none !important;
-    margin-bottom:0 !important;
-  }
-  /* 섹션 헤더: 섹션 색상 바 */
-  .page-header::after{
-    content:'';display:block;
-    height:3px;margin-top:10px;
-    border-radius:2px;
-    background:var(--teal);
-  }
-  #page-dongari .page-header::after{background:#1a5ca8}
-  #page-projects .page-header::after{background:#9a7200}
-  #page-achievement .page-header::after{background:#2d6a40}
-  #page-career .page-header::after{background:#c4690a}
-  #page-gallery .page-header::after{background:#7a4a8a}
-  #page-connect .page-header::after{background:#1a5ca8}
-  #page-dongari .page-header{border-bottom-color:#1a5ca8 !important}
-  #page-projects .page-header{border-bottom-color:#9a7200 !important}
-  #page-achievement .page-header{border-bottom-color:#2d6a40 !important}
-  #page-career .page-header{border-bottom-color:#c4690a !important}
-  #page-gallery .page-header{border-bottom-color:#7a4a8a !important}
-  #page-connect .page-header{border-bottom-color:#1a5ca8 !important}
+  .page-header{padding:12px 16px 10px !important;background:#fff !important;border-bottom:1px solid var(--border) !important}
   .page-title{font-size:16px !important}
   .home-hero{padding:28px 16px 36px !important}
   .home-inner{grid-template-columns:1fr !important;gap:0 !important}
@@ -247,7 +221,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
   .st-n{font-size:15px !important}
   .home-body{padding:18px 16px !important}
   .quick-grid,.connect-grid{grid-template-columns:1fr !important}
-  .page-body{padding:16px !important;max-width:100% !important}
+  .page-body{padding:16px !important;max-width:100% !important;box-sizing:border-box !important}
   .cards2{grid-template-columns:1fr !important}
   .ach-grid{grid-template-columns:1fr 1fr !important}
   .mbc-grid{grid-template-columns:1fr 1fr !important}
@@ -264,32 +238,15 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
   .feature-years{display:none !important}
   .sec-title{font-size:16px !important}
   img{max-width:100% !important;height:auto !important}
-  /* 모바일/태블릿: 교육협업 버튼 표시 */
   .connect-action-btns{display:flex !important}
   .lnk{align-items:flex-start !important}
-  /* 모바일 최소 폰트 12px 보장 */
-  .nav-section-title{font-size:0 !important}
-  .st-l{font-size:10px !important}
-  .page-label{font-size:11px !important;letter-spacing:.06em !important}
-  .logo-sub{font-size:11px !important}
-  .tl-yr{font-size:11px !important}
-  .tl-badge{font-size:11px !important}
-  .scard-tag{font-size:11px !important}
-  .chip{font-size:11px !important}
-  .gg-label,.sg-label,.mbc-cap{font-size:11px !important}
-  /* 작은 캡션들 모바일에서 12px */
-  [style*="font-size:10px"]{font-size:12px}
-  [style*="font-size:9.5px"]{font-size:11px}
-  [style*="font-size:10.5px"]{font-size:12px}
 }
 @media(min-width:721px){
   .mobile-header{display:none !important}
   #mob-menu-panel,#mob-menu-dim{display:none !important}
   .page{display:none !important}
-  .page.active{display:block !important;width:100% !important;overflow-x:hidden !important}
-  .page-body{padding:24px 28px !important;max-width:min(860px,100%) !important}
-  .page-title{font-size:clamp(17px,2.5vw,23px) !important}
-  .page-header{position:relative !important;border-bottom:1px solid var(--border) !important}
+  .page.active{display:block !important;width:100% !important}
+  .topnav{display:flex !important}
 }
 .mob-menu-item{
   display:flex;align-items:center;gap:10px;
