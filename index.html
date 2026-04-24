@@ -91,7 +91,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
 .closing-author{font-size:11px;color:rgba(255,255,255,.28)}
 
 /* ── CONTENT PAGE ── */
-.page-header{background:#fff;border-bottom:1px solid var(--border);padding:20px 36px 16px;position:sticky;top:var(--nav-h);z-index:10;width:100%;box-sizing:border-box}
+.page-header{background:#fff;border-bottom:1px solid var(--border);padding:20px 36px 16px;width:100%;box-sizing:border-box}
 .page-label{font-size:10px;letter-spacing:.1em;color:var(--teal);font-weight:700;text-transform:uppercase;margin-bottom:3px}
 .page-title{font-family:'Noto Serif KR',serif;font-size:clamp(17px,2.5vw,23px);font-weight:600;color:var(--navy)}
 .page-body{padding:24px 28px;max-width:min(860px,100%);width:100%;box-sizing:border-box}
@@ -367,9 +367,9 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
         전산부 23년 <span class="tnav-drop-arrow">▾</span>
       </button>
       <div class="tnav-drop-menu">
-        <a href="#" onclick="showPage('dongari');setTimeout(()=>{const e=document.getElementById('ch-dongari');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},120);return false">💻 무료 방과후 교실</a>
-        <a href="#" onclick="showPage('dongari');setTimeout(()=>{const e=document.getElementById('ch-character');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},120);return false">💚 인성·봉사 활동</a>
-        <a href="#" onclick="showPage('dongari');setTimeout(()=>{const e=document.getElementById('ch-edusys');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},120);return false">🍜 EDUSYS 라면의 기적</a>
+        <a href="#" onclick="showPage('dongari','ch-dongari');return false">💻 무료 방과후 교실</a>
+        <a href="#" onclick="showPage('dongari','ch-character');return false">💚 인성·봉사 활동</a>
+        <a href="#" onclick="showPage('dongari','ch-edusys');return false">🍜 EDUSYS 라면의 기적</a>
       </div>
     </div>
 
@@ -379,10 +379,10 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
         국책사업 4선 <span class="tnav-drop-arrow">▾</span>
       </button>
       <div class="tnav-drop-menu">
-        <a href="#" onclick="showPage('projects');setTimeout(()=>{const e=document.getElementById('ch-junggi');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},120);return false">🏅 중기청 인력양성</a>
-        <a href="#" onclick="showPage('projects');setTimeout(()=>{const e=document.getElementById('ch-bizcool');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},120);return false">💡 창업 비즈쿨</a>
-        <a href="#" onclick="showPage('projects');setTimeout(()=>{const e=document.getElementById('ch-global');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},120);return false">✈️ 글로벌 현장학습</a>
-        <a href="#" onclick="showPage('projects');setTimeout(()=>{const e=document.getElementById('ch-doje');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},120);return false">🎓 도제학교</a>
+        <a href="#" onclick="showPage('projects','ch-junggi');return false">🏅 중기청 인력양성</a>
+        <a href="#" onclick="showPage('projects','ch-bizcool');return false">💡 창업 비즈쿨</a>
+        <a href="#" onclick="showPage('projects','ch-global');return false">✈️ 글로벌 현장학습</a>
+        <a href="#" onclick="showPage('projects','ch-doje');return false">🎓 도제학교</a>
       </div>
     </div>
 
@@ -1244,16 +1244,14 @@ const TNAV_MAP = {
   'gallery':'tnav-gallery',
   'connect':null
 };
-function showPage(id) {
+function showPage(id, chapterId) {
   // 모바일(720px 이하)에서는 해당 섹션으로 스크롤
   if (window.innerWidth <= 720) {
     const target = document.getElementById('page-' + id);
-    if (target) {
-      target.scrollIntoView({behavior:'smooth', block:'start'});
-    }
+    if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
     return;
   }
-  // PC: 기존 페이지 전환
+  // PC: 페이지 전환
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const target = document.getElementById('page-' + id);
   if (target) target.classList.add('active');
@@ -1264,10 +1262,20 @@ function showPage(id) {
   document.querySelectorAll('.tnav-links a, .tnav-drop-btn').forEach(el => el.classList.remove('tactive'));
   const tnavId = TNAV_MAP[id] || TNAV_MAP[id.split('-')[0]];
   if (tnavId) { const el = document.getElementById(tnavId); if(el) el.classList.add('tactive'); }
-  window.scrollTo({top:0,left:0,behavior:'instant'});
-  document.documentElement.scrollTop = 0;
-  document.body.scrollTop = 0;
-  if(document.getElementById('sidebar')) document.getElementById('sidebar').classList.remove('open');
+  // 챕터 이동 (있는 경우)
+  if (chapterId) {
+    requestAnimationFrame(() => {
+      const ch = document.getElementById(chapterId);
+      if (ch) {
+        const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 68;
+        const top = ch.getBoundingClientRect().top + window.pageYOffset - navH - 8;
+        window.scrollTo({top: Math.max(0, top), behavior:'smooth'});
+      }
+    });
+  } else {
+    window.scrollTo({top:0, left:0, behavior:'instant'});
+  }
+  if(document.getElementById('mob-menu-panel')) closeMobMenu();
 }
 
 // ── 챕터 이동 (앵커 스크롤) ──
