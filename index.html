@@ -324,7 +324,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
 
     <!-- 전산부 드롭다운 -->
     <div class="tnav-drop">
-      <button class="tnav-drop-btn" id="tnav-dongari" onclick="showPage('dongari');return false">
+      <button class="tnav-drop-btn" id="tnav-dongari" onclick="showPage('dongari','ch-dongari');return false">
         전산부 23년 <span class="tnav-drop-arrow">▾</span>
       </button>
       <div class="tnav-drop-menu">
@@ -336,7 +336,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
 
     <!-- 국책사업 드롭다운 -->
     <div class="tnav-drop">
-      <button class="tnav-drop-btn" id="tnav-projects" onclick="showPage('projects');return false">
+      <button class="tnav-drop-btn" id="tnav-projects" onclick="showPage('projects','ch-junggi');return false">
         국책사업 4선 <span class="tnav-drop-arrow">▾</span>
       </button>
       <div class="tnav-drop-menu">
@@ -347,14 +347,14 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
       </div>
     </div>
 
-    <a href="#" id="tnav-achievement" onclick="showPage('achievement');return false">성과 &amp; 활동</a>
+    <a href="#" id="tnav-achievement" onclick="showPage('achievement','achievement-top');return false">성과 &amp; 활동</a>
     <div class="tnav-div"></div>
-    <a href="#" id="tnav-career" onclick="showPage('career');return false">걸어온 길</a>
-    <a href="#" id="tnav-gallery" onclick="showPage('gallery');return false">활동 갤러리</a>
+    <a href="#" id="tnav-career" onclick="showPage('career','career-top');return false">걸어온 길</a>
+    <a href="#" id="tnav-gallery" onclick="showPage('gallery','gallery-grid');return false">활동 갤러리</a>
   </div>
 
   <!-- CTA 버튼 -->
-  <a class="tnav-cta" href="#" onclick="showPage('connect');return false">함께 연결해요</a>
+  <a class="tnav-cta" href="#" onclick="showPage('connect','connect-top');return false">함께 연결해요</a>
 </nav>
 
 <!-- 모바일 전용 상단 헤더 -->
@@ -411,18 +411,18 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
     <div onclick="mobGoto('projects')" class="mob-menu-item">
       <span class="mob-menu-icon">🏆</span> 국책사업 4선
     </div>
-    <div onclick="mobGoto('achievement')" class="mob-menu-item">
+    <div onclick="showPage('achievement','achievement-top');closeMobMenu()" class="mob-menu-item">
       <span class="mob-menu-icon">🌟</span> 성과 &amp; 활동
     </div>
     <div style="padding:8px 18px 4px;font-size:10px;letter-spacing:.1em;
                 color:rgba(255,255,255,.3);font-weight:700;text-transform:uppercase;margin-top:4px">더 보기</div>
-    <div onclick="mobGoto('career')" class="mob-menu-item">
+    <div onclick="showPage('career','career-top');closeMobMenu()" class="mob-menu-item">
       <span class="mob-menu-icon">📋</span> 걸어온 길
     </div>
-    <div onclick="mobGoto('gallery')" class="mob-menu-item">
+    <div onclick="showPage('gallery','gallery-grid');closeMobMenu()" class="mob-menu-item">
       <span class="mob-menu-icon">📷</span> 활동 갤러리
     </div>
-    <div onclick="mobGoto('connect')" class="mob-menu-item">
+    <div onclick="showPage('connect','connect-top');closeMobMenu()" class="mob-menu-item">
       <span class="mob-menu-icon">🔗</span> 함께 연결해요
     </div>
   </div>
@@ -1048,7 +1048,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
     <div class="page-title">성과 &amp; 활동</div>
   </div>
   <div class="page-body">
-    <div class="sec-label">함께 이뤄낸 것들</div>
+    <div id="achievement-top"></div><div class="sec-label">함께 이뤄낸 것들</div>
     <div class="bar"></div>
     <p style="font-size:13px;color:var(--muted);line-height:1.9;margin-bottom:18px">혼자였다면 불가능했습니다. 함께해 준 학생들과 동료들 덕분에 가능했던 일들입니다.</p>
     <div class="ach-grid" style="margin-bottom:32px">
@@ -1096,7 +1096,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
     <div class="page-title">걸어온 길</div>
   </div>
   <div class="page-body">
-    <div class="timeline">
+    <div id="career-top"></div><div class="timeline">
       <div class="tl"><div class="tl-yr">2023~<br>현재</div><div class="tl-dot gold"></div><div class="tl-body"><div class="tl-title">경북직업교육연구회 사무국장</div><div class="tl-desc">직업교육 현장 교사 네트워크 운영 및 연구 활동 총괄</div></div></div>
       <div class="tl"><div class="tl-yr">2023~<br>현재</div><div class="tl-dot blue"></div><div class="tl-body"><div class="tl-title">한국관광교육연구원 부원장 · 대구경북지부장</div><div class="tl-desc">관광교육 연구 및 대구·경북 지역 네트워크 운영</div></div></div>
       <div class="tl"><div class="tl-yr">2022~<br>2023</div><div class="tl-dot"></div><div class="tl-body"><div class="tl-title">경상북도교육청 도제학교지원단 상임위원</div><div class="tl-desc">직업교육 현장 지원 및 정책 자문</div></div></div>
@@ -1144,7 +1144,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
     <div class="page-title">함께 연결해요</div>
   </div>
   <div class="page-body">
-    <div style="display:flex;flex-direction:column;gap:11px;max-width:460px">
+    <div id="connect-top"></div><div style="display:flex;flex-direction:column;gap:11px;max-width:460px">
       <a href="https://www.instagram.com/info_teacher_30/" target="_blank" class="lnk">
         <div class="lnk-ico" style="background:#fce4ec">📷</div>
         <div><div class="lnk-name">인스타그램 — 동남아 한 달 살기</div><div class="lnk-sub">은퇴 후 새로운 도전의 일상 기록</div></div>
