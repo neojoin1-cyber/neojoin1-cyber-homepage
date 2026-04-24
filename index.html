@@ -30,18 +30,15 @@
   --red:#b83232;--red-lt:#fff0f0;
   --text:#1a1a1a;--muted:#6b7a8a;
   --border:#e4e8ed;--bg:#f6f4f1;
-  --sidebar:250px;
   --nav-h:68px;
 }
-html{scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+html{scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overflow-x:hidden;max-width:100vw}
 * {-webkit-tap-highlight-color:rgba(0,0,0,0.05)}
-body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;display:flex;min-height:100vh}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;min-height:100vh;overflow-x:hidden;max-width:100vw}
 button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:manipulation}
 [style*="overflow-x:auto"]::-webkit-scrollbar{display:none}
 
 /* ── SIDEBAR ── */
-.sidebar{width:var(--sidebar);flex-shrink:0;background:var(--navy);position:fixed;top:0;left:0;bottom:0;display:flex;flex-direction:column;overflow-y:auto;z-index:100;transition:transform .3s}
-.sidebar-logo{padding:22px 18px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
 .logo-name{font-family:'Noto Serif KR',serif;font-size:17px;font-weight:600;color:#fff;display:block;margin-bottom:3px;cursor:pointer;text-decoration:none}
 .logo-name:hover{color:#7ec8e3}
 .logo-sub{font-size:11px;color:rgba(255,255,255,.4);line-height:1.5}
@@ -51,16 +48,14 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
 .nav-item:hover{background:rgba(255,255,255,.06);color:#fff}
 .nav-item.active{background:rgba(126,200,227,.12);color:#7ec8e3;border-left-color:#7ec8e3;font-weight:500}
 .nav-icon{font-size:14px;width:17px;text-align:center;flex-shrink:0}
-.sidebar-footer{margin-top:auto;padding:14px 18px;border-top:1px solid rgba(255,255,255,.08)}
-.sidebar-quote{font-family:'Noto Serif KR',serif;font-size:11px;color:rgba(255,255,255,.3);line-height:1.7;font-style:italic}
 
 /* ── MAIN ── */
-.main{margin-left:0;flex:1;min-height:100vh;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;padding-top:var(--nav-h)}
-.page{display:none;flex:1;flex-direction:column}
-.page.active{display:flex;flex-direction:column;overflow-x:hidden;width:100%}
+.main{width:100%;max-width:100vw;min-height:100vh;overflow-x:hidden;padding-top:var(--nav-h)}
+.page{display:none;width:100%}
+.page.active{display:block;width:100%;overflow-x:hidden}
 
 /* ── HOME ── */
-.home-hero{background:linear-gradient(135deg,#152333 0%,#1e3a50 55%,#16303f 100%);color:#fff;padding:52px 36px 60px;position:relative;overflow:hidden;flex-shrink:0}
+.home-hero{background:linear-gradient(135deg,#152333 0%,#1e3a50 55%,#16303f 100%);color:#fff;padding:52px 36px 60px;position:relative;overflow:hidden;width:100%;box-sizing:border-box}
 .home-hero::before{content:'';position:absolute;top:-80px;right:-60px;width:380px;height:380px;background:rgba(126,200,227,.04);border-radius:50%}
 .home-inner{max-width:680px;position:relative;z-index:1;display:grid;grid-template-columns:1fr 180px;gap:32px;align-items:center}
 .hero-badge{display:inline-flex;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:4px 13px;font-size:11px;letter-spacing:.08em;margin-bottom:13px;color:#a8cce0}
@@ -69,13 +64,13 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
 .hero-sub{font-size:13.5px;color:#91afc2;line-height:1.9;margin-bottom:18px}
 .hero-quote{font-family:'Noto Serif KR',serif;font-size:12px;color:rgba(255,255,255,.38);border-left:2px solid rgba(255,255,255,.18);padding-left:11px;font-style:italic}
 .hero-photo{width:170px;height:215px;object-fit:cover;object-position:center top;border-radius:14px;border:2px solid rgba(255,255,255,.15);box-shadow:0 8px 28px rgba(0,0,0,.4)}
-.home-stats{background:var(--navy);padding:16px 36px}
+.home-stats{background:var(--navy);padding:16px 36px;width:100%;box-sizing:border-box}
 .stats-row{max-width:620px;display:grid;grid-template-columns:repeat(5,1fr);text-align:center}
 .st{padding:7px 4px;border-right:1px solid rgba(255,255,255,.08)}
 .st:last-child{border-right:none}
 .st-n{font-size:17px;font-weight:700;color:#7ec8e3;display:block;letter-spacing:-.5px}
 .st-l{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px;display:block;line-height:1.4}
-.home-body{padding:28px 36px;max-width:680px}
+.home-body{padding:28px 36px;max-width:680px;width:100%;box-sizing:border-box}
 .home-sec-title{font-family:'Noto Serif KR',serif;font-size:15px;font-weight:600;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:7px}
 .home-sec-title::before{content:'';display:block;width:3px;height:17px;background:var(--teal);border-radius:2px}
 .quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:28px}
@@ -96,10 +91,10 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
 .closing-author{font-size:11px;color:rgba(255,255,255,.28)}
 
 /* ── CONTENT PAGE ── */
-.page-header{background:#fff;border-bottom:1px solid var(--border);padding:20px 36px 16px;flex-shrink:0;position:sticky;top:0;z-index:10;width:100%}
+.page-header{background:#fff;border-bottom:1px solid var(--border);padding:20px 36px 16px;position:sticky;top:var(--nav-h);z-index:10;width:100%;box-sizing:border-box}
 .page-label{font-size:10px;letter-spacing:.1em;color:var(--teal);font-weight:700;text-transform:uppercase;margin-bottom:3px}
 .page-title{font-family:'Noto Serif KR',serif;font-size:clamp(17px,2.5vw,23px);font-weight:600;color:var(--navy)}
-.page-body{padding:24px 28px;max-width:860px;flex:1;width:100%;align-self:flex-start}
+.page-body{padding:24px 28px;max-width:min(860px,100%);width:100%;box-sizing:border-box}
 
 /* ── 공통 컴포넌트 ── */
 .bar{width:30px;height:3px;background:var(--teal);border-radius:2px;margin:10px 0 20px}
@@ -193,7 +188,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
 /* ── 스토리 흐름 박스 ── */
 .story-flow{display:grid;gap:0;align-items:center;margin-bottom:18px}
 .story-flow-3{grid-template-columns:1fr 24px 1fr 24px 1fr}
-.story-flow-4{grid-template-columns:1fr 20px 1fr 20px 1fr 20px 1fr}
+.story-flow-4{grid-template-columns:1fr 20px 1fr 20px 1fr 20px 1fr;overflow-x:auto}
 .sf-box{border-radius:10px;padding:12px;text-align:center}
 .sf-arrow{text-align:center;color:#c0c8d0;font-size:15px}
 .sf-icon{font-size:15px;margin-bottom:3px}
@@ -372,9 +367,9 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
         전산부 23년 <span class="tnav-drop-arrow">▾</span>
       </button>
       <div class="tnav-drop-menu">
-        <a href="#" onclick="showPage('dongari');document.getElementById('ch-dongari').scrollIntoView({behavior:'smooth',block:'start'});return false">💻 무료 방과후 교실</a>
-        <a href="#" onclick="showPage('dongari');setTimeout(()=>document.getElementById('ch-character').scrollIntoView({behavior:'smooth',block:'start'}),80);return false">💚 인성·봉사 활동</a>
-        <a href="#" onclick="showPage('dongari');setTimeout(()=>document.getElementById('ch-edusys').scrollIntoView({behavior:'smooth',block:'start'}),80);return false">🍜 EDUSYS 라면의 기적</a>
+        <a href="#" onclick="showPage('dongari');setTimeout(()=>{const e=document.getElementById('ch-dongari');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},120);return false">💻 무료 방과후 교실</a>
+        <a href="#" onclick="showPage('dongari');setTimeout(()=>{const e=document.getElementById('ch-character');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},120);return false">💚 인성·봉사 활동</a>
+        <a href="#" onclick="showPage('dongari');setTimeout(()=>{const e=document.getElementById('ch-edusys');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},120);return false">🍜 EDUSYS 라면의 기적</a>
       </div>
     </div>
 
@@ -384,10 +379,10 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
         국책사업 4선 <span class="tnav-drop-arrow">▾</span>
       </button>
       <div class="tnav-drop-menu">
-        <a href="#" onclick="showPage('projects');setTimeout(()=>document.getElementById('ch-junggi').scrollIntoView({behavior:'smooth',block:'start'}),80);return false">🏅 중기청 인력양성</a>
-        <a href="#" onclick="showPage('projects');setTimeout(()=>document.getElementById('ch-bizcool').scrollIntoView({behavior:'smooth',block:'start'}),80);return false">💡 창업 비즈쿨</a>
-        <a href="#" onclick="showPage('projects');setTimeout(()=>document.getElementById('ch-global').scrollIntoView({behavior:'smooth',block:'start'}),80);return false">✈️ 글로벌 현장학습</a>
-        <a href="#" onclick="showPage('projects');setTimeout(()=>document.getElementById('ch-doje').scrollIntoView({behavior:'smooth',block:'start'}),80);return false">🎓 도제학교</a>
+        <a href="#" onclick="showPage('projects');setTimeout(()=>{const e=document.getElementById('ch-junggi');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},120);return false">🏅 중기청 인력양성</a>
+        <a href="#" onclick="showPage('projects');setTimeout(()=>{const e=document.getElementById('ch-bizcool');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},120);return false">💡 창업 비즈쿨</a>
+        <a href="#" onclick="showPage('projects');setTimeout(()=>{const e=document.getElementById('ch-global');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},120);return false">✈️ 글로벌 현장학습</a>
+        <a href="#" onclick="showPage('projects');setTimeout(()=>{const e=document.getElementById('ch-doje');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},120);return false">🎓 도제학교</a>
       </div>
     </div>
 
@@ -641,7 +636,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
     </div>
 
     <div style="display:flex;align-items:center;justify-content:space-between;
-      padding:14px 0;border-top:1px solid var(--border);margin-top:32px;flex-wrap:wrap;gap:8px">
+      padding:14px 0;border-top:1px solid var(--border);margin-top:32px;flex-wrap:wrap;gap:8px;overflow-x:hidden">
       <button onclick="scrollToChapter('ch-dongari','top')" style="background:none;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">↑ 맨 위로</button>
       <div style="display:flex;gap:7px;flex-wrap:wrap"><button onclick="document.getElementById('ch-character').scrollIntoView({behavior:'smooth',block:'start'})" style="background:none;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">• 인성·봉사 활동</button><button onclick="document.getElementById('ch-edusys').scrollIntoView({behavior:'smooth',block:'start'})" style="background:none;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">• EDUSYS — 라면의 기적</button></div>
     </div>
@@ -689,7 +684,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
     </div>
 
     <div style="display:flex;align-items:center;justify-content:space-between;
-      padding:14px 0;border-top:1px solid var(--border);margin-top:32px;flex-wrap:wrap;gap:8px">
+      padding:14px 0;border-top:1px solid var(--border);margin-top:32px;flex-wrap:wrap;gap:8px;overflow-x:hidden">
       <button onclick="scrollToChapter('ch-character','top')" style="background:none;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">↑ 맨 위로</button>
       <div style="display:flex;gap:7px;flex-wrap:wrap"><button onclick="document.getElementById('ch-dongari').scrollIntoView({behavior:'smooth',block:'start'})" style="background:none;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">• 무료 방과후 교실</button><button onclick="document.getElementById('ch-edusys').scrollIntoView({behavior:'smooth',block:'start'})" style="background:none;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">• EDUSYS — 라면의 기적</button></div>
     </div>
@@ -802,7 +797,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
     </div>
 
     <div style="display:flex;align-items:center;justify-content:space-between;
-      padding:14px 0;border-top:1px solid var(--border);margin-top:32px;flex-wrap:wrap;gap:8px">
+      padding:14px 0;border-top:1px solid var(--border);margin-top:32px;flex-wrap:wrap;gap:8px;overflow-x:hidden">
       <button onclick="scrollToChapter('ch-edusys','top')" style="background:none;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">↑ 맨 위로</button>
       <div style="display:flex;gap:7px;flex-wrap:wrap">
         <button onclick="document.getElementById('ch-dongari').scrollIntoView({behavior:'smooth',block:'start'})" style="background:none;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">• 무료 방과후 교실</button>
@@ -889,7 +884,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
     </div>
 
     <div style="display:flex;align-items:center;justify-content:space-between;
-      padding:14px 0;border-top:1px solid var(--border);margin-top:32px;flex-wrap:wrap;gap:8px">
+      padding:14px 0;border-top:1px solid var(--border);margin-top:32px;flex-wrap:wrap;gap:8px;overflow-x:hidden">
       <button onclick="scrollToChapter('ch-junggi','top')" style="background:none;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">↑ 맨 위로</button>
       <div style="display:flex;gap:7px;flex-wrap:wrap"><button onclick="document.getElementById('ch-bizcool').scrollIntoView({behavior:'smooth',block:'start'})" style="background:none;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">• 창업 비즈쿨</button><button onclick="document.getElementById('ch-global').scrollIntoView({behavior:'smooth',block:'start'})" style="background:none;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">• 글로벌 현장학습</button><button onclick="document.getElementById('ch-doje').scrollIntoView({behavior:'smooth',block:'start'})" style="background:none;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">• 도제학교</button></div>
     </div>
@@ -926,7 +921,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
         <p style="font-size:12.5px;color:#2a5a38;line-height:1.9">당시 경상북도교육청에서 비즈쿨은 공업계·가사계의 전유물이었습니다. 상업계열인 데다 사립학교라는 이유로 교육청 문이 열리지 않았습니다.<br><br>
         <strong>창업진흥원이 공모하는 광역시 단위 거점학교에 직접 도전</strong>했습니다. 결과는 선정이었습니다. 일반 비즈쿨 학교도 거치지 않고 처음부터 경북 전체를 선도하는 <strong>거점학교로 바로 출발</strong>한, 전례 없는 사례였습니다. 교육청이 문을 열어주지 않아 직접 더 높은 자리에서 시작한 셈입니다.<br><br>
         이후 선도학교 4년, 마침내 <strong>청소년 비즈쿨 전국교사협의회 회장</strong> 2년. 지금도 본교의 비즈쿨 전국적 위치는 유지되고 있습니다.</p>
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:13px">
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(80px,1fr));gap:7px;margin-top:13px">
           <div style="background:#fff;border-radius:8px;padding:10px;text-align:center;border:1px solid #b8e8c8"><div style="font-size:18px;font-weight:700;color:#1a6a40">9년</div><div style="font-size:10px;color:#4a8a60;margin-top:1px">2011~2019</div></div>
           <div style="background:#fff;border-radius:8px;padding:10px;text-align:center;border:1px solid #b8e8c8"><div style="font-size:12px;font-weight:700;color:#1a6a40">거점 직행</div><div style="font-size:10px;color:#4a8a60;margin-top:1px">일반학교 건너뛰고</div></div>
           <div style="background:#fff;border-radius:8px;padding:10px;text-align:center;border:1px solid #b8e8c8"><div style="font-size:18px;font-weight:700;color:#1a6a40">4년</div><div style="font-size:10px;color:#4a8a60;margin-top:1px">선도학교</div></div>
@@ -936,7 +931,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
     </div>
 
     <div style="display:flex;align-items:center;justify-content:space-between;
-      padding:14px 0;border-top:1px solid var(--border);margin-top:32px;flex-wrap:wrap;gap:8px">
+      padding:14px 0;border-top:1px solid var(--border);margin-top:32px;flex-wrap:wrap;gap:8px;overflow-x:hidden">
       <button onclick="scrollToChapter('ch-bizcool','top')" style="background:none;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">↑ 맨 위로</button>
       <div style="display:flex;gap:7px;flex-wrap:wrap"><button onclick="document.getElementById('ch-junggi').scrollIntoView({behavior:'smooth',block:'start'})" style="background:none;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">• 중기청 인력양성</button><button onclick="document.getElementById('ch-global').scrollIntoView({behavior:'smooth',block:'start'})" style="background:none;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">• 글로벌 현장학습</button><button onclick="document.getElementById('ch-doje').scrollIntoView({behavior:'smooth',block:'start'})" style="background:none;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">• 도제학교</button></div>
     </div>
@@ -1019,7 +1014,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
     </div>
 
     <div style="display:flex;align-items:center;justify-content:space-between;
-      padding:14px 0;border-top:1px solid var(--border);margin-top:32px;flex-wrap:wrap;gap:8px">
+      padding:14px 0;border-top:1px solid var(--border);margin-top:32px;flex-wrap:wrap;gap:8px;overflow-x:hidden">
       <button onclick="scrollToChapter('ch-global','top')" style="background:none;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">↑ 맨 위로</button>
       <div style="display:flex;gap:7px;flex-wrap:wrap"><button onclick="document.getElementById('ch-junggi').scrollIntoView({behavior:'smooth',block:'start'})" style="background:none;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">• 중기청 인력양성</button><button onclick="document.getElementById('ch-bizcool').scrollIntoView({behavior:'smooth',block:'start'})" style="background:none;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">• 창업 비즈쿨</button><button onclick="document.getElementById('ch-doje').scrollIntoView({behavior:'smooth',block:'start'})" style="background:none;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">• 도제학교</button></div>
     </div>
@@ -1073,7 +1068,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
     </div>
 
     <div style="display:flex;align-items:center;justify-content:space-between;
-      padding:14px 0;border-top:1px solid var(--border);margin-top:32px;flex-wrap:wrap;gap:8px">
+      padding:14px 0;border-top:1px solid var(--border);margin-top:32px;flex-wrap:wrap;gap:8px;overflow-x:hidden">
       <button onclick="scrollToChapter('ch-doje','top')" style="background:none;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">↑ 맨 위로</button>
       <div style="display:flex;gap:7px;flex-wrap:wrap">
         <button onclick="document.getElementById('ch-junggi').scrollIntoView({behavior:'smooth',block:'start'})" style="background:none;border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:12px;color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit" onmouseover="this.style.borderColor='var(--teal)';this.style.color='var(--teal)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">• 중기청 인력양성</button>
@@ -1117,7 +1112,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
       <div class="proj"><div class="proj-yr">2005</div><div><div class="proj-name">학교폭력예방 디지털콘텐츠 공모전 지도교사 — 교육부장관 표창</div><div class="proj-org">교육부</div></div><span class="proj-tag" style="background:var(--gold-lt);color:var(--gold)">🏅 표창</span></div>
     </div>
     <div style="display:flex;align-items:center;justify-content:space-between;
-      padding:14px 0;border-top:1px solid var(--border);margin-top:32px;flex-wrap:wrap;gap:8px">
+      padding:14px 0;border-top:1px solid var(--border);margin-top:32px;flex-wrap:wrap;gap:8px;overflow-x:hidden">
       <button onclick="scrollToChapter('achievement-top','top')"
         style="background:none;border:1px solid var(--border);border-radius:20px;
         padding:7px 16px;font-size:12px;color:var(--muted);cursor:pointer;
@@ -1269,8 +1264,9 @@ function showPage(id) {
   document.querySelectorAll('.tnav-links a, .tnav-drop-btn').forEach(el => el.classList.remove('tactive'));
   const tnavId = TNAV_MAP[id] || TNAV_MAP[id.split('-')[0]];
   if (tnavId) { const el = document.getElementById(tnavId); if(el) el.classList.add('tactive'); }
-  document.getElementById('main-content').scrollTop = 0;
-  window.scrollTo(0,0);
+  window.scrollTo({top:0,left:0,behavior:'instant'});
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
   if(document.getElementById('sidebar')) document.getElementById('sidebar').classList.remove('open');
 }
 
