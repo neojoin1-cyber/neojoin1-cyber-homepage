@@ -270,6 +270,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
   body{display:block !important}
   .sidebar{display:none !important;width:0 !important}
   .mobile-toggle{display:none !important}
+  .topnav{display:none !important}
   .main{margin-left:0 !important;width:100% !important;max-width:100vw !important;overflow-x:hidden !important;display:block !important}
   .page + .page{border-top:6px solid #e8ecf0}
   .mobile-header{display:grid !important;grid-template-columns:minmax(0,1fr);gap:12px;position:sticky;top:0;left:0;right:0;z-index:200;background:var(--navy);padding:10px 16px;align-items:center;border-bottom:2px solid rgba(255,255,255,.1);width:100vw !important;max-width:100vw !important;box-sizing:border-box;overflow:hidden}
@@ -422,12 +423,12 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
 #page-home .home-body{max-width:none;padding:22px 34px 34px;background:#fff}
 #page-home .home-body>.job-hub,#page-home .home-body>.home-sec-title,#page-home .home-body>.system-grid,#page-home .home-body>.portal-note,#page-home .home-body>.content-roadmap{display:none!important}
 .platform-home-body{max-width:1180px;margin:0 auto}
-.job-console{display:grid;grid-template-columns:minmax(230px,.46fr) minmax(420px,1fr);gap:18px;align-items:start;margin-bottom:18px}
+.job-console{display:grid;grid-template-columns:minmax(230px,.46fr) minmax(420px,1fr);gap:18px;align-items:start;margin-bottom:18px;scroll-margin-top:88px}
 .job-intro,.job-feed,.platform-card{min-width:0;background:rgba(255,255,255,.96);border:1px solid #e3ece9;border-radius:15px;box-shadow:0 16px 34px rgba(47,103,96,.08)}
 .job-intro{padding:24px}.section-kicker{font-size:11px;color:#16806f;text-transform:uppercase;letter-spacing:.08em;font-weight:900;margin-bottom:5px}.job-intro h2{font-size:21px;line-height:1.35;color:#142234;margin-bottom:12px}.job-intro p{font-size:13px;color:#4c5f69;line-height:1.75;word-break:keep-all}.pill-list{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}.pill-list span{font-size:11px;font-weight:800;color:#276d64;background:#eef8f5;border-radius:999px;padding:5px 10px}
 .job-feed{padding:14px 22px}.job-live-toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding-bottom:10px;border-bottom:1px solid #e7eeec}.job-live-toolbar span{font-size:11.5px;font-weight:900;color:#315f58;background:#eff8f5;border:1px solid #d8ebe6;border-radius:999px;padding:5px 10px}.job-live-feed{display:grid}.feed-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;padding:13px 0;border-bottom:1px solid #e7eeec}.feed-item:last-child{border-bottom:0}.feed-org{display:block;color:#647277;font-size:11px;font-weight:800;margin-bottom:3px}.feed-title{font-size:15px;color:#142234;font-weight:900;line-height:1.35}.feed-meta{font-size:12px;color:#647277;margin-top:3px;line-height:1.55;word-break:keep-all}.feed-tags{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px}.feed-tags span{font-size:11px;font-weight:800;color:#43746e;background:#eff6f4;border-radius:999px;padding:5px 9px}.job-empty{display:block;color:#4c5f69}.job-item-link{color:inherit;text-decoration:none}.job-item-link:hover .feed-title{text-decoration:underline;text-underline-offset:3px}.job-card-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}.job-card-meta span{font-size:10.5px;font-weight:800;color:#4b6266;background:#f7fbfa;border:1px solid #e1ece9;border-radius:999px;padding:4px 8px}.job-deadline{justify-self:end;min-width:86px;text-align:center;border:1px solid #d8ebe6;border-radius:10px;padding:7px 9px;background:#f8fcfb;color:#2d665f}.job-deadline b{display:block;font-size:12px}.job-deadline small{display:block;margin-top:2px;font-size:10.5px;color:#6d7c80}.job-deadline.soon{border-color:#f2c98b;background:#fff8eb;color:#8a5a00}.job-deadline.closed{border-color:#d9dde4;background:#f5f6f8;color:#55606a}.job-source-status{margin-top:10px;padding-top:10px;border-top:1px dashed #dce9e5;font-size:11.5px;color:#68787d;line-height:1.6;word-break:keep-all}
-.job-track-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}.job-track-summary div{border:1px solid #e1ece9;border-radius:12px;background:#f8fcfb;padding:10px 12px}.job-track-summary b{display:block;color:#123234;font-size:18px;line-height:1.2}.job-track-summary span{display:block;margin-top:3px;color:#607279;font-size:11px;font-weight:800}.job-track-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start;margin-top:12px}.job-track-panel{min-width:0;border:1px solid #e3ece9;border-radius:13px;background:#fbfdfc;padding:12px}.job-track-panel.exam{background:#f7fbff}.job-track-panel.direct{background:#fbfdf9}.track-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding-bottom:9px;border-bottom:1px solid #e7eeec}.track-head b{display:block;color:#142234;font-size:13.5px;line-height:1.35}.track-head small{display:block;color:#66777d;font-size:10.5px;line-height:1.5;margin-top:2px}.track-badge{flex-shrink:0;border-radius:999px;padding:4px 8px;font-size:10.5px;font-weight:900;color:#315f58;background:#eaf7f3;border:1px solid #d8ebe6}.exam .track-badge{color:#1a5ca8;background:#eaf2fc;border-color:#cfe0f4}.direct .track-badge{color:#5b6d18;background:#f5f8e8;border-color:#e2e9c5}.job-track-panel .feed-item{grid-template-columns:1fr;padding:12px 0}.job-track-panel .job-deadline{justify-self:start}.job-track-panel .feed-tags{justify-content:flex-start}
-.feed-item.public-recruit{background:#fff;border:1px solid #dbe9f5;border-radius:12px;padding:12px;margin:10px 0}.feed-item.brief-recruit{padding:11px 0}.official-check{display:inline-flex;margin-top:7px;font-size:10.5px;font-weight:900;color:#1a5ca8;background:#edf5ff;border:1px solid #d1e2f4;border-radius:999px;padding:4px 8px}.job-detail-lines{display:grid;gap:5px;margin-top:9px;padding-top:9px;border-top:1px dashed #d7e6ef}.job-detail-lines span,.job-brief-note{display:block;font-size:11.5px;color:#53646b;line-height:1.6;word-break:keep-all;overflow-wrap:break-word}.job-detail-lines b{color:#173045;margin-right:5px}.job-brief-note{margin-top:8px;color:#68787d}.direct .feed-item:nth-of-type(n+4){display:none}
+.job-track-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}.job-track-summary div{border:1px solid #e1ece9;border-radius:12px;background:#f8fcfb;padding:10px 12px}.job-track-summary b{display:block;color:#123234;font-size:18px;line-height:1.2}.job-track-summary span{display:block;margin-top:3px;color:#607279;font-size:11px;font-weight:800}.job-audit-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:0 0 12px}.job-audit-summary div{border:1px solid #e2e9ef;border-radius:12px;background:#fbfdff;padding:9px 10px}.job-audit-summary b{display:block;color:#173045;font-size:16px;line-height:1.2}.job-audit-summary span{display:block;margin-top:3px;color:#607279;font-size:10.5px;font-weight:800}.job-track-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start;margin-top:12px}.job-track-panel{min-width:0;border:1px solid #e3ece9;border-radius:13px;background:#fbfdfc;padding:12px}.job-track-panel.exam{background:#f7fbff}.job-track-panel.direct{background:#fbfdf9}.track-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding-bottom:9px;border-bottom:1px solid #e7eeec}.track-head b{display:block;color:#142234;font-size:13.5px;line-height:1.35}.track-head small{display:block;color:#66777d;font-size:10.5px;line-height:1.5;margin-top:2px}.track-badge{flex-shrink:0;border-radius:999px;padding:4px 8px;font-size:10.5px;font-weight:900;color:#315f58;background:#eaf7f3;border:1px solid #d8ebe6}.exam .track-badge{color:#1a5ca8;background:#eaf2fc;border-color:#cfe0f4}.direct .track-badge{color:#5b6d18;background:#f5f8e8;border-color:#e2e9c5}.job-track-panel .feed-item{grid-template-columns:1fr;padding:12px 0}.job-track-panel .job-deadline{justify-self:start}.job-track-panel .feed-tags{justify-content:flex-start}
+.feed-item.public-recruit{background:#fff;border:1px solid #dbe9f5;border-radius:12px;padding:12px;margin:10px 0}.feed-item.brief-recruit{padding:11px 0}.official-check{display:inline-flex;margin-top:7px;font-size:10.5px;font-weight:900;color:#1a5ca8;background:#edf5ff;border:1px solid #d1e2f4;border-radius:999px;padding:4px 8px}.job-detail-lines{display:grid;gap:5px;margin-top:9px;padding-top:9px;border-top:1px dashed #d7e6ef}.job-detail-lines span,.job-brief-note{display:block;font-size:11.5px;color:#53646b;line-height:1.6;word-break:keep-all;overflow-wrap:break-word}.job-detail-lines b{color:#173045;margin-right:5px}.job-brief-note{margin-top:8px;color:#68787d}
 .platform-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:22px}.flow-card{display:grid;grid-template-columns:42px 1fr;gap:12px;align-items:center;padding:16px;border-radius:14px;background:#f8fbfa;border:1px solid #e6efec}.flow-card b{display:block;font-size:14px;color:#173045;margin-bottom:2px}.flow-card span{font-size:12px;color:#65747b;line-height:1.5}
 .branch-board{margin:0 0 22px;padding:22px;background:#fff;border:1px solid #e0ebe7;border-radius:16px;box-shadow:0 16px 38px rgba(47,103,96,.08)}
 .branch-head{display:grid;grid-template-columns:minmax(0,.9fr) minmax(260px,.8fr);gap:18px;align-items:end;margin-bottom:18px}
@@ -448,7 +449,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
 .philosophy-panel{padding:24px;background:#fcfbf6;border:1px solid #ede6d6;border-radius:16px}.philosophy-panel h3{font-size:18px;color:#142234;margin-bottom:8px}.philosophy-panel>p{font-size:13px;color:#4c5f69;margin-bottom:18px}.expansion-grid{display:grid;grid-template-columns:.75fr 1fr 1fr 1fr;gap:14px}.path-illustration{min-height:138px;border-radius:14px;background:linear-gradient(180deg,#eaf7f4,#fff);position:relative;overflow:hidden}.path-illustration::before{content:'';position:absolute;left:28px;bottom:0;width:92px;height:100px;border-radius:46px 46px 0 0;background:#66a99d;box-shadow:inset -16px 0 rgba(0,0,0,.08)}.path-illustration::after{content:'';position:absolute;left:98px;bottom:-18px;width:150px;height:74px;border-radius:50%;border:18px solid #e4d6a8;border-left-color:transparent;border-bottom-color:transparent;transform:rotate(-18deg)}
 .platform-card{padding:18px;min-height:138px;box-shadow:none}.platform-card small{display:block;color:#16806f;font-weight:900;margin-bottom:8px}.platform-card h4{font-size:16px;color:#142234;margin-bottom:8px}.platform-card p{font-size:12.5px;color:#4c5f69;line-height:1.7;word-break:keep-all}
 @media(max-width:960px){.platform-shell{grid-template-columns:1fr;gap:10px;padding:28px 18px}.platform-direction{max-width:100%}.platform-visual{order:2}.job-console,.job-track-grid,.expansion-grid,.branch-head{grid-template-columns:1fr}.branch-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.platform-flow{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:720px){#page-home .home-hero{margin-top:0}#page-home .home-body{padding-left:16px;padding-right:16px}.platform-home-body,.job-console,.job-intro,.job-feed,.platform-flow,.branch-board{width:100%;max-width:100%;overflow:hidden}.platform-title{font-size:30px}.platform-actions{grid-template-columns:repeat(2,minmax(0,1fr));max-width:100%}.platform-visual{min-height:290px;transform:scale(.9);transform-origin:center top;margin-bottom:-26px}.orbit-node{width:58px;height:58px}.node-job{left:3%}.node-company{right:3%}.node-law{left:-2%;bottom:72px}.node-book{right:-2%;bottom:72px}.school-scene{margin-top:46px}.job-console{gap:12px}.job-live-toolbar{justify-content:flex-start}.job-live-toolbar span{max-width:100%;white-space:normal}.job-track-summary,.job-track-grid{grid-template-columns:1fr}.track-head{flex-direction:column}.feed-item{grid-template-columns:1fr}.feed-tags{justify-content:flex-start}.job-deadline{justify-self:start}.job-intro p,.feed-meta,.job-source-status,.job-detail-lines span,.job-brief-note{word-break:break-all!important;overflow-wrap:anywhere!important}.platform-flow,.branch-grid{grid-template-columns:1fr}.branch-board{padding:16px}.branch-card{min-height:auto}.expansion-grid{gap:10px}.philosophy-panel{padding:18px}}
+@media(max-width:720px){#page-home .home-hero{margin-top:0}#page-home .home-body{padding-left:16px;padding-right:16px}.platform-home-body,.job-console,.job-intro,.job-feed,.platform-flow,.branch-board{width:100%;max-width:100%;overflow:hidden}.platform-title{font-size:30px}.platform-actions{grid-template-columns:repeat(2,minmax(0,1fr));max-width:100%}.platform-visual{min-height:290px;transform:scale(.9);transform-origin:center top;margin-bottom:-26px}.orbit-node{width:58px;height:58px}.node-job{left:3%}.node-company{right:3%}.node-law{left:-2%;bottom:72px}.node-book{right:-2%;bottom:72px}.school-scene{margin-top:46px}.job-console{gap:12px}.job-live-toolbar{justify-content:flex-start}.job-live-toolbar span{max-width:100%;white-space:normal}.job-track-summary,.job-track-grid{grid-template-columns:1fr}.job-audit-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.track-head{flex-direction:column}.feed-item{grid-template-columns:1fr}.feed-tags{justify-content:flex-start}.job-deadline{justify-self:start}.job-intro p,.feed-meta,.job-source-status,.job-detail-lines span,.job-brief-note{word-break:break-all!important;overflow-wrap:anywhere!important}.platform-flow,.branch-grid{grid-template-columns:1fr}.branch-board{padding:16px}.branch-card{min-height:auto}.expansion-grid{gap:10px}.philosophy-panel{padding:18px}}
 @media(max-width:720px){.platform-shell{display:block;padding:28px 16px 20px;overflow:hidden}.platform-sub{max-width:calc(100vw - 56px);word-break:break-all!important;overflow-wrap:anywhere!important}.platform-direction{display:none}.platform-visual{width:100%;min-height:auto;transform:none;margin:18px 0 0;overflow:hidden}.platform-hero-image{width:100%;border-radius:18px;box-shadow:0 18px 42px rgba(47,103,96,.18)}.platform-arc{width:330px;height:180px;top:16px}.school-scene{width:330px;height:225px;margin:46px auto 0}.people{transform:translateX(-50%) scale(.8);transform-origin:center bottom}.node-edu{top:8px}.node-job{left:13%;top:76px}.node-company{right:13%;top:76px}.node-law{left:13%;bottom:44px}.node-book{right:13%;bottom:44px}.orbit-node{width:52px;height:52px;border-radius:16px;font-size:8px}.orbit-node span:last-child{white-space:nowrap}.orbit-node .line-icon{transform:scale(.76)}}
 @media(min-width:721px){.sidebar{display:none !important}}
 </style>
@@ -693,6 +694,12 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
           <div class="job-track-summary" aria-label="전형 유형별 자동 분류 요약">
             <div><b id="job-exam-count">0</b><span>필기·공식전형</span></div>
             <div><b id="job-direct-count">0</b><span>면접중심·현장형</span></div>
+          </div>
+          <div class="job-audit-summary" aria-label="공채 수집 점검 요약">
+            <div><b id="job-first-day-count">0</b><span>첫날수집</span></div>
+            <div><b id="job-official-count">0</b><span>공식공고 확인</span></div>
+            <div><b id="job-missed-count">0</b><span>누락점검</span></div>
+            <div><b id="job-closed-count">0</b><span>원서마감</span></div>
           </div>
           <div class="job-track-grid" aria-live="polite">
             <section class="job-track-panel exam" aria-label="필기시험 또는 공식전형 공채">
@@ -1749,7 +1756,7 @@ function mobGoto(id) {
   }, 120);
 }
 
-const JOB_FEED_URL = 'assets/job-feed.json?v=20260531-first-day-recruit';
+const JOB_FEED_URL = 'assets/job-feed.json?v=20260531-audit-report';
 
 function escapeJobHtml(value) {
   return String(value == null ? '' : value).replace(/[&<>"']/g, function(ch) {
@@ -1890,8 +1897,9 @@ function renderJobSourceStatus(data) {
   var checked = data.summary && data.summary.companyNoticeChecked ? data.summary.companyNoticeChecked : 0;
   var firstDay = data.summary && data.summary.firstDayCollected ? data.summary.firstDayCollected : 0;
   var missed = data.summary && data.summary.missedReviewNeeded ? data.summary.missedReviewNeeded : 0;
+  var sourceGaps = data.collectionReview && data.collectionReview.sourceGapCount ? data.collectionReview.sourceGapCount : 0;
   statusEl.textContent = connected
-    ? connected + '개 공식 소스 정상 수집 · 공채 상세 ' + detailed + '건 · 공식 공고 확인 ' + checked + '건 · 첫날수집 ' + firstDay + '건 · 누락점검 ' + missed + '건 · 필기형 ' + examSources + '개, 간단형 ' + directSources + '개 소스 상태 기록'
+    ? connected + '개 공식 소스 정상 수집 · 공채 상세 ' + detailed + '건 · 공식 공고 확인 ' + checked + '건 · 첫날수집 ' + firstDay + '건 · 누락점검 ' + missed + '건 · 소스점검 ' + sourceGaps + '개 · 필기형 ' + examSources + '개, 간단형 ' + directSources + '개 소스 상태 기록'
     : '공식 API 키 연결 대기: 고용24·사람인·잡알리오·나라일터·군 채용 등 ' + waiting + '개 소스';
 }
 
@@ -1900,14 +1908,23 @@ function renderJobFeed(data) {
   var verified = document.getElementById('job-feed-verified');
   var examCount = document.getElementById('job-exam-count');
   var directCount = document.getElementById('job-direct-count');
+  var firstDayCount = document.getElementById('job-first-day-count');
+  var officialCount = document.getElementById('job-official-count');
+  var missedCount = document.getElementById('job-missed-count');
+  var closedCount = document.getElementById('job-closed-count');
 
   var items = Array.isArray(data.items) ? data.items : [];
   var examItems = items.filter(function(item) { return item.processTrack === 'exam-formal'; });
   var directItems = items.filter(function(item) { return item.processTrack !== 'exam-formal'; });
+  var summary = data.summary || {};
   if (count) count.textContent = items.length ? '자동 등록 ' + items.length + '건' : '자동 등록 대기';
   if (verified) verified.textContent = formatJobFeedDate(data.generatedAt);
   if (examCount) examCount.textContent = examItems.length;
   if (directCount) directCount.textContent = directItems.length;
+  if (firstDayCount) firstDayCount.textContent = summary.firstDayCollected || 0;
+  if (officialCount) officialCount.textContent = summary.companyNoticeChecked || 0;
+  if (missedCount) missedCount.textContent = summary.missedReviewNeeded || 0;
+  if (closedCount) closedCount.textContent = summary.applicationClosed || 0;
   renderJobSourceStatus(data);
 
   if (!items.length) {
@@ -1917,7 +1934,7 @@ function renderJobFeed(data) {
     return;
   }
   renderTrackFeed('job-exam-feed', examItems, '공채 상세 정보 확인 대기', '대기업·공공기관·군·정부 채용과 회사·기관·채용대행 공식 공고를 계속 확인합니다.', ['공식공고', '첫날수집', '상세'], 6);
-  renderTrackFeed('job-direct-feed', directItems, '간단 채용 정보 확인 대기', '필기 없는 채용은 중견기업 중심으로 핵심 정보만 표시하고 회사 확인을 안내합니다.', ['중견기업', '회사확인', '간단'], 3);
+  renderTrackFeed('job-direct-feed', directItems, '간단 채용 정보 확인 대기', '필기 없는 채용은 중견기업 중심으로 핵심 정보만 표시하고 회사 확인을 안내합니다.', ['중견기업', '회사확인', '간단'], 6);
 }
 
 function loadJobFeed() {

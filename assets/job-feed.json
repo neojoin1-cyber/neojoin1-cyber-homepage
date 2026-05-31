@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "generatedAt": "2026-05-31T12:22:02.228Z",
+  "generatedAt": "2026-05-31T12:36:28.253Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 19:10 KST",
   "mode": "official-public-recruit-auto-registration",
@@ -21,6 +21,149 @@
     "sourcesChecked": 11,
     "sourcesConfigured": 1,
     "note": "공채 첫날 수집을 최우선으로 점검하고, 공식 공고 2중 확인 중심으로 자동 분류했습니다."
+  },
+  "collectionReview": {
+    "status": "review_needed",
+    "generatedAt": "2026-05-31T12:36:28.253Z",
+    "firstDayGoal": "공채는 게시 첫날 수집을 목표로 하며, 늦게 발견된 공고는 누락 점검 대상으로 기록한다.",
+    "missedReviewCount": 5,
+    "officialNoticePendingCount": 0,
+    "sourceGapCount": 10,
+    "missedReviewItems": [
+      {
+        "title": "2026년 7월 한국교육과정평가원 비정규직원 모집 공고",
+        "company": "한국교육과정평가원",
+        "sourceName": "잡알리오 공공기관 채용",
+        "publishedDate": "2026-05-29",
+        "firstSeenDate": "2026-05-31",
+        "detectionLagDays": 2,
+        "status": "active",
+        "primaryOfficialUrl": "https://www.kice.re.kr/boardCnts/view.do?boardID=10028&boardSeq=5100602&lev=0&m=0503&searchType=S&statusYN=W&page=1&s=kice",
+        "reviewReason": "공고 게시 후 2일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      },
+      {
+        "title": "한전KPS(주) 서울경기전력지사 수원지점 단기노무원(상주감시, 차량순시 정비보조) 모집",
+        "company": "한전KPS(주)",
+        "sourceName": "잡알리오 공공기관 채용",
+        "publishedDate": "2026-05-29",
+        "firstSeenDate": "2026-05-31",
+        "detectionLagDays": 2,
+        "status": "deadline_soon",
+        "primaryOfficialUrl": "https://www.kps.co.kr/",
+        "reviewReason": "공고 게시 후 2일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      },
+      {
+        "title": "2026년 제4차 국립백두대간수목원 기간제근로자 채용 공고",
+        "company": "한국수목원정원관리원",
+        "sourceName": "잡알리오 공공기관 채용",
+        "publishedDate": "2026-05-29",
+        "firstSeenDate": "2026-05-31",
+        "detectionLagDays": 2,
+        "status": "active",
+        "primaryOfficialUrl": "https://www.koagi.or.kr/www/user/bbs/BD_selectBbs.do?q_bbsSn=1009&q_clsfNo=&q_bbsDocNo=20260529110117928&q_searchKeyTy=&q_searchVal=&q_currPage=1&q_sortName=&q_sortOrder=&q_rowPerPage=10",
+        "reviewReason": "공고 게시 후 2일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      },
+      {
+        "title": "한전KDN(주) 강북지사 AMI분야 비정규직 모집공고(수시모집]",
+        "company": "한전KDN",
+        "sourceName": "잡알리오 공공기관 채용",
+        "publishedDate": "2026-05-29",
+        "firstSeenDate": "2026-05-31",
+        "detectionLagDays": 2,
+        "status": "active",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301130",
+        "reviewReason": "공고 게시 후 2일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      },
+      {
+        "title": "[제2026-2호] 한국생명존중희망재단 제2차 직원 채용 (공개, 제한경쟁) 공고",
+        "company": "한국생명존중희망재단",
+        "sourceName": "잡알리오 공공기관 채용",
+        "publishedDate": "2026-05-29",
+        "firstSeenDate": "2026-05-31",
+        "detectionLagDays": 2,
+        "status": "active",
+        "primaryOfficialUrl": "https://www.kfsp.or.kr/home/kor/board.do?menuPos=64&act=detail&idx=6202&sortField=&sortOrder=ASC&searchValue1=0&searchKeyword=&pageIndex=1",
+        "reviewReason": "공고 게시 후 2일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      }
+    ],
+    "officialNoticePendingItems": [],
+    "sourceGaps": [
+      {
+        "id": "work24-open-recruit",
+        "name": "고용24 공채속보",
+        "readiness": "active",
+        "configured": false,
+        "message": "GitHub Secret WORK24_AUTH_KEY 또는 WORKNET_AUTH_KEY 미설정"
+      },
+      {
+        "id": "saramin-job-search",
+        "name": "사람인 채용공고 API",
+        "readiness": "active",
+        "configured": false,
+        "message": "GitHub Secret SARAMIN_ACCESS_KEY 미설정"
+      },
+      {
+        "id": "gojobs-narailter",
+        "name": "나라일터 일반·공무직 채용",
+        "readiness": "pending",
+        "configured": false,
+        "message": "인사혁신처 나라일터 공식 API 또는 허용된 데이터 경로 확인 후 연결"
+      },
+      {
+        "id": "military-recruit",
+        "name": "군 부사관·군무원 채용",
+        "readiness": "pending",
+        "configured": false,
+        "message": "국방부·각 군 공식 모집/채용 공고 데이터 경로 확인 후 연결"
+      },
+      {
+        "id": "jobkorea-rookie",
+        "name": "잡코리아 고졸채용 루키",
+        "readiness": "pending",
+        "configured": false,
+        "message": "잡코리아 공식 제휴 또는 이용 허가된 API 확인 후 연결"
+      },
+      {
+        "id": "incruit-highschool",
+        "name": "인크루트 고졸·신입 채용",
+        "readiness": "pending",
+        "configured": false,
+        "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
+      },
+      {
+        "id": "albamon-youth",
+        "name": "알바몬 청소년·고졸 채용",
+        "readiness": "pending",
+        "configured": false,
+        "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
+      },
+      {
+        "id": "alba-youth",
+        "name": "알바천국 청소년·고졸 채용",
+        "readiness": "pending",
+        "configured": false,
+        "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
+      },
+      {
+        "id": "regional-education-job",
+        "name": "지역별 교육청 취업지원센터",
+        "readiness": "pending",
+        "configured": false,
+        "message": "교육청별 공식 RSS/API/게시판 허용 범위 조사 후 지역 피드 묶음으로 연결"
+      },
+      {
+        "id": "nonprofit-recruit",
+        "name": "비영리·공익기관 채용",
+        "readiness": "pending",
+        "configured": false,
+        "message": "비영리기관 공식 채용 공고 경로와 이용 조건 확인 후 연결"
+      }
+    ],
+    "nextActions": [
+      "누락점검 공고는 게시일 기준 공식 소스 연결 주기를 확인한다.",
+      "공식 공고 미확인 공채는 회사·기관 또는 채용대행 공식 공지 URL을 보강한다.",
+      "미연결 소스는 API Secret 또는 허용된 공식 피드 경로를 확인한다."
+    ]
   },
   "collectionPolicy": {
     "goal": "공채는 공고 게시 첫날 수집을 최대 과제로 삼고, 늦게 발견된 공고는 누락 점검 대상으로 표시한다.",
@@ -58,7 +201,7 @@
       "readiness": "active",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T12:22:02.228Z",
+      "checkedAt": "2026-05-31T12:36:28.253Z",
       "itemCount": 0,
       "message": "GitHub Secret WORK24_AUTH_KEY 또는 WORKNET_AUTH_KEY 미설정"
     },
@@ -73,7 +216,7 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-05-31T12:22:02.228Z",
+      "checkedAt": "2026-05-31T12:36:28.253Z",
       "itemCount": 5,
       "message": "공식 공개 원문 10건 점검, 공식 공고 확인 1건, 첫날 수집 0건, 누락점검 5건",
       "scannedCount": 10,
@@ -94,7 +237,7 @@
       "readiness": "active",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T12:22:02.228Z",
+      "checkedAt": "2026-05-31T12:36:28.253Z",
       "itemCount": 0,
       "message": "GitHub Secret SARAMIN_ACCESS_KEY 미설정"
     },
@@ -112,7 +255,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T12:22:02.228Z",
+      "checkedAt": "2026-05-31T12:36:28.253Z",
       "itemCount": 0,
       "message": "인사혁신처 나라일터 공식 API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -130,7 +273,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T12:22:02.228Z",
+      "checkedAt": "2026-05-31T12:36:28.253Z",
       "itemCount": 0,
       "message": "국방부·각 군 공식 모집/채용 공고 데이터 경로 확인 후 연결"
     },
@@ -148,7 +291,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T12:22:02.228Z",
+      "checkedAt": "2026-05-31T12:36:28.253Z",
       "itemCount": 0,
       "message": "잡코리아 공식 제휴 또는 이용 허가된 API 확인 후 연결"
     },
@@ -166,7 +309,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T12:22:02.228Z",
+      "checkedAt": "2026-05-31T12:36:28.253Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -184,7 +327,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T12:22:02.228Z",
+      "checkedAt": "2026-05-31T12:36:28.253Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -202,7 +345,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T12:22:02.228Z",
+      "checkedAt": "2026-05-31T12:36:28.253Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -219,7 +362,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T12:22:02.228Z",
+      "checkedAt": "2026-05-31T12:36:28.253Z",
       "itemCount": 0,
       "message": "교육청별 공식 RSS/API/게시판 허용 범위 조사 후 지역 피드 묶음으로 연결"
     },
@@ -237,7 +380,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T12:22:02.228Z",
+      "checkedAt": "2026-05-31T12:36:28.253Z",
       "itemCount": 0,
       "message": "비영리기관 공식 채용 공고 경로와 이용 조건 확인 후 연결"
     }
@@ -266,7 +409,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301135"
       ],
-      "verifiedAt": "2026-05-31T12:22:02.228Z",
+      "verifiedAt": "2026-05-31T12:36:28.253Z",
       "publishedAt": "2026-05-29T14:59:59.000Z",
       "publishedDate": "2026-05-29",
       "firstSeenAt": "2026-05-31T12:19:10.871Z",
@@ -308,7 +451,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-05-31T12:22:02.228Z",
+        "companyNoticeCheckedAt": "2026-05-31T12:36:28.253Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -365,7 +508,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301129"
       ],
-      "verifiedAt": "2026-05-31T12:22:02.228Z",
+      "verifiedAt": "2026-05-31T12:36:28.253Z",
       "publishedAt": "2026-05-29T14:59:59.000Z",
       "publishedDate": "2026-05-29",
       "firstSeenAt": "2026-05-31T12:19:10.871Z",
@@ -407,7 +550,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-05-31T12:22:02.228Z",
+        "companyNoticeCheckedAt": "2026-05-31T12:36:28.253Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -458,7 +601,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301128"
       ],
-      "verifiedAt": "2026-05-31T12:22:02.228Z",
+      "verifiedAt": "2026-05-31T12:36:28.253Z",
       "publishedAt": "2026-05-29T14:59:59.000Z",
       "publishedDate": "2026-05-29",
       "firstSeenAt": "2026-05-31T12:19:10.871Z",
@@ -500,7 +643,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-05-31T12:22:02.228Z",
+        "companyNoticeCheckedAt": "2026-05-31T12:36:28.253Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -549,7 +692,7 @@
       "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301130",
       "officialNoticePriority": "source-official-pending-company-or-agency-notice",
       "supplementarySourceUrls": [],
-      "verifiedAt": "2026-05-31T12:22:02.228Z",
+      "verifiedAt": "2026-05-31T12:36:28.253Z",
       "publishedAt": "2026-05-29T14:59:59.000Z",
       "publishedDate": "2026-05-29",
       "firstSeenAt": "2026-05-31T12:19:10.871Z",
@@ -591,7 +734,7 @@
         "companyNoticeCheckStatus": "not_found",
         "companyNoticeReachable": false,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-05-31T12:22:02.228Z",
+        "companyNoticeCheckedAt": "2026-05-31T12:36:28.253Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -642,7 +785,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301139"
       ],
-      "verifiedAt": "2026-05-31T12:22:02.228Z",
+      "verifiedAt": "2026-05-31T12:36:28.253Z",
       "publishedAt": "2026-05-29T14:59:59.000Z",
       "publishedDate": "2026-05-29",
       "firstSeenAt": "2026-05-31T12:19:10.871Z",
@@ -684,7 +827,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-05-31T12:22:02.228Z",
+        "companyNoticeCheckedAt": "2026-05-31T12:36:28.253Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."

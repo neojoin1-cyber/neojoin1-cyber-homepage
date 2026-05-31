@@ -15,6 +15,11 @@ const MAX_ITEMS = 40;
 const REQUEST_TIMEOUT_MS = 18000;
 const APPLICATION_CLOSED_RETAIN_DAYS = 21;
 const JOB_ALIO_SCAN_LIMIT = 40;
+const DEFAULT_FETCH_HEADERS = {
+  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125 Safari/537.36',
+  Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,application/json;q=0.8,*/*;q=0.7',
+  'Accept-Language': 'ko-KR,ko;q=0.9,en;q=0.6'
+};
 
 const HIGH_SCHOOL_TERMS = [
   '고졸',
@@ -304,9 +309,7 @@ async function fetchWithTimeout(url, options = {}) {
       ...fetchOptions,
       signal: controller.signal,
       headers: {
-        'User-Agent': 'GYO6 vocational job feed (+https://gyo6.kr)',
-        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,application/json;q=0.8,*/*;q=0.7',
-        'Accept-Language': 'ko-KR,ko;q=0.9,en;q=0.6',
+        ...DEFAULT_FETCH_HEADERS,
         ...(fetchOptions.headers || {})
       }
     });
@@ -342,9 +345,7 @@ function fetchWithNodeHttp(url, options = {}, timeoutMs = REQUEST_TIMEOUT_MS) {
       method: options.method || 'GET',
       timeout: timeoutMs,
       headers: {
-        'User-Agent': 'GYO6 vocational job feed (+https://gyo6.kr)',
-        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,application/json;q=0.8,*/*;q=0.7',
-        'Accept-Language': 'ko-KR,ko;q=0.9,en;q=0.6',
+        ...DEFAULT_FETCH_HEADERS,
         ...(options.headers || {})
       }
     }, (response) => {
@@ -1312,6 +1313,58 @@ function pendingCatalogSources() {
     .map((source) => disabledSource(source.id, source.name, source.message, source.sourceUrl));
 }
 
+function reviewItem(item) {
+  return {
+    title: item.title,
+    company: item.company,
+    sourceName: item.sourceName,
+    publishedDate: item.publishedDate || '',
+    firstSeenDate: item.firstSeenDate || '',
+    detectionLagDays: item.collectionAudit?.detectionLagDays ?? null,
+    status: item.status,
+    primaryOfficialUrl: item.primaryOfficialUrl || item.url || '',
+    reviewReason: item.collectionAudit?.note || item.sourceVerification?.verificationNote || '원문 확인 필요'
+  };
+}
+
+function buildCollectionReview(items, sourceStatusList) {
+  const missedReviewItems = items
+    .filter((item) => item.collectionAudit?.missedReviewNeeded)
+    .map(reviewItem)
+    .slice(0, 12);
+  const officialNoticePendingItems = items
+    .filter((item) => item.processTrack === 'exam-formal'
+      && !['company_notice_confirmed', 'company_notice_reachable'].includes(item.sourceVerification?.doubleCheckStatus))
+    .map(reviewItem)
+    .slice(0, 12);
+  const sourceGaps = sourceStatusList
+    .filter((source) => !source.ok)
+    .map((source) => ({
+      id: source.id,
+      name: source.name,
+      readiness: source.readiness,
+      configured: source.configured,
+      message: source.message || '연결 상태 확인 필요'
+    }));
+
+  return {
+    status: missedReviewItems.length || officialNoticePendingItems.length || sourceGaps.length ? 'review_needed' : 'normal',
+    generatedAt: CHECKED_AT,
+    firstDayGoal: '공채는 게시 첫날 수집을 목표로 하며, 늦게 발견된 공고는 누락 점검 대상으로 기록한다.',
+    missedReviewCount: missedReviewItems.length,
+    officialNoticePendingCount: officialNoticePendingItems.length,
+    sourceGapCount: sourceGaps.length,
+    missedReviewItems,
+    officialNoticePendingItems,
+    sourceGaps,
+    nextActions: [
+      '누락점검 공고는 게시일 기준 공식 소스 연결 주기를 확인한다.',
+      '공식 공고 미확인 공채는 회사·기관 또는 채용대행 공식 공지 URL을 보강한다.',
+      '미연결 소스는 API Secret 또는 허용된 공식 피드 경로를 확인한다.'
+    ]
+  };
+}
+
 async function main() {
   const previousItems = await readPreviousItems();
   const results = [];
@@ -1341,6 +1394,7 @@ async function main() {
   const missedReviewNeeded = items.filter((item) => item.collectionAudit?.missedReviewNeeded).length;
   const staleFallbackItems = items.filter((item) => item.staleSourceFallback).length;
   const sourcesConfigured = sourceStatusList.filter((source) => source.configured).length;
+  const collectionReview = buildCollectionReview(items, sourceStatusList);
 
   const payload = {
     version: 3,
@@ -1370,6 +1424,7 @@ async function main() {
         ? '공채 첫날 수집을 최우선으로 점검하고, 공식 공고 2중 확인 중심으로 자동 분류했습니다.'
         : '공식 API 키가 아직 연결되지 않아 자동 수집 대기 상태입니다.'
     },
+    collectionReview,
     collectionPolicy: {
       goal: '공채는 공고 게시 첫날 수집을 최대 과제로 삼고, 늦게 발견된 공고는 누락 점검 대상으로 표시한다.',
       firstDayField: 'collectionAudit.firstDayCollected',
