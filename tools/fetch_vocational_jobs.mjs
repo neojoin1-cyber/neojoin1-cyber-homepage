@@ -9,6 +9,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(__dirname, '..');
 const OUT_FILE = path.join(ROOT_DIR, 'assets', 'job-feed.json');
 
+await loadLocalEnvFile(path.join(ROOT_DIR, '.env.local'));
+
 const NOW = new Date();
 const CHECKED_AT = NOW.toISOString();
 const MAX_ITEMS = 40;
@@ -49,6 +51,16 @@ const JOB_ALIO_RECRUIT_URL = 'https://job.alio.go.kr/recruit.do';
 const SEOUL_HIGHJOB_RECRUIT_URL = 'https://high-job.sen.go.kr/FUS/JO/EMList.do';
 const SEOUL_HIGHJOB_DETAIL_URL = 'https://high-job.sen.go.kr/FUS/JO/EMView.do';
 const SEOUL_HIGHJOB_SCAN_PAGES = 2;
+const MOEF_PUBLIC_RECRUIT_DATA_URL = 'https://www.data.go.kr/data/15125273/openapi.do';
+const MOEF_PUBLIC_RECRUIT_LIST_URL = 'https://apis.data.go.kr/1051000/recruitment/list';
+const MPM_PUBLIC_JOB_DATA_URL = 'https://www.data.go.kr/data/15156780/openapi.do';
+const MPM_PUBLIC_JOB_ENDPOINT_CANDIDATES = [
+  'https://apis.data.go.kr/1760000/PublicJobInformationService/getPublicJobInfo',
+  'https://apis.data.go.kr/1760000/PublicJobInfoService/getPublicJobInfo',
+  'https://apis.data.go.kr/1760000/PublicEmploymentInfoService/getPublicEmploymentInfo',
+  'https://apis.data.go.kr/1741000/PublicJobInformationService/getPublicJobInfo'
+];
+const PUBLIC_DATA_PAGE_SIZE = 60;
 
 const GENERIC_OFFICIAL_SOURCE_CONFIG = {
   'gojobs-narailter': {
@@ -94,6 +106,26 @@ const GENERIC_OFFICIAL_SOURCE_CONFIG = {
 };
 
 const SOURCE_ONBOARDING = {
+  'mpm-public-job': {
+    priority: 'P0',
+    actionLabel: '인사혁신처 공공취업 API 키 등록',
+    impact: '나라일터 계열 국가기관·지방자치단체·교육청·공공기관 채용 후보를 확보한다.',
+    easySteps: [
+      '공공데이터포털에서 발급받은 인증키를 MPM_PUBLIC_JOB_SERVICE_KEY Secret에 저장한다.',
+      '같은 공공데이터포털 키를 공통으로 쓰는 경우 DATA_GO_KR_SERVICE_KEY에도 저장할 수 있다.',
+      'API 명세 경로가 바뀌면 NARAILTER_API_URL에 공식 URL을 저장해 우선 점검한다.'
+    ]
+  },
+  'moef-public-recruit': {
+    priority: 'P0',
+    actionLabel: '기재부 공공기관 채용 API 키 등록',
+    impact: '공공기관 채용공시 목록·상세를 구조화해 잡알리오 축을 보강한다.',
+    easySteps: [
+      '공공데이터포털에서 발급받은 인증키를 MOEF_PUBLIC_RECRUIT_SERVICE_KEY Secret에 저장한다.',
+      '같은 공공데이터포털 키를 공통으로 쓰는 경우 DATA_GO_KR_SERVICE_KEY에도 저장할 수 있다.',
+      '자동 수집 후 회사·기관 또는 채용대행 공식 공고 URL을 2중 확인한다.'
+    ]
+  },
   'job-alio-openapi': {
     priority: 'P0',
     actionLabel: '이미 자동 수집 중',
@@ -215,6 +247,28 @@ const SOURCE_ONBOARDING = {
 const SOURCE_PRIORITY_WEIGHT = { P0: 0, P1: 1, P2: 2, P3: 3 };
 
 const SOURCE_CATALOG = [
+  {
+    id: 'mpm-public-job',
+    name: '인사혁신처 공공취업정보',
+    type: 'official-api',
+    sourceUrl: MPM_PUBLIC_JOB_DATA_URL,
+    group: 'government',
+    trackHint: 'exam',
+    status: 'active',
+    secretNames: ['MPM_PUBLIC_JOB_SERVICE_KEY', 'DATA_GO_KR_SERVICE_KEY', 'NARAILTER_API_KEY'],
+    message: '공공데이터포털 인사혁신처 공공취업정보 조회 서비스 확인'
+  },
+  {
+    id: 'moef-public-recruit',
+    name: '기재부 공공기관 채용정보',
+    type: 'official-api',
+    sourceUrl: MOEF_PUBLIC_RECRUIT_DATA_URL,
+    group: 'public-institution',
+    trackHint: 'exam',
+    status: 'active',
+    secretNames: ['MOEF_PUBLIC_RECRUIT_SERVICE_KEY', 'DATA_GO_KR_SERVICE_KEY'],
+    message: '공공데이터포털 기재부 공공기관 채용정보 조회서비스 확인'
+  },
   {
     id: 'work24-open-recruit',
     name: '고용24 공채속보',
@@ -347,6 +401,8 @@ const SOURCE_CATALOG = [
   }
 ];
 
+const SOURCE_CATALOG_ORDER = new Map(SOURCE_CATALOG.map((source, index) => [source.id, index]));
+
 const EXAM_TERMS = [
   '필기',
   '필기시험',
@@ -404,6 +460,23 @@ const SECTOR_TERMS = {
   'mid-sme': ['중견기업', '중소기업', '강소기업', '일학습병행', '도제학교'],
   'part-time': ['알바', '파트타임', '시간제']
 };
+
+async function loadLocalEnvFile(filePath) {
+  try {
+    const content = await fs.readFile(filePath, 'utf8');
+    for (const line of content.split(/\r?\n/)) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#')) continue;
+      const match = trimmed.match(/^([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$/);
+      if (!match || process.env[match[1]]) continue;
+      const rawValue = match[2].trim();
+      const value = rawValue.replace(/^["']|["']$/g, '');
+      process.env[match[1]] = value;
+    }
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+  }
+}
 
 function readSecret(...names) {
   for (const name of names) {
@@ -487,6 +560,16 @@ function buildUrl(baseUrl, params) {
     }
   }
   return url;
+}
+
+function serviceKeyParam(key) {
+  return /%[0-9A-Fa-f]{2}/.test(key) ? key : encodeURIComponent(key);
+}
+
+function buildPublicDataUrl(baseUrl, key, params = {}) {
+  const url = buildUrl(baseUrl, params);
+  const glue = url.search ? '&' : '?';
+  return `${url.toString()}${glue}serviceKey=${serviceKeyParam(key)}`;
 }
 
 async function fetchWithTimeout(url, options = {}) {
@@ -625,7 +708,23 @@ function collectJsonRecords(value, depth = 0) {
   }
   if (typeof value !== 'object') return [];
 
-  const preferredKeys = ['items', 'item', 'jobs', 'job', 'data', 'list', 'result', 'results', 'recruits', 'recruit', 'content'];
+  const preferredKeys = [
+    'items',
+    'item',
+    'body',
+    'data',
+    'list',
+    'result',
+    'results',
+    'resultList',
+    'rows',
+    'row',
+    'jobs',
+    'job',
+    'recruits',
+    'recruit',
+    'content'
+  ];
   for (const key of preferredKeys) {
     const records = collectJsonRecords(value[key], depth + 1);
     if (records.length) return records;
@@ -684,27 +783,95 @@ function collectXmlRecords(body, publicSourceUrl) {
 }
 
 function genericRecordToRaw(record, source, publicSourceUrl) {
-  const title = pickRecordField(record, ['title', '공고명', '채용공고명', 'recruitTitle', 'wantedTitle', 'empWantedTitle', 'recrutPbancTtl']);
-  const company = pickRecordField(record, ['company', '회사명', '기관명', '기업명', 'instNm', 'recrutInstNm', 'empBusiNm', 'organization']);
-  const detailUrl = cleanUrl(pickRecordField(record, ['url', 'link', 'detailUrl', '채용공고URL', '접수URL', 'homepage', 'empWantedHomepgDetail']) || publicSourceUrl);
+  const title = pickRecordField(record, [
+    'title',
+    '공고명',
+    '채용공고명',
+    '채용공시명',
+    'recruitTitle',
+    'wantedTitle',
+    'empWantedTitle',
+    'recrutPbancTtl',
+    'recruitPbancTtl',
+    'pbancTtl',
+    'noticeTitle',
+    'nttSj'
+  ]);
+  const company = pickRecordField(record, [
+    'company',
+    '회사명',
+    '기관명',
+    '기업명',
+    '공공기관명',
+    'instNm',
+    'recrutInstNm',
+    'publicInstNm',
+    'empBusiNm',
+    'organization',
+    'orgNm',
+    'deptNm'
+  ]);
+  const detailUrl = cleanUrl(pickRecordField(record, [
+    'url',
+    'link',
+    'detailUrl',
+    '상세URL',
+    '채용공고URL',
+    '채용공시URL',
+    '접수URL',
+    '지원URL',
+    'homepage',
+    'homePage',
+    'empWantedHomepgDetail',
+    'recruitUrl',
+    'applyUrl',
+    'nttUrl'
+  ]) || publicSourceUrl);
+  const processText = pickRecordField(record, [
+    'processText',
+    '전형절차',
+    '전형방법',
+    '전형단계',
+    '채용절차',
+    'recruitmentStage',
+    'screeningMethod',
+    'selectionMethod',
+    'scrnprcdr',
+    'testMethod'
+  ]);
+  const companyNoticeUrl = cleanUrl(pickRecordField(record, [
+    'companyNoticeUrl',
+    'officialUrl',
+    '공식공고URL',
+    '기관공고URL',
+    '첨부파일URL',
+    'fileUrl',
+    'atchFileUrl',
+    'applyUrl',
+    'recruitUrl'
+  ]));
   return {
     source: source.id,
     sourceName: source.name,
-    sourceId: pickRecordField(record, ['id', 'idx', 'seq', 'no', '공고번호', 'recruitId']) || sha([source.id, title, company, detailUrl].join('|')),
+    sourceId: pickRecordField(record, ['id', 'idx', 'seq', 'sn', 'no', '공고번호', '채용공시ID', 'recruitId', 'recrutPbancNo', 'pbancNo']) || sha([source.id, title, company, detailUrl].join('|')),
     title,
     company,
-    region: pickRecordField(record, ['region', '지역', '근무지', 'location', 'workRegion', 'workPlace']),
-    education: pickRecordField(record, ['education', '학력', '학력조건', 'edu', 'eduNm', 'empWantedEduNm']),
+    region: pickRecordField(record, ['region', '지역', '근무지', '근무지역', 'location', 'workRegion', 'workPlace', 'workArea']),
+    education: pickRecordField(record, ['education', '학력', '학력조건', '응시자격', '지원자격', 'edu', 'eduNm', 'empWantedEduNm', 'qualification']),
     career: pickRecordField(record, ['career', '경력', '경력조건', 'experience', 'careerNm']),
-    employmentType: pickRecordField(record, ['employmentType', '고용형태', '채용형태', 'jobType', 'hireType']),
-    deadline: pickRecordField(record, ['deadline', '마감일', '접수마감일', 'endDate', 'closeDate', 'expirationDate', 'empWantedEndt']),
-    deadlineText: pickRecordField(record, ['deadlineText', 'closeType', '마감상태']),
-    publishedAt: pickRecordField(record, ['publishedAt', 'postingDate', '등록일', '공고일', '게시일', 'startDate', 'regDate', 'regDt']),
+    employmentType: pickRecordField(record, ['employmentType', '고용형태', '채용형태', '채용구분', 'jobType', 'hireType', 'recruitType']),
+    deadline: pickRecordField(record, ['deadline', '마감일', '접수마감일', '접수종료일', 'endDate', 'closeDate', 'expirationDate', 'empWantedEndt', 'pbancEndYmd', 'aplyEndYmd', 'receiptEndDate']),
+    deadlineText: pickRecordField(record, ['deadlineText', 'closeType', '마감상태', '접수기간']),
+    publishedAt: pickRecordField(record, ['publishedAt', 'postingDate', '등록일', '공고일', '게시일', '공시일', 'startDate', 'regDate', 'regDt', 'pbancBgngYmd', 'pbancYmd']),
     url: detailUrl,
     sourceDetailUrl: publicSourceUrl,
+    companyNoticeUrl,
+    processText,
     description: normalizeSpace([
       pickRecordField(record, ['description', 'summary', '내용', '상세내용', '직무내용', 'content']),
-      pickRecordField(record, ['processText', '전형절차', '전형방법', '채용절차']),
+      processText,
+      pickRecordField(record, ['모집분야', '채용직무', '직무', 'jobField', 'ncsCdNm']),
+      pickRecordField(record, ['모집인원', '채용인원', 'recruitNumber']),
       source.name
     ].join(' '))
   };
@@ -1393,6 +1560,196 @@ function fallbackPreviousItems(previousItems) {
   return items.slice(0, MAX_ITEMS);
 }
 
+function publicDataKey(...names) {
+  return readSecret(...names, 'DATA_GO_KR_SERVICE_KEY');
+}
+
+function publicDataApiError(body) {
+  const text = htmlText(body).slice(0, 1200);
+  const code = getXmlText(body, 'returnReasonCode') || getXmlText(body, 'resultCode') || '';
+  const message = getXmlText(body, 'returnAuthMsg') || getXmlText(body, 'resultMsg') || '';
+  if (/SERVICE_KEY|INVALID|ERROR|등록되지|인증키|권한/i.test(text) && !/<(item|row)\b/i.test(body)) {
+    return normalizeSpace([code, message || text].join(' ')).slice(0, 120);
+  }
+  return '';
+}
+
+function parsePublicDataRecords(body, source, publicSourceUrl) {
+  const error = publicDataApiError(body);
+  if (error) throw new Error(error);
+  return parseGenericOfficialFeed(body, source, publicSourceUrl);
+}
+
+function publicJobKeep(item) {
+  if (!item.title || !item.company || !item.url) return false;
+  if (item.status === 'expired') return false;
+  const text = [
+    item.title,
+    item.company,
+    item.education,
+    item.career,
+    item.employmentType,
+    item.detailText,
+    item.processTrackName,
+    item.sectorName
+  ].join(' ');
+  const publicYouthTerms = [
+    '고졸',
+    '고등학교',
+    '특성화고',
+    '직업계고',
+    '마이스터고',
+    '기술계고',
+    '지역인재',
+    '기능인재',
+    '9급',
+    '공무직',
+    '기간제',
+    '청년인턴',
+    '인턴',
+    '신입',
+    '학력무관',
+    '공공기관',
+    '공무원',
+    '지방자치단체',
+    '교육청'
+  ];
+  const hasPublicYouthTerm = publicYouthTerms.some((term) => text.includes(term));
+  const hasStrongHighSchool = STRONG_TERMS.some((term) => text.includes(term));
+  if (!hasStrongHighSchool && PROFESSIONAL_ONLY_TERMS.some((term) => text.includes(term))) return false;
+  return hasPublicYouthTerm || item.fitScore >= 18 || item.processTrack === 'exam-formal';
+}
+
+async function fetchPublicDataEndpoint(url, source, publicSourceUrl) {
+  const body = await fetchWithTimeout(url, {
+    headers: { Accept: 'application/json,application/xml,text/xml,*/*;q=0.8' }
+  });
+  return parsePublicDataRecords(body, source, publicSourceUrl);
+}
+
+async function fetchMoefPublicRecruit() {
+  const key = publicDataKey('MOEF_PUBLIC_RECRUIT_SERVICE_KEY', 'MOEF_PUBLIC_RECRUIT_API_KEY');
+  const base = { ...catalogSource('moef-public-recruit'), configured: Boolean(key) };
+  if (!key) {
+    return {
+      items: [],
+      status: sourceStatus(base, { message: 'GitHub Secret MOEF_PUBLIC_RECRUIT_SERVICE_KEY 또는 DATA_GO_KR_SERVICE_KEY 미설정' })
+    };
+  }
+
+  const attempts = [
+    { page: 1, perPage: PUBLIC_DATA_PAGE_SIZE, returnType: 'json' },
+    { page: 1, perPage: PUBLIC_DATA_PAGE_SIZE },
+    { pageNo: 1, numOfRows: PUBLIC_DATA_PAGE_SIZE, _type: 'json' },
+    { pageNo: 1, numOfRows: PUBLIC_DATA_PAGE_SIZE, type: 'json' }
+  ];
+  const errors = [];
+  let rawItems = [];
+  let successParams = '';
+
+  for (const params of attempts) {
+    const url = buildPublicDataUrl(MOEF_PUBLIC_RECRUIT_LIST_URL, key, params);
+    try {
+      rawItems = await fetchPublicDataEndpoint(url, base, MOEF_PUBLIC_RECRUIT_DATA_URL);
+      successParams = Object.keys(params).join(',');
+      break;
+    } catch (error) {
+      errors.push(error.message);
+    }
+  }
+
+  const normalized = rawItems.map((item) => ({
+    ...normalizeItem({
+      ...item,
+      source: base.id,
+      sourceName: base.name,
+      sourceDetailUrl: MOEF_PUBLIC_RECRUIT_DATA_URL,
+      description: [item.description, '기재부 공공기관 채용공시 공공기관 잡알리오 공개채용 필기 NCS'].join(' ')
+    })
+  })).filter(publicJobKeep);
+  const ok = rawItems.length > 0 || (errors.length < attempts.length && !errors.length);
+  const firstDayCandidates = normalized.filter((item) => item.collectionAudit?.firstDayCollected).length;
+  const missedReview = normalized.filter((item) => item.collectionAudit?.missedReviewNeeded).length;
+
+  return {
+    items: normalized,
+    status: sourceStatus(base, {
+      ok,
+      itemCount: normalized.length,
+      scannedCount: rawItems.length,
+      rawItemCount: rawItems.length,
+      firstDayCandidates,
+      missedReviewNeeded: missedReview,
+      message: ok
+        ? `기재부 공공기관 채용 API ${rawItems.length}건 점검, 후보 ${normalized.length}건, 호출방식 ${successParams || '기본'}`
+        : `연결 실패: ${errors.slice(0, 2).join('; ')}`
+    })
+  };
+}
+
+async function fetchMpmPublicJob() {
+  const key = publicDataKey('MPM_PUBLIC_JOB_SERVICE_KEY', 'MPM_PUBLIC_JOB_API_KEY', 'NARAILTER_API_KEY');
+  const base = { ...catalogSource('mpm-public-job'), configured: Boolean(key) };
+  if (!key) {
+    return {
+      items: [],
+      status: sourceStatus(base, { message: 'GitHub Secret MPM_PUBLIC_JOB_SERVICE_KEY 또는 DATA_GO_KR_SERVICE_KEY 미설정' })
+    };
+  }
+
+  const configuredUrls = splitSecretUrls(readSecret('MPM_PUBLIC_JOB_API_URL', 'NARAILTER_API_URL'));
+  const endpoints = Array.from(new Set([...configuredUrls, ...MPM_PUBLIC_JOB_ENDPOINT_CANDIDATES]));
+  const paramAttempts = [
+    { pageNo: 1, numOfRows: PUBLIC_DATA_PAGE_SIZE },
+    { pageNo: 1, numOfRows: PUBLIC_DATA_PAGE_SIZE, _type: 'xml' },
+    { page: 1, perPage: PUBLIC_DATA_PAGE_SIZE }
+  ];
+  const errors = [];
+  let rawItems = [];
+  let usedEndpoint = '';
+
+  for (const endpoint of endpoints) {
+    for (const params of paramAttempts) {
+      const url = buildPublicDataUrl(endpoint, key, params);
+      try {
+        rawItems = await fetchPublicDataEndpoint(url, base, MPM_PUBLIC_JOB_DATA_URL);
+        usedEndpoint = safePublicFeedUrl(endpoint) || MPM_PUBLIC_JOB_DATA_URL;
+        if (rawItems.length) break;
+      } catch (error) {
+        errors.push(`${safePublicFeedUrl(endpoint) || 'candidate'}: ${error.message}`);
+      }
+    }
+    if (rawItems.length) break;
+  }
+
+  const normalized = rawItems.map((item) => normalizeItem({
+    ...item,
+    source: base.id,
+    sourceName: base.name,
+    sourceDetailUrl: MPM_PUBLIC_JOB_DATA_URL,
+    description: [item.description, '인사혁신처 나라일터 공공취업정보 공무원 지방자치단체 교육청 공공기관 공무직'].join(' ')
+  })).filter(publicJobKeep);
+  const ok = rawItems.length > 0;
+  const firstDayCandidates = normalized.filter((item) => item.collectionAudit?.firstDayCollected).length;
+  const missedReview = normalized.filter((item) => item.collectionAudit?.missedReviewNeeded).length;
+
+  return {
+    items: normalized,
+    status: sourceStatus(base, {
+      ok,
+      itemCount: normalized.length,
+      scannedCount: rawItems.length,
+      rawItemCount: rawItems.length,
+      firstDayCandidates,
+      missedReviewNeeded: missedReview,
+      resolvedEndpoint: usedEndpoint,
+      message: ok
+        ? `인사혁신처 공공취업 API ${rawItems.length}건 점검, 후보 ${normalized.length}건`
+        : `키 확인됨. 공식 호출 URL 확인 필요: ${errors.slice(0, 2).join('; ')}`
+    })
+  };
+}
+
 async function fetchWork24OpenRecruit() {
   const key = readSecret('WORK24_AUTH_KEY', 'WORKNET_AUTH_KEY');
   const base = { ...catalogSource('work24-open-recruit'), configured: Boolean(key) };
@@ -1963,6 +2320,8 @@ function sourceSecretState(source, status) {
   const activeWithoutSecret = source.status === 'active' && !requiredSecrets.length;
   const ready = activeWithoutSecret
     || status?.ok
+    || (source.id === 'mpm-public-job' ? Boolean(publicDataKey('MPM_PUBLIC_JOB_SERVICE_KEY', 'MPM_PUBLIC_JOB_API_KEY', 'NARAILTER_API_KEY')) : false)
+    || (source.id === 'moef-public-recruit' ? Boolean(publicDataKey('MOEF_PUBLIC_RECRUIT_SERVICE_KEY', 'MOEF_PUBLIC_RECRUIT_API_KEY')) : false)
     || (source.id === 'work24-open-recruit' ? Boolean(readSecret('WORK24_AUTH_KEY', 'WORKNET_AUTH_KEY')) : false)
     || (source.id === 'saramin-job-search' ? Boolean(readSecret('SARAMIN_ACCESS_KEY')) : false)
     || (Boolean(genericConfig) && requiredUrlReady && keyReady);
@@ -1995,6 +2354,8 @@ function buildSecretReadinessReport(sourceStatusList) {
     .sort((a, b) => {
       const priorityDiff = (SOURCE_PRIORITY_WEIGHT[a.priority] ?? 9) - (SOURCE_PRIORITY_WEIGHT[b.priority] ?? 9);
       if (priorityDiff !== 0) return priorityDiff;
+      const orderDiff = (SOURCE_CATALOG_ORDER.get(a.id) ?? 999) - (SOURCE_CATALOG_ORDER.get(b.id) ?? 999);
+      if (orderDiff !== 0) return orderDiff;
       return a.name.localeCompare(b.name, 'ko-KR');
     })
     .map((source) => ({
@@ -2079,6 +2440,8 @@ function buildCollectionReview(items, sourceStatusList) {
 async function main() {
   const previousItems = await readPreviousItems();
   const results = [];
+  results.push(await fetchMpmPublicJob());
+  results.push(await fetchMoefPublicRecruit());
   results.push(await fetchWork24OpenRecruit());
   results.push(await fetchJobAlioRecruit());
   results.push(await fetchSeoulHighJobRecruit());

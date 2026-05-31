@@ -29,6 +29,10 @@ jobs:
         env:
           WORK24_AUTH_KEY: ${{ secrets.WORK24_AUTH_KEY }}
           WORKNET_AUTH_KEY: ${{ secrets.WORKNET_AUTH_KEY }}
+          DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
+          MPM_PUBLIC_JOB_SERVICE_KEY: ${{ secrets.MPM_PUBLIC_JOB_SERVICE_KEY }}
+          MPM_PUBLIC_JOB_API_URL: ${{ secrets.MPM_PUBLIC_JOB_API_URL }}
+          MOEF_PUBLIC_RECRUIT_SERVICE_KEY: ${{ secrets.MOEF_PUBLIC_RECRUIT_SERVICE_KEY }}
           SARAMIN_ACCESS_KEY: ${{ secrets.SARAMIN_ACCESS_KEY }}
           JOB_ALIO_API_KEY: ${{ secrets.JOB_ALIO_API_KEY }}
           JOB_ALIO_API_URL: ${{ secrets.JOB_ALIO_API_URL }}
