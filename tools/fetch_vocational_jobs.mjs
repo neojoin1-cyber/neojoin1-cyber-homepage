@@ -54,12 +54,16 @@ const SEOUL_HIGHJOB_SCAN_PAGES = 2;
 const MOEF_PUBLIC_RECRUIT_DATA_URL = 'https://www.data.go.kr/data/15125273/openapi.do';
 const MOEF_PUBLIC_RECRUIT_LIST_URL = 'https://apis.data.go.kr/1051000/recruitment/list';
 const MPM_PUBLIC_JOB_DATA_URL = 'https://www.data.go.kr/data/15156780/openapi.do';
+const MPM_PUBLIC_JOB_LIST_URL = 'https://apis.data.go.kr/1760000/PblJobService/getList';
 const MPM_PUBLIC_JOB_ENDPOINT_CANDIDATES = [
+  MPM_PUBLIC_JOB_LIST_URL,
   'https://apis.data.go.kr/1760000/PublicJobInformationService/getPublicJobInfo',
   'https://apis.data.go.kr/1760000/PublicJobInfoService/getPublicJobInfo',
   'https://apis.data.go.kr/1760000/PublicEmploymentInfoService/getPublicEmploymentInfo',
   'https://apis.data.go.kr/1741000/PublicJobInformationService/getPublicJobInfo'
 ];
+const MPM_PUBLIC_JOB_NOTICE_TYPES = ['e01', 'e02', 'e03', 'e04', 'e06', 'e07', 'e08'];
+const MPM_PUBLIC_JOB_INSTITUTION_TYPES = ['g01', 'g02', 'g03', 'g04'];
 const PUBLIC_DATA_PAGE_SIZE = 60;
 
 const GENERIC_OFFICIAL_SOURCE_CONFIG = {
@@ -739,6 +743,7 @@ function collectJsonRecords(value, depth = 0) {
 }
 
 function xmlRecordFromNode(node, publicSourceUrl) {
+  const sourceId = getXmlText(node, 'idx') || getXmlText(node, 'seq') || getXmlText(node, 'sn') || getXmlText(node, 'id');
   const title = getXmlText(node, 'title')
     || getXmlText(node, 'empWantedTitle')
     || getXmlText(node, 'wantedTitle')
@@ -747,25 +752,39 @@ function xmlRecordFromNode(node, publicSourceUrl) {
     || getXmlText(node, 'subject');
   const company = getXmlText(node, 'company')
     || getXmlText(node, 'empBusiNm')
+    || getXmlText(node, 'insttname')
     || getXmlText(node, 'instNm')
     || getXmlText(node, 'recrutInstNm')
     || getXmlText(node, 'organization')
     || getXmlText(node, 'author');
+  const detailUrl = cleanUrl(
+    getXmlText(node, 'link01')
+    || getXmlText(node, 'link02')
+    || getXmlText(node, 'link03')
+    || getXmlText(node, 'link')
+    || getXmlText(node, 'url')
+    || getXmlText(node, 'detailUrl')
+    || (sourceId ? `https://www.gojobs.go.kr/apmView.do?empmnsn=${encodeURIComponent(sourceId)}` : publicSourceUrl)
+  );
   return {
+    sourceId,
     title,
     company,
-    region: getXmlText(node, 'region') || getXmlText(node, 'workRegion') || getXmlText(node, 'location'),
+    region: getXmlText(node, 'region') || getXmlText(node, 'workRegion') || getXmlText(node, 'location') || getXmlText(node, 'areacode'),
     education: getXmlText(node, 'education') || getXmlText(node, 'edu') || getXmlText(node, 'empWantedEduNm'),
     career: getXmlText(node, 'career') || getXmlText(node, 'experience') || getXmlText(node, 'careerNm'),
-    employmentType: getXmlText(node, 'employmentType') || getXmlText(node, 'jobType') || getXmlText(node, 'hireType'),
-    deadline: getXmlText(node, 'deadline') || getXmlText(node, 'endDate') || getXmlText(node, 'closeDate') || getXmlText(node, 'empWantedEndt'),
-    publishedAt: getXmlText(node, 'pubDate') || getXmlText(node, 'regDate') || getXmlText(node, 'regDt') || getXmlText(node, 'startDate'),
-    url: cleanUrl(getXmlText(node, 'link') || getXmlText(node, 'url') || getXmlText(node, 'detailUrl') || publicSourceUrl),
+    employmentType: getXmlText(node, 'employmentType') || getXmlText(node, 'jobType') || getXmlText(node, 'hireType') || getXmlText(node, 'type02') || getXmlText(node, 'type01'),
+    deadline: getXmlText(node, 'deadline') || getXmlText(node, 'endDate') || getXmlText(node, 'enddate') || getXmlText(node, 'closeDate') || getXmlText(node, 'empWantedEndt'),
+    publishedAt: getXmlText(node, 'pubDate') || getXmlText(node, 'regDate') || getXmlText(node, 'regdate') || getXmlText(node, 'regDt') || getXmlText(node, 'startDate') || getXmlText(node, 'moddate'),
+    url: detailUrl,
     description: normalizeSpace([
       getXmlText(node, 'description'),
       getXmlText(node, 'summary'),
       getXmlText(node, 'content'),
-      getXmlText(node, 'processText')
+      getXmlText(node, 'contents'),
+      getXmlText(node, 'processText'),
+      getXmlText(node, 'type01'),
+      getXmlText(node, 'type02')
     ].join(' '))
   };
 }
@@ -820,6 +839,8 @@ function genericRecordToRaw(record, source, publicSourceUrl) {
     '채용공시URL',
     '접수URL',
     '지원URL',
+    'srcUrl',
+    'sourceUrl',
     'homepage',
     'homePage',
     'empWantedHomepgDetail',
@@ -847,6 +868,8 @@ function genericRecordToRaw(record, source, publicSourceUrl) {
     '첨부파일URL',
     'fileUrl',
     'atchFileUrl',
+    'srcUrl',
+    'sourceUrl',
     'applyUrl',
     'recruitUrl'
   ]));
@@ -1693,6 +1716,39 @@ async function fetchMoefPublicRecruit() {
   };
 }
 
+function isMpmPublicJobListEndpoint(endpoint) {
+  return /PblJobService\/getList/i.test(endpoint);
+}
+
+function mpmPublicJobParamAttempts(endpoint) {
+  if (!isMpmPublicJobListEndpoint(endpoint)) {
+    return [
+      { pageNo: 1, numOfRows: PUBLIC_DATA_PAGE_SIZE },
+      { pageNo: 1, numOfRows: PUBLIC_DATA_PAGE_SIZE, _type: 'xml' },
+      { page: 1, perPage: PUBLIC_DATA_PAGE_SIZE }
+    ];
+  }
+
+  const attempts = [];
+  for (const institutionType of MPM_PUBLIC_JOB_INSTITUTION_TYPES) {
+    for (const noticeType of MPM_PUBLIC_JOB_NOTICE_TYPES) {
+      attempts.push({
+        pageNo: 1,
+        numOfRows: PUBLIC_DATA_PAGE_SIZE,
+        Pblanc_ty: noticeType,
+        Instt_se: institutionType,
+        Sort_order: 1
+      });
+    }
+  }
+  return attempts;
+}
+
+function mpmPublicJobRecordKey(record) {
+  return normalizeSpace(record.sourceId)
+    || sha([record.title, record.company, record.deadline, record.publishedAt, record.url].join('|'));
+}
+
 async function fetchMpmPublicJob() {
   const key = publicDataKey('MPM_PUBLIC_JOB_SERVICE_KEY', 'MPM_PUBLIC_JOB_API_KEY', 'NARAILTER_API_KEY');
   const base = { ...catalogSource('mpm-public-job'), configured: Boolean(key) };
@@ -1705,27 +1761,31 @@ async function fetchMpmPublicJob() {
 
   const configuredUrls = splitSecretUrls(readSecret('MPM_PUBLIC_JOB_API_URL', 'NARAILTER_API_URL'));
   const endpoints = Array.from(new Set([...configuredUrls, ...MPM_PUBLIC_JOB_ENDPOINT_CANDIDATES]));
-  const paramAttempts = [
-    { pageNo: 1, numOfRows: PUBLIC_DATA_PAGE_SIZE },
-    { pageNo: 1, numOfRows: PUBLIC_DATA_PAGE_SIZE, _type: 'xml' },
-    { page: 1, perPage: PUBLIC_DATA_PAGE_SIZE }
-  ];
   const errors = [];
   let rawItems = [];
   let usedEndpoint = '';
+  let successScans = 0;
 
   for (const endpoint of endpoints) {
+    const endpointItems = new Map();
+    const paramAttempts = mpmPublicJobParamAttempts(endpoint);
     for (const params of paramAttempts) {
       const url = buildPublicDataUrl(endpoint, key, params);
       try {
-        rawItems = await fetchPublicDataEndpoint(url, base, MPM_PUBLIC_JOB_DATA_URL);
-        usedEndpoint = safePublicFeedUrl(endpoint) || MPM_PUBLIC_JOB_DATA_URL;
-        if (rawItems.length) break;
+        const records = await fetchPublicDataEndpoint(url, base, MPM_PUBLIC_JOB_DATA_URL);
+        successScans += 1;
+        for (const record of records) {
+          endpointItems.set(mpmPublicJobRecordKey(record), record);
+        }
       } catch (error) {
         errors.push(`${safePublicFeedUrl(endpoint) || 'candidate'}: ${error.message}`);
       }
     }
-    if (rawItems.length) break;
+    if (endpointItems.size) {
+      rawItems = Array.from(endpointItems.values());
+      usedEndpoint = safePublicFeedUrl(endpoint) || MPM_PUBLIC_JOB_DATA_URL;
+      break;
+    }
   }
 
   const normalized = rawItems.map((item) => normalizeItem({
@@ -1750,7 +1810,7 @@ async function fetchMpmPublicJob() {
       missedReviewNeeded: missedReview,
       resolvedEndpoint: usedEndpoint,
       message: ok
-        ? `인사혁신처 공공취업 API ${rawItems.length}건 점검, 후보 ${normalized.length}건`
+        ? `인사혁신처 공공취업 API ${rawItems.length}건 점검, 후보 ${normalized.length}건, 공식분류 조회 ${successScans}회`
         : `키 확인됨. 공식 호출 URL 확인 필요: ${errors.slice(0, 2).join('; ')}`
     })
   };
