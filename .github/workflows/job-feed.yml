@@ -21,6 +21,9 @@ jobs:
         with:
           node-version: 22
 
+      - name: Check job feed script syntax
+        run: node --check tools/fetch_vocational_jobs.mjs
+
       - name: Build official API job feed
         run: node tools/fetch_vocational_jobs.mjs
         env:

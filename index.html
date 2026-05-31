@@ -1756,7 +1756,7 @@ function mobGoto(id) {
   }, 120);
 }
 
-const JOB_FEED_URL = 'assets/job-feed.json?v=20260531-audit-report';
+const JOB_FEED_URL = 'assets/job-feed.json?v=20260531-source-readiness';
 
 function escapeJobHtml(value) {
   return String(value == null ? '' : value).replace(/[&<>"']/g, function(ch) {
@@ -1898,8 +1898,10 @@ function renderJobSourceStatus(data) {
   var firstDay = data.summary && data.summary.firstDayCollected ? data.summary.firstDayCollected : 0;
   var missed = data.summary && data.summary.missedReviewNeeded ? data.summary.missedReviewNeeded : 0;
   var sourceGaps = data.collectionReview && data.collectionReview.sourceGapCount ? data.collectionReview.sourceGapCount : 0;
+  var readySources = data.secretReadiness && data.secretReadiness.readySources ? data.secretReadiness.readySources : connected;
+  var totalSources = data.secretReadiness && data.secretReadiness.totalSources ? data.secretReadiness.totalSources : sources.length;
   statusEl.textContent = connected
-    ? connected + '개 공식 소스 정상 수집 · 공채 상세 ' + detailed + '건 · 공식 공고 확인 ' + checked + '건 · 첫날수집 ' + firstDay + '건 · 누락점검 ' + missed + '건 · 소스점검 ' + sourceGaps + '개 · 필기형 ' + examSources + '개, 간단형 ' + directSources + '개 소스 상태 기록'
+    ? connected + '개 공식 소스 정상 수집 · 공채 상세 ' + detailed + '건 · 공식 공고 확인 ' + checked + '건 · 첫날수집 ' + firstDay + '건 · 누락점검 ' + missed + '건 · 소스준비 ' + readySources + '/' + totalSources + ' · 소스점검 ' + sourceGaps + '개 · 필기형 ' + examSources + '개, 간단형 ' + directSources + '개 소스 상태 기록'
     : '공식 API 키 연결 대기: 고용24·사람인·잡알리오·나라일터·군 채용 등 ' + waiting + '개 소스';
 }
 

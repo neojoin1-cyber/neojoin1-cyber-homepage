@@ -22,6 +22,7 @@
 - 실행 위치: GitHub Actions
 - 저장 방식: 정적 JSON 자동 갱신 후 커밋
 - 표시 방식: `index.html`이 `assets/job-feed.json`을 읽어 홈페이지 공채 허브에 표시
+- 실행 전 `node --check tools/fetch_vocational_jobs.mjs`로 문법 오류를 먼저 차단한다.
 
 ## 제공 화면 구분
 
@@ -54,6 +55,18 @@
 | 알바천국 청소년·고졸 채용 | 공식 제휴 대기 | 면접중심 | `ALBA_API_KEY`, `ALBA_API_URL` |
 | 지역별 교육청 취업지원센터 | 공식 피드 조사 대기 | 균형형 | `EDU_JOB_CENTER_FEEDS` |
 | 비영리·공익기관 채용 | 공식 경로 확인 대기 | 균형형 | `NONPROFIT_RECRUIT_API_KEY`, `NONPROFIT_RECRUIT_API_URL` |
+
+## API 키와 공식 피드 연결 준비
+
+API 키나 공식 피드 URL이 확보되면 저장소 파일에 값을 쓰지 않고 GitHub Actions Secret에만 저장한다. 수집기는 Secret 값은 출력하지 않고, `secretReadiness`에 Secret 이름과 준비 상태만 기록한다.
+
+- `ready`: 즉시 수집 시도 가능
+- `partial`: 키 또는 URL 중 일부만 들어와 추가 설정 필요
+- `missing`: 아직 Secret 또는 공식 피드 경로 없음
+
+나라일터, 군 채용, 잡코리아, 인크루트, 알바몬, 알바천국, 지역 교육청, 비영리기관은 `*_API_URL` 또는 `EDU_JOB_CENTER_FEEDS`가 들어오면 범용 공식 피드 어댑터가 먼저 JSON/XML/RSS 구조를 읽어 정규화를 시도한다. API 문서가 확보되면 이후 전용 어댑터로 바꿔 정확도를 높인다.
+
+공식 URL Secret 안에 키를 넣어야 하는 서비스는 URL에 `{API_KEY}`, `{KEY}`, `{SERVICE_KEY}` placeholder를 둘 수 있다. 수집기는 실행 중에만 placeholder를 실제 Secret으로 치환하고, 생성 JSON에는 Secret 값이 남지 않게 한다.
 
 ## 정규화 필드
 
@@ -145,6 +158,7 @@
 - `configured: true`, `ok: false`: Secret은 있으나 어댑터 구현 또는 API 응답 점검 필요
 - `itemCount`: 해당 소스에서 최종 등록 가능한 후보 수
 - `trackHint`: 필기형, 면접형, 균형형 소스 구분
+- `secretReadiness`: API 키, 공식 피드 URL, 어댑터 준비 상태. Secret 값이 아니라 이름과 상태만 표시
 
 오류가 나면 공고 영역을 비워 두지 않고 “자동 수집 대기/점검 필요” 상태를 표시한다. 공식 공고 확인에 실패한 경우에도 공채 후보는 유지하되, 상세 확정이 아니라 확인 필요 상태로 표시한다.
 

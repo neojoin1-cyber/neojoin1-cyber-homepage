@@ -47,6 +47,49 @@ const WORK24_OPEN_RECRUIT_URL = 'https://www.work24.go.kr/cm/openApi/call/wk/cal
 const SARAMIN_JOB_SEARCH_URL = 'https://oapi.saramin.co.kr/job-search';
 const JOB_ALIO_RECRUIT_URL = 'https://job.alio.go.kr/recruit.do';
 
+const GENERIC_OFFICIAL_SOURCE_CONFIG = {
+  'gojobs-narailter': {
+    urlSecrets: ['NARAILTER_API_URL'],
+    keySecrets: ['NARAILTER_API_KEY'],
+    setupHint: '나라일터 공식 API URL 또는 허용된 데이터 피드 URL을 NARAILTER_API_URL에 저장하면 즉시 점검한다.'
+  },
+  'military-recruit': {
+    urlSecrets: ['MILITARY_RECRUIT_API_URL'],
+    keySecrets: ['MILITARY_RECRUIT_API_KEY'],
+    setupHint: '국방부·각 군 공식 모집/채용 API 또는 공개 피드 URL을 MILITARY_RECRUIT_API_URL에 저장하면 즉시 점검한다.'
+  },
+  'jobkorea-rookie': {
+    urlSecrets: ['JOBKOREA_API_URL'],
+    keySecrets: ['JOBKOREA_API_KEY'],
+    setupHint: '잡코리아 공식 제휴 API URL과 키가 확보되면 고졸채용 루키 후보를 자동 정규화한다.'
+  },
+  'incruit-highschool': {
+    urlSecrets: ['INCRUIT_API_URL'],
+    keySecrets: ['INCRUIT_API_KEY'],
+    setupHint: '인크루트 공식 API 또는 허용된 피드 URL을 연결하면 고졸·신입 공채 후보를 자동 정규화한다.'
+  },
+  'albamon-youth': {
+    urlSecrets: ['ALBAMON_API_URL'],
+    keySecrets: ['ALBAMON_API_KEY'],
+    setupHint: '알바몬 공식 제휴 API URL과 키가 확보되면 청소년·고졸 채용 후보를 간단 안내로 정규화한다.'
+  },
+  'alba-youth': {
+    urlSecrets: ['ALBA_API_URL'],
+    keySecrets: ['ALBA_API_KEY'],
+    setupHint: '알바천국 공식 제휴 API URL과 키가 확보되면 청소년·고졸 채용 후보를 간단 안내로 정규화한다.'
+  },
+  'regional-education-job': {
+    urlSecrets: ['EDU_JOB_CENTER_FEEDS'],
+    keySecrets: [],
+    setupHint: '교육청 취업지원센터 공식 RSS/API URL 묶음을 EDU_JOB_CENTER_FEEDS에 줄바꿈 또는 쉼표로 저장하면 지역 피드를 순회한다.'
+  },
+  'nonprofit-recruit': {
+    urlSecrets: ['NONPROFIT_RECRUIT_API_URL'],
+    keySecrets: ['NONPROFIT_RECRUIT_API_KEY'],
+    setupHint: '비영리·공익기관 공식 채용 피드 URL과 키가 확보되면 공개채용 후보를 자동 정규화한다.'
+  }
+};
+
 const SOURCE_CATALOG = [
   {
     id: 'work24-open-recruit',
@@ -235,6 +278,14 @@ function readSecret(...names) {
   return '';
 }
 
+function hasSecret(name) {
+  return Boolean(readSecret(name));
+}
+
+function secretNamesForSource(source) {
+  return Array.from(new Set(source?.secretNames || []));
+}
+
 function sha(value) {
   return crypto.createHash('sha256').update(value).digest('hex').slice(0, 18);
 }
@@ -368,6 +419,179 @@ function fetchWithNodeHttp(url, options = {}, timeoutMs = REQUEST_TIMEOUT_MS) {
   });
 }
 
+function splitSecretUrls(value) {
+  const raw = normalizeSpace(value);
+  if (!raw) return [];
+  return Array.from(new Set(raw
+    .split(/[\n,]+/)
+    .map((url) => url.trim())
+    .filter(Boolean)))
+    .slice(0, 20);
+}
+
+function configuredUrlsForSource(config) {
+  return Array.from(new Set((config.urlSecrets || [])
+    .flatMap((secretName) => splitSecretUrls(readSecret(secretName)))))
+    .filter(Boolean);
+}
+
+function injectSecretIntoUrl(url, key) {
+  if (!key) return url;
+  return url
+    .replace(/\{API_KEY\}/g, encodeURIComponent(key))
+    .replace(/\{KEY\}/g, encodeURIComponent(key))
+    .replace(/\{SERVICE_KEY\}/g, encodeURIComponent(key));
+}
+
+function normalizeFieldName(value) {
+  return String(value || '').toLowerCase().replace(/[^0-9a-z가-힣]/g, '');
+}
+
+function flattenRecord(record, prefix = '', entries = []) {
+  if (!record || typeof record !== 'object') return entries;
+  for (const [key, value] of Object.entries(record)) {
+    const nextKey = prefix ? `${prefix}.${key}` : key;
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
+      flattenRecord(value, nextKey, entries);
+    } else if (!Array.isArray(value)) {
+      entries.push([normalizeFieldName(nextKey), textValue(value)]);
+    }
+  }
+  return entries;
+}
+
+function pickRecordField(record, aliases) {
+  const normalizedAliases = aliases.map(normalizeFieldName);
+  const entries = flattenRecord(record);
+  for (const alias of normalizedAliases) {
+    const exact = entries.find(([key, value]) => key === alias && value);
+    if (exact) return exact[1];
+  }
+  for (const alias of normalizedAliases) {
+    const partial = entries.find(([key, value]) => key.endsWith(alias) && value);
+    if (partial) return partial[1];
+  }
+  for (const alias of normalizedAliases) {
+    const loose = entries.find(([key, value]) => key.includes(alias) && value);
+    if (loose) return loose[1];
+  }
+  return '';
+}
+
+function collectJsonRecords(value, depth = 0) {
+  if (!value || depth > 5) return [];
+  if (Array.isArray(value)) {
+    const objectItems = value.filter((item) => item && typeof item === 'object');
+    if (objectItems.length) return objectItems;
+    return [];
+  }
+  if (typeof value !== 'object') return [];
+
+  const preferredKeys = ['items', 'item', 'jobs', 'job', 'data', 'list', 'result', 'results', 'recruits', 'recruit', 'content'];
+  for (const key of preferredKeys) {
+    const records = collectJsonRecords(value[key], depth + 1);
+    if (records.length) return records;
+  }
+  const selfTitle = pickRecordField(value, ['title', '공고명', '채용공고명', 'recruitTitle', 'wantedTitle']);
+  if (selfTitle) return [value];
+  for (const child of Object.values(value)) {
+    const records = collectJsonRecords(child, depth + 1);
+    if (records.length) return records;
+  }
+  return [];
+}
+
+function xmlRecordFromNode(node, publicSourceUrl) {
+  const title = getXmlText(node, 'title')
+    || getXmlText(node, 'empWantedTitle')
+    || getXmlText(node, 'wantedTitle')
+    || getXmlText(node, 'recrutPbancTtl')
+    || getXmlText(node, 'pbancTtl')
+    || getXmlText(node, 'subject');
+  const company = getXmlText(node, 'company')
+    || getXmlText(node, 'empBusiNm')
+    || getXmlText(node, 'instNm')
+    || getXmlText(node, 'recrutInstNm')
+    || getXmlText(node, 'organization')
+    || getXmlText(node, 'author');
+  return {
+    title,
+    company,
+    region: getXmlText(node, 'region') || getXmlText(node, 'workRegion') || getXmlText(node, 'location'),
+    education: getXmlText(node, 'education') || getXmlText(node, 'edu') || getXmlText(node, 'empWantedEduNm'),
+    career: getXmlText(node, 'career') || getXmlText(node, 'experience') || getXmlText(node, 'careerNm'),
+    employmentType: getXmlText(node, 'employmentType') || getXmlText(node, 'jobType') || getXmlText(node, 'hireType'),
+    deadline: getXmlText(node, 'deadline') || getXmlText(node, 'endDate') || getXmlText(node, 'closeDate') || getXmlText(node, 'empWantedEndt'),
+    publishedAt: getXmlText(node, 'pubDate') || getXmlText(node, 'regDate') || getXmlText(node, 'regDt') || getXmlText(node, 'startDate'),
+    url: cleanUrl(getXmlText(node, 'link') || getXmlText(node, 'url') || getXmlText(node, 'detailUrl') || publicSourceUrl),
+    description: normalizeSpace([
+      getXmlText(node, 'description'),
+      getXmlText(node, 'summary'),
+      getXmlText(node, 'content'),
+      getXmlText(node, 'processText')
+    ].join(' '))
+  };
+}
+
+function collectXmlRecords(body, publicSourceUrl) {
+  const nodes = [
+    ...getXmlNodes(body, 'item'),
+    ...getXmlNodes(body, 'entry'),
+    ...getXmlNodes(body, 'job'),
+    ...getXmlNodes(body, 'wanted'),
+    ...getXmlNodes(body, 'recruit'),
+    ...getXmlNodes(body, 'row')
+  ];
+  return nodes.map((node) => xmlRecordFromNode(node, publicSourceUrl)).filter((record) => record.title);
+}
+
+function genericRecordToRaw(record, source, publicSourceUrl) {
+  const title = pickRecordField(record, ['title', '공고명', '채용공고명', 'recruitTitle', 'wantedTitle', 'empWantedTitle', 'recrutPbancTtl']);
+  const company = pickRecordField(record, ['company', '회사명', '기관명', '기업명', 'instNm', 'recrutInstNm', 'empBusiNm', 'organization']);
+  const detailUrl = cleanUrl(pickRecordField(record, ['url', 'link', 'detailUrl', '채용공고URL', '접수URL', 'homepage', 'empWantedHomepgDetail']) || publicSourceUrl);
+  return {
+    source: source.id,
+    sourceName: source.name,
+    sourceId: pickRecordField(record, ['id', 'idx', 'seq', 'no', '공고번호', 'recruitId']) || sha([source.id, title, company, detailUrl].join('|')),
+    title,
+    company,
+    region: pickRecordField(record, ['region', '지역', '근무지', 'location', 'workRegion', 'workPlace']),
+    education: pickRecordField(record, ['education', '학력', '학력조건', 'edu', 'eduNm', 'empWantedEduNm']),
+    career: pickRecordField(record, ['career', '경력', '경력조건', 'experience', 'careerNm']),
+    employmentType: pickRecordField(record, ['employmentType', '고용형태', '채용형태', 'jobType', 'hireType']),
+    deadline: pickRecordField(record, ['deadline', '마감일', '접수마감일', 'endDate', 'closeDate', 'expirationDate', 'empWantedEndt']),
+    deadlineText: pickRecordField(record, ['deadlineText', 'closeType', '마감상태']),
+    publishedAt: pickRecordField(record, ['publishedAt', 'postingDate', '등록일', '공고일', '게시일', 'startDate', 'regDate', 'regDt']),
+    url: detailUrl,
+    sourceDetailUrl: publicSourceUrl,
+    description: normalizeSpace([
+      pickRecordField(record, ['description', 'summary', '내용', '상세내용', '직무내용', 'content']),
+      pickRecordField(record, ['processText', '전형절차', '전형방법', '채용절차']),
+      source.name
+    ].join(' '))
+  };
+}
+
+function parseGenericOfficialFeed(body, source, sourceUrl) {
+  const trimmed = body.trim();
+  const publicSourceUrl = source.sourceUrl || safePublicFeedUrl(sourceUrl);
+  if (!trimmed) return [];
+  if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
+    const payload = JSON.parse(trimmed);
+    return collectJsonRecords(payload).map((record) => genericRecordToRaw(record, source, publicSourceUrl));
+  }
+  if (trimmed.startsWith('<')) {
+    return collectXmlRecords(trimmed, publicSourceUrl).map((record) => ({
+      ...record,
+      source: source.id,
+      sourceName: source.name,
+      sourceId: sha([source.id, record.title, record.company, record.url].join('|')),
+      sourceDetailUrl: publicSourceUrl
+    }));
+  }
+  return [];
+}
+
 function significantTerms(value, limit = 8) {
   return Array.from(new Set(normalizeSpace(value)
     .replace(/[()[\]{}"'“”‘’]/g, ' ')
@@ -487,6 +711,21 @@ function cleanUrl(value) {
     return new URL(raw).toString();
   } catch {
     return raw;
+  }
+}
+
+function safePublicFeedUrl(value) {
+  const raw = normalizeSpace(value);
+  if (!raw) return '';
+  try {
+    const url = new URL(raw);
+    url.username = '';
+    url.password = '';
+    url.search = '';
+    url.hash = '';
+    return url.toString();
+  } catch {
+    return '';
   }
 }
 
@@ -1307,10 +1546,122 @@ function disabledSource(id, name, message, sourceUrl = '') {
   };
 }
 
-function pendingCatalogSources() {
-  return SOURCE_CATALOG
-    .filter((source) => source.status !== 'active')
-    .map((source) => disabledSource(source.id, source.name, source.message, source.sourceUrl));
+async function fetchGenericConfiguredSource(id) {
+  const source = catalogSource(id);
+  const config = GENERIC_OFFICIAL_SOURCE_CONFIG[id];
+  if (!source || !config) {
+    return disabledSource(id, source?.name || id, source?.message || '공식 연계 정보 확인 대기', source?.sourceUrl || '');
+  }
+
+  const urls = configuredUrlsForSource(config);
+  const key = readSecret(...(config.keySecrets || []));
+  const configured = urls.length > 0 || Boolean(key);
+  if (!urls.length) {
+    return {
+      items: [],
+      status: sourceStatus({ ...source, configured }, {
+        ok: false,
+        message: configured
+          ? `${config.urlSecrets.join(' 또는 ')} 미설정: 공식 API URL 또는 허용된 피드 URL 필요`
+          : source.message || config.setupHint
+      })
+    };
+  }
+
+  const rawItems = [];
+  const errors = [];
+  let successCount = 0;
+  for (const sourceUrl of urls) {
+    try {
+      const requestUrl = injectSecretIntoUrl(sourceUrl, key);
+      const body = await fetchWithTimeout(requestUrl, {
+        headers: {
+          Accept: 'application/json,application/xml,text/xml,text/html;q=0.9,*/*;q=0.7',
+          ...(key ? { Authorization: `Bearer ${key}`, 'X-API-Key': key } : {})
+        }
+      });
+      const records = parseGenericOfficialFeed(body, source, sourceUrl);
+      rawItems.push(...records);
+      successCount += 1;
+    } catch (error) {
+      errors.push(error.message);
+    }
+  }
+
+  const normalized = rawItems.map(normalizeItem).filter(shouldKeep);
+  const ok = successCount > 0 && errors.length < urls.length;
+  return {
+    items: normalized,
+    status: sourceStatus({ ...source, configured: true }, {
+      ok,
+      itemCount: normalized.length,
+      scannedCount: rawItems.length,
+      configuredFeedCount: urls.length,
+      message: ok
+        ? `공식 설정 피드 ${successCount}/${urls.length}개 확인, 후보 ${normalized.length}건`
+        : `연결 실패: ${errors.slice(0, 2).join('; ')}`
+    })
+  };
+}
+
+async function pendingCatalogSources() {
+  const results = [];
+  for (const source of SOURCE_CATALOG.filter((item) => item.status !== 'active')) {
+    results.push(await fetchGenericConfiguredSource(source.id));
+  }
+  return results;
+}
+
+function sourceSecretState(source, status) {
+  const requiredSecrets = secretNamesForSource(source);
+  const configuredSecrets = requiredSecrets.filter(hasSecret);
+  const missingSecrets = requiredSecrets.filter((secretName) => !hasSecret(secretName));
+  const genericConfig = GENERIC_OFFICIAL_SOURCE_CONFIG[source.id];
+  const urlSecrets = genericConfig?.urlSecrets || [];
+  const configuredUrls = genericConfig ? configuredUrlsForSource(genericConfig).length : 0;
+  const keySecrets = genericConfig?.keySecrets || [];
+  const requiredUrlReady = !urlSecrets.length || configuredUrls > 0;
+  const keyReady = !keySecrets.length || keySecrets.some(hasSecret);
+  const activeWithoutSecret = source.status === 'active' && !requiredSecrets.length;
+  const ready = activeWithoutSecret
+    || status?.ok
+    || (source.id === 'work24-open-recruit' ? Boolean(readSecret('WORK24_AUTH_KEY', 'WORKNET_AUTH_KEY')) : false)
+    || (source.id === 'saramin-job-search' ? Boolean(readSecret('SARAMIN_ACCESS_KEY')) : false)
+    || (Boolean(genericConfig) && requiredUrlReady && keyReady);
+
+  return {
+    id: source.id,
+    name: source.name,
+    readiness: source.status,
+    type: source.type,
+    requiredSecrets,
+    configuredSecretNames: configuredSecrets,
+    missingSecretNames: missingSecrets,
+    configuredFeedCount: configuredUrls,
+    setupStatus: ready ? 'ready' : configuredSecrets.length || configuredUrls ? 'partial' : 'missing',
+    canAttemptImmediately: ready,
+    adapter: source.status === 'active' ? 'native' : genericConfig ? 'generic-official-feed' : 'pending',
+    setupHint: genericConfig?.setupHint || source.message || '공식 API 또는 허용된 피드 경로 확인 필요'
+  };
+}
+
+function buildSecretReadinessReport(sourceStatusList) {
+  const statusById = new Map(sourceStatusList.map((status) => [status.id, status]));
+  const sources = SOURCE_CATALOG.map((source) => sourceSecretState(source, statusById.get(source.id)));
+  return {
+    status: sources.every((source) => source.canAttemptImmediately) ? 'all_ready' : 'needs_secrets_or_official_feeds',
+    generatedAt: CHECKED_AT,
+    totalSources: sources.length,
+    readySources: sources.filter((source) => source.canAttemptImmediately).length,
+    partialSources: sources.filter((source) => source.setupStatus === 'partial').length,
+    missingSources: sources.filter((source) => source.setupStatus === 'missing').length,
+    sources,
+    nextSecretNames: Array.from(new Set(sources
+      .filter((source) => !source.canAttemptImmediately)
+      .flatMap((source) => source.missingSecretNames)))
+      .slice(0, 40),
+    note: 'Secret 값은 저장하거나 출력하지 않고, 이름과 준비 상태만 기록한다.'
+  };
 }
 
 function reviewItem(item) {
@@ -1371,7 +1722,7 @@ async function main() {
   results.push(await fetchWork24OpenRecruit());
   results.push(await fetchJobAlioRecruit());
   results.push(await fetchSaraminJobSearch());
-  results.push(...pendingCatalogSources());
+  results.push(...await pendingCatalogSources());
 
   const currentItems = dedupeAndSort(results.flatMap((result) => result.items));
   const items = currentItems.length
@@ -1395,6 +1746,7 @@ async function main() {
   const staleFallbackItems = items.filter((item) => item.staleSourceFallback).length;
   const sourcesConfigured = sourceStatusList.filter((source) => source.configured).length;
   const collectionReview = buildCollectionReview(items, sourceStatusList);
+  const secretReadiness = buildSecretReadinessReport(sourceStatusList);
 
   const payload = {
     version: 3,
@@ -1418,6 +1770,8 @@ async function main() {
       staleFallbackItems,
       sourcesChecked: sourceStatusList.length,
       sourcesConfigured,
+      sourcesReady: secretReadiness.readySources,
+      sourcesMissingSetup: secretReadiness.missingSources,
       note: staleFallbackItems
         ? '현재 실행에서 신규 수집이 0건이라 직전 정상 공고를 임시 보존하고 공식 소스 점검이 필요합니다.'
         : sourcesConfigured
@@ -1425,6 +1779,7 @@ async function main() {
         : '공식 API 키가 아직 연결되지 않아 자동 수집 대기 상태입니다.'
     },
     collectionReview,
+    secretReadiness,
     collectionPolicy: {
       goal: '공채는 공고 게시 첫날 수집을 최대 과제로 삼고, 늦게 발견된 공고는 누락 점검 대상으로 표시한다.',
       firstDayField: 'collectionAudit.firstDayCollected',
@@ -1457,6 +1812,15 @@ async function main() {
 }
 
 main().catch(async (error) => {
+  const sourceStatusList = [
+    sourceStatus({
+      id: 'job-feed-runner',
+      name: '자동 수집 실행기',
+      type: 'runner',
+      sourceUrl: '',
+      configured: true
+    }, { message: error.message })
+  ];
   const payload = {
     version: 3,
     generatedAt: CHECKED_AT,
@@ -1479,6 +1843,8 @@ main().catch(async (error) => {
       staleFallbackItems: 0,
       sourcesChecked: 0,
       sourcesConfigured: 0,
+      sourcesReady: 0,
+      sourcesMissingSetup: SOURCE_CATALOG.length,
       note: '자동 수집 실행 중 오류가 발생했습니다.'
     },
     tracks: [
@@ -1493,15 +1859,8 @@ main().catch(async (error) => {
         description: '필기시험이 확인되지 않은 중견기업 중심 채용. 핵심 조건만 간단히 제공하고 세부 조건은 회사 확인을 안내한다.'
       }
     ],
-    sourceStatus: [
-      sourceStatus({
-        id: 'job-feed-runner',
-        name: '자동 수집 실행기',
-        type: 'runner',
-        sourceUrl: '',
-        configured: true
-      }, { message: error.message })
-    ],
+    secretReadiness: buildSecretReadinessReport(sourceStatusList),
+    sourceStatus: sourceStatusList,
     items: []
   };
   await fs.mkdir(path.dirname(OUT_FILE), { recursive: true });
