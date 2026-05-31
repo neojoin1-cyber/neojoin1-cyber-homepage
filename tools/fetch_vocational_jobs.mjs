@@ -13,6 +13,8 @@ const NOW = new Date();
 const CHECKED_AT = NOW.toISOString();
 const MAX_ITEMS = 40;
 const REQUEST_TIMEOUT_MS = 18000;
+const APPLICATION_CLOSED_RETAIN_DAYS = 21;
+const JOB_ALIO_SCAN_LIMIT = 40;
 
 const HIGH_SCHOOL_TERMS = [
   '고졸',
@@ -303,6 +305,8 @@ async function fetchWithTimeout(url, options = {}) {
       signal: controller.signal,
       headers: {
         'User-Agent': 'GYO6 vocational job feed (+https://gyo6.kr)',
+        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,application/json;q=0.8,*/*;q=0.7',
+        'Accept-Language': 'ko-KR,ko;q=0.9,en;q=0.6',
         ...(fetchOptions.headers || {})
       }
     });
@@ -339,6 +343,8 @@ function fetchWithNodeHttp(url, options = {}, timeoutMs = REQUEST_TIMEOUT_MS) {
       timeout: timeoutMs,
       headers: {
         'User-Agent': 'GYO6 vocational job feed (+https://gyo6.kr)',
+        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,application/json;q=0.8,*/*;q=0.7',
+        'Accept-Language': 'ko-KR,ko;q=0.9,en;q=0.6',
         ...(options.headers || {})
       }
     }, (response) => {
@@ -466,6 +472,13 @@ function daysUntil(date) {
   return Math.round((targetKst.getTime() - nowKst.getTime()) / 86400000);
 }
 
+function daysBetweenKst(startDate, endDate) {
+  if (!startDate || !endDate) return null;
+  const start = new Date(`${formatDate(startDate)}T00:00:00+09:00`);
+  const end = new Date(`${formatDate(endDate)}T00:00:00+09:00`);
+  return Math.round((end.getTime() - start.getTime()) / 86400000);
+}
+
 function cleanUrl(value) {
   const raw = normalizeSpace(value);
   if (!raw) return '';
@@ -486,6 +499,12 @@ function catalogSource(id) {
 
 function includesAny(value, terms) {
   return terms.some((term) => value.includes(term));
+}
+
+function withApplicationClosedSuffix(title) {
+  const normalized = normalizeSpace(title);
+  if (!normalized) return normalized;
+  return normalized.endsWith('(원서 마감)') ? normalized : `${normalized}(원서 마감)`;
 }
 
 function sectorLabel(sector) {
@@ -593,26 +612,30 @@ function buildSourceVerification(raw, process, displayUrl) {
   if (isPublicRecruit) {
     if (hasCompanyNotice && check.status === 'content_matched') {
       doubleCheckStatus = 'company_notice_confirmed';
-      doubleCheckLabel = '회사 공고 2중확인';
-      verificationNote = '공식 채용 소스와 회사·기관 공지사항 내용을 함께 확인했습니다.';
+      doubleCheckLabel = '공식 공고 2중확인';
+      verificationNote = '공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다.';
     } else if (hasCompanyNotice && check.reachable) {
       doubleCheckStatus = 'company_notice_reachable';
-      doubleCheckLabel = '회사 공고 접속확인';
-      verificationNote = '공식 채용 소스와 회사·기관 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다.';
+      doubleCheckLabel = '공식 공고 접속확인';
+      verificationNote = '공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다.';
     } else if (hasCompanyNotice) {
       doubleCheckStatus = 'company_notice_linked';
-      doubleCheckLabel = '회사 공고 링크확인';
-      verificationNote = '공식 채용 소스에서 회사·기관 공지사항 링크를 확보했습니다. 접속 또는 본문 대조는 추가 확인이 필요합니다.';
+      doubleCheckLabel = '공식 공고 링크확인';
+      verificationNote = '공식 채용 소스에서 회사·기관 또는 채용대행 공식 공지사항 링크를 확보했습니다. 접속 또는 본문 대조는 추가 확인이 필요합니다.';
     } else {
       doubleCheckStatus = 'company_notice_required';
-      doubleCheckLabel = '회사 공고 확인필요';
-      verificationNote = '공채 상세 제공 전 회사·기관 공식 공지사항 2중 확인이 필요합니다.';
+      doubleCheckLabel = '공식 공고 확인필요';
+      verificationNote = '공채 상세 제공 전 회사·기관 또는 채용대행 공식 공지사항 2중 확인이 필요합니다.';
     }
   }
 
   return {
     sourceOfficialUrl: sourceOfficialUrl || displayOfficialUrl,
     companyNoticeUrl,
+    primaryOfficialUrl: companyNoticeUrl || sourceOfficialUrl || displayOfficialUrl,
+    officialNoticePriority: companyNoticeUrl
+      ? 'company-or-agency-notice-first'
+      : 'source-official-pending-company-or-agency-notice',
     companyNoticeCheckStatus: check.status || (hasCompanyNotice ? 'link_found' : 'not_found'),
     companyNoticeReachable: Boolean(check.reachable),
     companyNoticeMatched: Boolean(check.titleMatched || check.companyMatched),
@@ -631,9 +654,9 @@ function buildServicePolicy(process, verification) {
       servicePolicyLabel: isDetailed ? '공채 상세' : '공채 상세 확인중',
       detailLevel: isDetailed ? 'detailed-public-recruit' : 'official-summary-pending-company-check',
       displayNote: isDetailed
-        ? '회사·기관 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.'
-        : '공채 후보로 우선 표시하되 회사·기관 공지사항 2중 확인 전에는 상세 확정으로 보지 않습니다.',
-      contactAdvice: '지원 전 회사·기관 채용 공지와 첨부 공고문, 접수 시스템을 다시 확인하세요.'
+        ? '회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.'
+        : '공채 후보로 우선 표시하되 회사·기관 또는 채용대행 공식 공지사항 2중 확인 전에는 상세 확정으로 보지 않습니다.',
+      contactAdvice: '지원 전 회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문을 다시 확인하세요.'
     };
   }
 
@@ -643,6 +666,36 @@ function buildServicePolicy(process, verification) {
     detailLevel: 'brief-company-contact',
     displayNote: '필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다.',
     contactAdvice: '근무조건, 급여, 제출서류, 미성년자 근로 가능 여부는 회사 공식 공고 또는 인사담당자에게 확인하세요.'
+  };
+}
+
+function buildCollectionAudit(raw, publishedDate, firstSeenAt = CHECKED_AT) {
+  const publishedAt = publishedDate ? publishedDate.toISOString() : '';
+  const publishedDay = formatDate(publishedDate);
+  const firstSeenDate = parseDate(firstSeenAt) || NOW;
+  const firstSeenDay = formatDate(firstSeenDate);
+  const detectionLagDays = publishedDate ? daysBetweenKst(publishedDate, firstSeenDate) : null;
+
+  let firstDayStatus = 'unknown';
+  if (detectionLagDays === 0) firstDayStatus = 'first_day';
+  else if (detectionLagDays === 1) firstDayStatus = 'next_day';
+  else if (detectionLagDays !== null && detectionLagDays > 1) firstDayStatus = 'late_detected';
+
+  return {
+    policy: 'public-recruit-first-day-collection',
+    publishedAt,
+    publishedDate: publishedDay,
+    firstSeenAt,
+    firstSeenDate: firstSeenDay,
+    detectionLagDays,
+    firstDayCollected: detectionLagDays === 0,
+    missedReviewNeeded: detectionLagDays === null || detectionLagDays > 0,
+    firstDayStatus,
+    note: detectionLagDays === 0
+      ? '공고 게시 첫날 자동 수집 대상입니다.'
+      : detectionLagDays === null
+        ? '공고 게시일 확인이 필요합니다.'
+        : `공고 게시 후 ${detectionLagDays}일 뒤 자동 수집되어 누락 여부 점검 대상입니다.`
   };
 }
 
@@ -712,7 +765,7 @@ function scoreItem(raw) {
 }
 
 function normalizeItem(raw) {
-  const title = normalizeSpace(raw.title);
+  const baseTitle = normalizeSpace(raw.title);
   const company = normalizeSpace(raw.company);
   const deadlineDate = parseDate(raw.deadline || raw.deadlineTimestamp);
   const deadline = formatDate(deadlineDate);
@@ -722,8 +775,12 @@ function normalizeItem(raw) {
   const process = classifyProcess(raw);
   const sourceVerification = buildSourceVerification(raw, process, url);
   const servicePolicy = buildServicePolicy(process, sourceVerification);
+  const publishedDate = parseDate(raw.publishedAt || raw.registeredAt || raw.postedAt || raw.openDate || raw.postingDate);
+  const collectionAudit = buildCollectionAudit(raw, publishedDate);
+  const isExamFormal = process.processTrack === 'exam-formal';
+  const daysAfterDeadline = deadlineDistance !== null && deadlineDistance < 0 ? Math.abs(deadlineDistance) : 0;
   const lowerText = [
-    title,
+    baseTitle,
     company,
     raw.education,
     raw.career,
@@ -733,8 +790,11 @@ function normalizeItem(raw) {
   ].join(' ');
 
   let status = 'active';
-  if (deadlineDistance !== null && deadlineDistance < 0) status = 'expired';
+  if (deadlineDistance !== null && deadlineDistance < 0) {
+    status = isExamFormal && daysAfterDeadline <= APPLICATION_CLOSED_RETAIN_DAYS ? 'application_closed' : 'expired';
+  }
   else if (deadlineDistance !== null && deadlineDistance <= 5) status = 'deadline_soon';
+  const title = status === 'application_closed' ? withApplicationClosedSuffix(baseTitle) : baseTitle;
 
   let schoolRecommendation = 'unknown';
   if (lowerText.includes('학교장 추천') || lowerText.includes('학교장추천')) {
@@ -752,10 +812,11 @@ function normalizeItem(raw) {
   ]);
 
   const item = {
-    id: sha([raw.source, raw.sourceId, title, company, deadline, url].join('|')),
+    id: sha([raw.source, raw.sourceId, baseTitle, company, deadline, url].join('|')),
     source: raw.source,
     sourceName: raw.sourceName,
     title,
+    baseTitle,
     company,
     region: normalizeSpace(raw.region) || '원문 확인',
     education: normalizeSpace(raw.education) || '원문 확인',
@@ -763,12 +824,25 @@ function normalizeItem(raw) {
     employmentType: normalizeSpace(raw.employmentType) || '원문 확인',
     detailText: normalizeSpace(raw.description || raw.processText).slice(0, process.processTrack === 'exam-formal' ? 620 : 180),
     deadline,
-    deadlineText: normalizeSpace(raw.deadlineText) || (deadline ? `${deadline} 마감` : '마감일 원문 확인'),
-    url: sourceVerification.companyNoticeUrl || url || sourceVerification.sourceOfficialUrl,
+    deadlineText: status === 'application_closed'
+      ? (deadline ? `${deadline} 원서 마감` : '원서 마감')
+      : normalizeSpace(raw.deadlineText) || (deadline ? `${deadline} 마감` : '마감일 원문 확인'),
+    url: sourceVerification.primaryOfficialUrl || sourceVerification.companyNoticeUrl || url || sourceVerification.sourceOfficialUrl,
     originalUrl: sourceVerification.sourceOfficialUrl || url,
     sourceOfficialUrl: sourceVerification.sourceOfficialUrl,
     companyNoticeUrl: sourceVerification.companyNoticeUrl,
+    primaryOfficialUrl: sourceVerification.primaryOfficialUrl,
+    officialNoticePriority: sourceVerification.officialNoticePriority,
+    supplementarySourceUrls: compactTags([
+      sourceVerification.companyNoticeUrl && sourceVerification.sourceOfficialUrl ? sourceVerification.sourceOfficialUrl : '',
+      sourceVerification.companyNoticeUrl && url !== sourceVerification.companyNoticeUrl ? url : ''
+    ]),
     verifiedAt: CHECKED_AT,
+    publishedAt: collectionAudit.publishedAt,
+    publishedDate: collectionAudit.publishedDate,
+    firstSeenAt: collectionAudit.firstSeenAt,
+    firstSeenDate: collectionAudit.firstSeenDate,
+    collectionAudit,
     fitScore: score.score,
     fitLabels: score.labels.length ? score.labels : ['원문확인'],
     processTrack: process.processTrack,
@@ -790,7 +864,9 @@ function normalizeItem(raw) {
       sourceCheck: sourceVerification.doubleCheckLabel,
       eligibility: [normalizeSpace(raw.education), normalizeSpace(raw.career)].filter(Boolean).join(' · ') || '응시자격 원문 확인',
       process: normalizeSpace(raw.processText || process.processNote).slice(0, 260) || '전형절차 원문 확인',
-      application: normalizeSpace(raw.deadlineText) || (deadline ? `${deadline} 마감` : '마감일 원문 확인')
+      application: status === 'application_closed'
+        ? (deadline ? `${deadline} 원서 마감` : '원서 마감')
+        : normalizeSpace(raw.deadlineText) || (deadline ? `${deadline} 마감` : '마감일 원문 확인')
     } : null,
     schoolRecommendation,
     status,
@@ -804,6 +880,7 @@ function normalizeItem(raw) {
 function shouldKeep(item) {
   if (!item.title || !item.company || !item.url) return false;
   if (item.status === 'expired') return false;
+  if (item.status === 'application_closed' && item.processTrack !== 'exam-formal') return false;
   const text = [item.title, item.company, item.education, item.career, item.employmentType, item.detailText].join(' ');
   const hasStrongHighSchool = STRONG_TERMS.some((term) => text.includes(term));
   if (!hasStrongHighSchool && PROFESSIONAL_ONLY_TERMS.some((term) => text.includes(term))) return false;
@@ -840,7 +917,7 @@ function dedupeAndSort(items) {
       const verificationDiff = (verificationWeight[a.sourceVerification?.doubleCheckStatus] ?? 9)
         - (verificationWeight[b.sourceVerification?.doubleCheckStatus] ?? 9);
       if (verificationDiff !== 0) return verificationDiff;
-      const statusWeight = { deadline_soon: 0, active: 1, needs_review: 2 };
+      const statusWeight = { deadline_soon: 0, active: 1, application_closed: 2, needs_review: 3 };
       const statusDiff = (statusWeight[a.status] ?? 9) - (statusWeight[b.status] ?? 9);
       if (statusDiff !== 0) return statusDiff;
       if (b.fitScore !== a.fitScore) return b.fitScore - a.fitScore;
@@ -869,6 +946,73 @@ function sourceStatus(base, overrides = {}) {
     message: '',
     ...overrides
   };
+}
+
+function previousItemKeys(item) {
+  return [
+    item.id,
+    item.sourceOfficialUrl,
+    item.companyNoticeUrl,
+    [item.source, item.baseTitle || item.title, item.company, item.deadline || ''].join('|').toLowerCase()
+  ].filter(Boolean);
+}
+
+async function readPreviousItems() {
+  try {
+    const json = await fs.readFile(OUT_FILE, 'utf8');
+    const payload = JSON.parse(json);
+    const map = new Map();
+    for (const item of Array.isArray(payload.items) ? payload.items : []) {
+      for (const key of previousItemKeys(item)) {
+        if (!map.has(key)) map.set(key, item);
+      }
+    }
+    return map;
+  } catch {
+    return new Map();
+  }
+}
+
+function mergePreviousAudit(items, previousItems) {
+  return items.map((item) => {
+    const previous = previousItemKeys(item)
+      .map((key) => previousItems.get(key))
+      .find(Boolean);
+    if (!previous) return item;
+
+    const firstSeenAt = previous.firstSeenAt || previous.collectionAudit?.firstSeenAt || item.firstSeenAt || CHECKED_AT;
+    const firstSeenDate = parseDate(firstSeenAt) || NOW;
+    const publishedDate = parseDate(item.publishedDate || item.publishedAt);
+    const collectionAudit = buildCollectionAudit(item, publishedDate, firstSeenAt);
+    return {
+      ...item,
+      firstSeenAt,
+      firstSeenDate: formatDate(firstSeenDate),
+      collectionAudit
+    };
+  });
+}
+
+function fallbackPreviousItems(previousItems) {
+  const seen = new Set();
+  const items = [];
+  for (const item of previousItems.values()) {
+    if (!item?.id || seen.has(item.id)) continue;
+    seen.add(item.id);
+    items.push({
+      ...item,
+      staleSourceFallback: true,
+      verifiedAt: CHECKED_AT,
+      displayNote: `${item.displayNote || '공식 원문 확인 필요'} 현재 실행에서 신규 수집이 0건이라 직전 정상 데이터를 임시 보존했습니다.`,
+      collectionAudit: {
+        ...(item.collectionAudit || {}),
+        missedReviewNeeded: true,
+        fallbackFromPreviousRun: true,
+        note: '현재 실행에서 공식 소스 수집이 실패해 직전 정상 데이터가 임시 보존되었습니다.'
+      }
+    });
+  }
+  return items.slice(0, MAX_ITEMS);
 }
 
 async function fetchWork24OpenRecruit() {
@@ -918,6 +1062,7 @@ async function fetchWork24OpenRecruit() {
           employmentType: getXmlText(node, 'empWantedTypeNm'),
           deadline: getXmlText(node, 'empWantedEndt'),
           deadlineText: getXmlText(node, 'empWantedEndt') ? `${getXmlText(node, 'empWantedEndt')} 마감` : '',
+          publishedAt: getXmlText(node, 'regLogImgNm') || getXmlText(node, 'empWantedStdt') || getXmlText(node, 'regDt'),
           url: getXmlText(node, 'empWantedHomepgDetail') || getXmlText(node, 'empWantedMobileUrl'),
           description: [getXmlText(node, 'empWantedTitle'), getXmlText(node, 'coClcdNm')].join(' ')
         });
@@ -991,6 +1136,7 @@ async function fetchJobAlioDetail(row) {
     employmentType,
     deadline,
     deadlineText: deadline ? `${deadline} 마감` : '마감일 원문 확인',
+    publishedAt: row.registeredAt,
     url: companyNoticeUrl || detailUrl,
     originalUrl: detailUrl,
     sourceDetailUrl: detailUrl,
@@ -1012,10 +1158,12 @@ async function fetchJobAlioRecruit() {
   const base = { ...catalogSource('job-alio-openapi'), configured: true };
   const rawItems = [];
   const errors = [];
+  let scannedCount = 0;
 
   try {
     const html = await fetchWithTimeout(JOB_ALIO_RECRUIT_URL);
-    const rows = parseJobAlioRows(html).slice(0, 18);
+    const rows = parseJobAlioRows(html).slice(0, JOB_ALIO_SCAN_LIMIT);
+    scannedCount = rows.length;
     for (const row of rows) {
       try {
         rawItems.push(await fetchJobAlioDetail(row));
@@ -1033,13 +1181,19 @@ async function fetchJobAlioRecruit() {
     'company_notice_confirmed',
     'company_notice_reachable'
   ].includes(item.sourceVerification?.doubleCheckStatus)).length;
+  const firstDayCandidates = normalized.filter((item) => item.collectionAudit?.firstDayCollected).length;
+  const missedReview = normalized.filter((item) => item.collectionAudit?.missedReviewNeeded).length;
   return {
     items: normalized,
     status: sourceStatus(base, {
       ok,
       itemCount: normalized.length,
+      scannedCount,
+      rawItemCount: rawItems.length,
+      firstDayCandidates,
+      missedReviewNeeded: missedReview,
       message: ok
-        ? `공식 공개 원문 확인, 회사 공고 확인 ${companyChecked}건, 후보 ${normalized.length}건`
+        ? `공식 공개 원문 ${scannedCount}건 점검, 공식 공고 확인 ${companyChecked}건, 첫날 수집 ${firstDayCandidates}건, 누락점검 ${missedReview}건`
         : `연결 실패: ${errors.slice(0, 2).join('; ')}`
     })
   };
@@ -1099,6 +1253,7 @@ async function fetchSaraminJobSearch() {
           deadline: textValue(job['expiration-date']),
           deadlineTimestamp: expirationTimestamp,
           deadlineText: textValue(job['close-type']?.name),
+          publishedAt: textValue(job['posting-date'] || job.postingDate),
           url: textValue(job.url),
           description: [
             keywords,
@@ -1158,16 +1313,21 @@ function pendingCatalogSources() {
 }
 
 async function main() {
+  const previousItems = await readPreviousItems();
   const results = [];
   results.push(await fetchWork24OpenRecruit());
   results.push(await fetchJobAlioRecruit());
   results.push(await fetchSaraminJobSearch());
   results.push(...pendingCatalogSources());
 
-  const items = dedupeAndSort(results.flatMap((result) => result.items));
+  const currentItems = dedupeAndSort(results.flatMap((result) => result.items));
+  const items = currentItems.length
+    ? mergePreviousAudit(currentItems, previousItems)
+    : fallbackPreviousItems(previousItems);
   const sourceStatusList = results.map((result) => result.status);
   const active = items.filter((item) => item.status === 'active').length;
   const deadlineSoon = items.filter((item) => item.status === 'deadline_soon').length;
+  const applicationClosed = items.filter((item) => item.status === 'application_closed').length;
   const examFormal = items.filter((item) => item.processTrack === 'exam-formal').length;
   const directInterview = items.filter((item) => item.processTrack === 'direct-interview').length;
   const companyNoticeChecked = items.filter((item) => [
@@ -1176,10 +1336,14 @@ async function main() {
   ].includes(item.sourceVerification?.doubleCheckStatus)).length;
   const detailedPublicRecruit = items.filter((item) => item.detailLevel === 'detailed-public-recruit').length;
   const briefDirect = items.filter((item) => item.detailLevel === 'brief-company-contact').length;
+  const firstDayCollected = items.filter((item) => item.collectionAudit?.firstDayCollected).length;
+  const lateDetected = items.filter((item) => item.collectionAudit?.firstDayStatus === 'late_detected').length;
+  const missedReviewNeeded = items.filter((item) => item.collectionAudit?.missedReviewNeeded).length;
+  const staleFallbackItems = items.filter((item) => item.staleSourceFallback).length;
   const sourcesConfigured = sourceStatusList.filter((source) => source.configured).length;
 
   const payload = {
-    version: 2,
+    version: 3,
     generatedAt: CHECKED_AT,
     timezone: 'Asia/Seoul',
     schedule: '09:10, 14:10, 19:10 KST',
@@ -1188,16 +1352,32 @@ async function main() {
       total: items.length,
       active,
       deadlineSoon,
+      applicationClosed,
       examFormal,
       directInterview,
       companyNoticeChecked,
       detailedPublicRecruit,
       briefDirect,
+      firstDayCollected,
+      lateDetected,
+      missedReviewNeeded,
+      staleFallbackItems,
       sourcesChecked: sourceStatusList.length,
       sourcesConfigured,
-      note: sourcesConfigured
-        ? '공채는 회사·기관 공식 공고 2중 확인 중심으로, 필기 없는 채용은 간단 안내 중심으로 자동 분류했습니다.'
+      note: staleFallbackItems
+        ? '현재 실행에서 신규 수집이 0건이라 직전 정상 공고를 임시 보존하고 공식 소스 점검이 필요합니다.'
+        : sourcesConfigured
+        ? '공채 첫날 수집을 최우선으로 점검하고, 공식 공고 2중 확인 중심으로 자동 분류했습니다.'
         : '공식 API 키가 아직 연결되지 않아 자동 수집 대기 상태입니다.'
+    },
+    collectionPolicy: {
+      goal: '공채는 공고 게시 첫날 수집을 최대 과제로 삼고, 늦게 발견된 공고는 누락 점검 대상으로 표시한다.',
+      firstDayField: 'collectionAudit.firstDayCollected',
+      missedReviewField: 'collectionAudit.missedReviewNeeded',
+      applicationClosedTitleSuffix: '(원서 마감)',
+      applicationClosedRetainDays: APPLICATION_CLOSED_RETAIN_DAYS,
+      jobAlioScanLimit: JOB_ALIO_SCAN_LIMIT,
+      primarySourceRule: '회사·기관 자체 홈페이지 또는 채용대행 공식 공고를 최우선 원문으로 사용하고, 잡알리오·고용24·사람인 등은 보완 출처로 사용한다.'
     },
     tracks: [
       {
@@ -1223,7 +1403,7 @@ async function main() {
 
 main().catch(async (error) => {
   const payload = {
-    version: 2,
+    version: 3,
     generatedAt: CHECKED_AT,
     timezone: 'Asia/Seoul',
     schedule: '09:10, 14:10, 19:10 KST',
@@ -1232,11 +1412,16 @@ main().catch(async (error) => {
       total: 0,
       active: 0,
       deadlineSoon: 0,
+      applicationClosed: 0,
       examFormal: 0,
       directInterview: 0,
       companyNoticeChecked: 0,
       detailedPublicRecruit: 0,
       briefDirect: 0,
+      firstDayCollected: 0,
+      lateDetected: 0,
+      missedReviewNeeded: 0,
+      staleFallbackItems: 0,
       sourcesChecked: 0,
       sourcesConfigured: 0,
       note: '자동 수집 실행 중 오류가 발생했습니다.'
