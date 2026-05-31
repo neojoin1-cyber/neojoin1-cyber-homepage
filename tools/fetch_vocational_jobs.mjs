@@ -1,5 +1,7 @@
 import crypto from 'node:crypto';
 import fs from 'node:fs/promises';
+import http from 'node:http';
+import https from 'node:https';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -192,6 +194,22 @@ const DIRECT_TERMS = [
   '파트타임'
 ];
 
+const COMPANY_NOTICE_TERMS = ['채용', '모집', '공고', '입사지원', '응시자격', '전형절차', '서류전형', '면접전형'];
+const GENERIC_NOTICE_TERMS = new Set([
+  '채용',
+  '모집',
+  '공고',
+  '직원',
+  '기간제',
+  '근로자',
+  '신입',
+  '경력',
+  '공개',
+  '무관',
+  '계약직',
+  '정규직'
+]);
+
 const SECTOR_TERMS = {
   military: ['부사관', '군무원', '육군', '해군', '공군', '해병대', '국방부'],
   government: ['공무원', '공무직', '임기제', '기간제근로자', '나라일터', '인사혁신처'],
@@ -276,15 +294,16 @@ function buildUrl(baseUrl, params) {
 }
 
 async function fetchWithTimeout(url, options = {}) {
+  const { timeoutMs = REQUEST_TIMEOUT_MS, ...fetchOptions } = options;
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
   try {
     const response = await fetch(url, {
-      ...options,
+      ...fetchOptions,
       signal: controller.signal,
       headers: {
         'User-Agent': 'GYO6 vocational job feed (+https://gyo6.kr)',
-        ...(options.headers || {})
+        ...(fetchOptions.headers || {})
       }
     });
     const body = await response.text();
@@ -292,8 +311,98 @@ async function fetchWithTimeout(url, options = {}) {
       throw new Error(`HTTP ${response.status}`);
     }
     return body;
+  } catch (error) {
+    try {
+      return await fetchWithNodeHttp(url, fetchOptions, timeoutMs);
+    } catch (fallbackError) {
+      const cause = error.cause?.code || error.message;
+      throw new Error(`${fallbackError.message}; fetch fallback after ${cause}`);
+    }
   } finally {
     clearTimeout(timer);
+  }
+}
+
+function fetchWithNodeHttp(url, options = {}, timeoutMs = REQUEST_TIMEOUT_MS) {
+  return new Promise((resolve, reject) => {
+    let parsed;
+    try {
+      parsed = new URL(url);
+    } catch (error) {
+      reject(error);
+      return;
+    }
+
+    const client = parsed.protocol === 'https:' ? https : http;
+    const request = client.request(parsed, {
+      method: options.method || 'GET',
+      timeout: timeoutMs,
+      headers: {
+        'User-Agent': 'GYO6 vocational job feed (+https://gyo6.kr)',
+        ...(options.headers || {})
+      }
+    }, (response) => {
+      const chunks = [];
+      response.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
+      response.on('end', () => {
+        const body = Buffer.concat(chunks).toString('utf8');
+        if (response.statusCode < 200 || response.statusCode >= 300) {
+          reject(new Error(`HTTP ${response.statusCode}`));
+          return;
+        }
+        resolve(body);
+      });
+    });
+
+    request.on('timeout', () => request.destroy(new Error('HTTP timeout')));
+    request.on('error', reject);
+    if (options.body) request.write(options.body);
+    request.end();
+  });
+}
+
+function significantTerms(value, limit = 8) {
+  return Array.from(new Set(normalizeSpace(value)
+    .replace(/[()[\]{}"'“”‘’]/g, ' ')
+    .split(/[\s·,./_\-:|]+/)
+    .map((term) => term.trim())
+    .filter((term) => term.length >= 2 && !GENERIC_NOTICE_TERMS.has(term))))
+    .slice(0, limit);
+}
+
+async function checkCompanyNoticeUrl(url, company, title) {
+  const companyNoticeUrl = cleanUrl(url);
+  if (!companyNoticeUrl) {
+    return {
+      status: 'not_found',
+      reachable: false,
+      checkedAt: CHECKED_AT
+    };
+  }
+
+  try {
+    const html = await fetchWithTimeout(companyNoticeUrl, { timeoutMs: 8000 });
+    const text = htmlText(html).slice(0, 50000);
+    const companyMatched = includesAny(text, significantTerms(company, 4));
+    const titleMatched = includesAny(text, significantTerms(title, 8));
+    const processMatched = includesAny(text, COMPANY_NOTICE_TERMS);
+    const matched = titleMatched || (companyMatched && processMatched);
+
+    return {
+      status: matched ? 'content_matched' : 'reachable_unmatched',
+      reachable: true,
+      companyMatched,
+      titleMatched,
+      processMatched,
+      checkedAt: CHECKED_AT
+    };
+  } catch (error) {
+    return {
+      status: 'fetch_failed',
+      reachable: false,
+      error: normalizeSpace(error.message).slice(0, 90),
+      checkedAt: CHECKED_AT
+    };
   }
 }
 
@@ -467,6 +576,76 @@ function classifyProcess(raw) {
   };
 }
 
+function buildSourceVerification(raw, process, displayUrl) {
+  const source = catalogSource(raw.source);
+  const sourceOfficialUrl = cleanUrl(raw.sourceDetailUrl || raw.portalUrl || raw.originalUrl || source?.sourceUrl || '');
+  const explicitCompanyNoticeUrl = cleanUrl(raw.companyNoticeUrl || raw.companyNotice || raw.companyUrl || '');
+  const displayOfficialUrl = cleanUrl(displayUrl);
+  const companyNoticeUrl = explicitCompanyNoticeUrl;
+  const check = raw.companyNoticeCheck || {};
+  const hasCompanyNotice = Boolean(companyNoticeUrl);
+  const isPublicRecruit = process.processTrack === 'exam-formal';
+
+  let doubleCheckStatus = 'company_contact_recommended';
+  let doubleCheckLabel = '회사 확인 권고';
+  let verificationNote = '필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.';
+
+  if (isPublicRecruit) {
+    if (hasCompanyNotice && check.status === 'content_matched') {
+      doubleCheckStatus = 'company_notice_confirmed';
+      doubleCheckLabel = '회사 공고 2중확인';
+      verificationNote = '공식 채용 소스와 회사·기관 공지사항 내용을 함께 확인했습니다.';
+    } else if (hasCompanyNotice && check.reachable) {
+      doubleCheckStatus = 'company_notice_reachable';
+      doubleCheckLabel = '회사 공고 접속확인';
+      verificationNote = '공식 채용 소스와 회사·기관 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다.';
+    } else if (hasCompanyNotice) {
+      doubleCheckStatus = 'company_notice_linked';
+      doubleCheckLabel = '회사 공고 링크확인';
+      verificationNote = '공식 채용 소스에서 회사·기관 공지사항 링크를 확보했습니다. 접속 또는 본문 대조는 추가 확인이 필요합니다.';
+    } else {
+      doubleCheckStatus = 'company_notice_required';
+      doubleCheckLabel = '회사 공고 확인필요';
+      verificationNote = '공채 상세 제공 전 회사·기관 공식 공지사항 2중 확인이 필요합니다.';
+    }
+  }
+
+  return {
+    sourceOfficialUrl: sourceOfficialUrl || displayOfficialUrl,
+    companyNoticeUrl,
+    companyNoticeCheckStatus: check.status || (hasCompanyNotice ? 'link_found' : 'not_found'),
+    companyNoticeReachable: Boolean(check.reachable),
+    companyNoticeMatched: Boolean(check.titleMatched || check.companyMatched),
+    companyNoticeCheckedAt: check.checkedAt || '',
+    doubleCheckStatus,
+    doubleCheckLabel,
+    verificationNote
+  };
+}
+
+function buildServicePolicy(process, verification) {
+  if (process.processTrack === 'exam-formal') {
+    const isDetailed = ['company_notice_confirmed', 'company_notice_reachable'].includes(verification.doubleCheckStatus);
+    return {
+      servicePriority: 'primary-public-recruit',
+      servicePolicyLabel: isDetailed ? '공채 상세' : '공채 상세 확인중',
+      detailLevel: isDetailed ? 'detailed-public-recruit' : 'official-summary-pending-company-check',
+      displayNote: isDetailed
+        ? '회사·기관 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.'
+        : '공채 후보로 우선 표시하되 회사·기관 공지사항 2중 확인 전에는 상세 확정으로 보지 않습니다.',
+      contactAdvice: '지원 전 회사·기관 채용 공지와 첨부 공고문, 접수 시스템을 다시 확인하세요.'
+    };
+  }
+
+  return {
+    servicePriority: 'support-brief-direct',
+    servicePolicyLabel: '간단 안내',
+    detailLevel: 'brief-company-contact',
+    displayNote: '필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다.',
+    contactAdvice: '근무조건, 급여, 제출서류, 미성년자 근로 가능 여부는 회사 공식 공고 또는 인사담당자에게 확인하세요.'
+  };
+}
+
 function scoreItem(raw) {
   const haystack = [
     raw.title,
@@ -541,13 +720,16 @@ function normalizeItem(raw) {
   const url = cleanUrl(raw.url || raw.originalUrl);
   const score = scoreItem(raw);
   const process = classifyProcess(raw);
+  const sourceVerification = buildSourceVerification(raw, process, url);
+  const servicePolicy = buildServicePolicy(process, sourceVerification);
   const lowerText = [
     title,
     company,
     raw.education,
     raw.career,
     raw.employmentType,
-    raw.description
+    raw.description,
+    raw.processText
   ].join(' ');
 
   let status = 'active';
@@ -579,11 +761,13 @@ function normalizeItem(raw) {
     education: normalizeSpace(raw.education) || '원문 확인',
     career: normalizeSpace(raw.career) || '원문 확인',
     employmentType: normalizeSpace(raw.employmentType) || '원문 확인',
-    detailText: normalizeSpace(raw.description || raw.processText).slice(0, 360),
+    detailText: normalizeSpace(raw.description || raw.processText).slice(0, process.processTrack === 'exam-formal' ? 620 : 180),
     deadline,
     deadlineText: normalizeSpace(raw.deadlineText) || (deadline ? `${deadline} 마감` : '마감일 원문 확인'),
-    url,
-    originalUrl: url,
+    url: sourceVerification.companyNoticeUrl || url || sourceVerification.sourceOfficialUrl,
+    originalUrl: sourceVerification.sourceOfficialUrl || url,
+    sourceOfficialUrl: sourceVerification.sourceOfficialUrl,
+    companyNoticeUrl: sourceVerification.companyNoticeUrl,
     verifiedAt: CHECKED_AT,
     fitScore: score.score,
     fitLabels: score.labels.length ? score.labels : ['원문확인'],
@@ -595,6 +779,19 @@ function normalizeItem(raw) {
     processNote: process.processNote,
     sector: process.sector,
     sectorName: process.sectorName,
+    sourceVerification,
+    servicePriority: servicePolicy.servicePriority,
+    servicePolicyLabel: servicePolicy.servicePolicyLabel,
+    detailLevel: servicePolicy.detailLevel,
+    displayNote: servicePolicy.displayNote,
+    contactAdvice: servicePolicy.contactAdvice,
+    publicRecruitDetails: process.processTrack === 'exam-formal' ? {
+      companyNotice: sourceVerification.companyNoticeUrl ? '회사·기관 공식 공고 확인' : '회사·기관 공식 공고 확인 필요',
+      sourceCheck: sourceVerification.doubleCheckLabel,
+      eligibility: [normalizeSpace(raw.education), normalizeSpace(raw.career)].filter(Boolean).join(' · ') || '응시자격 원문 확인',
+      process: normalizeSpace(raw.processText || process.processNote).slice(0, 260) || '전형절차 원문 확인',
+      application: normalizeSpace(raw.deadlineText) || (deadline ? `${deadline} 마감` : '마감일 원문 확인')
+    } : null,
     schoolRecommendation,
     status,
     legalCheckFlags,
@@ -630,6 +827,19 @@ function dedupeAndSort(items) {
 
   return Array.from(seen.values())
     .sort((a, b) => {
+      const trackWeight = { 'exam-formal': 0, 'direct-interview': 1 };
+      const trackDiff = (trackWeight[a.processTrack] ?? 9) - (trackWeight[b.processTrack] ?? 9);
+      if (trackDiff !== 0) return trackDiff;
+      const verificationWeight = {
+        company_notice_confirmed: 0,
+        company_notice_reachable: 1,
+        company_notice_linked: 2,
+        company_notice_required: 3,
+        company_contact_recommended: 4
+      };
+      const verificationDiff = (verificationWeight[a.sourceVerification?.doubleCheckStatus] ?? 9)
+        - (verificationWeight[b.sourceVerification?.doubleCheckStatus] ?? 9);
+      if (verificationDiff !== 0) return verificationDiff;
       const statusWeight = { deadline_soon: 0, active: 1, needs_review: 2 };
       const statusDiff = (statusWeight[a.status] ?? 9) - (statusWeight[b.status] ?? 9);
       if (statusDiff !== 0) return statusDiff;
@@ -766,6 +976,8 @@ async function fetchJobAlioDetail(row) {
   const preference = extractBetween(text, '우대내용', '전형절차/방법');
   const processText = extractBetween(text, '전형절차/방법', '공고문');
   const deadline = row.deadline.match(/\d{2}\.\d{2}\.\d{2}/)?.[0] || row.deadline;
+  const companyNoticeUrl = originalUrl ? cleanUrl(originalUrl[1]) : '';
+  const companyNoticeCheck = await checkCompanyNoticeUrl(companyNoticeUrl, row.company, row.title);
 
   return {
     source: 'job-alio-openapi',
@@ -779,8 +991,11 @@ async function fetchJobAlioDetail(row) {
     employmentType,
     deadline,
     deadlineText: deadline ? `${deadline} 마감` : '마감일 원문 확인',
-    url: originalUrl ? originalUrl[1] : detailUrl,
+    url: companyNoticeUrl || detailUrl,
     originalUrl: detailUrl,
+    sourceDetailUrl: detailUrl,
+    companyNoticeUrl,
+    companyNoticeCheck,
     processText,
     description: [
       workField,
@@ -814,13 +1029,17 @@ async function fetchJobAlioRecruit() {
 
   const normalized = rawItems.map(normalizeItem).filter(shouldKeep);
   const ok = rawItems.length > 0 && errors.length < Math.max(1, rawItems.length);
+  const companyChecked = normalized.filter((item) => [
+    'company_notice_confirmed',
+    'company_notice_reachable'
+  ].includes(item.sourceVerification?.doubleCheckStatus)).length;
   return {
     items: normalized,
     status: sourceStatus(base, {
       ok,
       itemCount: normalized.length,
       message: ok
-        ? `공식 공개 원문 확인, 후보 ${normalized.length}건`
+        ? `공식 공개 원문 확인, 회사 공고 확인 ${companyChecked}건, 후보 ${normalized.length}건`
         : `연결 실패: ${errors.slice(0, 2).join('; ')}`
     })
   };
@@ -951,36 +1170,45 @@ async function main() {
   const deadlineSoon = items.filter((item) => item.status === 'deadline_soon').length;
   const examFormal = items.filter((item) => item.processTrack === 'exam-formal').length;
   const directInterview = items.filter((item) => item.processTrack === 'direct-interview').length;
+  const companyNoticeChecked = items.filter((item) => [
+    'company_notice_confirmed',
+    'company_notice_reachable'
+  ].includes(item.sourceVerification?.doubleCheckStatus)).length;
+  const detailedPublicRecruit = items.filter((item) => item.detailLevel === 'detailed-public-recruit').length;
+  const briefDirect = items.filter((item) => item.detailLevel === 'brief-company-contact').length;
   const sourcesConfigured = sourceStatusList.filter((source) => source.configured).length;
 
   const payload = {
-    version: 1,
+    version: 2,
     generatedAt: CHECKED_AT,
     timezone: 'Asia/Seoul',
     schedule: '09:10, 14:10, 19:10 KST',
-    mode: 'official-api-auto-registration',
+    mode: 'official-public-recruit-auto-registration',
     summary: {
       total: items.length,
       active,
       deadlineSoon,
       examFormal,
       directInterview,
+      companyNoticeChecked,
+      detailedPublicRecruit,
+      briefDirect,
       sourcesChecked: sourceStatusList.length,
       sourcesConfigured,
       note: sourcesConfigured
-        ? '공식 API 응답을 정규화하고 전형유형별로 자동 분류했습니다.'
+        ? '공채는 회사·기관 공식 공고 2중 확인 중심으로, 필기 없는 채용은 간단 안내 중심으로 자동 분류했습니다.'
         : '공식 API 키가 아직 연결되지 않아 자동 수집 대기 상태입니다.'
     },
     tracks: [
       {
         id: 'exam-formal',
         name: '필기·공식전형 공채',
-        description: '대기업, 공공기관, 군 부사관·군무원, 정부·비영리기관처럼 필기시험 또는 공식 선발 절차 가능성이 높은 채용'
+        description: '대기업, 공공기관, 군 부사관·군무원, 정부·비영리기관처럼 공식 공채 절차가 있는 채용. 회사·기관 공지사항 2중 확인 후 상세 제공한다.'
       },
       {
         id: 'direct-interview',
         name: '면접중심·현장형 채용',
-        description: '필기시험이 확인되지 않은 중견·중소기업, 채용연계, 현장형·상시 채용'
+        description: '필기시험이 확인되지 않은 중견기업 중심 채용. 핵심 조건만 간단히 제공하고 세부 조건은 회사 확인을 안내한다.'
       }
     ],
     sourceStatus: sourceStatusList,
@@ -995,17 +1223,20 @@ async function main() {
 
 main().catch(async (error) => {
   const payload = {
-    version: 1,
+    version: 2,
     generatedAt: CHECKED_AT,
     timezone: 'Asia/Seoul',
     schedule: '09:10, 14:10, 19:10 KST',
-    mode: 'official-api-auto-registration',
+    mode: 'official-public-recruit-auto-registration',
     summary: {
       total: 0,
       active: 0,
       deadlineSoon: 0,
       examFormal: 0,
       directInterview: 0,
+      companyNoticeChecked: 0,
+      detailedPublicRecruit: 0,
+      briefDirect: 0,
       sourcesChecked: 0,
       sourcesConfigured: 0,
       note: '자동 수집 실행 중 오류가 발생했습니다.'
@@ -1014,12 +1245,12 @@ main().catch(async (error) => {
       {
         id: 'exam-formal',
         name: '필기·공식전형 공채',
-        description: '대기업, 공공기관, 군 부사관·군무원, 정부·비영리기관처럼 필기시험 또는 공식 선발 절차 가능성이 높은 채용'
+        description: '대기업, 공공기관, 군 부사관·군무원, 정부·비영리기관처럼 공식 공채 절차가 있는 채용. 회사·기관 공지사항 2중 확인 후 상세 제공한다.'
       },
       {
         id: 'direct-interview',
         name: '면접중심·현장형 채용',
-        description: '필기시험이 확인되지 않은 중견·중소기업, 채용연계, 현장형·상시 채용'
+        description: '필기시험이 확인되지 않은 중견기업 중심 채용. 핵심 조건만 간단히 제공하고 세부 조건은 회사 확인을 안내한다.'
       }
     ],
     sourceStatus: [
