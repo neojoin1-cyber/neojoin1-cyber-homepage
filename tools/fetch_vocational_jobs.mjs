@@ -90,6 +90,117 @@ const GENERIC_OFFICIAL_SOURCE_CONFIG = {
   }
 };
 
+const SOURCE_ONBOARDING = {
+  'job-alio-openapi': {
+    priority: 'P0',
+    actionLabel: '이미 자동 수집 중',
+    impact: '공공기관 공개채용의 기본 축이다.',
+    easySteps: ['현재는 추가 작업 없이 공식 공개 목록과 상세 원문을 점검한다.']
+  },
+  'work24-open-recruit': {
+    priority: 'P0',
+    actionLabel: '고용24 인증키 등록',
+    impact: '민간·공공 채용 공고 폭을 넓히는 핵심 공식 API다.',
+    easySteps: [
+      '공공데이터 또는 고용24 OPEN-API 인증키를 확보한다.',
+      'GitHub 저장소 Settings > Secrets and variables > Actions로 이동한다.',
+      'New repository secret에서 WORK24_AUTH_KEY 또는 WORKNET_AUTH_KEY 이름으로 저장한다.'
+    ]
+  },
+  'saramin-job-search': {
+    priority: 'P0',
+    actionLabel: '사람인 API 키 등록',
+    impact: '대기업·중견기업 공채속보 후보를 넓히는 핵심 민간 공식 API다.',
+    easySteps: [
+      '사람인 Open API 접근키를 확보한다.',
+      'GitHub Actions Secret에 SARAMIN_ACCESS_KEY 이름으로 저장한다.',
+      '다음 자동 실행에서 고졸·특성화고·마이스터고 키워드 공채를 점검한다.'
+    ]
+  },
+  'gojobs-narailter': {
+    priority: 'P1',
+    actionLabel: '나라일터 공식 피드 확인',
+    impact: '공무직·정부기관 공개채용과 필기형 전형을 보강한다.',
+    easySteps: [
+      '나라일터 공식 API 또는 허용된 데이터 피드 URL을 확인한다.',
+      '필요하면 키를 NARAILTER_API_KEY, URL을 NARAILTER_API_URL Secret에 저장한다.',
+      'URL이 JSON/XML/RSS이면 범용 공식 피드 어댑터가 먼저 정규화를 시도한다.'
+    ]
+  },
+  'military-recruit': {
+    priority: 'P1',
+    actionLabel: '군 채용 공식 피드 확인',
+    impact: '부사관·군무원·국방 관련 공개채용을 보강한다.',
+    easySteps: [
+      '각 군 또는 국방부 공식 모집/채용 데이터 경로를 확인한다.',
+      '키는 MILITARY_RECRUIT_API_KEY, URL은 MILITARY_RECRUIT_API_URL Secret에 저장한다.',
+      '필기·체력검정·면접 일정이 있는 채용은 필기·공식전형으로 우선 분류한다.'
+    ]
+  },
+  'regional-education-job': {
+    priority: 'P1',
+    actionLabel: '교육청 취업지원센터 피드 묶음 등록',
+    impact: '지역별 특성화고 취업지원센터 소식을 한곳으로 모으는 기반이다.',
+    easySteps: [
+      '교육청별 공식 RSS/API/게시판 피드 URL을 확인한다.',
+      '여러 URL을 줄바꿈 또는 쉼표로 묶어 EDU_JOB_CENTER_FEEDS Secret에 저장한다.',
+      '공식 피드 구조가 확인되면 지역별 어댑터로 정확도를 높인다.'
+    ]
+  },
+  'jobkorea-rookie': {
+    priority: 'P2',
+    actionLabel: '잡코리아 공식 제휴/API 확인',
+    impact: '고졸채용 루키와 중견기업 채용 후보를 보강한다.',
+    easySteps: [
+      '잡코리아 공식 제휴 또는 허용된 API 경로를 확인한다.',
+      '키는 JOBKOREA_API_KEY, URL은 JOBKOREA_API_URL Secret에 저장한다.',
+      '필기 없는 채용은 간단 정보와 회사 확인 안내 중심으로 표시한다.'
+    ]
+  },
+  'incruit-highschool': {
+    priority: 'P2',
+    actionLabel: '인크루트 공식 제휴/API 확인',
+    impact: '고졸·신입·중견기업 채용 후보를 보강한다.',
+    easySteps: [
+      '인크루트 공식 제휴 또는 허용된 API 경로를 확인한다.',
+      '키는 INCRUIT_API_KEY, URL은 INCRUIT_API_URL Secret에 저장한다.',
+      '공채 성격이 강한 건은 회사 공식 공고 확인 후 상세화한다.'
+    ]
+  },
+  'nonprofit-recruit': {
+    priority: 'P2',
+    actionLabel: '비영리·공익기관 공식 피드 확인',
+    impact: '재단·협회·공익기관 공개채용 후보를 보강한다.',
+    easySteps: [
+      '비영리기관 공식 채용 피드 또는 API 경로를 확인한다.',
+      '키는 NONPROFIT_RECRUIT_API_KEY, URL은 NONPROFIT_RECRUIT_API_URL Secret에 저장한다.',
+      '공개채용·필기형 전형 여부를 원문 중심으로 분류한다.'
+    ]
+  },
+  'albamon-youth': {
+    priority: 'P3',
+    actionLabel: '알바몬 공식 제휴/API 확인',
+    impact: '청소년·고졸 가능 일자리 중 간단 안내 대상을 보강한다.',
+    easySteps: [
+      '알바몬 공식 제휴/API 경로를 확인한다.',
+      '키는 ALBAMON_API_KEY, URL은 ALBAMON_API_URL Secret에 저장한다.',
+      '공채 중심 서비스의 보조 정보로만 간단 표시한다.'
+    ]
+  },
+  'alba-youth': {
+    priority: 'P3',
+    actionLabel: '알바천국 공식 제휴/API 확인',
+    impact: '청소년·고졸 가능 시간제 채용 후보를 보조적으로 확인한다.',
+    easySteps: [
+      '알바천국 공식 제휴/API 경로를 확인한다.',
+      '키는 ALBA_API_KEY, URL은 ALBA_API_URL Secret에 저장한다.',
+      '공채 중심 서비스와 혼동되지 않게 간단 안내로만 표시한다.'
+    ]
+  }
+};
+
+const SOURCE_PRIORITY_WEIGHT = { P0: 0, P1: 1, P2: 2, P3: 3 };
+
 const SOURCE_CATALOG = [
   {
     id: 'work24-open-recruit',
@@ -1613,6 +1724,7 @@ async function pendingCatalogSources() {
 }
 
 function sourceSecretState(source, status) {
+  const onboarding = SOURCE_ONBOARDING[source.id] || {};
   const requiredSecrets = secretNamesForSource(source);
   const configuredSecrets = requiredSecrets.filter(hasSecret);
   const missingSecrets = requiredSecrets.filter((secretName) => !hasSecret(secretName));
@@ -1632,6 +1744,7 @@ function sourceSecretState(source, status) {
   return {
     id: source.id,
     name: source.name,
+    priority: onboarding.priority || 'P3',
     readiness: source.status,
     type: source.type,
     requiredSecrets,
@@ -1641,13 +1754,32 @@ function sourceSecretState(source, status) {
     setupStatus: ready ? 'ready' : configuredSecrets.length || configuredUrls ? 'partial' : 'missing',
     canAttemptImmediately: ready,
     adapter: source.status === 'active' ? 'native' : genericConfig ? 'generic-official-feed' : 'pending',
-    setupHint: genericConfig?.setupHint || source.message || '공식 API 또는 허용된 피드 경로 확인 필요'
+    actionLabel: onboarding.actionLabel || '공식 연계 경로 확인',
+    impact: onboarding.impact || '특성화고 공개채용 정보 확보 범위를 넓힌다.',
+    setupHint: genericConfig?.setupHint || source.message || '공식 API 또는 허용된 피드 경로 확인 필요',
+    easySteps: onboarding.easySteps || ['공식 API 또는 허용된 피드 경로를 확인한다.', '확보된 Secret 이름을 GitHub Actions Secrets에 저장한다.']
   };
 }
 
 function buildSecretReadinessReport(sourceStatusList) {
   const statusById = new Map(sourceStatusList.map((status) => [status.id, status]));
   const sources = SOURCE_CATALOG.map((source) => sourceSecretState(source, statusById.get(source.id)));
+  const priorityQueue = sources
+    .filter((source) => !source.canAttemptImmediately)
+    .sort((a, b) => {
+      const priorityDiff = (SOURCE_PRIORITY_WEIGHT[a.priority] ?? 9) - (SOURCE_PRIORITY_WEIGHT[b.priority] ?? 9);
+      if (priorityDiff !== 0) return priorityDiff;
+      return a.name.localeCompare(b.name, 'ko-KR');
+    })
+    .map((source) => ({
+      id: source.id,
+      name: source.name,
+      priority: source.priority,
+      actionLabel: source.actionLabel,
+      missingSecretNames: source.missingSecretNames,
+      setupHint: source.setupHint,
+      easySteps: source.easySteps
+    }));
   return {
     status: sources.every((source) => source.canAttemptImmediately) ? 'all_ready' : 'needs_secrets_or_official_feeds',
     generatedAt: CHECKED_AT,
@@ -1656,6 +1788,8 @@ function buildSecretReadinessReport(sourceStatusList) {
     partialSources: sources.filter((source) => source.setupStatus === 'partial').length,
     missingSources: sources.filter((source) => source.setupStatus === 'missing').length,
     sources,
+    priorityQueue,
+    easiestNextAction: priorityQueue[0] || null,
     nextSecretNames: Array.from(new Set(sources
       .filter((source) => !source.canAttemptImmediately)
       .flatMap((source) => source.missingSecretNames)))

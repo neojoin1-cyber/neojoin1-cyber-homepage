@@ -60,6 +60,8 @@
 
 API 키나 공식 피드 URL이 확보되면 저장소 파일에 값을 쓰지 않고 GitHub Actions Secret에만 저장한다. 수집기는 Secret 값은 출력하지 않고, `secretReadiness`에 Secret 이름과 준비 상태만 기록한다.
 
+선생님이 직접 해야 할 일은 [채용정보 API 키 연결 쉬운 순서](JOB_FEED_SECRET_SETUP_SIMPLE.md)에 따로 정리한다.
+
 - `ready`: 즉시 수집 시도 가능
 - `partial`: 키 또는 URL 중 일부만 들어와 추가 설정 필요
 - `missing`: 아직 Secret 또는 공식 피드 경로 없음
