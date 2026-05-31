@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "generatedAt": "2026-05-31T11:00:25.951Z",
+  "timezone": "Asia/Seoul",
+  "schedule": "09:10, 14:10, 19:10 KST",
+  "mode": "official-api-auto-registration",
+  "summary": {
+    "total": 0,
+    "active": 0,
+    "deadlineSoon": 0,
+    "sourcesChecked": 4,
+    "sourcesConfigured": 0,
+    "note": "공식 API 키가 아직 연결되지 않아 자동 수집 대기 상태입니다."
+  },
+  "sourceStatus": [
+    {
+      "id": "work24-open-recruit",
+      "name": "고용24 공채속보",
+      "type": "official-api",
+      "sourceUrl": "https://www.work24.go.kr/cm/openApi/call/wk/callOpenApiSvcInfo210L21.do",
+      "configured": false,
+      "ok": false,
+      "checkedAt": "2026-05-31T11:00:25.951Z",
+      "itemCount": 0,
+      "message": "GitHub Secret WORK24_AUTH_KEY 또는 WORKNET_AUTH_KEY 미설정"
+    },
+    {
+      "id": "saramin-job-search",
+      "name": "사람인 채용공고 API",
+      "type": "official-api",
+      "sourceUrl": "https://oapi.saramin.co.kr/job-search",
+      "configured": false,
+      "ok": false,
+      "checkedAt": "2026-05-31T11:00:25.951Z",
+      "itemCount": 0,
+      "message": "GitHub Secret SARAMIN_ACCESS_KEY 미설정"
+    },
+    {
+      "id": "jobkorea-official",
+      "name": "잡코리아 공식 연계",
+      "type": "official-api-pending",
+      "sourceUrl": "",
+      "configured": false,
+      "ok": false,
+      "checkedAt": "2026-05-31T11:00:25.951Z",
+      "itemCount": 0,
+      "message": "공식 API/제휴 엔드포인트 확인 후 JOBKOREA_API_URL로 연결 예정"
+    },
+    {
+      "id": "regional-youth-job",
+      "name": "지역·공공 청년일자리 API",
+      "type": "official-api-pending",
+      "sourceUrl": "",
+      "configured": false,
+      "ok": false,
+      "checkedAt": "2026-05-31T11:00:25.951Z",
+      "itemCount": 0,
+      "message": "공식 제공 API와 이용조건 확인 후 추가 예정"
+    }
+  ],
+  "items": []
+}

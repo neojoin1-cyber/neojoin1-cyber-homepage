@@ -1,0 +1,45 @@
+name: Update vocational job feed
+
+on:
+  schedule:
+    # 09:10, 14:10, 19:10 KST
+    - cron: "10 0,5,10 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build official API job feed
+        run: node tools/fetch_vocational_jobs.mjs
+        env:
+          WORK24_AUTH_KEY: ${{ secrets.WORK24_AUTH_KEY }}
+          WORKNET_AUTH_KEY: ${{ secrets.WORKNET_AUTH_KEY }}
+          SARAMIN_ACCESS_KEY: ${{ secrets.SARAMIN_ACCESS_KEY }}
+          JOBKOREA_API_KEY: ${{ secrets.JOBKOREA_API_KEY }}
+          JOBKOREA_API_URL: ${{ secrets.JOBKOREA_API_URL }}
+          JOBABA_API_KEY: ${{ secrets.JOBABA_API_KEY }}
+          JOBABA_API_URL: ${{ secrets.JOBABA_API_URL }}
+
+      - name: Commit updated feed
+        run: |
+          if git diff --quiet -- data/job-feed.json; then
+            echo "No job feed changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/job-feed.json
+          git commit -m "Update vocational job feed"
+          git push

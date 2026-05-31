@@ -423,9 +423,9 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
 #page-home .home-body>.job-hub,#page-home .home-body>.home-sec-title,#page-home .home-body>.system-grid,#page-home .home-body>.portal-note,#page-home .home-body>.content-roadmap{display:none!important}
 .platform-home-body{max-width:1180px;margin:0 auto}
 .job-console{display:grid;grid-template-columns:minmax(230px,.46fr) minmax(420px,1fr);gap:18px;margin-bottom:18px}
-.job-intro,.job-feed,.platform-card{background:rgba(255,255,255,.96);border:1px solid #e3ece9;border-radius:15px;box-shadow:0 16px 34px rgba(47,103,96,.08)}
+.job-intro,.job-feed,.platform-card{min-width:0;background:rgba(255,255,255,.96);border:1px solid #e3ece9;border-radius:15px;box-shadow:0 16px 34px rgba(47,103,96,.08)}
 .job-intro{padding:24px}.section-kicker{font-size:11px;color:#16806f;text-transform:uppercase;letter-spacing:.08em;font-weight:900;margin-bottom:5px}.job-intro h2{font-size:21px;line-height:1.35;color:#142234;margin-bottom:12px}.job-intro p{font-size:13px;color:#4c5f69;line-height:1.75;word-break:keep-all}.pill-list{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}.pill-list span{font-size:11px;font-weight:800;color:#276d64;background:#eef8f5;border-radius:999px;padding:5px 10px}
-.job-feed{padding:12px 22px}.feed-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;padding:13px 0;border-bottom:1px solid #e7eeec}.feed-item:last-child{border-bottom:0}.feed-org{display:block;color:#647277;font-size:11px;font-weight:800;margin-bottom:3px}.feed-title{font-size:15px;color:#142234;font-weight:900;line-height:1.35}.feed-meta{font-size:12px;color:#647277;margin-top:3px}.feed-tags{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px}.feed-tags span{font-size:11px;font-weight:800;color:#43746e;background:#eff6f4;border-radius:999px;padding:5px 9px}
+.job-feed{padding:14px 22px}.job-live-toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding-bottom:10px;border-bottom:1px solid #e7eeec}.job-live-toolbar span{font-size:11.5px;font-weight:900;color:#315f58;background:#eff8f5;border:1px solid #d8ebe6;border-radius:999px;padding:5px 10px}.job-live-feed{display:grid}.feed-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;padding:13px 0;border-bottom:1px solid #e7eeec}.feed-item:last-child{border-bottom:0}.feed-org{display:block;color:#647277;font-size:11px;font-weight:800;margin-bottom:3px}.feed-title{font-size:15px;color:#142234;font-weight:900;line-height:1.35}.feed-meta{font-size:12px;color:#647277;margin-top:3px;line-height:1.55;word-break:keep-all}.feed-tags{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px}.feed-tags span{font-size:11px;font-weight:800;color:#43746e;background:#eff6f4;border-radius:999px;padding:5px 9px}.job-empty{display:block;color:#4c5f69}.job-item-link{color:inherit;text-decoration:none}.job-item-link:hover .feed-title{text-decoration:underline;text-underline-offset:3px}.job-card-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}.job-card-meta span{font-size:10.5px;font-weight:800;color:#4b6266;background:#f7fbfa;border:1px solid #e1ece9;border-radius:999px;padding:4px 8px}.job-deadline{justify-self:end;min-width:86px;text-align:center;border:1px solid #d8ebe6;border-radius:10px;padding:7px 9px;background:#f8fcfb;color:#2d665f}.job-deadline b{display:block;font-size:12px}.job-deadline small{display:block;margin-top:2px;font-size:10.5px;color:#6d7c80}.job-deadline.soon{border-color:#f2c98b;background:#fff8eb;color:#8a5a00}.job-source-status{margin-top:10px;padding-top:10px;border-top:1px dashed #dce9e5;font-size:11.5px;color:#68787d;line-height:1.6;word-break:keep-all}
 .platform-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:22px}.flow-card{display:grid;grid-template-columns:42px 1fr;gap:12px;align-items:center;padding:16px;border-radius:14px;background:#f8fbfa;border:1px solid #e6efec}.flow-card b{display:block;font-size:14px;color:#173045;margin-bottom:2px}.flow-card span{font-size:12px;color:#65747b;line-height:1.5}
 .branch-board{margin:0 0 22px;padding:22px;background:#fff;border:1px solid #e0ebe7;border-radius:16px;box-shadow:0 16px 38px rgba(47,103,96,.08)}
 .branch-head{display:grid;grid-template-columns:minmax(0,.9fr) minmax(260px,.8fr);gap:18px;align-items:end;margin-bottom:18px}
@@ -446,7 +446,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
 .philosophy-panel{padding:24px;background:#fcfbf6;border:1px solid #ede6d6;border-radius:16px}.philosophy-panel h3{font-size:18px;color:#142234;margin-bottom:8px}.philosophy-panel>p{font-size:13px;color:#4c5f69;margin-bottom:18px}.expansion-grid{display:grid;grid-template-columns:.75fr 1fr 1fr 1fr;gap:14px}.path-illustration{min-height:138px;border-radius:14px;background:linear-gradient(180deg,#eaf7f4,#fff);position:relative;overflow:hidden}.path-illustration::before{content:'';position:absolute;left:28px;bottom:0;width:92px;height:100px;border-radius:46px 46px 0 0;background:#66a99d;box-shadow:inset -16px 0 rgba(0,0,0,.08)}.path-illustration::after{content:'';position:absolute;left:98px;bottom:-18px;width:150px;height:74px;border-radius:50%;border:18px solid #e4d6a8;border-left-color:transparent;border-bottom-color:transparent;transform:rotate(-18deg)}
 .platform-card{padding:18px;min-height:138px;box-shadow:none}.platform-card small{display:block;color:#16806f;font-weight:900;margin-bottom:8px}.platform-card h4{font-size:16px;color:#142234;margin-bottom:8px}.platform-card p{font-size:12.5px;color:#4c5f69;line-height:1.7;word-break:keep-all}
 @media(max-width:960px){.platform-shell{grid-template-columns:1fr;gap:10px;padding:28px 18px}.platform-direction{max-width:100%}.platform-visual{order:2}.job-console,.expansion-grid,.branch-head{grid-template-columns:1fr}.branch-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.platform-flow{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:720px){#page-home .home-hero{margin-top:0}.platform-title{font-size:30px}.platform-actions{grid-template-columns:repeat(2,minmax(0,1fr));max-width:100%}.platform-visual{min-height:290px;transform:scale(.9);transform-origin:center top;margin-bottom:-26px}.orbit-node{width:58px;height:58px}.node-job{left:3%}.node-company{right:3%}.node-law{left:-2%;bottom:72px}.node-book{right:-2%;bottom:72px}.school-scene{margin-top:46px}.job-console{gap:12px}.feed-item{grid-template-columns:1fr}.feed-tags{justify-content:flex-start}.platform-flow,.branch-grid{grid-template-columns:1fr}.branch-board{padding:16px}.branch-card{min-height:auto}.expansion-grid{gap:10px}.philosophy-panel{padding:18px}}
+@media(max-width:720px){#page-home .home-hero{margin-top:0}#page-home .home-body{padding-left:16px;padding-right:16px}.platform-home-body,.job-console,.job-intro,.job-feed,.platform-flow,.branch-board{width:100%;max-width:100%;overflow:hidden}.platform-title{font-size:30px}.platform-actions{grid-template-columns:repeat(2,minmax(0,1fr));max-width:100%}.platform-visual{min-height:290px;transform:scale(.9);transform-origin:center top;margin-bottom:-26px}.orbit-node{width:58px;height:58px}.node-job{left:3%}.node-company{right:3%}.node-law{left:-2%;bottom:72px}.node-book{right:-2%;bottom:72px}.school-scene{margin-top:46px}.job-console{gap:12px}.job-live-toolbar{justify-content:flex-start}.job-live-toolbar span{max-width:100%;white-space:normal}.feed-item{grid-template-columns:1fr}.feed-tags{justify-content:flex-start}.job-deadline{justify-self:start}.job-intro p,.feed-meta,.job-source-status{word-break:break-all!important;overflow-wrap:anywhere!important}.platform-flow,.branch-grid{grid-template-columns:1fr}.branch-board{padding:16px}.branch-card{min-height:auto}.expansion-grid{gap:10px}.philosophy-panel{padding:18px}}
 @media(max-width:720px){.platform-shell{display:block;padding:28px 16px 20px;overflow:hidden}.platform-sub{max-width:calc(100vw - 56px);word-break:break-all!important;overflow-wrap:anywhere!important}.platform-direction{display:none}.platform-visual{width:100%;min-height:auto;transform:none;margin:18px 0 0;overflow:hidden}.platform-hero-image{width:100%;border-radius:18px;box-shadow:0 18px 42px rgba(47,103,96,.18)}.platform-arc{width:330px;height:180px;top:16px}.school-scene{width:330px;height:225px;margin:46px auto 0}.people{transform:translateX(-50%) scale(.8);transform-origin:center bottom}.node-edu{top:8px}.node-job{left:13%;top:76px}.node-company{right:13%;top:76px}.node-law{left:13%;bottom:44px}.node-book{right:13%;bottom:44px}.orbit-node{width:52px;height:52px;border-radius:16px;font-size:8px}.orbit-node span:last-child{white-space:nowrap}.orbit-node .line-icon{transform:scale(.76)}}
 @media(min-width:721px){.sidebar{display:none !important}}
 </style>
@@ -683,19 +683,21 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
             <span>고졸채용</span><span>기업정보</span><span>학교장 추천</span><span>지도자료</span><span>원문공고</span>
           </div>
         </div>
-        <div class="job-feed" aria-label="공채 정보 예시">
-          <article class="feed-item">
-            <div><span class="feed-org">공채 원문 확인</span><div class="feed-title">고졸 예정자 채용공고 검증 후 공개</div><p class="feed-meta">마감일, 원문 링크, 검증 시각을 함께 표시합니다.</p></div>
-            <div class="feed-tags"><span>원문공고</span><span>마감일</span><span>검증시각</span></div>
-          </article>
-          <article class="feed-item">
-            <div><span class="feed-org">기업·직무 자료</span><div class="feed-title">직무기술서와 자격요건을 학생 눈높이로 정리</div><p class="feed-meta">기업정보, 근무지, 우대조건, 학교장 추천 여부를 분리합니다.</p></div>
-            <div class="feed-tags"><span>직무기술서</span><span>자격요건</span><span>추천여부</span></div>
-          </article>
-          <article class="feed-item">
-            <div><span class="feed-org">지도자료 연결</span><div class="feed-title">자소서·면접·법률 체크를 한 흐름으로 연결</div><p class="feed-meta">담임·취업부·학생이 같은 자료를 보고 준비할 수 있게 설계합니다.</p></div>
-            <div class="feed-tags"><span>지도자료</span><span>법률체크</span><span>전자책</span></div>
-          </article>
+        <div class="job-feed" aria-label="자동 수집 공채 정보">
+          <div class="job-live-toolbar" aria-label="자동 수집 상태">
+            <span id="job-feed-count">자동 수집 준비중</span>
+            <span id="job-feed-verified">검증 시각 확인중</span>
+          </div>
+          <div class="job-live-feed" id="job-live-feed" aria-live="polite">
+            <article class="feed-item job-empty">
+              <div>
+                <span class="feed-org">공식 API 자동 수집</span>
+                <div class="feed-title">고용24·사람인 공식 연계 준비중</div>
+                <p class="feed-meta">수동등록 없이 하루 3회 공식 원문을 확인해 자동 등록하도록 구성합니다.</p>
+              </div>
+            </article>
+          </div>
+          <div class="job-source-status" id="job-source-status">공식 API 연결 상태를 확인하고 있습니다.</div>
         </div>
       </section>
       <section class="platform-flow" aria-label="취업지도 업무 흐름">
@@ -1718,6 +1720,119 @@ function mobGoto(id) {
   }, 120);
 }
 
+const JOB_FEED_URL = 'data/job-feed.json?v=20260531-jobfeed';
+
+function escapeJobHtml(value) {
+  return String(value == null ? '' : value).replace(/[&<>"']/g, function(ch) {
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];
+  });
+}
+
+function formatJobFeedDate(value) {
+  if (!value) return '검증 시각 없음';
+  var date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '검증 시각 확인 필요';
+  return new Intl.DateTimeFormat('ko-KR', {
+    timeZone: 'Asia/Seoul',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit'
+  }).format(date) + ' 확인';
+}
+
+function jobStatusLabel(status) {
+  if (status === 'deadline_soon') return '마감임박';
+  if (status === 'active') return '진행중';
+  if (status === 'needs_review') return '확인필요';
+  return '원문확인';
+}
+
+function renderJobTags(item) {
+  var tags = (item.fitLabels && item.fitLabels.length ? item.fitLabels : item.guideTags || []).slice(0, 4);
+  return tags.map(function(tag) {
+    return '<span>' + escapeJobHtml(tag) + '</span>';
+  }).join('');
+}
+
+function renderJobItem(item) {
+  var title = escapeJobHtml(item.title || '채용공고명 확인 필요');
+  var company = escapeJobHtml(item.company || '기업명 확인 필요');
+  var meta = [
+    item.region || '지역 원문 확인',
+    item.education || '학력 원문 확인',
+    item.employmentType || '고용형태 원문 확인'
+  ].map(escapeJobHtml).join(' · ');
+  var deadline = escapeJobHtml(item.deadlineText || item.deadline || '마감일 원문 확인');
+  var status = jobStatusLabel(item.status);
+  var deadlineClass = item.status === 'deadline_soon' ? 'job-deadline soon' : 'job-deadline';
+  var url = escapeJobHtml(item.url || '#');
+
+  return [
+    '<article class="feed-item">',
+      '<a class="job-item-link" href="' + url + '" target="_blank" rel="noopener noreferrer">',
+        '<span class="feed-org">' + escapeJobHtml(item.sourceName || '공식 원문') + ' · ' + company + '</span>',
+        '<div class="feed-title">' + title + '</div>',
+        '<p class="feed-meta">' + meta + '</p>',
+        '<div class="job-card-meta"><span>적합도 ' + escapeJobHtml(item.fitScore || 0) + '</span><span>' + escapeJobHtml(item.schoolRecommendation === 'required' ? '학교장 추천 확인' : '추천여부 확인') + '</span></div>',
+      '</a>',
+      '<div class="' + deadlineClass + '"><b>' + escapeJobHtml(status) + '</b><small>' + deadline + '</small></div>',
+      '<div class="feed-tags">' + renderJobTags(item) + '</div>',
+    '</article>'
+  ].join('');
+}
+
+function renderJobSourceStatus(data) {
+  var statusEl = document.getElementById('job-source-status');
+  if (!statusEl) return;
+  var sources = Array.isArray(data.sourceStatus) ? data.sourceStatus : [];
+  if (!sources.length) {
+    statusEl.textContent = '공식 API 상태 정보를 확인하지 못했습니다.';
+    return;
+  }
+  var connected = sources.filter(function(source) { return source.configured && source.ok; }).length;
+  var waiting = sources.filter(function(source) { return !source.configured; }).length;
+  statusEl.textContent = connected
+    ? connected + '개 공식 소스 정상 수집 · 나머지 소스는 점검 상태를 기록합니다.'
+    : '공식 API 키 연결 대기: 고용24·사람인·잡코리아 등 ' + waiting + '개 소스';
+}
+
+function renderJobFeed(data) {
+  var feed = document.getElementById('job-live-feed');
+  var count = document.getElementById('job-feed-count');
+  var verified = document.getElementById('job-feed-verified');
+  if (!feed) return;
+
+  var items = Array.isArray(data.items) ? data.items : [];
+  if (count) count.textContent = items.length ? '자동 등록 ' + items.length + '건' : '자동 등록 대기';
+  if (verified) verified.textContent = formatJobFeedDate(data.generatedAt);
+  renderJobSourceStatus(data);
+
+  if (!items.length) {
+    var note = data.summary && data.summary.note ? data.summary.note : '공식 API 연결 후 공채정보가 자동 표시됩니다.';
+    feed.innerHTML = '<article class="feed-item job-empty"><div><span class="feed-org">공식 API 자동 수집</span><div class="feed-title">등록 가능한 공채정보 확인 대기</div><p class="feed-meta">' + escapeJobHtml(note) + '</p></div><div class="feed-tags"><span>원문공고</span><span>마감일</span><span>검증시각</span></div></article>';
+    return;
+  }
+  feed.innerHTML = items.slice(0, 8).map(renderJobItem).join('');
+}
+
+function loadJobFeed() {
+  fetch(JOB_FEED_URL, { cache: 'no-store' })
+    .then(function(response) {
+      if (!response.ok) throw new Error('job feed ' + response.status);
+      return response.json();
+    })
+    .then(renderJobFeed)
+    .catch(function() {
+      renderJobFeed({
+        generatedAt: '',
+        summary: { note: '자동 수집 데이터 파일을 불러오지 못했습니다. 배포와 경로를 점검해야 합니다.' },
+        sourceStatus: [],
+        items: []
+      });
+    });
+}
+
 // ── 초기화 ──
 (function(){
   var mobile = window.matchMedia('(max-width:720px)').matches;
@@ -1730,6 +1845,7 @@ function mobGoto(id) {
   // topnav 홈 활성화
   var el = document.getElementById('tnav-home');
   if (el) el.classList.add('tactive');
+  loadJobFeed();
 })();
 </script>
 </body>
