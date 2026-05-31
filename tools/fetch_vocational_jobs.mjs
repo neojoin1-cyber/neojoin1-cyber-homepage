@@ -1687,18 +1687,42 @@ async function fetchMoefPublicRecruit() {
     }
   }
 
-  const normalized = rawItems.map((item) => ({
-    ...normalizeItem({
-      ...item,
-      source: base.id,
-      sourceName: base.name,
-      sourceDetailUrl: MOEF_PUBLIC_RECRUIT_DATA_URL,
-      description: [item.description, '기재부 공공기관 채용공시 공공기관 잡알리오 공개채용 필기 NCS'].join(' ')
-    })
-  })).filter(publicJobKeep);
+  const decorateRawItem = (item, companyNoticeCheck = null) => ({
+    ...item,
+    source: base.id,
+    sourceName: base.name,
+    sourceDetailUrl: MOEF_PUBLIC_RECRUIT_DATA_URL,
+    ...(companyNoticeCheck ? { companyNoticeCheck } : {}),
+    description: [item.description, '기재부 공공기관 채용공시 공공기관 잡알리오 공개채용 필기 NCS'].join(' ')
+  });
+  const preliminary = rawItems.map((item) => normalizeItem(decorateRawItem(item))).filter(publicJobKeep);
+  const displayItemIds = new Set(preliminary.map((item) => item.id));
+  const noticeChecks = new Map();
+
+  for (const item of rawItems) {
+    const decorated = decorateRawItem(item);
+    const normalizedItem = normalizeItem(decorated);
+    if (!displayItemIds.has(normalizedItem.id)) continue;
+    if (!decorated.companyNoticeUrl) continue;
+    noticeChecks.set(normalizedItem.id, await checkCompanyNoticeUrl(
+      decorated.companyNoticeUrl,
+      decorated.company,
+      decorated.title
+    ));
+  }
+
+  const normalized = rawItems.map((item) => {
+    const decorated = decorateRawItem(item);
+    const itemId = normalizeItem(decorated).id;
+    return normalizeItem(decorateRawItem(item, noticeChecks.get(itemId)));
+  }).filter(publicJobKeep);
   const ok = rawItems.length > 0 || (errors.length < attempts.length && !errors.length);
   const firstDayCandidates = normalized.filter((item) => item.collectionAudit?.firstDayCollected).length;
   const missedReview = normalized.filter((item) => item.collectionAudit?.missedReviewNeeded).length;
+  const companyChecked = normalized.filter((item) => [
+    'company_notice_confirmed',
+    'company_notice_reachable'
+  ].includes(item.sourceVerification?.doubleCheckStatus)).length;
 
   return {
     items: normalized,
@@ -1710,7 +1734,7 @@ async function fetchMoefPublicRecruit() {
       firstDayCandidates,
       missedReviewNeeded: missedReview,
       message: ok
-        ? `기재부 공공기관 채용 API ${rawItems.length}건 점검, 후보 ${normalized.length}건, 호출방식 ${successParams || '기본'}`
+        ? `기재부 공공기관 채용 API ${rawItems.length}건 점검, 후보 ${normalized.length}건, 공식 공고 접속확인 ${companyChecked}건, 호출방식 ${successParams || '기본'}`
         : `연결 실패: ${errors.slice(0, 2).join('; ')}`
     })
   };
