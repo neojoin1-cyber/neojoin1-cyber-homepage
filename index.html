@@ -373,6 +373,56 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
 .tnav-cta{background:var(--navy);color:#fff;border:none;padding:8px 16px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none;transition:all .2s;white-space:nowrap;flex-shrink:0}
 .tnav-cta:hover{background:var(--navy2);transform:translateY(-1px);box-shadow:0 4px 14px rgba(28,43,58,0.2)}
 @media(min-width:721px) and (max-width:960px){.tnav-links,.tnav-div,.tnav-cta{display:none}.quick-grid{grid-template-columns:1fr 1fr}.home-inner{grid-template-columns:1fr}.hero-feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.system-card,.job-hub-head{grid-template-columns:1fr}.job-workflow{grid-template-columns:repeat(2,minmax(0,1fr))}.system-meta,.job-hub-tags{justify-content:flex-start}}
+/* ── Platform Showcase Redesign ── */
+.tnav-logo::before{content:'';width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,rgba(255,255,255,.72),rgba(255,255,255,0) 48%),conic-gradient(from 30deg,#0f6f62,#73b8a6,#d8f1e9,#3974a6,#0f6f62);box-shadow:inset 0 0 0 1px rgba(255,255,255,.78),0 8px 20px rgba(23,34,49,.12)}
+#page-home .home-hero{background:#f7fbfa;padding:0;margin-top:var(--nav-h);border-bottom:0}
+#page-home .home-hero>.home-inner{display:none!important}
+.platform-showcase{position:relative;overflow:hidden;background:radial-gradient(circle at 72% 28%,rgba(115,184,166,.22),transparent 34%),linear-gradient(180deg,#eef8fb 0%,#f8fbf7 64%,#fff 100%);border-bottom:1px solid #dfe9e6}
+.platform-shell{max-width:1180px;margin:0 auto;min-height:430px;padding:54px 34px 34px;display:grid;grid-template-columns:minmax(230px,.75fr) minmax(430px,1.18fr) minmax(150px,.45fr);gap:18px;align-items:center}
+.platform-kicker{display:inline-flex;align-items:center;gap:7px;color:#1d8276;font-size:12px;font-weight:800;letter-spacing:.02em;margin-bottom:14px}
+.platform-kicker::before{content:'';width:8px;height:8px;border-radius:50%;background:#1d8276;box-shadow:13px 0 0 #91c9bf}
+.platform-title{font-size:clamp(32px,3.8vw,50px);line-height:1.18;letter-spacing:-.02em;color:#0f1d2c;margin-bottom:16px;font-weight:900}
+.platform-title strong{display:block;color:#16806f}
+.platform-sub{font-size:15px;line-height:1.85;color:#415461;max-width:360px;margin-bottom:24px;word-break:keep-all}
+.platform-actions{display:grid;grid-template-columns:repeat(4,minmax(72px,1fr));gap:10px;max-width:400px}
+.platform-action{min-height:78px;padding:12px 8px;border:1px solid #e3ece9;background:rgba(255,255,255,.86);border-radius:10px;text-decoration:none;color:#1a2a38;display:grid;justify-items:center;align-content:center;gap:7px;box-shadow:0 14px 28px rgba(47,103,96,.08);transition:transform .18s,border-color .18s,box-shadow .18s}
+.platform-action:hover{transform:translateY(-3px);border-color:#9ecfc4;box-shadow:0 18px 34px rgba(47,103,96,.14)}
+.platform-action span:last-child{font-size:12px;font-weight:800;white-space:nowrap}
+.line-icon{width:31px;height:31px;border-radius:9px;display:block;position:relative;background:#eef8f5;border:1px solid rgba(29,130,118,.2)}
+.icon-doc::before{content:'';position:absolute;left:9px;top:7px;width:12px;height:16px;border:2px solid #2e9b8d;border-radius:2px;background:#fff}.icon-doc::after{content:'';position:absolute;left:12px;top:13px;width:9px;height:2px;background:#2e9b8d;box-shadow:0 5px 0 #2e9b8d}
+.icon-building::before{content:'';position:absolute;left:8px;top:7px;width:15px;height:17px;border:2px solid #4e87bd;border-radius:2px;background:#fff}.icon-building::after{content:'';position:absolute;left:12px;top:11px;width:2px;height:2px;background:#4e87bd;box-shadow:5px 0 #4e87bd,0 5px #4e87bd,5px 5px #4e87bd,0 10px #4e87bd,5px 10px #4e87bd}
+.icon-law{background:#fff7e7;border-color:rgba(188,128,20,.24)}.icon-law::before{content:'§';position:absolute;inset:1px 0 0;text-align:center;color:#c77d15;font-size:25px;font-weight:900;line-height:31px}
+.icon-book{background:#f5f0ff;border-color:rgba(118,82,170,.2)}.icon-book::before{content:'';position:absolute;left:7px;top:8px;width:8px;height:15px;border:2px solid #7d61b1;border-right:0;border-radius:2px;background:#fff}.icon-book::after{content:'';position:absolute;right:7px;top:8px;width:8px;height:15px;border:2px solid #7d61b1;border-left:0;border-radius:2px;background:#fff}
+.icon-case::before{content:'';position:absolute;left:7px;top:10px;width:17px;height:12px;border:2px solid #4f80ad;border-radius:3px;background:#fff}.icon-case::after{content:'';position:absolute;left:12px;top:7px;width:7px;height:5px;border:2px solid #4f80ad;border-bottom:0;border-radius:3px 3px 0 0}
+.icon-cap::before{content:'';position:absolute;left:6px;top:10px;width:19px;height:10px;background:#456d9e;clip-path:polygon(50% 0,100% 40%,50% 82%,0 40%)}.icon-cap::after{content:'';position:absolute;left:13px;top:18px;width:7px;height:4px;border-radius:0 0 6px 6px;background:#456d9e}
+.platform-visual{position:relative;min-height:330px;display:flex;align-items:center;justify-content:center}
+.platform-arc{position:absolute;left:50%;top:10px;width:min(470px,92%);height:230px;transform:translateX(-50%);border-top:1.5px dashed rgba(22,128,111,.45);border-radius:50% 50% 0 0}
+.orbit-node{position:absolute;width:64px;height:64px;border-radius:20px;background:rgba(255,255,255,.94);border:1px solid #dbe8e5;box-shadow:0 10px 24px rgba(28,43,58,.12);display:grid;place-items:center;gap:2px;color:#203040;font-size:10px;font-weight:800;z-index:3}
+.orbit-node .line-icon{width:30px;height:30px;transform:scale(.9)}
+.node-edu{top:0;left:50%;transform:translateX(-50%)}.node-job{top:72px;left:8%}.node-company{top:72px;right:8%}.node-law{bottom:62px;left:0}.node-book{bottom:62px;right:0}
+.school-scene{position:relative;width:min(470px,100%);height:270px;margin-top:54px;border-radius:28px;background:linear-gradient(180deg,rgba(255,255,255,.25),rgba(255,255,255,.72));overflow:hidden}
+.campus{position:absolute;left:50%;top:28px;width:190px;height:120px;transform:translateX(-50%);background:#dfeeee;border:1px solid #bfd7d1;border-radius:10px 10px 4px 4px;box-shadow:0 18px 40px rgba(47,103,96,.1)}
+.campus::before{content:'';position:absolute;left:50%;top:-30px;transform:translateX(-50%);width:64px;height:32px;background:#cfe4df;clip-path:polygon(50% 0,100% 100%,0 100%);border:1px solid #b9d1cb}.campus::after{content:'';position:absolute;inset:28px 18px auto;height:12px;background:repeating-linear-gradient(90deg,#fff 0 16px,#b9d2da 16px 20px);box-shadow:0 24px 0 rgba(255,255,255,.85),0 48px 0 rgba(255,255,255,.85)}
+.scene-ground{position:absolute;left:-30px;right:-30px;bottom:-18px;height:116px;background:radial-gradient(ellipse at 50% 40%,#d9ead9 0 44%,#eef7ef 45% 70%,transparent 71%)}
+.people{position:absolute;left:50%;bottom:18px;width:360px;height:190px;transform:translateX(-50%);z-index:2}
+.person{position:absolute;bottom:0;width:70px;height:150px}.person::before{content:'';position:absolute;left:19px;top:0;width:36px;height:40px;border-radius:50%;background:#f0c59c;border:1px solid rgba(93,65,45,.15)}.person::after{content:'';position:absolute;left:8px;top:42px;width:54px;height:84px;border-radius:20px 20px 10px 10px;background:#24445d;box-shadow:inset 0 -30px 0 rgba(255,255,255,.08)}
+.p1{left:18px;height:162px}.p1::after{background:#1e3d58}.p2{left:90px;height:146px}.p2::after{background:#315f8d}.p3{left:166px;height:174px}.p3::after{background:#b99d80}.p4{left:238px;height:158px}.p4::after{background:#293f57}.p5{left:302px;height:142px}.p5::after{background:#71a893}
+.hair{position:absolute;left:16px;top:-3px;width:42px;height:28px;border-radius:48% 48% 38% 38%;background:#3b2d2b;z-index:1}.p2 .hair,.p5 .hair{height:35px;border-radius:50% 50% 45% 45%}.p4 .hair{background:#49413d}
+.paper{position:absolute;background:#f9fbff;border:1px solid #cad6e1;border-radius:3px;z-index:4;box-shadow:0 5px 12px rgba(0,0,0,.08)}.paper-a{left:50px;top:82px;width:38px;height:46px;transform:rotate(-8deg)}.paper-b{left:180px;top:76px;width:44px;height:52px;transform:rotate(6deg)}.laptop{position:absolute;left:212px;bottom:24px;width:78px;height:46px;border-radius:6px;background:#637384;z-index:5}.laptop::after{content:'S';position:absolute;inset:0;text-align:center;line-height:46px;color:rgba(255,255,255,.75);font-family:serif;font-weight:900}
+.platform-direction{align-self:center;max-width:170px}.platform-direction b{display:block;color:#16806f;font-size:13px;margin-bottom:10px}.platform-direction p{font-size:13px;line-height:1.85;color:#415461;word-break:keep-all}
+#page-home .home-body{max-width:none;padding:22px 34px 34px;background:#fff}
+#page-home .home-body>.job-hub,#page-home .home-body>.home-sec-title,#page-home .home-body>.system-grid,#page-home .home-body>.portal-note,#page-home .home-body>.content-roadmap{display:none!important}
+.platform-home-body{max-width:1180px;margin:0 auto}
+.job-console{display:grid;grid-template-columns:minmax(230px,.46fr) minmax(420px,1fr);gap:18px;margin-bottom:18px}
+.job-intro,.job-feed,.platform-card{background:rgba(255,255,255,.96);border:1px solid #e3ece9;border-radius:15px;box-shadow:0 16px 34px rgba(47,103,96,.08)}
+.job-intro{padding:24px}.section-kicker{font-size:11px;color:#16806f;text-transform:uppercase;letter-spacing:.08em;font-weight:900;margin-bottom:5px}.job-intro h2{font-size:21px;line-height:1.35;color:#142234;margin-bottom:12px}.job-intro p{font-size:13px;color:#4c5f69;line-height:1.75;word-break:keep-all}.pill-list{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}.pill-list span{font-size:11px;font-weight:800;color:#276d64;background:#eef8f5;border-radius:999px;padding:5px 10px}
+.job-feed{padding:12px 22px}.feed-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;padding:13px 0;border-bottom:1px solid #e7eeec}.feed-item:last-child{border-bottom:0}.feed-org{display:block;color:#647277;font-size:11px;font-weight:800;margin-bottom:3px}.feed-title{font-size:15px;color:#142234;font-weight:900;line-height:1.35}.feed-meta{font-size:12px;color:#647277;margin-top:3px}.feed-tags{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px}.feed-tags span{font-size:11px;font-weight:800;color:#43746e;background:#eff6f4;border-radius:999px;padding:5px 9px}
+.platform-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:22px}.flow-card{display:grid;grid-template-columns:42px 1fr;gap:12px;align-items:center;padding:16px;border-radius:14px;background:#f8fbfa;border:1px solid #e6efec}.flow-card b{display:block;font-size:14px;color:#173045;margin-bottom:2px}.flow-card span{font-size:12px;color:#65747b;line-height:1.5}
+.philosophy-panel{padding:24px;background:#fcfbf6;border:1px solid #ede6d6;border-radius:16px}.philosophy-panel h3{font-size:18px;color:#142234;margin-bottom:8px}.philosophy-panel>p{font-size:13px;color:#4c5f69;margin-bottom:18px}.expansion-grid{display:grid;grid-template-columns:.75fr 1fr 1fr 1fr;gap:14px}.path-illustration{min-height:138px;border-radius:14px;background:linear-gradient(180deg,#eaf7f4,#fff);position:relative;overflow:hidden}.path-illustration::before{content:'';position:absolute;left:28px;bottom:0;width:92px;height:100px;border-radius:46px 46px 0 0;background:#66a99d;box-shadow:inset -16px 0 rgba(0,0,0,.08)}.path-illustration::after{content:'';position:absolute;left:98px;bottom:-18px;width:150px;height:74px;border-radius:50%;border:18px solid #e4d6a8;border-left-color:transparent;border-bottom-color:transparent;transform:rotate(-18deg)}
+.platform-card{padding:18px;min-height:138px;box-shadow:none}.platform-card small{display:block;color:#16806f;font-weight:900;margin-bottom:8px}.platform-card h4{font-size:16px;color:#142234;margin-bottom:8px}.platform-card p{font-size:12.5px;color:#4c5f69;line-height:1.7;word-break:keep-all}
+@media(max-width:960px){.platform-shell{grid-template-columns:1fr;gap:10px;padding:28px 18px}.platform-direction{max-width:100%}.platform-visual{order:2}.job-console,.expansion-grid{grid-template-columns:1fr}.platform-flow{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:720px){#page-home .home-hero{margin-top:0}.platform-title{font-size:30px}.platform-actions{grid-template-columns:repeat(2,minmax(0,1fr));max-width:100%}.platform-visual{min-height:290px;transform:scale(.9);transform-origin:center top;margin-bottom:-26px}.orbit-node{width:58px;height:58px}.node-job{left:3%}.node-company{right:3%}.node-law{left:-2%;bottom:72px}.node-book{right:-2%;bottom:72px}.school-scene{margin-top:46px}.job-console{gap:12px}.feed-item{grid-template-columns:1fr}.feed-tags{justify-content:flex-start}.platform-flow{grid-template-columns:1fr}.expansion-grid{gap:10px}.philosophy-panel{padding:18px}}
+@media(max-width:720px){.platform-shell{display:block;padding:28px 16px 20px;overflow:hidden}.platform-sub{max-width:calc(100vw - 56px);word-break:break-all!important;overflow-wrap:anywhere!important}.platform-direction{display:none}.platform-visual{width:100%;min-height:270px;transform:none;margin:16px 0 -6px;overflow:hidden}.platform-arc{width:330px;height:180px;top:16px}.school-scene{width:330px;height:225px;margin:46px auto 0}.people{transform:translateX(-50%) scale(.8);transform-origin:center bottom}.node-edu{top:8px}.node-job{left:13%;top:76px}.node-company{right:13%;top:76px}.node-law{left:13%;bottom:44px}.node-book{right:13%;bottom:44px}.orbit-node{width:52px;height:52px;border-radius:16px;font-size:8px}.orbit-node span:last-child{white-space:nowrap}.orbit-node .line-icon{transform:scale(.76)}}
 @media(min-width:721px){.sidebar{display:none !important}}
 </style>
 </head>
@@ -542,6 +592,55 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
 <!-- ① HOME -->
 <div class="page active" id="page-home">
   <div class="home-hero">
+    <section class="platform-showcase" aria-label="설탕과소금 직업계고 플랫폼 첫 화면">
+      <div class="platform-shell">
+        <div class="platform-copy">
+          <div class="platform-kicker">설탕과소금 교육 시스템 포털</div>
+          <h1 class="platform-title">함께 성장하는 <strong>직업계고 플랫폼</strong></h1>
+          <p class="platform-sub">교육, 취업, 기업정보, 법률정보를 하나로 연결하여 학생의 꿈과 학교 현장의 판단을 지원합니다.</p>
+          <div class="platform-actions" aria-label="주요 콘텐츠 바로가기">
+            <a class="platform-action" href="#" onclick="showPage('home','job-hub-home');return false">
+              <span class="line-icon icon-doc" aria-hidden="true"></span><span>공채 정보</span>
+            </a>
+            <a class="platform-action" href="#" onclick="showPage('home','job-hub-home');return false">
+              <span class="line-icon icon-building" aria-hidden="true"></span><span>기업자료</span>
+            </a>
+            <a class="platform-action" href="https://gyo6-law-info.web.app" target="_blank" rel="noopener noreferrer">
+              <span class="line-icon icon-law" aria-hidden="true"></span><span>법률정보</span>
+            </a>
+            <a class="platform-action" href="#" onclick="showPage('home','systems-home');return false">
+              <span class="line-icon icon-book" aria-hidden="true"></span><span>전자책</span>
+            </a>
+          </div>
+        </div>
+        <div class="platform-visual" aria-hidden="true">
+          <div class="platform-arc"></div>
+          <div class="orbit-node node-edu"><span class="line-icon icon-cap"></span><span>교육</span></div>
+          <div class="orbit-node node-job"><span class="line-icon icon-case"></span><span>취업</span></div>
+          <div class="orbit-node node-company"><span class="line-icon icon-building"></span><span>기업정보</span></div>
+          <div class="orbit-node node-law"><span class="line-icon icon-law"></span><span>법률정보</span></div>
+          <div class="orbit-node node-book"><span class="line-icon icon-book"></span><span>전자책</span></div>
+          <div class="school-scene">
+            <div class="campus"></div>
+            <div class="scene-ground"></div>
+            <div class="people">
+              <div class="person p1"><i class="hair"></i></div>
+              <div class="person p2"><i class="hair"></i></div>
+              <div class="person p3"><i class="hair"></i></div>
+              <div class="person p4"><i class="hair"></i></div>
+              <div class="person p5"><i class="hair"></i></div>
+              <span class="paper paper-a"></span>
+              <span class="paper paper-b"></span>
+              <span class="laptop"></span>
+            </div>
+          </div>
+        </div>
+        <aside class="platform-direction">
+          <b>방향</b>
+          <p>학생·교사·학교가 함께 성장할 수 있도록 필요한 정보와 자료를 안전하고 쉽게 연결합니다.</p>
+        </aside>
+      </div>
+    </section>
     <div class="home-inner">
       <div>
         <div class="hero-badge">설탕과소금 교육 시스템 포털</div>
@@ -569,7 +668,49 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
     </div>
   </div>
   <div class="home-body">
-    <section class="job-hub" id="job-hub-home" aria-label="직업계고 공채 정보 허브">
+    <div class="platform-home-body">
+      <section class="job-console" id="job-hub-home" aria-label="직업계고 취업지도 허브">
+        <div class="job-intro">
+          <div class="section-kicker">Vocational Job Board</div>
+          <h2>직업계고 취업지도 허브</h2>
+          <p>공채, 기업정보, 지도자료, 관련 법령, 전자책 자료를 함께 정리합니다.</p>
+          <div class="pill-list">
+            <span>고졸채용</span><span>기업정보</span><span>학교장 추천</span><span>지도자료</span><span>원문공고</span>
+          </div>
+        </div>
+        <div class="job-feed" aria-label="공채 정보 예시">
+          <article class="feed-item">
+            <div><span class="feed-org">한국방송통신전파진흥원</span><div class="feed-title">사무행정 고졸전형 1명</div><p class="feed-meta">여수 · 접수 05.28~06.11 · 임용 09.01</p></div>
+            <div class="feed-tags"><span>공고문</span><span>직무기술서</span><span>접수링크</span></div>
+          </article>
+          <article class="feed-item">
+            <div><span class="feed-org">한국장애인고용공단</span><div class="feed-title">일반직 6급 고졸 전국 9명</div><p class="feed-meta">전국 · 접수 05.25~06.02 · NCS 필기·면접</p></div>
+            <div class="feed-tags"><span>자격조건</span><span>전형일정</span><span>첨부자료</span></div>
+          </article>
+          <article class="feed-item">
+            <div><span class="feed-org">코레일테크(주)</span><div class="feed-title">채용형인턴 사무직군 고졸 대전 2명</div><p class="feed-meta">학교장 추천 · 접수 04.23~05.07 · NCS 필기</p></div>
+            <div class="feed-tags"><span>추천요건</span><span>일정관리</span><span>법률체크</span></div>
+          </article>
+        </div>
+      </section>
+      <section class="platform-flow" aria-label="취업지도 업무 흐름">
+        <article class="flow-card"><span class="line-icon icon-doc" aria-hidden="true"></span><div><b>공고 확인</b><span>공식 원문과 마감 여부 확인</span></div></article>
+        <article class="flow-card"><span class="line-icon icon-building" aria-hidden="true"></span><div><b>기업 이해</b><span>기관·직무·근무지 자료 연결</span></div></article>
+        <article class="flow-card"><span class="line-icon icon-case" aria-hidden="true"></span><div><b>지도자료</b><span>자소서·면접·추천 체크 정리</span></div></article>
+        <article class="flow-card"><span class="line-icon icon-law" aria-hidden="true"></span><div><b>법률·전자책</b><span>최신 법령과 서재 자료 연결</span></div></article>
+      </section>
+      <section class="philosophy-panel" aria-label="설탕과소금 플랫폼 확장 방향">
+        <h3>홈페이지는 철학과 입구를 맡습니다</h3>
+        <p>공채·기업자료, 법률정보, 전자책 서재, AI 도구는 독립 프로젝트로 운영하고 안전하게 연결합니다.</p>
+        <div class="expansion-grid">
+          <div class="path-illustration" aria-hidden="true"></div>
+          <article class="platform-card"><small>다음 확장</small><h4>취업지도 허브</h4><p>공채 원문, 기업자료, 자소서·면접 자료, 교사용 체크리스트를 함께 정리합니다.</p></article>
+          <article class="platform-card"><small>01</small><h4>AI 법률정보 도우미</h4><p>제·개정 법령과 공식 원문을 확인해 근로계약, 현장실습, 산업안전 정보를 연결합니다.</p></article>
+          <article class="platform-card"><small>03</small><h4>교육 전자책 서재</h4><p>강의자료와 교육정보 나눔 자료를 전자책처럼 읽고 검색하는 서재로 설계합니다.</p></article>
+        </div>
+      </section>
+    </div>
+    <section class="job-hub" id="job-hub-home-legacy" aria-label="직업계고 공채 정보 허브">
       <div class="job-hub-head">
         <div>
           <div class="job-hub-kicker">Vocational Job Board</div>
