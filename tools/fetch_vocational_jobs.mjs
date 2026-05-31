@@ -46,6 +46,9 @@ const PROFESSIONAL_ONLY_TERMS = ['전문의', '의사', '약사', '간호사', '
 const WORK24_OPEN_RECRUIT_URL = 'https://www.work24.go.kr/cm/openApi/call/wk/callOpenApiSvcInfo210L21.do';
 const SARAMIN_JOB_SEARCH_URL = 'https://oapi.saramin.co.kr/job-search';
 const JOB_ALIO_RECRUIT_URL = 'https://job.alio.go.kr/recruit.do';
+const SEOUL_HIGHJOB_RECRUIT_URL = 'https://high-job.sen.go.kr/FUS/JO/EMList.do';
+const SEOUL_HIGHJOB_DETAIL_URL = 'https://high-job.sen.go.kr/FUS/JO/EMView.do';
+const SEOUL_HIGHJOB_SCAN_PAGES = 2;
 
 const GENERIC_OFFICIAL_SOURCE_CONFIG = {
   'gojobs-narailter': {
@@ -115,6 +118,16 @@ const SOURCE_ONBOARDING = {
       '사람인 Open API 접근키를 확보한다.',
       'GitHub Actions Secret에 SARAMIN_ACCESS_KEY 이름으로 저장한다.',
       '다음 자동 실행에서 고졸·특성화고·마이스터고 키워드 공채를 점검한다.'
+    ]
+  },
+  'seoul-highjob': {
+    priority: 'P0',
+    actionLabel: '서울 하이잡 공식 채용정보 자동수집',
+    impact: '서울 지역 특성화고 학생 대상 대기업·공공기관 공고와 매칭형 채용정보를 공식 교육청 소스로 보강한다.',
+    easySteps: [
+      '별도 API 키 없이 서울특별시교육청 하이잡 공식 공개 채용정보를 자동 확인한다.',
+      '매칭데이·주요행사 게시판까지 공식 구조가 확인되면 같은 방식으로 전용 어댑터를 추가한다.',
+      '다른 시도교육청도 공식 채용정보 URL이 확인되는 순서대로 EDU_JOB_CENTER_FEEDS 또는 전용 어댑터로 확장한다.'
     ]
   },
   'gojobs-narailter': {
@@ -232,6 +245,17 @@ const SOURCE_CATALOG = [
     status: 'active',
     secretNames: [],
     message: '잡알리오 공식 공개 채용목록과 상세 원문을 제한적으로 확인'
+  },
+  {
+    id: 'seoul-highjob',
+    name: '서울특별시교육청 하이잡 채용정보',
+    type: 'official-public-web',
+    sourceUrl: SEOUL_HIGHJOB_RECRUIT_URL,
+    group: 'education-office',
+    trackHint: 'balanced',
+    status: 'active',
+    secretNames: [],
+    message: '서울특별시교육청 하이잡 공식 공개 채용정보 목록과 상세 원문 확인'
   },
   {
     id: 'gojobs-narailter',
@@ -418,11 +442,14 @@ function normalizeSpace(value) {
 function decodeXml(value) {
   return normalizeSpace(value)
     .replace(/<!\[CDATA\[(.*?)\]\]>/gs, '$1')
+    .replace(/&nbsp;/g, ' ')
     .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'");
+    .replace(/&#39;/g, "'")
+    .replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(parseInt(code, 10)));
 }
 
 function htmlText(value) {
@@ -762,14 +789,14 @@ function parseDate(value) {
   const compact = raw.match(/^(\d{4})(\d{2})(\d{2})$/);
   if (compact) return new Date(`${compact[1]}-${compact[2]}-${compact[3]}T23:59:59+09:00`);
 
-  const dotted = raw.match(/^(\d{4})[.\-/](\d{1,2})[.\-/](\d{1,2})/);
+  const dotted = raw.match(/^(\d{4})\s*[.\-/]\s*(\d{1,2})\s*[.\-/]\s*(\d{1,2})/);
   if (dotted) {
     const month = dotted[2].padStart(2, '0');
     const day = dotted[3].padStart(2, '0');
     return new Date(`${dotted[1]}-${month}-${day}T23:59:59+09:00`);
   }
 
-  const shortDotted = raw.match(/^(\d{2})[.\-/](\d{1,2})[.\-/](\d{1,2})/);
+  const shortDotted = raw.match(/^(\d{2})\s*[.\-/]\s*(\d{1,2})\s*[.\-/]\s*(\d{1,2})/);
   if (shortDotted) {
     const year = Number(shortDotted[1]) + 2000;
     const month = shortDotted[2].padStart(2, '0');
@@ -1550,6 +1577,205 @@ async function fetchJobAlioRecruit() {
   };
 }
 
+function extractFirstUrl(value) {
+  const raw = String(value || '').replace(/&amp;/g, '&');
+  const match = raw.match(/https?:\/\/[^\s<>"']+/i);
+  if (!match) return '';
+  return cleanUrl(match[0].replace(/[),.;]+$/g, ''));
+}
+
+function parseSeoulHighJobRows(html, pageIndex) {
+  const rows = Array.from(html.matchAll(/<li>\s*<a\s+href=["']javascript:fncDetailView\('([^']+)'\);["'][^>]*>([\s\S]*?)<\/a>\s*<\/li>/gi));
+  return rows
+    .map((match) => {
+      const block = match[2];
+      const titleHtml = block.match(/<h4\b[^>]*class=["'][^"']*title[^"']*["'][^>]*>([\s\S]*?)<\/h4>/i)?.[1] || '';
+      const title = htmlText(titleHtml).replace(/새글 표시 아이콘/g, '').trim();
+      const jobType = htmlText(block.match(/채용직종\s*:\s*([\s\S]*?)<\/p>/i)?.[1] || '');
+      const publishedAt = normalizeSpace(block.match(/등록일\s*:\s*([0-9.\-\s]+)/i)?.[1] || '');
+      const listNumber = htmlText(block.match(/<span\b[^>]*class=["'][^"']*number[^"']*["'][^>]*>([\s\S]*?)<\/span>/i)?.[1] || '');
+      if (!match[1] || !title) return null;
+      return {
+        seq: match[1],
+        listNumber,
+        title,
+        jobType,
+        publishedAt,
+        pageIndex
+      };
+    })
+    .filter(Boolean);
+}
+
+function seoulHighJobPostBody(params) {
+  return new URLSearchParams(params).toString();
+}
+
+async function fetchSeoulHighJobListPage(pageIndex) {
+  if (pageIndex <= 1) {
+    return fetchWithTimeout(SEOUL_HIGHJOB_RECRUIT_URL);
+  }
+  return fetchWithTimeout(SEOUL_HIGHJOB_RECRUIT_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+    body: seoulHighJobPostBody({
+      pageIndex: String(pageIndex),
+      searchCondition: '',
+      searchKeyword: ''
+    })
+  });
+}
+
+function parseSeoulHighJobTableFields(html) {
+  const fields = {};
+  const rows = Array.from(html.matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/gi), (match) => match[1]);
+  for (const row of rows) {
+    const pairs = Array.from(row.matchAll(/<th\b[^>]*>([\s\S]*?)<\/th>\s*<td\b[^>]*>([\s\S]*?)<\/td>/gi));
+    for (const pair of pairs) {
+      const key = htmlText(pair[1]);
+      const value = htmlText(pair[2]);
+      if (key && value && !fields[key]) fields[key] = value;
+    }
+  }
+  return fields;
+}
+
+function fieldValue(fields, ...labels) {
+  for (const label of labels) {
+    if (fields[label]) return fields[label];
+  }
+  return '';
+}
+
+function parseSeoulHighJobAttachments(html) {
+  return Array.from(html.matchAll(/<a\s+href=['"]([^'"]*fileDownload[^'"]+)['"][^>]*>([\s\S]*?)<\/a>/gi))
+    .map((match) => ({
+      url: new URL(match[1].replace(/&amp;/g, '&'), SEOUL_HIGHJOB_RECRUIT_URL).toString(),
+      title: htmlText(match[2]).replace(/이미지/g, '').trim()
+    }))
+    .filter((item) => item.title)
+    .slice(0, 4);
+}
+
+async function fetchSeoulHighJobDetail(row) {
+  const html = await fetchWithTimeout(SEOUL_HIGHJOB_DETAIL_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+    body: seoulHighJobPostBody({
+      job_seq: row.seq,
+      pageIndex: String(row.pageIndex || 1),
+      pageUnit: '10',
+      searchCondition: '',
+      searchKeyword: ''
+    })
+  });
+  const fields = parseSeoulHighJobTableFields(html);
+  const title = htmlText(html.match(/<div\b[^>]*class=["'][^"']*view-title[^"']*["'][^>]*>[\s\S]*?<h3[^>]*>([\s\S]*?)<\/h3>/i)?.[1] || row.title);
+  const company = fieldValue(fields, '기업명') || row.title.replace(/^\[[^\]]+\]\s*/, '').split(/\s+채용/)[0];
+  const jobType = fieldValue(fields, '채용직종') || row.jobType;
+  const employmentType = fieldValue(fields, '고용형태');
+  const region = fieldValue(fields, '근무지역') || '서울 또는 원문 확인';
+  const deadline = fieldValue(fields, '지원마감');
+  const application = fieldValue(fields, '접수방법');
+  const homepage = fieldValue(fields, '홈페이지');
+  const companyNoticeUrl = extractFirstUrl(application) || extractFirstUrl(homepage);
+  const processText = fieldValue(fields, '전형방법');
+  const other = fieldValue(fields, '기타');
+  const attachments = parseSeoulHighJobAttachments(html);
+  const companyNoticeCheck = companyNoticeUrl
+    ? await checkCompanyNoticeUrl(companyNoticeUrl, company, title)
+    : {};
+
+  return {
+    source: 'seoul-highjob',
+    sourceName: '서울특별시교육청 하이잡 채용정보',
+    sourceId: row.seq,
+    title,
+    company,
+    region,
+    education: includesAny([title, company, jobType, other, attachments.map((item) => item.title).join(' ')].join(' '), STRONG_TERMS)
+      ? '고졸·특성화고 관련 원문 확인'
+      : '서울특별시교육청 하이잡 원문 확인',
+    career: fieldValue(fields, '경력조건') || '원문 확인',
+    employmentType,
+    deadline,
+    deadlineText: deadline ? `${deadline} 마감` : '마감일 원문 확인',
+    publishedAt: row.publishedAt,
+    url: companyNoticeUrl || SEOUL_HIGHJOB_RECRUIT_URL,
+    originalUrl: SEOUL_HIGHJOB_RECRUIT_URL,
+    sourceDetailUrl: SEOUL_HIGHJOB_RECRUIT_URL,
+    companyNoticeUrl,
+    companyNoticeCheck,
+    processText,
+    description: [
+      jobType,
+      fieldValue(fields, '모집인원'),
+      fieldValue(fields, '업무내용'),
+      other,
+      application,
+      attachments.map((item) => item.title).join(' '),
+      '서울특별시교육청 하이잡 특성화고 직업계고 취업지원센터 공식 채용정보'
+    ].join(' ')
+  };
+}
+
+function keepSeoulHighJobItem(item) {
+  if (!shouldKeep(item)) return false;
+  if (item.deadline) return true;
+  const publishedDate = parseDate(item.publishedDate || item.publishedAt);
+  if (!publishedDate) return true;
+  const ageDays = daysBetweenKst(publishedDate, NOW);
+  return ageDays === null || ageDays <= 45;
+}
+
+async function fetchSeoulHighJobRecruit() {
+  const base = { ...catalogSource('seoul-highjob'), configured: true };
+  const rawItems = [];
+  const errors = [];
+  let scannedCount = 0;
+
+  for (let pageIndex = 1; pageIndex <= SEOUL_HIGHJOB_SCAN_PAGES; pageIndex += 1) {
+    try {
+      const html = await fetchSeoulHighJobListPage(pageIndex);
+      const rows = parseSeoulHighJobRows(html, pageIndex);
+      scannedCount += rows.length;
+      for (const row of rows) {
+        try {
+          rawItems.push(await fetchSeoulHighJobDetail(row));
+        } catch (error) {
+          errors.push(`${row.seq}: ${error.message}`);
+        }
+      }
+    } catch (error) {
+      errors.push(`page ${pageIndex}: ${error.message}`);
+    }
+  }
+
+  const normalized = rawItems.map(normalizeItem).filter(keepSeoulHighJobItem);
+  const ok = rawItems.length > 0 && errors.length < Math.max(1, rawItems.length);
+  const companyChecked = normalized.filter((item) => [
+    'company_notice_confirmed',
+    'company_notice_reachable'
+  ].includes(item.sourceVerification?.doubleCheckStatus)).length;
+  const firstDayCandidates = normalized.filter((item) => item.collectionAudit?.firstDayCollected).length;
+  const missedReview = normalized.filter((item) => item.collectionAudit?.missedReviewNeeded).length;
+
+  return {
+    items: normalized,
+    status: sourceStatus(base, {
+      ok,
+      itemCount: normalized.length,
+      scannedCount,
+      rawItemCount: rawItems.length,
+      firstDayCandidates,
+      missedReviewNeeded: missedReview,
+      message: ok
+        ? `서울 하이잡 공식 목록 ${scannedCount}건 점검, 후보 ${normalized.length}건, 공식 공고 확인 ${companyChecked}건, 첫날 수집 ${firstDayCandidates}건, 누락점검 ${missedReview}건`
+        : `연결 실패: ${errors.slice(0, 2).join('; ')}`
+    })
+  };
+}
+
 function saraminJobArray(payload) {
   const jobs = payload?.jobs?.job ?? payload?.job ?? [];
   if (Array.isArray(jobs)) return jobs;
@@ -1855,6 +2081,7 @@ async function main() {
   const results = [];
   results.push(await fetchWork24OpenRecruit());
   results.push(await fetchJobAlioRecruit());
+  results.push(await fetchSeoulHighJobRecruit());
   results.push(await fetchSaraminJobSearch());
   results.push(...await pendingCatalogSources());
 
@@ -1921,6 +2148,7 @@ async function main() {
       applicationClosedTitleSuffix: '(원서 마감)',
       applicationClosedRetainDays: APPLICATION_CLOSED_RETAIN_DAYS,
       jobAlioScanLimit: JOB_ALIO_SCAN_LIMIT,
+      seoulHighJobScanPages: SEOUL_HIGHJOB_SCAN_PAGES,
       primarySourceRule: '회사·기관 자체 홈페이지 또는 채용대행 공식 공고를 최우선 원문으로 사용하고, 잡알리오·고용24·사람인 등은 보완 출처로 사용한다.'
     },
     tracks: [

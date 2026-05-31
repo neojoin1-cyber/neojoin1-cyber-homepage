@@ -1,37 +1,48 @@
 {
   "version": 3,
-  "generatedAt": "2026-05-31T13:15:31.194Z",
+  "generatedAt": "2026-05-31T13:34:51.768Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 19:10 KST",
   "mode": "official-public-recruit-auto-registration",
   "summary": {
-    "total": 5,
+    "total": 7,
     "active": 4,
-    "deadlineSoon": 1,
-    "applicationClosed": 0,
-    "examFormal": 1,
+    "deadlineSoon": 2,
+    "applicationClosed": 1,
+    "examFormal": 3,
     "directInterview": 4,
-    "companyNoticeChecked": 1,
-    "detailedPublicRecruit": 1,
+    "companyNoticeChecked": 3,
+    "detailedPublicRecruit": 3,
     "briefDirect": 4,
     "firstDayCollected": 0,
-    "lateDetected": 5,
-    "missedReviewNeeded": 5,
+    "lateDetected": 7,
+    "missedReviewNeeded": 7,
     "staleFallbackItems": 0,
-    "sourcesChecked": 11,
-    "sourcesConfigured": 1,
-    "sourcesReady": 1,
+    "sourcesChecked": 12,
+    "sourcesConfigured": 2,
+    "sourcesReady": 2,
     "sourcesMissingSetup": 10,
     "note": "공채 첫날 수집을 최우선으로 점검하고, 공식 공고 2중 확인 중심으로 자동 분류했습니다."
   },
   "collectionReview": {
     "status": "review_needed",
-    "generatedAt": "2026-05-31T13:15:31.194Z",
+    "generatedAt": "2026-05-31T13:34:51.768Z",
     "firstDayGoal": "공채는 게시 첫날 수집을 목표로 하며, 늦게 발견된 공고는 누락 점검 대상으로 기록한다.",
-    "missedReviewCount": 5,
+    "missedReviewCount": 7,
     "officialNoticePendingCount": 0,
     "sourceGapCount": 10,
     "missedReviewItems": [
+      {
+        "title": "[공공기관] 2026년 한국장애인고용공단 직원 채용 공고",
+        "company": "[공공기관] 한국장애인고용공단",
+        "sourceName": "서울특별시교육청 하이잡 채용정보",
+        "publishedDate": "2026-05-26",
+        "firstSeenDate": "2026-05-31",
+        "detectionLagDays": 5,
+        "status": "deadline_soon",
+        "primaryOfficialUrl": "https://kead.careerlink.kr/jobs/RC20260515029269",
+        "reviewReason": "공고 게시 후 5일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      },
       {
         "title": "2026년 7월 한국교육과정평가원 비정규직원 모집 공고",
         "company": "한국교육과정평가원",
@@ -42,6 +53,17 @@
         "status": "active",
         "primaryOfficialUrl": "https://www.kice.re.kr/boardCnts/view.do?boardID=10028&boardSeq=5100602&lev=0&m=0503&searchType=S&statusYN=W&page=1&s=kice",
         "reviewReason": "공고 게시 후 2일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      },
+      {
+        "title": "사무직 신입직원(채용형 인턴) 채용(원서 마감)",
+        "company": "공무원연금공단",
+        "sourceName": "서울특별시교육청 하이잡 채용정보",
+        "publishedDate": "2026-05-04",
+        "firstSeenDate": "2026-05-31",
+        "detectionLagDays": 27,
+        "status": "application_closed",
+        "primaryOfficialUrl": "https://geps.applyin.co.kr/",
+        "reviewReason": "공고 게시 후 27일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
       },
       {
         "title": "한전KPS(주) 서울경기전력지사 수원지점 단기노무원(상주감시, 차량순시 정비보조) 모집",
@@ -169,9 +191,9 @@
   },
   "secretReadiness": {
     "status": "needs_secrets_or_official_feeds",
-    "generatedAt": "2026-05-31T13:15:31.194Z",
-    "totalSources": 11,
-    "readySources": 1,
+    "generatedAt": "2026-05-31T13:34:51.768Z",
+    "totalSources": 12,
+    "readySources": 2,
     "partialSources": 0,
     "missingSources": 10,
     "sources": [
@@ -247,6 +269,28 @@
         "setupHint": "잡알리오 공식 공개 채용목록과 상세 원문을 제한적으로 확인",
         "easySteps": [
           "현재는 추가 작업 없이 공식 공개 목록과 상세 원문을 점검한다."
+        ]
+      },
+      {
+        "id": "seoul-highjob",
+        "name": "서울특별시교육청 하이잡 채용정보",
+        "priority": "P0",
+        "readiness": "active",
+        "type": "official-public-web",
+        "requiredSecrets": [],
+        "configuredSecretNames": [],
+        "missingSecretNames": [],
+        "configuredFeedCount": 0,
+        "setupStatus": "ready",
+        "canAttemptImmediately": true,
+        "adapter": "native",
+        "actionLabel": "서울 하이잡 공식 채용정보 자동수집",
+        "impact": "서울 지역 특성화고 학생 대상 대기업·공공기관 공고와 매칭형 채용정보를 공식 교육청 소스로 보강한다.",
+        "setupHint": "서울특별시교육청 하이잡 공식 공개 채용정보 목록과 상세 원문 확인",
+        "easySteps": [
+          "별도 API 키 없이 서울특별시교육청 하이잡 공식 공개 채용정보를 자동 확인한다.",
+          "매칭데이·주요행사 게시판까지 공식 구조가 확인되면 같은 방식으로 전용 어댑터를 추가한다.",
+          "다른 시도교육청도 공식 채용정보 URL이 확인되는 순서대로 EDU_JOB_CENTER_FEEDS 또는 전용 어댑터로 확장한다."
         ]
       },
       {
@@ -677,6 +721,7 @@
     "applicationClosedTitleSuffix": "(원서 마감)",
     "applicationClosedRetainDays": 21,
     "jobAlioScanLimit": 40,
+    "seoulHighJobScanPages": 2,
     "primarySourceRule": "회사·기관 자체 홈페이지 또는 채용대행 공식 공고를 최우선 원문으로 사용하고, 잡알리오·고용24·사람인 등은 보완 출처로 사용한다."
   },
   "tracks": [
@@ -706,7 +751,7 @@
       "readiness": "active",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T13:15:31.194Z",
+      "checkedAt": "2026-05-31T13:34:51.768Z",
       "itemCount": 0,
       "message": "GitHub Secret WORK24_AUTH_KEY 또는 WORKNET_AUTH_KEY 미설정"
     },
@@ -721,13 +766,32 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-05-31T13:15:31.194Z",
+      "checkedAt": "2026-05-31T13:34:51.768Z",
       "itemCount": 5,
       "message": "공식 공개 원문 10건 점검, 공식 공고 확인 1건, 첫날 수집 0건, 누락점검 5건",
       "scannedCount": 10,
       "rawItemCount": 10,
       "firstDayCandidates": 0,
       "missedReviewNeeded": 5
+    },
+    {
+      "id": "seoul-highjob",
+      "name": "서울특별시교육청 하이잡 채용정보",
+      "type": "official-public-web",
+      "sourceUrl": "https://high-job.sen.go.kr/FUS/JO/EMList.do",
+      "group": "education-office",
+      "trackHint": "balanced",
+      "requiredSecrets": [],
+      "readiness": "active",
+      "configured": true,
+      "ok": true,
+      "checkedAt": "2026-05-31T13:34:51.768Z",
+      "itemCount": 2,
+      "message": "서울 하이잡 공식 목록 20건 점검, 후보 2건, 공식 공고 확인 2건, 첫날 수집 0건, 누락점검 2건",
+      "scannedCount": 20,
+      "rawItemCount": 20,
+      "firstDayCandidates": 0,
+      "missedReviewNeeded": 2
     },
     {
       "id": "saramin-job-search",
@@ -742,7 +806,7 @@
       "readiness": "active",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T13:15:31.194Z",
+      "checkedAt": "2026-05-31T13:34:51.768Z",
       "itemCount": 0,
       "message": "GitHub Secret SARAMIN_ACCESS_KEY 미설정"
     },
@@ -760,7 +824,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T13:15:31.194Z",
+      "checkedAt": "2026-05-31T13:34:51.768Z",
       "itemCount": 0,
       "message": "인사혁신처 나라일터 공식 API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -778,7 +842,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T13:15:31.194Z",
+      "checkedAt": "2026-05-31T13:34:51.768Z",
       "itemCount": 0,
       "message": "국방부·각 군 공식 모집/채용 공고 데이터 경로 확인 후 연결"
     },
@@ -796,7 +860,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T13:15:31.194Z",
+      "checkedAt": "2026-05-31T13:34:51.768Z",
       "itemCount": 0,
       "message": "잡코리아 공식 제휴 또는 이용 허가된 API 확인 후 연결"
     },
@@ -814,7 +878,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T13:15:31.194Z",
+      "checkedAt": "2026-05-31T13:34:51.768Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -832,7 +896,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T13:15:31.194Z",
+      "checkedAt": "2026-05-31T13:34:51.768Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -850,7 +914,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T13:15:31.194Z",
+      "checkedAt": "2026-05-31T13:34:51.768Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -867,7 +931,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T13:15:31.194Z",
+      "checkedAt": "2026-05-31T13:34:51.768Z",
       "itemCount": 0,
       "message": "교육청별 공식 RSS/API/게시판 허용 범위 조사 후 지역 피드 묶음으로 연결"
     },
@@ -885,12 +949,111 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T13:15:31.194Z",
+      "checkedAt": "2026-05-31T13:34:51.768Z",
       "itemCount": 0,
       "message": "비영리기관 공식 채용 공고 경로와 이용 조건 확인 후 연결"
     }
   ],
   "items": [
+    {
+      "id": "2be3ada8f4189ca377",
+      "source": "seoul-highjob",
+      "sourceName": "서울특별시교육청 하이잡 채용정보",
+      "title": "[공공기관] 2026년 한국장애인고용공단 직원 채용 공고",
+      "baseTitle": "[공공기관] 2026년 한국장애인고용공단 직원 채용 공고",
+      "company": "[공공기관] 한국장애인고용공단",
+      "region": "첨부자료 확인",
+      "education": "고졸·특성화고 관련 원문 확인",
+      "career": "원문 확인",
+      "employmentType": "정규직",
+      "detailText": "경영·회계·사무 외 분야별 상이 직무별 상이 ※ 자세한 내용은 기관 채용 공고에서 확인 ※ ○ 공고기간: 2026. 5. 18. (월)~ 2026. 6. 2. (화) 18:00 ○ 입사지원서 접수기간: 2026. 5. 25. (월) 11:00 ~ 2026. 6. 2. (화) 18:00 - 공단 온라인 입사지원시스템을 통해 원서 제출 및 접수 ○ 1차전형(서류전형): 2026. 6. 17. (수) 합격자 발표 (최종 선발 예정인원의 20배수 이내 선발 예정) - 필기전형 미실시 모집분야(특정업무직-취업지원상담사(장애), 특정업무직-직업훈련상담사(장애))는 최종 선발 예정인원의 5배수 이내 선발 예정 ○ 2차전형(필기전형): 2026. 6. 27. (토) 실시, 2026. 7. 1. (수) 합격자 발표 (최종 선발 예정인원의 3배수 이내 선발 예정) ○ 3차전형(면접전형): 2026. 7. 13. (월) ~ 7. 15. (수) 실시, 2026. 7. 24. (금) 합격자 발표 (최종 선발 예정인원의 1배수) ○ 임용예정일: 2026. 7. 31.(금) 공단 온라인 입사지원시스템 https://kead.careerlink.kr/jobs/RC20260515029269 2026년 한국장애인고용공단 채용",
+      "deadline": "2026-06-02",
+      "deadlineText": "2026. 6. 2. (화) 18:0 마감",
+      "url": "https://kead.careerlink.kr/jobs/RC20260515029269",
+      "originalUrl": "https://high-job.sen.go.kr/FUS/JO/EMList.do",
+      "sourceOfficialUrl": "https://high-job.sen.go.kr/FUS/JO/EMList.do",
+      "companyNoticeUrl": "https://kead.careerlink.kr/jobs/RC20260515029269",
+      "primaryOfficialUrl": "https://kead.careerlink.kr/jobs/RC20260515029269",
+      "officialNoticePriority": "company-or-agency-notice-first",
+      "supplementarySourceUrls": [
+        "https://high-job.sen.go.kr/FUS/JO/EMList.do"
+      ],
+      "verifiedAt": "2026-05-31T13:34:51.768Z",
+      "publishedAt": "2026-05-26T14:59:59.000Z",
+      "publishedDate": "2026-05-26",
+      "firstSeenAt": "2026-05-31T13:34:51.768Z",
+      "firstSeenDate": "2026-05-31",
+      "collectionAudit": {
+        "policy": "public-recruit-first-day-collection",
+        "publishedAt": "2026-05-26T14:59:59.000Z",
+        "publishedDate": "2026-05-26",
+        "firstSeenAt": "2026-05-31T13:34:51.768Z",
+        "firstSeenDate": "2026-05-31",
+        "detectionLagDays": 5,
+        "firstDayCollected": false,
+        "missedReviewNeeded": true,
+        "firstDayStatus": "late_detected",
+        "note": "공고 게시 후 5일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      },
+      "fitScore": 90,
+      "fitLabels": [
+        "고졸",
+        "특성화고",
+        "직업계고"
+      ],
+      "processTrack": "exam-formal",
+      "processTrackName": "필기·공식전형",
+      "writtenExam": "confirmed",
+      "processConfidence": "high",
+      "processLabels": [
+        "교육청",
+        "필기 확인"
+      ],
+      "processNote": "필기시험 또는 공식 선발 절차가 원문 키워드에서 확인됩니다.",
+      "sector": "education-office",
+      "sectorName": "교육청",
+      "sourceVerification": {
+        "sourceOfficialUrl": "https://high-job.sen.go.kr/FUS/JO/EMList.do",
+        "companyNoticeUrl": "https://kead.careerlink.kr/jobs/RC20260515029269",
+        "primaryOfficialUrl": "https://kead.careerlink.kr/jobs/RC20260515029269",
+        "officialNoticePriority": "company-or-agency-notice-first",
+        "companyNoticeCheckStatus": "content_matched",
+        "companyNoticeReachable": true,
+        "companyNoticeMatched": true,
+        "companyNoticeCheckedAt": "2026-05-31T13:34:51.768Z",
+        "doubleCheckStatus": "company_notice_confirmed",
+        "doubleCheckLabel": "공식 공고 2중확인",
+        "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
+      },
+      "servicePriority": "primary-public-recruit",
+      "servicePolicyLabel": "공채 상세",
+      "detailLevel": "detailed-public-recruit",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "contactAdvice": "지원 전 회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문을 다시 확인하세요.",
+      "publicRecruitDetails": {
+        "companyNotice": "회사·기관 공식 공고 확인",
+        "sourceCheck": "공식 공고 2중확인",
+        "eligibility": "고졸·특성화고 관련 원문 확인 · 원문 확인",
+        "process": "서류전형-필기전형-면접전형",
+        "application": "2026. 6. 2. (화) 18:0 마감"
+      },
+      "schoolRecommendation": "unknown",
+      "status": "deadline_soon",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "필기·공식전형",
+        "교육청",
+        "정규직",
+        "고졸·특성화고 관련 원문 확인",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ]
+    },
     {
       "id": "25b4a48bb4032adb79",
       "source": "job-alio-openapi",
@@ -914,7 +1077,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301135"
       ],
-      "verifiedAt": "2026-05-31T13:15:31.194Z",
+      "verifiedAt": "2026-05-31T13:34:51.768Z",
       "publishedAt": "2026-05-29T14:59:59.000Z",
       "publishedDate": "2026-05-29",
       "firstSeenAt": "2026-05-31T12:19:10.871Z",
@@ -956,7 +1119,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-05-31T13:15:31.194Z",
+        "companyNoticeCheckedAt": "2026-05-31T13:34:51.768Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -991,6 +1154,109 @@
       ]
     },
     {
+      "id": "d8ea9a3fabd333c1fc",
+      "source": "seoul-highjob",
+      "sourceName": "서울특별시교육청 하이잡 채용정보",
+      "title": "사무직 신입직원(채용형 인턴) 채용(원서 마감)",
+      "baseTitle": "사무직 신입직원(채용형 인턴) 채용",
+      "company": "공무원연금공단",
+      "region": "본사 및 전국 각 지부",
+      "education": "고졸·특성화고 관련 원문 확인",
+      "career": "원문 확인",
+      "employmentType": "채용형 인턴으로 약 4개월 근무 후 (평가에 따라)정규직 전환",
+      "detailText": "사무직 총 40명 cf. 7급(고교 예정자 포함) 2명 별첨 파일 참고 - 7급의 경우, 내신 평균 2.0등급 이내 자로서 특성화고, 마이스터고 학교장 추천서를 받은자 (학교당 5명 이내) ...별첨 자료 참고 채용홈페이지 온라인 접수 (https://geps.applyin.co.kr) ★2026년 공무원연금공단 사무직 신입직원(채용형인턴) 별첨자료.pdf ★2026년 공무원연금공단 사무직 신입직원(채용형인턴) 채용공고문.pdf 서울특별시교육청 하이잡 특성화고 직업계고 취업지원센터 공식 채용정보",
+      "deadline": "2026-05-11",
+      "deadlineText": "2026-05-11 원서 마감",
+      "url": "https://geps.applyin.co.kr/",
+      "originalUrl": "https://high-job.sen.go.kr/FUS/JO/EMList.do",
+      "sourceOfficialUrl": "https://high-job.sen.go.kr/FUS/JO/EMList.do",
+      "companyNoticeUrl": "https://geps.applyin.co.kr/",
+      "primaryOfficialUrl": "https://geps.applyin.co.kr/",
+      "officialNoticePriority": "company-or-agency-notice-first",
+      "supplementarySourceUrls": [
+        "https://high-job.sen.go.kr/FUS/JO/EMList.do"
+      ],
+      "verifiedAt": "2026-05-31T13:34:51.768Z",
+      "publishedAt": "2026-05-04T14:59:59.000Z",
+      "publishedDate": "2026-05-04",
+      "firstSeenAt": "2026-05-31T13:34:51.768Z",
+      "firstSeenDate": "2026-05-31",
+      "collectionAudit": {
+        "policy": "public-recruit-first-day-collection",
+        "publishedAt": "2026-05-04T14:59:59.000Z",
+        "publishedDate": "2026-05-04",
+        "firstSeenAt": "2026-05-31T13:34:51.768Z",
+        "firstSeenDate": "2026-05-31",
+        "detectionLagDays": 27,
+        "firstDayCollected": false,
+        "missedReviewNeeded": true,
+        "firstDayStatus": "late_detected",
+        "note": "공고 게시 후 27일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      },
+      "fitScore": 100,
+      "fitLabels": [
+        "고졸",
+        "특성화고",
+        "직업계고",
+        "마이스터고",
+        "학교장 추천",
+        "신입·경력무관"
+      ],
+      "processTrack": "exam-formal",
+      "processTrackName": "필기·공식전형",
+      "writtenExam": "confirmed",
+      "processConfidence": "high",
+      "processLabels": [
+        "교육청",
+        "필기 확인",
+        "학교장 추천"
+      ],
+      "processNote": "필기시험 또는 공식 선발 절차가 원문 키워드에서 확인됩니다.",
+      "sector": "education-office",
+      "sectorName": "교육청",
+      "sourceVerification": {
+        "sourceOfficialUrl": "https://high-job.sen.go.kr/FUS/JO/EMList.do",
+        "companyNoticeUrl": "https://geps.applyin.co.kr/",
+        "primaryOfficialUrl": "https://geps.applyin.co.kr/",
+        "officialNoticePriority": "company-or-agency-notice-first",
+        "companyNoticeCheckStatus": "content_matched",
+        "companyNoticeReachable": true,
+        "companyNoticeMatched": true,
+        "companyNoticeCheckedAt": "2026-05-31T13:34:51.768Z",
+        "doubleCheckStatus": "company_notice_confirmed",
+        "doubleCheckLabel": "공식 공고 2중확인",
+        "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
+      },
+      "servicePriority": "primary-public-recruit",
+      "servicePolicyLabel": "공채 상세",
+      "detailLevel": "detailed-public-recruit",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "contactAdvice": "지원 전 회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문을 다시 확인하세요.",
+      "publicRecruitDetails": {
+        "companyNotice": "회사·기관 공식 공고 확인",
+        "sourceCheck": "공식 공고 2중확인",
+        "eligibility": "고졸·특성화고 관련 원문 확인 · 원문 확인",
+        "process": "서류-필기-면접",
+        "application": "2026-05-11 원서 마감"
+      },
+      "schoolRecommendation": "required",
+      "status": "application_closed",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "필기·공식전형",
+        "교육청",
+        "채용형 인턴으로 약 4개월 근무 후 (평가에 따라)정규직 전환",
+        "고졸·특성화고 관련 원문 확인",
+        "학교장 추천 확인",
+        "직무기술서 확인"
+      ]
+    },
+    {
       "id": "e2c340f1771589507c",
       "source": "job-alio-openapi",
       "sourceName": "잡알리오 공공기관 채용",
@@ -1013,7 +1279,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301129"
       ],
-      "verifiedAt": "2026-05-31T13:15:31.194Z",
+      "verifiedAt": "2026-05-31T13:34:51.768Z",
       "publishedAt": "2026-05-29T14:59:59.000Z",
       "publishedDate": "2026-05-29",
       "firstSeenAt": "2026-05-31T12:19:10.871Z",
@@ -1055,7 +1321,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-05-31T13:15:31.194Z",
+        "companyNoticeCheckedAt": "2026-05-31T13:34:51.768Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -1106,7 +1372,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301128"
       ],
-      "verifiedAt": "2026-05-31T13:15:31.194Z",
+      "verifiedAt": "2026-05-31T13:34:51.768Z",
       "publishedAt": "2026-05-29T14:59:59.000Z",
       "publishedDate": "2026-05-29",
       "firstSeenAt": "2026-05-31T12:19:10.871Z",
@@ -1148,7 +1414,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-05-31T13:15:31.194Z",
+        "companyNoticeCheckedAt": "2026-05-31T13:34:51.768Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -1197,7 +1463,7 @@
       "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301130",
       "officialNoticePriority": "source-official-pending-company-or-agency-notice",
       "supplementarySourceUrls": [],
-      "verifiedAt": "2026-05-31T13:15:31.194Z",
+      "verifiedAt": "2026-05-31T13:34:51.768Z",
       "publishedAt": "2026-05-29T14:59:59.000Z",
       "publishedDate": "2026-05-29",
       "firstSeenAt": "2026-05-31T12:19:10.871Z",
@@ -1239,7 +1505,7 @@
         "companyNoticeCheckStatus": "not_found",
         "companyNoticeReachable": false,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-05-31T13:15:31.194Z",
+        "companyNoticeCheckedAt": "2026-05-31T13:34:51.768Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -1290,7 +1556,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301139"
       ],
-      "verifiedAt": "2026-05-31T13:15:31.194Z",
+      "verifiedAt": "2026-05-31T13:34:51.768Z",
       "publishedAt": "2026-05-29T14:59:59.000Z",
       "publishedDate": "2026-05-29",
       "firstSeenAt": "2026-05-31T12:19:10.871Z",
@@ -1332,7 +1598,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-05-31T13:15:31.194Z",
+        "companyNoticeCheckedAt": "2026-05-31T13:34:51.768Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
