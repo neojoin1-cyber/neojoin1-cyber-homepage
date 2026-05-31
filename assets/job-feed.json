@@ -1,62 +1,426 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-31T11:06:26.941Z",
+  "generatedAt": "2026-05-31T11:34:08.259Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 19:10 KST",
   "mode": "official-api-auto-registration",
   "summary": {
-    "total": 0,
-    "active": 0,
-    "deadlineSoon": 0,
-    "sourcesChecked": 4,
-    "sourcesConfigured": 0,
-    "note": "공식 API 키가 아직 연결되지 않아 자동 수집 대기 상태입니다."
+    "total": 4,
+    "active": 3,
+    "deadlineSoon": 1,
+    "examFormal": 1,
+    "directInterview": 3,
+    "sourcesChecked": 11,
+    "sourcesConfigured": 1,
+    "note": "공식 API 응답을 정규화하고 전형유형별로 자동 분류했습니다."
   },
+  "tracks": [
+    {
+      "id": "exam-formal",
+      "name": "필기·공식전형 공채",
+      "description": "대기업, 공공기관, 군 부사관·군무원, 정부·비영리기관처럼 필기시험 또는 공식 선발 절차 가능성이 높은 채용"
+    },
+    {
+      "id": "direct-interview",
+      "name": "면접중심·현장형 채용",
+      "description": "필기시험이 확인되지 않은 중견·중소기업, 채용연계, 현장형·상시 채용"
+    }
+  ],
   "sourceStatus": [
     {
       "id": "work24-open-recruit",
       "name": "고용24 공채속보",
       "type": "official-api",
       "sourceUrl": "https://www.work24.go.kr/cm/openApi/call/wk/callOpenApiSvcInfo210L21.do",
+      "group": "public-private",
+      "trackHint": "balanced",
+      "requiredSecrets": [
+        "WORK24_AUTH_KEY",
+        "WORKNET_AUTH_KEY"
+      ],
+      "readiness": "active",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T11:06:26.941Z",
+      "checkedAt": "2026-05-31T11:34:08.259Z",
       "itemCount": 0,
       "message": "GitHub Secret WORK24_AUTH_KEY 또는 WORKNET_AUTH_KEY 미설정"
+    },
+    {
+      "id": "job-alio-openapi",
+      "name": "잡알리오 공공기관 채용",
+      "type": "official-public-web",
+      "sourceUrl": "https://job.alio.go.kr/recruit.do",
+      "group": "public-institution",
+      "trackHint": "exam",
+      "requiredSecrets": [],
+      "readiness": "active",
+      "configured": true,
+      "ok": true,
+      "checkedAt": "2026-05-31T11:34:08.259Z",
+      "itemCount": 4,
+      "message": "공식 공개 원문 확인, 후보 4건"
     },
     {
       "id": "saramin-job-search",
       "name": "사람인 채용공고 API",
       "type": "official-api",
       "sourceUrl": "https://oapi.saramin.co.kr/job-search",
+      "group": "private-platform",
+      "trackHint": "balanced",
+      "requiredSecrets": [
+        "SARAMIN_ACCESS_KEY"
+      ],
+      "readiness": "active",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T11:06:26.941Z",
+      "checkedAt": "2026-05-31T11:34:08.259Z",
       "itemCount": 0,
       "message": "GitHub Secret SARAMIN_ACCESS_KEY 미설정"
     },
     {
-      "id": "jobkorea-official",
-      "name": "잡코리아 공식 연계",
-      "type": "official-api-pending",
-      "sourceUrl": "",
+      "id": "gojobs-narailter",
+      "name": "나라일터 일반·공무직 채용",
+      "type": "official-channel-pending",
+      "sourceUrl": "https://gojobs.go.kr",
+      "group": "government",
+      "trackHint": "exam",
+      "requiredSecrets": [
+        "NARAILTER_API_KEY",
+        "NARAILTER_API_URL"
+      ],
+      "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T11:06:26.941Z",
+      "checkedAt": "2026-05-31T11:34:08.259Z",
       "itemCount": 0,
-      "message": "공식 API/제휴 엔드포인트 확인 후 JOBKOREA_API_URL로 연결 예정"
+      "message": "인사혁신처 나라일터 공식 API 또는 허용된 데이터 경로 확인 후 연결"
     },
     {
-      "id": "regional-youth-job",
-      "name": "지역·공공 청년일자리 API",
-      "type": "official-api-pending",
-      "sourceUrl": "",
+      "id": "military-recruit",
+      "name": "군 부사관·군무원 채용",
+      "type": "official-channel-pending",
+      "sourceUrl": "https://www.mma.go.kr",
+      "group": "military",
+      "trackHint": "exam",
+      "requiredSecrets": [
+        "MILITARY_RECRUIT_API_KEY",
+        "MILITARY_RECRUIT_API_URL"
+      ],
+      "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T11:06:26.941Z",
+      "checkedAt": "2026-05-31T11:34:08.259Z",
       "itemCount": 0,
-      "message": "공식 제공 API와 이용조건 확인 후 추가 예정"
+      "message": "국방부·각 군 공식 모집/채용 공고 데이터 경로 확인 후 연결"
+    },
+    {
+      "id": "jobkorea-rookie",
+      "name": "잡코리아 고졸채용 루키",
+      "type": "official-partner-pending",
+      "sourceUrl": "https://www.jobkorea.co.kr",
+      "group": "private-platform",
+      "trackHint": "direct",
+      "requiredSecrets": [
+        "JOBKOREA_API_KEY",
+        "JOBKOREA_API_URL"
+      ],
+      "readiness": "pending",
+      "configured": false,
+      "ok": false,
+      "checkedAt": "2026-05-31T11:34:08.259Z",
+      "itemCount": 0,
+      "message": "잡코리아 공식 제휴 또는 이용 허가된 API 확인 후 연결"
+    },
+    {
+      "id": "incruit-highschool",
+      "name": "인크루트 고졸·신입 채용",
+      "type": "official-partner-pending",
+      "sourceUrl": "https://www.incruit.com",
+      "group": "private-platform",
+      "trackHint": "balanced",
+      "requiredSecrets": [
+        "INCRUIT_API_KEY",
+        "INCRUIT_API_URL"
+      ],
+      "readiness": "pending",
+      "configured": false,
+      "ok": false,
+      "checkedAt": "2026-05-31T11:34:08.259Z",
+      "itemCount": 0,
+      "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
+    },
+    {
+      "id": "albamon-youth",
+      "name": "알바몬 청소년·고졸 채용",
+      "type": "official-partner-pending",
+      "sourceUrl": "https://www.albamon.com",
+      "group": "part-time",
+      "trackHint": "direct",
+      "requiredSecrets": [
+        "ALBAMON_API_KEY",
+        "ALBAMON_API_URL"
+      ],
+      "readiness": "pending",
+      "configured": false,
+      "ok": false,
+      "checkedAt": "2026-05-31T11:34:08.259Z",
+      "itemCount": 0,
+      "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
+    },
+    {
+      "id": "alba-youth",
+      "name": "알바천국 청소년·고졸 채용",
+      "type": "official-partner-pending",
+      "sourceUrl": "https://www.alba.co.kr",
+      "group": "part-time",
+      "trackHint": "direct",
+      "requiredSecrets": [
+        "ALBA_API_KEY",
+        "ALBA_API_URL"
+      ],
+      "readiness": "pending",
+      "configured": false,
+      "ok": false,
+      "checkedAt": "2026-05-31T11:34:08.259Z",
+      "itemCount": 0,
+      "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
+    },
+    {
+      "id": "regional-education-job",
+      "name": "지역별 교육청 취업지원센터",
+      "type": "official-channel-pending",
+      "sourceUrl": "",
+      "group": "education-office",
+      "trackHint": "balanced",
+      "requiredSecrets": [
+        "EDU_JOB_CENTER_FEEDS"
+      ],
+      "readiness": "pending",
+      "configured": false,
+      "ok": false,
+      "checkedAt": "2026-05-31T11:34:08.259Z",
+      "itemCount": 0,
+      "message": "교육청별 공식 RSS/API/게시판 허용 범위 조사 후 지역 피드 묶음으로 연결"
+    },
+    {
+      "id": "nonprofit-recruit",
+      "name": "비영리·공익기관 채용",
+      "type": "official-channel-pending",
+      "sourceUrl": "",
+      "group": "nonprofit",
+      "trackHint": "balanced",
+      "requiredSecrets": [
+        "NONPROFIT_RECRUIT_API_KEY",
+        "NONPROFIT_RECRUIT_API_URL"
+      ],
+      "readiness": "pending",
+      "configured": false,
+      "ok": false,
+      "checkedAt": "2026-05-31T11:34:08.259Z",
+      "itemCount": 0,
+      "message": "비영리기관 공식 채용 공고 경로와 이용 조건 확인 후 연결"
     }
   ],
-  "items": []
+  "items": [
+    {
+      "id": "e2c340f1771589507c",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "title": "한전KPS(주) 서울경기전력지사 수원지점 단기노무원(상주감시, 차량순시 정비보조) 모집",
+      "company": "한전KPS(주)",
+      "region": "경기",
+      "education": "학력무관",
+      "career": "신입+경력",
+      "employmentType": "비정규직",
+      "detailText": "계약직 채용예정일 즉시 근무가능한 자 보훈대상자 : 면접전형 가점부여(만점의 5%~10%) 장애인 : 면접전형 가점부여(만점의 5%) 건설업 기초안전보건교육 수료자 : 면접전형 가점부여(만점의 5%) 1.전형절차 : 서류접수->면접전형->신체검사(적부판정)->합격자 발표 2.접수방법 : 우편접수, E-mail접수, 방문접수 3.제출서류 가. 채용 전 : 블라인드 입사지원서 1부 나. 채용 후 : 우대사항 증빙서류, 신분증 사본, 본인명의 통장사본 상주감시 구분 선발인원 응시인원 결과 확정일 1차 - - - 2차 - - - 최종 - - - 차량순시 정비보조 구분 선발인원 응시인원 결과 확정일 1차 - - - 2차 - - - 최종 - - -",
+      "deadline": "2026-06-05",
+      "deadlineText": "26.06.05 마감",
+      "url": "https://www.kps.co.kr/",
+      "originalUrl": "https://www.kps.co.kr/",
+      "verifiedAt": "2026-05-31T11:34:08.259Z",
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "direct-interview",
+      "processTrackName": "면접중심·현장형",
+      "writtenExam": "not_found",
+      "processConfidence": "medium",
+      "processLabels": [
+        "공공기관",
+        "면접 중심"
+      ],
+      "processNote": "필기시험은 확인되지 않았고 서류·면접 중심 채용으로 우선 분류했습니다.",
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "schoolRecommendation": "unknown",
+      "status": "deadline_soon",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "면접중심·현장형",
+        "공공기관",
+        "비정규직",
+        "학력무관",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ]
+    },
+    {
+      "id": "25b4a48bb4032adb79",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "title": "2026년 7월 한국교육과정평가원 비정규직원 모집 공고",
+      "company": "한국교육과정평가원",
+      "region": "충북",
+      "education": "고졸,대졸(4년),석사,박사",
+      "career": "신입",
+      "employmentType": "비정규직",
+      "detailText": "행정직,연구직 - 연구: 접수 마감일 기준 응시자격의 학위 소지로서 모집 분야와 전공이 일치하는 자, 국가공무원법 제33조의 결격 사유에 해당하지 않는 자, 「부패방지 및 국민권익위원회의 설치와 운영에 관한 법률」 제82조에 따른 비위면직자 등의 취업제한 적용에 해당하지 않는 자, 임용 예정일 기준으로 우리 원 인사규정에 따른 정년(만 60세)를 초과하는 자는 지원 불가, 남자는 접수 마감일 기준 병역필 또는 면제자, 모집분야 응시자격을 충족하는 자 - 행정(장애인): 장애인고용촉진 및 직업재활법 시행령 제3조에 따른 장애인, 고등학교 졸업자 이상, 국가공무원법 제33조의 결격 사유에 해당하지 않는 자, 「부패방지 및 국민권익위원회의 설",
+      "deadline": "2026-06-08",
+      "deadlineText": "26.06.08 마감",
+      "url": "https://www.kice.re.kr/boardCnts/view.do?boardID=10028&boardSeq=5100602&lev=0&m=0503&searchType=S&statusYN=W&page=1&s=kice",
+      "originalUrl": "https://www.kice.re.kr/boardCnts/view.do?boardID=10028&boardSeq=5100602&lev=0&m=0503&searchType=S&statusYN=W&page=1&s=kice",
+      "verifiedAt": "2026-05-31T11:34:08.259Z",
+      "fitScore": 50,
+      "fitLabels": [
+        "고졸",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "exam-formal",
+      "processTrackName": "필기·공식전형",
+      "writtenExam": "confirmed",
+      "processConfidence": "high",
+      "processLabels": [
+        "공공기관",
+        "필기 확인"
+      ],
+      "processNote": "필기시험 또는 공식 선발 절차가 원문 키워드에서 확인됩니다.",
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "schoolRecommendation": "unknown",
+      "status": "active",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "필기·공식전형",
+        "공공기관",
+        "비정규직",
+        "고졸,대졸(4년),석사,박사",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ]
+    },
+    {
+      "id": "1460505c2462740ccf",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "title": "2026년 제4차 국립백두대간수목원 기간제근로자 채용 공고",
+      "company": "한국수목원정원관리원",
+      "region": "경북",
+      "education": "학력무관",
+      "career": "신입+경력",
+      "employmentType": "비정규직",
+      "detailText": "계약직 ㅇ 공고일 기준 만 18세 이상이고, 공고문에 따른 취업지원대상자, 장애인 및 취업보호대상자, 정부권장정책(국민기초생활수급자, 차상위계층, 한부모가족 세대주, 북한이탈주민 보호대상자, 다문화가족의 자녀, 경력단절여성, 자립준비청년, 공공기관 청년인턴 수료자 등, 지역인재, 한국사능력검정시험 3급 이상 취득자 등 ※ 보다 자세한 사항은 첨부된 채용공고문 참조 1. 서류전형(5배수) : 응시지원서 및 자기소개서, 직무 관련 자격증 2. 면접전형(1배수) : 구조화면접(경험 및 인성면접 포함) 3. 결격사유 조회 4. 최종합격자 발표 ※ 보다 자세한 사항은 첨부된 채용 진행중 잡알리오 공공기관 채용",
+      "deadline": "2026-06-12",
+      "deadlineText": "26.06.12 마감",
+      "url": "https://www.koagi.or.kr/www/user/bbs/BD_selectBbs.do?q_bbsSn=1009&q_clsfNo=&q_bbsDocNo=20260529110117928&q_searchKeyTy=&q_searchVal=&q_currPage=1&q_sortName=&q_sortOrder=&q_rowPerPage=10",
+      "originalUrl": "https://www.koagi.or.kr/www/user/bbs/BD_selectBbs.do?q_bbsSn=1009&q_clsfNo=&q_bbsDocNo=20260529110117928&q_searchKeyTy=&q_searchVal=&q_currPage=1&q_sortName=&q_sortOrder=&q_rowPerPage=10",
+      "verifiedAt": "2026-05-31T11:34:08.259Z",
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "direct-interview",
+      "processTrackName": "면접중심·현장형",
+      "writtenExam": "not_found",
+      "processConfidence": "medium",
+      "processLabels": [
+        "공공기관",
+        "면접 중심"
+      ],
+      "processNote": "필기시험은 확인되지 않았고 서류·면접 중심 채용으로 우선 분류했습니다.",
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "schoolRecommendation": "unknown",
+      "status": "active",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "면접중심·현장형",
+        "공공기관",
+        "비정규직",
+        "학력무관",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ]
+    },
+    {
+      "id": "9bf7179f13061d9da0",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "title": "[제2026-2호] 한국생명존중희망재단 제2차 직원 채용 (공개, 제한경쟁) 공고",
+      "company": "한국생명존중희망재단",
+      "region": "서울",
+      "education": "학력무관",
+      "career": "신입+경력",
+      "employmentType": "무기계약직",
+      "detailText": "상담직 참조) 채용기간 26.05.29 ~ 26.06.15 등록일 2026.05.29 '한국생명존중희망재단' 에서 진행중인 채용공고 (최근 1개월 이전 공고) 더보기 --> 더보기 상세요강 전체보기 전형단계별 채용정보 첨부파일 전체보기 응시자격 ※ 세부내용은 공고문 참고 자살예방 상담사 ㅇ임용일 기준 만 60세 미만인 자 ※ 우대사항 가. 관련분야(사회복지사, 청소년상담사, 정신건강전문요원, 임상심리사) 자격 소지자 나. 관련학과(상담 및 심리계열) 전공자 다. 국가기관 및 공공기관 콜센터 상담업무 관련 1년 이상 경력자 자살예방상담 사례관리사 1. 임용일 기준 만 60세 미만인 자 2. 자살예방 사업 혹은 자살예방 상담 업무에 3년 이",
+      "deadline": "2026-06-15",
+      "deadlineText": "26.06.15 마감",
+      "url": "https://www.kfsp.or.kr/home/kor/board.do?menuPos=64&act=detail&idx=6202&sortField=&sortOrder=ASC&searchValue1=0&searchKeyword=&pageIndex=1",
+      "originalUrl": "https://www.kfsp.or.kr/home/kor/board.do?menuPos=64&act=detail&idx=6202&sortField=&sortOrder=ASC&searchValue1=0&searchKeyword=&pageIndex=1",
+      "verifiedAt": "2026-05-31T11:34:08.259Z",
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "direct-interview",
+      "processTrackName": "면접중심·현장형",
+      "writtenExam": "not_found",
+      "processConfidence": "medium",
+      "processLabels": [
+        "공공기관",
+        "면접 중심"
+      ],
+      "processNote": "필기시험은 확인되지 않았고 서류·면접 중심 채용으로 우선 분류했습니다.",
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "schoolRecommendation": "unknown",
+      "status": "active",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "면접중심·현장형",
+        "공공기관",
+        "무기계약직",
+        "학력무관",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ]
+    }
+  ]
 }

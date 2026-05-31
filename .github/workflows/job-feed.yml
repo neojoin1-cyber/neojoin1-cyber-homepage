@@ -27,10 +27,25 @@ jobs:
           WORK24_AUTH_KEY: ${{ secrets.WORK24_AUTH_KEY }}
           WORKNET_AUTH_KEY: ${{ secrets.WORKNET_AUTH_KEY }}
           SARAMIN_ACCESS_KEY: ${{ secrets.SARAMIN_ACCESS_KEY }}
+          JOB_ALIO_API_KEY: ${{ secrets.JOB_ALIO_API_KEY }}
+          JOB_ALIO_API_URL: ${{ secrets.JOB_ALIO_API_URL }}
+          NARAILTER_API_KEY: ${{ secrets.NARAILTER_API_KEY }}
+          NARAILTER_API_URL: ${{ secrets.NARAILTER_API_URL }}
+          MILITARY_RECRUIT_API_KEY: ${{ secrets.MILITARY_RECRUIT_API_KEY }}
+          MILITARY_RECRUIT_API_URL: ${{ secrets.MILITARY_RECRUIT_API_URL }}
           JOBKOREA_API_KEY: ${{ secrets.JOBKOREA_API_KEY }}
           JOBKOREA_API_URL: ${{ secrets.JOBKOREA_API_URL }}
+          INCRUIT_API_KEY: ${{ secrets.INCRUIT_API_KEY }}
+          INCRUIT_API_URL: ${{ secrets.INCRUIT_API_URL }}
+          ALBAMON_API_KEY: ${{ secrets.ALBAMON_API_KEY }}
+          ALBAMON_API_URL: ${{ secrets.ALBAMON_API_URL }}
+          ALBA_API_KEY: ${{ secrets.ALBA_API_KEY }}
+          ALBA_API_URL: ${{ secrets.ALBA_API_URL }}
           JOBABA_API_KEY: ${{ secrets.JOBABA_API_KEY }}
           JOBABA_API_URL: ${{ secrets.JOBABA_API_URL }}
+          EDU_JOB_CENTER_FEEDS: ${{ secrets.EDU_JOB_CENTER_FEEDS }}
+          NONPROFIT_RECRUIT_API_KEY: ${{ secrets.NONPROFIT_RECRUIT_API_KEY }}
+          NONPROFIT_RECRUIT_API_URL: ${{ secrets.NONPROFIT_RECRUIT_API_URL }}
 
       - name: Commit updated feed
         run: |

@@ -32,9 +32,175 @@ const HIGH_SCHOOL_TERMS = [
 
 const STRONG_TERMS = ['고졸', '특성화고', '직업계고', '마이스터고', '학교장 추천', '학교장추천'];
 const NEGATIVE_EDU_TERMS = ['대졸 이상', '4년제', '대학교 졸업', '학사 이상', '석사', '박사'];
+const PROFESSIONAL_ONLY_TERMS = ['전문의', '의사', '약사', '간호사', '방사선사', '면허 소지', '면허소지', '석사', '박사', '기술사'];
 
 const WORK24_OPEN_RECRUIT_URL = 'https://www.work24.go.kr/cm/openApi/call/wk/callOpenApiSvcInfo210L21.do';
 const SARAMIN_JOB_SEARCH_URL = 'https://oapi.saramin.co.kr/job-search';
+const JOB_ALIO_RECRUIT_URL = 'https://job.alio.go.kr/recruit.do';
+
+const SOURCE_CATALOG = [
+  {
+    id: 'work24-open-recruit',
+    name: '고용24 공채속보',
+    type: 'official-api',
+    sourceUrl: WORK24_OPEN_RECRUIT_URL,
+    group: 'public-private',
+    trackHint: 'balanced',
+    status: 'active',
+    secretNames: ['WORK24_AUTH_KEY', 'WORKNET_AUTH_KEY']
+  },
+  {
+    id: 'saramin-job-search',
+    name: '사람인 채용공고 API',
+    type: 'official-api',
+    sourceUrl: SARAMIN_JOB_SEARCH_URL,
+    group: 'private-platform',
+    trackHint: 'balanced',
+    status: 'active',
+    secretNames: ['SARAMIN_ACCESS_KEY']
+  },
+  {
+    id: 'job-alio-openapi',
+    name: '잡알리오 공공기관 채용',
+    type: 'official-public-web',
+    sourceUrl: JOB_ALIO_RECRUIT_URL,
+    group: 'public-institution',
+    trackHint: 'exam',
+    status: 'active',
+    secretNames: [],
+    message: '잡알리오 공식 공개 채용목록과 상세 원문을 제한적으로 확인'
+  },
+  {
+    id: 'gojobs-narailter',
+    name: '나라일터 일반·공무직 채용',
+    type: 'official-channel-pending',
+    sourceUrl: 'https://gojobs.go.kr',
+    group: 'government',
+    trackHint: 'exam',
+    status: 'pending',
+    secretNames: ['NARAILTER_API_KEY', 'NARAILTER_API_URL'],
+    message: '인사혁신처 나라일터 공식 API 또는 허용된 데이터 경로 확인 후 연결'
+  },
+  {
+    id: 'military-recruit',
+    name: '군 부사관·군무원 채용',
+    type: 'official-channel-pending',
+    sourceUrl: 'https://www.mma.go.kr',
+    group: 'military',
+    trackHint: 'exam',
+    status: 'pending',
+    secretNames: ['MILITARY_RECRUIT_API_KEY', 'MILITARY_RECRUIT_API_URL'],
+    message: '국방부·각 군 공식 모집/채용 공고 데이터 경로 확인 후 연결'
+  },
+  {
+    id: 'jobkorea-rookie',
+    name: '잡코리아 고졸채용 루키',
+    type: 'official-partner-pending',
+    sourceUrl: 'https://www.jobkorea.co.kr',
+    group: 'private-platform',
+    trackHint: 'direct',
+    status: 'pending',
+    secretNames: ['JOBKOREA_API_KEY', 'JOBKOREA_API_URL'],
+    message: '잡코리아 공식 제휴 또는 이용 허가된 API 확인 후 연결'
+  },
+  {
+    id: 'incruit-highschool',
+    name: '인크루트 고졸·신입 채용',
+    type: 'official-partner-pending',
+    sourceUrl: 'https://www.incruit.com',
+    group: 'private-platform',
+    trackHint: 'balanced',
+    status: 'pending',
+    secretNames: ['INCRUIT_API_KEY', 'INCRUIT_API_URL'],
+    message: '공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결'
+  },
+  {
+    id: 'albamon-youth',
+    name: '알바몬 청소년·고졸 채용',
+    type: 'official-partner-pending',
+    sourceUrl: 'https://www.albamon.com',
+    group: 'part-time',
+    trackHint: 'direct',
+    status: 'pending',
+    secretNames: ['ALBAMON_API_KEY', 'ALBAMON_API_URL'],
+    message: '공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결'
+  },
+  {
+    id: 'alba-youth',
+    name: '알바천국 청소년·고졸 채용',
+    type: 'official-partner-pending',
+    sourceUrl: 'https://www.alba.co.kr',
+    group: 'part-time',
+    trackHint: 'direct',
+    status: 'pending',
+    secretNames: ['ALBA_API_KEY', 'ALBA_API_URL'],
+    message: '공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결'
+  },
+  {
+    id: 'regional-education-job',
+    name: '지역별 교육청 취업지원센터',
+    type: 'official-channel-pending',
+    sourceUrl: '',
+    group: 'education-office',
+    trackHint: 'balanced',
+    status: 'pending',
+    secretNames: ['EDU_JOB_CENTER_FEEDS'],
+    message: '교육청별 공식 RSS/API/게시판 허용 범위 조사 후 지역 피드 묶음으로 연결'
+  },
+  {
+    id: 'nonprofit-recruit',
+    name: '비영리·공익기관 채용',
+    type: 'official-channel-pending',
+    sourceUrl: '',
+    group: 'nonprofit',
+    trackHint: 'balanced',
+    status: 'pending',
+    secretNames: ['NONPROFIT_RECRUIT_API_KEY', 'NONPROFIT_RECRUIT_API_URL'],
+    message: '비영리기관 공식 채용 공고 경로와 이용 조건 확인 후 연결'
+  }
+];
+
+const EXAM_TERMS = [
+  '필기',
+  '필기시험',
+  '필기전형',
+  'NCS',
+  '직무능력검사',
+  '인적성',
+  '논술',
+  '전공시험',
+  '체력검정',
+  '체력시험',
+  '군무원',
+  '공무원',
+  '부사관',
+  '공개경쟁',
+  '공개채용'
+];
+
+const DIRECT_TERMS = [
+  '면접',
+  '수시채용',
+  '상시채용',
+  '채용연계',
+  '현장실습',
+  '산학협력',
+  '서류전형',
+  '실무면접',
+  '입사일 협의',
+  '알바',
+  '파트타임'
+];
+
+const SECTOR_TERMS = {
+  military: ['부사관', '군무원', '육군', '해군', '공군', '해병대', '국방부'],
+  government: ['공무원', '공무직', '임기제', '기간제근로자', '나라일터', '인사혁신처'],
+  nonprofit: ['비영리', '공익', '재단', '협회', '사회복지', '법인'],
+  'public-institution': ['공공기관', '공기업', '준정부기관', '잡알리오', 'NCS'],
+  'large-company': ['대기업', '그룹', '공채', '공개채용', '인적성'],
+  'mid-sme': ['중견기업', '중소기업', '강소기업', '일학습병행', '도제학교'],
+  'part-time': ['알바', '파트타임', '시간제']
+};
 
 function readSecret(...names) {
   for (const name of names) {
@@ -70,6 +236,22 @@ function decodeXml(value) {
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'");
+}
+
+function htmlText(value) {
+  return decodeXml(String(value || '')
+    .replace(/<script\b[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style\b[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<br\s*\/?>/gi, ' ')
+    .replace(/<\/(p|div|li|tr|td|th|h1|h2|h3|h4)>/gi, ' ')
+    .replace(/<[^>]+>/g, ' '));
+}
+
+function extractBetween(text, start, end) {
+  const from = text.indexOf(start);
+  if (from === -1) return '';
+  const to = end ? text.indexOf(end, from + start.length) : -1;
+  return normalizeSpace(text.slice(from + start.length, to === -1 ? undefined : to));
 }
 
 function getXmlNodes(xml, tagName) {
@@ -136,6 +318,14 @@ function parseDate(value) {
     return new Date(`${dotted[1]}-${month}-${day}T23:59:59+09:00`);
   }
 
+  const shortDotted = raw.match(/^(\d{2})[.\-/](\d{1,2})[.\-/](\d{1,2})/);
+  if (shortDotted) {
+    const year = Number(shortDotted[1]) + 2000;
+    const month = shortDotted[2].padStart(2, '0');
+    const day = shortDotted[3].padStart(2, '0');
+    return new Date(`${year}-${month}-${day}T23:59:59+09:00`);
+  }
+
   const date = new Date(raw);
   return Number.isNaN(date.getTime()) ? null : date;
 }
@@ -179,6 +369,102 @@ function cleanUrl(value) {
 
 function compactTags(tags) {
   return Array.from(new Set(tags.filter(Boolean).map(normalizeSpace))).slice(0, 6);
+}
+
+function catalogSource(id) {
+  return SOURCE_CATALOG.find((source) => source.id === id) || null;
+}
+
+function includesAny(value, terms) {
+  return terms.some((term) => value.includes(term));
+}
+
+function sectorLabel(sector) {
+  return {
+    military: '군 채용',
+    government: '정부·공무직',
+    nonprofit: '비영리기관',
+    'public-institution': '공공기관',
+    'large-company': '대기업',
+    'mid-sme': '중견·중소',
+    'part-time': '시간제',
+    'private-platform': '민간채용',
+    'education-office': '교육청'
+  }[sector] || '채용분야 확인';
+}
+
+function trackLabel(track) {
+  return track === 'exam-formal' ? '필기·공식전형' : '면접중심·현장형';
+}
+
+function classifySector(raw, haystack) {
+  const source = catalogSource(raw.source);
+  if (source?.group && source.group !== 'public-private' && source.group !== 'private-platform') {
+    return source.group;
+  }
+  for (const [sector, terms] of Object.entries(SECTOR_TERMS)) {
+    if (includesAny(haystack, terms)) return sector;
+  }
+  if (source?.group === 'private-platform') return 'private-platform';
+  return 'mid-sme';
+}
+
+function classifyProcess(raw) {
+  const source = catalogSource(raw.source);
+  const haystack = [
+    raw.title,
+    raw.company,
+    raw.region,
+    raw.education,
+    raw.career,
+    raw.employmentType,
+    raw.description,
+    raw.processText,
+    raw.sourceName
+  ].join(' ');
+  const hasExam = includesAny(haystack, EXAM_TERMS);
+  const hasDirect = includesAny(haystack, DIRECT_TERMS);
+  const sector = classifySector(raw, haystack);
+  const labels = [sectorLabel(sector)];
+
+  let processTrack = 'direct-interview';
+  let writtenExam = 'unknown';
+  let confidence = 'review';
+  let note = '전형절차는 원문에서 최종 확인해야 합니다.';
+
+  if (hasExam) {
+    processTrack = 'exam-formal';
+    writtenExam = 'confirmed';
+    confidence = 'high';
+    labels.push('필기 확인');
+    note = '필기시험 또는 공식 선발 절차가 원문 키워드에서 확인됩니다.';
+  } else if (hasDirect || source?.trackHint === 'direct' || ['mid-sme', 'part-time'].includes(sector)) {
+    processTrack = 'direct-interview';
+    writtenExam = 'not_found';
+    confidence = hasDirect || source?.trackHint === 'direct' ? 'medium' : 'review';
+    labels.push(hasDirect ? '면접 중심' : '필기 미확인');
+    note = '필기시험은 확인되지 않았고 서류·면접 중심 채용으로 우선 분류했습니다.';
+  } else if (source?.trackHint === 'exam' || ['public-institution', 'government', 'military'].includes(sector)) {
+    processTrack = 'exam-formal';
+    writtenExam = 'likely';
+    confidence = 'medium';
+    labels.push('필기 가능성 높음');
+    note = '공공·군·정부 채용 성격상 필기 또는 공식 선발 절차 가능성이 높습니다.';
+  }
+
+  if (haystack.includes('공채') || haystack.includes('공개채용')) labels.push('공채');
+  if (haystack.includes('학교장 추천') || haystack.includes('학교장추천')) labels.push('학교장 추천');
+
+  return {
+    processTrack,
+    trackName: trackLabel(processTrack),
+    writtenExam,
+    processConfidence: confidence,
+    sector,
+    sectorName: sectorLabel(sector),
+    processLabels: compactTags(labels),
+    processNote: note
+  };
 }
 
 function scoreItem(raw) {
@@ -226,6 +512,15 @@ function scoreItem(raw) {
     score += 6;
     labels.push('사람인 공채속보');
   }
+  const source = catalogSource(raw.source);
+  if (source?.trackHint === 'exam') {
+    score += 8;
+    labels.push('공식전형');
+  }
+  if (source?.trackHint === 'direct') {
+    score += 6;
+    labels.push('면접중심');
+  }
 
   const hasPositiveTerm = HIGH_SCHOOL_TERMS.some((term) => haystack.includes(term));
   const hasNegativeEduOnly = NEGATIVE_EDU_TERMS.some((term) => haystack.includes(term)) && !hasPositiveTerm;
@@ -245,6 +540,7 @@ function normalizeItem(raw) {
   const deadlineDistance = daysUntil(deadlineDate);
   const url = cleanUrl(raw.url || raw.originalUrl);
   const score = scoreItem(raw);
+  const process = classifyProcess(raw);
   const lowerText = [
     title,
     company,
@@ -265,6 +561,8 @@ function normalizeItem(raw) {
 
   const legalCheckFlags = ['원문확인', '마감확인', '학력조건확인', '추천여부확인'];
   const guideTags = compactTags([
+    process.trackName,
+    process.sectorName,
     raw.employmentType || '고용형태 확인',
     raw.education || '학력조건 확인',
     schoolRecommendation === 'required' ? '학교장 추천 확인' : '추천여부 확인',
@@ -281,6 +579,7 @@ function normalizeItem(raw) {
     education: normalizeSpace(raw.education) || '원문 확인',
     career: normalizeSpace(raw.career) || '원문 확인',
     employmentType: normalizeSpace(raw.employmentType) || '원문 확인',
+    detailText: normalizeSpace(raw.description || raw.processText).slice(0, 360),
     deadline,
     deadlineText: normalizeSpace(raw.deadlineText) || (deadline ? `${deadline} 마감` : '마감일 원문 확인'),
     url,
@@ -288,6 +587,14 @@ function normalizeItem(raw) {
     verifiedAt: CHECKED_AT,
     fitScore: score.score,
     fitLabels: score.labels.length ? score.labels : ['원문확인'],
+    processTrack: process.processTrack,
+    processTrackName: process.trackName,
+    writtenExam: process.writtenExam,
+    processConfidence: process.processConfidence,
+    processLabels: process.processLabels,
+    processNote: process.processNote,
+    sector: process.sector,
+    sectorName: process.sectorName,
     schoolRecommendation,
     status,
     legalCheckFlags,
@@ -300,6 +607,9 @@ function normalizeItem(raw) {
 function shouldKeep(item) {
   if (!item.title || !item.company || !item.url) return false;
   if (item.status === 'expired') return false;
+  const text = [item.title, item.company, item.education, item.career, item.employmentType, item.detailText].join(' ');
+  const hasStrongHighSchool = STRONG_TERMS.some((term) => text.includes(term));
+  if (!hasStrongHighSchool && PROFESSIONAL_ONLY_TERMS.some((term) => text.includes(term))) return false;
   if (item.fitScore >= 24) return true;
   return item.education.includes('고졸') || item.education.includes('학력무관');
 }
@@ -338,6 +648,10 @@ function sourceStatus(base, overrides = {}) {
     name: base.name,
     type: base.type,
     sourceUrl: base.sourceUrl,
+    group: base.group || '',
+    trackHint: base.trackHint || '',
+    requiredSecrets: base.secretNames || [],
+    readiness: base.status || 'active',
     configured: Boolean(base.configured),
     ok: false,
     checkedAt: CHECKED_AT,
@@ -349,13 +663,7 @@ function sourceStatus(base, overrides = {}) {
 
 async function fetchWork24OpenRecruit() {
   const key = readSecret('WORK24_AUTH_KEY', 'WORKNET_AUTH_KEY');
-  const base = {
-    id: 'work24-open-recruit',
-    name: '고용24 공채속보',
-    type: 'official-api',
-    sourceUrl: WORK24_OPEN_RECRUIT_URL,
-    configured: Boolean(key)
-  };
+  const base = { ...catalogSource('work24-open-recruit'), configured: Boolean(key) };
   if (!key) {
     return {
       items: [],
@@ -423,6 +731,101 @@ async function fetchWork24OpenRecruit() {
   };
 }
 
+function parseJobAlioRows(html) {
+  const rows = Array.from(html.matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/gi), (match) => match[1]);
+  return rows
+    .map((row) => {
+      const link = row.match(/href=["']\/?recruitview\.do\?idx=(\d+)["'][^>]*\/?>([\s\S]*?)<\/a>/i);
+      if (!link) return null;
+      const cells = Array.from(row.matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/gi), (match) => htmlText(match[1]));
+      return {
+        idx: link[1],
+        title: htmlText(link[2]),
+        company: cells[3] || '',
+        region: cells[4] || '',
+        employmentType: cells[5] || '',
+        registeredAt: cells[6] || '',
+        deadline: cells[7] || '',
+        status: cells[8] || ''
+      };
+    })
+    .filter(Boolean);
+}
+
+async function fetchJobAlioDetail(row) {
+  const detailUrl = `https://job.alio.go.kr/recruitview.do?idx=${encodeURIComponent(row.idx)}`;
+  const html = await fetchWithTimeout(detailUrl);
+  const text = htmlText(html);
+  const originalUrl = text.match(/공고 URL\s*:\s*(https?:\/\/\S+)/);
+  const education = extractBetween(text, '학력정보', '근무분야') || '원문 확인';
+  const workField = extractBetween(text, '근무분야', '채용구분');
+  const career = extractBetween(text, '채용구분', '고용형태') || '원문 확인';
+  const employmentType = extractBetween(text, '고용형태', '대체인력여부') || row.employmentType;
+  const region = extractBetween(text, '근무지', '급여정보') || row.region;
+  const qualification = extractBetween(text, '응시자격', '결격사유');
+  const preference = extractBetween(text, '우대내용', '전형절차/방법');
+  const processText = extractBetween(text, '전형절차/방법', '공고문');
+  const deadline = row.deadline.match(/\d{2}\.\d{2}\.\d{2}/)?.[0] || row.deadline;
+
+  return {
+    source: 'job-alio-openapi',
+    sourceName: '잡알리오 공공기관 채용',
+    sourceId: row.idx,
+    title: row.title,
+    company: row.company,
+    region,
+    education,
+    career,
+    employmentType,
+    deadline,
+    deadlineText: deadline ? `${deadline} 마감` : '마감일 원문 확인',
+    url: originalUrl ? originalUrl[1] : detailUrl,
+    originalUrl: detailUrl,
+    processText,
+    description: [
+      workField,
+      qualification,
+      preference,
+      processText,
+      row.status,
+      '잡알리오 공공기관 채용'
+    ].join(' ')
+  };
+}
+
+async function fetchJobAlioRecruit() {
+  const base = { ...catalogSource('job-alio-openapi'), configured: true };
+  const rawItems = [];
+  const errors = [];
+
+  try {
+    const html = await fetchWithTimeout(JOB_ALIO_RECRUIT_URL);
+    const rows = parseJobAlioRows(html).slice(0, 18);
+    for (const row of rows) {
+      try {
+        rawItems.push(await fetchJobAlioDetail(row));
+      } catch (error) {
+        errors.push(`${row.idx}: ${error.message}`);
+      }
+    }
+  } catch (error) {
+    errors.push(error.message);
+  }
+
+  const normalized = rawItems.map(normalizeItem).filter(shouldKeep);
+  const ok = rawItems.length > 0 && errors.length < Math.max(1, rawItems.length);
+  return {
+    items: normalized,
+    status: sourceStatus(base, {
+      ok,
+      itemCount: normalized.length,
+      message: ok
+        ? `공식 공개 원문 확인, 후보 ${normalized.length}건`
+        : `연결 실패: ${errors.slice(0, 2).join('; ')}`
+    })
+  };
+}
+
 function saraminJobArray(payload) {
   const jobs = payload?.jobs?.job ?? payload?.job ?? [];
   if (Array.isArray(jobs)) return jobs;
@@ -432,13 +835,7 @@ function saraminJobArray(payload) {
 
 async function fetchSaraminJobSearch() {
   const key = readSecret('SARAMIN_ACCESS_KEY');
-  const base = {
-    id: 'saramin-job-search',
-    name: '사람인 채용공고 API',
-    type: 'official-api',
-    sourceUrl: SARAMIN_JOB_SEARCH_URL,
-    configured: Boolean(key)
-  };
+  const base = { ...catalogSource('saramin-job-search'), configured: Boolean(key) };
   if (!key) {
     return {
       items: [],
@@ -512,29 +909,48 @@ async function fetchSaraminJobSearch() {
 }
 
 function disabledSource(id, name, message, sourceUrl = '') {
+  const catalog = catalogSource(id);
+  const base = catalog || {
+    id,
+    name,
+    type: 'official-api-pending',
+    sourceUrl,
+    group: '',
+    trackHint: '',
+    status: 'pending',
+    secretNames: []
+  };
+  const configured = (base.secretNames || []).some((secretName) => Boolean(readSecret(secretName)));
   return {
     items: [],
-    status: sourceStatus({
-      id,
-      name,
-      type: 'official-api-pending',
-      sourceUrl,
-      configured: false
-    }, { message })
+    status: sourceStatus({ ...base, configured }, {
+      ok: false,
+      message: configured
+        ? `${message || base.message || '공식 연계 어댑터 구현 필요'}`
+        : `${message || base.message || '공식 연계 정보 확인 대기'}`
+    })
   };
+}
+
+function pendingCatalogSources() {
+  return SOURCE_CATALOG
+    .filter((source) => source.status !== 'active')
+    .map((source) => disabledSource(source.id, source.name, source.message, source.sourceUrl));
 }
 
 async function main() {
   const results = [];
   results.push(await fetchWork24OpenRecruit());
+  results.push(await fetchJobAlioRecruit());
   results.push(await fetchSaraminJobSearch());
-  results.push(disabledSource('jobkorea-official', '잡코리아 공식 연계', '공식 API/제휴 엔드포인트 확인 후 JOBKOREA_API_URL로 연결 예정'));
-  results.push(disabledSource('regional-youth-job', '지역·공공 청년일자리 API', '공식 제공 API와 이용조건 확인 후 추가 예정'));
+  results.push(...pendingCatalogSources());
 
   const items = dedupeAndSort(results.flatMap((result) => result.items));
   const sourceStatusList = results.map((result) => result.status);
   const active = items.filter((item) => item.status === 'active').length;
   const deadlineSoon = items.filter((item) => item.status === 'deadline_soon').length;
+  const examFormal = items.filter((item) => item.processTrack === 'exam-formal').length;
+  const directInterview = items.filter((item) => item.processTrack === 'direct-interview').length;
   const sourcesConfigured = sourceStatusList.filter((source) => source.configured).length;
 
   const payload = {
@@ -547,12 +963,26 @@ async function main() {
       total: items.length,
       active,
       deadlineSoon,
+      examFormal,
+      directInterview,
       sourcesChecked: sourceStatusList.length,
       sourcesConfigured,
       note: sourcesConfigured
-        ? '공식 API 응답을 정규화해 자동 등록했습니다.'
+        ? '공식 API 응답을 정규화하고 전형유형별로 자동 분류했습니다.'
         : '공식 API 키가 아직 연결되지 않아 자동 수집 대기 상태입니다.'
     },
+    tracks: [
+      {
+        id: 'exam-formal',
+        name: '필기·공식전형 공채',
+        description: '대기업, 공공기관, 군 부사관·군무원, 정부·비영리기관처럼 필기시험 또는 공식 선발 절차 가능성이 높은 채용'
+      },
+      {
+        id: 'direct-interview',
+        name: '면접중심·현장형 채용',
+        description: '필기시험이 확인되지 않은 중견·중소기업, 채용연계, 현장형·상시 채용'
+      }
+    ],
     sourceStatus: sourceStatusList,
     items
   };
@@ -574,10 +1004,24 @@ main().catch(async (error) => {
       total: 0,
       active: 0,
       deadlineSoon: 0,
+      examFormal: 0,
+      directInterview: 0,
       sourcesChecked: 0,
       sourcesConfigured: 0,
       note: '자동 수집 실행 중 오류가 발생했습니다.'
     },
+    tracks: [
+      {
+        id: 'exam-formal',
+        name: '필기·공식전형 공채',
+        description: '대기업, 공공기관, 군 부사관·군무원, 정부·비영리기관처럼 필기시험 또는 공식 선발 절차 가능성이 높은 채용'
+      },
+      {
+        id: 'direct-interview',
+        name: '면접중심·현장형 채용',
+        description: '필기시험이 확인되지 않은 중견·중소기업, 채용연계, 현장형·상시 채용'
+      }
+    ],
     sourceStatus: [
       sourceStatus({
         id: 'job-feed-runner',
