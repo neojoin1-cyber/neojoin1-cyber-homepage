@@ -54,6 +54,9 @@ jobs:
           NONPROFIT_RECRUIT_API_KEY: ${{ secrets.NONPROFIT_RECRUIT_API_KEY }}
           NONPROFIT_RECRUIT_API_URL: ${{ secrets.NONPROFIT_RECRUIT_API_URL }}
 
+      - name: Verify platform reliability gate
+        run: node tools/verify_platform_reliability.mjs
+
       - name: Commit updated feed
         run: |
           if git diff --quiet -- assets/job-feed.json; then

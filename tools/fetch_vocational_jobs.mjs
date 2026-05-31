@@ -946,6 +946,11 @@ function parseDate(value) {
   const raw = normalizeSpace(value);
   if (!raw) return null;
 
+  if (/^\d{4}-\d{2}-\d{2}T/i.test(raw)) {
+    const date = new Date(raw);
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+
   if (/^\d{10,13}$/.test(raw)) {
     const timestamp = Number(raw);
     const ms = raw.length === 13 ? timestamp : timestamp * 1000;
@@ -1219,7 +1224,8 @@ function buildCollectionAudit(raw, publishedDate, firstSeenAt = CHECKED_AT) {
   const publishedDay = formatDate(publishedDate);
   const firstSeenDate = parseDate(firstSeenAt) || NOW;
   const firstSeenDay = formatDate(firstSeenDate);
-  const detectionLagDays = publishedDate ? daysBetweenKst(publishedDate, firstSeenDate) : null;
+  const rawDetectionLagDays = publishedDate ? daysBetweenKst(publishedDate, firstSeenDate) : null;
+  const detectionLagDays = rawDetectionLagDays === null ? null : Math.max(0, rawDetectionLagDays);
 
   let firstDayStatus = 'unknown';
   if (detectionLagDays === 0) firstDayStatus = 'first_day';
