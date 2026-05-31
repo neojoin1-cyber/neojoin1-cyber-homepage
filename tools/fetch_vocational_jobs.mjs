@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(__dirname, '..');
-const OUT_FILE = path.join(ROOT_DIR, 'data', 'job-feed.json');
+const OUT_FILE = path.join(ROOT_DIR, 'assets', 'job-feed.json');
 
 const NOW = new Date();
 const CHECKED_AT = NOW.toISOString();

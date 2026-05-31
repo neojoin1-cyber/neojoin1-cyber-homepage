@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-05-31T11:00:25.951Z",
+  "generatedAt": "2026-05-31T11:06:26.941Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 19:10 KST",
   "mode": "official-api-auto-registration",
@@ -20,7 +20,7 @@
       "sourceUrl": "https://www.work24.go.kr/cm/openApi/call/wk/callOpenApiSvcInfo210L21.do",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T11:00:25.951Z",
+      "checkedAt": "2026-05-31T11:06:26.941Z",
       "itemCount": 0,
       "message": "GitHub Secret WORK24_AUTH_KEY 또는 WORKNET_AUTH_KEY 미설정"
     },
@@ -31,7 +31,7 @@
       "sourceUrl": "https://oapi.saramin.co.kr/job-search",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T11:00:25.951Z",
+      "checkedAt": "2026-05-31T11:06:26.941Z",
       "itemCount": 0,
       "message": "GitHub Secret SARAMIN_ACCESS_KEY 미설정"
     },
@@ -42,7 +42,7 @@
       "sourceUrl": "",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T11:00:25.951Z",
+      "checkedAt": "2026-05-31T11:06:26.941Z",
       "itemCount": 0,
       "message": "공식 API/제휴 엔드포인트 확인 후 JOBKOREA_API_URL로 연결 예정"
     },
@@ -53,7 +53,7 @@
       "sourceUrl": "",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-05-31T11:00:25.951Z",
+      "checkedAt": "2026-05-31T11:06:26.941Z",
       "itemCount": 0,
       "message": "공식 제공 API와 이용조건 확인 후 추가 예정"
     }

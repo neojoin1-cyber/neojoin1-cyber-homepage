@@ -10,12 +10,12 @@
 
 ## 1차 자동화 구조
 
-`tools/fetch_vocational_jobs.mjs`가 하루 3회 실행되어 `data/job-feed.json`을 생성한다.
+`tools/fetch_vocational_jobs.mjs`가 하루 3회 실행되어 `assets/job-feed.json`을 생성한다.
 
 - 실행 시간: 09:10, 14:10, 19:10 KST
 - 실행 위치: GitHub Actions
 - 저장 방식: 정적 JSON 자동 갱신 후 커밋
-- 표시 방식: `index.html`이 `data/job-feed.json`을 읽어 홈페이지 공채 허브에 표시
+- 표시 방식: `index.html`이 `assets/job-feed.json`을 읽어 홈페이지 공채 허브에 표시
 
 이 방식은 별도 서버 비용이 없고, GitHub Pages 캐시에도 비교적 안전하다.
 
@@ -66,7 +66,7 @@
 
 ## 운영 점검
 
-`data/job-feed.json`의 `sourceStatus`를 보면 어떤 정보원이 연결되었고 어떤 정보원이 미연결인지 확인할 수 있다.
+`assets/job-feed.json`의 `sourceStatus`를 보면 어떤 정보원이 연결되었고 어떤 정보원이 미연결인지 확인할 수 있다.
 
 - `configured: false`: Secret 또는 공식 연계 정보가 아직 없음
 - `ok: false`: Secret은 있거나 실행했지만 API 응답 오류가 있음
