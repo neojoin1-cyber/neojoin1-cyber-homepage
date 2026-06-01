@@ -221,11 +221,15 @@ async function validateHomepage() {
   const branchSection = sectionBetween(html, '<div class="branch-grid">', '<div class="ebook-portal-panel"');
   const systemGridSection = sectionBetween(html, '<div class="system-grid">', '<div class="portal-note">');
   const portalBriefSection = sectionBetween(html, '<div class="portal-brief"', '<img src=');
+  const ebookPreviewSection = sectionBetween(html, '<aside class="ebook-preview-list"', '<div class="job-feed"');
+  const ebookPreviewCount = countText(ebookPreviewSection, 'class="ebook-title-item"');
 
   fail('home.feed-url-versioned', /assets\/job-feed\.json\?v=/.test(html), '공채 피드 URL에 캐시 버전이 붙어 있습니다.');
   fail('home.feed-no-store', html.includes("cache: 'no-store'"), '공채 피드는 브라우저 캐시를 피해서 읽습니다.');
   fail('home.law-link', html.includes('https://gyo6-law-info.web.app'), '법률정보 시스템 연결 URL이 유지되어 있습니다.');
   fail('home.ebook-link', html.includes('https://gyo6--ebook.web.app/'), '전자책 서재 연결 URL이 유지되어 있습니다.');
+  fail('home.ebook-preview-list-count', ebookPreviewCount > 5 && ebookPreviewCount <= 8, '메인 전자책 맛보기 목록은 5권보다 많고 최대 8권까지 표시합니다.', `${ebookPreviewCount}권`);
+  fail('home.ebook-preview-latest-title', ebookPreviewSection.includes('품질경영 L3 외부평가 문제풀이') && ebookPreviewSection.includes('식음료서비스 L3 수업용 교재(자율학습용)') && ebookPreviewSection.includes('NCS직업기초능력 1권'), '메인 전자책 맛보기 목록에 최신 공개 교재 제목이 반영되어 있습니다.');
   fail('home.closed-label', html.includes('application_closed') && html.includes('원서 마감'), '원서 마감 상태 표시 로직이 있습니다.');
   fail('home.teacher-briefing-ui', html.includes('취업부 브리핑') && html.includes('teacherBriefing'), '공채 카드에 취업부 브리핑 UI가 연결되어 있습니다.');
   fail('home.hero-image-versioned', /platform-hero-vocational\.png\?v=/.test(html), '플랫폼 대표 이미지에 캐시 버전이 붙어 있습니다.');
