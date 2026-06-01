@@ -14,6 +14,8 @@ const HIGH_SCHOOL_STRONG_TERMS = ['고졸', '특성화고', '직업계고', '마
 const ENTRY_LEVEL_TERMS = ['고졸', '고등학교', '특성화고', '직업계고', '마이스터고', '졸업예정', '졸업 예정', '학교장 추천', '학교장추천', '고졸제한', '고졸 제한', '사회형평 고졸', '신입', '경력무관', '신입+경력', '신입·경력', '청년인턴', '채용형 인턴', '공무직', '업무지원직', '기간제', '9급', '지역인재', '기능인재'];
 const SENIOR_ROLE_PATTERN = /(원장|센터장|기관장|본부장|부원장|개방형\s*직위|전문계약직|연봉계약직|임원|상임감사|비상임감사|감사위원|이사장|대표이사)/;
 const RESTRICTED_ROLE_PATTERN = /(관리직|별정직|책임연구원|선임연구원|교수)/;
+const ADVANCED_EDU_PATTERN = /(대졸\s*이상|대졸\([^)]*\)|전문대졸|4년제|대학교\s*졸업|학사\s*이상|석사|박사)/;
+const PROFESSIONAL_ONLY_PATTERN = /(전문의|의사|약사|간호사|방사선사|공인회계사|회계사|변호사|세무사|노무사|법무사|건축사|면허\s*소지|기술사)/;
 
 const checks = [];
 
@@ -121,19 +123,27 @@ function hasEntryLevelSignal(item) {
   return ENTRY_LEVEL_TERMS.some((term) => text.includes(term));
 }
 
+function hasEducationOpenSignal(item) {
+  return /학력\s*무관/.test(feedItemEligibilityText(item));
+}
+
 function isCareerOnlyWithoutStudentSignal(item) {
   const career = String(item.career || '').trim();
   if (!career || career === '원문 확인') return false;
   if (/신입|무관/.test(career)) return false;
-  return /경력|경력직/.test(career) && !hasStrongHighSchoolSignal(item);
+  return /경력|경력직/.test(career) && !hasStrongHighSchoolSignal(item) && !hasEducationOpenSignal(item);
 }
 
 function highSchoolSuitabilityProblem(item) {
   const text = feedItemEligibilityText(item);
+  const strongHighSchool = hasStrongHighSchoolSignal(item);
+  const entryLevel = hasEntryLevelSignal(item);
+  const educationOpen = hasEducationOpenSignal(item);
   if (SENIOR_ROLE_PATTERN.test(text)) return 'senior-role';
-  if (!hasStrongHighSchoolSignal(item) && RESTRICTED_ROLE_PATTERN.test(text)) return 'restricted-role';
+  if (!strongHighSchool && PROFESSIONAL_ONLY_PATTERN.test(text)) return 'professional-only';
+  if (!strongHighSchool && !educationOpen && ADVANCED_EDU_PATTERN.test(text)) return 'advanced-education-only';
+  if (!strongHighSchool && !entryLevel && !educationOpen && RESTRICTED_ROLE_PATTERN.test(text)) return 'restricted-role';
   if (isCareerOnlyWithoutStudentSignal(item)) return 'career-only';
-  if (item.education?.includes('학력무관') && !hasEntryLevelSignal(item)) return 'education-open-without-entry-signal';
   return '';
 }
 

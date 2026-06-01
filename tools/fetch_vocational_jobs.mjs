@@ -43,7 +43,7 @@ const HIGH_SCHOOL_TERMS = [
 ];
 
 const STRONG_TERMS = ['고졸', '특성화고', '직업계고', '마이스터고', '학교장 추천', '학교장추천'];
-const NEGATIVE_EDU_TERMS = ['대졸 이상', '4년제', '대학교 졸업', '학사 이상', '석사', '박사'];
+const NEGATIVE_EDU_TERMS = ['대졸 이상', '대졸(4년)', '대졸(2~3년)', '전문대졸', '4년제', '대학교 졸업', '학사 이상', '석사', '박사'];
 const PROFESSIONAL_ONLY_TERMS = ['전문의', '의사', '약사', '간호사', '방사선사', '공인회계사', '회계사', '변호사', '세무사', '노무사', '법무사', '건축사', '면허 소지', '면허소지', '석사', '박사', '기술사'];
 const ENTRY_LEVEL_TERMS = [
   '고졸',
@@ -1636,6 +1636,10 @@ function hasEntryLevelSignal(item) {
   return ENTRY_LEVEL_TERMS.some((term) => text.includes(term));
 }
 
+function hasEducationOpenSignal(item) {
+  return /학력\s*무관/.test(eligibilityText(item));
+}
+
 function isCareerOnlyRole(item) {
   const career = normalizeSpace(item.career);
   if (!career || career === '원문 확인') return false;
@@ -1645,7 +1649,7 @@ function isCareerOnlyRole(item) {
 
 function hasAdvancedEducationOnly(item) {
   const text = eligibilityText(item);
-  if (hasStrongHighSchoolSignal(item)) return false;
+  if (hasStrongHighSchoolSignal(item) || hasEducationOpenSignal(item)) return false;
   return NEGATIVE_EDU_TERMS.some((term) => text.includes(term));
 }
 
@@ -1653,11 +1657,12 @@ function isUnsuitableForHighSchoolChannel(item) {
   const text = eligibilityText(item);
   const strongHighSchool = hasStrongHighSchoolSignal(item);
   const entryLevel = hasEntryLevelSignal(item);
+  const educationOpen = hasEducationOpenSignal(item);
   if (SENIOR_ROLE_PATTERN.test(text)) return true;
-  if (!strongHighSchool && RESTRICTED_ROLE_PATTERN.test(text)) return true;
+  if (!strongHighSchool && !entryLevel && !educationOpen && RESTRICTED_ROLE_PATTERN.test(text)) return true;
   if (!strongHighSchool && PROFESSIONAL_ONLY_TERMS.some((term) => text.includes(term))) return true;
   if (hasAdvancedEducationOnly(item)) return true;
-  if (!strongHighSchool && !entryLevel && isCareerOnlyRole(item)) return true;
+  if (!strongHighSchool && !entryLevel && !educationOpen && isCareerOnlyRole(item)) return true;
   return false;
 }
 
@@ -1809,7 +1814,8 @@ function shouldKeep(item) {
   if (!hasStrongHighSchool && PROFESSIONAL_ONLY_TERMS.some((term) => text.includes(term))) return false;
   if (item.fitScore >= 24) return true;
   return item.education.includes('고졸')
-    || (item.education.includes('학력무관') && hasEntryLevelSignal(item));
+    || item.education.includes('학력무관')
+    || hasEntryLevelSignal(item);
 }
 
 function dedupeAndSort(items) {
@@ -1977,6 +1983,38 @@ function fallbackPreviousItems(previousItems) {
   return items.slice(0, MAX_ITEMS);
 }
 
+function fallbackFailedSourceItems(previousItems, sourceStatusList, freshItems) {
+  if (!previousItems.size) return [];
+  const failedSources = new Set(sourceStatusList
+    .filter((source) => source.configured && !source.ok)
+    .map((source) => source.id));
+  if (!failedSources.size) return [];
+
+  const freshIds = new Set(freshItems.map((item) => item.id));
+  const seen = new Set(freshIds);
+  const items = [];
+  for (const item of previousItems.values()) {
+    if (!failedSources.has(item?.source)) continue;
+    if (!item?.id || seen.has(item.id)) continue;
+    if (!shouldKeep(item)) continue;
+    seen.add(item.id);
+    items.push({
+      ...item,
+      staleSourceFallback: true,
+      verifiedAt: CHECKED_AT,
+      displayNote: `${item.displayNote || '공식 원문 확인 필요'} 현재 실행에서 ${item.sourceName || item.source} 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.`,
+      collectionAudit: {
+        ...(item.collectionAudit || {}),
+        missedReviewNeeded: true,
+        fallbackFromPreviousRun: true,
+        sourceFallback: true,
+        note: `현재 실행에서 ${item.sourceName || item.source} 소스 수집이 실패해 직전 정상 데이터가 임시 보존되었습니다.`
+      }
+    });
+  }
+  return items;
+}
+
 function publicDataKey(...names) {
   return readSecret(...names, 'DATA_GO_KR_SERVICE_KEY');
 }
@@ -2030,8 +2068,9 @@ function publicJobKeep(item) {
   const hasPublicYouthTerm = publicYouthTerms.some((term) => text.includes(term));
   const hasStrongHighSchool = hasStrongHighSchoolSignal(item);
   const hasEntrySignal = hasEntryLevelSignal(item);
+  const hasEducationOpen = hasEducationOpenSignal(item);
   if (!hasStrongHighSchool && PROFESSIONAL_ONLY_TERMS.some((term) => text.includes(term))) return false;
-  return hasPublicYouthTerm || hasEntrySignal || (item.fitScore >= 28 && hasStrongHighSchool);
+  return hasPublicYouthTerm || hasEntrySignal || hasEducationOpen || (item.fitScore >= 28 && hasStrongHighSchool);
 }
 
 async function fetchPublicDataEndpoint(url, source, publicSourceUrl) {
@@ -2939,11 +2978,13 @@ async function main() {
   results.push(await fetchSaraminJobSearch());
   results.push(...await pendingCatalogSources());
 
-  const currentItems = dedupeAndSort(results.flatMap((result) => result.items));
+  const sourceStatusList = results.map((result) => result.status);
+  const freshItems = results.flatMap((result) => result.items);
+  const sourceFallbackItems = fallbackFailedSourceItems(previousItems, sourceStatusList, freshItems);
+  const currentItems = dedupeAndSort([...freshItems, ...sourceFallbackItems]);
   const items = currentItems.length
     ? mergePreviousAudit(currentItems, previousItems)
     : fallbackPreviousItems(previousItems);
-  const sourceStatusList = results.map((result) => result.status);
   const active = items.filter((item) => item.status === 'active').length;
   const deadlineSoon = items.filter((item) => item.status === 'deadline_soon').length;
   const applicationClosed = items.filter((item) => item.status === 'application_closed').length;

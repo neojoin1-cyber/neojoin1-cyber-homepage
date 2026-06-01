@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "generatedAt": "2026-06-01T11:50:44.717Z",
+  "generatedAt": "2026-06-01T12:39:45.255Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 19:10 KST",
   "mode": "official-public-recruit-auto-registration",
@@ -27,7 +27,7 @@
   },
   "collectionReview": {
     "status": "review_needed",
-    "generatedAt": "2026-06-01T11:50:44.717Z",
+    "generatedAt": "2026-06-01T12:39:45.255Z",
     "firstDayGoal": "공채는 게시 첫날 수집을 목표로 하며, 늦게 발견된 공고는 누락 점검 대상으로 기록한다.",
     "missedReviewCount": 2,
     "officialNoticePendingCount": 0,
@@ -137,7 +137,7 @@
   },
   "secretReadiness": {
     "status": "needs_secrets_or_official_feeds",
-    "generatedAt": "2026-06-01T11:50:44.717Z",
+    "generatedAt": "2026-06-01T12:39:45.255Z",
     "totalSources": 14,
     "readySources": 4,
     "partialSources": 0,
@@ -758,7 +758,7 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-06-01T11:50:44.717Z",
+      "checkedAt": "2026-06-01T12:39:45.255Z",
       "itemCount": 0,
       "message": "인사혁신처 공공취업 API 650건 점검, 후보 0건, 공식분류 조회 28회",
       "scannedCount": 650,
@@ -781,7 +781,7 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-06-01T11:50:44.717Z",
+      "checkedAt": "2026-06-01T12:39:45.255Z",
       "itemCount": 4,
       "message": "기재부 공공기관 채용 API 10건 점검, 후보 4건, 공식 공고 접속확인 2건, 호출방식 page,perPage,returnType",
       "scannedCount": 10,
@@ -803,7 +803,7 @@
       "readiness": "active",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-01T11:50:44.717Z",
+      "checkedAt": "2026-06-01T12:39:45.255Z",
       "itemCount": 0,
       "message": "GitHub Secret WORK24_AUTH_KEY 또는 WORKNET_AUTH_KEY 미설정"
     },
@@ -818,7 +818,7 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-06-01T11:50:44.717Z",
+      "checkedAt": "2026-06-01T12:39:45.255Z",
       "itemCount": 4,
       "message": "공식 공개 원문 10건 점검, 공식 공고 확인 0건, 첫날 수집 4건, 누락점검 0건",
       "scannedCount": 10,
@@ -837,7 +837,7 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-06-01T11:50:44.717Z",
+      "checkedAt": "2026-06-01T12:39:45.255Z",
       "itemCount": 2,
       "message": "서울 하이잡 공식 목록 20건 점검, 후보 2건, 공식 공고 확인 2건, 첫날 수집 0건, 누락점검 2건",
       "scannedCount": 20,
@@ -858,7 +858,7 @@
       "readiness": "active",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-01T11:50:44.717Z",
+      "checkedAt": "2026-06-01T12:39:45.255Z",
       "itemCount": 0,
       "message": "GitHub Secret SARAMIN_ACCESS_KEY 미설정"
     },
@@ -876,7 +876,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-01T11:50:44.717Z",
+      "checkedAt": "2026-06-01T12:39:45.255Z",
       "itemCount": 0,
       "message": "인사혁신처 나라일터 공식 API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -894,7 +894,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-01T11:50:44.717Z",
+      "checkedAt": "2026-06-01T12:39:45.255Z",
       "itemCount": 0,
       "message": "국방부·각 군 공식 모집/채용 공고 데이터 경로 확인 후 연결"
     },
@@ -912,7 +912,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-01T11:50:44.717Z",
+      "checkedAt": "2026-06-01T12:39:45.255Z",
       "itemCount": 0,
       "message": "잡코리아 공식 제휴 또는 이용 허가된 API 확인 후 연결"
     },
@@ -930,7 +930,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-01T11:50:44.717Z",
+      "checkedAt": "2026-06-01T12:39:45.255Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -948,7 +948,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-01T11:50:44.717Z",
+      "checkedAt": "2026-06-01T12:39:45.255Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -966,7 +966,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-01T11:50:44.717Z",
+      "checkedAt": "2026-06-01T12:39:45.255Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -983,7 +983,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-01T11:50:44.717Z",
+      "checkedAt": "2026-06-01T12:39:45.255Z",
       "itemCount": 0,
       "message": "교육청별 공식 RSS/API/게시판 허용 범위 조사 후 지역 피드 묶음으로 연결"
     },
@@ -1001,7 +1001,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-01T11:50:44.717Z",
+      "checkedAt": "2026-06-01T12:39:45.255Z",
       "itemCount": 0,
       "message": "비영리기관 공식 채용 공고 경로와 이용 조건 확인 후 연결"
     }
@@ -1048,7 +1048,7 @@
       "supplementarySourceUrls": [
         "https://high-job.sen.go.kr/FUS/JO/EMList.do"
       ],
-      "verifiedAt": "2026-06-01T11:50:44.717Z",
+      "verifiedAt": "2026-06-01T12:39:45.255Z",
       "publishedAt": "2026-05-26T14:59:59.000Z",
       "publishedDate": "2026-05-26",
       "firstSeenAt": "2026-05-31T13:34:51.768Z",
@@ -1090,7 +1090,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-01T11:50:44.717Z",
+        "companyNoticeCheckedAt": "2026-06-01T12:39:45.255Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -1166,7 +1166,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://kead.careerlink.kr/jobs/RC20260515029269",
         "sourceUrl": "https://high-job.sen.go.kr/FUS/JO/EMList.do",
-        "generatedAt": "2026-06-01T11:50:44.717Z"
+        "generatedAt": "2026-06-01T12:39:45.255Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -1218,7 +1218,7 @@
       "supplementarySourceUrls": [
         "https://www.data.go.kr/data/15125273/openapi.do"
       ],
-      "verifiedAt": "2026-06-01T11:50:44.717Z",
+      "verifiedAt": "2026-06-01T12:39:45.255Z",
       "publishedAt": "2026-06-01T14:59:59.000Z",
       "publishedDate": "2026-06-01",
       "firstSeenAt": "2026-05-31T23:07:48.169Z",
@@ -1260,7 +1260,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-01T11:50:44.717Z",
+        "companyNoticeCheckedAt": "2026-06-01T12:39:45.255Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -1330,7 +1330,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.koem.or.kr/site/insa/ex/board/View.do?cbIdx=478&bcIdx=35866",
         "sourceUrl": "https://www.data.go.kr/data/15125273/openapi.do",
-        "generatedAt": "2026-06-01T11:50:44.717Z"
+        "generatedAt": "2026-06-01T12:39:45.255Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -1382,7 +1382,7 @@
       "supplementarySourceUrls": [
         "https://www.data.go.kr/data/15125273/openapi.do"
       ],
-      "verifiedAt": "2026-06-01T11:50:44.717Z",
+      "verifiedAt": "2026-06-01T12:39:45.255Z",
       "publishedAt": "2026-06-01T14:59:59.000Z",
       "publishedDate": "2026-06-01",
       "firstSeenAt": "2026-05-31T23:07:48.169Z",
@@ -1423,7 +1423,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-01T11:50:44.717Z",
+        "companyNoticeCheckedAt": "2026-06-01T12:39:45.255Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -1493,7 +1493,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.koem.or.kr/site/insa/ex/board/View.do?cbIdx=478&bcIdx=35865",
         "sourceUrl": "https://www.data.go.kr/data/15125273/openapi.do",
-        "generatedAt": "2026-06-01T11:50:44.717Z"
+        "generatedAt": "2026-06-01T12:39:45.255Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -1549,7 +1549,7 @@
       "supplementarySourceUrls": [
         "https://high-job.sen.go.kr/FUS/JO/EMList.do"
       ],
-      "verifiedAt": "2026-06-01T11:50:44.717Z",
+      "verifiedAt": "2026-06-01T12:39:45.255Z",
       "publishedAt": "2026-05-04T14:59:59.000Z",
       "publishedDate": "2026-05-04",
       "firstSeenAt": "2026-05-31T13:34:51.768Z",
@@ -1595,7 +1595,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-01T11:50:44.717Z",
+        "companyNoticeCheckedAt": "2026-06-01T12:39:45.255Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -1670,7 +1670,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://geps.applyin.co.kr/",
         "sourceUrl": "https://high-job.sen.go.kr/FUS/JO/EMList.do",
-        "generatedAt": "2026-06-01T11:50:44.717Z"
+        "generatedAt": "2026-06-01T12:39:45.255Z"
       },
       "schoolRecommendation": "required",
       "status": "application_closed",
@@ -1722,16 +1722,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301212"
       ],
-      "verifiedAt": "2026-06-01T11:50:44.717Z",
+      "verifiedAt": "2026-06-01T12:39:45.255Z",
       "publishedAt": "2026-06-01T14:59:59.000Z",
       "publishedDate": "2026-06-01",
-      "firstSeenAt": "2026-05-31T23:07:48.169Z",
+      "firstSeenAt": "2026-06-01T12:39:45.255Z",
       "firstSeenDate": "2026-06-01",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-06-01T14:59:59.000Z",
         "publishedDate": "2026-06-01",
-        "firstSeenAt": "2026-05-31T23:07:48.169Z",
+        "firstSeenAt": "2026-06-01T12:39:45.255Z",
         "firstSeenDate": "2026-06-01",
         "detectionLagDays": 0,
         "firstDayCollected": true,
@@ -1764,7 +1764,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-01T11:50:44.717Z",
+        "companyNoticeCheckedAt": "2026-06-01T12:39:45.255Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -1825,7 +1825,7 @@
         "officialBasis": "회사 확인 권고",
         "officialUrl": "https://www.pola.or.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301212",
-        "generatedAt": "2026-06-01T11:50:44.717Z"
+        "generatedAt": "2026-06-01T12:39:45.255Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -1877,16 +1877,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301202"
       ],
-      "verifiedAt": "2026-06-01T11:50:44.717Z",
+      "verifiedAt": "2026-06-01T12:39:45.255Z",
       "publishedAt": "2026-06-01T14:59:59.000Z",
       "publishedDate": "2026-06-01",
-      "firstSeenAt": "2026-06-01T10:31:35.741Z",
+      "firstSeenAt": "2026-06-01T12:39:45.255Z",
       "firstSeenDate": "2026-06-01",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-06-01T14:59:59.000Z",
         "publishedDate": "2026-06-01",
-        "firstSeenAt": "2026-06-01T10:31:35.741Z",
+        "firstSeenAt": "2026-06-01T12:39:45.255Z",
         "firstSeenDate": "2026-06-01",
         "detectionLagDays": 0,
         "firstDayCollected": true,
@@ -1919,7 +1919,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-01T11:50:44.717Z",
+        "companyNoticeCheckedAt": "2026-06-01T12:39:45.255Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -1980,7 +1980,7 @@
         "officialBasis": "회사 확인 권고",
         "officialUrl": "https://www.bohun.or.kr/seoul/na/ntt/selectNttInfo.do?mi=32253&bbsId=1158&bbsSysId=seoul&nttSn=186022",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301202",
-        "generatedAt": "2026-06-01T11:50:44.717Z"
+        "generatedAt": "2026-06-01T12:39:45.255Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -2030,16 +2030,16 @@
       "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301199",
       "officialNoticePriority": "source-official-pending-company-or-agency-notice",
       "supplementarySourceUrls": [],
-      "verifiedAt": "2026-06-01T11:50:44.717Z",
+      "verifiedAt": "2026-06-01T12:39:45.255Z",
       "publishedAt": "2026-06-01T14:59:59.000Z",
       "publishedDate": "2026-06-01",
-      "firstSeenAt": "2026-06-01T08:59:07.492Z",
+      "firstSeenAt": "2026-06-01T12:39:45.255Z",
       "firstSeenDate": "2026-06-01",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-06-01T14:59:59.000Z",
         "publishedDate": "2026-06-01",
-        "firstSeenAt": "2026-06-01T08:59:07.492Z",
+        "firstSeenAt": "2026-06-01T12:39:45.255Z",
         "firstSeenDate": "2026-06-01",
         "detectionLagDays": 0,
         "firstDayCollected": true,
@@ -2072,7 +2072,7 @@
         "companyNoticeCheckStatus": "not_found",
         "companyNoticeReachable": false,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-01T11:50:44.717Z",
+        "companyNoticeCheckedAt": "2026-06-01T12:39:45.255Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -2132,7 +2132,7 @@
         "officialBasis": "회사 확인 권고",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=301199",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301199",
-        "generatedAt": "2026-06-01T11:50:44.717Z"
+        "generatedAt": "2026-06-01T12:39:45.255Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -2184,16 +2184,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301206"
       ],
-      "verifiedAt": "2026-06-01T11:50:44.717Z",
+      "verifiedAt": "2026-06-01T12:39:45.255Z",
       "publishedAt": "2026-06-01T14:59:59.000Z",
       "publishedDate": "2026-06-01",
-      "firstSeenAt": "2026-06-01T10:31:35.741Z",
+      "firstSeenAt": "2026-06-01T12:39:45.255Z",
       "firstSeenDate": "2026-06-01",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-06-01T14:59:59.000Z",
         "publishedDate": "2026-06-01",
-        "firstSeenAt": "2026-06-01T10:31:35.741Z",
+        "firstSeenAt": "2026-06-01T12:39:45.255Z",
         "firstSeenDate": "2026-06-01",
         "detectionLagDays": 0,
         "firstDayCollected": true,
@@ -2226,7 +2226,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-01T11:50:44.717Z",
+        "companyNoticeCheckedAt": "2026-06-01T12:39:45.255Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -2287,7 +2287,7 @@
         "officialBasis": "회사 확인 권고",
         "officialUrl": "https://koreanpc.recruiter.co.kr/app/jobnotice/list",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301206",
-        "generatedAt": "2026-06-01T11:50:44.717Z"
+        "generatedAt": "2026-06-01T12:39:45.255Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -2339,7 +2339,7 @@
       "supplementarySourceUrls": [
         "https://www.data.go.kr/data/15125273/openapi.do"
       ],
-      "verifiedAt": "2026-06-01T11:50:44.717Z",
+      "verifiedAt": "2026-06-01T12:39:45.255Z",
       "publishedAt": "2026-06-01T14:59:59.000Z",
       "publishedDate": "2026-06-01",
       "firstSeenAt": "2026-05-31T23:07:48.169Z",
@@ -2380,7 +2380,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-01T11:50:44.717Z",
+        "companyNoticeCheckedAt": "2026-06-01T12:39:45.255Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -2440,7 +2440,7 @@
         "officialBasis": "회사 확인 권고",
         "officialUrl": "https://www.bohun.or.kr/daegu/na/ntt/selectNttInfo.do?mi=33151&bbsId=1158&bbsSysId=daegu&nttSn=186033",
         "sourceUrl": "https://www.data.go.kr/data/15125273/openapi.do",
-        "generatedAt": "2026-06-01T11:50:44.717Z"
+        "generatedAt": "2026-06-01T12:39:45.255Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -2492,7 +2492,7 @@
       "supplementarySourceUrls": [
         "https://www.data.go.kr/data/15125273/openapi.do"
       ],
-      "verifiedAt": "2026-06-01T11:50:44.717Z",
+      "verifiedAt": "2026-06-01T12:39:45.255Z",
       "publishedAt": "2026-06-01T14:59:59.000Z",
       "publishedDate": "2026-06-01",
       "firstSeenAt": "2026-05-31T23:07:48.169Z",
@@ -2533,7 +2533,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-01T11:50:44.717Z",
+        "companyNoticeCheckedAt": "2026-06-01T12:39:45.255Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -2593,7 +2593,7 @@
         "officialBasis": "회사 확인 권고",
         "officialUrl": "https://koddicpdd.fairyhr.com/",
         "sourceUrl": "https://www.data.go.kr/data/15125273/openapi.do",
-        "generatedAt": "2026-06-01T11:50:44.717Z"
+        "generatedAt": "2026-06-01T12:39:45.255Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
