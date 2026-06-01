@@ -10,10 +10,11 @@
 
 - 원격 저장소: `neojoin1-cyber/gyo6_secure_ebook_platform_v2`
 - 운영 주소: `https://gyo6--ebook.web.app/`
+- 무료 맛보기: `https://gyo6--ebook.web.app/preview.html`
 - 학생 서재: `https://gyo6--ebook.web.app/reader.html`
 - 관리자 콘솔: 공개 포털에는 직접 노출하지 않고, 전자책 시스템 내부에서 관리자 로그인 후 접근
-- 확인한 원격 기준 커밋: `e1ac65c`
-- 확인한 배포 주소: `https://gyo6--ebook.web.app/?v=e1ac65c`
+- 확인한 원격 기준 커밋: `2f0246c`
+- 확인한 배포 주소: `https://gyo6--ebook.web.app/preview.html?v=2f0246c`
 - 확인한 헬스 체크: `/api/health` 응답 정상
 
 ## 중요한 분리 원칙
@@ -21,7 +22,7 @@
 - 기존 전자책 시스템 프로젝트 `C:\gyo6_secure_ebook_platform_v2`와 섞지 않는다.
 - 노트북에 있는 오래된 로컬 프로젝트는 열람, 수정, 배포하지 않는다.
 - 홈페이지 프로젝트에는 전자책 소스코드를 복사하지 않는다.
-- 홈페이지는 서재 입구, 교재 목록 안내, 상태 확인만 맡고 전자책 기능은 별도 Firebase 시스템에서 처리한다.
+- 홈페이지는 서재 입구, 무료 맛보기 안내, 상태 확인만 맡고 전자책 기능은 별도 Firebase 시스템에서 처리한다.
 - 관리자 콘솔 링크는 공개 홈페이지에 노출하지 않고, 전자책 시스템 내부에서 `admin` 또는 `manager` 권한 확인 뒤에만 표시한다.
 - 전자책 시스템 내부 디자인이나 기능을 고치려면 GitHub 원격 기준으로 별도 작업 폴더를 만들어 진행한다.
 - Firebase 설정, API 키, 관리자 계정, 배포는 실행 전 사용자 확인을 받는다.
