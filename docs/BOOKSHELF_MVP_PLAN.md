@@ -12,7 +12,8 @@
 - 운영 주소: `https://gyo6--ebook.web.app/`
 - 학생 서재: `https://gyo6--ebook.web.app/reader.html`
 - 관리자 콘솔: 공개 포털에는 직접 노출하지 않고, 전자책 시스템 내부에서 관리자 로그인 후 접근
-- 확인한 원격 기준 커밋: `d04f185`
+- 확인한 원격 기준 커밋: `e1ac65c`
+- 확인한 배포 주소: `https://gyo6--ebook.web.app/?v=e1ac65c`
 - 확인한 헬스 체크: `/api/health` 응답 정상
 
 ## 중요한 분리 원칙
