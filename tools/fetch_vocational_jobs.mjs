@@ -45,6 +45,34 @@ const HIGH_SCHOOL_TERMS = [
 const STRONG_TERMS = ['고졸', '특성화고', '직업계고', '마이스터고', '학교장 추천', '학교장추천'];
 const NEGATIVE_EDU_TERMS = ['대졸 이상', '4년제', '대학교 졸업', '학사 이상', '석사', '박사'];
 const PROFESSIONAL_ONLY_TERMS = ['전문의', '의사', '약사', '간호사', '방사선사', '공인회계사', '회계사', '변호사', '세무사', '노무사', '법무사', '건축사', '면허 소지', '면허소지', '석사', '박사', '기술사'];
+const ENTRY_LEVEL_TERMS = [
+  '고졸',
+  '고등학교',
+  '특성화고',
+  '직업계고',
+  '마이스터고',
+  '졸업예정',
+  '졸업 예정',
+  '학교장 추천',
+  '학교장추천',
+  '고졸제한',
+  '고졸 제한',
+  '사회형평 고졸',
+  '신입',
+  '경력무관',
+  '신입+경력',
+  '신입·경력',
+  '청년인턴',
+  '채용형 인턴',
+  '공무직',
+  '업무지원직',
+  '기간제',
+  '9급',
+  '지역인재',
+  '기능인재'
+];
+const SENIOR_ROLE_PATTERN = /(원장|센터장|기관장|본부장|부원장|개방형\s*직위|전문계약직|연봉계약직|임원|상임감사|비상임감사|감사위원|이사장|대표이사)/;
+const RESTRICTED_ROLE_PATTERN = /(관리직|별정직|책임연구원|선임연구원|교수)/;
 
 const WORK24_OPEN_RECRUIT_URL = 'https://www.work24.go.kr/cm/openApi/call/wk/callOpenApiSvcInfo210L21.do';
 const SARAMIN_JOB_SEARCH_URL = 'https://oapi.saramin.co.kr/job-search';
@@ -1585,6 +1613,54 @@ function scoreItem(raw) {
   };
 }
 
+function eligibilityText(item) {
+  return [
+    item.title,
+    item.company,
+    item.education,
+    item.career,
+    item.employmentType,
+    item.recruitField,
+    item.detailText
+  ].join(' ');
+}
+
+function hasStrongHighSchoolSignal(item) {
+  const text = eligibilityText(item);
+  return STRONG_TERMS.some((term) => text.includes(term))
+    || /고졸\s*(제한|전형|채용|구분|사회형평)/.test(text);
+}
+
+function hasEntryLevelSignal(item) {
+  const text = eligibilityText(item);
+  return ENTRY_LEVEL_TERMS.some((term) => text.includes(term));
+}
+
+function isCareerOnlyRole(item) {
+  const career = normalizeSpace(item.career);
+  if (!career || career === '원문 확인') return false;
+  if (/신입|무관/.test(career)) return false;
+  return /경력|경력직/.test(career);
+}
+
+function hasAdvancedEducationOnly(item) {
+  const text = eligibilityText(item);
+  if (hasStrongHighSchoolSignal(item)) return false;
+  return NEGATIVE_EDU_TERMS.some((term) => text.includes(term));
+}
+
+function isUnsuitableForHighSchoolChannel(item) {
+  const text = eligibilityText(item);
+  const strongHighSchool = hasStrongHighSchoolSignal(item);
+  const entryLevel = hasEntryLevelSignal(item);
+  if (SENIOR_ROLE_PATTERN.test(text)) return true;
+  if (!strongHighSchool && RESTRICTED_ROLE_PATTERN.test(text)) return true;
+  if (!strongHighSchool && PROFESSIONAL_ONLY_TERMS.some((term) => text.includes(term))) return true;
+  if (hasAdvancedEducationOnly(item)) return true;
+  if (!strongHighSchool && !entryLevel && isCareerOnlyRole(item)) return true;
+  return false;
+}
+
 function normalizeItem(raw) {
   const baseTitle = normalizeSpace(raw.title);
   const company = normalizeSpace(raw.company);
@@ -1727,11 +1803,13 @@ function shouldKeep(item) {
   if (!item.title || !item.company || !item.url) return false;
   if (item.status === 'expired') return false;
   if (item.status === 'application_closed' && item.processTrack !== 'exam-formal') return false;
+  if (isUnsuitableForHighSchoolChannel(item)) return false;
   const text = [item.title, item.company, item.education, item.career, item.employmentType, item.detailText].join(' ');
   const hasStrongHighSchool = STRONG_TERMS.some((term) => text.includes(term));
   if (!hasStrongHighSchool && PROFESSIONAL_ONLY_TERMS.some((term) => text.includes(term))) return false;
   if (item.fitScore >= 24) return true;
-  return item.education.includes('고졸') || item.education.includes('학력무관');
+  return item.education.includes('고졸')
+    || (item.education.includes('학력무관') && hasEntryLevelSignal(item));
 }
 
 function dedupeAndSort(items) {
@@ -1922,6 +2000,7 @@ function parsePublicDataRecords(body, source, publicSourceUrl) {
 function publicJobKeep(item) {
   if (!item.title || !item.company || !item.url) return false;
   if (item.status === 'expired') return false;
+  if (isUnsuitableForHighSchoolChannel(item)) return false;
   const text = [
     item.title,
     item.company,
@@ -1946,17 +2025,13 @@ function publicJobKeep(item) {
     '기간제',
     '청년인턴',
     '인턴',
-    '신입',
-    '학력무관',
-    '공공기관',
-    '공무원',
-    '지방자치단체',
-    '교육청'
+    '신입'
   ];
   const hasPublicYouthTerm = publicYouthTerms.some((term) => text.includes(term));
-  const hasStrongHighSchool = STRONG_TERMS.some((term) => text.includes(term));
+  const hasStrongHighSchool = hasStrongHighSchoolSignal(item);
+  const hasEntrySignal = hasEntryLevelSignal(item);
   if (!hasStrongHighSchool && PROFESSIONAL_ONLY_TERMS.some((term) => text.includes(term))) return false;
-  return hasPublicYouthTerm || item.fitScore >= 18 || item.processTrack === 'exam-formal';
+  return hasPublicYouthTerm || hasEntrySignal || (item.fitScore >= 28 && hasStrongHighSchool);
 }
 
 async function fetchPublicDataEndpoint(url, source, publicSourceUrl) {

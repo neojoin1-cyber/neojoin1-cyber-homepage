@@ -10,6 +10,10 @@ const DO_EXTERNAL_LINKS = args.has('--external-links');
 const LIVE_HOME = 'https://gyo6.kr/';
 const LIVE_FEED = 'https://gyo6.kr/assets/job-feed.json';
 const MAX_FEED_AGE_HOURS = 48;
+const HIGH_SCHOOL_STRONG_TERMS = ['고졸', '특성화고', '직업계고', '마이스터고', '학교장 추천', '학교장추천'];
+const ENTRY_LEVEL_TERMS = ['고졸', '고등학교', '특성화고', '직업계고', '마이스터고', '졸업예정', '졸업 예정', '학교장 추천', '학교장추천', '고졸제한', '고졸 제한', '사회형평 고졸', '신입', '경력무관', '신입+경력', '신입·경력', '청년인턴', '채용형 인턴', '공무직', '업무지원직', '기간제', '9급', '지역인재', '기능인재'];
+const SENIOR_ROLE_PATTERN = /(원장|센터장|기관장|본부장|부원장|개방형\s*직위|전문계약직|연봉계약직|임원|상임감사|비상임감사|감사위원|이사장|대표이사)/;
+const RESTRICTED_ROLE_PATTERN = /(관리직|별정직|책임연구원|선임연구원|교수)/;
 
 const checks = [];
 
@@ -92,6 +96,45 @@ function collectMatches(text, regex) {
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function feedItemEligibilityText(item) {
+  return [
+    item.title,
+    item.company,
+    item.education,
+    item.career,
+    item.employmentType,
+    item.recruitField,
+    item.detailText
+  ].filter(Boolean).join(' ');
+}
+
+function hasStrongHighSchoolSignal(item) {
+  const text = feedItemEligibilityText(item);
+  return HIGH_SCHOOL_STRONG_TERMS.some((term) => text.includes(term))
+    || /고졸\s*(제한|전형|채용|구분|사회형평)/.test(text);
+}
+
+function hasEntryLevelSignal(item) {
+  const text = feedItemEligibilityText(item);
+  return ENTRY_LEVEL_TERMS.some((term) => text.includes(term));
+}
+
+function isCareerOnlyWithoutStudentSignal(item) {
+  const career = String(item.career || '').trim();
+  if (!career || career === '원문 확인') return false;
+  if (/신입|무관/.test(career)) return false;
+  return /경력|경력직/.test(career) && !hasStrongHighSchoolSignal(item);
+}
+
+function highSchoolSuitabilityProblem(item) {
+  const text = feedItemEligibilityText(item);
+  if (SENIOR_ROLE_PATTERN.test(text)) return 'senior-role';
+  if (!hasStrongHighSchoolSignal(item) && RESTRICTED_ROLE_PATTERN.test(text)) return 'restricted-role';
+  if (isCareerOnlyWithoutStudentSignal(item)) return 'career-only';
+  if (item.education?.includes('학력무관') && !hasEntryLevelSignal(item)) return 'education-open-without-entry-signal';
+  return '';
 }
 
 function validateProjectScope() {
@@ -269,12 +312,15 @@ function validateFeed(feed, label = 'local') {
   const briefingProblems = [];
   const directPolicyProblems = [];
   const weakOfficialPublicRecruit = [];
+  const suitabilityProblems = [];
 
   for (const item of items) {
     const prefix = `${item.source || 'source'}:${item.title || item.id || 'untitled'}`;
+    const suitabilityProblem = highSchoolSuitabilityProblem(item);
     if (!item.id || !item.title || !item.company || !item.sourceName || !item.url || !item.verifiedAt) itemProblems.push(prefix);
     if (!isHttpUrl(item.url) || !isHttpUrl(item.primaryOfficialUrl || item.url)) itemProblems.push(`${prefix} URL`);
     if (!['active', 'deadline_soon', 'application_closed', 'needs_review'].includes(item.status)) itemProblems.push(`${prefix} status=${item.status}`);
+    if (suitabilityProblem) suitabilityProblems.push(`${prefix} ${suitabilityProblem}`);
     if ((item.collectionAudit?.detectionLagDays ?? 0) < 0) negativeLag.push(prefix);
     if (item.status === 'application_closed' && !String(item.title).endsWith('(원서 마감)')) closedTitleProblems.push(prefix);
     if (item.status === 'application_closed' && item.processTrack !== 'exam-formal') closedTitleProblems.push(`${prefix} direct-closed`);
@@ -295,6 +341,7 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.items.exam-detail`, examDetailProblems.length === 0, `${label} 필기·공식전형 공채는 상세 정보와 2중확인 상태를 갖습니다.`, examDetailProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.teacher-briefing`, briefingProblems.length === 0, `${label} 모든 공고가 취업부 브리핑과 공유 문안을 갖습니다.`, briefingProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.direct-policy`, directPolicyProblems.length === 0, `${label} 필기 없는 채용은 간단 안내 정책으로 분리됩니다.`, directPolicyProblems.slice(0, 5).join(' | '));
+  fail(`${label}.items.high-school-suitability`, suitabilityProblems.length === 0, `${label} 고졸·졸업예정자 코너에 원장·센터장·경력전용 등 부적합 공고가 섞이지 않습니다.`, suitabilityProblems.slice(0, 5).join(' | '));
   warn(`${label}.items.official-double-check`, weakOfficialPublicRecruit.length === 0, `${label} 공채 상세 항목은 회사·기관 또는 채용대행 공식 공고 2중확인이 필요합니다.`, weakOfficialPublicRecruit.slice(0, 5).join(' | '));
 
   const readySources = sourceStatus.filter((source) => source.configured && source.ok).length;
