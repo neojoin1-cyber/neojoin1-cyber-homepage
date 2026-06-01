@@ -138,6 +138,7 @@ async function validateHomepage() {
   fail('home.feed-no-store', html.includes("cache: 'no-store'"), '공채 피드는 브라우저 캐시를 피해서 읽습니다.');
   fail('home.law-link', html.includes('https://gyo6-law-info.web.app'), '법률정보 시스템 연결 URL이 유지되어 있습니다.');
   fail('home.closed-label', html.includes('application_closed') && html.includes('원서 마감'), '원서 마감 상태 표시 로직이 있습니다.');
+  fail('home.teacher-briefing-ui', html.includes('취업부 브리핑') && html.includes('teacherBriefing'), '공채 카드에 취업부 브리핑 UI가 연결되어 있습니다.');
   fail('home.hero-image-versioned', /platform-hero-vocational\.png\?v=/.test(html), '플랫폼 대표 이미지에 캐시 버전이 붙어 있습니다.');
 }
 
@@ -148,7 +149,7 @@ function validateFeed(feed, label = 'local') {
   const secretReadiness = feed.secretReadiness || {};
   const collectionReview = feed.collectionReview || {};
 
-  fail(`${label}.feed.version`, feed.version === 3, `${label} 피드 버전이 3입니다.`);
+  fail(`${label}.feed.version`, feed.version === 4, `${label} 피드 버전이 4입니다.`);
   fail(`${label}.feed.items-array`, Array.isArray(feed.items), `${label} 피드 items 배열이 존재합니다.`);
   fail(`${label}.feed.non-empty`, items.length > 0, `${label} 피드에 자동 등록 후보가 있습니다.`, `${items.length}건`);
   fail(`${label}.feed.total-count`, summary.total === items.length, `${label} summary.total이 items 수와 일치합니다.`, `${summary.total} / ${items.length}`);
@@ -176,6 +177,7 @@ function validateFeed(feed, label = 'local') {
   const checkedCount = countItems(items, (item) => ['company_notice_confirmed', 'company_notice_reachable'].includes(item.sourceVerification?.doubleCheckStatus));
   const missedCount = countItems(items, (item) => item.collectionAudit?.missedReviewNeeded);
   const staleCount = countItems(items, (item) => item.staleSourceFallback);
+  const briefingCount = countItems(items, (item) => item.teacherBriefing?.teacherShareText);
 
   fail(`${label}.summary.exam-count`, summary.examFormal === examCount, `${label} 필기·공식전형 카운터가 실제 항목과 일치합니다.`, `${summary.examFormal} / ${examCount}`);
   fail(`${label}.summary.direct-count`, summary.directInterview === directCount, `${label} 면접중심·현장형 카운터가 실제 항목과 일치합니다.`, `${summary.directInterview} / ${directCount}`);
@@ -183,11 +185,13 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.summary.official-check-count`, summary.companyNoticeChecked === checkedCount, `${label} 공식 공고 확인 카운터가 실제 항목과 일치합니다.`, `${summary.companyNoticeChecked} / ${checkedCount}`);
   fail(`${label}.summary.missed-count`, summary.missedReviewNeeded === missedCount, `${label} 누락점검 카운터가 실제 항목과 일치합니다.`, `${summary.missedReviewNeeded} / ${missedCount}`);
   fail(`${label}.summary.stale-count`, summary.staleFallbackItems === staleCount, `${label} 임시 보존 공고 카운터가 실제 항목과 일치합니다.`, `${summary.staleFallbackItems} / ${staleCount}`);
+  fail(`${label}.summary.briefing-count`, summary.briefingReady === briefingCount, `${label} 취업부 브리핑 카운터가 실제 항목과 일치합니다.`, `${summary.briefingReady} / ${briefingCount}`);
 
   const itemProblems = [];
   const negativeLag = [];
   const closedTitleProblems = [];
   const examDetailProblems = [];
+  const briefingProblems = [];
   const directPolicyProblems = [];
   const weakOfficialPublicRecruit = [];
 
@@ -199,6 +203,9 @@ function validateFeed(feed, label = 'local') {
     if ((item.collectionAudit?.detectionLagDays ?? 0) < 0) negativeLag.push(prefix);
     if (item.status === 'application_closed' && !String(item.title).endsWith('(원서 마감)')) closedTitleProblems.push(prefix);
     if (item.status === 'application_closed' && item.processTrack !== 'exam-formal') closedTitleProblems.push(`${prefix} direct-closed`);
+    if (!item.teacherBriefing?.teacherShareText || !Array.isArray(item.teacherBriefing?.schoolActionItems) || !Array.isArray(item.teacherBriefing?.studentActionItems)) {
+      briefingProblems.push(prefix);
+    }
     if (item.processTrack === 'exam-formal') {
       if (!item.publicRecruitDetails || !item.sourceVerification?.doubleCheckStatus) examDetailProblems.push(prefix);
       if (!['company_notice_confirmed', 'company_notice_reachable'].includes(item.sourceVerification?.doubleCheckStatus)) weakOfficialPublicRecruit.push(prefix);
@@ -211,6 +218,7 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.items.no-negative-lag`, negativeLag.length === 0, `${label} 첫날수집 계산에 음수 지연이 없습니다.`, negativeLag.slice(0, 5).join(' | '));
   fail(`${label}.items.closed-title-suffix`, closedTitleProblems.length === 0, `${label} 원서 마감 공고는 제목 끝에 (원서 마감)이 붙습니다.`, closedTitleProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.exam-detail`, examDetailProblems.length === 0, `${label} 필기·공식전형 공채는 상세 정보와 2중확인 상태를 갖습니다.`, examDetailProblems.slice(0, 5).join(' | '));
+  fail(`${label}.items.teacher-briefing`, briefingProblems.length === 0, `${label} 모든 공고가 취업부 브리핑과 공유 문안을 갖습니다.`, briefingProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.direct-policy`, directPolicyProblems.length === 0, `${label} 필기 없는 채용은 간단 안내 정책으로 분리됩니다.`, directPolicyProblems.slice(0, 5).join(' | '));
   warn(`${label}.items.official-double-check`, weakOfficialPublicRecruit.length === 0, `${label} 공채 상세 항목은 회사·기관 또는 채용대행 공식 공고 2중확인이 필요합니다.`, weakOfficialPublicRecruit.slice(0, 5).join(' | '));
 

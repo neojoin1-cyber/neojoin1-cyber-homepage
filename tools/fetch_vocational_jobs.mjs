@@ -15,6 +15,7 @@ const NOW = new Date();
 const CHECKED_AT = NOW.toISOString();
 const MAX_ITEMS = 40;
 const REQUEST_TIMEOUT_MS = 18000;
+const DETAIL_FETCH_CONCURRENCY = 6;
 const APPLICATION_CLOSED_RETAIN_DAYS = 21;
 const JOB_ALIO_SCAN_LIMIT = 40;
 const DEFAULT_FETCH_HEADERS = {
@@ -43,7 +44,7 @@ const HIGH_SCHOOL_TERMS = [
 
 const STRONG_TERMS = ['고졸', '특성화고', '직업계고', '마이스터고', '학교장 추천', '학교장추천'];
 const NEGATIVE_EDU_TERMS = ['대졸 이상', '4년제', '대학교 졸업', '학사 이상', '석사', '박사'];
-const PROFESSIONAL_ONLY_TERMS = ['전문의', '의사', '약사', '간호사', '방사선사', '면허 소지', '면허소지', '석사', '박사', '기술사'];
+const PROFESSIONAL_ONLY_TERMS = ['전문의', '의사', '약사', '간호사', '방사선사', '공인회계사', '회계사', '변호사', '세무사', '노무사', '법무사', '건축사', '면허 소지', '면허소지', '석사', '박사', '기술사'];
 
 const WORK24_OPEN_RECRUIT_URL = 'https://www.work24.go.kr/cm/openApi/call/wk/callOpenApiSvcInfo210L21.do';
 const SARAMIN_JOB_SEARCH_URL = 'https://oapi.saramin.co.kr/job-search';
@@ -594,6 +595,9 @@ async function fetchWithTimeout(url, options = {}) {
     }
     return body;
   } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error(`HTTP timeout after ${timeoutMs}ms`);
+    }
     try {
       return await fetchWithNodeHttp(url, fetchOptions, timeoutMs);
     } catch (fallbackError) {
@@ -641,6 +645,22 @@ function fetchWithNodeHttp(url, options = {}, timeoutMs = REQUEST_TIMEOUT_MS) {
     if (options.body) request.write(options.body);
     request.end();
   });
+}
+
+async function mapWithConcurrency(items, concurrency, worker) {
+  const results = new Array(items.length);
+  let nextIndex = 0;
+  const workerCount = Math.min(concurrency, items.length);
+
+  await Promise.all(Array.from({ length: workerCount }, async () => {
+    while (nextIndex < items.length) {
+      const index = nextIndex;
+      nextIndex += 1;
+      results[index] = await worker(items[index], index);
+    }
+  }));
+
+  return results;
 }
 
 function splitSecretUrls(value) {
@@ -859,6 +879,19 @@ function genericRecordToRaw(record, source, publicSourceUrl) {
     'scrnprcdr',
     'testMethod'
   ]);
+  const recruitField = pickRecordField(record, ['모집분야', '채용직무', '직무', 'jobField', 'ncsCdNm', 'recruitField', 'workField']);
+  const recruitNumber = pickRecordField(record, ['모집인원', '채용인원', 'recruitNumber', 'hiringCount', 'recruitCount']);
+  const applicationMethod = pickRecordField(record, ['접수방법', '지원방법', '원서접수', 'applicationMethod', 'applyMethod']);
+  const contact = pickRecordField(record, ['문의처', '문의', '담당자', '연락처', 'contact', 'contactInfo', 'inquiry']);
+  const attachmentUrl = cleanUrl(pickRecordField(record, [
+    '첨부파일URL',
+    '첨부URL',
+    '공고문URL',
+    'fileUrl',
+    'atchFileUrl',
+    'attachmentUrl'
+  ]));
+  const attachmentTitle = pickRecordField(record, ['첨부파일명', '파일명', 'fileName', 'atchFileNm', 'attachmentTitle']);
   const companyNoticeUrl = cleanUrl(pickRecordField(record, [
     'companyNoticeUrl',
     'officialUrl',
@@ -885,15 +918,21 @@ function genericRecordToRaw(record, source, publicSourceUrl) {
     deadline: pickRecordField(record, ['deadline', '마감일', '접수마감일', '접수종료일', 'endDate', 'closeDate', 'expirationDate', 'empWantedEndt', 'pbancEndYmd', 'aplyEndYmd', 'receiptEndDate']),
     deadlineText: pickRecordField(record, ['deadlineText', 'closeType', '마감상태', '접수기간']),
     publishedAt: pickRecordField(record, ['publishedAt', 'postingDate', '등록일', '공고일', '게시일', '공시일', 'startDate', 'regDate', 'regDt', 'pbancBgngYmd', 'pbancYmd']),
+    recruitField,
+    recruitNumber,
+    applicationMethod,
+    contact,
     url: detailUrl,
     sourceDetailUrl: publicSourceUrl,
     companyNoticeUrl,
+    attachments: attachmentUrl ? [{ title: attachmentTitle || '공식 첨부자료', url: attachmentUrl }] : [],
     processText,
     description: normalizeSpace([
       pickRecordField(record, ['description', 'summary', '내용', '상세내용', '직무내용', 'content']),
       processText,
-      pickRecordField(record, ['모집분야', '채용직무', '직무', 'jobField', 'ncsCdNm']),
-      pickRecordField(record, ['모집인원', '채용인원', 'recruitNumber']),
+      recruitField,
+      recruitNumber,
+      applicationMethod,
       source.name
     ].join(' '))
   };
@@ -1244,6 +1283,212 @@ function buildServicePolicy(process, verification) {
   };
 }
 
+function firstText(...values) {
+  for (const value of values) {
+    const text = normalizeSpace(value);
+    if (text) return text;
+  }
+  return '';
+}
+
+function shortText(value, fallback = '원문 확인', max = 140) {
+  const text = normalizeSpace(value);
+  if (!text) return fallback;
+  return text.length > max ? `${text.slice(0, max - 1)}…` : text;
+}
+
+function publicDisplayUrl(value) {
+  const clean = cleanUrl(value);
+  if (!clean) return '';
+  try {
+    const url = new URL(clean);
+    for (const key of Array.from(url.searchParams.keys())) {
+      if (/serviceKey|authKey|apiKey|accessKey|token|secret/i.test(key)) url.searchParams.delete(key);
+    }
+    return url.toString();
+  } catch {
+    return clean;
+  }
+}
+
+function normalizeAttachmentList(raw, verification) {
+  const sourceItems = Array.isArray(raw.attachments) ? raw.attachments : [];
+  const candidates = [
+    ...sourceItems,
+    raw.attachmentUrl ? { title: raw.attachmentTitle || '공식 첨부자료', url: raw.attachmentUrl } : null,
+    raw.fileUrl ? { title: raw.fileName || '공식 첨부자료', url: raw.fileUrl } : null
+  ].filter(Boolean);
+  const seen = new Set();
+  const attachments = [];
+
+  for (const item of candidates) {
+    const url = publicDisplayUrl(item.url);
+    const title = shortText(item.title || item.name || '공식 첨부자료', '공식 첨부자료', 64);
+    if (!url || seen.has(url)) continue;
+    seen.add(url);
+    attachments.push({ title, url });
+  }
+
+  if (!attachments.length && verification.primaryOfficialUrl) {
+    attachments.push({
+      title: verification.companyNoticeUrl ? '회사·기관 공식 공고문' : '공식 원문 공고',
+      url: publicDisplayUrl(verification.primaryOfficialUrl)
+    });
+  }
+
+  return attachments.slice(0, 5);
+}
+
+function keywordSnippet(text, keywords, fallback, max = 150) {
+  const source = normalizeSpace(text);
+  if (!source) return fallback;
+  for (const keyword of keywords) {
+    const index = source.indexOf(keyword);
+    if (index === -1) continue;
+    const start = Math.max(0, index - 34);
+    const end = Math.min(source.length, index + max);
+    return shortText(source.slice(start, end), fallback, max);
+  }
+  return fallback;
+}
+
+function buildExamSubjectLines(raw, process) {
+  const text = [raw.title, raw.description, raw.processText].join(' ');
+  const subjects = [];
+  if (text.includes('NCS')) subjects.push('NCS 직업기초능력');
+  if (text.includes('직무능력검사')) subjects.push('직무능력검사');
+  if (text.includes('인적성')) subjects.push('인적성검사');
+  if (text.includes('AI') || text.includes('AI역량')) subjects.push('AI역량검사');
+  if (text.includes('전공')) subjects.push('전공시험');
+  if (text.includes('논술')) subjects.push('논술');
+  if (text.includes('체력')) subjects.push('체력검정');
+
+  if (subjects.length) return compactTags(subjects);
+  if (process.writtenExam === 'confirmed') return ['필기전형 있음 - 과목은 원문 확인'];
+  if (process.writtenExam === 'likely') return ['필기 또는 공식 선발절차 가능성 높음 - 원문 확인'];
+  return ['필기시험 미확인'];
+}
+
+function buildRecruitBriefing(context) {
+  const {
+    raw,
+    process,
+    verification,
+    servicePolicy,
+    status,
+    title,
+    company,
+    deadline,
+    collectionAudit,
+    schoolRecommendation,
+    attachments
+  } = context;
+  const isPublicRecruit = process.processTrack === 'exam-formal';
+  const officialUrl = publicDisplayUrl(verification.primaryOfficialUrl || raw.url);
+  const sourceUrl = publicDisplayUrl(verification.sourceOfficialUrl || raw.sourceDetailUrl || raw.originalUrl);
+  const applicationMethod = firstText(raw.applicationMethod, raw.application, raw.applyMethod);
+  const recruitField = firstText(raw.recruitField, raw.jobField, raw.workField, raw.position);
+  const recruitNumber = firstText(raw.recruitNumber, raw.hiringCount, raw.recruitCount);
+  const contact = firstText(raw.contact, raw.contactInfo, raw.inquiry);
+  const eligibility = firstText(raw.qualification, raw.education, raw.career);
+  const processText = firstText(raw.processText, raw.selectionMethod, process.processNote);
+  const detailText = firstText(raw.description, raw.detailText);
+  const examSubjects = buildExamSubjectLines(raw, process);
+  const writtenExamLine = process.writtenExam === 'not_found'
+    ? '필기시험은 현재 원문 키워드에서 확인되지 않았습니다.'
+    : keywordSnippet([processText, detailText].join(' '), EXAM_TERMS, examSubjects.join(' · '));
+  const interviewLine = keywordSnippet([processText, detailText].join(' '), ['면접', '면접전형', '심층면접'], '면접 일정·방식 원문 확인');
+  const resultLine = keywordSnippet([processText, detailText].join(' '), ['합격자', '최종합격', '발표', '임용'], '합격자 발표·임용일 원문 확인');
+  const attachmentLines = attachments.length
+    ? attachments.map((item) => `${item.title}: ${item.url}`)
+    : ['공고문·입사지원서·직무기술서는 공식 공고에서 확인 필요'];
+  const applicationLine = status === 'application_closed'
+    ? (deadline ? `${deadline} 원서 마감` : '원서 마감')
+    : firstText(raw.deadlineText, deadline ? `${deadline} 마감` : '', applicationMethod, '마감일 원문 확인');
+
+  const summaryLines = compactTags([
+    `${company} ${isPublicRecruit ? '공채·공식전형' : '채용정보'}`,
+    recruitField ? `채용부문: ${recruitField}` : `공고명: ${title}`,
+    recruitNumber ? `채용규모: ${recruitNumber}` : '',
+    `학력·자격: ${shortText(eligibility, '응시자격 원문 확인', 120)}`,
+    raw.region ? `근무지: ${shortText(raw.region, '원문 확인', 80)}` : '',
+    raw.employmentType ? `고용형태: ${shortText(raw.employmentType, '원문 확인', 80)}` : ''
+  ]);
+
+  const scheduleLines = compactTags([
+    `원서접수: ${shortText(applicationLine, '마감일 원문 확인', 120)}`,
+    `전형절차: ${shortText(processText, process.processNote, 150)}`,
+    `필기전형: ${shortText(writtenExamLine, '필기 원문 확인', 120)}`,
+    `면접전형: ${shortText(interviewLine, '면접 원문 확인', 120)}`,
+    `발표·임용: ${shortText(resultLine, '발표·임용 원문 확인', 120)}`
+  ]);
+
+  const schoolActionItems = compactTags([
+    verification.doubleCheckLabel,
+    schoolRecommendation === 'required' ? '학교장 추천 가능 인원과 추천 기준 확인' : '학교장 추천 필요 여부 원문 확인',
+    '지원 가능 학년·졸업예정 기준 확인',
+    '공고문·입사지원서·직무기술서 첨부 확보',
+    process.writtenExam === 'not_found' ? '회사 인사담당자에게 세부 조건 확인' : '필기/NCS 대비 일정 안내',
+    collectionAudit.missedReviewNeeded ? '공고 게시일과 첫날 수집 누락 여부 점검' : '공고 게시 첫날 수집 기록'
+  ]);
+
+  const studentActionItems = compactTags([
+    '원서접수 마감 전 지원계정·제출서류 확인',
+    schoolRecommendation === 'required' ? '학교장 추천 신청 서류 준비' : '',
+    process.writtenExam === 'not_found' ? '면접 예상 질문과 회사 직무 확인' : 'NCS·직무능력·인적성 대비',
+    '자기소개서·경험기술서 초안 작성',
+    '근무지·고용형태·임용예정일 확인'
+  ]);
+
+  const sourceLines = compactTags([
+    officialUrl ? `공식 원문: ${officialUrl}` : '공식 원문 URL 확인 필요',
+    sourceUrl && sourceUrl !== officialUrl ? `보완 출처: ${sourceUrl}` : '',
+    verification.verificationNote,
+    servicePolicy.displayNote
+  ]);
+
+  const shareLines = [
+    `[${company}]`,
+    `- ${isPublicRecruit ? '고졸(예정) 공채·공식전형' : '고졸·특성화고 관련 채용정보'}`,
+    '',
+    '[채용부문]',
+    ...summaryLines.map((line) => `- ${line}`),
+    '',
+    '[전형일정]',
+    ...scheduleLines.map((line) => `- ${line}`),
+    '',
+    '[학교 확인]',
+    ...schoolActionItems.slice(0, 5).map((line) => `- ${line}`),
+    '',
+    '[학생 준비]',
+    ...studentActionItems.slice(0, 5).map((line) => `- ${line}`),
+    '',
+    '[원문·첨부]',
+    ...sourceLines.slice(0, 3).map((line) => `- ${line}`),
+    ...attachmentLines.slice(0, 3).map((line) => `- ${line}`)
+  ];
+
+  return {
+    version: 1,
+    generator: 'official-source-briefing-v1',
+    label: isPublicRecruit ? '취업부 공채 브리핑' : '간단 채용 확인 브리핑',
+    detailLevel: isPublicRecruit ? servicePolicy.detailLevel : 'brief-company-contact',
+    headline: `${company} - ${title}`,
+    summaryLines,
+    scheduleLines,
+    examSubjects,
+    schoolActionItems,
+    studentActionItems,
+    sourceLines,
+    attachmentLines,
+    teacherShareText: shareLines.join('\n'),
+    officialBasis: verification.doubleCheckLabel,
+    officialUrl,
+    sourceUrl,
+    generatedAt: CHECKED_AT
+  };
+}
+
 function buildCollectionAudit(raw, publishedDate, firstSeenAt = CHECKED_AT) {
   const publishedAt = publishedDate ? publishedDate.toISOString() : '';
   const publishedDay = formatDate(publishedDate);
@@ -1376,6 +1621,7 @@ function normalizeItem(raw) {
   if (lowerText.includes('학교장 추천') || lowerText.includes('학교장추천')) {
     schoolRecommendation = 'required';
   }
+  const attachments = normalizeAttachmentList(raw, sourceVerification);
 
   const legalCheckFlags = ['원문확인', '마감확인', '학력조건확인', '추천여부확인'];
   const guideTags = compactTags([
@@ -1386,6 +1632,19 @@ function normalizeItem(raw) {
     schoolRecommendation === 'required' ? '학교장 추천 확인' : '추천여부 확인',
     '직무기술서 확인'
   ]);
+  const teacherBriefing = buildRecruitBriefing({
+    raw,
+    process,
+    verification: sourceVerification,
+    servicePolicy,
+    status,
+    title,
+    company,
+    deadline,
+    collectionAudit,
+    schoolRecommendation,
+    attachments
+  });
 
   const item = {
     id: sha([raw.source, raw.sourceId, baseTitle, company, deadline, url].join('|')),
@@ -1398,6 +1657,11 @@ function normalizeItem(raw) {
     education: normalizeSpace(raw.education) || '원문 확인',
     career: normalizeSpace(raw.career) || '원문 확인',
     employmentType: normalizeSpace(raw.employmentType) || '원문 확인',
+    recruitField: normalizeSpace(raw.recruitField || raw.jobField || raw.workField || raw.position).slice(0, 160),
+    recruitNumber: normalizeSpace(raw.recruitNumber || raw.hiringCount || raw.recruitCount).slice(0, 80),
+    applicationMethod: normalizeSpace(raw.applicationMethod || raw.application || raw.applyMethod).slice(0, 180),
+    contact: normalizeSpace(raw.contact || raw.contactInfo || raw.inquiry).slice(0, 120),
+    attachments,
     detailText: normalizeSpace(raw.description || raw.processText).slice(0, process.processTrack === 'exam-formal' ? 620 : 180),
     deadline,
     deadlineText: status === 'application_closed'
@@ -1438,12 +1702,18 @@ function normalizeItem(raw) {
     publicRecruitDetails: process.processTrack === 'exam-formal' ? {
       companyNotice: sourceVerification.companyNoticeUrl ? '회사·기관 공식 공고 확인' : '회사·기관 공식 공고 확인 필요',
       sourceCheck: sourceVerification.doubleCheckLabel,
+      hiring: compactTags([
+        normalizeSpace(raw.recruitField || raw.jobField || raw.workField || raw.position),
+        normalizeSpace(raw.recruitNumber || raw.hiringCount || raw.recruitCount)
+      ]).join(' · ') || '채용부문·규모 원문 확인',
       eligibility: [normalizeSpace(raw.education), normalizeSpace(raw.career)].filter(Boolean).join(' · ') || '응시자격 원문 확인',
       process: normalizeSpace(raw.processText || process.processNote).slice(0, 260) || '전형절차 원문 확인',
       application: status === 'application_closed'
         ? (deadline ? `${deadline} 원서 마감` : '원서 마감')
-        : normalizeSpace(raw.deadlineText) || (deadline ? `${deadline} 마감` : '마감일 원문 확인')
+        : normalizeSpace(raw.deadlineText) || (deadline ? `${deadline} 마감` : '마감일 원문 확인'),
+      attachments: attachments.map((item) => item.title)
     } : null,
+    teacherBriefing,
     schoolRecommendation,
     status,
     legalCheckFlags,
@@ -1999,6 +2269,8 @@ async function fetchJobAlioDetail(row) {
     education,
     career,
     employmentType,
+    recruitField: workField,
+    qualification,
     deadline,
     deadlineText: deadline ? `${deadline} 마감` : '마감일 원문 확인',
     publishedAt: row.registeredAt,
@@ -2029,13 +2301,15 @@ async function fetchJobAlioRecruit() {
     const html = await fetchWithTimeout(JOB_ALIO_RECRUIT_URL);
     const rows = parseJobAlioRows(html).slice(0, JOB_ALIO_SCAN_LIMIT);
     scannedCount = rows.length;
-    for (const row of rows) {
+    const details = await mapWithConcurrency(rows, DETAIL_FETCH_CONCURRENCY, async (row) => {
       try {
-        rawItems.push(await fetchJobAlioDetail(row));
+        return await fetchJobAlioDetail(row);
       } catch (error) {
         errors.push(`${row.idx}: ${error.message}`);
+        return null;
       }
-    }
+    });
+    rawItems.push(...details.filter(Boolean));
   } catch (error) {
     errors.push(error.message);
   }
@@ -2169,6 +2443,8 @@ async function fetchSeoulHighJobDetail(row) {
   const processText = fieldValue(fields, '전형방법');
   const other = fieldValue(fields, '기타');
   const attachments = parseSeoulHighJobAttachments(html);
+  const recruitNumber = fieldValue(fields, '모집인원');
+  const contact = fieldValue(fields, '담당자', '문의처', '연락처');
   const companyNoticeCheck = companyNoticeUrl
     ? await checkCompanyNoticeUrl(companyNoticeUrl, company, title)
     : {};
@@ -2185,6 +2461,11 @@ async function fetchSeoulHighJobDetail(row) {
       : '서울특별시교육청 하이잡 원문 확인',
     career: fieldValue(fields, '경력조건') || '원문 확인',
     employmentType,
+    recruitField: jobType,
+    recruitNumber,
+    applicationMethod: application,
+    contact,
+    attachments,
     deadline,
     deadlineText: deadline ? `${deadline} 마감` : '마감일 원문 확인',
     publishedAt: row.publishedAt,
@@ -2220,23 +2501,28 @@ async function fetchSeoulHighJobRecruit() {
   const rawItems = [];
   const errors = [];
   let scannedCount = 0;
+  const detailRows = [];
 
   for (let pageIndex = 1; pageIndex <= SEOUL_HIGHJOB_SCAN_PAGES; pageIndex += 1) {
     try {
       const html = await fetchSeoulHighJobListPage(pageIndex);
       const rows = parseSeoulHighJobRows(html, pageIndex);
       scannedCount += rows.length;
-      for (const row of rows) {
-        try {
-          rawItems.push(await fetchSeoulHighJobDetail(row));
-        } catch (error) {
-          errors.push(`${row.seq}: ${error.message}`);
-        }
-      }
+      detailRows.push(...rows);
     } catch (error) {
       errors.push(`page ${pageIndex}: ${error.message}`);
     }
   }
+
+  const details = await mapWithConcurrency(detailRows, DETAIL_FETCH_CONCURRENCY, async (row) => {
+    try {
+      return await fetchSeoulHighJobDetail(row);
+    } catch (error) {
+      errors.push(`${row.seq}: ${error.message}`);
+      return null;
+    }
+  });
+  rawItems.push(...details.filter(Boolean));
 
   const normalized = rawItems.map(normalizeItem).filter(keepSeoulHighJobItem);
   const ok = rawItems.length > 0 && errors.length < Math.max(1, rawItems.length);
@@ -2594,6 +2880,7 @@ async function main() {
   ].includes(item.sourceVerification?.doubleCheckStatus)).length;
   const detailedPublicRecruit = items.filter((item) => item.detailLevel === 'detailed-public-recruit').length;
   const briefDirect = items.filter((item) => item.detailLevel === 'brief-company-contact').length;
+  const briefingReady = items.filter((item) => item.teacherBriefing?.teacherShareText).length;
   const firstDayCollected = items.filter((item) => item.collectionAudit?.firstDayCollected).length;
   const lateDetected = items.filter((item) => item.collectionAudit?.firstDayStatus === 'late_detected').length;
   const missedReviewNeeded = items.filter((item) => item.collectionAudit?.missedReviewNeeded).length;
@@ -2603,7 +2890,7 @@ async function main() {
   const secretReadiness = buildSecretReadinessReport(sourceStatusList);
 
   const payload = {
-    version: 3,
+    version: 4,
     generatedAt: CHECKED_AT,
     timezone: 'Asia/Seoul',
     schedule: '09:10, 14:10, 19:10 KST',
@@ -2618,6 +2905,7 @@ async function main() {
       companyNoticeChecked,
       detailedPublicRecruit,
       briefDirect,
+      briefingReady,
       firstDayCollected,
       lateDetected,
       missedReviewNeeded,
@@ -2629,7 +2917,7 @@ async function main() {
       note: staleFallbackItems
         ? '현재 실행에서 신규 수집이 0건이라 직전 정상 공고를 임시 보존하고 공식 소스 점검이 필요합니다.'
         : sourcesConfigured
-        ? '공채 첫날 수집을 최우선으로 점검하고, 공식 공고 2중 확인 중심으로 자동 분류했습니다.'
+        ? '공채 첫날 수집을 최우선으로 점검하고, 공식 공고 2중 확인 중심으로 취업부 브리핑을 자동 생성했습니다.'
         : '공식 API 키가 아직 연결되지 않아 자동 수집 대기 상태입니다.'
     },
     collectionReview,
@@ -2677,7 +2965,7 @@ main().catch(async (error) => {
     }, { message: error.message })
   ];
   const payload = {
-    version: 3,
+    version: 4,
     generatedAt: CHECKED_AT,
     timezone: 'Asia/Seoul',
     schedule: '09:10, 14:10, 19:10 KST',
@@ -2692,6 +2980,7 @@ main().catch(async (error) => {
       companyNoticeChecked: 0,
       detailedPublicRecruit: 0,
       briefDirect: 0,
+      briefingReady: 0,
       firstDayCollected: 0,
       lateDetected: 0,
       missedReviewNeeded: 0,
