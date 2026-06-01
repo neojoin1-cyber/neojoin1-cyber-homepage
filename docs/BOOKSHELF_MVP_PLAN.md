@@ -13,10 +13,10 @@
 - 무료 맛보기: `https://gyo6--ebook.web.app/preview.html`
 - 학생 서재: `https://gyo6--ebook.web.app/reader.html`
 - 관리자 콘솔: 공개 포털에는 직접 노출하지 않고, 전자책 시스템 내부에서 관리자 로그인 후 접근
-- 확인한 원격 기준 커밋: `ea60ac5`
-- 확인한 배포 주소: `https://gyo6--ebook.web.app/preview.html?v=ea60ac5`
+- 확인한 원격 기준 커밋: `0d382a8`
+- 확인한 배포 주소: `https://gyo6--ebook.web.app/preview.html?v=0d382a8`
 - 확인한 헬스 체크: `/api/health` 응답 정상
-- 무료 맛보기는 첫 화면에 자동 표시하며, 서버가 추출한 일러두기와 실제 학습 페이지 일부를 함께 제공한다.
+- 무료 맛보기는 첫 화면에 자동 표시하며, 일러두기와 목차를 건너뛰고 서버가 안전하게 추출한 본학습 일부를 우선 제공한다.
 
 ## 중요한 분리 원칙
 
