@@ -421,8 +421,7 @@ const EXAM_TERMS = [
   '군무원',
   '공무원',
   '부사관',
-  '공개경쟁',
-  '공개채용'
+  '공개경쟁'
 ];
 
 const DIRECT_TERMS = [
@@ -757,15 +756,14 @@ function xmlRecordFromNode(node, publicSourceUrl) {
     || getXmlText(node, 'recrutInstNm')
     || getXmlText(node, 'organization')
     || getXmlText(node, 'author');
-  const detailUrl = cleanUrl(
-    getXmlText(node, 'link01')
+  const rawDetailUrl = getXmlText(node, 'link01')
     || getXmlText(node, 'link02')
     || getXmlText(node, 'link03')
     || getXmlText(node, 'link')
     || getXmlText(node, 'url')
-    || getXmlText(node, 'detailUrl')
-    || (sourceId ? `https://www.gojobs.go.kr/apmView.do?empmnsn=${encodeURIComponent(sourceId)}` : publicSourceUrl)
-  );
+    || getXmlText(node, 'detailUrl');
+  const detailUrl = cleanUrl(rawDetailUrl)
+    || cleanUrl(sourceId ? `https://www.gojobs.go.kr/apmView.do?empmnsn=${encodeURIComponent(sourceId)}` : publicSourceUrl);
   return {
     sourceId,
     title,
@@ -830,7 +828,7 @@ function genericRecordToRaw(record, source, publicSourceUrl) {
     'orgNm',
     'deptNm'
   ]);
-  const detailUrl = cleanUrl(pickRecordField(record, [
+  const rawDetailUrl = pickRecordField(record, [
     'url',
     'link',
     'detailUrl',
@@ -847,7 +845,8 @@ function genericRecordToRaw(record, source, publicSourceUrl) {
     'recruitUrl',
     'applyUrl',
     'nttUrl'
-  ]) || publicSourceUrl);
+  ]);
+  const detailUrl = cleanUrl(rawDetailUrl) || cleanUrl(publicSourceUrl);
   const processText = pickRecordField(record, [
     'processText',
     '전형절차',
@@ -1040,10 +1039,13 @@ function daysBetweenKst(startDate, endDate) {
 function cleanUrl(value) {
   const raw = normalizeSpace(value);
   if (!raw) return '';
+  const candidate = (raw.match(/https?:\/\/[^\s<>"']+/i)?.[0] || raw).replace(/[),.;，]+$/g, '');
   try {
-    return new URL(raw).toString();
+    const url = new URL(candidate);
+    if (!['http:', 'https:'].includes(url.protocol)) return '';
+    return url.toString();
   } catch {
-    return raw;
+    return '';
   }
 }
 
@@ -1344,7 +1346,7 @@ function normalizeItem(raw) {
   const deadlineDate = parseDate(raw.deadline || raw.deadlineTimestamp);
   const deadline = formatDate(deadlineDate);
   const deadlineDistance = daysUntil(deadlineDate);
-  const url = cleanUrl(raw.url || raw.originalUrl);
+  const url = cleanUrl(raw.url) || cleanUrl(raw.originalUrl) || cleanUrl(raw.sourceDetailUrl);
   const score = scoreItem(raw);
   const process = classifyProcess(raw);
   const sourceVerification = buildSourceVerification(raw, process, url);
@@ -1466,14 +1468,14 @@ function dedupeAndSort(items) {
   const seen = new Map();
   for (const item of items) {
     const key = [
-      item.source,
-      item.originalUrl || item.url,
-      item.title,
+      item.baseTitle || item.title,
       item.company,
       item.deadline || ''
     ].join('|').toLowerCase();
     const existing = seen.get(key);
-    if (!existing || item.fitScore > existing.fitScore) seen.set(key, item);
+    if (!existing || itemDedupeQuality(item) > itemDedupeQuality(existing)) {
+      seen.set(key, mergeDuplicateItem(item, existing));
+    }
   }
 
   return Array.from(seen.values())
@@ -1501,6 +1503,44 @@ function dedupeAndSort(items) {
       return a.title.localeCompare(b.title, 'ko-KR');
     })
     .slice(0, MAX_ITEMS);
+}
+
+function itemDedupeQuality(item) {
+  const verificationWeight = {
+    company_notice_confirmed: 50,
+    company_notice_reachable: 42,
+    company_notice_linked: 34,
+    company_contact_recommended: 24,
+    company_notice_required: 10
+  }[item.sourceVerification?.doubleCheckStatus] || 0;
+  const sourceUrl = [item.sourceOfficialUrl, item.primaryOfficialUrl, item.originalUrl, item.url].join(' ');
+  const sourceWeight = sourceUrl.includes('job.alio.go.kr/recruitview.do') ? 12
+    : sourceUrl.includes('data.go.kr') ? 2
+    : 6;
+  const detailWeight = item.detailLevel === 'detailed-public-recruit' ? 12
+    : item.detailLevel === 'brief-company-contact' ? 8
+    : 4;
+  return verificationWeight + sourceWeight + detailWeight + (item.fitScore || 0);
+}
+
+function mergeDuplicateItem(preferred, other) {
+  if (!other) return preferred;
+  const supplementarySourceUrls = compactTags([
+    ...(preferred.supplementarySourceUrls || []),
+    preferred.sourceOfficialUrl,
+    preferred.originalUrl,
+    other.primaryOfficialUrl,
+    other.sourceOfficialUrl,
+    other.originalUrl,
+    ...(other.supplementarySourceUrls || [])
+  ].filter((url) => {
+    const clean = cleanUrl(url);
+    return clean && clean !== preferred.primaryOfficialUrl && clean !== preferred.url;
+  }));
+  return {
+    ...preferred,
+    supplementarySourceUrls
+  };
 }
 
 function sourceStatus(base, overrides = {}) {
@@ -1693,7 +1733,7 @@ async function fetchMoefPublicRecruit() {
     sourceName: base.name,
     sourceDetailUrl: MOEF_PUBLIC_RECRUIT_DATA_URL,
     ...(companyNoticeCheck ? { companyNoticeCheck } : {}),
-    description: [item.description, '기재부 공공기관 채용공시 공공기관 잡알리오 공개채용 필기 NCS'].join(' ')
+    description: [item.description, '기재부 공공기관 채용공시 공공기관 잡알리오 공개채용'].join(' ')
   });
   const preliminary = rawItems.map((item) => normalizeItem(decorateRawItem(item))).filter(publicJobKeep);
   const displayItemIds = new Set(preliminary.map((item) => item.id));
