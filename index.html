@@ -372,10 +372,15 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
 .tnav-logo-text{font-family:'Noto Serif KR',serif;font-size:15px;font-weight:600;color:var(--navy);line-height:1.2}
 .tnav-logo-text span{color:var(--teal)}
 .tnav-logo-sub{font-size:10px;color:var(--muted);letter-spacing:.04em;margin-top:1px}
-.tnav-links{display:flex;align-items:center;gap:1px;flex:1;justify-content:center}
-.tnav-links a{color:#4a5a6a;text-decoration:none;font-size:13.5px;font-weight:500;padding:7px 11px;border-radius:7px;transition:all .18s;white-space:nowrap}
-.tnav-links a:hover{color:var(--navy);background:#f0f4f8}
-.tnav-links a.tactive{color:#fff !important;background:var(--navy) !important;font-weight:600}
+.tnav-links{display:flex;align-items:center;gap:4px;flex:1;justify-content:center}
+.tnav-links a,.tnav-actions a{color:#4a5a6a;text-decoration:none;font-size:13.5px;font-weight:700;padding:8px 13px;border-radius:9px;transition:all .18s;white-space:nowrap}
+.tnav-links a{color:#26394c}
+.tnav-actions a{font-size:13px;font-weight:700}
+.tnav-links a:hover,.tnav-actions a:hover{color:var(--navy);background:#f0f4f8}
+.tnav-links a.tactive,.tnav-actions a.tactive{color:#fff !important;background:var(--navy) !important;font-weight:800}
+.tnav-actions{display:flex;align-items:center;gap:7px;flex-shrink:0}
+.tnav-login{border:1px solid var(--border);background:#fff}
+.tnav-owner-link{background:#eef8f5;color:#0b6e61!important;border:1px solid #d3e9e3}
 .tnav-drop{position:relative}
 .tnav-drop-btn{color:#4a5a6a;font-size:13.5px;font-weight:500;padding:7px 11px;border-radius:7px;transition:all .18s;white-space:nowrap;cursor:pointer;display:flex;align-items:center;gap:3px;background:none;border:none;font-family:inherit;letter-spacing:-.01em}
 .tnav-drop-btn:hover,.tnav-drop:hover .tnav-drop-btn{color:var(--navy);background:#f0f4f8}
@@ -390,7 +395,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
 .tnav-div{width:1px;height:16px;background:var(--border);margin:0 3px;flex-shrink:0}
 .tnav-cta{background:var(--navy);color:#fff;border:none;padding:8px 16px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none;transition:all .2s;white-space:nowrap;flex-shrink:0}
 .tnav-cta:hover{background:var(--navy2);transform:translateY(-1px);box-shadow:0 4px 14px rgba(28,43,58,0.2)}
-@media(min-width:721px) and (max-width:960px){.tnav-links,.tnav-div,.tnav-cta{display:none}.quick-grid{grid-template-columns:1fr 1fr}.home-inner{grid-template-columns:1fr}.hero-feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.system-card,.job-hub-head{grid-template-columns:1fr}.job-workflow{grid-template-columns:repeat(2,minmax(0,1fr))}.system-meta,.job-hub-tags{justify-content:flex-start}}
+@media(min-width:721px) and (max-width:960px){.tnav-links,.tnav-actions,.tnav-div,.tnav-cta{display:none}.quick-grid{grid-template-columns:1fr 1fr}.home-inner{grid-template-columns:1fr}.hero-feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.system-card,.job-hub-head{grid-template-columns:1fr}.job-workflow{grid-template-columns:repeat(2,minmax(0,1fr))}.system-meta,.job-hub-tags{justify-content:flex-start}}
 /* ── Platform Showcase Redesign ── */
 .tnav-logo::before{content:'';width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,rgba(255,255,255,.72),rgba(255,255,255,0) 48%),conic-gradient(from 30deg,#0f6f62,#73b8a6,#d8f1e9,#3974a6,#0f6f62);box-shadow:inset 0 0 0 1px rgba(255,255,255,.78),0 8px 20px rgba(23,34,49,.12)}
 #page-home .home-hero{background:#f7fbfa;padding:0;margin-top:var(--nav-h);border-bottom:0}
@@ -510,6 +515,8 @@ body.job-focus-mode .platform-flow,body.job-focus-mode .branch-board,body.job-fo
 .ebook-portal-image figcaption{position:absolute;left:10px;right:10px;bottom:10px;padding:8px 10px;border-radius:9px;background:rgba(20,34,52,.78);color:#fff;font-size:11px;font-weight:800;line-height:1.45}
 .philosophy-panel{padding:24px;background:#fcfbf6;border:1px solid #ede6d6;border-radius:16px}.philosophy-panel h3{font-size:18px;color:#142234;margin-bottom:8px}.philosophy-panel>p{font-size:13px;color:#4c5f69;margin-bottom:18px}.expansion-grid{display:grid;grid-template-columns:.75fr 1fr 1fr 1fr;gap:14px}.path-illustration{min-height:138px;border-radius:14px;background:linear-gradient(180deg,#eaf7f4,#fff);position:relative;overflow:hidden}.path-illustration::before{content:'';position:absolute;left:28px;bottom:0;width:92px;height:100px;border-radius:46px 46px 0 0;background:#66a99d;box-shadow:inset -16px 0 rgba(0,0,0,.08)}.path-illustration::after{content:'';position:absolute;left:98px;bottom:-18px;width:150px;height:74px;border-radius:50%;border:18px solid #e4d6a8;border-left-color:transparent;border-bottom-color:transparent;transform:rotate(-18deg)}
 .platform-card{padding:18px;min-height:138px;box-shadow:none}.platform-card small{display:block;color:#16806f;font-weight:900;margin-bottom:8px}.platform-card h4{font-size:16px;color:#142234;margin-bottom:8px}.platform-card p{font-size:12.5px;color:#4c5f69;line-height:1.7;word-break:keep-all}
+.owner-overview{display:grid;gap:16px}.owner-hero{border:1px solid #e1ece9;border-radius:16px;background:linear-gradient(135deg,#f7fbfa,#fff);padding:22px}.owner-hero .section-kicker{margin-bottom:8px}.owner-hero h2{font-size:24px;line-height:1.35;color:#142234;margin-bottom:9px}.owner-hero p{font-size:13px;color:#4c5f69;line-height:1.85;word-break:keep-all;max-width:760px}.owner-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.owner-metric{border:1px solid #e1ece9;border-radius:13px;background:#fff;padding:14px}.owner-metric b{display:block;font-size:21px;color:#123234;line-height:1.2}.owner-metric span{display:block;margin-top:4px;font-size:11.5px;color:#607279;line-height:1.45;font-weight:800}.owner-focus-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.owner-focus-card{border:1px solid #e3ece9;border-radius:14px;background:#fff;padding:16px}.owner-focus-card small{display:inline-flex;color:#16806f;font-size:10.5px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}.owner-focus-card h3{font-size:16px;color:#142234;line-height:1.4;margin-bottom:7px}.owner-focus-card p{font-size:12.5px;color:#4c5f69;line-height:1.75;word-break:keep-all}.owner-link-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.owner-link-item{display:grid;gap:4px;text-decoration:none;color:inherit;border:1px solid #e1ece9;border-radius:13px;background:#fbfdfc;padding:14px;transition:transform .18s,border-color .18s,background .18s}.owner-link-item:hover{transform:translateY(-1px);border-color:#9acbc2;background:#f2faf7}.owner-link-item b{font-size:14px;color:#142234}.owner-link-item span{font-size:11.5px;color:#607279;line-height:1.5}.owner-principle{border-left:4px solid #2f766d;background:#f2faf7;border-radius:12px;padding:15px 16px}.owner-principle b{display:block;color:#123234;font-size:14px;margin-bottom:5px}.owner-principle p{font-size:12.5px;color:#4c5f69;line-height:1.75;word-break:keep-all}
+@media(max-width:720px){.owner-metrics,.owner-focus-grid,.owner-link-list{grid-template-columns:1fr}.owner-hero{padding:18px}.owner-hero h2{font-size:21px}.owner-metric b{font-size:19px}}
 @media(max-width:960px){.platform-shell{grid-template-columns:1fr;gap:10px;padding:28px 18px}.platform-direction{max-width:100%}.platform-visual{order:2}.job-console,.job-track-grid,.expansion-grid,.branch-head,.ebook-portal-panel{grid-template-columns:1fr}.branch-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.platform-flow{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:720px){#page-home .home-hero{margin-top:0}#page-home .home-body{padding-left:16px;padding-right:16px}.platform-home-body,.job-console,.job-intro,.ebook-preview-list,.job-feed,.platform-flow,.branch-board,.ebook-portal-panel{width:100%;max-width:100%;overflow:hidden}.platform-title{font-size:30px}.platform-actions{grid-template-columns:repeat(2,minmax(0,1fr));max-width:100%}.platform-visual{min-height:290px;transform:scale(.9);transform-origin:center top;margin-bottom:-26px}.orbit-node{width:58px;height:58px}.node-job{left:3%}.node-company{right:3%}.node-law{left:-2%;bottom:72px}.node-book{right:-2%;bottom:72px}.school-scene{margin-top:46px}.job-console{gap:12px}.job-live-toolbar{justify-content:flex-start}.job-live-toolbar span{max-width:100%;white-space:normal}.job-track-summary,.job-track-grid,.job-detail-grid,.job-attachment-grid{grid-template-columns:1fr}.job-audit-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.track-head{flex-direction:column}.feed-item{grid-template-columns:1fr}.feed-tags{justify-content:flex-start}.job-deadline{justify-self:start}.job-detail-modal{padding:12px}.job-detail-dialog{max-height:90vh}.job-detail-head,.job-detail-body{padding-left:16px;padding-right:16px}.job-intro p,.ebook-preview-list p,.feed-meta,.job-source-status,.job-detail-lines span,.job-brief-note,.ebook-portal-copy p,.ebook-feature-grid span{word-break:break-all!important;overflow-wrap:anywhere!important}.platform-flow,.branch-grid,.ebook-feature-grid{grid-template-columns:1fr}.branch-board{padding:16px}.branch-card{min-height:auto}.ebook-portal-panel{padding:14px}.ebook-portal-image img{min-height:180px}.expansion-grid{gap:10px}.philosophy-panel{padding:18px}}
 @media(max-width:720px){.job-briefing-grid{grid-template-columns:1fr}.job-briefing-card{padding:10px}.job-briefing-head{align-items:flex-start;flex-direction:column}.job-briefing-share{max-height:180px}.job-briefing-section li,.job-briefing-sources{word-break:break-all!important;overflow-wrap:anywhere!important}}
@@ -547,41 +554,16 @@ body.job-focus-mode .platform-flow,body.job-focus-mode .branch-board,body.job-fo
   <!-- 메뉴 링크 -->
   <div class="tnav-links">
     <a href="#" id="tnav-home" class="tactive" onclick="showPage('home');return false">홈</a>
-    <div class="tnav-div"></div>
-
-    <!-- 시스템 드롭다운 -->
-    <div class="tnav-drop">
-      <button class="tnav-drop-btn" id="tnav-systems" onclick="showPage('home','systems-home');return false">
-        시스템 <span class="tnav-drop-arrow">▾</span>
-      </button>
-      <div class="tnav-drop-menu">
-        <a href="#" onclick="showPage('home','job-hub-home');return false">💼 직업계고 공채 정보 허브</a>
-        <a href="https://gyo6--ebook.web.app/#publicPreviewShelf" target="_blank" rel="noopener noreferrer">📚 교육·강의 전자책 서재</a>
-        <a href="https://gyo6-law-info.web.app" target="_blank" rel="noopener noreferrer">⚖️ AI 법률정보 도우미</a>
-      </div>
-    </div>
-
-    <!-- 주인장 드롭다운 -->
-    <div class="tnav-drop">
-      <button class="tnav-drop-btn" id="tnav-owner" onclick="showPage('owner','owner-top');return false">
-        주인장 <span class="tnav-drop-arrow">▾</span>
-      </button>
-      <div class="tnav-drop-menu">
-        <a href="#" onclick="showPage('owner','owner-top');return false">👤 주인장 요약</a>
-        <a href="#" onclick="showPage('dongari','ch-dongari');return false">💻 전산부 23년</a>
-        <a href="#" onclick="showPage('projects','ch-junggi');return false">🏆 국책사업 4선</a>
-        <a href="#" onclick="showPage('achievement','achievement-top');return false">🌟 성과 &amp; 활동</a>
-        <a href="#" onclick="showPage('career','career-top');return false">📋 걸어온 길</a>
-        <a href="#" onclick="showPage('gallery','gallery-grid');return false">📷 활동 갤러리</a>
-      </div>
-    </div>
-
-    <div class="tnav-div"></div>
-    <a href="#" id="tnav-connect" onclick="showPage('connect','connect-top');return false">연결</a>
+    <a href="#" id="tnav-jobs" onclick="showPage('home','job-hub-home');return false">공채정보</a>
+    <a href="https://gyo6--ebook.web.app/#publicPreviewShelf" target="_blank" rel="noopener noreferrer">전자책</a>
+    <a href="https://gyo6-law-info.web.app" target="_blank" rel="noopener noreferrer">법률정보</a>
   </div>
 
-  <!-- CTA 버튼 -->
-  <a class="tnav-cta" href="#" onclick="showPage('home','job-hub-home');return false">공채 정보</a>
+  <!-- 우측 보조 메뉴 -->
+  <div class="tnav-actions">
+    <a class="tnav-login" href="https://gyo6--ebook.web.app" target="_blank" rel="noopener noreferrer">로그인</a>
+    <a class="tnav-owner-link" href="#" id="tnav-owner" onclick="showPage('owner','owner-top');return false">특성화고 32년</a>
+  </div>
 </nav>
 
 <!-- 모바일 전용 상단 헤더 -->
@@ -645,9 +627,9 @@ body.job-focus-mode .platform-flow,body.job-focus-mode .branch-board,body.job-fo
       <span class="mob-menu-icon">🧩</span> 시스템 포털
     </div>
     <div style="padding:8px 18px 4px;font-size:10px;letter-spacing:.1em;
-                color:rgba(255,255,255,.3);font-weight:700;text-transform:uppercase;margin-top:4px">주인장</div>
+                color:rgba(255,255,255,.3);font-weight:700;text-transform:uppercase;margin-top:4px">특성화고 32년</div>
     <div onclick="showPage('owner','owner-top');closeMobMenu()" class="mob-menu-item">
-      <span class="mob-menu-icon">👤</span> 주인장 요약
+      <span class="mob-menu-icon">👤</span> 32년 기록 요약
     </div>
     <div onclick="mobGoto('dongari')" class="mob-menu-item">
       <span class="mob-menu-icon">💻</span> 전산부 23년
@@ -724,7 +706,7 @@ body.job-focus-mode .platform-flow,body.job-focus-mode .branch-board,body.job-fo
           <a class="portal-btn primary" href="#" onclick="showPage('home','job-hub-home');return false">공채 정보</a>
           <a class="portal-btn secondary" href="https://gyo6--ebook.web.app/#publicPreviewShelf" target="_blank" rel="noopener noreferrer">전자책</a>
           <a class="portal-btn secondary" href="https://gyo6-law-info.web.app" target="_blank" rel="noopener noreferrer">법률정보</a>
-          <a class="portal-btn secondary" href="#" onclick="showPage('owner');return false">주인장</a>
+          <a class="portal-btn secondary" href="#" onclick="showPage('owner','owner-top');return false">특성화고 32년</a>
         </div>
       </div>
       <div class="portal-brief" id="content-board" aria-label="포털 운영 방식">
@@ -979,43 +961,82 @@ body.job-focus-mode .platform-flow,body.job-focus-mode .branch-board,body.job-fo
   </div>
 </div>
 
-<!-- 주인장 -->
+<!-- 특성화고 32년 -->
 <div class="page" id="page-owner">
   <div class="page-header">
-    <div class="page-label">Owner</div>
-    <div class="page-title">주인장</div>
+    <div class="page-label">Specialized High School 32 Years</div>
+    <div class="page-title">특성화고 32년</div>
     <div class="page-visual visual-owner" aria-hidden="true">
       <img src="assets/platform-hero-vocational.png?v=20260531" alt="">
-      <span>포털의 중심</span>
+      <span>학생 성장의 기록</span>
     </div>
   </div>
   <div class="page-body">
     <div id="owner-top"></div>
-    <div class="portal-note">
-      <div class="portal-note-icon">👤</div>
-      <div>
-        <div class="portal-note-title">개인 소개와 활동 기록은 이곳에 모았습니다</div>
-        <p class="portal-note-text">홈 화면은 콘텐츠 포털에 집중하고, 교직 이야기와 이력은 주인장 메뉴에서만 이어집니다.</p>
+    <section class="owner-overview" aria-label="특성화고 32년 운영 기록 요약">
+      <div class="owner-hero">
+        <div class="section-kicker">Teacher Record</div>
+        <h2>직업계고 학생이 길을 찾도록, 현장에 필요한 시스템을 만들었습니다.</h2>
+        <p>1991년부터 특성화고 현장에서 학생 취업, 전산교육, 도제학교, 해외현장학습, 국책사업을 연결해 왔습니다. 이 포털은 개인 이력보다 공채정보·전자책·법률정보를 안전하게 모아 학교 현장에 도움이 되도록 만든 작업입니다.</p>
       </div>
-    </div>
-    <div class="quick-grid">
-      <div class="quick-card" onclick="showPage('dongari')">
-        <div class="qc-icon" style="background:#e8f4f8">💻</div>
-        <div><div class="qc-title">전산부 — 23년의 불빛</div><div class="qc-desc">무료 방과후·인성활동·EDUSYS 기적까지</div></div>
+      <div class="owner-metrics" aria-label="핵심 기록">
+        <div class="owner-metric">
+          <b>32년</b>
+          <span>특성화고 현장 중심 교직 기록</span>
+        </div>
+        <div class="owner-metric">
+          <b>23년</b>
+          <span>전산부·무료 방과후 교실 운영</span>
+        </div>
+        <div class="owner-metric">
+          <b>4선</b>
+          <span>중기청·비즈쿨·해외현장학습·도제학교</span>
+        </div>
+        <div class="owner-metric">
+          <b>7회</b>
+          <span>학생 전국대회 1위 기록</span>
+        </div>
       </div>
-      <div class="quick-card" onclick="showPage('projects')">
-        <div class="qc-icon" style="background:#fdf3e3">🏆</div>
-        <div><div class="qc-title">"상업계는 안 된다"는 벽</div><div class="qc-desc">4번 연속 직접 두드려 열었습니다</div></div>
+      <div class="owner-focus-grid" aria-label="포털로 이어지는 교육 경험">
+        <article class="owner-focus-card">
+          <small>Jobs</small>
+          <h3>공채정보를 정확히 모으는 이유</h3>
+          <p>특성화고 학생에게 공채 첫날, 공식 공고, 첨부자료, 학교장 추천 여부는 곧 기회입니다. 그래서 원문 중심 공채정보 허브를 구축하고 있습니다.</p>
+        </article>
+        <article class="owner-focus-card">
+          <small>Books</small>
+          <h3>전자책 서재를 연결하는 이유</h3>
+          <p>학생이 혼자서도 읽고 풀어볼 수 있는 교재가 필요합니다. 권한 기반 전자책 서재와 첫 챕터 맛보기를 포털에서 자연스럽게 연결합니다.</p>
+        </article>
+        <article class="owner-focus-card">
+          <small>Law Info</small>
+          <h3>법률정보를 분리한 이유</h3>
+          <p>현장실습, 취업, 학교 민원은 공식 근거가 중요합니다. 법률정보는 별도 시스템에서 원문과 최신성을 확인하도록 분리했습니다.</p>
+        </article>
       </div>
-      <div class="quick-card" onclick="showPage('achievement')">
-        <div class="qc-icon" style="background:#f0f4f8">🌟</div>
-        <div><div class="qc-title">성과 &amp; 활동</div><div class="qc-desc">전국 7회 1위 · MBC 3회 · 5개국 연수</div></div>
+      <div class="owner-principle">
+        <b>운영 원칙</b>
+        <p>학생과 학교가 실제로 쓸 수 있는 정보만 남깁니다. 과장된 소개보다 검증된 원문, 현재성, 안전한 연결, 교사가 바로 안내할 수 있는 자료를 우선합니다.</p>
       </div>
-      <div class="quick-card" onclick="showPage('career')">
-        <div class="qc-icon" style="background:#e8f8ee">📋</div>
-        <div><div class="qc-title">걸어온 길</div><div class="qc-desc">1991 임용부터 현재까지 연도별 이력</div></div>
+      <div class="owner-link-list" aria-label="세부 기록으로 이동">
+        <a class="owner-link-item" href="#" onclick="showPage('dongari','ch-dongari');return false">
+          <b>전산부 23년</b>
+          <span>무료 방과후 교실, EDUSYS, 학생이 만든 성과</span>
+        </a>
+        <a class="owner-link-item" href="#" onclick="showPage('projects','ch-junggi');return false">
+          <b>국책사업 4선</b>
+          <span>중기청, 비즈쿨, 해외현장학습, 도제학교</span>
+        </a>
+        <a class="owner-link-item" href="#" onclick="showPage('achievement','achievement-top');return false">
+          <b>성과와 활동</b>
+          <span>전국대회, 방송, 연수, 현장 활동 기록</span>
+        </a>
+        <a class="owner-link-item" href="#" onclick="showPage('career','career-top');return false">
+          <b>걸어온 길</b>
+          <span>1991년 임용부터 현재까지의 연도별 기록</span>
+        </a>
       </div>
-    </div>
+    </section>
   </div>
 </div>
 
@@ -1701,14 +1722,12 @@ body.job-focus-mode .platform-flow,body.job-focus-mode .branch-board,body.job-fo
 <script>
 const TNAV_MAP = {
   'home':'tnav-home',
-  'systems':'tnav-systems',
   'owner':'tnav-owner',
   'dongari':'tnav-owner','character':'tnav-owner','edusys':'tnav-owner',
   'projects':'tnav-owner',
   'achievement':'tnav-owner',
   'career':'tnav-owner',
-  'gallery':'tnav-owner',
-  'connect':'tnav-connect'
+  'gallery':'tnav-owner'
 };
 
 function showPage(id, chapterId) {
@@ -1750,11 +1769,10 @@ function showPage(id, chapterId) {
   }
 
   // topnav 활성화
-  document.querySelectorAll('.tnav-links a, .tnav-drop-btn').forEach(function(el){
+  document.querySelectorAll('.tnav-links a, .tnav-actions a').forEach(function(el){
     el.classList.remove('tactive');
   });
-  var systemChapters = ['systems-home','ebook-branch-home','job-hub-home'];
-  var tnavId = systemChapters.indexOf(chapterId) >= 0 ? 'tnav-systems' : TNAV_MAP[id] || TNAV_MAP[id.split('-')[0]];
+  var tnavId = chapterId === 'job-hub-home' ? 'tnav-jobs' : TNAV_MAP[id] || TNAV_MAP[id.split('-')[0]];
   if (tnavId) {
     var el = document.getElementById(tnavId);
     if (el) el.classList.add('tactive');
