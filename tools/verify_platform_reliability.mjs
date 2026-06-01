@@ -65,6 +65,35 @@ function countItems(items, predicate) {
   return items.filter(predicate).length;
 }
 
+function countText(haystack, needle) {
+  return haystack.split(needle).length - 1;
+}
+
+function indexOrder(text, needles) {
+  let cursor = -1;
+  for (const needle of needles) {
+    const next = text.indexOf(needle, cursor + 1);
+    if (next <= cursor) return false;
+    cursor = next;
+  }
+  return true;
+}
+
+function sectionBetween(text, start, end) {
+  const startIndex = text.indexOf(start);
+  if (startIndex < 0) return '';
+  const endIndex = text.indexOf(end, startIndex + start.length);
+  return endIndex < 0 ? text.slice(startIndex) : text.slice(startIndex, endIndex);
+}
+
+function collectMatches(text, regex) {
+  return Array.from(text.matchAll(regex));
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 function validateProjectScope() {
   const normalized = ROOT_DIR.toLowerCase().replaceAll('\\', '/');
   fail('scope.project-folder', normalized.endsWith('/neojoin1-cyber-homepage'), '작업 폴더가 개인 홈페이지 프로젝트입니다.', ROOT_DIR);
@@ -134,12 +163,58 @@ async function validateWorkflow() {
 
 async function validateHomepage() {
   const html = await readText('index.html');
+  const staleAxisTerms = ['기업자료', '공채·기업자료', 'AI 활용 실험실', 'lab-branch-home', '기록 보관소', '디지털 기록'];
+  const staleAxisHits = staleAxisTerms.filter((term) => html.includes(term));
+  const branchSection = sectionBetween(html, '<div class="branch-grid">', '<div class="ebook-portal-panel"');
+  const systemGridSection = sectionBetween(html, '<div class="system-grid">', '<div class="portal-note">');
+  const portalBriefSection = sectionBetween(html, '<div class="portal-brief"', '<img src=');
+
   fail('home.feed-url-versioned', /assets\/job-feed\.json\?v=/.test(html), '공채 피드 URL에 캐시 버전이 붙어 있습니다.');
   fail('home.feed-no-store', html.includes("cache: 'no-store'"), '공채 피드는 브라우저 캐시를 피해서 읽습니다.');
   fail('home.law-link', html.includes('https://gyo6-law-info.web.app'), '법률정보 시스템 연결 URL이 유지되어 있습니다.');
+  fail('home.ebook-link', html.includes('https://gyo6--ebook.web.app/'), '전자책 서재 연결 URL이 유지되어 있습니다.');
   fail('home.closed-label', html.includes('application_closed') && html.includes('원서 마감'), '원서 마감 상태 표시 로직이 있습니다.');
   fail('home.teacher-briefing-ui', html.includes('취업부 브리핑') && html.includes('teacherBriefing'), '공채 카드에 취업부 브리핑 UI가 연결되어 있습니다.');
   fail('home.hero-image-versioned', /platform-hero-vocational\.png\?v=/.test(html), '플랫폼 대표 이미지에 캐시 버전이 붙어 있습니다.');
+  fail('home.three-axis-copy', html.includes('공채정보, 전자책, 법률정보에 집중합니다.'), '메인 카피가 공채정보·전자책·법률정보 3축에 집중합니다.');
+  fail('home.no-stale-axis-copy', staleAxisHits.length === 0, '이전 4축/기업자료/실험실 문구가 홈페이지에서 제거되어 있습니다.', staleAxisHits.join(', '));
+  fail('home.platform-action-count', countText(html, 'class="platform-action"') === 3, '첫 화면 주요 버튼이 3개 축으로 고정되어 있습니다.', `${countText(html, 'class="platform-action"')}개`);
+  fail('home.mobile-platform-actions-fit', html.includes('@media(max-width:480px){.platform-actions{grid-template-columns:1fr!important;max-width:100%!important}'), '작은 모바일 화면에서 3축 버튼이 화면 밖으로 넘치지 않도록 세로 배치됩니다.');
+  fail('home.flow-card-count', countText(html, 'class="flow-card"') === 3, '업무 흐름 카드가 3개 축으로 고정되어 있습니다.', `${countText(html, 'class="flow-card"')}개`);
+  fail('home.branch-card-count', countText(html, 'class="branch-card ') === 3, '시스템 분기 카드가 3개 축으로 고정되어 있습니다.', `${countText(html, 'class="branch-card ')}개`);
+  fail('home.branch-axis-order', indexOrder(branchSection, ['직업계고 공채정보', '교육·강의 전자책 서재', 'AI 법률정보 도우미']), '시스템 분기 순서가 공채정보 → 전자책 → 법률정보입니다.');
+  fail('home.system-grid-axis-order', indexOrder(systemGridSection, ['직업계고 취업지도 허브', '교육·강의 전자책 서재', 'AI 법률정보 도우미']), '보조 운영 목록 순서가 공채정보 → 전자책 → 법률정보입니다.');
+  fail('home.portal-brief-axis-order', indexOrder(portalBriefSection, ['공채 원문', '전자책 서재', '법률정보']), '포털 맵 보조 문구 순서가 공채정보 → 전자책 → 법률정보입니다.');
+
+  const ids = new Set(collectMatches(html, /\bid="([^"]+)"/g).map((match) => match[1]));
+  const pages = new Set(collectMatches(html, /\bid="page-([^"]+)"/g).map((match) => match[1]));
+  const navigationProblems = [];
+
+  for (const match of collectMatches(html, /showPage\('([^']+)'(?:,'([^']+)')?\)/g)) {
+    const [, pageId, chapterId] = match;
+    if (!pages.has(pageId)) navigationProblems.push(`page:${pageId}`);
+    if (chapterId && !ids.has(chapterId)) navigationProblems.push(`chapter:${chapterId}`);
+  }
+  for (const match of collectMatches(html, /mobGoto\('([^']+)'\)/g)) {
+    const [, pageId] = match;
+    if (!pages.has(pageId)) navigationProblems.push(`mobile-page:${pageId}`);
+  }
+  for (const match of collectMatches(html, /scrollToChapter\('([^']+)'/g)) {
+    const [, chapterId] = match;
+    if (!ids.has(chapterId)) navigationProblems.push(`scroll:${chapterId}`);
+  }
+  for (const match of collectMatches(html, /document\.getElementById\('([^']+)'\)\.scrollIntoView/g)) {
+    const [, chapterId] = match;
+    if (!ids.has(chapterId)) navigationProblems.push(`inline-scroll:${chapterId}`);
+  }
+  fail('home.navigation-targets', navigationProblems.length === 0, '홈페이지 내부 이동 버튼의 대상 ID가 모두 존재합니다.', navigationProblems.slice(0, 10).join(', '));
+}
+
+async function validateDirectionDocs() {
+  const direction = await readText('docs/PROJECT_DIRECTION.md');
+  fail('docs.direction-three-axis', direction.includes('직업계고 공채정보, 전자책 서재, 법률정보를 플랫폼의 3대 핵심 축으로 둔다'), '프로젝트 방향 문서가 3대 핵심 축을 명시합니다.');
+  fail('docs.direction-company-scope', direction.includes('기업정보는 별도 서비스 축으로 키우지 않고'), '기업정보를 별도 축으로 확장하지 않는 범위 통제가 문서화되어 있습니다.');
+  fail('docs.direction-no-old-expansion-axis', !direction.includes('AI 도구, 기록 보관소') && !direction.includes('기업자료'), '방향 문서에서 이전 확장축 표현이 제거되어 있습니다.');
 }
 
 function validateFeed(feed, label = 'local') {
@@ -270,23 +345,31 @@ async function validateLive(localFeed) {
 }
 
 async function checkUrlReachability(url) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 14000);
-  try {
-    const response = await fetch(url, {
-      method: 'GET',
-      signal: controller.signal,
-      headers: {
-        'User-Agent': 'Mozilla/5.0 GYO6 reliability verifier',
-        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-      }
-    });
-    return { ok: response.status < 500 && response.status !== 404, status: response.status };
-  } catch (error) {
-    return { ok: false, status: 0, error: error.message };
-  } finally {
-    clearTimeout(timeout);
+  let lastError = '';
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 18000);
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        redirect: 'follow',
+        signal: controller.signal,
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 GYO6Reliability/1.0',
+          Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+          'Cache-Control': 'no-cache'
+        }
+      });
+      await response.body?.cancel().catch(() => {});
+      return { ok: response.status < 500 && response.status !== 404, status: response.status, attempt };
+    } catch (error) {
+      lastError = error.message;
+      if (attempt < 3) await sleep(700 * attempt);
+    } finally {
+      clearTimeout(timeout);
+    }
   }
+  return { ok: false, status: 0, error: lastError || 'fetch failed' };
 }
 
 async function validateExternalLinks(items) {
@@ -301,6 +384,7 @@ async function validateExternalLinks(items) {
     const result = await checkUrlReachability(url);
     checked += 1;
     if (!result.ok) broken.push(`${safeUrl(url)} (${result.status || result.error})`);
+    await sleep(160);
   }
   warn('links.official-url-reachable', broken.length === 0, `공식 원문 URL ${checked}개를 확인했습니다.`, broken.slice(0, 8).join(' | '));
 }
@@ -311,6 +395,7 @@ async function main() {
   await validateSecretSafety();
   await validateWorkflow();
   await validateHomepage();
+  await validateDirectionDocs();
   const localFeed = await readJson('assets/job-feed.json');
   const { items } = validateFeed(localFeed, 'local');
 

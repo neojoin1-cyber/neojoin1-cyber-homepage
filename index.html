@@ -483,6 +483,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
 @media(max-width:720px){.job-briefing-grid{grid-template-columns:1fr}.job-briefing-card{padding:10px}.job-briefing-head{align-items:flex-start;flex-direction:column}.job-briefing-share{max-height:180px}.job-briefing-section li,.job-briefing-sources{word-break:break-all!important;overflow-wrap:anywhere!important}}
 @media(max-width:720px){.platform-shell{display:block;padding:28px 16px 20px;overflow:hidden}.platform-sub{max-width:calc(100vw - 56px);word-break:break-all!important;overflow-wrap:anywhere!important}.platform-direction{display:none}.platform-visual{width:100%;min-height:auto;transform:none;margin:18px 0 0;overflow:hidden}.platform-hero-image{width:100%;border-radius:18px;box-shadow:0 18px 42px rgba(47,103,96,.18)}.platform-arc{width:330px;height:180px;top:16px}.school-scene{width:330px;height:225px;margin:46px auto 0}.people{transform:translateX(-50%) scale(.8);transform-origin:center bottom}.node-edu{top:8px}.node-job{left:13%;top:76px}.node-company{right:13%;top:76px}.node-law{left:13%;bottom:44px}.node-book{right:13%;bottom:44px}.orbit-node{width:52px;height:52px;border-radius:16px;font-size:8px}.orbit-node span:last-child{white-space:nowrap}.orbit-node .line-icon{transform:scale(.76)}}
 @media(max-width:720px){.platform-copy{width:100%;max-width:calc(100vw - 32px);overflow:hidden}.platform-actions{width:100%;max-width:calc(100vw - 64px);grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px}.platform-action{min-height:72px}.pill-list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.pill-list span{width:100%;min-width:0;text-align:center;white-space:normal}}
+@media(max-width:480px){.platform-actions{grid-template-columns:1fr!important;max-width:100%!important}.platform-action{width:100%;min-width:0}}
 @media(min-width:721px){.sidebar{display:none !important}}
 </style>
 </head>
@@ -694,11 +695,11 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
       </div>
       <div class="portal-brief" id="content-board" aria-label="포털 운영 방식">
         <div class="portal-brief-label">Platform Map</div>
-        <p>공채 원문과 첨부자료를 먼저 확인하고, 법률정보·전자책 서재로 이어지는 취업지도 흐름을 만듭니다.</p>
+        <p>공채 원문과 첨부자료를 먼저 확인하고, 전자책 서재·법률정보로 이어지는 취업지도 흐름을 만듭니다.</p>
         <div class="portal-brief-meta">
           <span>공채 원문</span>
-          <span>법률정보</span>
           <span>전자책 서재</span>
+          <span>법률정보</span>
           <span>검증 기록</span>
         </div>
       </div>
@@ -859,19 +860,6 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
           <span class="system-status ready">핵심 콘텐츠</span><span class="system-tag">공채정보</span><span class="system-tag">원문검증</span><span class="system-tag">교사용 체크</span>
         </div>
       </div>
-      <a class="system-card primary" href="https://gyo6-law-info.web.app" target="_blank" rel="noopener noreferrer" aria-label="AI 법률정보 도우미 열기">
-        <div class="system-top">
-          <div>
-            <div class="system-kicker">GYO6 Law Info</div>
-            <div class="system-title">AI 법률정보 도우미</div>
-          </div>
-          <div class="system-icon">LAW</div>
-        </div>
-        <p class="system-text">취업, 도제학교, 현장실습 관련 법령과<br>원문 근거를 찾는 정보 제공 서비스입니다.</p>
-        <div class="system-meta">
-          <span class="system-status ready">연결 시스템</span><span class="system-tag">취업 지원</span><span class="system-tag">현장실습</span><span class="system-tag">원문 근거</span>
-        </div>
-      </a>
       <a class="system-card edu" href="https://gyo6--ebook.web.app/" target="_blank" rel="noopener noreferrer" aria-label="교육·강의 전자책 서재 열기">
         <div class="system-top">
           <div>
@@ -883,6 +871,19 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
         <p class="system-text">권한 기반 보안 전자책 서재에서<br>배정된 교재와 교육자료를 확인합니다.</p>
         <div class="system-meta">
           <span class="system-status ready">운영중</span><span class="system-tag">보안 서재</span><span class="system-tag">권한관리</span><span class="system-tag">학습기록</span>
+        </div>
+      </a>
+      <a class="system-card primary" href="https://gyo6-law-info.web.app" target="_blank" rel="noopener noreferrer" aria-label="AI 법률정보 도우미 열기">
+        <div class="system-top">
+          <div>
+            <div class="system-kicker">GYO6 Law Info</div>
+            <div class="system-title">AI 법률정보 도우미</div>
+          </div>
+          <div class="system-icon">LAW</div>
+        </div>
+        <p class="system-text">취업, 도제학교, 현장실습 관련 법령과<br>원문 근거를 찾는 정보 제공 서비스입니다.</p>
+        <div class="system-meta">
+          <span class="system-status ready">연결 시스템</span><span class="system-tag">취업 지원</span><span class="system-tag">현장실습</span><span class="system-tag">원문 근거</span>
         </div>
       </a>
     </div>
