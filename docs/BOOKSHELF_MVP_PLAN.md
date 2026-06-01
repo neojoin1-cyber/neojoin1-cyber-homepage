@@ -4,15 +4,25 @@
 
 교육강의자료실을 단순 파일 목록이 아니라 전자책처럼 읽고 찾아볼 수 있는 서재 시스템으로 발전시킨다.
 
-설탕과소금 포털은 이 서재로 들어가는 입구 역할을 맡고, 실제 서재 기능은 별도 프로젝트로 분리해 만든다.
+설탕과소금 포털은 이 서재로 들어가는 입구 역할을 맡고, 실제 서재 기능은 별도 프로젝트로 분리해 운영한다.
+
+2026-06-01 현재 기준은 GitHub 원격 저장소의 보안 전자책 시스템과 Firebase 배포본이다.
+
+- 원격 저장소: `neojoin1-cyber/gyo6_secure_ebook_platform_v2`
+- 운영 주소: `https://gyo6--ebook.web.app/`
+- 학생 서재: `https://gyo6--ebook.web.app/reader.html`
+- 관리자 콘솔: `https://gyo6--ebook.web.app/admin.html`
+- 확인한 원격 기준 커밋: `d04f185`
+- 확인한 헬스 체크: `/api/health` 응답 정상
 
 ## 중요한 분리 원칙
 
 - 기존 전자책 시스템 프로젝트 `C:\gyo6_secure_ebook_platform_v2`와 섞지 않는다.
-- 기존 전자책 시스템을 수정하거나 배포하지 않는다.
-- 새 교육 전자책 서재는 별도 로컬 폴더와 별도 GitHub 저장소로 만든다.
-- Firebase 프로젝트도 필요하면 별도로 생성한다.
-- 저장소 생성, Firebase 생성, 배포는 실행 전 사용자 확인을 받는다.
+- 노트북에 있는 오래된 로컬 프로젝트는 열람, 수정, 배포하지 않는다.
+- 홈페이지 프로젝트에는 전자책 소스코드를 복사하지 않는다.
+- 홈페이지는 링크, 안내, 상태 확인만 맡고 전자책 기능은 별도 Firebase 시스템에서 처리한다.
+- 전자책 시스템 내부 디자인이나 기능을 고치려면 GitHub 원격 기준으로 별도 작업 폴더를 만들어 진행한다.
+- Firebase 설정, API 키, 관리자 계정, 배포는 실행 전 사용자 확인을 받는다.
 
 ## 핵심 사용자
 
@@ -60,43 +70,36 @@
 
 ## 기본 데이터 구조
 
-초기에는 정적 JSON 또는 Markdown 기반으로 시작한다.
+현재 운영 기준은 Firebase Auth, Firestore, Storage, Functions, Hosting을 사용하는 권한 기반 보안 전자책 시스템이다.
+
+홈페이지에서 새로 만드는 정적 JSON 또는 Markdown 서재는 보조 공개 자료실이 필요할 때만 별도 검토한다.
 
 ```text
-bookshelf
-  book
-    title
-    subtitle
-    category
-    audience
-    summary
-    tags
-    cover
-    sourceFiles
-    chapters
-      chapter
-        title
-        sections
+users/{uid}
+books/{bookId}
+books/{bookId}/versions/{versionId}
+entitlements/{uid_bookId}
+groups/{groupId}
+groupMembers/{groupId_uid}
+groupEntitlements/{groupId_bookId}
+readLogs/{logId}
 ```
 
-나중에 Firebase를 붙이면 자료 등록, 검색, 권한 관리를 분리한다.
+자료 등록, 검색, 권한 관리는 전자책 시스템 내부 관리자 콘솔에서 처리한다.
 
 ## 기능 순서
 
-1. 정적 첫 화면 만들기
-2. 샘플 자료 카드 구성
-3. 주제별 필터와 검색 UI 만들기
-4. Markdown 또는 JSON 자료 구조 정하기
-5. 전자책 읽기 화면 만들기
-6. PDF나 외부 링크 연결
-7. 관리자 등록 화면 검토
-8. Firebase Storage와 Firestore 검토
-9. 권한, 비용, 공개 범위 정리
-10. 개인 홈페이지 카드에서 연결
+1. 개인 홈페이지 카드에서 운영 중인 전자책 서재로 연결
+2. 운영 주소, 학생 서재, 관리자 콘솔 링크 정리
+3. GitHub 원격 기준 코드와 Firebase 배포 상태 확인
+4. 사용자 역할, 그룹, 권한, 만료일, 열람 기록 흐름 점검
+5. 메인 포털 디자인과 연결 화면 톤 통일
+6. 공개 자료실이 따로 필요하면 정적 서재 또는 별도 시스템으로 검토
+7. 전자책 시스템 내부 개선은 별도 작업 폴더에서 진행
 
 ## 디자인 방향
 
-- 홈페이지보다 더 실용적인 자료실 느낌으로 만든다.
+- 메인 홈페이지와 같은 교육 플랫폼 톤을 유지하되, 실제 서재 화면은 실용적인 자료실 느낌으로 만든다.
 - 카드가 너무 많아 보이지 않도록 목록, 서가, 검색 중심으로 구성한다.
 - 교육자료를 빠르게 찾는 것이 첫 목적이다.
 - 과한 AI 느낌, 장식적 그라데이션, 큰 홍보형 히어로는 피한다.
@@ -104,10 +107,9 @@ bookshelf
 
 ## 향후 확인할 것
 
-- 새 프로젝트 이름
-- GitHub 저장소 이름
-- Firebase 사용 여부
+- 운영 중인 GitHub 원격 저장소와 Firebase 배포본의 최신 커밋 동기화
 - 공개 자료와 비공개 자료 구분
 - PDF 원본 저장 방식
 - 자료 저작권과 공개 범위
-- 기존 보안 전자책 프로젝트와의 기능 경계
+- 기존 로컬 보안 전자책 프로젝트와 GitHub 원격 운영본의 차이
+- 홈페이지에서 보여줄 공개 안내 범위
