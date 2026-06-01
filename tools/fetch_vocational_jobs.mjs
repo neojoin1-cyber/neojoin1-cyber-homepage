@@ -131,6 +131,11 @@ const GENERIC_OFFICIAL_SOURCE_CONFIG = {
     keySecrets: [],
     setupHint: '교육청 취업지원센터 공식 RSS/API URL 묶음을 EDU_JOB_CENTER_FEEDS에 줄바꿈 또는 쉼표로 저장하면 지역 피드를 순회한다.'
   },
+  'finance-large-company-recruit': {
+    urlSecrets: ['FINANCE_RECRUIT_FEEDS', 'LARGE_COMPANY_RECRUIT_FEEDS'],
+    keySecrets: ['FINANCE_RECRUIT_API_KEY', 'LARGE_COMPANY_RECRUIT_API_KEY'],
+    setupHint: '은행·금융공기업·대기업 채용 공식 공지/RSS/API URL 묶음을 FINANCE_RECRUIT_FEEDS 또는 LARGE_COMPANY_RECRUIT_FEEDS에 저장하면 공식 공채 후보를 순회한다.'
+  },
   'nonprofit-recruit': {
     urlSecrets: ['NONPROFIT_RECRUIT_API_URL'],
     keySecrets: ['NONPROFIT_RECRUIT_API_KEY'],
@@ -178,11 +183,21 @@ const SOURCE_ONBOARDING = {
   'saramin-job-search': {
     priority: 'P0',
     actionLabel: '사람인 API 키 등록',
-    impact: '대기업·중견기업 공채속보 후보를 넓히는 핵심 민간 공식 API다.',
+    impact: '대기업·금융권·중견기업 공채속보 후보를 넓히는 핵심 민간 공식 API다.',
     easySteps: [
       '사람인 Open API 접근키를 확보한다.',
       'GitHub Actions Secret에 SARAMIN_ACCESS_KEY 이름으로 저장한다.',
-      '다음 자동 실행에서 고졸·특성화고·마이스터고 키워드 공채를 점검한다.'
+      '다음 자동 실행에서 고졸·특성화고·마이스터고·금융권·대기업 키워드 공채를 점검한다.'
+    ]
+  },
+  'finance-large-company-recruit': {
+    priority: 'P0',
+    actionLabel: '금융권·대기업 공식 공채 피드 등록',
+    impact: '은행·금융공기업·대기업의 고졸 공개채용을 회사 또는 채용대행 공식 공지 기준으로 보강한다.',
+    easySteps: [
+      '은행·금융공기업·대기업 채용 공식 공지/RSS/API URL을 확인한다.',
+      '여러 URL은 줄바꿈 또는 쉼표로 묶어 FINANCE_RECRUIT_FEEDS 또는 LARGE_COMPANY_RECRUIT_FEEDS Secret에 저장한다.',
+      '공채 상세는 공식 원문과 채용대행 원문을 2중 확인한 뒤 전형일정·첨부자료 중심으로 표시한다.'
     ]
   },
   'seoul-highjob': {
@@ -321,6 +336,17 @@ const SOURCE_CATALOG = [
     trackHint: 'balanced',
     status: 'active',
     secretNames: ['SARAMIN_ACCESS_KEY']
+  },
+  {
+    id: 'finance-large-company-recruit',
+    name: '금융권·대기업 고졸 공채 공식 피드',
+    type: 'official-channel-pending',
+    sourceUrl: '',
+    group: 'finance-large-company',
+    trackHint: 'exam',
+    status: 'pending',
+    secretNames: ['FINANCE_RECRUIT_FEEDS', 'LARGE_COMPANY_RECRUIT_FEEDS', 'FINANCE_RECRUIT_API_KEY', 'LARGE_COMPANY_RECRUIT_API_KEY'],
+    message: '은행·금융공기업·대기업 채용 공식 공지/RSS/API 묶음 확인 후 연결'
   },
   {
     id: 'job-alio-openapi',
@@ -485,10 +511,11 @@ const GENERIC_NOTICE_TERMS = new Set([
 
 const SECTOR_TERMS = {
   military: ['부사관', '군무원', '육군', '해군', '공군', '해병대', '국방부'],
+  finance: ['금융권', '은행', '증권', '보험', '카드', '저축은행', '금융공기업', '농협은행', '국민은행', '신한은행', '하나은행', '우리은행', '기업은행'],
   government: ['공무원', '공무직', '임기제', '기간제근로자', '나라일터', '인사혁신처'],
   nonprofit: ['비영리', '공익', '재단', '협회', '사회복지', '법인'],
   'public-institution': ['공공기관', '공기업', '준정부기관', '잡알리오', 'NCS'],
-  'large-company': ['대기업', '그룹', '공채', '공개채용', '인적성'],
+  'large-company': ['대기업', '그룹', '인적성', '채용형 인턴', '고졸공채', '고졸 공채'],
   'mid-sme': ['중견기업', '중소기업', '강소기업', '일학습병행', '도제학교'],
   'part-time': ['알바', '파트타임', '시간제']
 };
@@ -1152,6 +1179,8 @@ function withApplicationClosedSuffix(title) {
 function sectorLabel(sector) {
   return {
     military: '군 채용',
+    finance: '금융권',
+    'finance-large-company': '금융권·대기업',
     government: '정부·공무직',
     nonprofit: '비영리기관',
     'public-institution': '공공기관',
@@ -1214,7 +1243,7 @@ function classifyProcess(raw) {
     confidence = hasDirect || source?.trackHint === 'direct' ? 'medium' : 'review';
     labels.push(hasDirect ? '면접 중심' : '필기 미확인');
     note = '필기시험은 확인되지 않았고 서류·면접 중심 채용으로 우선 분류했습니다.';
-  } else if (source?.trackHint === 'exam' || ['public-institution', 'government', 'military'].includes(sector)) {
+  } else if (source?.trackHint === 'exam' || ['public-institution', 'government', 'military', 'finance', 'finance-large-company', 'large-company'].includes(sector)) {
     processTrack = 'exam-formal';
     writtenExam = 'likely';
     confidence = 'medium';
@@ -2680,7 +2709,20 @@ async function fetchSaraminJobSearch() {
     };
   }
 
-  const queries = ['고졸', '특성화고', '직업계고', '마이스터고', '학교장 추천'];
+  const queries = [
+    '고졸',
+    '특성화고',
+    '직업계고',
+    '마이스터고',
+    '학교장 추천',
+    '고졸 금융권',
+    '고졸 은행',
+    '특성화고 금융',
+    '고졸 대기업',
+    '특성화고 대기업',
+    '마이스터고 대기업',
+    '고졸 공채'
+  ];
   const rawItems = [];
   const errors = [];
 
