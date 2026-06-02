@@ -1,37 +1,37 @@
 {
   "version": 4,
-  "generatedAt": "2026-06-02T09:17:12.930Z",
+  "generatedAt": "2026-06-02T14:20:33.034Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 19:10 KST",
   "mode": "official-public-recruit-auto-registration",
   "summary": {
-    "total": 11,
-    "active": 10,
-    "deadlineSoon": 1,
+    "total": 13,
+    "active": 11,
+    "deadlineSoon": 2,
     "applicationClosed": 0,
-    "examFormal": 1,
+    "examFormal": 3,
     "directInterview": 10,
-    "companyNoticeChecked": 1,
-    "detailedPublicRecruit": 1,
+    "companyNoticeChecked": 3,
+    "detailedPublicRecruit": 3,
     "briefDirect": 10,
-    "briefingReady": 11,
-    "firstDayCollected": 10,
+    "briefingReady": 13,
+    "firstDayCollected": 12,
     "lateDetected": 1,
     "missedReviewNeeded": 1,
-    "staleFallbackItems": 4,
+    "staleFallbackItems": 0,
     "sourcesChecked": 15,
     "sourcesConfigured": 4,
     "sourcesReady": 4,
     "sourcesMissingSetup": 11,
-    "note": "현재 실행에서 신규 수집이 0건이라 직전 정상 공고를 임시 보존하고 공식 소스 점검이 필요합니다."
+    "note": "공채 첫날 수집을 최우선으로 점검하고, 공식 공고 2중 확인 중심으로 취업부 브리핑을 자동 생성했습니다."
   },
   "collectionReview": {
     "status": "review_needed",
-    "generatedAt": "2026-06-02T09:17:12.930Z",
+    "generatedAt": "2026-06-02T14:20:33.034Z",
     "firstDayGoal": "공채는 게시 첫날 수집을 목표로 하며, 늦게 발견된 공고는 누락 점검 대상으로 기록한다.",
     "missedReviewCount": 1,
     "officialNoticePendingCount": 0,
-    "sourceGapCount": 12,
+    "sourceGapCount": 11,
     "missedReviewItems": [
       {
         "title": "[공공기관] 2026년 한국장애인고용공단 직원 채용 공고",
@@ -53,13 +53,6 @@
         "readiness": "active",
         "configured": false,
         "message": "GitHub Secret WORK24_AUTH_KEY 또는 WORKNET_AUTH_KEY 미설정"
-      },
-      {
-        "id": "job-alio-openapi",
-        "name": "잡알리오 공공기관 채용",
-        "readiness": "active",
-        "configured": true,
-        "message": "연결 실패: read ECONNRESET; fetch fallback after ECONNRESET"
       },
       {
         "id": "saramin-job-search",
@@ -140,7 +133,7 @@
   },
   "secretReadiness": {
     "status": "needs_secrets_or_official_feeds",
-    "generatedAt": "2026-06-02T09:17:12.930Z",
+    "generatedAt": "2026-06-02T14:20:33.034Z",
     "totalSources": 15,
     "readySources": 4,
     "partialSources": 0,
@@ -815,7 +808,7 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-06-02T09:17:12.930Z",
+      "checkedAt": "2026-06-02T14:20:33.034Z",
       "itemCount": 0,
       "message": "인사혁신처 공공취업 API 650건 점검, 후보 0건, 공식분류 조회 28회",
       "scannedCount": 650,
@@ -838,12 +831,12 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-06-02T09:17:12.930Z",
-      "itemCount": 6,
-      "message": "기재부 공공기관 채용 API 10건 점검, 후보 6건, 공식 공고 접속확인 0건, 호출방식 page,perPage,returnType",
+      "checkedAt": "2026-06-02T14:20:33.034Z",
+      "itemCount": 4,
+      "message": "기재부 공공기관 채용 API 10건 점검, 후보 4건, 공식 공고 접속확인 0건, 호출방식 page,perPage,returnType",
       "scannedCount": 10,
       "rawItemCount": 10,
-      "firstDayCandidates": 6,
+      "firstDayCandidates": 4,
       "missedReviewNeeded": 0
     },
     {
@@ -860,7 +853,7 @@
       "readiness": "active",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-02T09:17:12.930Z",
+      "checkedAt": "2026-06-02T14:20:33.034Z",
       "itemCount": 0,
       "message": "GitHub Secret WORK24_AUTH_KEY 또는 WORKNET_AUTH_KEY 미설정"
     },
@@ -874,13 +867,13 @@
       "requiredSecrets": [],
       "readiness": "active",
       "configured": true,
-      "ok": false,
-      "checkedAt": "2026-06-02T09:17:12.930Z",
-      "itemCount": 0,
-      "message": "연결 실패: read ECONNRESET; fetch fallback after ECONNRESET",
-      "scannedCount": 0,
-      "rawItemCount": 0,
-      "firstDayCandidates": 0,
+      "ok": true,
+      "checkedAt": "2026-06-02T14:20:33.034Z",
+      "itemCount": 9,
+      "message": "공식 공개 원문 10건 점검, 공식 공고 확인 2건, 첫날 수집 9건, 누락점검 0건",
+      "scannedCount": 10,
+      "rawItemCount": 10,
+      "firstDayCandidates": 9,
       "missedReviewNeeded": 0
     },
     {
@@ -894,7 +887,7 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-06-02T09:17:12.930Z",
+      "checkedAt": "2026-06-02T14:20:33.034Z",
       "itemCount": 1,
       "message": "서울 하이잡 공식 목록 20건 점검, 후보 1건, 공식 공고 확인 1건, 첫날 수집 0건, 누락점검 1건",
       "scannedCount": 20,
@@ -915,7 +908,7 @@
       "readiness": "active",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-02T09:17:12.930Z",
+      "checkedAt": "2026-06-02T14:20:33.034Z",
       "itemCount": 0,
       "message": "GitHub Secret SARAMIN_ACCESS_KEY 미설정"
     },
@@ -935,7 +928,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-02T09:17:12.930Z",
+      "checkedAt": "2026-06-02T14:20:33.034Z",
       "itemCount": 0,
       "message": "은행·금융공기업·대기업 채용 공식 공지/RSS/API 묶음 확인 후 연결"
     },
@@ -953,7 +946,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-02T09:17:12.930Z",
+      "checkedAt": "2026-06-02T14:20:33.034Z",
       "itemCount": 0,
       "message": "인사혁신처 나라일터 공식 API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -971,7 +964,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-02T09:17:12.930Z",
+      "checkedAt": "2026-06-02T14:20:33.034Z",
       "itemCount": 0,
       "message": "국방부·각 군 공식 모집/채용 공고 데이터 경로 확인 후 연결"
     },
@@ -989,7 +982,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-02T09:17:12.930Z",
+      "checkedAt": "2026-06-02T14:20:33.034Z",
       "itemCount": 0,
       "message": "잡코리아 공식 제휴 또는 이용 허가된 API 확인 후 연결"
     },
@@ -1007,7 +1000,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-02T09:17:12.930Z",
+      "checkedAt": "2026-06-02T14:20:33.034Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -1025,7 +1018,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-02T09:17:12.930Z",
+      "checkedAt": "2026-06-02T14:20:33.034Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -1043,7 +1036,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-02T09:17:12.930Z",
+      "checkedAt": "2026-06-02T14:20:33.034Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -1060,7 +1053,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-02T09:17:12.930Z",
+      "checkedAt": "2026-06-02T14:20:33.034Z",
       "itemCount": 0,
       "message": "교육청별 공식 RSS/API/게시판 허용 범위 조사 후 지역 피드 묶음으로 연결"
     },
@@ -1078,7 +1071,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-02T09:17:12.930Z",
+      "checkedAt": "2026-06-02T14:20:33.034Z",
       "itemCount": 0,
       "message": "비영리기관 공식 채용 공고 경로와 이용 조건 확인 후 연결"
     }
@@ -1125,7 +1118,7 @@
       "supplementarySourceUrls": [
         "https://high-job.sen.go.kr/FUS/JO/EMList.do"
       ],
-      "verifiedAt": "2026-06-02T09:17:12.930Z",
+      "verifiedAt": "2026-06-02T14:20:33.034Z",
       "publishedAt": "2026-05-26T14:59:59.000Z",
       "publishedDate": "2026-05-26",
       "firstSeenAt": "2026-05-31T13:34:51.768Z",
@@ -1167,7 +1160,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T09:17:12.930Z",
+        "companyNoticeCheckedAt": "2026-06-02T14:20:33.034Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -1243,7 +1236,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://kead.careerlink.kr/jobs/RC20260515029269",
         "sourceUrl": "https://high-job.sen.go.kr/FUS/JO/EMList.do",
-        "generatedAt": "2026-06-02T09:17:12.930Z"
+        "generatedAt": "2026-06-02T14:20:33.034Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -1263,49 +1256,49 @@
       ]
     },
     {
-      "id": "f550b2720690ff13d2",
+      "id": "e29df6e5aa0c96f8d5",
       "source": "job-alio-openapi",
       "sourceName": "잡알리오 공공기관 채용",
-      "title": "우체국물류지원단 부산지사 부산, 창원, 울산, 진주사업소 기간제(운전직, 대체인력) 채용 공고",
-      "baseTitle": "우체국물류지원단 부산지사 부산, 창원, 울산, 진주사업소 기간제(운전직, 대체인력) 채용 공고",
-      "company": "(재)우체국물류지원단",
-      "region": "부산,울산,경남",
+      "title": "한전KPS(주) 신보령사업소 '26년도 경상정비공사 계약보조 단기노무원 모집",
+      "baseTitle": "한전KPS(주) 신보령사업소 '26년도 경상정비공사 계약보조 단기노무원 모집",
+      "company": "한전KPS(주)",
+      "region": "충남",
       "education": "학력무관",
       "career": "신입+경력",
       "employmentType": "비정규직",
-      "recruitField": "기타(운전직)",
+      "recruitField": "계약직",
       "recruitNumber": "",
       "applicationMethod": "",
       "contact": "",
       "attachments": [
         {
           "title": "회사·기관 공식 공고문",
-          "url": "https://www.pola.or.kr/"
+          "url": "https://www.kps.co.kr/"
         }
       ],
-      "detailText": "기타(운전직) □ 우체국물류지원단 인사규정에 따른 국가유공자, 장애인, 저소득층, 경력단절여성, 북한이탈주민, 다문화가족, 비수도권 지역인재, 자립준비청년, 청년, 공공기관 청년인턴 □ 전형절차 및 방법 o 1차 서류전형 → 2차 면접전형 o 1차 서류전형: 3배수 선발, 입사지원서 및 자기소개서 평가 + 우대사항(가점)",
-      "deadline": "2026-06-08",
-      "deadlineText": "26.06.08 마감",
-      "url": "https://www.pola.or.kr/",
-      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=301212",
-      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301212",
-      "companyNoticeUrl": "https://www.pola.or.kr/",
-      "primaryOfficialUrl": "https://www.pola.or.kr/",
+      "detailText": "계약직 ○ 채용예정일 즉시 근무가능한 자 -보훈대상자 :국가유공자 등 예우 및 지원에 관한 법률 제29조의 규정에 의한 취업보조 대상자, 각 전형단계별 가점부여 (만점의 5%~10%) ※ 국가유공자 등 예우 및 지원에 관한 법률 제31조 제3항에 의거, 채용인원 3명 이하인 경우 보훈대상자 미적용 (단 응시자의 수가 같거나 그보다 적은 경우에는 그러하지 아니함) -장애인 : 장애인고용촉진 및 직업재활업 제2조 제1호의 규정에 의한 장애인 중 발전소 현장 정비업무 수행이 가능한 자 (청각, 간질장애 제외) (만점의 10%) -건설업 기초안전교육 이수자 : 산업안전 보건법 제31조 2항 건설업 기초안전교육 이수자(4시간)(만점의 5%) -국민체력100 : 채용공고일 기준 최근 1년 이내 '국민체력100' 체력인증서 보유자(등급무관, 만점의 5%) 1.채용개요 가. 총 채용인원: 1명 나. 근무부서별 채용인원 및 근무기간 -채용부서 : 총무/ 채용인원 : 1명/ 근무기간 : 2026. 6. 16. ~ 2026. 12. 11. ※불가피한 사정으로 공사 일정이 변경되는 경우 채용이 취소되거나 근무기간이 달라질 수 있음 다. 근무지: 충청남도 보령시 주교면 송도길 201 2. 근무조건 가. 채용신분: 단",
+      "deadline": "2026-06-05",
+      "deadlineText": "26.06.05 마감",
+      "url": "https://www.kps.co.kr/",
+      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=301271",
+      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301271",
+      "companyNoticeUrl": "https://www.kps.co.kr/",
+      "primaryOfficialUrl": "https://www.kps.co.kr/",
       "officialNoticePriority": "company-or-agency-notice-first",
       "supplementarySourceUrls": [
-        "https://job.alio.go.kr/recruitview.do?idx=301212"
+        "https://job.alio.go.kr/recruitview.do?idx=301271"
       ],
-      "verifiedAt": "2026-06-02T09:17:12.930Z",
-      "publishedAt": "2026-06-01T14:59:59.000Z",
-      "publishedDate": "2026-06-01",
-      "firstSeenAt": "2026-06-01T12:39:45.255Z",
-      "firstSeenDate": "2026-06-01",
+      "verifiedAt": "2026-06-02T14:20:33.034Z",
+      "publishedAt": "2026-06-02T14:59:59.000Z",
+      "publishedDate": "2026-06-02",
+      "firstSeenAt": "2026-06-02T14:20:33.034Z",
+      "firstSeenDate": "2026-06-02",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
-        "publishedAt": "2026-06-01T14:59:59.000Z",
-        "publishedDate": "2026-06-01",
-        "firstSeenAt": "2026-06-01T12:39:45.255Z",
-        "firstSeenDate": "2026-06-01",
+        "publishedAt": "2026-06-02T14:59:59.000Z",
+        "publishedDate": "2026-06-02",
+        "firstSeenAt": "2026-06-02T14:20:33.034Z",
+        "firstSeenDate": "2026-06-02",
         "detectionLagDays": 0,
         "firstDayCollected": true,
         "missedReviewNeeded": false,
@@ -1318,87 +1311,263 @@
         "신입·경력무관",
         "공식전형"
       ],
-      "processTrack": "direct-interview",
-      "processTrackName": "면접중심·현장형",
-      "writtenExam": "not_found",
+      "processTrack": "exam-formal",
+      "processTrackName": "필기·공식전형",
+      "writtenExam": "likely",
       "processConfidence": "medium",
       "processLabels": [
         "공공기관",
-        "면접 중심"
+        "필기 가능성 높음"
       ],
-      "processNote": "필기시험은 확인되지 않았고 서류·면접 중심 채용으로 우선 분류했습니다.",
+      "processNote": "공공·군·정부 채용 성격상 필기 또는 공식 선발 절차 가능성이 높습니다.",
       "sector": "public-institution",
       "sectorName": "공공기관",
       "sourceVerification": {
-        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301212",
-        "companyNoticeUrl": "https://www.pola.or.kr/",
-        "primaryOfficialUrl": "https://www.pola.or.kr/",
+        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301271",
+        "companyNoticeUrl": "https://www.kps.co.kr/",
+        "primaryOfficialUrl": "https://www.kps.co.kr/",
         "officialNoticePriority": "company-or-agency-notice-first",
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-01T12:39:45.255Z",
-        "doubleCheckStatus": "company_contact_recommended",
-        "doubleCheckLabel": "회사 확인 권고",
-        "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
+        "companyNoticeCheckedAt": "2026-06-02T14:20:33.034Z",
+        "doubleCheckStatus": "company_notice_reachable",
+        "doubleCheckLabel": "공식 공고 접속확인",
+        "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다."
       },
-      "servicePriority": "support-brief-direct",
-      "servicePolicyLabel": "간단 안내",
-      "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
-      "contactAdvice": "근무조건, 급여, 제출서류, 미성년자 근로 가능 여부는 회사 공식 공고 또는 인사담당자에게 확인하세요.",
-      "publicRecruitDetails": null,
+      "servicePriority": "primary-public-recruit",
+      "servicePolicyLabel": "공채 상세",
+      "detailLevel": "detailed-public-recruit",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "contactAdvice": "지원 전 회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문을 다시 확인하세요.",
+      "publicRecruitDetails": {
+        "companyNotice": "회사·기관 공식 공고 확인",
+        "sourceCheck": "공식 공고 접속확인",
+        "hiring": "계약직",
+        "eligibility": "학력무관 · 신입+경력",
+        "process": "1.채용개요 가. 총 채용인원: 1명 나. 근무부서별 채용인원 및 근무기간 -채용부서 : 총무/ 채용인원 : 1명/ 근무기간 : 2026. 6. 16. ~ 2026. 12. 11. ※불가피한 사정으로 공사 일정이 변경되는 경우 채용이 취소되거나 근무기간이 달라질 수 있음 다. 근무지: 충청남도 보령시 주교면 송도길 201 2. 근무조건 가. 채용신분: 단기노무원 - 계약기간 만료 후 고용관계 소멸, 정규직 전환 혜택 없음 나. 보수 및 복리후생 - 일급/4대 보",
+        "application": "26.06.05 마감",
+        "attachments": [
+          "회사·기관 공식 공고문"
+        ]
+      },
       "teacherBriefing": {
         "version": 1,
         "generator": "official-source-briefing-v1",
-        "label": "간단 채용 확인 브리핑",
-        "detailLevel": "brief-company-contact",
-        "headline": "(재)우체국물류지원단 - 우체국물류지원단 부산지사 부산, 창원, 울산, 진주사업소 기간제(운전직, 대체인력) 채용 공고",
+        "label": "취업부 공채 브리핑",
+        "detailLevel": "detailed-public-recruit",
+        "headline": "한전KPS(주) - 한전KPS(주) 신보령사업소 '26년도 경상정비공사 계약보조 단기노무원 모집",
         "summaryLines": [
-          "(재)우체국물류지원단 채용정보",
-          "채용부문: 기타(운전직)",
-          "학력·자격: □ 우체국물류지원단 인사규정에 따른",
-          "근무지: 부산,울산,경남",
+          "한전KPS(주) 공채·공식전형",
+          "채용부문: 계약직",
+          "학력·자격: ○ 채용예정일 즉시 근무가능한 자",
+          "근무지: 충남",
           "고용형태: 비정규직"
         ],
         "scheduleLines": [
-          "원서접수: 26.06.08 마감",
-          "전형절차: □ 전형절차 및 방법 o 1차 서류전형 → 2차 면접전형 o 1차 서류전형: 3배수 선발, 입사지원서 및 자기소개서 평가 + 우대사항(가점) ※ 서류전형 응시인원이 모집배수 미만일 경우 응시자격에 대한 적·부 판정만 실시 후 평가 미시행(지원자격 충족 시 적합판정) …",
-          "필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.",
-          "면접전형: □ 전형절차 및 방법 o 1차 서류전형 → 2차 면접전형 o 1차 서류전형: 3배수 선발, 입사지원서 및 자기소개서 평가 + 우대사항(가점) ※ 서류전형 응시인원이 모집배수 미만일 경우 응시자격에 대한 적·부 판정…",
-          "발표·임용: 에 의한 평가 ※ 면접점수 60점 이상인 자로서 고득점순 최종합격자 선발, 합격자 임용포기 및 합격자발표일로부터 1개월 이내 퇴사시 차순위자 대체 o 2차 면접전형: 1배수 선발, 면접심사 평가표에 의한 평가(개별…"
+          "원서접수: 26.06.05 마감",
+          "전형절차: 1.채용개요 가. 총 채용인원: 1명 나. 근무부서별 채용인원 및 근무기간 -채용부서 : 총무/ 채용인원 : 1명/ 근무기간 : 2026. 6. 16. ~ 2026. 12. 11. ※불가피한 사정으로 공사 일정이 변경되는 경우 채용이 취소되거나 근무기간이 달라질 수 …",
+          "필기전형: 전공시험 · 체력검정",
+          "면접전형: 면접 일정·방식 원문 확인",
+          "발표·임용: 능 3. 전형절차 - 지원서접수 → 서류심사 → 신체검사 → 합격자발표 4. 채용일정 1)지원서접수 : 2026. 6. 2(화) ~ 2026. 6. 5(금) 2)서류심사 : 2026. 6. 8(월) 3)신체검사 :…"
         ],
         "examSubjects": [
-          "필기시험 미확인"
+          "전공시험",
+          "체력검정"
         ],
         "schoolActionItems": [
-          "회사 확인 권고",
+          "공식 공고 접속확인",
           "학교장 추천 필요 여부 원문 확인",
           "지원 가능 학년·졸업예정 기준 확인",
           "공고문·입사지원서·직무기술서 첨부 확보",
-          "회사 인사담당자에게 세부 조건 확인",
+          "필기/NCS 대비 일정 안내",
           "공고 게시 첫날 수집 기록"
         ],
         "studentActionItems": [
           "원서접수 마감 전 지원계정·제출서류 확인",
-          "면접 예상 질문과 회사 직무 확인",
+          "NCS·직무능력·인적성 대비",
           "자기소개서·경험기술서 초안 작성",
           "근무지·고용형태·임용예정일 확인"
         ],
         "sourceLines": [
-          "공식 원문: https://www.pola.or.kr/",
-          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=301212",
-          "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.",
-          "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다."
+          "공식 원문: https://www.kps.co.kr/",
+          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=301271",
+          "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다.",
+          "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다."
         ],
         "attachmentLines": [
-          "회사·기관 공식 공고문: https://www.pola.or.kr/"
+          "회사·기관 공식 공고문: https://www.kps.co.kr/"
         ],
-        "teacherShareText": "[(재)우체국물류지원단]\n- 고졸·특성화고 관련 채용정보\n\n[채용부문]\n- (재)우체국물류지원단 채용정보\n- 채용부문: 기타(운전직)\n- 학력·자격: □ 우체국물류지원단 인사규정에 따른\n- 근무지: 부산,울산,경남\n- 고용형태: 비정규직\n\n[전형일정]\n- 원서접수: 26.06.08 마감\n- 전형절차: □ 전형절차 및 방법 o 1차 서류전형 → 2차 면접전형 o 1차 서류전형: 3배수 선발, 입사지원서 및 자기소개서 평가 + 우대사항(가점) ※ 서류전형 응시인원이 모집배수 미만일 경우 응시자격에 대한 적·부 판정만 실시 후 평가 미시행(지원자격 충족 시 적합판정) …\n- 필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.\n- 면접전형: □ 전형절차 및 방법 o 1차 서류전형 → 2차 면접전형 o 1차 서류전형: 3배수 선발, 입사지원서 및 자기소개서 평가 + 우대사항(가점) ※ 서류전형 응시인원이 모집배수 미만일 경우 응시자격에 대한 적·부 판정…\n- 발표·임용: 에 의한 평가 ※ 면접점수 60점 이상인 자로서 고득점순 최종합격자 선발, 합격자 임용포기 및 합격자발표일로부터 1개월 이내 퇴사시 차순위자 대체 o 2차 면접전형: 1배수 선발, 면접심사 평가표에 의한 평가(개별…\n\n[학교 확인]\n- 회사 확인 권고\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 회사 인사담당자에게 세부 조건 확인\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- 면접 예상 질문과 회사 직무 확인\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.pola.or.kr/\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=301212\n- 필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.\n- 회사·기관 공식 공고문: https://www.pola.or.kr/",
-        "officialBasis": "회사 확인 권고",
-        "officialUrl": "https://www.pola.or.kr/",
-        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301212",
-        "generatedAt": "2026-06-01T12:39:45.255Z"
+        "teacherShareText": "[한전KPS(주)]\n- 고졸(예정) 공채·공식전형\n\n[채용부문]\n- 한전KPS(주) 공채·공식전형\n- 채용부문: 계약직\n- 학력·자격: ○ 채용예정일 즉시 근무가능한 자\n- 근무지: 충남\n- 고용형태: 비정규직\n\n[전형일정]\n- 원서접수: 26.06.05 마감\n- 전형절차: 1.채용개요 가. 총 채용인원: 1명 나. 근무부서별 채용인원 및 근무기간 -채용부서 : 총무/ 채용인원 : 1명/ 근무기간 : 2026. 6. 16. ~ 2026. 12. 11. ※불가피한 사정으로 공사 일정이 변경되는 경우 채용이 취소되거나 근무기간이 달라질 수 …\n- 필기전형: 전공시험 · 체력검정\n- 면접전형: 면접 일정·방식 원문 확인\n- 발표·임용: 능 3. 전형절차 - 지원서접수 → 서류심사 → 신체검사 → 합격자발표 4. 채용일정 1)지원서접수 : 2026. 6. 2(화) ~ 2026. 6. 5(금) 2)서류심사 : 2026. 6. 8(월) 3)신체검사 :…\n\n[학교 확인]\n- 공식 공고 접속확인\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 필기/NCS 대비 일정 안내\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- NCS·직무능력·인적성 대비\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.kps.co.kr/\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=301271\n- 공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다.\n- 회사·기관 공식 공고문: https://www.kps.co.kr/",
+        "officialBasis": "공식 공고 접속확인",
+        "officialUrl": "https://www.kps.co.kr/",
+        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301271",
+        "generatedAt": "2026-06-02T14:20:33.034Z"
+      },
+      "schoolRecommendation": "unknown",
+      "status": "deadline_soon",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "필기·공식전형",
+        "공공기관",
+        "비정규직",
+        "학력무관",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ]
+    },
+    {
+      "id": "7bf1e7e2ab6e9c2e09",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "title": "2026년도 별정직 채용형 인턴 모집 공고",
+      "baseTitle": "2026년도 별정직 채용형 인턴 모집 공고",
+      "company": "한국서부발전(주)",
+      "region": "경기,충남",
+      "education": "학력무관",
+      "career": "신입",
+      "employmentType": "청년인턴(채용형)",
+      "recruitField": "기술직,별정직",
+      "recruitNumber": "",
+      "applicationMethod": "",
+      "contact": "",
+      "attachments": [
+        {
+          "title": "회사·기관 공식 공고문",
+          "url": "https://iwest.machuda.kr/"
+        }
+      ],
+      "detailText": "기술직,별정직 (공통자격) * 학력ㆍ연령ㆍ성별 : 제한없음(단, 만 60세 이상 지원불가) ※ 당사 취업규칙 제59조(정년퇴직)에 의거 만60세 정년퇴직 * 병역 - 병역법 76조에서 정한 병역의무 불이행 사실이 없는 자 - 현역은 입사예정일 이전에 전역 가능한 자 * 기타 - 당사 신규채용에 * 발전소 주변지역 주민 : 서류전형 면제, 이후 전형단계별 만점의 10% 가점 * 장애인 : 서류전형 면제, 이후 전형단계별 만점의 10% 가점 * 저소득층 : 필기전형 만점의 5% 가점 * 북한이탈주민 : 필기전형 만점의 5% 가점 * 당사 시간선택제 근무자 : 필기전형 만점의 5% 가점(별정직 전일제 분야에 한함) * 다문화가족 : 필기전형 만점의 5% 가점 * 자립준비청년 : 필기전형 만점의 5% 가점 * 당사 체험형 인턴 우수 수료자 : 필기전형 만점의 5% 가점 ※ 채용분야별 채용예정인원 3인 이하로 보훈대상자 가점 미적용 ※ 저소득층의 경우 모집 공고일('26. 6. 2.) 이후 발급분에 한하여 인정하며, 증빙서류 상 지원자 본인이 수급대상자인 경우에 한함 ※ 자립준비청년의 경우 모집공고일('26. 6. 2.) 기준 「청년고용촉진 특별법 시행령」에 따른 청년(만 15세 이상 만 34세 이하)",
+      "deadline": "2026-06-16",
+      "deadlineText": "26.06.16 마감",
+      "url": "https://iwest.machuda.kr/",
+      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=301265",
+      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301265",
+      "companyNoticeUrl": "https://iwest.machuda.kr/",
+      "primaryOfficialUrl": "https://iwest.machuda.kr/",
+      "officialNoticePriority": "company-or-agency-notice-first",
+      "supplementarySourceUrls": [
+        "https://job.alio.go.kr/recruitview.do?idx=301265"
+      ],
+      "verifiedAt": "2026-06-02T14:20:33.034Z",
+      "publishedAt": "2026-06-02T14:59:59.000Z",
+      "publishedDate": "2026-06-02",
+      "firstSeenAt": "2026-06-02T14:20:33.034Z",
+      "firstSeenDate": "2026-06-02",
+      "collectionAudit": {
+        "policy": "public-recruit-first-day-collection",
+        "publishedAt": "2026-06-02T14:59:59.000Z",
+        "publishedDate": "2026-06-02",
+        "firstSeenAt": "2026-06-02T14:20:33.034Z",
+        "firstSeenDate": "2026-06-02",
+        "detectionLagDays": 0,
+        "firstDayCollected": true,
+        "missedReviewNeeded": false,
+        "firstDayStatus": "first_day",
+        "note": "공고 게시 첫날 자동 수집 대상입니다."
+      },
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "exam-formal",
+      "processTrackName": "필기·공식전형",
+      "writtenExam": "confirmed",
+      "processConfidence": "high",
+      "processLabels": [
+        "공공기관",
+        "필기 확인"
+      ],
+      "processNote": "필기시험 또는 공식 선발 절차가 원문 키워드에서 확인됩니다.",
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "sourceVerification": {
+        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301265",
+        "companyNoticeUrl": "https://iwest.machuda.kr/",
+        "primaryOfficialUrl": "https://iwest.machuda.kr/",
+        "officialNoticePriority": "company-or-agency-notice-first",
+        "companyNoticeCheckStatus": "reachable_unmatched",
+        "companyNoticeReachable": true,
+        "companyNoticeMatched": false,
+        "companyNoticeCheckedAt": "2026-06-02T14:20:33.034Z",
+        "doubleCheckStatus": "company_notice_reachable",
+        "doubleCheckLabel": "공식 공고 접속확인",
+        "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다."
+      },
+      "servicePriority": "primary-public-recruit",
+      "servicePolicyLabel": "공채 상세",
+      "detailLevel": "detailed-public-recruit",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "contactAdvice": "지원 전 회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문을 다시 확인하세요.",
+      "publicRecruitDetails": {
+        "companyNotice": "회사·기관 공식 공고 확인",
+        "sourceCheck": "공식 공고 접속확인",
+        "hiring": "기술직,별정직",
+        "eligibility": "학력무관 · 신입",
+        "process": "ㅇ 지원서 접수 - 접수기간 : 2026. 6. 2.(화) 14:00 ~ 2026. 6. 16(화) 14:00 - 접수방법 : 인터넷으로만 접수 가능 ㅇ 전형방법 - 1차 서류전형(적격자 전원응시): 어학 자격요건 제한없음. 분야별 필수자격요건 충족 필수. 입사지원서 불성실 기재자 부적격 처리 ※ 서류전형 면제자도 입사지원서는 필히 작성해야 하며, 불성실 기재자에 해당할 경우 불합격 처리 - 2차 직업기초능력평가, 인성검사(5배수) : 직업기초능력평가(100점)",
+        "application": "26.06.16 마감",
+        "attachments": [
+          "회사·기관 공식 공고문"
+        ]
+      },
+      "teacherBriefing": {
+        "version": 1,
+        "generator": "official-source-briefing-v1",
+        "label": "취업부 공채 브리핑",
+        "detailLevel": "detailed-public-recruit",
+        "headline": "한국서부발전(주) - 2026년도 별정직 채용형 인턴 모집 공고",
+        "summaryLines": [
+          "한국서부발전(주) 공채·공식전형",
+          "채용부문: 기술직,별정직",
+          "학력·자격: (공통자격) * 학력ㆍ연령ㆍ성별 : 제한없음(단, 만 60세 이상 지원불가) ※ 당사 취업규칙 제59조(정년퇴직)에 의거 만60세 정년퇴직 * 병역 - 병역법 76조에서 정한 병역의무 불이행 사실이 없는 자 - 현…",
+          "근무지: 경기,충남",
+          "고용형태: 청년인턴(채용형)"
+        ],
+        "scheduleLines": [
+          "원서접수: 26.06.16 마감",
+          "전형절차: ㅇ 지원서 접수 - 접수기간 : 2026. 6. 2.(화) 14:00 ~ 2026. 6. 16(화) 14:00 - 접수방법 : 인터넷으로만 접수 가능 ㅇ 전형방법 - 1차 서류전형(적격자 전원응시): 어학 자격요건 제한없음. 분야별 필수자격요건 충족 필수. 입사지원서…",
+          "필기전형: 면제, 이후 전형단계별 만점의 10% 가점 * 저소득층 : 필기전형 만점의 5% 가점 * 북한이탈주민 : 필기전형 만점의 5% 가점 * 당사 시간선택제 근무자 : 필기전형 만점의 5% 가점(별정직 전일제 분야에 한…",
+          "면접전형: : 직업기초능력평가(100점), 인성검사(적부판정) - 3차 면접전형(1배수): 인성 및 직무능력 평가(100점) - 최종 : 신체검사/신원조회 ㅇ 인턴 정규직 전환 조건 - 인턴 운영기간: '26. 7. 13. …",
+          "발표·임용: 합격자 발표·임용일 원문 확인"
+        ],
+        "examSubjects": [
+          "필기전형 있음 - 과목은 원문 확인"
+        ],
+        "schoolActionItems": [
+          "공식 공고 접속확인",
+          "학교장 추천 필요 여부 원문 확인",
+          "지원 가능 학년·졸업예정 기준 확인",
+          "공고문·입사지원서·직무기술서 첨부 확보",
+          "필기/NCS 대비 일정 안내",
+          "공고 게시 첫날 수집 기록"
+        ],
+        "studentActionItems": [
+          "원서접수 마감 전 지원계정·제출서류 확인",
+          "NCS·직무능력·인적성 대비",
+          "자기소개서·경험기술서 초안 작성",
+          "근무지·고용형태·임용예정일 확인"
+        ],
+        "sourceLines": [
+          "공식 원문: https://iwest.machuda.kr/",
+          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=301265",
+          "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다.",
+          "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다."
+        ],
+        "attachmentLines": [
+          "회사·기관 공식 공고문: https://iwest.machuda.kr/"
+        ],
+        "teacherShareText": "[한국서부발전(주)]\n- 고졸(예정) 공채·공식전형\n\n[채용부문]\n- 한국서부발전(주) 공채·공식전형\n- 채용부문: 기술직,별정직\n- 학력·자격: (공통자격) * 학력ㆍ연령ㆍ성별 : 제한없음(단, 만 60세 이상 지원불가) ※ 당사 취업규칙 제59조(정년퇴직)에 의거 만60세 정년퇴직 * 병역 - 병역법 76조에서 정한 병역의무 불이행 사실이 없는 자 - 현…\n- 근무지: 경기,충남\n- 고용형태: 청년인턴(채용형)\n\n[전형일정]\n- 원서접수: 26.06.16 마감\n- 전형절차: ㅇ 지원서 접수 - 접수기간 : 2026. 6. 2.(화) 14:00 ~ 2026. 6. 16(화) 14:00 - 접수방법 : 인터넷으로만 접수 가능 ㅇ 전형방법 - 1차 서류전형(적격자 전원응시): 어학 자격요건 제한없음. 분야별 필수자격요건 충족 필수. 입사지원서…\n- 필기전형: 면제, 이후 전형단계별 만점의 10% 가점 * 저소득층 : 필기전형 만점의 5% 가점 * 북한이탈주민 : 필기전형 만점의 5% 가점 * 당사 시간선택제 근무자 : 필기전형 만점의 5% 가점(별정직 전일제 분야에 한…\n- 면접전형: : 직업기초능력평가(100점), 인성검사(적부판정) - 3차 면접전형(1배수): 인성 및 직무능력 평가(100점) - 최종 : 신체검사/신원조회 ㅇ 인턴 정규직 전환 조건 - 인턴 운영기간: '26. 7. 13. …\n- 발표·임용: 합격자 발표·임용일 원문 확인\n\n[학교 확인]\n- 공식 공고 접속확인\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 필기/NCS 대비 일정 안내\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- NCS·직무능력·인적성 대비\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://iwest.machuda.kr/\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=301265\n- 공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다.\n- 회사·기관 공식 공고문: https://iwest.machuda.kr/",
+        "officialBasis": "공식 공고 접속확인",
+        "officialUrl": "https://iwest.machuda.kr/",
+        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301265",
+        "generatedAt": "2026-06-02T14:20:33.034Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -1409,59 +1578,58 @@
         "추천여부확인"
       ],
       "guideTags": [
-        "면접중심·현장형",
+        "필기·공식전형",
         "공공기관",
-        "비정규직",
+        "청년인턴(채용형)",
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ],
-      "staleSourceFallback": true
+      ]
     },
     {
-      "id": "83790c9c84a3f2abf8",
+      "id": "b47dc981054ababba2",
       "source": "job-alio-openapi",
       "sourceName": "잡알리오 공공기관 채용",
-      "title": "[중앙보훈병원] 업무지원직 직원 채용 공고(6월)",
-      "baseTitle": "[중앙보훈병원] 업무지원직 직원 채용 공고(6월)",
-      "company": "한국보훈복지의료공단",
-      "region": "서울",
+      "title": "한국폴리텍대학 인천캠퍼스 업무직(미화원) 채용 공고",
+      "baseTitle": "한국폴리텍대학 인천캠퍼스 업무직(미화원) 채용 공고",
+      "company": "학교법인한국폴리텍",
+      "region": "인천",
       "education": "학력무관",
       "career": "신입+경력",
       "employmentType": "무기계약직",
-      "recruitField": "공무직",
+      "recruitField": "운영직",
       "recruitNumber": "",
       "applicationMethod": "",
       "contact": "",
       "attachments": [
         {
           "title": "회사·기관 공식 공고문",
-          "url": "https://www.bohun.or.kr/seoul/na/ntt/selectNttInfo.do?mi=32253&bbsId=1158&bbsSysId=seoul&nttSn=186022"
+          "url": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777153"
         }
       ],
-      "detailText": "공무직 [공통 자격요건] - 인사규정 제18조에 정한 - 「장애인 고용촉진 및 직업재활법」 에 따른 장애인은 2차전형(면접) 시 만점의 10%가점 부여 - 「국가유공자 등 예우 및 지원에 관한 법률」 등 각종 보훈 관련 법령에 따른 취업지원대상자는 증명서상 가점 부여 ※합격인원의 30% 범위 내 적용 1. 지원서 제출처 ",
-      "deadline": "2026-06-15",
-      "deadlineText": "26.06.15 마감",
-      "url": "https://www.bohun.or.kr/seoul/na/ntt/selectNttInfo.do?mi=32253&bbsId=1158&bbsSysId=seoul&nttSn=186022",
-      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=301202",
-      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301202",
-      "companyNoticeUrl": "https://www.bohun.or.kr/seoul/na/ntt/selectNttInfo.do?mi=32253&bbsId=1158&bbsSysId=seoul&nttSn=186022",
-      "primaryOfficialUrl": "https://www.bohun.or.kr/seoul/na/ntt/selectNttInfo.do?mi=32253&bbsId=1158&bbsSysId=seoul&nttSn=186022",
+      "detailText": "운영직 ○ (학력·성별) 제한 없음 ○ (연령) 정년(만 60세) 미만 ○ 학교법인 한국폴리텍 인사규정 제19조의 □ 법정가산점 ○ 취업지원대상자: 면접전형 동점자 발생 시 우대 - 「독립유공자예우에 관한 법률」, 「국가유공자 등 예우 및 지원에 관한 법률」, 「5·18민주유공자 예우에 관한 법률」, 「특수임무유공자 예우",
+      "deadline": "2026-06-09",
+      "deadlineText": "26.06.09 마감",
+      "url": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777153",
+      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=301270",
+      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301270",
+      "companyNoticeUrl": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777153",
+      "primaryOfficialUrl": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777153",
       "officialNoticePriority": "company-or-agency-notice-first",
       "supplementarySourceUrls": [
-        "https://job.alio.go.kr/recruitview.do?idx=301202"
+        "https://job.alio.go.kr/recruitview.do?idx=301270"
       ],
-      "verifiedAt": "2026-06-02T09:17:12.930Z",
-      "publishedAt": "2026-06-01T14:59:59.000Z",
-      "publishedDate": "2026-06-01",
-      "firstSeenAt": "2026-06-01T12:39:45.255Z",
-      "firstSeenDate": "2026-06-01",
+      "verifiedAt": "2026-06-02T14:20:33.034Z",
+      "publishedAt": "2026-06-02T14:59:59.000Z",
+      "publishedDate": "2026-06-02",
+      "firstSeenAt": "2026-06-02T14:20:33.034Z",
+      "firstSeenDate": "2026-06-02",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
-        "publishedAt": "2026-06-01T14:59:59.000Z",
-        "publishedDate": "2026-06-01",
-        "firstSeenAt": "2026-06-01T12:39:45.255Z",
-        "firstSeenDate": "2026-06-01",
+        "publishedAt": "2026-06-02T14:59:59.000Z",
+        "publishedDate": "2026-06-02",
+        "firstSeenAt": "2026-06-02T14:20:33.034Z",
+        "firstSeenDate": "2026-06-02",
         "detectionLagDays": 0,
         "firstDayCollected": true,
         "missedReviewNeeded": false,
@@ -1486,14 +1654,14 @@
       "sector": "public-institution",
       "sectorName": "공공기관",
       "sourceVerification": {
-        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301202",
-        "companyNoticeUrl": "https://www.bohun.or.kr/seoul/na/ntt/selectNttInfo.do?mi=32253&bbsId=1158&bbsSysId=seoul&nttSn=186022",
-        "primaryOfficialUrl": "https://www.bohun.or.kr/seoul/na/ntt/selectNttInfo.do?mi=32253&bbsId=1158&bbsSysId=seoul&nttSn=186022",
+        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301270",
+        "companyNoticeUrl": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777153",
+        "primaryOfficialUrl": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777153",
         "officialNoticePriority": "company-or-agency-notice-first",
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-01T12:39:45.255Z",
+        "companyNoticeCheckedAt": "2026-06-02T14:20:33.034Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -1501,7 +1669,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다.",
       "contactAdvice": "근무조건, 급여, 제출서류, 미성년자 근로 가능 여부는 회사 공식 공고 또는 인사담당자에게 확인하세요.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -1509,20 +1677,20 @@
         "generator": "official-source-briefing-v1",
         "label": "간단 채용 확인 브리핑",
         "detailLevel": "brief-company-contact",
-        "headline": "한국보훈복지의료공단 - [중앙보훈병원] 업무지원직 직원 채용 공고(6월)",
+        "headline": "학교법인한국폴리텍 - 한국폴리텍대학 인천캠퍼스 업무직(미화원) 채용 공고",
         "summaryLines": [
-          "한국보훈복지의료공단 채용정보",
-          "채용부문: 공무직",
-          "학력·자격: [공통 자격요건] - 인사규정 제18조에 정한",
-          "근무지: 서울",
+          "학교법인한국폴리텍 채용정보",
+          "채용부문: 운영직",
+          "학력·자격: ○ (학력·성별) 제한 없음 ○ (연령) 정년(만 60세) 미만 ○ 학교법인 한국폴리텍 인사규정 제19조의",
+          "근무지: 인천",
           "고용형태: 무기계약직"
         ],
         "scheduleLines": [
-          "원서접수: 26.06.15 마감",
-          "전형절차: 1. 지원서 제출처 및 접수기간 - 접수기간: ‘26.06.01.(월)~’26.06.15.(월) 09:00까지 - 지원방법 접수처(공통) : https://bohun.fairyhr.com ※ 업무지원직(조리원, 청소) 경우 메일·인편·접수 가능 2. 서류심사(적,부)…",
+          "원서접수: 26.06.09 마감",
+          "전형절차: ○ 서류전형 - 방침: 응시자격 미달, 응시원서 불성실 기재(작성 누락, 의미 없는 단어 반복 등) 등을 제외한 전원에게 면접전형 응시 기회 부여 - 방법: 응시원서에 지원자가 기재한 지원자격 확인 ○ 면접전형 - 방법: 개별 또는 집단(2인 이상) 면접이며, 원서접…",
           "필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.",
-          "면접전형: 부) - 합격자 결정: 지원 자격요건 충족자 전원 합격 3. 면접시험 - 블라인드 면접방식(직무, 역량면접 진행) 4. 최종합격자 결정 - 면접시험 결과 고득점자순 * 과락: 면접전형 60점 미만자(가점 제외) 불…",
-          "발표·임용: 청소) 경우 메일·인편·접수 가능 2. 서류심사(적,부) - 합격자 결정: 지원 자격요건 충족자 전원 합격 3. 면접시험 - 블라인드 면접방식(직무, 역량면접 진행) 4. 최종합격자 결정 - 면접시험 결과 고득점자…"
+          "면접전형: 작성 누락, 의미 없는 단어 반복 등) 등을 제외한 전원에게 면접전형 응시 기회 부여 - 방법: 응시원서에 지원자가 기재한 지원자격 확인 ○ 면접전형 - 방법: 개별 또는 집단(2인 이상) 면접이며, 원서접수 인원…",
+          "발표·임용: 계능력(20), 의사소통능력 (20), 직무전문성(20) ○ 합격자 결정 - 평균 점수와 가산점을 합산하여, 만점의 60% 이상 득점자 중 고득점자 순으로 채용인원 이내 합격자 선정 ○ 예비합격자 - 불합격에 해당…"
         ],
         "examSubjects": [
           "필기시험 미확인"
@@ -1542,19 +1710,19 @@
           "근무지·고용형태·임용예정일 확인"
         ],
         "sourceLines": [
-          "공식 원문: https://www.bohun.or.kr/seoul/na/ntt/selectNttInfo.do?mi=32253&bbsId=1158&bbsSysId=seoul&nttSn=186022",
-          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=301202",
+          "공식 원문: https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777153",
+          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=301270",
           "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.",
           "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다."
         ],
         "attachmentLines": [
-          "회사·기관 공식 공고문: https://www.bohun.or.kr/seoul/na/ntt/selectNttInfo.do?mi=32253&bbsId=1158&bbsSysId=seoul&nttSn=186022"
+          "회사·기관 공식 공고문: https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777153"
         ],
-        "teacherShareText": "[한국보훈복지의료공단]\n- 고졸·특성화고 관련 채용정보\n\n[채용부문]\n- 한국보훈복지의료공단 채용정보\n- 채용부문: 공무직\n- 학력·자격: [공통 자격요건] - 인사규정 제18조에 정한\n- 근무지: 서울\n- 고용형태: 무기계약직\n\n[전형일정]\n- 원서접수: 26.06.15 마감\n- 전형절차: 1. 지원서 제출처 및 접수기간 - 접수기간: ‘26.06.01.(월)~’26.06.15.(월) 09:00까지 - 지원방법 접수처(공통) : https://bohun.fairyhr.com ※ 업무지원직(조리원, 청소) 경우 메일·인편·접수 가능 2. 서류심사(적,부)…\n- 필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.\n- 면접전형: 부) - 합격자 결정: 지원 자격요건 충족자 전원 합격 3. 면접시험 - 블라인드 면접방식(직무, 역량면접 진행) 4. 최종합격자 결정 - 면접시험 결과 고득점자순 * 과락: 면접전형 60점 미만자(가점 제외) 불…\n- 발표·임용: 청소) 경우 메일·인편·접수 가능 2. 서류심사(적,부) - 합격자 결정: 지원 자격요건 충족자 전원 합격 3. 면접시험 - 블라인드 면접방식(직무, 역량면접 진행) 4. 최종합격자 결정 - 면접시험 결과 고득점자…\n\n[학교 확인]\n- 회사 확인 권고\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 회사 인사담당자에게 세부 조건 확인\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- 면접 예상 질문과 회사 직무 확인\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.bohun.or.kr/seoul/na/ntt/selectNttInfo.do?mi=32253&bbsId=1158&bbsSysId=seoul&nttSn=186022\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=301202\n- 필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.\n- 회사·기관 공식 공고문: https://www.bohun.or.kr/seoul/na/ntt/selectNttInfo.do?mi=32253&bbsId=1158&bbsSysId=seoul&nttSn=186022",
+        "teacherShareText": "[학교법인한국폴리텍]\n- 고졸·특성화고 관련 채용정보\n\n[채용부문]\n- 학교법인한국폴리텍 채용정보\n- 채용부문: 운영직\n- 학력·자격: ○ (학력·성별) 제한 없음 ○ (연령) 정년(만 60세) 미만 ○ 학교법인 한국폴리텍 인사규정 제19조의\n- 근무지: 인천\n- 고용형태: 무기계약직\n\n[전형일정]\n- 원서접수: 26.06.09 마감\n- 전형절차: ○ 서류전형 - 방침: 응시자격 미달, 응시원서 불성실 기재(작성 누락, 의미 없는 단어 반복 등) 등을 제외한 전원에게 면접전형 응시 기회 부여 - 방법: 응시원서에 지원자가 기재한 지원자격 확인 ○ 면접전형 - 방법: 개별 또는 집단(2인 이상) 면접이며, 원서접…\n- 필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.\n- 면접전형: 작성 누락, 의미 없는 단어 반복 등) 등을 제외한 전원에게 면접전형 응시 기회 부여 - 방법: 응시원서에 지원자가 기재한 지원자격 확인 ○ 면접전형 - 방법: 개별 또는 집단(2인 이상) 면접이며, 원서접수 인원…\n- 발표·임용: 계능력(20), 의사소통능력 (20), 직무전문성(20) ○ 합격자 결정 - 평균 점수와 가산점을 합산하여, 만점의 60% 이상 득점자 중 고득점자 순으로 채용인원 이내 합격자 선정 ○ 예비합격자 - 불합격에 해당…\n\n[학교 확인]\n- 회사 확인 권고\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 회사 인사담당자에게 세부 조건 확인\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- 면접 예상 질문과 회사 직무 확인\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777153\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=301270\n- 필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.\n- 회사·기관 공식 공고문: https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777153",
         "officialBasis": "회사 확인 권고",
-        "officialUrl": "https://www.bohun.or.kr/seoul/na/ntt/selectNttInfo.do?mi=32253&bbsId=1158&bbsSysId=seoul&nttSn=186022",
-        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301202",
-        "generatedAt": "2026-06-01T12:39:45.255Z"
+        "officialUrl": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777153",
+        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301270",
+        "generatedAt": "2026-06-02T14:20:33.034Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -1571,51 +1739,52 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ],
-      "staleSourceFallback": true
+      ]
     },
     {
-      "id": "9c9303f8352ce0d331",
+      "id": "fc756dc09d9f6da2f6",
       "source": "job-alio-openapi",
       "sourceName": "잡알리오 공공기관 채용",
-      "title": "한전KDN 목포지사 배전자동화 분야 비정규직 모집공고",
-      "baseTitle": "한전KDN 목포지사 배전자동화 분야 비정규직 모집공고",
-      "company": "한전KDN",
-      "region": "전남",
+      "title": "한국폴리텍대학 인천캠퍼스 업무직(조리원) 채용 공고",
+      "baseTitle": "한국폴리텍대학 인천캠퍼스 업무직(조리원) 채용 공고",
+      "company": "학교법인한국폴리텍",
+      "region": "인천",
       "education": "학력무관",
       "career": "신입+경력",
-      "employmentType": "비정규직",
-      "recruitField": "기타(일용직)",
+      "employmentType": "무기계약직",
+      "recruitField": "운영직",
       "recruitNumber": "",
       "applicationMethod": "",
       "contact": "",
       "attachments": [
         {
-          "title": "공식 원문 공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=301199"
+          "title": "회사·기관 공식 공고문",
+          "url": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777151"
         }
       ],
-      "detailText": "기타(일용직) 1. 공통 지원자격 - 일반 : 학력, 연령, 외국어 제한 없음 - 병역 : 병역법 제76조에서 정한 병역의무 불이행 사실이 없는 자 - 자격 : 건설업 기초 안전보건교육 이수자 또는 이수 가능자(계약 시 증빙) - 기타 : 당사 인사규정2.1.4(채용 - 배전분야 현장업무 유경험자(100일 이상) - 배전",
-      "deadline": "2026-06-15",
-      "deadlineText": "26.06.15 마감",
-      "url": "https://job.alio.go.kr/recruitview.do?idx=301199",
-      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=301199",
-      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301199",
-      "companyNoticeUrl": "",
-      "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301199",
-      "officialNoticePriority": "source-official-pending-company-or-agency-notice",
-      "supplementarySourceUrls": [],
-      "verifiedAt": "2026-06-02T09:17:12.930Z",
-      "publishedAt": "2026-06-01T14:59:59.000Z",
-      "publishedDate": "2026-06-01",
-      "firstSeenAt": "2026-06-01T12:39:45.255Z",
-      "firstSeenDate": "2026-06-01",
+      "detailText": "운영직 ○ (학력·성별) 제한 없음 ○ (연령) 정년(만 60세) 미만 ○ (자격) 식품위생법 제40조 제1항 및 식품위생법 시행규칙 제49조 제3항에 따른 건강검진 결과(보건증) 적격판정을 받은 자 ※ 임용예정일을 기준으로 유효기간 내 보건증 소지자 ○ 학교법인 한국폴리텍 인사규정 제19조의 □ 법정가산점 ○ 취업지원대",
+      "deadline": "2026-06-09",
+      "deadlineText": "26.06.09 마감",
+      "url": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777151",
+      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=301268",
+      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301268",
+      "companyNoticeUrl": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777151",
+      "primaryOfficialUrl": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777151",
+      "officialNoticePriority": "company-or-agency-notice-first",
+      "supplementarySourceUrls": [
+        "https://job.alio.go.kr/recruitview.do?idx=301268"
+      ],
+      "verifiedAt": "2026-06-02T14:20:33.034Z",
+      "publishedAt": "2026-06-02T14:59:59.000Z",
+      "publishedDate": "2026-06-02",
+      "firstSeenAt": "2026-06-02T14:20:33.034Z",
+      "firstSeenDate": "2026-06-02",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
-        "publishedAt": "2026-06-01T14:59:59.000Z",
-        "publishedDate": "2026-06-01",
-        "firstSeenAt": "2026-06-01T12:39:45.255Z",
-        "firstSeenDate": "2026-06-01",
+        "publishedAt": "2026-06-02T14:59:59.000Z",
+        "publishedDate": "2026-06-02",
+        "firstSeenAt": "2026-06-02T14:20:33.034Z",
+        "firstSeenDate": "2026-06-02",
         "detectionLagDays": 0,
         "firstDayCollected": true,
         "missedReviewNeeded": false,
@@ -1640,14 +1809,14 @@
       "sector": "public-institution",
       "sectorName": "공공기관",
       "sourceVerification": {
-        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301199",
-        "companyNoticeUrl": "",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301199",
-        "officialNoticePriority": "source-official-pending-company-or-agency-notice",
-        "companyNoticeCheckStatus": "not_found",
-        "companyNoticeReachable": false,
-        "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-01T12:39:45.255Z",
+        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301268",
+        "companyNoticeUrl": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777151",
+        "primaryOfficialUrl": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777151",
+        "officialNoticePriority": "company-or-agency-notice-first",
+        "companyNoticeCheckStatus": "content_matched",
+        "companyNoticeReachable": true,
+        "companyNoticeMatched": true,
+        "companyNoticeCheckedAt": "2026-06-02T14:20:33.034Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -1655,7 +1824,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다.",
       "contactAdvice": "근무조건, 급여, 제출서류, 미성년자 근로 가능 여부는 회사 공식 공고 또는 인사담당자에게 확인하세요.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -1663,20 +1832,20 @@
         "generator": "official-source-briefing-v1",
         "label": "간단 채용 확인 브리핑",
         "detailLevel": "brief-company-contact",
-        "headline": "한전KDN - 한전KDN 목포지사 배전자동화 분야 비정규직 모집공고",
+        "headline": "학교법인한국폴리텍 - 한국폴리텍대학 인천캠퍼스 업무직(조리원) 채용 공고",
         "summaryLines": [
-          "한전KDN 채용정보",
-          "채용부문: 기타(일용직)",
-          "학력·자격: 1. 공통 지원자격 - 일반 : 학력, 연령, 외국어 제한 없음 - 병역 : 병역법 제76조에서 정한 병역의무 불이행 사실이 없는 자 - 자격 : 건설업 기초 안전보건교육 이수자 또는 이수 가능자(계약 시 증빙) …",
-          "근무지: 전남",
-          "고용형태: 비정규직"
+          "학교법인한국폴리텍 채용정보",
+          "채용부문: 운영직",
+          "학력·자격: ○ (학력·성별) 제한 없음 ○ (연령) 정년(만 60세) 미만 ○ (자격) 식품위생법 제40조 제1항 및 식품위생법 시행규칙 제49조 제3항에 따른 건강검진 결과(보건증) 적격판정을 받은 자 ※ 임용예정일을 기준…",
+          "근무지: 인천",
+          "고용형태: 무기계약직"
         ],
         "scheduleLines": [
-          "원서접수: 26.06.15 마감",
-          "전형절차: - 1차(적부평가) : 서류전형 - 2차(1 배수) : 면접전형(100점) ※ 개별면접점수가 65점 미만인 경우에는 최종합격자를 선발하지 아니할 수 있음 현장보조원 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - -",
+          "원서접수: 26.06.09 마감",
+          "전형절차: ○ 서류전형 - 방침: 응시자격 미달, 응시원서 불성실 기재(작성 누락, 의미 없는 단어 반복 등) 등을 제외한 전원에게 면접전형 응시 기회 부여 - 방법: 응시원서에 지원자가 기재한 지원자격 확인 ○ 면접전형 - 방법: 개별 또는 집단(2인 이상) 면접이며, 원서접…",
           "필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.",
-          "면접전형: - 1차(적부평가) : 서류전형 - 2차(1 배수) : 면접전형(100점) ※ 개별면접점수가 65점 미만인 경우에는 최종합격자를 선발하지 아니할 수 있음 현장보조원 구분 선발인원 응시인원 결과 확정일 1차 - - …",
-          "발표·임용: 전형(100점) ※ 개별면접점수가 65점 미만인 경우에는 최종합격자를 선발하지 아니할 수 있음 현장보조원 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 기타(일용직) 1. 공통 지원자격 - 일…"
+          "면접전형: 작성 누락, 의미 없는 단어 반복 등) 등을 제외한 전원에게 면접전형 응시 기회 부여 - 방법: 응시원서에 지원자가 기재한 지원자격 확인 ○ 면접전형 - 방법: 개별 또는 집단(2인 이상) 면접이며, 원서접수 인원…",
+          "발표·임용: 계능력(20), 의사소통능력 (20), 직무전문성(20) ○ 합격자 결정 - 평균 점수와 가산점을 합산하여, 만점의 60% 이상 득점자 중 고득점자 순으로 채용인원 이내 합격자 선정 ○ 예비합격자 - 불합격에 해당…"
         ],
         "examSubjects": [
           "필기시험 미확인"
@@ -1696,18 +1865,794 @@
           "근무지·고용형태·임용예정일 확인"
         ],
         "sourceLines": [
-          "공식 원문: https://job.alio.go.kr/recruitview.do?idx=301199",
+          "공식 원문: https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777151",
+          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=301268",
           "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.",
           "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다."
         ],
         "attachmentLines": [
-          "공식 원문 공고: https://job.alio.go.kr/recruitview.do?idx=301199"
+          "회사·기관 공식 공고문: https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777151"
         ],
-        "teacherShareText": "[한전KDN]\n- 고졸·특성화고 관련 채용정보\n\n[채용부문]\n- 한전KDN 채용정보\n- 채용부문: 기타(일용직)\n- 학력·자격: 1. 공통 지원자격 - 일반 : 학력, 연령, 외국어 제한 없음 - 병역 : 병역법 제76조에서 정한 병역의무 불이행 사실이 없는 자 - 자격 : 건설업 기초 안전보건교육 이수자 또는 이수 가능자(계약 시 증빙) …\n- 근무지: 전남\n- 고용형태: 비정규직\n\n[전형일정]\n- 원서접수: 26.06.15 마감\n- 전형절차: - 1차(적부평가) : 서류전형 - 2차(1 배수) : 면접전형(100점) ※ 개별면접점수가 65점 미만인 경우에는 최종합격자를 선발하지 아니할 수 있음 현장보조원 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - -\n- 필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.\n- 면접전형: - 1차(적부평가) : 서류전형 - 2차(1 배수) : 면접전형(100점) ※ 개별면접점수가 65점 미만인 경우에는 최종합격자를 선발하지 아니할 수 있음 현장보조원 구분 선발인원 응시인원 결과 확정일 1차 - - …\n- 발표·임용: 전형(100점) ※ 개별면접점수가 65점 미만인 경우에는 최종합격자를 선발하지 아니할 수 있음 현장보조원 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 기타(일용직) 1. 공통 지원자격 - 일…\n\n[학교 확인]\n- 회사 확인 권고\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 회사 인사담당자에게 세부 조건 확인\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- 면접 예상 질문과 회사 직무 확인\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://job.alio.go.kr/recruitview.do?idx=301199\n- 필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.\n- 필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다.\n- 공식 원문 공고: https://job.alio.go.kr/recruitview.do?idx=301199",
+        "teacherShareText": "[학교법인한국폴리텍]\n- 고졸·특성화고 관련 채용정보\n\n[채용부문]\n- 학교법인한국폴리텍 채용정보\n- 채용부문: 운영직\n- 학력·자격: ○ (학력·성별) 제한 없음 ○ (연령) 정년(만 60세) 미만 ○ (자격) 식품위생법 제40조 제1항 및 식품위생법 시행규칙 제49조 제3항에 따른 건강검진 결과(보건증) 적격판정을 받은 자 ※ 임용예정일을 기준…\n- 근무지: 인천\n- 고용형태: 무기계약직\n\n[전형일정]\n- 원서접수: 26.06.09 마감\n- 전형절차: ○ 서류전형 - 방침: 응시자격 미달, 응시원서 불성실 기재(작성 누락, 의미 없는 단어 반복 등) 등을 제외한 전원에게 면접전형 응시 기회 부여 - 방법: 응시원서에 지원자가 기재한 지원자격 확인 ○ 면접전형 - 방법: 개별 또는 집단(2인 이상) 면접이며, 원서접…\n- 필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.\n- 면접전형: 작성 누락, 의미 없는 단어 반복 등) 등을 제외한 전원에게 면접전형 응시 기회 부여 - 방법: 응시원서에 지원자가 기재한 지원자격 확인 ○ 면접전형 - 방법: 개별 또는 집단(2인 이상) 면접이며, 원서접수 인원…\n- 발표·임용: 계능력(20), 의사소통능력 (20), 직무전문성(20) ○ 합격자 결정 - 평균 점수와 가산점을 합산하여, 만점의 60% 이상 득점자 중 고득점자 순으로 채용인원 이내 합격자 선정 ○ 예비합격자 - 불합격에 해당…\n\n[학교 확인]\n- 회사 확인 권고\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 회사 인사담당자에게 세부 조건 확인\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- 면접 예상 질문과 회사 직무 확인\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777151\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=301268\n- 필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.\n- 회사·기관 공식 공고문: https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777151",
         "officialBasis": "회사 확인 권고",
-        "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=301199",
-        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301199",
-        "generatedAt": "2026-06-01T12:39:45.255Z"
+        "officialUrl": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777151",
+        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301268",
+        "generatedAt": "2026-06-02T14:20:33.034Z"
+      },
+      "schoolRecommendation": "unknown",
+      "status": "active",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "면접중심·현장형",
+        "공공기관",
+        "무기계약직",
+        "학력무관",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ]
+    },
+    {
+      "id": "68a614792cb549b369",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "title": "한국폴리텍대학 인천캠퍼스 업무직(사감) 채용 공고",
+      "baseTitle": "한국폴리텍대학 인천캠퍼스 업무직(사감) 채용 공고",
+      "company": "학교법인한국폴리텍",
+      "region": "인천",
+      "education": "학력무관",
+      "career": "신입+경력",
+      "employmentType": "무기계약직",
+      "recruitField": "운영직",
+      "recruitNumber": "",
+      "applicationMethod": "",
+      "contact": "",
+      "attachments": [
+        {
+          "title": "회사·기관 공식 공고문",
+          "url": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777150"
+        }
+      ],
+      "detailText": "운영직 ○ (학력·성별) 제한 없음 ○ (연령) 정년(만 60세) 미만 ○ 학교법인 한국폴리텍 인사규정 제19조의 □ 법정가산점 ○ 취업지원대상자: 면접전형 동점자 발생 시 우대 - 「독립유공자예우에 관한 법률」, 「국가유공자 등 예우 및 지원에 관한 법률」, 「5·18민주유공자 예우에 관한 법률」, 「특수임무유공자 예우",
+      "deadline": "2026-06-09",
+      "deadlineText": "26.06.09 마감",
+      "url": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777150",
+      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=301267",
+      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301267",
+      "companyNoticeUrl": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777150",
+      "primaryOfficialUrl": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777150",
+      "officialNoticePriority": "company-or-agency-notice-first",
+      "supplementarySourceUrls": [
+        "https://job.alio.go.kr/recruitview.do?idx=301267"
+      ],
+      "verifiedAt": "2026-06-02T14:20:33.034Z",
+      "publishedAt": "2026-06-02T14:59:59.000Z",
+      "publishedDate": "2026-06-02",
+      "firstSeenAt": "2026-06-02T14:20:33.034Z",
+      "firstSeenDate": "2026-06-02",
+      "collectionAudit": {
+        "policy": "public-recruit-first-day-collection",
+        "publishedAt": "2026-06-02T14:59:59.000Z",
+        "publishedDate": "2026-06-02",
+        "firstSeenAt": "2026-06-02T14:20:33.034Z",
+        "firstSeenDate": "2026-06-02",
+        "detectionLagDays": 0,
+        "firstDayCollected": true,
+        "missedReviewNeeded": false,
+        "firstDayStatus": "first_day",
+        "note": "공고 게시 첫날 자동 수집 대상입니다."
+      },
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "direct-interview",
+      "processTrackName": "면접중심·현장형",
+      "writtenExam": "not_found",
+      "processConfidence": "medium",
+      "processLabels": [
+        "공공기관",
+        "면접 중심"
+      ],
+      "processNote": "필기시험은 확인되지 않았고 서류·면접 중심 채용으로 우선 분류했습니다.",
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "sourceVerification": {
+        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301267",
+        "companyNoticeUrl": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777150",
+        "primaryOfficialUrl": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777150",
+        "officialNoticePriority": "company-or-agency-notice-first",
+        "companyNoticeCheckStatus": "fetch_failed",
+        "companyNoticeReachable": false,
+        "companyNoticeMatched": false,
+        "companyNoticeCheckedAt": "2026-06-02T14:20:33.034Z",
+        "doubleCheckStatus": "company_contact_recommended",
+        "doubleCheckLabel": "회사 확인 권고",
+        "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
+      },
+      "servicePriority": "support-brief-direct",
+      "servicePolicyLabel": "간단 안내",
+      "detailLevel": "brief-company-contact",
+      "displayNote": "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다.",
+      "contactAdvice": "근무조건, 급여, 제출서류, 미성년자 근로 가능 여부는 회사 공식 공고 또는 인사담당자에게 확인하세요.",
+      "publicRecruitDetails": null,
+      "teacherBriefing": {
+        "version": 1,
+        "generator": "official-source-briefing-v1",
+        "label": "간단 채용 확인 브리핑",
+        "detailLevel": "brief-company-contact",
+        "headline": "학교법인한국폴리텍 - 한국폴리텍대학 인천캠퍼스 업무직(사감) 채용 공고",
+        "summaryLines": [
+          "학교법인한국폴리텍 채용정보",
+          "채용부문: 운영직",
+          "학력·자격: ○ (학력·성별) 제한 없음 ○ (연령) 정년(만 60세) 미만 ○ 학교법인 한국폴리텍 인사규정 제19조의",
+          "근무지: 인천",
+          "고용형태: 무기계약직"
+        ],
+        "scheduleLines": [
+          "원서접수: 26.06.09 마감",
+          "전형절차: ○ 서류전형 - 방침: 응시자격 미달, 응시원서 불성실 기재(작성 누락, 의미 없는 단어 반복 등) 등을 제외한 전원에게 면접전형 응시 기회 부여 - 방법: 응시원서에 지원자가 기재한 지원자격 확인 ○ 면접전형 - 방법: 개별 또는 집단(2인 이상) 면접이며, 원서접…",
+          "필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.",
+          "면접전형: 작성 누락, 의미 없는 단어 반복 등) 등을 제외한 전원에게 면접전형 응시 기회 부여 - 방법: 응시원서에 지원자가 기재한 지원자격 확인 ○ 면접전형 - 방법: 개별 또는 집단(2인 이상) 면접이며, 원서접수 인원…",
+          "발표·임용: 계능력(20), 의사소통능력 (20), 직무전문성(20) ○ 합격자 결정 - 평균 점수와 가산점을 합산하여, 만점의 60% 이상 득점자 중 고득점자 순으로 채용인원 이내 합격자 선정 ○ 예비합격자 - 불합격에 해당…"
+        ],
+        "examSubjects": [
+          "필기시험 미확인"
+        ],
+        "schoolActionItems": [
+          "회사 확인 권고",
+          "학교장 추천 필요 여부 원문 확인",
+          "지원 가능 학년·졸업예정 기준 확인",
+          "공고문·입사지원서·직무기술서 첨부 확보",
+          "회사 인사담당자에게 세부 조건 확인",
+          "공고 게시 첫날 수집 기록"
+        ],
+        "studentActionItems": [
+          "원서접수 마감 전 지원계정·제출서류 확인",
+          "면접 예상 질문과 회사 직무 확인",
+          "자기소개서·경험기술서 초안 작성",
+          "근무지·고용형태·임용예정일 확인"
+        ],
+        "sourceLines": [
+          "공식 원문: https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777150",
+          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=301267",
+          "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.",
+          "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다."
+        ],
+        "attachmentLines": [
+          "회사·기관 공식 공고문: https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777150"
+        ],
+        "teacherShareText": "[학교법인한국폴리텍]\n- 고졸·특성화고 관련 채용정보\n\n[채용부문]\n- 학교법인한국폴리텍 채용정보\n- 채용부문: 운영직\n- 학력·자격: ○ (학력·성별) 제한 없음 ○ (연령) 정년(만 60세) 미만 ○ 학교법인 한국폴리텍 인사규정 제19조의\n- 근무지: 인천\n- 고용형태: 무기계약직\n\n[전형일정]\n- 원서접수: 26.06.09 마감\n- 전형절차: ○ 서류전형 - 방침: 응시자격 미달, 응시원서 불성실 기재(작성 누락, 의미 없는 단어 반복 등) 등을 제외한 전원에게 면접전형 응시 기회 부여 - 방법: 응시원서에 지원자가 기재한 지원자격 확인 ○ 면접전형 - 방법: 개별 또는 집단(2인 이상) 면접이며, 원서접…\n- 필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.\n- 면접전형: 작성 누락, 의미 없는 단어 반복 등) 등을 제외한 전원에게 면접전형 응시 기회 부여 - 방법: 응시원서에 지원자가 기재한 지원자격 확인 ○ 면접전형 - 방법: 개별 또는 집단(2인 이상) 면접이며, 원서접수 인원…\n- 발표·임용: 계능력(20), 의사소통능력 (20), 직무전문성(20) ○ 합격자 결정 - 평균 점수와 가산점을 합산하여, 만점의 60% 이상 득점자 중 고득점자 순으로 채용인원 이내 합격자 선정 ○ 예비합격자 - 불합격에 해당…\n\n[학교 확인]\n- 회사 확인 권고\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 회사 인사담당자에게 세부 조건 확인\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- 면접 예상 질문과 회사 직무 확인\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777150\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=301267\n- 필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.\n- 회사·기관 공식 공고문: https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777150",
+        "officialBasis": "회사 확인 권고",
+        "officialUrl": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777150",
+        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301267",
+        "generatedAt": "2026-06-02T14:20:33.034Z"
+      },
+      "schoolRecommendation": "unknown",
+      "status": "active",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "면접중심·현장형",
+        "공공기관",
+        "무기계약직",
+        "학력무관",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ]
+    },
+    {
+      "id": "4bccb99377b048dc97",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "title": "한국폴리텍대학 강릉캠퍼스 업무직원[대학운영직_경비원(보훈특별고용)] 채용 공고",
+      "baseTitle": "한국폴리텍대학 강릉캠퍼스 업무직원[대학운영직_경비원(보훈특별고용)] 채용 공고",
+      "company": "학교법인한국폴리텍",
+      "region": "강원",
+      "education": "학력무관",
+      "career": "신입+경력",
+      "employmentType": "무기계약직",
+      "recruitField": "운영직",
+      "recruitNumber": "",
+      "applicationMethod": "",
+      "contact": "",
+      "attachments": [
+        {
+          "title": "회사·기관 공식 공고문",
+          "url": "https://www.kopo.ac.kr/gangneung/board.do?menu=10535&mode=view&post=777190"
+        }
+      ],
+      "detailText": "운영직 O (연령) 원서접수 마감일 기준 만 18세 이상 만 60세 미만인 자(정년 만 60세) O (학력·성별) 제한없음 ※ 단, 남자의 경우 병역을 필하거나 면제된 자 O 해당 직무 수행이 가능한 자 ※ 【붙임】직무기술서 참조 O 학교법인 한국폴리텍 인사규정 제19조( 가. 법정 가산점 ▶ 국가유공자 (각 전형 시 동",
+      "deadline": "2026-06-12",
+      "deadlineText": "26.06.12 마감",
+      "url": "https://www.kopo.ac.kr/gangneung/board.do?menu=10535&mode=view&post=777190",
+      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=301263",
+      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301263",
+      "companyNoticeUrl": "https://www.kopo.ac.kr/gangneung/board.do?menu=10535&mode=view&post=777190",
+      "primaryOfficialUrl": "https://www.kopo.ac.kr/gangneung/board.do?menu=10535&mode=view&post=777190",
+      "officialNoticePriority": "company-or-agency-notice-first",
+      "supplementarySourceUrls": [
+        "https://job.alio.go.kr/recruitview.do?idx=301263"
+      ],
+      "verifiedAt": "2026-06-02T14:20:33.034Z",
+      "publishedAt": "2026-06-02T14:59:59.000Z",
+      "publishedDate": "2026-06-02",
+      "firstSeenAt": "2026-06-02T14:20:33.034Z",
+      "firstSeenDate": "2026-06-02",
+      "collectionAudit": {
+        "policy": "public-recruit-first-day-collection",
+        "publishedAt": "2026-06-02T14:59:59.000Z",
+        "publishedDate": "2026-06-02",
+        "firstSeenAt": "2026-06-02T14:20:33.034Z",
+        "firstSeenDate": "2026-06-02",
+        "detectionLagDays": 0,
+        "firstDayCollected": true,
+        "missedReviewNeeded": false,
+        "firstDayStatus": "first_day",
+        "note": "공고 게시 첫날 자동 수집 대상입니다."
+      },
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "direct-interview",
+      "processTrackName": "면접중심·현장형",
+      "writtenExam": "not_found",
+      "processConfidence": "medium",
+      "processLabels": [
+        "공공기관",
+        "면접 중심"
+      ],
+      "processNote": "필기시험은 확인되지 않았고 서류·면접 중심 채용으로 우선 분류했습니다.",
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "sourceVerification": {
+        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301263",
+        "companyNoticeUrl": "https://www.kopo.ac.kr/gangneung/board.do?menu=10535&mode=view&post=777190",
+        "primaryOfficialUrl": "https://www.kopo.ac.kr/gangneung/board.do?menu=10535&mode=view&post=777190",
+        "officialNoticePriority": "company-or-agency-notice-first",
+        "companyNoticeCheckStatus": "content_matched",
+        "companyNoticeReachable": true,
+        "companyNoticeMatched": true,
+        "companyNoticeCheckedAt": "2026-06-02T14:20:33.034Z",
+        "doubleCheckStatus": "company_contact_recommended",
+        "doubleCheckLabel": "회사 확인 권고",
+        "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
+      },
+      "servicePriority": "support-brief-direct",
+      "servicePolicyLabel": "간단 안내",
+      "detailLevel": "brief-company-contact",
+      "displayNote": "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다.",
+      "contactAdvice": "근무조건, 급여, 제출서류, 미성년자 근로 가능 여부는 회사 공식 공고 또는 인사담당자에게 확인하세요.",
+      "publicRecruitDetails": null,
+      "teacherBriefing": {
+        "version": 1,
+        "generator": "official-source-briefing-v1",
+        "label": "간단 채용 확인 브리핑",
+        "detailLevel": "brief-company-contact",
+        "headline": "학교법인한국폴리텍 - 한국폴리텍대학 강릉캠퍼스 업무직원[대학운영직_경비원(보훈특별고용)] 채용 공고",
+        "summaryLines": [
+          "학교법인한국폴리텍 채용정보",
+          "채용부문: 운영직",
+          "학력·자격: O (연령) 원서접수 마감일 기준 만 18세 이상 만 60세 미만인 자(정년 만 60세) O (학력·성별) 제한없음 ※ 단, 남자의 경우 병역을 필하거나 면제된 자 O 해당 직무 수행이 가능한 자 ※ 【붙임】직무기…",
+          "근무지: 강원",
+          "고용형태: 무기계약직"
+        ],
+        "scheduleLines": [
+          "원서접수: 26.06.12 마감",
+          "전형절차: 가. 전형방법: 서류심사 및 면접심사 나. 1차(서류심사) ○ 응시자격 확인 및 지정서류 준수 등 적격여부 심사 - 지원자 전원 면접심사 응시기회를 부여하되, 응시자격 미달자 및 지원서 등 불성실 기재자는 면접심사대상에서 제외 다. 2차(면접심사) ○ 서류전형 합격자…",
+          "필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.",
+          "면접전형: 가. 전형방법: 서류심사 및 면접심사 나. 1차(서류심사) ○ 응시자격 확인 및 지정서류 준수 등 적격여부 심사 - 지원자 전원 면접심사 응시기회를 부여하되, 응시자격 미달자 및 지원서 등 불성실 기재자는 면접심사…",
+          "발표·임용: 자는 면접심사대상에서 제외 다. 2차(면접심사) ○ 서류전형 합격자에 한하며, 당해 직무수행에 필요한 능력 및 적격성 검증 - 평가항목 및 배점: 직업윤리(20), 문제해결능력(20), 대인관계능력(20), 의사소…"
+        ],
+        "examSubjects": [
+          "필기시험 미확인"
+        ],
+        "schoolActionItems": [
+          "회사 확인 권고",
+          "학교장 추천 필요 여부 원문 확인",
+          "지원 가능 학년·졸업예정 기준 확인",
+          "공고문·입사지원서·직무기술서 첨부 확보",
+          "회사 인사담당자에게 세부 조건 확인",
+          "공고 게시 첫날 수집 기록"
+        ],
+        "studentActionItems": [
+          "원서접수 마감 전 지원계정·제출서류 확인",
+          "면접 예상 질문과 회사 직무 확인",
+          "자기소개서·경험기술서 초안 작성",
+          "근무지·고용형태·임용예정일 확인"
+        ],
+        "sourceLines": [
+          "공식 원문: https://www.kopo.ac.kr/gangneung/board.do?menu=10535&mode=view&post=777190",
+          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=301263",
+          "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.",
+          "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다."
+        ],
+        "attachmentLines": [
+          "회사·기관 공식 공고문: https://www.kopo.ac.kr/gangneung/board.do?menu=10535&mode=view&post=777190"
+        ],
+        "teacherShareText": "[학교법인한국폴리텍]\n- 고졸·특성화고 관련 채용정보\n\n[채용부문]\n- 학교법인한국폴리텍 채용정보\n- 채용부문: 운영직\n- 학력·자격: O (연령) 원서접수 마감일 기준 만 18세 이상 만 60세 미만인 자(정년 만 60세) O (학력·성별) 제한없음 ※ 단, 남자의 경우 병역을 필하거나 면제된 자 O 해당 직무 수행이 가능한 자 ※ 【붙임】직무기…\n- 근무지: 강원\n- 고용형태: 무기계약직\n\n[전형일정]\n- 원서접수: 26.06.12 마감\n- 전형절차: 가. 전형방법: 서류심사 및 면접심사 나. 1차(서류심사) ○ 응시자격 확인 및 지정서류 준수 등 적격여부 심사 - 지원자 전원 면접심사 응시기회를 부여하되, 응시자격 미달자 및 지원서 등 불성실 기재자는 면접심사대상에서 제외 다. 2차(면접심사) ○ 서류전형 합격자…\n- 필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.\n- 면접전형: 가. 전형방법: 서류심사 및 면접심사 나. 1차(서류심사) ○ 응시자격 확인 및 지정서류 준수 등 적격여부 심사 - 지원자 전원 면접심사 응시기회를 부여하되, 응시자격 미달자 및 지원서 등 불성실 기재자는 면접심사…\n- 발표·임용: 자는 면접심사대상에서 제외 다. 2차(면접심사) ○ 서류전형 합격자에 한하며, 당해 직무수행에 필요한 능력 및 적격성 검증 - 평가항목 및 배점: 직업윤리(20), 문제해결능력(20), 대인관계능력(20), 의사소…\n\n[학교 확인]\n- 회사 확인 권고\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 회사 인사담당자에게 세부 조건 확인\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- 면접 예상 질문과 회사 직무 확인\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.kopo.ac.kr/gangneung/board.do?menu=10535&mode=view&post=777190\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=301263\n- 필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.\n- 회사·기관 공식 공고문: https://www.kopo.ac.kr/gangneung/board.do?menu=10535&mode=view&post=777190",
+        "officialBasis": "회사 확인 권고",
+        "officialUrl": "https://www.kopo.ac.kr/gangneung/board.do?menu=10535&mode=view&post=777190",
+        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301263",
+        "generatedAt": "2026-06-02T14:20:33.034Z"
+      },
+      "schoolRecommendation": "unknown",
+      "status": "active",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "면접중심·현장형",
+        "공공기관",
+        "무기계약직",
+        "학력무관",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ]
+    },
+    {
+      "id": "28c8f170945efb11e5",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "title": "[대한체육회] 2026년 하반기 계약직 직원 및 체험형 청년인턴 공개채용",
+      "baseTitle": "[대한체육회] 2026년 하반기 계약직 직원 및 체험형 청년인턴 공개채용",
+      "company": "대한체육회",
+      "region": "서울,강원,충북,전남",
+      "education": "학력무관,대졸(4년)",
+      "career": "신입",
+      "employmentType": "비정규직,청년인턴(체험형)",
+      "recruitField": "행정직,사무직,보건직,기타(트레이너, 영상ㆍ전력분석관)",
+      "recruitNumber": "",
+      "applicationMethod": "",
+      "contact": "",
+      "attachments": [
+        {
+          "title": "공식 원문 공고",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=301306"
+        }
+      ],
+      "detailText": "행정직,사무직,보건직,기타(트레이너, 영상ㆍ전력분석관) ㅇ 아래 조건을 모두 충족하는 자 - 「대한체육회 인사규정」 제19조(임용 「국가유공자 등 예우 및 지원에 관한 법률」 및 이를 준용하는 법률에 의한 취업지원대상자 등 ※ 취업지원대상자 가점은 4명 이상 채용분야가 있을 경우 해당분야에만 적용, 전형별 가점 합격자는 ",
+      "deadline": "2026-06-16",
+      "deadlineText": "26.06.16 마감",
+      "url": "https://job.alio.go.kr/recruitview.do?idx=301306",
+      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=301306",
+      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301306",
+      "companyNoticeUrl": "",
+      "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301306",
+      "officialNoticePriority": "source-official-pending-company-or-agency-notice",
+      "supplementarySourceUrls": [
+        "https://www.data.go.kr/data/15125273/openapi.do"
+      ],
+      "verifiedAt": "2026-06-02T14:20:33.034Z",
+      "publishedAt": "2026-06-02T14:59:59.000Z",
+      "publishedDate": "2026-06-02",
+      "firstSeenAt": "2026-06-02T14:20:33.034Z",
+      "firstSeenDate": "2026-06-02",
+      "collectionAudit": {
+        "policy": "public-recruit-first-day-collection",
+        "publishedAt": "2026-06-02T14:59:59.000Z",
+        "publishedDate": "2026-06-02",
+        "firstSeenAt": "2026-06-02T14:20:33.034Z",
+        "firstSeenDate": "2026-06-02",
+        "detectionLagDays": 0,
+        "firstDayCollected": true,
+        "missedReviewNeeded": false,
+        "firstDayStatus": "first_day",
+        "note": "공고 게시 첫날 자동 수집 대상입니다."
+      },
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "direct-interview",
+      "processTrackName": "면접중심·현장형",
+      "writtenExam": "not_found",
+      "processConfidence": "medium",
+      "processLabels": [
+        "공공기관",
+        "면접 중심",
+        "공채"
+      ],
+      "processNote": "필기시험은 확인되지 않았고 서류·면접 중심 채용으로 우선 분류했습니다.",
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "sourceVerification": {
+        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301306",
+        "companyNoticeUrl": "",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301306",
+        "officialNoticePriority": "source-official-pending-company-or-agency-notice",
+        "companyNoticeCheckStatus": "not_found",
+        "companyNoticeReachable": false,
+        "companyNoticeMatched": false,
+        "companyNoticeCheckedAt": "2026-06-02T14:20:33.034Z",
+        "doubleCheckStatus": "company_contact_recommended",
+        "doubleCheckLabel": "회사 확인 권고",
+        "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
+      },
+      "servicePriority": "support-brief-direct",
+      "servicePolicyLabel": "간단 안내",
+      "detailLevel": "brief-company-contact",
+      "displayNote": "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다.",
+      "contactAdvice": "근무조건, 급여, 제출서류, 미성년자 근로 가능 여부는 회사 공식 공고 또는 인사담당자에게 확인하세요.",
+      "publicRecruitDetails": null,
+      "teacherBriefing": {
+        "version": 1,
+        "generator": "official-source-briefing-v1",
+        "label": "간단 채용 확인 브리핑",
+        "detailLevel": "brief-company-contact",
+        "headline": "대한체육회 - [대한체육회] 2026년 하반기 계약직 직원 및 체험형 청년인턴 공개채용",
+        "summaryLines": [
+          "대한체육회 채용정보",
+          "채용부문: 행정직,사무직,보건직,기타(트레이너, 영상ㆍ전력분석관)",
+          "학력·자격: ㅇ 아래 조건을 모두 충족하는 자 - 「대한체육회 인사규정」 제19조(임용",
+          "근무지: 서울,강원,충북,전남",
+          "고용형태: 비정규직,청년인턴(체험형)"
+        ],
+        "scheduleLines": [
+          "원서접수: 26.06.16 마감",
+          "전형절차: 서류전형(5배수) - 면접전형 - 최종선발 계약직_사무행정A(사업부서 또는 지원부서) 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 계약직_사무행정B(훈련기획부) 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 계약직_사무행정…",
+          "필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.",
+          "면접전형: 서류전형(5배수) - 면접전형 - 최종선발 계약직_사무행정A(사업부서 또는 지원부서) 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 계약직_사무행정B(훈련기획부) 구분 선발인원 응시인원 결과 …",
+          "발표·임용: 이상 채용분야가 있을 경우 해당분야에만 적용, 전형별 가점 합격자는 선발예정 인원 * 세부내용 채용공고문 참고 서류전형(5배수) - 면접전형 - 최종선발 계약직_사무행정A(사업부서 또는 지원부서) 구분 선발인원 응…"
+        ],
+        "examSubjects": [
+          "필기시험 미확인"
+        ],
+        "schoolActionItems": [
+          "회사 확인 권고",
+          "학교장 추천 필요 여부 원문 확인",
+          "지원 가능 학년·졸업예정 기준 확인",
+          "공고문·입사지원서·직무기술서 첨부 확보",
+          "회사 인사담당자에게 세부 조건 확인",
+          "공고 게시 첫날 수집 기록"
+        ],
+        "studentActionItems": [
+          "원서접수 마감 전 지원계정·제출서류 확인",
+          "면접 예상 질문과 회사 직무 확인",
+          "자기소개서·경험기술서 초안 작성",
+          "근무지·고용형태·임용예정일 확인"
+        ],
+        "sourceLines": [
+          "공식 원문: https://job.alio.go.kr/recruitview.do?idx=301306",
+          "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.",
+          "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다."
+        ],
+        "attachmentLines": [
+          "공식 원문 공고: https://job.alio.go.kr/recruitview.do?idx=301306"
+        ],
+        "teacherShareText": "[대한체육회]\n- 고졸·특성화고 관련 채용정보\n\n[채용부문]\n- 대한체육회 채용정보\n- 채용부문: 행정직,사무직,보건직,기타(트레이너, 영상ㆍ전력분석관)\n- 학력·자격: ㅇ 아래 조건을 모두 충족하는 자 - 「대한체육회 인사규정」 제19조(임용\n- 근무지: 서울,강원,충북,전남\n- 고용형태: 비정규직,청년인턴(체험형)\n\n[전형일정]\n- 원서접수: 26.06.16 마감\n- 전형절차: 서류전형(5배수) - 면접전형 - 최종선발 계약직_사무행정A(사업부서 또는 지원부서) 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 계약직_사무행정B(훈련기획부) 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 계약직_사무행정…\n- 필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.\n- 면접전형: 서류전형(5배수) - 면접전형 - 최종선발 계약직_사무행정A(사업부서 또는 지원부서) 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 계약직_사무행정B(훈련기획부) 구분 선발인원 응시인원 결과 …\n- 발표·임용: 이상 채용분야가 있을 경우 해당분야에만 적용, 전형별 가점 합격자는 선발예정 인원 * 세부내용 채용공고문 참고 서류전형(5배수) - 면접전형 - 최종선발 계약직_사무행정A(사업부서 또는 지원부서) 구분 선발인원 응…\n\n[학교 확인]\n- 회사 확인 권고\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 회사 인사담당자에게 세부 조건 확인\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- 면접 예상 질문과 회사 직무 확인\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://job.alio.go.kr/recruitview.do?idx=301306\n- 필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.\n- 필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다.\n- 공식 원문 공고: https://job.alio.go.kr/recruitview.do?idx=301306",
+        "officialBasis": "회사 확인 권고",
+        "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=301306",
+        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301306",
+        "generatedAt": "2026-06-02T14:20:33.034Z"
+      },
+      "schoolRecommendation": "unknown",
+      "status": "active",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "면접중심·현장형",
+        "공공기관",
+        "비정규직,청년인턴(체험형)",
+        "학력무관,대졸(4년)",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ]
+    },
+    {
+      "id": "694b74096967c62ca2",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "title": "국립공원공단 공무직(청사시설) 직원 채용",
+      "baseTitle": "국립공원공단 공무직(청사시설) 직원 채용",
+      "company": "국립공원공단",
+      "region": "강원",
+      "education": "학력무관",
+      "career": "신입+경력",
+      "employmentType": "무기계약직",
+      "recruitField": "시설직,공무직",
+      "recruitNumber": "",
+      "applicationMethod": "",
+      "contact": "",
+      "attachments": [
+        {
+          "title": "회사·기관 공식 공고문",
+          "url": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019269"
+        }
+      ],
+      "detailText": "시설직,공무직 - 공단 인사규정 제18조( - 국가유공자 등 예우 및 지원에 관한 법률 제29조의 규정에 의한 취업지원대상자 (5%~10%, 단계별 가점) - 장애인고용촉진 및 직업재활법 제2조제1호의 규정에 의한 장애인(5%, 서류전형 한정 가점) - 아동복지법 제38조에 따라 보호조치가 종료되거나 해당시설에서 퇴소한 ",
+      "deadline": "2026-06-16",
+      "deadlineText": "26.06.16 마감",
+      "url": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019269",
+      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=301266",
+      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301266",
+      "companyNoticeUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019269",
+      "primaryOfficialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019269",
+      "officialNoticePriority": "company-or-agency-notice-first",
+      "supplementarySourceUrls": [
+        "https://job.alio.go.kr/recruitview.do?idx=301266"
+      ],
+      "verifiedAt": "2026-06-02T14:20:33.034Z",
+      "publishedAt": "2026-06-02T14:59:59.000Z",
+      "publishedDate": "2026-06-02",
+      "firstSeenAt": "2026-06-02T14:20:33.034Z",
+      "firstSeenDate": "2026-06-02",
+      "collectionAudit": {
+        "policy": "public-recruit-first-day-collection",
+        "publishedAt": "2026-06-02T14:59:59.000Z",
+        "publishedDate": "2026-06-02",
+        "firstSeenAt": "2026-06-02T14:20:33.034Z",
+        "firstSeenDate": "2026-06-02",
+        "detectionLagDays": 0,
+        "firstDayCollected": true,
+        "missedReviewNeeded": false,
+        "firstDayStatus": "first_day",
+        "note": "공고 게시 첫날 자동 수집 대상입니다."
+      },
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "direct-interview",
+      "processTrackName": "면접중심·현장형",
+      "writtenExam": "not_found",
+      "processConfidence": "medium",
+      "processLabels": [
+        "공공기관",
+        "면접 중심"
+      ],
+      "processNote": "필기시험은 확인되지 않았고 서류·면접 중심 채용으로 우선 분류했습니다.",
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "sourceVerification": {
+        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301266",
+        "companyNoticeUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019269",
+        "primaryOfficialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019269",
+        "officialNoticePriority": "company-or-agency-notice-first",
+        "companyNoticeCheckStatus": "content_matched",
+        "companyNoticeReachable": true,
+        "companyNoticeMatched": true,
+        "companyNoticeCheckedAt": "2026-06-02T14:20:33.034Z",
+        "doubleCheckStatus": "company_contact_recommended",
+        "doubleCheckLabel": "회사 확인 권고",
+        "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
+      },
+      "servicePriority": "support-brief-direct",
+      "servicePolicyLabel": "간단 안내",
+      "detailLevel": "brief-company-contact",
+      "displayNote": "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다.",
+      "contactAdvice": "근무조건, 급여, 제출서류, 미성년자 근로 가능 여부는 회사 공식 공고 또는 인사담당자에게 확인하세요.",
+      "publicRecruitDetails": null,
+      "teacherBriefing": {
+        "version": 1,
+        "generator": "official-source-briefing-v1",
+        "label": "간단 채용 확인 브리핑",
+        "detailLevel": "brief-company-contact",
+        "headline": "국립공원공단 - 국립공원공단 공무직(청사시설) 직원 채용",
+        "summaryLines": [
+          "국립공원공단 채용정보",
+          "채용부문: 시설직,공무직",
+          "학력·자격: - 공단 인사규정 제18조(",
+          "근무지: 강원",
+          "고용형태: 무기계약직"
+        ],
+        "scheduleLines": [
+          "원서접수: 26.06.16 마감",
+          "전형절차: 1. 서류전형 - 직업기초능력(40%), 직무수행능력(60%), 우대가점(취업지원대상자 등) - 서류전형 선발인원: 채용예정 인원의 3배수 2. 면접전형: 직업기초능력(40%), 직무수행능력(60%), 우대가점(취업지원대상자에 한함) 3. 최종합격자 선발: 서류전형(…",
+          "필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.",
+          "면접전형: 자 등) - 서류전형 선발인원: 채용예정 인원의 3배수 2. 면접전형: 직업기초능력(40%), 직무수행능력(60%), 우대가점(취업지원대상자에 한함) 3. 최종합격자 선발: 서류전형(40%) + 면접전형(60%) …",
+          "발표·임용: 수행능력(60%), 우대가점(취업지원대상자에 한함) 3. 최종합격자 선발: 서류전형(40%) + 면접전형(60%) 합산 후 최종합격자 선발 공무직(청사시설) 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종…"
+        ],
+        "examSubjects": [
+          "필기시험 미확인"
+        ],
+        "schoolActionItems": [
+          "회사 확인 권고",
+          "학교장 추천 필요 여부 원문 확인",
+          "지원 가능 학년·졸업예정 기준 확인",
+          "공고문·입사지원서·직무기술서 첨부 확보",
+          "회사 인사담당자에게 세부 조건 확인",
+          "공고 게시 첫날 수집 기록"
+        ],
+        "studentActionItems": [
+          "원서접수 마감 전 지원계정·제출서류 확인",
+          "면접 예상 질문과 회사 직무 확인",
+          "자기소개서·경험기술서 초안 작성",
+          "근무지·고용형태·임용예정일 확인"
+        ],
+        "sourceLines": [
+          "공식 원문: https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019269",
+          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=301266",
+          "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.",
+          "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다."
+        ],
+        "attachmentLines": [
+          "회사·기관 공식 공고문: https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019269"
+        ],
+        "teacherShareText": "[국립공원공단]\n- 고졸·특성화고 관련 채용정보\n\n[채용부문]\n- 국립공원공단 채용정보\n- 채용부문: 시설직,공무직\n- 학력·자격: - 공단 인사규정 제18조(\n- 근무지: 강원\n- 고용형태: 무기계약직\n\n[전형일정]\n- 원서접수: 26.06.16 마감\n- 전형절차: 1. 서류전형 - 직업기초능력(40%), 직무수행능력(60%), 우대가점(취업지원대상자 등) - 서류전형 선발인원: 채용예정 인원의 3배수 2. 면접전형: 직업기초능력(40%), 직무수행능력(60%), 우대가점(취업지원대상자에 한함) 3. 최종합격자 선발: 서류전형(…\n- 필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.\n- 면접전형: 자 등) - 서류전형 선발인원: 채용예정 인원의 3배수 2. 면접전형: 직업기초능력(40%), 직무수행능력(60%), 우대가점(취업지원대상자에 한함) 3. 최종합격자 선발: 서류전형(40%) + 면접전형(60%) …\n- 발표·임용: 수행능력(60%), 우대가점(취업지원대상자에 한함) 3. 최종합격자 선발: 서류전형(40%) + 면접전형(60%) 합산 후 최종합격자 선발 공무직(청사시설) 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종…\n\n[학교 확인]\n- 회사 확인 권고\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 회사 인사담당자에게 세부 조건 확인\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- 면접 예상 질문과 회사 직무 확인\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019269\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=301266\n- 필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.\n- 회사·기관 공식 공고문: https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019269",
+        "officialBasis": "회사 확인 권고",
+        "officialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019269",
+        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301266",
+        "generatedAt": "2026-06-02T14:20:33.034Z"
+      },
+      "schoolRecommendation": "unknown",
+      "status": "active",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "면접중심·현장형",
+        "공공기관",
+        "무기계약직",
+        "학력무관",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ]
+    },
+    {
+      "id": "c0b4442c6fca04b5d5",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "title": "한전KPS(주)강원충북전력지사 단기노무원(신청주지점 차량순시) 채용공고(15차)",
+      "baseTitle": "한전KPS(주)강원충북전력지사 단기노무원(신청주지점 차량순시) 채용공고(15차)",
+      "company": "한전KPS(주)",
+      "region": "충북",
+      "education": "학력무관",
+      "career": "신입+경력",
+      "employmentType": "비정규직",
+      "recruitField": "계약직",
+      "recruitNumber": "",
+      "applicationMethod": "",
+      "contact": "",
+      "attachments": [
+        {
+          "title": "회사·기관 공식 공고문",
+          "url": "https://www.kps.co.kr/"
+        }
+      ],
+      "detailText": "계약직 채용예정일 즉시 근무가능한 자 ○ 보훈대상자(각 전형단계별 만점의 5%~10% 가점) - 국가유공자 등 예우 및 지원에 관한 법률 제29조의 규정에 의한 취업보호대상자 ※ 「국가유공자 등 예우 및 지원에 관한 법률」 제31조 제3항에 의거, 채용인원 3명 이하인 경우 보훈대상자 가점 미적용 (단, 응시자의 수가 선",
+      "deadline": "2026-06-17",
+      "deadlineText": "26.06.17 마감",
+      "url": "https://www.kps.co.kr/",
+      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=301261",
+      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301261",
+      "companyNoticeUrl": "https://www.kps.co.kr/",
+      "primaryOfficialUrl": "https://www.kps.co.kr/",
+      "officialNoticePriority": "company-or-agency-notice-first",
+      "supplementarySourceUrls": [
+        "https://job.alio.go.kr/recruitview.do?idx=301261"
+      ],
+      "verifiedAt": "2026-06-02T14:20:33.034Z",
+      "publishedAt": "2026-06-02T14:59:59.000Z",
+      "publishedDate": "2026-06-02",
+      "firstSeenAt": "2026-06-02T14:20:33.034Z",
+      "firstSeenDate": "2026-06-02",
+      "collectionAudit": {
+        "policy": "public-recruit-first-day-collection",
+        "publishedAt": "2026-06-02T14:59:59.000Z",
+        "publishedDate": "2026-06-02",
+        "firstSeenAt": "2026-06-02T14:20:33.034Z",
+        "firstSeenDate": "2026-06-02",
+        "detectionLagDays": 0,
+        "firstDayCollected": true,
+        "missedReviewNeeded": false,
+        "firstDayStatus": "first_day",
+        "note": "공고 게시 첫날 자동 수집 대상입니다."
+      },
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "direct-interview",
+      "processTrackName": "면접중심·현장형",
+      "writtenExam": "not_found",
+      "processConfidence": "medium",
+      "processLabels": [
+        "공공기관",
+        "면접 중심"
+      ],
+      "processNote": "필기시험은 확인되지 않았고 서류·면접 중심 채용으로 우선 분류했습니다.",
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "sourceVerification": {
+        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301261",
+        "companyNoticeUrl": "https://www.kps.co.kr/",
+        "primaryOfficialUrl": "https://www.kps.co.kr/",
+        "officialNoticePriority": "company-or-agency-notice-first",
+        "companyNoticeCheckStatus": "reachable_unmatched",
+        "companyNoticeReachable": true,
+        "companyNoticeMatched": false,
+        "companyNoticeCheckedAt": "2026-06-02T14:20:33.034Z",
+        "doubleCheckStatus": "company_contact_recommended",
+        "doubleCheckLabel": "회사 확인 권고",
+        "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
+      },
+      "servicePriority": "support-brief-direct",
+      "servicePolicyLabel": "간단 안내",
+      "detailLevel": "brief-company-contact",
+      "displayNote": "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다.",
+      "contactAdvice": "근무조건, 급여, 제출서류, 미성년자 근로 가능 여부는 회사 공식 공고 또는 인사담당자에게 확인하세요.",
+      "publicRecruitDetails": null,
+      "teacherBriefing": {
+        "version": 1,
+        "generator": "official-source-briefing-v1",
+        "label": "간단 채용 확인 브리핑",
+        "detailLevel": "brief-company-contact",
+        "headline": "한전KPS(주) - 한전KPS(주)강원충북전력지사 단기노무원(신청주지점 차량순시) 채용공고(15차)",
+        "summaryLines": [
+          "한전KPS(주) 채용정보",
+          "채용부문: 계약직",
+          "학력·자격: 채용예정일 즉시 근무가능한 자",
+          "근무지: 충북",
+          "고용형태: 비정규직"
+        ],
+        "scheduleLines": [
+          "원서접수: 26.06.17 마감",
+          "전형절차: □ 전형단계 :서류접수 → 블라인드 면접 및 신체검사 □ 서류접수 ○ 접수기간 : 2026.06.02.~2026.06.17. 10:00 ○ 접수방법 : 담당자 이메일(JI0229@KPS.CO.KR), 팩스(043-904-9106) / 제출 후 담당자 유선 확인(043…",
+          "필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.",
+          "면접전형: □ 전형단계 :서류접수 → 블라인드 면접 및 신체검사 □ 서류접수 ○ 접수기간 : 2026.06.02.~2026.06.17. 10:00 ○ 접수방법 : 담당자 이메일(JI0229@KPS.CO.KR), 팩스(043-…",
+          "발표·임용: 합격자 발표·임용일 원문 확인"
+        ],
+        "examSubjects": [
+          "필기시험 미확인"
+        ],
+        "schoolActionItems": [
+          "회사 확인 권고",
+          "학교장 추천 필요 여부 원문 확인",
+          "지원 가능 학년·졸업예정 기준 확인",
+          "공고문·입사지원서·직무기술서 첨부 확보",
+          "회사 인사담당자에게 세부 조건 확인",
+          "공고 게시 첫날 수집 기록"
+        ],
+        "studentActionItems": [
+          "원서접수 마감 전 지원계정·제출서류 확인",
+          "면접 예상 질문과 회사 직무 확인",
+          "자기소개서·경험기술서 초안 작성",
+          "근무지·고용형태·임용예정일 확인"
+        ],
+        "sourceLines": [
+          "공식 원문: https://www.kps.co.kr/",
+          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=301261",
+          "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.",
+          "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다."
+        ],
+        "attachmentLines": [
+          "회사·기관 공식 공고문: https://www.kps.co.kr/"
+        ],
+        "teacherShareText": "[한전KPS(주)]\n- 고졸·특성화고 관련 채용정보\n\n[채용부문]\n- 한전KPS(주) 채용정보\n- 채용부문: 계약직\n- 학력·자격: 채용예정일 즉시 근무가능한 자\n- 근무지: 충북\n- 고용형태: 비정규직\n\n[전형일정]\n- 원서접수: 26.06.17 마감\n- 전형절차: □ 전형단계 :서류접수 → 블라인드 면접 및 신체검사 □ 서류접수 ○ 접수기간 : 2026.06.02.~2026.06.17. 10:00 ○ 접수방법 : 담당자 이메일(JI0229@KPS.CO.KR), 팩스(043-904-9106) / 제출 후 담당자 유선 확인(043…\n- 필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.\n- 면접전형: □ 전형단계 :서류접수 → 블라인드 면접 및 신체검사 □ 서류접수 ○ 접수기간 : 2026.06.02.~2026.06.17. 10:00 ○ 접수방법 : 담당자 이메일(JI0229@KPS.CO.KR), 팩스(043-…\n- 발표·임용: 합격자 발표·임용일 원문 확인\n\n[학교 확인]\n- 회사 확인 권고\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 회사 인사담당자에게 세부 조건 확인\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- 면접 예상 질문과 회사 직무 확인\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.kps.co.kr/\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=301261\n- 필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.\n- 회사·기관 공식 공고문: https://www.kps.co.kr/",
+        "officialBasis": "회사 확인 권고",
+        "officialUrl": "https://www.kps.co.kr/",
+        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301261",
+        "generatedAt": "2026-06-02T14:20:33.034Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -1724,164 +2669,7 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ],
-      "staleSourceFallback": true
-    },
-    {
-      "id": "6f0bcfe1dee2f1887a",
-      "source": "job-alio-openapi",
-      "sourceName": "잡알리오 공공기관 채용",
-      "title": "2026년 대한장애인체육회 2차 채용",
-      "baseTitle": "2026년 대한장애인체육회 2차 채용",
-      "company": "대한장애인체육회",
-      "region": "서울,경기",
-      "education": "학력무관",
-      "career": "신입",
-      "employmentType": "무기계약직,비정규직",
-      "recruitField": "행정직,사무직,기술직,기능직,계약직",
-      "recruitNumber": "",
-      "applicationMethod": "",
-      "contact": "",
-      "attachments": [
-        {
-          "title": "회사·기관 공식 공고문",
-          "url": "https://koreanpc.recruiter.co.kr/app/jobnotice/list"
-        }
-      ],
-      "detailText": "행정직,사무직,기술직,기능직,계약직 (공통자격) ｏ 대한장애인체육회 인사규정 제19조에 의한 임용 첨부된 채용공고 내 지원자격 및 우대사항, 전형단계별 가점 참고 서류전형 - 면접전 장애인전국체전지원 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 기계·전기(일반) 구분 선발인원 응시인원 결과 확정일 ",
-      "deadline": "2026-06-18",
-      "deadlineText": "26.06.18 마감",
-      "url": "https://koreanpc.recruiter.co.kr/app/jobnotice/list",
-      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=301206",
-      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301206",
-      "companyNoticeUrl": "https://koreanpc.recruiter.co.kr/app/jobnotice/list",
-      "primaryOfficialUrl": "https://koreanpc.recruiter.co.kr/app/jobnotice/list",
-      "officialNoticePriority": "company-or-agency-notice-first",
-      "supplementarySourceUrls": [
-        "https://job.alio.go.kr/recruitview.do?idx=301206"
-      ],
-      "verifiedAt": "2026-06-02T09:17:12.930Z",
-      "publishedAt": "2026-06-01T14:59:59.000Z",
-      "publishedDate": "2026-06-01",
-      "firstSeenAt": "2026-06-01T12:39:45.255Z",
-      "firstSeenDate": "2026-06-01",
-      "collectionAudit": {
-        "policy": "public-recruit-first-day-collection",
-        "publishedAt": "2026-06-01T14:59:59.000Z",
-        "publishedDate": "2026-06-01",
-        "firstSeenAt": "2026-06-01T12:39:45.255Z",
-        "firstSeenDate": "2026-06-01",
-        "detectionLagDays": 0,
-        "firstDayCollected": true,
-        "missedReviewNeeded": false,
-        "firstDayStatus": "first_day",
-        "note": "공고 게시 첫날 자동 수집 대상입니다."
-      },
-      "fitScore": 38,
-      "fitLabels": [
-        "학력무관",
-        "신입·경력무관",
-        "공식전형"
-      ],
-      "processTrack": "direct-interview",
-      "processTrackName": "면접중심·현장형",
-      "writtenExam": "not_found",
-      "processConfidence": "medium",
-      "processLabels": [
-        "공공기관",
-        "면접 중심"
-      ],
-      "processNote": "필기시험은 확인되지 않았고 서류·면접 중심 채용으로 우선 분류했습니다.",
-      "sector": "public-institution",
-      "sectorName": "공공기관",
-      "sourceVerification": {
-        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301206",
-        "companyNoticeUrl": "https://koreanpc.recruiter.co.kr/app/jobnotice/list",
-        "primaryOfficialUrl": "https://koreanpc.recruiter.co.kr/app/jobnotice/list",
-        "officialNoticePriority": "company-or-agency-notice-first",
-        "companyNoticeCheckStatus": "reachable_unmatched",
-        "companyNoticeReachable": true,
-        "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-01T12:39:45.255Z",
-        "doubleCheckStatus": "company_contact_recommended",
-        "doubleCheckLabel": "회사 확인 권고",
-        "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
-      },
-      "servicePriority": "support-brief-direct",
-      "servicePolicyLabel": "간단 안내",
-      "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
-      "contactAdvice": "근무조건, 급여, 제출서류, 미성년자 근로 가능 여부는 회사 공식 공고 또는 인사담당자에게 확인하세요.",
-      "publicRecruitDetails": null,
-      "teacherBriefing": {
-        "version": 1,
-        "generator": "official-source-briefing-v1",
-        "label": "간단 채용 확인 브리핑",
-        "detailLevel": "brief-company-contact",
-        "headline": "대한장애인체육회 - 2026년 대한장애인체육회 2차 채용",
-        "summaryLines": [
-          "대한장애인체육회 채용정보",
-          "채용부문: 행정직,사무직,기술직,기능직,계약직",
-          "학력·자격: (공통자격) ｏ 대한장애인체육회 인사규정 제19조에 의한 임용",
-          "근무지: 서울,경기",
-          "고용형태: 무기계약직,비정규직"
-        ],
-        "scheduleLines": [
-          "원서접수: 26.06.18 마감",
-          "전형절차: 서류전형 - 면접전 장애인전국체전지원 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 기계·전기(일반) 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 미화·세탁 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - …",
-          "필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.",
-          "면접전형: 서류전형 - 면접전 장애인전국체전지원 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 기계·전기(일반) 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 미화·세탁 구분 선발인…",
-          "발표·임용: 직 (공통자격) ｏ 대한장애인체육회 인사규정 제19조에 의한 임용 첨부된 채용공고 내 지원자격 및 우대사항, 전형단계별 가점 참고 서류전형 - 면접전 장애인전국체전지원 구분 선발인원 응시인원 결과 확정일 1차 - …"
-        ],
-        "examSubjects": [
-          "필기시험 미확인"
-        ],
-        "schoolActionItems": [
-          "회사 확인 권고",
-          "학교장 추천 필요 여부 원문 확인",
-          "지원 가능 학년·졸업예정 기준 확인",
-          "공고문·입사지원서·직무기술서 첨부 확보",
-          "회사 인사담당자에게 세부 조건 확인",
-          "공고 게시 첫날 수집 기록"
-        ],
-        "studentActionItems": [
-          "원서접수 마감 전 지원계정·제출서류 확인",
-          "면접 예상 질문과 회사 직무 확인",
-          "자기소개서·경험기술서 초안 작성",
-          "근무지·고용형태·임용예정일 확인"
-        ],
-        "sourceLines": [
-          "공식 원문: https://koreanpc.recruiter.co.kr/app/jobnotice/list",
-          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=301206",
-          "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.",
-          "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다."
-        ],
-        "attachmentLines": [
-          "회사·기관 공식 공고문: https://koreanpc.recruiter.co.kr/app/jobnotice/list"
-        ],
-        "teacherShareText": "[대한장애인체육회]\n- 고졸·특성화고 관련 채용정보\n\n[채용부문]\n- 대한장애인체육회 채용정보\n- 채용부문: 행정직,사무직,기술직,기능직,계약직\n- 학력·자격: (공통자격) ｏ 대한장애인체육회 인사규정 제19조에 의한 임용\n- 근무지: 서울,경기\n- 고용형태: 무기계약직,비정규직\n\n[전형일정]\n- 원서접수: 26.06.18 마감\n- 전형절차: 서류전형 - 면접전 장애인전국체전지원 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 기계·전기(일반) 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 미화·세탁 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - …\n- 필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.\n- 면접전형: 서류전형 - 면접전 장애인전국체전지원 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 기계·전기(일반) 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 미화·세탁 구분 선발인…\n- 발표·임용: 직 (공통자격) ｏ 대한장애인체육회 인사규정 제19조에 의한 임용 첨부된 채용공고 내 지원자격 및 우대사항, 전형단계별 가점 참고 서류전형 - 면접전 장애인전국체전지원 구분 선발인원 응시인원 결과 확정일 1차 - …\n\n[학교 확인]\n- 회사 확인 권고\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 회사 인사담당자에게 세부 조건 확인\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- 면접 예상 질문과 회사 직무 확인\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://koreanpc.recruiter.co.kr/app/jobnotice/list\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=301206\n- 필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.\n- 회사·기관 공식 공고문: https://koreanpc.recruiter.co.kr/app/jobnotice/list",
-        "officialBasis": "회사 확인 권고",
-        "officialUrl": "https://koreanpc.recruiter.co.kr/app/jobnotice/list",
-        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301206",
-        "generatedAt": "2026-06-01T12:39:45.255Z"
-      },
-      "schoolRecommendation": "unknown",
-      "status": "active",
-      "legalCheckFlags": [
-        "원문확인",
-        "마감확인",
-        "학력조건확인",
-        "추천여부확인"
-      ],
-      "guideTags": [
-        "면접중심·현장형",
-        "공공기관",
-        "무기계약직,비정규직",
-        "학력무관",
-        "추천여부 확인",
-        "직무기술서 확인"
-      ],
-      "staleSourceFallback": true
+      ]
     },
     {
       "id": "efcb06560e9d456def",
@@ -1916,7 +2704,7 @@
       "supplementarySourceUrls": [
         "https://www.data.go.kr/data/15125273/openapi.do"
       ],
-      "verifiedAt": "2026-06-02T09:17:12.930Z",
+      "verifiedAt": "2026-06-02T14:20:33.034Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-05-31T23:07:48.169Z",
@@ -1957,7 +2745,7 @@
         "companyNoticeCheckStatus": "fetch_failed",
         "companyNoticeReachable": false,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-02T09:17:12.930Z",
+        "companyNoticeCheckedAt": "2026-06-02T14:20:33.034Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -2017,7 +2805,7 @@
         "officialBasis": "회사 확인 권고",
         "officialUrl": "https://www.comwel.or.kr/recruit/hp/main.do",
         "sourceUrl": "https://www.data.go.kr/data/15125273/openapi.do",
-        "generatedAt": "2026-06-02T09:17:12.930Z"
+        "generatedAt": "2026-06-02T14:20:33.034Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -2069,7 +2857,7 @@
       "supplementarySourceUrls": [
         "https://www.data.go.kr/data/15125273/openapi.do"
       ],
-      "verifiedAt": "2026-06-02T09:17:12.930Z",
+      "verifiedAt": "2026-06-02T14:20:33.034Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-05-31T23:07:48.169Z",
@@ -2110,7 +2898,7 @@
         "companyNoticeCheckStatus": "fetch_failed",
         "companyNoticeReachable": false,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-02T09:17:12.930Z",
+        "companyNoticeCheckedAt": "2026-06-02T14:20:33.034Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -2170,7 +2958,7 @@
         "officialBasis": "회사 확인 권고",
         "officialUrl": "https://www.comwel.or.kr/recruit/hp/main.do",
         "sourceUrl": "https://www.data.go.kr/data/15125273/openapi.do",
-        "generatedAt": "2026-06-02T09:17:12.930Z"
+        "generatedAt": "2026-06-02T14:20:33.034Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -2184,312 +2972,6 @@
         "면접중심·현장형",
         "공공기관",
         "R1040",
-        "학력조건 확인",
-        "추천여부 확인",
-        "직무기술서 확인"
-      ]
-    },
-    {
-      "id": "836f920ab533238e6e",
-      "source": "moef-public-recruit",
-      "sourceName": "기재부 공공기관 채용정보",
-      "title": "[태백병원] 청년(체험형)인턴 채용 공고",
-      "baseTitle": "[태백병원] 청년(체험형)인턴 채용 공고",
-      "company": "근로복지공단",
-      "region": "원문 확인",
-      "education": "원문 확인",
-      "career": "원문 확인",
-      "employmentType": "R1060",
-      "recruitField": "보건.의료",
-      "recruitNumber": "",
-      "applicationMethod": "",
-      "contact": "",
-      "attachments": [
-        {
-          "title": "회사·기관 공식 공고문",
-          "url": "https://www.comwel.or.kr/recruit/hp/main.do"
-        }
-      ],
-      "detailText": "ㅇ 전형방법 : 서류전형(1차) → 면접전형(2차) - 1차: 채용예정인원의 5배수 - 2차 : 개별 또는 집단 면접(내부 및 외부위원 구성) ※ 자세한 사항은 첨부파일의 채용공고문을 참조하시기 바랍니다. 보건.의료 기재부 공공기관 채용정보 기재부 공공기관 채용공시 공공기관 잡알리오 공개채용",
-      "deadline": "2026-06-09",
-      "deadlineText": "2026-06-09 마감",
-      "url": "https://www.comwel.or.kr/recruit/hp/main.do",
-      "originalUrl": "https://www.data.go.kr/data/15125273/openapi.do",
-      "sourceOfficialUrl": "https://www.data.go.kr/data/15125273/openapi.do",
-      "companyNoticeUrl": "https://www.comwel.or.kr/recruit/hp/main.do",
-      "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do",
-      "officialNoticePriority": "company-or-agency-notice-first",
-      "supplementarySourceUrls": [
-        "https://www.data.go.kr/data/15125273/openapi.do"
-      ],
-      "verifiedAt": "2026-06-02T09:17:12.930Z",
-      "publishedAt": "2026-06-02T14:59:59.000Z",
-      "publishedDate": "2026-06-02",
-      "firstSeenAt": "2026-05-31T23:07:48.169Z",
-      "firstSeenDate": "2026-06-01",
-      "collectionAudit": {
-        "policy": "public-recruit-first-day-collection",
-        "publishedAt": "2026-06-02T14:59:59.000Z",
-        "publishedDate": "2026-06-02",
-        "firstSeenAt": "2026-05-31T23:07:48.169Z",
-        "firstSeenDate": "2026-06-01",
-        "detectionLagDays": 0,
-        "firstDayCollected": true,
-        "missedReviewNeeded": false,
-        "firstDayStatus": "first_day",
-        "note": "공고 게시 첫날 자동 수집 대상입니다."
-      },
-      "fitScore": 8,
-      "fitLabels": [
-        "공식전형"
-      ],
-      "processTrack": "direct-interview",
-      "processTrackName": "면접중심·현장형",
-      "writtenExam": "not_found",
-      "processConfidence": "medium",
-      "processLabels": [
-        "공공기관",
-        "면접 중심",
-        "공채"
-      ],
-      "processNote": "필기시험은 확인되지 않았고 서류·면접 중심 채용으로 우선 분류했습니다.",
-      "sector": "public-institution",
-      "sectorName": "공공기관",
-      "sourceVerification": {
-        "sourceOfficialUrl": "https://www.data.go.kr/data/15125273/openapi.do",
-        "companyNoticeUrl": "https://www.comwel.or.kr/recruit/hp/main.do",
-        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do",
-        "officialNoticePriority": "company-or-agency-notice-first",
-        "companyNoticeCheckStatus": "fetch_failed",
-        "companyNoticeReachable": false,
-        "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-02T09:17:12.930Z",
-        "doubleCheckStatus": "company_contact_recommended",
-        "doubleCheckLabel": "회사 확인 권고",
-        "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
-      },
-      "servicePriority": "support-brief-direct",
-      "servicePolicyLabel": "간단 안내",
-      "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다.",
-      "contactAdvice": "근무조건, 급여, 제출서류, 미성년자 근로 가능 여부는 회사 공식 공고 또는 인사담당자에게 확인하세요.",
-      "publicRecruitDetails": null,
-      "teacherBriefing": {
-        "version": 1,
-        "generator": "official-source-briefing-v1",
-        "label": "간단 채용 확인 브리핑",
-        "detailLevel": "brief-company-contact",
-        "headline": "근로복지공단 - [태백병원] 청년(체험형)인턴 채용 공고",
-        "summaryLines": [
-          "근로복지공단 채용정보",
-          "채용부문: 보건.의료",
-          "학력·자격: 응시자격 원문 확인",
-          "고용형태: R1060"
-        ],
-        "scheduleLines": [
-          "원서접수: 2026-06-09 마감",
-          "전형절차: ㅇ 전형방법 : 서류전형(1차) → 면접전형(2차) - 1차: 채용예정인원의 5배수 - 2차 : 개별 또는 집단 면접(내부 및 외부위원 구성) ※ 자세한 사항은 첨부파일의 채용공고문을 참조하시기 바랍니다.",
-          "필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.",
-          "면접전형: ㅇ 전형방법 : 서류전형(1차) → 면접전형(2차) - 1차: 채용예정인원의 5배수 - 2차 : 개별 또는 집단 면접(내부 및 외부위원 구성) ※ 자세한 사항은 첨부파일의 채용공고문을 참조하시기 바랍니다. ㅇ 전형…",
-          "발표·임용: 합격자 발표·임용일 원문 확인"
-        ],
-        "examSubjects": [
-          "필기시험 미확인"
-        ],
-        "schoolActionItems": [
-          "회사 확인 권고",
-          "학교장 추천 필요 여부 원문 확인",
-          "지원 가능 학년·졸업예정 기준 확인",
-          "공고문·입사지원서·직무기술서 첨부 확보",
-          "회사 인사담당자에게 세부 조건 확인",
-          "공고 게시 첫날 수집 기록"
-        ],
-        "studentActionItems": [
-          "원서접수 마감 전 지원계정·제출서류 확인",
-          "면접 예상 질문과 회사 직무 확인",
-          "자기소개서·경험기술서 초안 작성",
-          "근무지·고용형태·임용예정일 확인"
-        ],
-        "sourceLines": [
-          "공식 원문: https://www.comwel.or.kr/recruit/hp/main.do",
-          "보완 출처: https://www.data.go.kr/data/15125273/openapi.do",
-          "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.",
-          "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다."
-        ],
-        "attachmentLines": [
-          "회사·기관 공식 공고문: https://www.comwel.or.kr/recruit/hp/main.do"
-        ],
-        "teacherShareText": "[근로복지공단]\n- 고졸·특성화고 관련 채용정보\n\n[채용부문]\n- 근로복지공단 채용정보\n- 채용부문: 보건.의료\n- 학력·자격: 응시자격 원문 확인\n- 고용형태: R1060\n\n[전형일정]\n- 원서접수: 2026-06-09 마감\n- 전형절차: ㅇ 전형방법 : 서류전형(1차) → 면접전형(2차) - 1차: 채용예정인원의 5배수 - 2차 : 개별 또는 집단 면접(내부 및 외부위원 구성) ※ 자세한 사항은 첨부파일의 채용공고문을 참조하시기 바랍니다.\n- 필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.\n- 면접전형: ㅇ 전형방법 : 서류전형(1차) → 면접전형(2차) - 1차: 채용예정인원의 5배수 - 2차 : 개별 또는 집단 면접(내부 및 외부위원 구성) ※ 자세한 사항은 첨부파일의 채용공고문을 참조하시기 바랍니다. ㅇ 전형…\n- 발표·임용: 합격자 발표·임용일 원문 확인\n\n[학교 확인]\n- 회사 확인 권고\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 회사 인사담당자에게 세부 조건 확인\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- 면접 예상 질문과 회사 직무 확인\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.comwel.or.kr/recruit/hp/main.do\n- 보완 출처: https://www.data.go.kr/data/15125273/openapi.do\n- 필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.\n- 회사·기관 공식 공고문: https://www.comwel.or.kr/recruit/hp/main.do",
-        "officialBasis": "회사 확인 권고",
-        "officialUrl": "https://www.comwel.or.kr/recruit/hp/main.do",
-        "sourceUrl": "https://www.data.go.kr/data/15125273/openapi.do",
-        "generatedAt": "2026-06-02T09:17:12.930Z"
-      },
-      "schoolRecommendation": "unknown",
-      "status": "active",
-      "legalCheckFlags": [
-        "원문확인",
-        "마감확인",
-        "학력조건확인",
-        "추천여부확인"
-      ],
-      "guideTags": [
-        "면접중심·현장형",
-        "공공기관",
-        "R1060",
-        "학력조건 확인",
-        "추천여부 확인",
-        "직무기술서 확인"
-      ]
-    },
-    {
-      "id": "2ea781efb5b436e517",
-      "source": "moef-public-recruit",
-      "sourceName": "기재부 공공기관 채용정보",
-      "title": "[태백병원] 장애전형 청년(체험형)인턴 채용 공고",
-      "baseTitle": "[태백병원] 장애전형 청년(체험형)인턴 채용 공고",
-      "company": "근로복지공단",
-      "region": "원문 확인",
-      "education": "원문 확인",
-      "career": "원문 확인",
-      "employmentType": "R1060",
-      "recruitField": "보건.의료",
-      "recruitNumber": "",
-      "applicationMethod": "",
-      "contact": "",
-      "attachments": [
-        {
-          "title": "회사·기관 공식 공고문",
-          "url": "https://www.comwel.or.kr/recruit/hp/main.do"
-        }
-      ],
-      "detailText": "ㅇ 전형방법 : 서류전형(1차) → 면접전형(2차) - 1차 : 응시자격 적격자 전원 선발(응시자격 기준 해당 여부에 대한 평가) - 2차 : 개별 또는 집단 면접(내부 및 외부위원 구성) ※ 자세한 사항은 첨부파일의 채용공고문을 참조하시기 바랍니다. 보건.의료 기재부 공공기관 채용정보 기재부 공공기관 채용공시 공공기관 ",
-      "deadline": "2026-06-09",
-      "deadlineText": "2026-06-09 마감",
-      "url": "https://www.comwel.or.kr/recruit/hp/main.do",
-      "originalUrl": "https://www.data.go.kr/data/15125273/openapi.do",
-      "sourceOfficialUrl": "https://www.data.go.kr/data/15125273/openapi.do",
-      "companyNoticeUrl": "https://www.comwel.or.kr/recruit/hp/main.do",
-      "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do",
-      "officialNoticePriority": "company-or-agency-notice-first",
-      "supplementarySourceUrls": [
-        "https://www.data.go.kr/data/15125273/openapi.do"
-      ],
-      "verifiedAt": "2026-06-02T09:17:12.930Z",
-      "publishedAt": "2026-06-02T14:59:59.000Z",
-      "publishedDate": "2026-06-02",
-      "firstSeenAt": "2026-05-31T23:07:48.169Z",
-      "firstSeenDate": "2026-06-01",
-      "collectionAudit": {
-        "policy": "public-recruit-first-day-collection",
-        "publishedAt": "2026-06-02T14:59:59.000Z",
-        "publishedDate": "2026-06-02",
-        "firstSeenAt": "2026-05-31T23:07:48.169Z",
-        "firstSeenDate": "2026-06-01",
-        "detectionLagDays": 0,
-        "firstDayCollected": true,
-        "missedReviewNeeded": false,
-        "firstDayStatus": "first_day",
-        "note": "공고 게시 첫날 자동 수집 대상입니다."
-      },
-      "fitScore": 8,
-      "fitLabels": [
-        "공식전형"
-      ],
-      "processTrack": "direct-interview",
-      "processTrackName": "면접중심·현장형",
-      "writtenExam": "not_found",
-      "processConfidence": "medium",
-      "processLabels": [
-        "공공기관",
-        "면접 중심",
-        "공채"
-      ],
-      "processNote": "필기시험은 확인되지 않았고 서류·면접 중심 채용으로 우선 분류했습니다.",
-      "sector": "public-institution",
-      "sectorName": "공공기관",
-      "sourceVerification": {
-        "sourceOfficialUrl": "https://www.data.go.kr/data/15125273/openapi.do",
-        "companyNoticeUrl": "https://www.comwel.or.kr/recruit/hp/main.do",
-        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do",
-        "officialNoticePriority": "company-or-agency-notice-first",
-        "companyNoticeCheckStatus": "fetch_failed",
-        "companyNoticeReachable": false,
-        "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-02T09:17:12.930Z",
-        "doubleCheckStatus": "company_contact_recommended",
-        "doubleCheckLabel": "회사 확인 권고",
-        "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
-      },
-      "servicePriority": "support-brief-direct",
-      "servicePolicyLabel": "간단 안내",
-      "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다.",
-      "contactAdvice": "근무조건, 급여, 제출서류, 미성년자 근로 가능 여부는 회사 공식 공고 또는 인사담당자에게 확인하세요.",
-      "publicRecruitDetails": null,
-      "teacherBriefing": {
-        "version": 1,
-        "generator": "official-source-briefing-v1",
-        "label": "간단 채용 확인 브리핑",
-        "detailLevel": "brief-company-contact",
-        "headline": "근로복지공단 - [태백병원] 장애전형 청년(체험형)인턴 채용 공고",
-        "summaryLines": [
-          "근로복지공단 채용정보",
-          "채용부문: 보건.의료",
-          "학력·자격: 응시자격 원문 확인",
-          "고용형태: R1060"
-        ],
-        "scheduleLines": [
-          "원서접수: 2026-06-09 마감",
-          "전형절차: ㅇ 전형방법 : 서류전형(1차) → 면접전형(2차) - 1차 : 응시자격 적격자 전원 선발(응시자격 기준 해당 여부에 대한 평가) - 2차 : 개별 또는 집단 면접(내부 및 외부위원 구성) ※ 자세한 사항은 첨부파일의 채용공고문을 참조하시기 바랍니다.",
-          "필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.",
-          "면접전형: ㅇ 전형방법 : 서류전형(1차) → 면접전형(2차) - 1차 : 응시자격 적격자 전원 선발(응시자격 기준 해당 여부에 대한 평가) - 2차 : 개별 또는 집단 면접(내부 및 외부위원 구성) ※ 자세한 사항은 첨부파…",
-          "발표·임용: 합격자 발표·임용일 원문 확인"
-        ],
-        "examSubjects": [
-          "필기시험 미확인"
-        ],
-        "schoolActionItems": [
-          "회사 확인 권고",
-          "학교장 추천 필요 여부 원문 확인",
-          "지원 가능 학년·졸업예정 기준 확인",
-          "공고문·입사지원서·직무기술서 첨부 확보",
-          "회사 인사담당자에게 세부 조건 확인",
-          "공고 게시 첫날 수집 기록"
-        ],
-        "studentActionItems": [
-          "원서접수 마감 전 지원계정·제출서류 확인",
-          "면접 예상 질문과 회사 직무 확인",
-          "자기소개서·경험기술서 초안 작성",
-          "근무지·고용형태·임용예정일 확인"
-        ],
-        "sourceLines": [
-          "공식 원문: https://www.comwel.or.kr/recruit/hp/main.do",
-          "보완 출처: https://www.data.go.kr/data/15125273/openapi.do",
-          "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.",
-          "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다."
-        ],
-        "attachmentLines": [
-          "회사·기관 공식 공고문: https://www.comwel.or.kr/recruit/hp/main.do"
-        ],
-        "teacherShareText": "[근로복지공단]\n- 고졸·특성화고 관련 채용정보\n\n[채용부문]\n- 근로복지공단 채용정보\n- 채용부문: 보건.의료\n- 학력·자격: 응시자격 원문 확인\n- 고용형태: R1060\n\n[전형일정]\n- 원서접수: 2026-06-09 마감\n- 전형절차: ㅇ 전형방법 : 서류전형(1차) → 면접전형(2차) - 1차 : 응시자격 적격자 전원 선발(응시자격 기준 해당 여부에 대한 평가) - 2차 : 개별 또는 집단 면접(내부 및 외부위원 구성) ※ 자세한 사항은 첨부파일의 채용공고문을 참조하시기 바랍니다.\n- 필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.\n- 면접전형: ㅇ 전형방법 : 서류전형(1차) → 면접전형(2차) - 1차 : 응시자격 적격자 전원 선발(응시자격 기준 해당 여부에 대한 평가) - 2차 : 개별 또는 집단 면접(내부 및 외부위원 구성) ※ 자세한 사항은 첨부파…\n- 발표·임용: 합격자 발표·임용일 원문 확인\n\n[학교 확인]\n- 회사 확인 권고\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 회사 인사담당자에게 세부 조건 확인\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- 면접 예상 질문과 회사 직무 확인\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.comwel.or.kr/recruit/hp/main.do\n- 보완 출처: https://www.data.go.kr/data/15125273/openapi.do\n- 필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.\n- 회사·기관 공식 공고문: https://www.comwel.or.kr/recruit/hp/main.do",
-        "officialBasis": "회사 확인 권고",
-        "officialUrl": "https://www.comwel.or.kr/recruit/hp/main.do",
-        "sourceUrl": "https://www.data.go.kr/data/15125273/openapi.do",
-        "generatedAt": "2026-06-02T09:17:12.930Z"
-      },
-      "schoolRecommendation": "unknown",
-      "status": "active",
-      "legalCheckFlags": [
-        "원문확인",
-        "마감확인",
-        "학력조건확인",
-        "추천여부확인"
-      ],
-      "guideTags": [
-        "면접중심·현장형",
-        "공공기관",
-        "R1060",
         "학력조건 확인",
         "추천여부 확인",
         "직무기술서 확인"
@@ -2528,7 +3010,7 @@
       "supplementarySourceUrls": [
         "https://www.data.go.kr/data/15125273/openapi.do"
       ],
-      "verifiedAt": "2026-06-02T09:17:12.930Z",
+      "verifiedAt": "2026-06-02T14:20:33.034Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-05-31T23:07:48.169Z",
@@ -2569,7 +3051,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T09:17:12.930Z",
+        "companyNoticeCheckedAt": "2026-06-02T14:20:33.034Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -2629,7 +3111,7 @@
         "officialBasis": "회사 확인 권고",
         "officialUrl": "https://www.bohun.or.kr/main/na/ntt/selectNttInfo.do?mi=37029&bbsId=1158&bbsSysId=main&nttSn=186042",
         "sourceUrl": "https://www.data.go.kr/data/15125273/openapi.do",
-        "generatedAt": "2026-06-02T09:17:12.930Z"
+        "generatedAt": "2026-06-02T14:20:33.034Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -2643,159 +3125,6 @@
         "면접중심·현장형",
         "공공기관",
         "R1060",
-        "학력조건 확인",
-        "추천여부 확인",
-        "직무기술서 확인"
-      ]
-    },
-    {
-      "id": "081add2b786270ecbc",
-      "source": "moef-public-recruit",
-      "sourceName": "기재부 공공기관 채용정보",
-      "title": "[본사] (긴급) 계약직 업무지원직(경비) 채용 공고",
-      "baseTitle": "[본사] (긴급) 계약직 업무지원직(경비) 채용 공고",
-      "company": "한국보훈복지의료공단",
-      "region": "원문 확인",
-      "education": "원문 확인",
-      "career": "원문 확인",
-      "employmentType": "R1040",
-      "recruitField": "경비.청소",
-      "recruitNumber": "",
-      "applicationMethod": "",
-      "contact": "",
-      "attachments": [
-        {
-          "title": "회사·기관 공식 공고문",
-          "url": "https://www.bohun.or.kr/main/na/ntt/selectNttInfo.do?mi=37029&bbsId=1158&bbsSysId=main&nttSn=186041"
-        }
-      ],
-      "detailText": "1. 지원서 접수 ○ 접수기간: 2026. 6. 2.(화) ~ 6. 12.(금) 10:00까지 ○ 접수방법: 채용지원사이트 접수 (https://bohun.fairyhr.com/announcement/detail/548) 2. 서류전형 ○ 선발방법 및 인원: 서류심사를 통해 적격자 전원 합격 ○ 합격자 발표: 2026. ",
-      "deadline": "2026-06-12",
-      "deadlineText": "2026-06-12 마감",
-      "url": "https://www.bohun.or.kr/main/na/ntt/selectNttInfo.do?mi=37029&bbsId=1158&bbsSysId=main&nttSn=186041",
-      "originalUrl": "https://www.data.go.kr/data/15125273/openapi.do",
-      "sourceOfficialUrl": "https://www.data.go.kr/data/15125273/openapi.do",
-      "companyNoticeUrl": "https://www.bohun.or.kr/main/na/ntt/selectNttInfo.do?mi=37029&bbsId=1158&bbsSysId=main&nttSn=186041",
-      "primaryOfficialUrl": "https://www.bohun.or.kr/main/na/ntt/selectNttInfo.do?mi=37029&bbsId=1158&bbsSysId=main&nttSn=186041",
-      "officialNoticePriority": "company-or-agency-notice-first",
-      "supplementarySourceUrls": [
-        "https://www.data.go.kr/data/15125273/openapi.do"
-      ],
-      "verifiedAt": "2026-06-02T09:17:12.930Z",
-      "publishedAt": "2026-06-02T14:59:59.000Z",
-      "publishedDate": "2026-06-02",
-      "firstSeenAt": "2026-05-31T23:07:48.169Z",
-      "firstSeenDate": "2026-06-01",
-      "collectionAudit": {
-        "policy": "public-recruit-first-day-collection",
-        "publishedAt": "2026-06-02T14:59:59.000Z",
-        "publishedDate": "2026-06-02",
-        "firstSeenAt": "2026-05-31T23:07:48.169Z",
-        "firstSeenDate": "2026-06-01",
-        "detectionLagDays": 0,
-        "firstDayCollected": true,
-        "missedReviewNeeded": false,
-        "firstDayStatus": "first_day",
-        "note": "공고 게시 첫날 자동 수집 대상입니다."
-      },
-      "fitScore": 8,
-      "fitLabels": [
-        "공식전형"
-      ],
-      "processTrack": "direct-interview",
-      "processTrackName": "면접중심·현장형",
-      "writtenExam": "not_found",
-      "processConfidence": "medium",
-      "processLabels": [
-        "공공기관",
-        "면접 중심",
-        "공채"
-      ],
-      "processNote": "필기시험은 확인되지 않았고 서류·면접 중심 채용으로 우선 분류했습니다.",
-      "sector": "public-institution",
-      "sectorName": "공공기관",
-      "sourceVerification": {
-        "sourceOfficialUrl": "https://www.data.go.kr/data/15125273/openapi.do",
-        "companyNoticeUrl": "https://www.bohun.or.kr/main/na/ntt/selectNttInfo.do?mi=37029&bbsId=1158&bbsSysId=main&nttSn=186041",
-        "primaryOfficialUrl": "https://www.bohun.or.kr/main/na/ntt/selectNttInfo.do?mi=37029&bbsId=1158&bbsSysId=main&nttSn=186041",
-        "officialNoticePriority": "company-or-agency-notice-first",
-        "companyNoticeCheckStatus": "fetch_failed",
-        "companyNoticeReachable": false,
-        "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-02T09:17:12.930Z",
-        "doubleCheckStatus": "company_contact_recommended",
-        "doubleCheckLabel": "회사 확인 권고",
-        "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
-      },
-      "servicePriority": "support-brief-direct",
-      "servicePolicyLabel": "간단 안내",
-      "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다.",
-      "contactAdvice": "근무조건, 급여, 제출서류, 미성년자 근로 가능 여부는 회사 공식 공고 또는 인사담당자에게 확인하세요.",
-      "publicRecruitDetails": null,
-      "teacherBriefing": {
-        "version": 1,
-        "generator": "official-source-briefing-v1",
-        "label": "간단 채용 확인 브리핑",
-        "detailLevel": "brief-company-contact",
-        "headline": "한국보훈복지의료공단 - [본사] (긴급) 계약직 업무지원직(경비) 채용 공고",
-        "summaryLines": [
-          "한국보훈복지의료공단 채용정보",
-          "채용부문: 경비.청소",
-          "학력·자격: 응시자격 원문 확인",
-          "고용형태: R1040"
-        ],
-        "scheduleLines": [
-          "원서접수: 2026-06-12 마감",
-          "전형절차: 1. 지원서 접수 ○ 접수기간: 2026. 6. 2.(화) ~ 6. 12.(금) 10:00까지 ○ 접수방법: 채용지원사이트 접수 (https://bohun.fairyhr.com/announcement/detail/548) 2. 서류전형 ○ 선발방법 및 인원: 서류심사…",
-          "필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.",
-          "면접전형: 2026. 6. 16.(화) 17:00 이후 (예정) 3. 면접시험 ○ 일시 및 장소: 2026. 6. 19.(금) 14:00 (예정) / 서류전형 합격자 발표시 상세 안내 ○ 합격자 결정: 면접접수와 가·감점 합…",
-          "발표·임용: ○ 선발방법 및 인원: 서류심사를 통해 적격자 전원 합격 ○ 합격자 발표: 2026. 6. 16.(화) 17:00 이후 (예정) 3. 면접시험 ○ 일시 및 장소: 2026. 6. 19.(금) 14:00 (예정) /…"
-        ],
-        "examSubjects": [
-          "필기시험 미확인"
-        ],
-        "schoolActionItems": [
-          "회사 확인 권고",
-          "학교장 추천 필요 여부 원문 확인",
-          "지원 가능 학년·졸업예정 기준 확인",
-          "공고문·입사지원서·직무기술서 첨부 확보",
-          "회사 인사담당자에게 세부 조건 확인",
-          "공고 게시 첫날 수집 기록"
-        ],
-        "studentActionItems": [
-          "원서접수 마감 전 지원계정·제출서류 확인",
-          "면접 예상 질문과 회사 직무 확인",
-          "자기소개서·경험기술서 초안 작성",
-          "근무지·고용형태·임용예정일 확인"
-        ],
-        "sourceLines": [
-          "공식 원문: https://www.bohun.or.kr/main/na/ntt/selectNttInfo.do?mi=37029&bbsId=1158&bbsSysId=main&nttSn=186041",
-          "보완 출처: https://www.data.go.kr/data/15125273/openapi.do",
-          "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.",
-          "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다."
-        ],
-        "attachmentLines": [
-          "회사·기관 공식 공고문: https://www.bohun.or.kr/main/na/ntt/selectNttInfo.do?mi=37029&bbsId=1158&bbsSysId=main&nttSn=186041"
-        ],
-        "teacherShareText": "[한국보훈복지의료공단]\n- 고졸·특성화고 관련 채용정보\n\n[채용부문]\n- 한국보훈복지의료공단 채용정보\n- 채용부문: 경비.청소\n- 학력·자격: 응시자격 원문 확인\n- 고용형태: R1040\n\n[전형일정]\n- 원서접수: 2026-06-12 마감\n- 전형절차: 1. 지원서 접수 ○ 접수기간: 2026. 6. 2.(화) ~ 6. 12.(금) 10:00까지 ○ 접수방법: 채용지원사이트 접수 (https://bohun.fairyhr.com/announcement/detail/548) 2. 서류전형 ○ 선발방법 및 인원: 서류심사…\n- 필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.\n- 면접전형: 2026. 6. 16.(화) 17:00 이후 (예정) 3. 면접시험 ○ 일시 및 장소: 2026. 6. 19.(금) 14:00 (예정) / 서류전형 합격자 발표시 상세 안내 ○ 합격자 결정: 면접접수와 가·감점 합…\n- 발표·임용: ○ 선발방법 및 인원: 서류심사를 통해 적격자 전원 합격 ○ 합격자 발표: 2026. 6. 16.(화) 17:00 이후 (예정) 3. 면접시험 ○ 일시 및 장소: 2026. 6. 19.(금) 14:00 (예정) /…\n\n[학교 확인]\n- 회사 확인 권고\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 회사 인사담당자에게 세부 조건 확인\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- 면접 예상 질문과 회사 직무 확인\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.bohun.or.kr/main/na/ntt/selectNttInfo.do?mi=37029&bbsId=1158&bbsSysId=main&nttSn=186041\n- 보완 출처: https://www.data.go.kr/data/15125273/openapi.do\n- 필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.\n- 회사·기관 공식 공고문: https://www.bohun.or.kr/main/na/ntt/selectNttInfo.do?mi=37029&bbsId=1158&bbsSysId=main&nttSn=186041",
-        "officialBasis": "회사 확인 권고",
-        "officialUrl": "https://www.bohun.or.kr/main/na/ntt/selectNttInfo.do?mi=37029&bbsId=1158&bbsSysId=main&nttSn=186041",
-        "sourceUrl": "https://www.data.go.kr/data/15125273/openapi.do",
-        "generatedAt": "2026-06-02T09:17:12.930Z"
-      },
-      "schoolRecommendation": "unknown",
-      "status": "active",
-      "legalCheckFlags": [
-        "원문확인",
-        "마감확인",
-        "학력조건확인",
-        "추천여부확인"
-      ],
-      "guideTags": [
-        "면접중심·현장형",
-        "공공기관",
-        "R1040",
         "학력조건 확인",
         "추천여부 확인",
         "직무기술서 확인"
