@@ -1,9 +1,12 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(__dirname, '..');
+const execFileAsync = promisify(execFile);
 const args = new Set(process.argv.slice(2));
 const DO_LIVE = args.has('--live');
 const DO_EXTERNAL_LINKS = args.has('--external-links');
@@ -439,7 +442,38 @@ async function checkUrlReachability(url) {
       clearTimeout(timeout);
     }
   }
+  const curlResult = await checkUrlWithCurl(url).catch((error) => ({ ok: false, status: 0, error: error.message }));
+  if (curlResult.ok) return { ...curlResult, attempt: 'curl', fetchError: lastError };
   return { ok: false, status: 0, error: lastError || 'fetch failed' };
+}
+
+async function checkUrlWithCurl(url) {
+  const commands = process.platform === 'win32' ? ['curl.exe', 'curl'] : ['curl', 'curl.exe'];
+  const outputTarget = process.platform === 'win32' ? 'NUL' : '/dev/null';
+  let lastError = '';
+  for (const command of commands) {
+    try {
+      const { stdout } = await execFileAsync(command, [
+        '-L',
+        '--max-time',
+        '20',
+        '--silent',
+        '--show-error',
+        '--output',
+        outputTarget,
+        '--write-out',
+        '%{http_code}',
+        url
+      ], { timeout: 24000, maxBuffer: 1024 * 32 });
+      const status = Number(String(stdout).trim().slice(-3));
+      if (Number.isFinite(status) && status > 0) {
+        return { ok: status < 500 && status !== 404, status };
+      }
+    } catch (error) {
+      lastError = error.message;
+    }
+  }
+  return { ok: false, status: 0, error: lastError || 'curl failed' };
 }
 
 async function validateExternalLinks(items) {
