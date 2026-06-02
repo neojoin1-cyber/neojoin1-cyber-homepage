@@ -1,13 +1,16 @@
 import crypto from 'node:crypto';
+import { execFile } from 'node:child_process';
 import fs from 'node:fs/promises';
 import http from 'node:http';
 import https from 'node:https';
 import path from 'node:path';
+import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(__dirname, '..');
 const OUT_FILE = path.join(ROOT_DIR, 'assets', 'job-feed.json');
+const execFileAsync = promisify(execFile);
 
 await loadLocalEnvFile(path.join(ROOT_DIR, '.env.local'));
 
@@ -17,7 +20,8 @@ const MAX_ITEMS = 40;
 const REQUEST_TIMEOUT_MS = 18000;
 const DETAIL_FETCH_CONCURRENCY = 6;
 const APPLICATION_CLOSED_RETAIN_DAYS = 21;
-const JOB_ALIO_SCAN_LIMIT = 40;
+const JOB_ALIO_SCAN_LIMIT = 220;
+const JOB_ALIO_SCAN_PAGES = 6;
 const DEFAULT_FETCH_HEADERS = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125 Safari/537.36',
   Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,application/json;q=0.8,*/*;q=0.7',
@@ -44,7 +48,7 @@ const HIGH_SCHOOL_TERMS = [
 
 const STRONG_TERMS = ['고졸', '특성화고', '직업계고', '마이스터고', '학교장 추천', '학교장추천'];
 const NEGATIVE_EDU_TERMS = ['대졸 이상', '대졸(4년)', '대졸(2~3년)', '전문대졸', '4년제', '대학교 졸업', '학사 이상', '석사', '박사'];
-const PROFESSIONAL_ONLY_TERMS = ['전문의', '의사', '약사', '간호사', '방사선사', '공인회계사', '회계사', '변호사', '세무사', '노무사', '법무사', '건축사', '면허 소지', '면허소지', '석사', '박사', '기술사'];
+const PROFESSIONAL_ONLY_TERMS = ['전문의', '의사', '약사', '간호사', '방사선사', '공인회계사', '회계사', '변호사', '세무사', '노무사', '법무사', '건축사', '정교사', '교원자격', '교사 자격', '보육교사', '면허 소지', '면허소지', '석사', '박사', '기술사'];
 const ENTRY_LEVEL_TERMS = [
   '고졸',
   '고등학교',
@@ -94,6 +98,59 @@ const MPM_PUBLIC_JOB_ENDPOINT_CANDIDATES = [
 const MPM_PUBLIC_JOB_NOTICE_TYPES = ['e01', 'e02', 'e03', 'e04', 'e06', 'e07', 'e08'];
 const MPM_PUBLIC_JOB_INSTITUTION_TYPES = ['g01', 'g02', 'g03', 'g04'];
 const PUBLIC_DATA_PAGE_SIZE = 60;
+const JOB_ALIO_KEYWORD_QUERIES = [
+  { searchType: 'title', keyword: '고졸' },
+  { searchType: 'title', keyword: '특성화고' },
+  { searchType: 'title', keyword: '직업계고' },
+  { searchType: 'title', keyword: '마이스터고' },
+  { searchType: 'title', keyword: '졸업예정' },
+  { searchType: 'elig', keyword: '고졸' },
+  { searchType: 'elig', keyword: '고등학교' },
+  { searchType: 'elig', keyword: '졸업예정' },
+  { searchType: 'elig', keyword: '특성화고' },
+  { searchType: 'elig', keyword: '직업계고' }
+];
+const CRITICAL_JOB_ALIO_ORGS = [
+  { orgCode: 'C0247', orgName: '한국전력공사', aliases: ['한전', 'KEPCO'] },
+  { orgCode: 'C0187', orgName: '한국방송통신전파진흥원', aliases: ['KCA'] },
+  { orgCode: 'C0306', orgName: '한전KDN', aliases: [] },
+  { orgCode: 'C0305', orgName: '한전KPS(주)', aliases: ['한전KPS'] },
+  { orgCode: 'C0248', orgName: '한국전력기술주식회사', aliases: ['한국전력기술'] },
+  { orgCode: 'C0220', orgName: '한국수력원자력', aliases: ['한수원'] },
+  { orgCode: 'C0147', orgName: '한국가스공사', aliases: ['KOGAS'] },
+  { orgCode: 'C0183', orgName: '한국도로공사', aliases: [] },
+  { orgCode: 'C0268', orgName: '한국철도공사', aliases: ['코레일'] },
+  { orgCode: 'C0157', orgName: '한국공항공사', aliases: ['KAC'] },
+  { orgCode: 'C0105', orgName: '인천국제공항공사', aliases: [] },
+  { orgCode: 'C0210', orgName: '한국산업은행', aliases: ['KDB산업은행'] },
+  { orgCode: 'C0127', orgName: '중소기업은행', aliases: ['IBK기업은행', '기업은행'] },
+  { orgCode: 'C0223', orgName: '한국수출입은행', aliases: [] },
+  { orgCode: 'C0035', orgName: '근로복지공단', aliases: [] },
+  { orgCode: 'C0026', orgName: '국민건강보험공단', aliases: [] },
+  { orgCode: 'C0028', orgName: '국민연금공단', aliases: [] },
+  { orgCode: 'C0242', orgName: '한국장애인고용공단', aliases: [] },
+  { orgCode: 'C0211', orgName: '한국산업인력공단', aliases: [] }
+];
+const CRITICAL_CURRENT_JOB_ALIO_ITEMS = [
+  {
+    id: 'kepco-2026-highschool-4grade',
+    idx: '301166',
+    company: '한국전력공사',
+    titleHint: '2026년도 4직급 고졸 신입사원 채용공고',
+    titleTerms: ['고졸', '신입사원'],
+    bodyTerms: ['고등학교', '졸업예정'],
+    deadline: '2026-06-12'
+  },
+  {
+    id: 'kca-2026-highschool-admin',
+    idx: '301041',
+    company: '한국방송통신전파진흥원',
+    titleHint: '한국방송통신전파진흥원 경력·신입 직원 채용 공고',
+    titleTerms: ['경력', '신입', '직원'],
+    bodyTerms: ['사무행정', '고졸전형'],
+    deadline: '2026-06-11'
+  }
+];
 
 const GENERIC_OFFICIAL_SOURCE_CONFIG = {
   'gojobs-narailter': {
@@ -631,6 +688,14 @@ function buildPublicDataUrl(baseUrl, key, params = {}) {
   return `${url.toString()}${glue}serviceKey=${serviceKeyParam(key)}`;
 }
 
+function sanitizeFetchErrorMessage(value) {
+  return normalizeSpace(value)
+    .replace(/([?&](?:serviceKey|authKey|apiKey|access-key|accessKey|token|secret)=)[^&\s]+/gi, '$1***')
+    .replace(/(Authorization:\s*Bearer\s+)[^\s]+/gi, '$1***')
+    .replace(/\bBearer\s+[A-Za-z0-9._~+/=-]{12,}/g, 'Bearer ***')
+    .slice(0, 180);
+}
+
 async function fetchWithTimeout(url, options = {}) {
   const { timeoutMs = REQUEST_TIMEOUT_MS, ...fetchOptions } = options;
   const controller = new AbortController();
@@ -656,8 +721,13 @@ async function fetchWithTimeout(url, options = {}) {
     try {
       return await fetchWithNodeHttp(url, fetchOptions, timeoutMs);
     } catch (fallbackError) {
-      const cause = error.cause?.code || error.message;
-      throw new Error(`${fallbackError.message}; fetch fallback after ${cause}`);
+      try {
+        return await fetchWithExternalClient(url, fetchOptions, timeoutMs);
+      } catch (externalError) {
+        const cause = sanitizeFetchErrorMessage(error.cause?.code || error.message);
+        const nodeCause = sanitizeFetchErrorMessage(fallbackError.message);
+        throw new Error(`${externalError.message}; node fallback after ${nodeCause}; fetch fallback after ${cause}`);
+      }
     }
   } finally {
     clearTimeout(timer);
@@ -700,6 +770,62 @@ function fetchWithNodeHttp(url, options = {}, timeoutMs = REQUEST_TIMEOUT_MS) {
     if (options.body) request.write(options.body);
     request.end();
   });
+}
+
+async function fetchWithExternalClient(url, options = {}, timeoutMs = REQUEST_TIMEOUT_MS) {
+  const method = String(options.method || 'GET').toUpperCase();
+  const headers = {
+    ...DEFAULT_FETCH_HEADERS,
+    ...(options.headers || {})
+  };
+  const seconds = Math.max(2, Math.ceil(timeoutMs / 1000));
+  const curlArgs = [
+    '-L',
+    '--silent',
+    '--show-error',
+    '--max-time',
+    String(seconds),
+    '-X',
+    method
+  ];
+
+  for (const [name, value] of Object.entries(headers)) {
+    if (value !== undefined && value !== null && String(value).trim() !== '') {
+      curlArgs.push('-H', `${name}: ${value}`);
+    }
+  }
+  if (options.body) curlArgs.push('--data', String(options.body));
+  curlArgs.push(url);
+
+  const curlCommand = process.platform === 'win32' ? 'curl.exe' : 'curl';
+  try {
+    const { stdout } = await execFileAsync(curlCommand, curlArgs, {
+      timeout: timeoutMs + 3000,
+      maxBuffer: 10 * 1024 * 1024,
+      windowsHide: true
+    });
+    if (stdout) return stdout;
+  } catch (error) {
+    if (process.platform !== 'win32') {
+      throw new Error(`external client failed: ${sanitizeFetchErrorMessage(error.message)}`);
+    }
+  }
+
+  if (process.platform === 'win32' && method === 'GET' && !options.body) {
+    try {
+      const command = `$ProgressPreference='SilentlyContinue'; (Invoke-WebRequest -Uri $args[0] -UseBasicParsing -TimeoutSec ${seconds}).Content`;
+      const { stdout } = await execFileAsync('powershell.exe', ['-NoProfile', '-Command', command, url], {
+        timeout: timeoutMs + 3000,
+        maxBuffer: 10 * 1024 * 1024,
+        windowsHide: true
+      });
+      if (stdout) return stdout;
+    } catch (error) {
+      throw new Error(`external client failed: ${sanitizeFetchErrorMessage(error.message)}`);
+    }
+  }
+
+  throw new Error('external client failed: empty response');
 }
 
 async function mapWithConcurrency(items, concurrency, worker) {
@@ -1760,6 +1886,7 @@ function normalizeItem(raw) {
     id: sha([raw.source, raw.sourceId, baseTitle, company, deadline, url].join('|')),
     source: raw.source,
     sourceName: raw.sourceName,
+    sourceId: normalizeSpace(raw.sourceId),
     title,
     baseTitle,
     company,
@@ -1863,6 +1990,8 @@ function dedupeAndSort(items) {
 
   return Array.from(seen.values())
     .sort((a, b) => {
+      const criticalDiff = criticalCurrentPriority(a) - criticalCurrentPriority(b);
+      if (criticalDiff !== 0) return criticalDiff;
       const trackWeight = { 'exam-formal': 0, 'direct-interview': 1 };
       const trackDiff = (trackWeight[a.processTrack] ?? 9) - (trackWeight[b.processTrack] ?? 9);
       if (trackDiff !== 0) return trackDiff;
@@ -2385,11 +2514,130 @@ function parseJobAlioRows(html) {
     .filter(Boolean);
 }
 
+function jobAlioListUrl(params = {}) {
+  return buildUrl(JOB_ALIO_RECRUIT_URL, params).toString();
+}
+
+function activeCriticalJobAlioItems() {
+  return CRITICAL_CURRENT_JOB_ALIO_ITEMS.filter((item) => {
+    const distance = daysUntil(parseDate(item.deadline));
+    return distance === null || distance >= -APPLICATION_CLOSED_RETAIN_DAYS;
+  });
+}
+
+function makeJobAlioScanTargets() {
+  const targets = [];
+  for (let pageNo = 1; pageNo <= JOB_ALIO_SCAN_PAGES; pageNo += 1) {
+    targets.push({
+      id: `recent-page-${pageNo}`,
+      url: jobAlioListUrl({ pageNo }),
+      reason: 'recent-pages',
+      priority: 40 + pageNo
+    });
+  }
+  for (const query of JOB_ALIO_KEYWORD_QUERIES) {
+    targets.push({
+      id: `keyword-${query.searchType}-${query.keyword}`,
+      url: jobAlioListUrl({
+        pageNo: 1,
+        search_type: query.searchType,
+        keyword: query.keyword
+      }),
+      reason: `keyword:${query.searchType}:${query.keyword}`,
+      priority: query.searchType === 'elig' ? 10 : 15
+    });
+  }
+  for (const org of CRITICAL_JOB_ALIO_ORGS) {
+    targets.push({
+      id: `critical-org-${org.orgCode}`,
+      url: jobAlioListUrl({
+        pageNo: 1,
+        org_name: org.orgCode
+      }),
+      reason: `critical-org:${org.orgName}`,
+      priority: 5,
+      orgName: org.orgName,
+      orgCode: org.orgCode
+    });
+  }
+  return targets;
+}
+
+function upsertJobAlioRow(rowsByIdx, row) {
+  if (!row?.idx) return;
+  const existing = rowsByIdx.get(row.idx);
+  if (!existing) {
+    rowsByIdx.set(row.idx, {
+      ...row,
+      scanReasons: compactTags([row.scanReason]),
+      priority: row.priority ?? 99
+    });
+    return;
+  }
+
+  rowsByIdx.set(row.idx, {
+    ...existing,
+    ...row,
+    title: existing.title || row.title,
+    company: existing.company || row.company,
+    region: existing.region || row.region,
+    employmentType: existing.employmentType || row.employmentType,
+    registeredAt: existing.registeredAt || row.registeredAt,
+    deadline: existing.deadline || row.deadline,
+    status: existing.status || row.status,
+    scanReasons: compactTags([
+      ...(existing.scanReasons || []),
+      row.scanReason
+    ]),
+    priority: Math.min(existing.priority ?? 99, row.priority ?? 99)
+  });
+}
+
+function extractJobAlioAttachments(html) {
+  const attachments = [];
+  const seen = new Set();
+  const labels = ['공고문', '입사지원서', '직무기술서', '기타 첨부파일'];
+  const matches = Array.from(html.matchAll(/<a\b[^>]*href=["']([^"']*(?:download|fileNo|file_no|atchFile|recruitFile)[^"']*)["'][^>]*>([\s\S]*?)<\/a>/gi));
+
+  for (const match of matches) {
+    const href = match[1].replace(/&amp;/g, '&');
+    let url = '';
+    try {
+      url = new URL(href, JOB_ALIO_RECRUIT_URL).toString();
+    } catch {
+      url = '';
+    }
+    const displayUrl = publicDisplayUrl(url);
+    if (!displayUrl || seen.has(displayUrl)) continue;
+
+    const before = html.slice(Math.max(0, match.index - 700), match.index);
+    const beforeText = htmlText(before);
+    const label = labels.find((candidate) => beforeText.includes(candidate)) || '';
+    const title = htmlText(match[2]).replace(/^다운로드\s*/i, '').trim();
+    if (!title && !label) continue;
+
+    seen.add(displayUrl);
+    attachments.push({
+      title: shortText(label && title && !title.includes(label) ? `${label}: ${title}` : (title || label), '공식 첨부자료', 72),
+      url: displayUrl
+    });
+  }
+
+  return attachments.slice(0, 8);
+}
+
 async function fetchJobAlioDetail(row) {
   const detailUrl = `https://job.alio.go.kr/recruitview.do?idx=${encodeURIComponent(row.idx)}`;
-  const html = await fetchWithTimeout(detailUrl);
+  let html = '';
+  try {
+    html = await fetchWithTimeout(detailUrl);
+  } catch (error) {
+    const mobileDetailUrl = `https://job.alio.go.kr/mobile2021/recruit/recruitView.do?idx=${encodeURIComponent(row.idx)}`;
+    html = await fetchWithTimeout(mobileDetailUrl);
+  }
   const text = htmlText(html);
-  const originalUrl = text.match(/공고 URL\s*:\s*(https?:\/\/\S+)/);
+  const originalUrl = text.match(/(?:공고 URL|원문 URL)\s*:?\s*(https?:\/\/\S+)/);
+  const period = text.match(/채용기간\s*(\d{2}\.\d{2}\.\d{2}|\d{4}\.\d{2}\.\d{2})\s*~\s*(\d{2}\.\d{2}\.\d{2}|\d{4}\.\d{2}\.\d{2})/);
   const education = extractBetween(text, '학력정보', '근무분야') || '원문 확인';
   const workField = extractBetween(text, '근무분야', '채용구분');
   const career = extractBetween(text, '채용구분', '고용형태') || '원문 확인';
@@ -2398,9 +2646,11 @@ async function fetchJobAlioDetail(row) {
   const qualification = extractBetween(text, '응시자격', '결격사유');
   const preference = extractBetween(text, '우대내용', '전형절차/방법');
   const processText = extractBetween(text, '전형절차/방법', '공고문');
-  const deadline = row.deadline.match(/\d{2}\.\d{2}\.\d{2}/)?.[0] || row.deadline;
+  const deadline = String(row.deadline || '').match(/\d{2}\.\d{2}\.\d{2}|\d{4}\.\d{2}\.\d{2}/)?.[0] || period?.[2] || row.deadline;
+  const publishedAt = row.registeredAt || period?.[1] || text.match(/등록일\s*(\d{4}\.\d{2}\.\d{2}|\d{2}\.\d{2}\.\d{2})/)?.[1] || '';
   const companyNoticeUrl = originalUrl ? cleanUrl(originalUrl[1]) : '';
   const companyNoticeCheck = await checkCompanyNoticeUrl(companyNoticeUrl, row.company, row.title);
+  const attachments = extractJobAlioAttachments(html);
 
   return {
     source: 'job-alio-openapi',
@@ -2416,18 +2666,20 @@ async function fetchJobAlioDetail(row) {
     qualification,
     deadline,
     deadlineText: deadline ? `${deadline} 마감` : '마감일 원문 확인',
-    publishedAt: row.registeredAt,
+    publishedAt,
     url: companyNoticeUrl || detailUrl,
     originalUrl: detailUrl,
     sourceDetailUrl: detailUrl,
     companyNoticeUrl,
     companyNoticeCheck,
+    attachments,
     processText,
     description: [
       workField,
       qualification,
       preference,
       processText,
+      attachments.map((item) => item.title).join(' '),
       row.status,
       '잡알리오 공공기관 채용'
     ].join(' ')
@@ -2438,24 +2690,53 @@ async function fetchJobAlioRecruit() {
   const base = { ...catalogSource('job-alio-openapi'), configured: true };
   const rawItems = [];
   const errors = [];
+  const rowsByIdx = new Map();
   let scannedCount = 0;
+  let scanTargetCount = 0;
 
-  try {
-    const html = await fetchWithTimeout(JOB_ALIO_RECRUIT_URL);
-    const rows = parseJobAlioRows(html).slice(0, JOB_ALIO_SCAN_LIMIT);
-    scannedCount = rows.length;
-    const details = await mapWithConcurrency(rows, DETAIL_FETCH_CONCURRENCY, async (row) => {
-      try {
-        return await fetchJobAlioDetail(row);
-      } catch (error) {
-        errors.push(`${row.idx}: ${error.message}`);
-        return null;
+  for (const target of makeJobAlioScanTargets()) {
+    try {
+      const html = await fetchWithTimeout(target.url);
+      const rows = parseJobAlioRows(html);
+      scannedCount += rows.length;
+      scanTargetCount += 1;
+      for (const row of rows) {
+        upsertJobAlioRow(rowsByIdx, {
+          ...row,
+          company: row.company || target.orgName || '',
+          scanReason: target.reason,
+          priority: target.priority
+        });
       }
-    });
-    rawItems.push(...details.filter(Boolean));
-  } catch (error) {
-    errors.push(error.message);
+    } catch (error) {
+      errors.push(`${target.id}: ${sanitizeFetchErrorMessage(error.message)}`);
+    }
   }
+
+  for (const item of activeCriticalJobAlioItems()) {
+    upsertJobAlioRow(rowsByIdx, {
+      idx: item.idx,
+      title: item.titleHint,
+      company: item.company,
+      deadline: item.deadline,
+      scanReason: `critical-current:${item.id}`,
+      priority: 0
+    });
+  }
+
+  const rows = Array.from(rowsByIdx.values())
+    .sort((a, b) => (a.priority ?? 99) - (b.priority ?? 99))
+    .slice(0, JOB_ALIO_SCAN_LIMIT);
+
+  const details = await mapWithConcurrency(rows, DETAIL_FETCH_CONCURRENCY, async (row) => {
+    try {
+      return await fetchJobAlioDetail(row);
+    } catch (error) {
+      errors.push(`${row.idx}: ${sanitizeFetchErrorMessage(error.message)}`);
+      return null;
+    }
+  });
+  rawItems.push(...details.filter(Boolean));
 
   const normalized = rawItems.map(normalizeItem).filter(shouldKeep);
   const ok = rawItems.length > 0 && errors.length < Math.max(1, rawItems.length);
@@ -2465,17 +2746,21 @@ async function fetchJobAlioRecruit() {
   ].includes(item.sourceVerification?.doubleCheckStatus)).length;
   const firstDayCandidates = normalized.filter((item) => item.collectionAudit?.firstDayCollected).length;
   const missedReview = normalized.filter((item) => item.collectionAudit?.missedReviewNeeded).length;
+  const criticalCoverage = buildCriticalJobAlioCoverage(normalized);
   return {
     items: normalized,
     status: sourceStatus(base, {
       ok,
       itemCount: normalized.length,
       scannedCount,
+      scanTargetCount,
+      candidateRowCount: rowsByIdx.size,
       rawItemCount: rawItems.length,
+      criticalCoverage,
       firstDayCandidates,
       missedReviewNeeded: missedReview,
       message: ok
-        ? `공식 공개 원문 ${scannedCount}건 점검, 공식 공고 확인 ${companyChecked}건, 첫날 수집 ${firstDayCandidates}건, 누락점검 ${missedReview}건`
+        ? `공식 공개 원문 ${scannedCount}건/${rowsByIdx.size}후보 점검, 검색경로 ${scanTargetCount}개, 공식 공고 확인 ${companyChecked}건, 핵심공고 누락 ${criticalCoverage.missingCurrent.length}건`
         : `연결 실패: ${errors.slice(0, 2).join('; ')}`
     })
   };
@@ -2971,7 +3256,72 @@ function reviewItem(item) {
   };
 }
 
-function buildCollectionReview(items, sourceStatusList) {
+function criticalJobText(item) {
+  return [
+    item.sourceId,
+    item.title,
+    item.baseTitle,
+    item.company,
+    item.education,
+    item.career,
+    item.recruitField,
+    item.detailText,
+    item.description,
+    item.teacherBriefing?.teacherShareText
+  ].filter(Boolean).join(' ');
+}
+
+function matchesCriticalJobAlioItem(item, critical) {
+  const text = criticalJobText(item);
+  if (String(item.sourceId || '') === critical.idx) return true;
+  if (!text.includes(critical.company)) return false;
+  return [...(critical.titleTerms || []), ...(critical.bodyTerms || [])].every((term) => text.includes(term));
+}
+
+function criticalCurrentPriority(item) {
+  const index = activeCriticalJobAlioItems().findIndex((critical) => matchesCriticalJobAlioItem(item, critical));
+  return index < 0 ? 99 : index;
+}
+
+function buildCriticalJobAlioCoverage(items) {
+  const current = activeCriticalJobAlioItems();
+  const coveredCurrent = [];
+  const missingCurrent = [];
+
+  for (const critical of current) {
+    const matched = items.find((item) => matchesCriticalJobAlioItem(item, critical));
+    if (matched) {
+      coveredCurrent.push({
+        id: critical.id,
+        idx: critical.idx,
+        company: critical.company,
+        title: matched.title,
+        deadline: matched.deadline,
+        status: matched.status,
+        primaryOfficialUrl: matched.primaryOfficialUrl || matched.url
+      });
+    } else {
+      missingCurrent.push({
+        id: critical.id,
+        idx: critical.idx,
+        company: critical.company,
+        titleHint: critical.titleHint,
+        deadline: critical.deadline,
+        reason: '핵심 공기업 고졸 공채 감시 대상이 현재 피드에 없습니다.'
+      });
+    }
+  }
+
+  return {
+    checkedAt: CHECKED_AT,
+    watchInstitutionCount: CRITICAL_JOB_ALIO_ORGS.length,
+    currentRequiredCount: current.length,
+    coveredCurrent,
+    missingCurrent
+  };
+}
+
+function buildCollectionReview(items, sourceStatusList, criticalCoverage = buildCriticalJobAlioCoverage(items)) {
   const missedReviewItems = items
     .filter((item) => item.collectionAudit?.missedReviewNeeded)
     .map(reviewItem)
@@ -2990,18 +3340,22 @@ function buildCollectionReview(items, sourceStatusList) {
       configured: source.configured,
       message: source.message || '연결 상태 확인 필요'
     }));
+  const criticalGapCount = criticalCoverage.missingCurrent.length;
 
   return {
-    status: missedReviewItems.length || officialNoticePendingItems.length || sourceGaps.length ? 'review_needed' : 'normal',
+    status: missedReviewItems.length || officialNoticePendingItems.length || sourceGaps.length || criticalGapCount ? 'review_needed' : 'normal',
     generatedAt: CHECKED_AT,
     firstDayGoal: '공채는 게시 첫날 수집을 목표로 하며, 늦게 발견된 공고는 누락 점검 대상으로 기록한다.',
     missedReviewCount: missedReviewItems.length,
     officialNoticePendingCount: officialNoticePendingItems.length,
     sourceGapCount: sourceGaps.length,
+    criticalGapCount,
     missedReviewItems,
     officialNoticePendingItems,
     sourceGaps,
+    criticalCoverage,
     nextActions: [
+      '핵심 공기업 고졸 공채 감시 대상이 빠지면 잡알리오 상세번호·기관검색·검색어 경로를 즉시 재점검한다.',
       '누락점검 공고는 게시일 기준 공식 소스 연결 주기를 확인한다.',
       '공식 공고 미확인 공채는 회사·기관 또는 채용대행 공식 공지 URL을 보강한다.',
       '미연결 소스는 API Secret 또는 허용된 공식 피드 경로를 확인한다.'
@@ -3044,7 +3398,8 @@ async function main() {
   const missedReviewNeeded = items.filter((item) => item.collectionAudit?.missedReviewNeeded).length;
   const staleFallbackItems = items.filter((item) => item.staleSourceFallback).length;
   const sourcesConfigured = sourceStatusList.filter((source) => source.configured).length;
-  const collectionReview = buildCollectionReview(items, sourceStatusList);
+  const criticalCoverage = buildCriticalJobAlioCoverage(items);
+  const collectionReview = buildCollectionReview(items, sourceStatusList, criticalCoverage);
   const secretReadiness = buildSecretReadinessReport(sourceStatusList);
 
   const payload = {
@@ -3067,6 +3422,7 @@ async function main() {
       firstDayCollected,
       lateDetected,
       missedReviewNeeded,
+      criticalCoverageMissing: criticalCoverage.missingCurrent.length,
       staleFallbackItems,
       sourcesChecked: sourceStatusList.length,
       sourcesConfigured,
@@ -3087,6 +3443,15 @@ async function main() {
       applicationClosedTitleSuffix: '(원서 마감)',
       applicationClosedRetainDays: APPLICATION_CLOSED_RETAIN_DAYS,
       jobAlioScanLimit: JOB_ALIO_SCAN_LIMIT,
+      jobAlioScanPages: JOB_ALIO_SCAN_PAGES,
+      jobAlioKeywordQueries: JOB_ALIO_KEYWORD_QUERIES.map((query) => `${query.searchType}:${query.keyword}`),
+      jobAlioCriticalWatchInstitutions: CRITICAL_JOB_ALIO_ORGS.map((org) => org.orgName),
+      jobAlioCurrentCriticalItems: CRITICAL_CURRENT_JOB_ALIO_ITEMS.map((item) => ({
+        id: item.id,
+        idx: item.idx,
+        company: item.company,
+        deadline: item.deadline
+      })),
       seoulHighJobScanPages: SEOUL_HIGHJOB_SCAN_PAGES,
       primarySourceRule: '회사·기관 자체 홈페이지 또는 채용대행 공식 공고를 최우선 원문으로 사용하고, 잡알리오·고용24·사람인 등은 보완 출처로 사용한다.'
     },

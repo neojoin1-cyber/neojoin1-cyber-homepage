@@ -13,13 +13,32 @@ const DO_EXTERNAL_LINKS = args.has('--external-links');
 const LIVE_HOME = 'https://gyo6.kr/';
 const LIVE_FEED = 'https://gyo6.kr/assets/job-feed.json';
 const MAX_FEED_AGE_HOURS = 48;
+const APPLICATION_CLOSED_RETAIN_DAYS = 21;
 const HIGH_SCHOOL_STRONG_TERMS = ['고졸', '특성화고', '직업계고', '마이스터고', '학교장 추천', '학교장추천'];
 const ENTRY_LEVEL_TERMS = ['고졸', '고등학교', '특성화고', '직업계고', '마이스터고', '졸업예정', '졸업 예정', '학교장 추천', '학교장추천', '고졸제한', '고졸 제한', '사회형평 고졸', '신입', '경력무관', '신입+경력', '신입·경력', '청년인턴', '채용형 인턴', '공무직', '업무지원직', '기간제', '9급', '지역인재', '기능인재'];
 const SENIOR_ROLE_PATTERN = /(원장|센터장|기관장|본부장|부원장|개방형\s*직위|전문계약직|연봉계약직|임원|상임감사|비상임감사|감사위원|이사장|대표이사)/;
 const RESTRICTED_ROLE_PATTERN = /(관리직|별정직|책임연구원|선임연구원|교수)/;
 const ADVANCED_EDU_PATTERN = /(대졸\s*이상|대졸\([^)]*\)|전문대졸|4년제|대학교\s*졸업|학사\s*이상|석사|박사)/;
-const PROFESSIONAL_ONLY_PATTERN = /(전문의|의사|약사|간호사|방사선사|공인회계사|회계사|변호사|세무사|노무사|법무사|건축사|면허\s*소지|기술사)/;
+const PROFESSIONAL_ONLY_PATTERN = /(전문의|의사|약사|간호사|방사선사|공인회계사|회계사|변호사|세무사|노무사|법무사|건축사|정교사|교원자격|교사\s*자격|보육교사|면허\s*소지|기술사)/;
 const PAID_TEASER_COPY_PHRASES = ['무료', '첫 챕터', '공개'].map((prefix) => `${prefix} 맛보기`);
+const REQUIRED_CURRENT_CRITICAL_RECRUITS = [
+  {
+    id: 'kepco-2026-highschool-4grade',
+    sourceId: '301166',
+    company: '한국전력공사',
+    titleTerms: ['고졸', '신입사원'],
+    bodyTerms: ['고등학교', '졸업예정'],
+    deadline: '2026-06-12'
+  },
+  {
+    id: 'kca-2026-highschool-admin',
+    sourceId: '301041',
+    company: '한국방송통신전파진흥원',
+    titleTerms: ['경력', '신입', '직원'],
+    bodyTerms: ['사무행정', '고졸전형'],
+    deadline: '2026-06-11'
+  }
+];
 
 const checks = [];
 
@@ -110,6 +129,7 @@ function sleep(ms) {
 
 function feedItemEligibilityText(item) {
   return [
+    item.sourceId,
     item.title,
     item.company,
     item.education,
@@ -118,6 +138,38 @@ function feedItemEligibilityText(item) {
     item.recruitField,
     item.detailText
   ].filter(Boolean).join(' ');
+}
+
+function activeRequiredCriticalRecruits() {
+  return REQUIRED_CURRENT_CRITICAL_RECRUITS.filter((job) => {
+    const deadline = new Date(`${job.deadline}T23:59:59+09:00`);
+    if (Number.isNaN(deadline.getTime())) return true;
+    const retainUntil = deadline.getTime() + APPLICATION_CLOSED_RETAIN_DAYS * 86400000;
+    return Date.now() <= retainUntil;
+  });
+}
+
+function criticalRecruitText(item) {
+  return [
+    item.sourceId,
+    item.title,
+    item.baseTitle,
+    item.company,
+    item.education,
+    item.career,
+    item.recruitField,
+    item.detailText,
+    item.publicRecruitDetails?.eligibility,
+    item.publicRecruitDetails?.process,
+    item.teacherBriefing?.teacherShareText
+  ].filter(Boolean).join(' ');
+}
+
+function matchesRequiredCriticalRecruit(item, job) {
+  const text = criticalRecruitText(item);
+  if (String(item.sourceId || '') === job.sourceId) return true;
+  if (!text.includes(job.company)) return false;
+  return [...job.titleTerms, ...job.bodyTerms].every((term) => text.includes(term));
 }
 
 function hasStrongHighSchoolSignal(item) {
@@ -300,10 +352,15 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.feed.sources-count`, sourceStatus.length === summary.sourcesChecked, `${label} sourceStatus 수와 sourcesChecked가 일치합니다.`, `${sourceStatus.length} / ${summary.sourcesChecked}`);
   fail(`${label}.feed.secret-total`, secretReadiness.totalSources === sourceStatus.length, `${label} Secret 준비 상태의 소스 수가 sourceStatus와 일치합니다.`);
   fail(`${label}.feed.review-next-actions`, Array.isArray(collectionReview.nextActions) && collectionReview.nextActions.length > 0, `${label} 누락·공식공고·소스보강 다음 조치가 기록됩니다.`);
+  fail(`${label}.feed.critical-review-field`, collectionReview.criticalCoverage && Array.isArray(collectionReview.criticalCoverage.missingCurrent), `${label} 핵심 공기업 고졸 공채 감시 결과가 기록됩니다.`);
 
   const age = hoursSince(feed.generatedAt);
   fail(`${label}.feed.generated-at-valid`, age !== null, `${label} generatedAt이 유효한 날짜입니다.`, feed.generatedAt || '');
   warn(`${label}.feed.freshness`, age === null || age <= MAX_FEED_AGE_HOURS, `${label} 피드 생성 시각이 ${MAX_FEED_AGE_HOURS}시간 이내입니다.`, age === null ? '' : `${age.toFixed(1)}시간 경과`);
+
+  const requiredCritical = activeRequiredCriticalRecruits();
+  const missingCritical = requiredCritical.filter((job) => !items.some((item) => matchesRequiredCriticalRecruit(item, job)));
+  fail(`${label}.feed.critical-current-recruits`, missingCritical.length === 0, `${label} 현재 진행 중 핵심 공기업 고졸 공채가 피드에 포함되어 있습니다.`, missingCritical.map((job) => `${job.company}:${job.sourceId}`).join(', '));
 
   const ids = new Set();
   const duplicates = [];
@@ -371,6 +428,10 @@ function validateFeed(feed, label = 'local') {
   warn(`${label}.items.official-double-check`, weakOfficialPublicRecruit.length === 0, `${label} 공채 상세 항목은 회사·기관 또는 채용대행 공식 공고 2중확인이 필요합니다.`, weakOfficialPublicRecruit.slice(0, 5).join(' | '));
 
   const readySources = sourceStatus.filter((source) => source.configured && source.ok).length;
+  const jobAlioStatus = sourceStatus.find((source) => source.id === 'job-alio-openapi');
+  fail(`${label}.sources.job-alio-ok`, Boolean(jobAlioStatus?.ok), `${label} 잡알리오 공식 채용 수집원이 정상 동작합니다.`, jobAlioStatus?.message || '');
+  fail(`${label}.sources.job-alio-expanded-scan`, Number(jobAlioStatus?.scanTargetCount || 0) >= 10 && Number(jobAlioStatus?.candidateRowCount || 0) >= requiredCritical.length, `${label} 잡알리오는 첫 페이지만이 아니라 검색어·핵심기관 경로를 함께 훑습니다.`, `scanTarget=${jobAlioStatus?.scanTargetCount || 0}, candidate=${jobAlioStatus?.candidateRowCount || 0}`);
+  fail(`${label}.sources.job-alio-critical-coverage`, (jobAlioStatus?.criticalCoverage?.missingCurrent || []).length === 0, `${label} 잡알리오 핵심 공고 감시 대상 누락이 없습니다.`, (jobAlioStatus?.criticalCoverage?.missingCurrent || []).map((job) => `${job.company}:${job.idx}`).join(', '));
   warn(`${label}.sources.ready-count`, readySources >= 2, `${label} 현재 정상 수집 가능한 공식 소스가 2개 이상입니다.`, `${readySources}개`);
   warn(`${label}.sources.public-data-next`, secretReadiness.easiestNextAction?.id === 'mpm-public-job' || secretReadiness.readySources > 2, `${label} 다음 확장 우선순위가 인사혁신처 공공취업 API입니다.`, secretReadiness.easiestNextAction?.id || '');
 
