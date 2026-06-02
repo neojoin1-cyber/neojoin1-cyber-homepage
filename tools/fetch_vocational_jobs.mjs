@@ -22,6 +22,9 @@ const DETAIL_FETCH_CONCURRENCY = 6;
 const APPLICATION_CLOSED_RETAIN_DAYS = 21;
 const JOB_ALIO_SCAN_LIMIT = 220;
 const JOB_ALIO_SCAN_PAGES = 6;
+const OFFICIAL_WATCH_TIMEOUT_MS = 15000;
+const COMPANY_NOTICE_TIMEOUT_MS = 15000;
+const GENERIC_OFFICIAL_FEED_CONCURRENCY = 5;
 const DEFAULT_FETCH_HEADERS = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125 Safari/537.36',
   Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,application/json;q=0.8,*/*;q=0.7',
@@ -75,7 +78,7 @@ const ENTRY_LEVEL_TERMS = [
   '지역인재',
   '기능인재'
 ];
-const SENIOR_ROLE_PATTERN = /(원장|센터장|기관장|본부장|부원장|개방형\s*직위|전문계약직|연봉계약직|임원|상임감사|비상임감사|감사위원|이사장|대표이사)/;
+const SENIOR_ROLE_PATTERN = /(원장|센터장|기관장|본부장|부원장|교장|공모교장|교감|원감|개방형\s*직위|전문계약직|연봉계약직|임원|상임감사|비상임감사|감사위원|이사장|대표이사)/;
 const RESTRICTED_ROLE_PATTERN = /(관리직|별정직|책임연구원|선임연구원|교수)/;
 
 const WORK24_OPEN_RECRUIT_URL = 'https://www.work24.go.kr/cm/openApi/call/wk/callOpenApiSvcInfo210L21.do';
@@ -129,7 +132,26 @@ const CRITICAL_JOB_ALIO_ORGS = [
   { orgCode: 'C0026', orgName: '국민건강보험공단', aliases: [] },
   { orgCode: 'C0028', orgName: '국민연금공단', aliases: [] },
   { orgCode: 'C0242', orgName: '한국장애인고용공단', aliases: [] },
-  { orgCode: 'C0211', orgName: '한국산업인력공단', aliases: [] }
+  { orgCode: 'C0211', orgName: '한국산업인력공단', aliases: [] },
+  { orgCode: 'C0213', orgName: '한국석유공사', aliases: [] },
+  { orgCode: 'C0253', orgName: '한국조폐공사', aliases: [] },
+  { orgCode: 'C0258', orgName: '한국지역난방공사', aliases: [] },
+  { orgCode: 'C0249', orgName: '한국전기안전공사', aliases: [] },
+  { orgCode: 'C0148', orgName: '한국가스기술공사', aliases: [] },
+  { orgCode: 'C0217', orgName: '한국수자원공사', aliases: ['K-water'] },
+  { orgCode: 'C0231', orgName: '한국토지주택공사', aliases: ['LH'] },
+  { orgCode: 'C0207', orgName: '한국산업안전보건공단', aliases: [] },
+  { orgCode: 'C0144', orgName: '한국관광공사', aliases: [] },
+  { orgCode: 'C0165', orgName: '한국마사회', aliases: [] },
+  { orgCode: 'C0005', orgName: '예금보험공사', aliases: [] },
+  { orgCode: 'C0232', orgName: '한국주택금융공사', aliases: [] },
+  { orgCode: 'C0074', orgName: '신용보증기금', aliases: [] },
+  { orgCode: 'C0022', orgName: '기술보증기금', aliases: [] },
+  { orgCode: 'C0245', orgName: '한국자산관리공사', aliases: ['캠코'] },
+  { orgCode: 'C0150', orgName: '한국농어촌공사', aliases: [] },
+  { orgCode: 'C0166', orgName: '한국방송광고진흥공사', aliases: ['코바코'] },
+  { orgCode: 'C0251', orgName: '한국인터넷진흥원', aliases: ['KISA'] },
+  { orgCode: 'C0261', orgName: '한국직업능력연구원', aliases: [] }
 ];
 const CRITICAL_CURRENT_JOB_ALIO_ITEMS = [
   {
@@ -151,6 +173,146 @@ const CRITICAL_CURRENT_JOB_ALIO_ITEMS = [
     deadline: '2026-06-11'
   }
 ];
+
+const OFFICIAL_HTML_RECRUIT_TERMS = [
+  '채용',
+  '모집',
+  '공고',
+  '입사지원',
+  '지원서',
+  '원서접수',
+  '접수기간',
+  'recruit',
+  'career',
+  'careers',
+  'job'
+];
+
+const OFFICIAL_HTML_HIGH_SCHOOL_SIGNALS = [
+  '고졸',
+  '고등학교',
+  '고교',
+  '특성화고',
+  '직업계고',
+  '마이스터고',
+  '졸업예정',
+  '졸업 예정',
+  '학력무관',
+  '학력 무관',
+  '고졸전형',
+  '고졸 전형',
+  '고졸채용',
+  '고졸 채용',
+  '고졸공채',
+  '고졸 공채',
+  '사회형평',
+  '지역인재',
+  '기능인재',
+  '기술직',
+  '기능직',
+  '생산직',
+  '현장직',
+  '전문기술직',
+  '업무지원직',
+  '공무직',
+  '무기계약직',
+  '기간제',
+  '청년인턴',
+  '채용형 인턴',
+  '행원',
+  '텔러',
+  '창구',
+  '일반직 5급',
+  '일반직 6급',
+  '일반직 7급',
+  '5급',
+  '6급',
+  '7급',
+  '초대졸 이하'
+];
+
+const OFFICIAL_HTML_STRONG_HIGH_SCHOOL_SIGNALS = [
+  '고졸',
+  '고등학교',
+  '고교',
+  '특성화고',
+  '직업계고',
+  '마이스터고',
+  '졸업예정',
+  '졸업 예정',
+  '학력무관',
+  '학력 무관',
+  '고졸전형',
+  '고졸 전형',
+  '고졸채용',
+  '고졸 채용',
+  '고졸공채',
+  '고졸 공채',
+  '초대졸 이하'
+];
+
+const OFFICIAL_HTML_SKIP_LINK_TERMS = [
+  '개인정보',
+  '이용약관',
+  '채용문의',
+  'FAQ',
+  '로그인',
+  '회원가입',
+  '합격조회',
+  '지원서 수정',
+  '인재상',
+  '복리후생',
+  '채용절차'
+];
+
+const FINANCE_LARGE_COMPANY_OFFICIAL_WATCHLIST = [
+  { employer: '삼성', group: 'large-company', url: 'https://www.samsungcareers.com/', tags: ['대기업', '그룹공채'] },
+  { employer: '현대자동차', group: 'large-company', url: 'https://talent.hyundai.com/main/main.hc', tags: ['대기업', '완성차'] },
+  { employer: '기아', group: 'large-company', url: 'https://career.kia.com/', tags: ['대기업', '완성차'] },
+  { employer: 'SK', group: 'large-company', url: 'https://www.skcareers.com/', tags: ['대기업', '그룹공채'] },
+  { employer: 'SK하이닉스', group: 'large-company', url: 'https://recruit.skhynix.com/', tags: ['대기업', '반도체'] },
+  { employer: 'LG', group: 'large-company', url: 'https://careers.lg.com/', tags: ['대기업', '그룹공채'] },
+  { employer: 'LG CNS', group: 'large-company', url: 'https://www.lgcns.com/kr/careers/apply', tags: ['대기업', 'IT'] },
+  { employer: '포스코', group: 'large-company', url: 'https://recruit.posco.com/h22a01-front/', tags: ['대기업', '철강'] },
+  { employer: '포스코퓨처엠', group: 'large-company', url: 'https://recruit.posco.com/h22a01-front/', tags: ['대기업', '소재', '포스코그룹공식'] },
+  { employer: '롯데', group: 'large-company', url: 'https://recruit.lotte.co.kr/', tags: ['대기업', '그룹공채'] },
+  { employer: 'CJ', group: 'large-company', url: 'https://recruit.cj.net/', tags: ['대기업', '그룹공채'] },
+  { employer: '한화', group: 'large-company', url: 'https://www.hanwhain.com/', tags: ['대기업', '그룹공채'] },
+  { employer: 'HD현대', group: 'large-company', url: 'https://recruit.hd.com/', tags: ['대기업', '중공업'] },
+  { employer: '두산', group: 'large-company', url: 'https://career.doosan.com/', tags: ['대기업', '그룹공채'] },
+  { employer: 'LS', group: 'large-company', url: 'https://www.lsholdings.com/ko/careers/recruitment-guide', tags: ['대기업', '전기전자'] },
+  { employer: 'KT', group: 'large-company', url: 'https://recruit.kt.com/', tags: ['대기업', '통신'] },
+  { employer: 'KT&G', group: 'large-company', url: 'https://ktng.recruiter.co.kr/', tags: ['대기업', '채용대행공식'] },
+  { employer: 'S-OIL', group: 'large-company', url: 'https://s-oil.recruiter.co.kr/', tags: ['대기업', '채용대행공식'] },
+  { employer: 'GS칼텍스', group: 'large-company', url: 'https://gscaltex.recruiter.co.kr/', tags: ['대기업', '채용대행공식'] },
+  { employer: '현대제철', group: 'large-company', url: 'https://hyundai-steel.recruiter.co.kr/', tags: ['대기업', '채용대행공식'] },
+  { employer: '현대모비스', group: 'large-company', url: 'https://mobis.recruiter.co.kr/', tags: ['대기업', '채용대행공식'] },
+  { employer: '네이버', group: 'large-company', url: 'https://recruit.navercorp.com/', tags: ['대기업', 'IT'] },
+  { employer: '카카오', group: 'large-company', url: 'https://careers.kakao.com/', tags: ['대기업', 'IT'] },
+  { employer: 'KB국민은행', group: 'finance', url: 'https://kbstar.careerlink.kr/', tags: ['1금융권', '은행'] },
+  { employer: '신한은행', group: 'finance', url: 'https://shinhan.recruiter.co.kr/', tags: ['1금융권', '은행'] },
+  { employer: '하나은행', group: 'finance', url: 'https://hanabank.recruiter.co.kr/', tags: ['1금융권', '은행'] },
+  { employer: '우리은행', group: 'finance', url: 'https://wooribank.recruiter.co.kr/', tags: ['1금융권', '은행'] },
+  { employer: 'NH농협은행', group: 'finance', url: 'https://with.nonghyup.com/jbnf/jbnfLst.do?srcAuthDsc=1', tags: ['1금융권', '은행'] },
+  { employer: 'IBK기업은행', group: 'finance', url: 'https://ibk.incruit.com/index_main_2025.asp', tags: ['금융공기업', '은행'] },
+  { employer: 'DGB대구은행', group: 'finance', url: 'https://im.recruiter.co.kr/', tags: ['1금융권', '지방은행', 'iM뱅크'] },
+  { employer: 'BNK부산은행', group: 'finance', url: 'https://busanbank.recruiter.co.kr/', tags: ['1금융권', '지방은행'] },
+  { employer: 'BNK경남은행', group: 'finance', url: 'https://knbank.recruiter.co.kr/', tags: ['1금융권', '지방은행'] },
+  { employer: '광주은행', group: 'finance', url: 'https://www.kjbank.com/index.jsp', tags: ['1금융권', '지방은행', '공식홈페이지'] },
+  { employer: '광주은행', group: 'finance', url: 'https://www.incruit.com/company/670180/job', tags: ['1금융권', '지방은행', '채용관보조'] },
+  { employer: '전북은행', group: 'finance', url: 'https://jbbank.recruiter.co.kr/', tags: ['1금융권', '지방은행'] },
+  { employer: '제주은행', group: 'finance', url: 'https://jejubank.recruiter.co.kr/', tags: ['1금융권', '지방은행'] },
+  { employer: '수협은행', group: 'finance', url: 'https://shbank.incruit.com/hire/hirelist.asp', tags: ['1금융권', '은행'] },
+  { employer: '카카오뱅크', group: 'finance', url: 'https://recruit.kakaobank.com/', tags: ['1금융권', '인터넷은행'] },
+  { employer: '토스뱅크', group: 'finance', url: 'https://toss.im/career/jobs?company=tossbank', tags: ['1금융권', '인터넷은행'] },
+  { employer: '새마을금고중앙회', group: 'finance', url: 'https://www.kfcc.co.kr/index.do', tags: ['2금융권'] },
+  { employer: '신협', group: 'finance', url: 'https://cu.incruit.com/', tags: ['2금융권'] },
+  { employer: '저축은행중앙회', group: 'finance', url: 'https://www.fsb.or.kr/index.act', tags: ['2금융권'] }
+];
+
+const BUILT_IN_OFFICIAL_FEEDS = {
+  'finance-large-company-recruit': FINANCE_LARGE_COMPANY_OFFICIAL_WATCHLIST
+};
 
 const GENERIC_OFFICIAL_SOURCE_CONFIG = {
   'gojobs-narailter': {
@@ -191,7 +353,7 @@ const GENERIC_OFFICIAL_SOURCE_CONFIG = {
   'finance-large-company-recruit': {
     urlSecrets: ['FINANCE_RECRUIT_FEEDS', 'LARGE_COMPANY_RECRUIT_FEEDS'],
     keySecrets: ['FINANCE_RECRUIT_API_KEY', 'LARGE_COMPANY_RECRUIT_API_KEY'],
-    setupHint: '은행·금융공기업·대기업 채용 공식 공지/RSS/API URL 묶음을 FINANCE_RECRUIT_FEEDS 또는 LARGE_COMPANY_RECRUIT_FEEDS에 저장하면 공식 공채 후보를 순회한다.'
+    setupHint: '기본 내장 감시 목록으로 주요 대기업·금융권 공식 채용 페이지를 확인하며, 추가 공식 공지/RSS/API URL은 FINANCE_RECRUIT_FEEDS 또는 LARGE_COMPANY_RECRUIT_FEEDS에 저장해 확장한다.'
   },
   'nonprofit-recruit': {
     urlSecrets: ['NONPROFIT_RECRUIT_API_URL'],
@@ -249,12 +411,12 @@ const SOURCE_ONBOARDING = {
   },
   'finance-large-company-recruit': {
     priority: 'P0',
-    actionLabel: '금융권·대기업 공식 공채 피드 등록',
-    impact: '은행·금융공기업·대기업의 고졸 공개채용을 회사 또는 채용대행 공식 공지 기준으로 보강한다.',
+    actionLabel: '금융권·대기업 공식 공채 상시 감시',
+    impact: '은행·금융공기업·대기업의 고졸 공개채용을 내장 공식 채용 페이지와 추가 공식 피드 기준으로 보강한다.',
     easySteps: [
-      '은행·금융공기업·대기업 채용 공식 공지/RSS/API URL을 확인한다.',
-      '여러 URL은 줄바꿈 또는 쉼표로 묶어 FINANCE_RECRUIT_FEEDS 또는 LARGE_COMPANY_RECRUIT_FEEDS Secret에 저장한다.',
-      '공채 상세는 공식 원문과 채용대행 원문을 2중 확인한 뒤 전형일정·첨부자료 중심으로 표시한다.'
+      '기본 실행만으로 주요 대기업·1금융권·2금융권 공식 채용 페이지를 매일 3회 감시한다.',
+      '추가 확인한 공식 공지/RSS/API URL은 줄바꿈 또는 쉼표로 묶어 FINANCE_RECRUIT_FEEDS 또는 LARGE_COMPANY_RECRUIT_FEEDS Secret에 저장한다.',
+      '공채 후보는 공식 원문과 채용대행 원문을 2중 확인한 뒤 전형일정·첨부자료 중심으로 상세화한다.'
     ]
   },
   'seoul-highjob': {
@@ -397,13 +559,13 @@ const SOURCE_CATALOG = [
   {
     id: 'finance-large-company-recruit',
     name: '금융권·대기업 고졸 공채 공식 피드',
-    type: 'official-channel-pending',
+    type: 'official-watchlist',
     sourceUrl: '',
     group: 'finance-large-company',
     trackHint: 'exam',
     status: 'pending',
     secretNames: ['FINANCE_RECRUIT_FEEDS', 'LARGE_COMPANY_RECRUIT_FEEDS', 'FINANCE_RECRUIT_API_KEY', 'LARGE_COMPANY_RECRUIT_API_KEY'],
-    message: '은행·금융공기업·대기업 채용 공식 공지/RSS/API 묶음 확인 후 연결'
+    message: '주요 대기업·1금융권·2금융권 공식 채용 페이지 내장 감시, 추가 피드 Secret 보강 가능'
   },
   {
     id: 'job-alio-openapi',
@@ -828,6 +990,101 @@ async function fetchWithExternalClient(url, options = {}, timeoutMs = REQUEST_TI
   throw new Error('external client failed: empty response');
 }
 
+async function checkUrlReachable(url, options = {}, timeoutMs = REQUEST_TIMEOUT_MS) {
+  const headers = {
+    ...DEFAULT_FETCH_HEADERS,
+    ...(options.headers || {})
+  };
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      signal: controller.signal,
+      headers
+    });
+    if (response.ok) return true;
+  } catch {
+    // Fall through to external status-only checks.
+  } finally {
+    clearTimeout(timer);
+  }
+
+  const seconds = Math.max(2, Math.ceil(timeoutMs / 1000));
+  const curlCommand = process.platform === 'win32' ? 'curl.exe' : 'curl';
+  const discardTarget = process.platform === 'win32' ? 'NUL' : '/dev/null';
+  const tryCurlStatus = async (method, followRedirects = true) => {
+    const curlArgs = [
+      '--silent',
+      '--show-error',
+      '--max-time',
+      String(seconds),
+      '-X',
+      method,
+      '--output',
+      discardTarget,
+      '--write-out',
+      '%{http_code}'
+    ];
+    if (followRedirects) {
+      curlArgs.unshift('-L');
+    }
+    for (const [name, value] of Object.entries(headers)) {
+      if (value !== undefined && value !== null && String(value).trim() !== '') {
+        curlArgs.push('-H', `${name}: ${value}`);
+      }
+    }
+    curlArgs.push(url);
+
+    const { stdout } = await execFileAsync(curlCommand, curlArgs, {
+      timeout: timeoutMs + 3000,
+      maxBuffer: 1024 * 1024,
+      windowsHide: true
+    });
+    return /^[23]\d\d$/.test(normalizeSpace(stdout));
+  };
+
+  try {
+    if (await tryCurlStatus('GET', false)) return true;
+  } catch {
+    // A first-response 2xx/3xx is enough for official watchlist reachability.
+  }
+
+  try {
+    if (await tryCurlStatus('GET')) return true;
+  } catch {
+    // Some legacy servers reject curl status checks; try HEAD and then PowerShell on Windows.
+  }
+
+  try {
+    if (await tryCurlStatus('HEAD', false)) return true;
+  } catch {
+    // Try redirected HEAD before the Windows fallback.
+  }
+
+  try {
+    if (await tryCurlStatus('HEAD')) return true;
+  } catch {
+    // Fall through to PowerShell on Windows.
+  }
+
+  if (process.platform === 'win32') {
+    try {
+      const command = `$ProgressPreference='SilentlyContinue'; try { $r=Invoke-WebRequest -Uri $args[0] -UseBasicParsing -TimeoutSec ${seconds} -ErrorAction Stop; [string]$r.StatusCode } catch { if ($_.Exception.Response -and $_.Exception.Response.StatusCode) { [string][int]$_.Exception.Response.StatusCode } else { throw } }`;
+      const { stdout } = await execFileAsync('powershell.exe', ['-NoProfile', '-Command', command, url], {
+        timeout: timeoutMs + 3000,
+        maxBuffer: 1024 * 1024,
+        windowsHide: true
+      });
+      return /^2\d\d|^3\d\d/.test(normalizeSpace(stdout));
+    } catch {
+      return false;
+    }
+  }
+
+  return false;
+}
+
 async function mapWithConcurrency(items, concurrency, worker) {
   const results = new Array(items.length);
   let nextIndex = 0;
@@ -845,19 +1102,53 @@ async function mapWithConcurrency(items, concurrency, worker) {
 }
 
 function splitSecretUrls(value) {
-  const raw = normalizeSpace(value);
+  const raw = textValue(value);
   if (!raw) return [];
   return Array.from(new Set(raw
-    .split(/[\n,]+/)
-    .map((url) => url.trim())
+    .split(/[\r\n,]+/)
+    .map((url) => normalizeSpace(url))
     .filter(Boolean)))
-    .slice(0, 20);
+    .slice(0, 40);
 }
 
 function configuredUrlsForSource(config) {
   return Array.from(new Set((config.urlSecrets || [])
     .flatMap((secretName) => splitSecretUrls(readSecret(secretName)))))
     .filter(Boolean);
+}
+
+function builtInOfficialFeedEntriesForSource(id) {
+  return (BUILT_IN_OFFICIAL_FEEDS[id] || []).map((entry) => ({
+    ...entry,
+    builtIn: true,
+    configured: false
+  }));
+}
+
+function configuredOfficialFeedEntriesForSource(config) {
+  return configuredUrlsForSource(config).map((url, index) => ({
+    employer: '사용자 설정 공식 피드',
+    group: 'configured',
+    url,
+    tags: ['추가공식피드'],
+    builtIn: false,
+    configured: true,
+    configuredIndex: index + 1
+  }));
+}
+
+function officialFeedEntriesForSource(id, config) {
+  const seen = new Set();
+  const entries = [
+    ...builtInOfficialFeedEntriesForSource(id),
+    ...configuredOfficialFeedEntriesForSource(config)
+  ];
+  return entries.filter((entry) => {
+    const key = normalizeSpace(entry.url).toLowerCase();
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 function injectSecretIntoUrl(url, key) {
@@ -1000,7 +1291,7 @@ function collectXmlRecords(body, publicSourceUrl) {
   return nodes.map((node) => xmlRecordFromNode(node, publicSourceUrl)).filter((record) => record.title);
 }
 
-function genericRecordToRaw(record, source, publicSourceUrl) {
+function genericRecordToRaw(record, source, publicSourceUrl, feedEntry = {}) {
   const title = pickRecordField(record, [
     'title',
     '공고명',
@@ -1028,7 +1319,7 @@ function genericRecordToRaw(record, source, publicSourceUrl) {
     'organization',
     'orgNm',
     'deptNm'
-  ]);
+  ]) || feedEntry.employer || source.name;
   const rawDetailUrl = pickRecordField(record, [
     'url',
     'link',
@@ -1085,11 +1376,11 @@ function genericRecordToRaw(record, source, publicSourceUrl) {
     'sourceUrl',
     'applyUrl',
     'recruitUrl'
-  ]));
+  ])) || (feedEntry.builtIn ? cleanUrl(detailUrl) : '');
   return {
     source: source.id,
     sourceName: source.name,
-    sourceId: pickRecordField(record, ['id', 'idx', 'seq', 'sn', 'no', '공고번호', '채용공시ID', 'recruitId', 'recrutPbancNo', 'pbancNo']) || sha([source.id, title, company, detailUrl].join('|')),
+    sourceId: pickRecordField(record, ['id', 'idx', 'seq', 'sn', 'no', '공고번호', '채용공시ID', 'recruitId', 'recrutPbancNo', 'pbancNo']) || sha([source.id, title, company, detailUrl, feedEntry.url].join('|')),
     title,
     company,
     region: pickRecordField(record, ['region', '지역', '근무지', '근무지역', 'location', 'workRegion', 'workPlace', 'workArea']),
@@ -1114,27 +1405,179 @@ function genericRecordToRaw(record, source, publicSourceUrl) {
       recruitField,
       recruitNumber,
       applicationMethod,
-      source.name
+      source.name,
+      feedEntry.tags?.join(' ')
     ].join(' '))
   };
 }
 
-function parseGenericOfficialFeed(body, source, sourceUrl) {
+function absoluteUrlFromHref(href, baseUrl) {
+  const raw = String(href || '').replace(/&amp;/g, '&').trim();
+  if (!raw || /^(javascript:|mailto:|tel:|#)/i.test(raw)) return '';
+  try {
+    return publicDisplayUrl(new URL(raw, baseUrl).toString());
+  } catch {
+    return '';
+  }
+}
+
+function extractHtmlRedirectUrl(html, baseUrl) {
+  const source = String(html || '');
+  const candidates = [
+    source.match(/<meta\b[^>]*http-equiv=["']?refresh["']?[^>]*content=["'][^"']*url\s*=\s*([^"'>\s]+)[^"']*["'][^>]*>/i)?.[1],
+    source.match(/(?:top\.)?location\.href\s*=\s*["']([^"']+)["']/i)?.[1],
+    source.match(/window\.location(?:\.href)?\s*=\s*["']([^"']+)["']/i)?.[1],
+    source.match(/location\.replace\(["']([^"']+)["']\)/i)?.[1]
+  ].filter(Boolean);
+  for (const candidate of candidates) {
+    const url = absoluteUrlFromHref(candidate, baseUrl);
+    if (url && url !== publicDisplayUrl(baseUrl)) return url;
+  }
+  return '';
+}
+
+function cleanOfficialCandidateText(value) {
+  return normalizeSpace(String(value || '')
+    .replace(/<!--[\s\S]*?-->/g, ' ')
+    .replace(/<[^>]*>?/g, ' ')
+    .replace(/\b(?:class|style|onclick|target|title|href|src)=["'][^"']*["']/gi, ' ')
+    .replace(/\b(?:class|style|onclick|target|title|href|src)=\S+/gi, ' ')
+    .replace(/\s*(?:span|div|li|ul|dl|dt|dd|button|strong|em)\s*/gi, ' '));
+}
+
+function officialHtmlTitle(html) {
+  return htmlText(String(html || '').match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1] || '');
+}
+
+function extractOfficialDeadlineText(text) {
+  const normalized = normalizeSpace(text);
+  if (!normalized) return '';
+  const datePattern = '(?:20)?\\d{2}\\s*[.\\-/년]\\s*\\d{1,2}\\s*[.\\-/월]\\s*\\d{1,2}';
+  const ranged = normalized.match(new RegExp(`(?:접수|원서|지원|채용)?\\s*(?:기간|접수)\\D{0,60}(?:${datePattern})\\D{0,20}(?:~|-|부터|까지)\\D{0,20}(${datePattern})`, 'i'));
+  if (ranged) return ranged[1].replace(/\s+/g, '');
+  const deadline = normalized.match(new RegExp(`(?:마감|종료|접수마감|원서마감)\\D{0,40}(${datePattern})`, 'i'));
+  if (deadline) return deadline[1].replace(/\s+/g, '');
+  const dates = Array.from(normalized.matchAll(new RegExp(datePattern, 'g')), (match) => match[0].replace(/\s+/g, ''));
+  return dates.length >= 2 ? dates[dates.length - 1] : (dates[0] || '');
+}
+
+function officialHtmlHasRecruitCandidate(text, href = '') {
+  const normalized = normalizeSpace(text);
+  if (!normalized) return false;
+  const lowerHref = String(href || '').toLowerCase();
+  const hasRecruitTerm = includesAny(normalized, OFFICIAL_HTML_RECRUIT_TERMS)
+    || /recruit|career|careers|job|apply|notice/i.test(lowerHref);
+  const hasHighSchoolSignal = includesAny(normalized, OFFICIAL_HTML_HIGH_SCHOOL_SIGNALS);
+  if (!hasRecruitTerm || !hasHighSchoolSignal) return false;
+  if (OFFICIAL_HTML_SKIP_LINK_TERMS.some((term) => normalized.includes(term)) && normalized.length < 80) return false;
+  return true;
+}
+
+function htmlLinkRecords(html, source, sourceUrl, publicSourceUrl, feedEntry = {}) {
+  const records = [];
+  const seen = new Set();
+  const linkPattern = /<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi;
+  for (const match of html.matchAll(linkPattern)) {
+    const href = match[1];
+    const url = absoluteUrlFromHref(href, sourceUrl);
+    if (!url || seen.has(url)) continue;
+    const anchorText = cleanOfficialCandidateText(htmlText(match[2]));
+    const context = cleanOfficialCandidateText(htmlText(html.slice(Math.max(0, match.index - 700), match.index + match[0].length + 900)));
+    const combined = cleanOfficialCandidateText([anchorText, context, feedEntry.employer, feedEntry.tags?.join(' ')].join(' '));
+    const anchorOrHref = cleanOfficialCandidateText([anchorText, href].join(' '));
+    const hasRecruitAnchor = includesAny(anchorOrHref, OFFICIAL_HTML_RECRUIT_TERMS)
+      || /recruit|career|careers|job|hire|apply|notice/i.test(href);
+    const hasStrongEligibilitySignal = includesAny(combined, OFFICIAL_HTML_STRONG_HIGH_SCHOOL_SIGNALS);
+    const hasAnchorEligibilitySignal = includesAny(anchorOrHref, OFFICIAL_HTML_STRONG_HIGH_SCHOOL_SIGNALS);
+    const deadline = extractOfficialDeadlineText(combined);
+    if (feedEntry.builtIn && (!hasRecruitAnchor || !hasStrongEligibilitySignal || (!deadline && !hasAnchorEligibilitySignal))) {
+      continue;
+    }
+    if (!officialHtmlHasRecruitCandidate(combined, href)) continue;
+    seen.add(url);
+
+    const fallbackTitle = `${feedEntry.employer || source.name} 고졸·졸업예정 채용 공고 원문 확인`;
+    const title = shortText(anchorText && anchorText.length > 3 ? anchorText : fallbackTitle, fallbackTitle, 120);
+    records.push({
+      source: source.id,
+      sourceName: source.name,
+      sourceId: sha([source.id, feedEntry.employer, title, url].join('|')),
+      title: title.includes(feedEntry.employer || '') ? title : `${feedEntry.employer || source.name} ${title}`,
+      company: feedEntry.employer || source.name,
+      region: '원문 확인',
+      education: includesAny(combined, ['학력무관', '학력 무관']) ? '학력무관' : '고졸·특성화고 관련 원문 확인',
+      career: includesAny(combined, ['신입', '인턴', '공채']) ? '신입·공채 원문 확인' : '원문 확인',
+      employmentType: keywordSnippet(combined, ['정규직', '계약직', '인턴', '무기계약직', '기간제'], '원문 확인', 80),
+      deadline,
+      deadlineText: deadline ? `${deadline} 마감` : '마감일 원문 확인',
+      publishedAt: extractOfficialDeadlineText(context.match(/(?:게시|등록|공고)\D{0,30}((?:20)?\d{2}[.\-/년]\s*\d{1,2}[.\-/월]\s*\d{1,2})/)?.[1] || ''),
+      recruitField: keywordSnippet(combined, ['고졸', '특성화고', '직업계고', '마이스터고', '행원', '기술직', '생산직', '기능직'], '채용부문 원문 확인', 100),
+      applicationMethod: '회사·기관 또는 채용대행 공식 채용 페이지에서 접수방법 확인',
+      url,
+      originalUrl: publicSourceUrl,
+      sourceDetailUrl: publicSourceUrl,
+      companyNoticeUrl: url,
+      processText: keywordSnippet(combined, ['필기', 'NCS', '인적성', '서류전형', '면접전형', 'AI역량'], '전형절차 원문 확인', 220),
+      description: shortText(combined, '공식 채용 페이지에서 고졸·특성화고 관련 신호가 확인되었습니다.', 720)
+    });
+  }
+  return records.slice(0, 30);
+}
+
+function pageLevelHtmlRecord(html, source, sourceUrl, publicSourceUrl, feedEntry = {}) {
+  const pageText = htmlText(html).slice(0, 50000);
+  if (!officialHtmlHasRecruitCandidate(pageText, sourceUrl)) return [];
+  const title = shortText(officialHtmlTitle(html), `${feedEntry.employer || source.name} 고졸·졸업예정 채용 공고 원문 확인`, 120);
+  const deadline = extractOfficialDeadlineText(pageText);
+  return [{
+    source: source.id,
+    sourceName: source.name,
+    sourceId: sha([source.id, feedEntry.employer, sourceUrl, title].join('|')),
+    title: title.includes(feedEntry.employer || '') ? title : `${feedEntry.employer || source.name} ${title}`,
+    company: feedEntry.employer || source.name,
+    region: '원문 확인',
+    education: pageText.includes('학력무관') || pageText.includes('학력 무관') ? '학력무관' : '고졸·특성화고 관련 원문 확인',
+    career: pageText.includes('신입') || pageText.includes('공채') ? '신입·공채 원문 확인' : '원문 확인',
+    employmentType: keywordSnippet(pageText, ['정규직', '계약직', '인턴', '무기계약직', '기간제'], '원문 확인', 80),
+    deadline,
+    deadlineText: deadline ? `${deadline} 마감` : '마감일 원문 확인',
+    recruitField: keywordSnippet(pageText, ['고졸', '특성화고', '직업계고', '마이스터고', '행원', '기술직', '생산직', '기능직'], '채용부문 원문 확인', 100),
+    applicationMethod: '회사·기관 또는 채용대행 공식 채용 페이지에서 접수방법 확인',
+    url: publicDisplayUrl(sourceUrl),
+    originalUrl: publicSourceUrl,
+    sourceDetailUrl: publicSourceUrl,
+    companyNoticeUrl: publicDisplayUrl(sourceUrl),
+    processText: keywordSnippet(pageText, ['필기', 'NCS', '인적성', '서류전형', '면접전형', 'AI역량'], '전형절차 원문 확인', 220),
+    description: shortText(pageText, '공식 채용 페이지에서 고졸·특성화고 관련 신호가 확인되었습니다.', 720)
+  }];
+}
+
+function parseGenericOfficialFeed(body, source, sourceUrl, feedEntry = {}) {
   const trimmed = body.trim();
   const publicSourceUrl = source.sourceUrl || safePublicFeedUrl(sourceUrl);
   if (!trimmed) return [];
   if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
     const payload = JSON.parse(trimmed);
-    return collectJsonRecords(payload).map((record) => genericRecordToRaw(record, source, publicSourceUrl));
+    return collectJsonRecords(payload).map((record) => genericRecordToRaw(record, source, publicSourceUrl, feedEntry));
   }
   if (trimmed.startsWith('<')) {
-    return collectXmlRecords(trimmed, publicSourceUrl).map((record) => ({
+    const xmlRecords = collectXmlRecords(trimmed, publicSourceUrl).map((record) => ({
       ...record,
       source: source.id,
       sourceName: source.name,
-      sourceId: sha([source.id, record.title, record.company, record.url].join('|')),
-      sourceDetailUrl: publicSourceUrl
+      sourceId: sha([source.id, record.title, record.company || feedEntry.employer, record.url].join('|')),
+      company: record.company || feedEntry.employer || source.name,
+      sourceDetailUrl: publicSourceUrl,
+      companyNoticeUrl: feedEntry.builtIn ? cleanUrl(record.url) : '',
+      description: normalizeSpace([record.description, feedEntry.tags?.join(' ')].join(' '))
     }));
+    const htmlRecords = htmlLinkRecords(trimmed, source, sourceUrl, publicSourceUrl, feedEntry);
+    if (xmlRecords.length || htmlRecords.length) {
+      return [...xmlRecords, ...htmlRecords];
+    }
+    return feedEntry.builtIn
+      ? []
+      : pageLevelHtmlRecord(trimmed, source, sourceUrl, publicSourceUrl, feedEntry);
   }
   return [];
 }
@@ -1159,7 +1602,7 @@ async function checkCompanyNoticeUrl(url, company, title) {
   }
 
   try {
-    const html = await fetchWithTimeout(companyNoticeUrl, { timeoutMs: 8000 });
+    const html = await fetchWithTimeout(companyNoticeUrl, { timeoutMs: COMPANY_NOTICE_TIMEOUT_MS });
     const text = htmlText(html).slice(0, 50000);
     const companyMatched = includesAny(text, significantTerms(company, 4));
     const titleMatched = includesAny(text, significantTerms(title, 8));
@@ -1182,6 +1625,105 @@ async function checkCompanyNoticeUrl(url, company, title) {
       checkedAt: CHECKED_AT
     };
   }
+}
+
+function noticeSearchTerms(title, company = '') {
+  return Array.from(new Set([
+    ...significantTerms(title, 10),
+    ...significantTerms(company, 3)
+  ].filter((term) => term.length >= 3)));
+}
+
+function matchNoticeTermCount(text, terms) {
+  const normalized = normalizeSpace(text);
+  return terms.reduce((count, term) => count + (normalized.includes(term) ? 1 : 0), 0);
+}
+
+function bbsViewUrlFromId(baseUrl, id) {
+  try {
+    const url = new URL(baseUrl);
+    url.pathname = url.pathname.replace(/bbsPage\.do$/i, 'bbsView.do');
+    url.search = '';
+    url.searchParams.set('bbsCnId', id);
+    url.searchParams.set('bbsCode', 'deptgongji');
+    url.searchParams.set('menuId', 'MENU0895');
+    url.searchParams.set('pageIndex', '1');
+    return publicDisplayUrl(url.toString());
+  } catch {
+    return '';
+  }
+}
+
+function officialNoticeSearchUrls(candidateUrl, title) {
+  const urls = [candidateUrl];
+  try {
+    const url = new URL(candidateUrl);
+    if (/kead\.or\.kr$/i.test(url.hostname) && /bbsPage\.do$/i.test(url.pathname)) {
+      const searchUrl = new URL(candidateUrl);
+      searchUrl.searchParams.set('bbsCode', searchUrl.searchParams.get('bbsCode') || 'deptgongji');
+      searchUrl.searchParams.set('menuId', searchUrl.searchParams.get('menuId') || 'MENU0895');
+      searchUrl.searchParams.set('pageIndex', '1');
+      searchUrl.searchParams.set('searchCondition', 'sjcn');
+      searchUrl.searchParams.set('searchKeyword', title);
+      urls.unshift(publicDisplayUrl(searchUrl.toString()));
+    }
+  } catch {
+    // Keep the original URL only.
+  }
+  return Array.from(new Set(urls.filter(Boolean)));
+}
+
+function findOfficialNoticeDetailUrl(html, baseUrl, title, company = '') {
+  const terms = noticeSearchTerms(title, company);
+  if (!terms.length) return '';
+  const linkPattern = /<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi;
+  for (const match of html.matchAll(linkPattern)) {
+    const href = match[1].replace(/&amp;/g, '&');
+    const anchorText = htmlText(match[2]);
+    if (matchNoticeTermCount(anchorText, terms) < Math.min(3, terms.length)) continue;
+    const directUrl = absoluteUrlFromHref(href, baseUrl);
+    if (directUrl) return directUrl;
+    const id = href.match(/(\d{5,})/)?.[1];
+    if (id) return bbsViewUrlFromId(baseUrl, id);
+  }
+
+  const strongestTerm = terms.find((term) => term.length >= 5) || terms[0];
+  const index = html.indexOf(strongestTerm);
+  if (index === -1) return '';
+  const context = html.slice(Math.max(0, index - 1200), index + 1600);
+  const id = context.match(/(?:bbsCnId|bbs_cn_id|cnId)[^0-9]{0,30}(\d{5,})/i)?.[1]
+    || context.match(/(?:bbsView|bbsPage|fn[A-Za-z0-9_]*|goView|view)[^0-9]{0,80}(\d{5,})/i)?.[1];
+  return id ? bbsViewUrlFromId(baseUrl, id) : '';
+}
+
+async function resolveOfficialNoticeUrl(candidateUrl, title, company = '') {
+  const cleanCandidateUrl = cleanUrl(candidateUrl);
+  if (!cleanCandidateUrl) return '';
+  for (const searchUrl of officialNoticeSearchUrls(cleanCandidateUrl, title)) {
+    try {
+      const html = await fetchWithTimeout(searchUrl, { timeoutMs: COMPANY_NOTICE_TIMEOUT_MS });
+      const detailUrl = findOfficialNoticeDetailUrl(html, searchUrl, title, company);
+      if (detailUrl) return detailUrl;
+      const text = htmlText(html).slice(0, 70000);
+      const terms = noticeSearchTerms(title, company);
+      const titleMatched = matchNoticeTermCount(text, terms) >= Math.min(3, terms.length);
+      const processMatched = includesAny(text, COMPANY_NOTICE_TERMS);
+      if (titleMatched && processMatched) return searchUrl;
+    } catch {
+      // Try the next official search URL before giving up.
+    }
+  }
+  return cleanCandidateUrl;
+}
+
+async function enrichCompanyNoticeChecks(rawItems, limit = 40) {
+  const candidates = rawItems
+    .filter((item) => item.companyNoticeUrl && !item.companyNoticeCheck)
+    .slice(0, limit);
+  await mapWithConcurrency(candidates, DETAIL_FETCH_CONCURRENCY, async (item) => {
+    item.companyNoticeCheck = await checkCompanyNoticeUrl(item.companyNoticeUrl, item.company, item.title);
+    return item;
+  });
 }
 
 function parseDate(value) {
@@ -2648,7 +3190,7 @@ async function fetchJobAlioDetail(row) {
   const processText = extractBetween(text, '전형절차/방법', '공고문');
   const deadline = String(row.deadline || '').match(/\d{2}\.\d{2}\.\d{2}|\d{4}\.\d{2}\.\d{2}/)?.[0] || period?.[2] || row.deadline;
   const publishedAt = row.registeredAt || period?.[1] || text.match(/등록일\s*(\d{4}\.\d{2}\.\d{2}|\d{2}\.\d{2}\.\d{2})/)?.[1] || '';
-  const companyNoticeUrl = originalUrl ? cleanUrl(originalUrl[1]) : '';
+  const companyNoticeUrl = await resolveOfficialNoticeUrl(originalUrl ? cleanUrl(originalUrl[1]) : '', row.title, row.company);
   const companyNoticeCheck = await checkCompanyNoticeUrl(companyNoticeUrl, row.company, row.title);
   const attachments = extractJobAlioAttachments(html);
 
@@ -3104,10 +3646,16 @@ async function fetchGenericConfiguredSource(id) {
     return disabledSource(id, source?.name || id, source?.message || '공식 연계 정보 확인 대기', source?.sourceUrl || '');
   }
 
-  const urls = configuredUrlsForSource(config);
+  const entries = officialFeedEntriesForSource(id, config);
+  const builtInFeedCount = entries.filter((entry) => entry.builtIn).length;
+  const configuredFeedCount = entries.filter((entry) => entry.configured).length;
+  const watchEmployers = Array.from(new Set(entries
+    .map((entry) => normalizeSpace(entry.employer))
+    .filter((name) => name && name !== '사용자 설정 공식 피드')))
+    .slice(0, 80);
   const key = readSecret(...(config.keySecrets || []));
-  const configured = urls.length > 0 || Boolean(key);
-  if (!urls.length) {
+  const configured = entries.length > 0 || Boolean(key);
+  if (!entries.length) {
     return {
       items: [],
       status: sourceStatus({ ...source, configured }, {
@@ -3121,35 +3669,104 @@ async function fetchGenericConfiguredSource(id) {
 
   const rawItems = [];
   const errors = [];
-  let successCount = 0;
-  for (const sourceUrl of urls) {
+  let checkedUrlCount = 0;
+  let reachabilityOnlyCount = 0;
+  const reachabilityOnlyEmployers = [];
+  const results = await mapWithConcurrency(entries, GENERIC_OFFICIAL_FEED_CONCURRENCY, async (entry) => {
     try {
-      const requestUrl = injectSecretIntoUrl(sourceUrl, key);
-      const body = await fetchWithTimeout(requestUrl, {
+      let sourceUrl = entry.url;
+      let requestUrl = injectSecretIntoUrl(sourceUrl, key);
+      let body = await fetchWithTimeout(requestUrl, {
+        timeoutMs: entry.builtIn ? OFFICIAL_WATCH_TIMEOUT_MS : REQUEST_TIMEOUT_MS,
         headers: {
           Accept: 'application/json,application/xml,text/xml,text/html;q=0.9,*/*;q=0.7',
           ...(key ? { Authorization: `Bearer ${key}`, 'X-API-Key': key } : {})
         }
       });
-      const records = parseGenericOfficialFeed(body, source, sourceUrl);
-      rawItems.push(...records);
-      successCount += 1;
+      for (let redirectCount = 0; redirectCount < 2; redirectCount += 1) {
+        const redirectUrl = extractHtmlRedirectUrl(body, sourceUrl);
+        if (!redirectUrl) break;
+        sourceUrl = redirectUrl;
+        requestUrl = injectSecretIntoUrl(sourceUrl, key);
+        body = await fetchWithTimeout(requestUrl, {
+          timeoutMs: entry.builtIn ? OFFICIAL_WATCH_TIMEOUT_MS : REQUEST_TIMEOUT_MS,
+          headers: {
+            Accept: 'application/json,application/xml,text/xml,text/html;q=0.9,*/*;q=0.7',
+            ...(key ? { Authorization: `Bearer ${key}`, 'X-API-Key': key } : {})
+          }
+        });
+      }
+      const records = parseGenericOfficialFeed(body, source, sourceUrl, entry);
+      return {
+        ok: true,
+        entry,
+        records,
+        recordCount: records.length,
+        url: safePublicFeedUrl(sourceUrl)
+      };
     } catch (error) {
-      errors.push(error.message);
+      const reachableOnly = entry.builtIn
+        ? await checkUrlReachable(entry.url, {
+          headers: {
+            Accept: 'application/json,application/xml,text/xml,text/html;q=0.9,*/*;q=0.7',
+            ...(key ? { Authorization: `Bearer ${key}`, 'X-API-Key': key } : {})
+          }
+        }, OFFICIAL_WATCH_TIMEOUT_MS)
+        : false;
+      if (reachableOnly) {
+        return {
+          ok: true,
+          entry,
+          records: [],
+          recordCount: 0,
+          url: safePublicFeedUrl(entry.url),
+          reachabilityOnly: true
+        };
+      }
+      return {
+        ok: false,
+        entry,
+        records: [],
+        recordCount: 0,
+        url: safePublicFeedUrl(entry.url),
+        error: sanitizeFetchErrorMessage(error.message)
+      };
+    }
+  });
+
+  for (const result of results) {
+    if (result.ok) {
+      checkedUrlCount += 1;
+      if (result.reachabilityOnly) {
+        reachabilityOnlyCount += 1;
+        reachabilityOnlyEmployers.push(result.entry.employer || result.url);
+      }
+      rawItems.push(...result.records);
+    } else {
+      errors.push(`${result.entry.employer || result.url}: ${result.error}`);
     }
   }
 
+  await enrichCompanyNoticeChecks(rawItems);
   const normalized = rawItems.map(normalizeItem).filter(shouldKeep);
-  const ok = successCount > 0 && errors.length < urls.length;
+  const ok = checkedUrlCount > 0 && errors.length < entries.length;
   return {
     items: normalized,
     status: sourceStatus({ ...source, configured: true }, {
       ok,
       itemCount: normalized.length,
       scannedCount: rawItems.length,
-      configuredFeedCount: urls.length,
+      configuredFeedCount,
+      builtInFeedCount,
+      watchEmployerCount: watchEmployers.length,
+      watchEmployers,
+      checkedUrlCount,
+      reachabilityOnlyCount,
+      reachabilityOnlyEmployers,
+      failedUrlCount: errors.length,
+      watchFailures: errors.slice(0, 12),
       message: ok
-        ? `공식 설정 피드 ${successCount}/${urls.length}개 확인, 후보 ${normalized.length}건`
+        ? `공식 채용 페이지 ${checkedUrlCount}/${entries.length}개 감시, 후보 ${normalized.length}건, 접속확인전용 ${reachabilityOnlyCount}개, 실패 ${errors.length}개`
         : `연결 실패: ${errors.slice(0, 2).join('; ')}`
     })
   };
@@ -3165,14 +3782,20 @@ async function pendingCatalogSources() {
 
 function sourceSecretState(source, status) {
   const onboarding = SOURCE_ONBOARDING[source.id] || {};
-  const requiredSecrets = secretNamesForSource(source);
+  const allSecrets = secretNamesForSource(source);
+  const genericConfig = GENERIC_OFFICIAL_SOURCE_CONFIG[source.id];
+  const builtInFeedCount = genericConfig
+    ? officialFeedEntriesForSource(source.id, genericConfig).filter((entry) => entry.builtIn).length
+    : builtInOfficialFeedEntriesForSource(source.id).length;
+  const requiredSecrets = builtInFeedCount ? [] : allSecrets;
+  const optionalSecretNames = builtInFeedCount ? allSecrets : [];
   const configuredSecrets = requiredSecrets.filter(hasSecret);
   const missingSecrets = requiredSecrets.filter((secretName) => !hasSecret(secretName));
-  const genericConfig = GENERIC_OFFICIAL_SOURCE_CONFIG[source.id];
+  const configuredOptionalSecrets = optionalSecretNames.filter(hasSecret);
   const urlSecrets = genericConfig?.urlSecrets || [];
   const configuredUrls = genericConfig ? configuredUrlsForSource(genericConfig).length : 0;
   const keySecrets = genericConfig?.keySecrets || [];
-  const requiredUrlReady = !urlSecrets.length || configuredUrls > 0;
+  const requiredUrlReady = !urlSecrets.length || configuredUrls > 0 || builtInFeedCount > 0;
   const keyReady = !keySecrets.length || keySecrets.some(hasSecret);
   const activeWithoutSecret = source.status === 'active' && !requiredSecrets.length;
   const ready = activeWithoutSecret
@@ -3190,9 +3813,12 @@ function sourceSecretState(source, status) {
     readiness: source.status,
     type: source.type,
     requiredSecrets,
+    optionalSecretNames,
     configuredSecretNames: configuredSecrets,
+    configuredOptionalSecretNames: configuredOptionalSecrets,
     missingSecretNames: missingSecrets,
     configuredFeedCount: configuredUrls,
+    builtInFeedCount,
     setupStatus: ready ? 'ready' : configuredSecrets.length || configuredUrls ? 'partial' : 'missing',
     canAttemptImmediately: ready,
     adapter: source.status === 'active' ? 'native' : genericConfig ? 'generic-official-feed' : 'pending',
@@ -3452,6 +4078,9 @@ async function main() {
         company: item.company,
         deadline: item.deadline
       })),
+      financeLargeCompanyOfficialWatchCount: FINANCE_LARGE_COMPANY_OFFICIAL_WATCHLIST.length,
+      financeLargeCompanyOfficialWatchEmployers: FINANCE_LARGE_COMPANY_OFFICIAL_WATCHLIST.map((entry) => entry.employer),
+      financeLargeCompanySignalRule: '대기업·1금융·2금융 공식 채용 페이지에서 고졸·특성화고·졸업예정·학력무관·기술직·생산직·행원 등 응시 가능 신호와 채용 신호가 함께 확인될 때만 후보로 정규화한다.',
       seoulHighJobScanPages: SEOUL_HIGHJOB_SCAN_PAGES,
       primarySourceRule: '회사·기관 자체 홈페이지 또는 채용대행 공식 공고를 최우선 원문으로 사용하고, 잡알리오·고용24·사람인 등은 보완 출처로 사용한다.'
     },

@@ -16,11 +16,24 @@ const MAX_FEED_AGE_HOURS = 48;
 const APPLICATION_CLOSED_RETAIN_DAYS = 21;
 const HIGH_SCHOOL_STRONG_TERMS = ['고졸', '특성화고', '직업계고', '마이스터고', '학교장 추천', '학교장추천'];
 const ENTRY_LEVEL_TERMS = ['고졸', '고등학교', '특성화고', '직업계고', '마이스터고', '졸업예정', '졸업 예정', '학교장 추천', '학교장추천', '고졸제한', '고졸 제한', '사회형평 고졸', '신입', '경력무관', '신입+경력', '신입·경력', '청년인턴', '채용형 인턴', '공무직', '업무지원직', '기간제', '9급', '지역인재', '기능인재'];
-const SENIOR_ROLE_PATTERN = /(원장|센터장|기관장|본부장|부원장|개방형\s*직위|전문계약직|연봉계약직|임원|상임감사|비상임감사|감사위원|이사장|대표이사)/;
+const SENIOR_ROLE_PATTERN = /(원장|센터장|기관장|본부장|부원장|교장|공모교장|교감|원감|개방형\s*직위|전문계약직|연봉계약직|임원|상임감사|비상임감사|감사위원|이사장|대표이사)/;
 const RESTRICTED_ROLE_PATTERN = /(관리직|별정직|책임연구원|선임연구원|교수)/;
 const ADVANCED_EDU_PATTERN = /(대졸\s*이상|대졸\([^)]*\)|전문대졸|4년제|대학교\s*졸업|학사\s*이상|석사|박사)/;
 const PROFESSIONAL_ONLY_PATTERN = /(전문의|의사|약사|간호사|방사선사|공인회계사|회계사|변호사|세무사|노무사|법무사|건축사|정교사|교원자격|교사\s*자격|보육교사|면허\s*소지|기술사)/;
 const PAID_TEASER_COPY_PHRASES = ['무료', '첫 챕터', '공개'].map((prefix) => `${prefix} 맛보기`);
+const MIN_FINANCE_LARGE_COMPANY_WATCH_COUNT = 35;
+const REQUIRED_FINANCE_LARGE_COMPANY_WATCH_EMPLOYERS = [
+  '삼성',
+  '현대자동차',
+  'SK하이닉스',
+  'LG',
+  '포스코',
+  'KB국민은행',
+  '신한은행',
+  '하나은행',
+  '우리은행',
+  'NH농협은행'
+];
 const REQUIRED_CURRENT_CRITICAL_RECRUITS = [
   {
     id: 'kepco-2026-highschool-4grade',
@@ -269,7 +282,7 @@ async function validateWorkflow() {
   fail('workflow.schedule-3x-kst', workflow.includes('10 0,5,10 * * *'), '공채 자동 수집이 하루 3회 KST 기준으로 예약되어 있습니다.');
   fail('workflow.manual-dispatch', workflow.includes('workflow_dispatch'), '수동 재실행 트리거가 있습니다.');
   fail('workflow.syntax-gate', workflow.includes('node --check tools/fetch_vocational_jobs.mjs'), '수집 전 문법 검사를 실행합니다.');
-  for (const name of ['DATA_GO_KR_SERVICE_KEY', 'MPM_PUBLIC_JOB_SERVICE_KEY', 'MOEF_PUBLIC_RECRUIT_SERVICE_KEY', 'SARAMIN_ACCESS_KEY', 'EDU_JOB_CENTER_FEEDS']) {
+  for (const name of ['DATA_GO_KR_SERVICE_KEY', 'MPM_PUBLIC_JOB_SERVICE_KEY', 'MOEF_PUBLIC_RECRUIT_SERVICE_KEY', 'SARAMIN_ACCESS_KEY', 'EDU_JOB_CENTER_FEEDS', 'FINANCE_RECRUIT_FEEDS', 'LARGE_COMPANY_RECRUIT_FEEDS']) {
     fail(`workflow.secret.${name}`, workflow.includes(name), `${name} Secret 이름이 워크플로에 연결되어 있습니다.`);
   }
 }
@@ -429,9 +442,17 @@ function validateFeed(feed, label = 'local') {
 
   const readySources = sourceStatus.filter((source) => source.configured && source.ok).length;
   const jobAlioStatus = sourceStatus.find((source) => source.id === 'job-alio-openapi');
+  const financeLargeCompanyStatus = sourceStatus.find((source) => source.id === 'finance-large-company-recruit');
+  const watchedEmployers = Array.isArray(financeLargeCompanyStatus?.watchEmployers) ? financeLargeCompanyStatus.watchEmployers : [];
+  const missingWatchEmployers = REQUIRED_FINANCE_LARGE_COMPANY_WATCH_EMPLOYERS
+    .filter((employer) => !watchedEmployers.some((watched) => String(watched).includes(employer) || employer.includes(String(watched))));
   fail(`${label}.sources.job-alio-ok`, Boolean(jobAlioStatus?.ok), `${label} 잡알리오 공식 채용 수집원이 정상 동작합니다.`, jobAlioStatus?.message || '');
   fail(`${label}.sources.job-alio-expanded-scan`, Number(jobAlioStatus?.scanTargetCount || 0) >= 10 && Number(jobAlioStatus?.candidateRowCount || 0) >= requiredCritical.length, `${label} 잡알리오는 첫 페이지만이 아니라 검색어·핵심기관 경로를 함께 훑습니다.`, `scanTarget=${jobAlioStatus?.scanTargetCount || 0}, candidate=${jobAlioStatus?.candidateRowCount || 0}`);
   fail(`${label}.sources.job-alio-critical-coverage`, (jobAlioStatus?.criticalCoverage?.missingCurrent || []).length === 0, `${label} 잡알리오 핵심 공고 감시 대상 누락이 없습니다.`, (jobAlioStatus?.criticalCoverage?.missingCurrent || []).map((job) => `${job.company}:${job.idx}`).join(', '));
+  fail(`${label}.sources.finance-large-company-ok`, Boolean(financeLargeCompanyStatus?.ok), `${label} 금융권·대기업 공식 채용 페이지 감시원이 정상 동작합니다.`, financeLargeCompanyStatus?.message || '');
+  fail(`${label}.sources.finance-large-company-watch-count`, Number(financeLargeCompanyStatus?.watchEmployerCount || 0) >= MIN_FINANCE_LARGE_COMPANY_WATCH_COUNT && Number(financeLargeCompanyStatus?.builtInFeedCount || 0) >= MIN_FINANCE_LARGE_COMPANY_WATCH_COUNT, `${label} 대기업·1금융·2금융 공식 채용 감시 대상이 충분합니다.`, `watch=${financeLargeCompanyStatus?.watchEmployerCount || 0}, builtIn=${financeLargeCompanyStatus?.builtInFeedCount || 0}`);
+  fail(`${label}.sources.finance-large-company-required-watch`, missingWatchEmployers.length === 0, `${label} 핵심 대기업·금융권 공식 채용 채널이 감시 목록에 포함되어 있습니다.`, missingWatchEmployers.join(', '));
+  warn(`${label}.sources.finance-large-company-url-failures`, Number(financeLargeCompanyStatus?.checkedUrlCount || 0) >= Math.ceil(Number(financeLargeCompanyStatus?.builtInFeedCount || 0) * 0.5), `${label} 금융권·대기업 공식 채용 페이지 절반 이상에 접속했습니다.`, `checked=${financeLargeCompanyStatus?.checkedUrlCount || 0}, failed=${financeLargeCompanyStatus?.failedUrlCount || 0}`);
   warn(`${label}.sources.ready-count`, readySources >= 2, `${label} 현재 정상 수집 가능한 공식 소스가 2개 이상입니다.`, `${readySources}개`);
   warn(`${label}.sources.public-data-next`, secretReadiness.easiestNextAction?.id === 'mpm-public-job' || secretReadiness.readySources > 2, `${label} 다음 확장 우선순위가 인사혁신처 공공취업 API입니다.`, secretReadiness.easiestNextAction?.id || '');
 
