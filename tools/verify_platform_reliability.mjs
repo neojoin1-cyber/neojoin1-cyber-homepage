@@ -16,6 +16,7 @@ const SENIOR_ROLE_PATTERN = /(원장|센터장|기관장|본부장|부원장|개
 const RESTRICTED_ROLE_PATTERN = /(관리직|별정직|책임연구원|선임연구원|교수)/;
 const ADVANCED_EDU_PATTERN = /(대졸\s*이상|대졸\([^)]*\)|전문대졸|4년제|대학교\s*졸업|학사\s*이상|석사|박사)/;
 const PROFESSIONAL_ONLY_PATTERN = /(전문의|의사|약사|간호사|방사선사|공인회계사|회계사|변호사|세무사|노무사|법무사|건축사|면허\s*소지|기술사)/;
+const PAID_TEASER_COPY_PHRASES = ['무료', '첫 챕터', '공개'].map((prefix) => `${prefix} 맛보기`);
 
 const checks = [];
 
@@ -83,6 +84,10 @@ function indexOrder(text, needles) {
     cursor = next;
   }
   return true;
+}
+
+function hasPaidTeaserCopy(text) {
+  return PAID_TEASER_COPY_PHRASES.some((phrase) => text.includes(phrase));
 }
 
 function sectionBetween(text, start, end) {
@@ -228,8 +233,9 @@ async function validateHomepage() {
   fail('home.feed-no-store', html.includes("cache: 'no-store'"), '공채 피드는 브라우저 캐시를 피해서 읽습니다.');
   fail('home.law-link', html.includes('https://gyo6-law-info.web.app'), '법률정보 시스템 연결 URL이 유지되어 있습니다.');
   fail('home.ebook-link', html.includes('https://gyo6--ebook.web.app/'), '전자책 서재 연결 URL이 유지되어 있습니다.');
-  fail('home.ebook-preview-list-count', ebookPreviewCount > 5 && ebookPreviewCount <= 8, '메인 전자책 맛보기 목록은 5권보다 많고 최대 8권까지 표시합니다.', `${ebookPreviewCount}권`);
-  fail('home.ebook-preview-latest-title', ebookPreviewSection.includes('품질경영 L3 외부평가 문제풀이') && ebookPreviewSection.includes('식음료서비스 L3 수업용 교재(자율학습용)') && ebookPreviewSection.includes('NCS직업기초능력 1권'), '메인 전자책 맛보기 목록에 최신 공개 교재 제목이 반영되어 있습니다.');
+  fail('home.ebook-preview-list-count', ebookPreviewCount > 5 && ebookPreviewCount <= 8, '메인 전자책 맛보기 강좌 목록은 5권보다 많고 최대 8권까지 표시합니다.', `${ebookPreviewCount}권`);
+  fail('home.ebook-preview-latest-title', ebookPreviewSection.includes('품질경영 L3 외부평가 문제풀이') && ebookPreviewSection.includes('식음료서비스 L3 수업용 교재(자율학습용)') && ebookPreviewSection.includes('NCS직업기초능력 1권'), '메인 전자책 맛보기 강좌 목록에 최신 공개 교재 제목이 반영되어 있습니다.');
+  fail('home.ebook-no-paid-teaser-copy', !hasPaidTeaserCopy(html), '전자책 안내에서 유료 전환처럼 보일 수 있는 맛보기 표현을 쓰지 않습니다.');
   fail('home.closed-label', html.includes('application_closed') && html.includes('원서 마감'), '원서 마감 상태 표시 로직이 있습니다.');
   fail('home.teacher-briefing-ui', html.includes('취업부 브리핑') && html.includes('teacherBriefing'), '공채 카드에 취업부 브리핑 UI가 연결되어 있습니다.');
   fail('home.hero-image-versioned', /platform-hero-vocational\.png\?v=/.test(html), '플랫폼 대표 이미지에 캐시 버전이 붙어 있습니다.');
@@ -269,9 +275,12 @@ async function validateHomepage() {
 
 async function validateDirectionDocs() {
   const direction = await readText('docs/PROJECT_DIRECTION.md');
+  const bookshelfPlan = await readText('docs/BOOKSHELF_MVP_PLAN.md');
   fail('docs.direction-three-axis', direction.includes('직업계고 공채정보, 전자책 서재, 법률정보를 플랫폼의 3대 핵심 축으로 둔다'), '프로젝트 방향 문서가 3대 핵심 축을 명시합니다.');
   fail('docs.direction-company-scope', direction.includes('기업정보는 별도 서비스 축으로 키우지 않고'), '기업정보를 별도 축으로 확장하지 않는 범위 통제가 문서화되어 있습니다.');
   fail('docs.direction-no-old-expansion-axis', !direction.includes('AI 도구, 기록 보관소') && !direction.includes('기업자료'), '방향 문서에서 이전 확장축 표현이 제거되어 있습니다.');
+  fail('docs.bookshelf-free-policy', bookshelfPlan.includes('전자책은 무료 제공을 전제로 하되') && bookshelfPlan.includes('학교별 회원 승인과 사용량 제한'), '전자책 서재 계획 문서가 무료 제공과 학교별 사용량 통제 원칙을 명시합니다.');
+  fail('docs.bookshelf-no-paid-teaser-copy', !hasPaidTeaserCopy(bookshelfPlan), '전자책 서재 계획 문서에서 유료 전환처럼 보일 수 있는 맛보기 표현을 쓰지 않습니다.');
 }
 
 function validateFeed(feed, label = 'local') {
