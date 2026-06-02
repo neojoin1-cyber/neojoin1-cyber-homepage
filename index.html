@@ -361,7 +361,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
   background:rgba(255,255,255,0.97);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
+  display:grid;grid-template-columns:minmax(190px,1fr) auto minmax(190px,1fr);align-items:center;
   padding:0 3.5%;height:var(--nav-h);
   transition:box-shadow .3s;
 }
@@ -372,13 +372,13 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
 .tnav-logo-text{font-family:'Noto Serif KR',serif;font-size:15px;font-weight:600;color:var(--navy);line-height:1.2}
 .tnav-logo-text span{color:var(--teal)}
 .tnav-logo-sub{font-size:10px;color:var(--muted);letter-spacing:.04em;margin-top:1px}
-.tnav-links{display:flex;align-items:center;gap:4px;flex:1;justify-content:center}
+.tnav-links{display:flex;align-items:center;gap:4px;justify-content:center}
 .tnav-links a,.tnav-actions a{color:#4a5a6a;text-decoration:none;font-size:13.5px;font-weight:700;padding:8px 13px;border-radius:9px;transition:all .18s;white-space:nowrap}
 .tnav-links a{color:#26394c}
 .tnav-actions a{font-size:13px;font-weight:700}
 .tnav-links a:hover,.tnav-actions a:hover{color:var(--navy);background:#f0f4f8}
 .tnav-links a.tactive,.tnav-actions a.tactive{color:#fff !important;background:var(--navy) !important;font-weight:800}
-.tnav-actions{display:flex;align-items:center;gap:7px;flex-shrink:0}
+.tnav-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex-shrink:0}
 .tnav-login{border:1px solid var(--border);background:#fff}
 .tnav-owner-link{background:#eef8f5;color:#0b6e61!important;border:1px solid #d3e9e3}
 .tnav-drop{position:relative}
@@ -2333,11 +2333,28 @@ document.addEventListener('keydown', function(e) {
       p.style.display = (p.id === 'page-home') ? 'block' : 'none';
     });
   }
-  // topnav 홈 활성화
-  var el = document.getElementById('tnav-home');
-  if (el) el.classList.add('tactive');
+  var handledHash = false;
+  if (location.hash === '#job-hub-home') {
+    showPage('home', 'job-hub-home');
+    handledHash = true;
+  } else if (location.hash === '#owner-top') {
+    showPage('owner', 'owner-top');
+    handledHash = true;
+  }
+  if (!handledHash) {
+    var el = document.getElementById('tnav-home');
+    if (el) el.classList.add('tactive');
+  }
   loadJobFeed();
 })();
+
+window.addEventListener('hashchange', function() {
+  if (location.hash === '#job-hub-home') {
+    showPage('home', 'job-hub-home');
+  } else if (location.hash === '#owner-top') {
+    showPage('owner', 'owner-top');
+  }
+});
 </script>
 </body>
 </html>
