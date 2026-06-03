@@ -34,6 +34,16 @@ const REQUIRED_FINANCE_LARGE_COMPANY_WATCH_EMPLOYERS = [
   '우리은행',
   'NH농협은행'
 ];
+const MIN_REGIONAL_EDUCATION_WATCH_COUNT = 7;
+const REQUIRED_REGIONAL_EDUCATION_WATCH_EMPLOYERS = [
+  '인천광역시교육청',
+  '경기도교육청',
+  '울산광역시교육청',
+  '충청북도교육청',
+  '경상북도교육청',
+  '세종특별자치시교육청',
+  '제주특별자치도교육청'
+];
 const REQUIRED_CURRENT_CRITICAL_RECRUITS = [
   {
     id: 'kepco-2026-highschool-4grade',
@@ -443,9 +453,13 @@ function validateFeed(feed, label = 'local') {
   const readySources = sourceStatus.filter((source) => source.configured && source.ok).length;
   const jobAlioStatus = sourceStatus.find((source) => source.id === 'job-alio-openapi');
   const financeLargeCompanyStatus = sourceStatus.find((source) => source.id === 'finance-large-company-recruit');
+  const regionalEducationStatus = sourceStatus.find((source) => source.id === 'regional-education-job');
   const watchedEmployers = Array.isArray(financeLargeCompanyStatus?.watchEmployers) ? financeLargeCompanyStatus.watchEmployers : [];
   const missingWatchEmployers = REQUIRED_FINANCE_LARGE_COMPANY_WATCH_EMPLOYERS
     .filter((employer) => !watchedEmployers.some((watched) => String(watched).includes(employer) || employer.includes(String(watched))));
+  const watchedRegionalEmployers = Array.isArray(regionalEducationStatus?.watchEmployers) ? regionalEducationStatus.watchEmployers : [];
+  const missingRegionalWatchEmployers = REQUIRED_REGIONAL_EDUCATION_WATCH_EMPLOYERS
+    .filter((employer) => !watchedRegionalEmployers.some((watched) => String(watched).includes(employer) || employer.includes(String(watched))));
   fail(`${label}.sources.job-alio-ok`, Boolean(jobAlioStatus?.ok), `${label} 잡알리오 공식 채용 수집원이 정상 동작합니다.`, jobAlioStatus?.message || '');
   fail(`${label}.sources.job-alio-expanded-scan`, Number(jobAlioStatus?.scanTargetCount || 0) >= 10 && Number(jobAlioStatus?.candidateRowCount || 0) >= requiredCritical.length, `${label} 잡알리오는 첫 페이지만이 아니라 검색어·핵심기관 경로를 함께 훑습니다.`, `scanTarget=${jobAlioStatus?.scanTargetCount || 0}, candidate=${jobAlioStatus?.candidateRowCount || 0}`);
   fail(`${label}.sources.job-alio-critical-coverage`, (jobAlioStatus?.criticalCoverage?.missingCurrent || []).length === 0, `${label} 잡알리오 핵심 공고 감시 대상 누락이 없습니다.`, (jobAlioStatus?.criticalCoverage?.missingCurrent || []).map((job) => `${job.company}:${job.idx}`).join(', '));
@@ -453,6 +467,10 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.sources.finance-large-company-watch-count`, Number(financeLargeCompanyStatus?.watchEmployerCount || 0) >= MIN_FINANCE_LARGE_COMPANY_WATCH_COUNT && Number(financeLargeCompanyStatus?.builtInFeedCount || 0) >= MIN_FINANCE_LARGE_COMPANY_WATCH_COUNT, `${label} 대기업·1금융·2금융 공식 채용 감시 대상이 충분합니다.`, `watch=${financeLargeCompanyStatus?.watchEmployerCount || 0}, builtIn=${financeLargeCompanyStatus?.builtInFeedCount || 0}`);
   fail(`${label}.sources.finance-large-company-required-watch`, missingWatchEmployers.length === 0, `${label} 핵심 대기업·금융권 공식 채용 채널이 감시 목록에 포함되어 있습니다.`, missingWatchEmployers.join(', '));
   warn(`${label}.sources.finance-large-company-url-failures`, Number(financeLargeCompanyStatus?.checkedUrlCount || 0) >= Math.ceil(Number(financeLargeCompanyStatus?.builtInFeedCount || 0) * 0.5), `${label} 금융권·대기업 공식 채용 페이지 절반 이상에 접속했습니다.`, `checked=${financeLargeCompanyStatus?.checkedUrlCount || 0}, failed=${financeLargeCompanyStatus?.failedUrlCount || 0}`);
+  fail(`${label}.sources.regional-education-ok`, Boolean(regionalEducationStatus?.ok), `${label} 지역별 교육청 취업지원센터 감시원이 정상 동작합니다.`, regionalEducationStatus?.message || '');
+  fail(`${label}.sources.regional-education-watch-count`, Number(regionalEducationStatus?.watchEmployerCount || 0) >= MIN_REGIONAL_EDUCATION_WATCH_COUNT && Number(regionalEducationStatus?.builtInFeedCount || 0) >= MIN_REGIONAL_EDUCATION_WATCH_COUNT, `${label} 지역 교육청 공식 취업지원센터 감시 대상이 충분합니다.`, `watch=${regionalEducationStatus?.watchEmployerCount || 0}, builtIn=${regionalEducationStatus?.builtInFeedCount || 0}`);
+  fail(`${label}.sources.regional-education-required-watch`, missingRegionalWatchEmployers.length === 0, `${label} 핵심 시도교육청 취업지원센터가 감시 목록에 포함되어 있습니다.`, missingRegionalWatchEmployers.join(', '));
+  warn(`${label}.sources.regional-education-url-failures`, Number(regionalEducationStatus?.checkedUrlCount || 0) >= Math.ceil(Number(regionalEducationStatus?.builtInFeedCount || 0) * 0.5), `${label} 지역 교육청 공식 취업지원센터 절반 이상에 접속했습니다.`, `checked=${regionalEducationStatus?.checkedUrlCount || 0}, failed=${regionalEducationStatus?.failedUrlCount || 0}`);
   warn(`${label}.sources.ready-count`, readySources >= 2, `${label} 현재 정상 수집 가능한 공식 소스가 2개 이상입니다.`, `${readySources}개`);
   warn(`${label}.sources.public-data-next`, secretReadiness.easiestNextAction?.id === 'mpm-public-job' || secretReadiness.readySources > 2, `${label} 다음 확장 우선순위가 인사혁신처 공공취업 API입니다.`, secretReadiness.easiestNextAction?.id || '');
 

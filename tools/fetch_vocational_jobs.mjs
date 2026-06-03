@@ -265,6 +265,62 @@ const OFFICIAL_HTML_SKIP_LINK_TERMS = [
   '채용절차'
 ];
 
+const REGIONAL_EDUCATION_RECRUIT_LINK_TERMS = [
+  '채용공고',
+  '채용 정보',
+  '채용정보',
+  '채용의뢰',
+  '구인정보',
+  '구인',
+  '취업정보',
+  '모집공고',
+  '원서접수',
+  '입사지원',
+  '지원서',
+  '공채',
+  '일자리'
+];
+
+const REGIONAL_EDUCATION_CONCRETE_POST_TERMS = [
+  '접수기간',
+  '원서접수',
+  '접수마감',
+  '마감',
+  '채용부문',
+  '채용분야',
+  '모집분야',
+  '지원자격',
+  '응시자격',
+  '전형일정',
+  '필기',
+  '면접',
+  '첨부',
+  '붙임',
+  '공고문',
+  '직무기술서'
+];
+
+const REGIONAL_EDUCATION_SKIP_LINK_TERMS = [
+  '특성화고란',
+  '학교소개',
+  '세종미래고등학교',
+  '세종여자고등학교',
+  '세종장영실고등학교',
+  '직업계고학점제',
+  'NCS기반교육과정',
+  '직업기초능력평가',
+  '글로벌현장학습',
+  '학습중심현장실습',
+  '일반고직업교육위탁과정',
+  '선취업후학습',
+  '현장실습운영',
+  '취업처발굴',
+  '홍보자료',
+  '보도자료',
+  '자료실',
+  '찾아오시는길'
+];
+
 const FINANCE_LARGE_COMPANY_OFFICIAL_WATCHLIST = [
   { employer: '삼성', group: 'large-company', url: 'https://www.samsungcareers.com/', tags: ['대기업', '그룹공채'] },
   { employer: '현대자동차', group: 'large-company', url: 'https://talent.hyundai.com/main/main.hc', tags: ['대기업', '완성차'] },
@@ -310,8 +366,21 @@ const FINANCE_LARGE_COMPANY_OFFICIAL_WATCHLIST = [
   { employer: '저축은행중앙회', group: 'finance', url: 'https://www.fsb.or.kr/index.act', tags: ['2금융권'] }
 ];
 
+const REGIONAL_EDUCATION_OFFICIAL_WATCHLIST = [
+  { employer: '인천광역시교육청 직업계고 취업지원센터', group: 'education-office', url: 'https://www.ice.go.kr/jci/main.do', tags: ['교육청', '직업계고', '채용정보'] },
+  { employer: '경기도교육청 취창업지원센터', group: 'education-office', url: 'https://more.goe.go.kr/gajago/index.do', tags: ['교육청', '직업계고', '취창업지원'] },
+  { employer: '울산광역시교육청 취업지원센터', group: 'education-office', url: 'https://use.go.kr/jobgo/index.do', tags: ['교육청', '직업계고', '채용정보'] },
+  { employer: '충청북도교육청 취업지원센터', group: 'education-office', url: 'https://www.cbe.go.kr/job/', tags: ['교육청', '직업계고', '고졸채용'] },
+  { employer: '경상북도교육청 취업지원센터', group: 'education-office', url: 'https://www.gbe.kr/cheerup/main.do', tags: ['교육청', '직업계고', '채용정보'] },
+  { employer: '세종특별자치시교육청 취업지원센터', group: 'education-office', url: 'https://www.sje.go.kr/job/main.do', tags: ['교육청', '직업계고', '취업지원'] },
+  { employer: '제주특별자치도교육청 취업지원센터', group: 'education-office', url: 'https://www.jje.go.kr/job/', tags: ['교육청', '직업계고', '채용정보'] },
+  { employer: '경상남도교육청 취업지원센터', group: 'education-office', url: 'https://jinhak.gne.go.kr/hi-job/contents.do?MID=040700', tags: ['교육청', '직업계고', '채용정보'] },
+  { employer: '부산광역시교육청 취업지원센터', group: 'education-office', url: 'https://www.pen.go.kr/main/cm/cntnts/cntntsView.do?cntntsId=634&mi=31900', tags: ['교육청', '직업계고', '채용의뢰'] }
+];
+
 const BUILT_IN_OFFICIAL_FEEDS = {
-  'finance-large-company-recruit': FINANCE_LARGE_COMPANY_OFFICIAL_WATCHLIST
+  'finance-large-company-recruit': FINANCE_LARGE_COMPANY_OFFICIAL_WATCHLIST,
+  'regional-education-job': REGIONAL_EDUCATION_OFFICIAL_WATCHLIST
 };
 
 const GENERIC_OFFICIAL_SOURCE_CONFIG = {
@@ -348,7 +417,7 @@ const GENERIC_OFFICIAL_SOURCE_CONFIG = {
   'regional-education-job': {
     urlSecrets: ['EDU_JOB_CENTER_FEEDS'],
     keySecrets: [],
-    setupHint: '교육청 취업지원센터 공식 RSS/API URL 묶음을 EDU_JOB_CENTER_FEEDS에 줄바꿈 또는 쉼표로 저장하면 지역 피드를 순회한다.'
+    setupHint: '기본 내장 감시 목록으로 주요 시도교육청 취업지원센터를 확인하며, 추가 공식 RSS/API URL은 EDU_JOB_CENTER_FEEDS에 저장해 확장한다.'
   },
   'finance-large-company-recruit': {
     urlSecrets: ['FINANCE_RECRUIT_FEEDS', 'LARGE_COMPANY_RECRUIT_FEEDS'],
@@ -451,12 +520,12 @@ const SOURCE_ONBOARDING = {
   },
   'regional-education-job': {
     priority: 'P1',
-    actionLabel: '교육청 취업지원센터 피드 묶음 등록',
-    impact: '지역별 특성화고 취업지원센터 소식을 한곳으로 모으는 기반이다.',
+    actionLabel: '교육청 취업지원센터 상시 감시',
+    impact: '지역별 특성화고 취업지원센터 소식과 교육청 매칭형 채용정보를 한곳으로 모으는 기반이다.',
     easySteps: [
-      '교육청별 공식 RSS/API/게시판 피드 URL을 확인한다.',
-      '여러 URL을 줄바꿈 또는 쉼표로 묶어 EDU_JOB_CENTER_FEEDS Secret에 저장한다.',
-      '공식 피드 구조가 확인되면 지역별 어댑터로 정확도를 높인다.'
+      '기본 실행만으로 주요 시도교육청 취업지원센터 공식 페이지를 매일 3회 감시한다.',
+      '추가 교육청 공식 RSS/API/게시판 URL은 줄바꿈 또는 쉼표로 묶어 EDU_JOB_CENTER_FEEDS Secret에 저장한다.',
+      '공식 피드 구조가 확인되는 지역은 전용 어댑터로 정확도를 높인다.'
     ]
   },
   'jobkorea-rookie': {
@@ -658,13 +727,13 @@ const SOURCE_CATALOG = [
   {
     id: 'regional-education-job',
     name: '지역별 교육청 취업지원센터',
-    type: 'official-channel-pending',
+    type: 'official-watchlist',
     sourceUrl: '',
     group: 'education-office',
     trackHint: 'balanced',
     status: 'pending',
     secretNames: ['EDU_JOB_CENTER_FEEDS'],
-    message: '교육청별 공식 RSS/API/게시판 허용 범위 조사 후 지역 피드 묶음으로 연결'
+    message: '주요 시도교육청 취업지원센터 공식 페이지 내장 감시, 추가 피드 Secret 보강 가능'
   },
   {
     id: 'nonprofit-recruit',
@@ -1461,6 +1530,36 @@ function extractOfficialDeadlineText(text) {
   return dates.length >= 2 ? dates[dates.length - 1] : (dates[0] || '');
 }
 
+function compactKoreanText(value) {
+  return normalizeSpace(value).replace(/\s+/g, '');
+}
+
+function isRegionalEducationOfficialFeed(source, feedEntry = {}) {
+  return source?.id === 'regional-education-job' || feedEntry.group === 'education-office';
+}
+
+function regionalEducationLinkLooksRecruitable(evidenceText, anchorText, anchorOrHref, href, deadline) {
+  const compactAnchor = compactKoreanText(anchorText);
+  const compactAnchorOrHref = compactKoreanText(anchorOrHref);
+  const lowerHref = String(href || '').toLowerCase();
+  const hasRecruitWordInAnchor = includesAny(anchorOrHref, ['채용', '모집', '구인', '공채', '원서', '지원서']);
+  const skipInformational = REGIONAL_EDUCATION_SKIP_LINK_TERMS.some((term) => compactAnchorOrHref.includes(compactKoreanText(term)));
+  if (skipInformational && !hasRecruitWordInAnchor) return false;
+
+  const boardOnly = ['채용정보', '취업정보', '구인정보', '채용의뢰', '일자리'].some((term) => compactAnchor === term);
+  if (boardOnly) return false;
+
+  const hasRecruitTitle = includesAny(anchorOrHref, [...REGIONAL_EDUCATION_RECRUIT_LINK_TERMS, '채용', '모집'])
+    || /recruit|hire|apply|jobpost|employment/i.test(lowerHref);
+  const hasEligibility = includesAny(evidenceText, OFFICIAL_HTML_STRONG_HIGH_SCHOOL_SIGNALS)
+    || includesAny(anchorOrHref, OFFICIAL_HTML_STRONG_HIGH_SCHOOL_SIGNALS);
+  const hasConcretePost = Boolean(deadline)
+    || includesAny(evidenceText, REGIONAL_EDUCATION_CONCRETE_POST_TERMS)
+    || includesAny(anchorOrHref, ['채용공고', '모집공고', '원서접수', '입사지원', '지원서', '공채']);
+
+  return hasRecruitTitle && hasEligibility && hasConcretePost;
+}
+
 function officialHtmlHasRecruitCandidate(text, href = '') {
   const normalized = normalizeSpace(text);
   if (!normalized) return false;
@@ -1483,17 +1582,22 @@ function htmlLinkRecords(html, source, sourceUrl, publicSourceUrl, feedEntry = {
     if (!url || seen.has(url)) continue;
     const anchorText = cleanOfficialCandidateText(htmlText(match[2]));
     const context = cleanOfficialCandidateText(htmlText(html.slice(Math.max(0, match.index - 700), match.index + match[0].length + 900)));
-    const combined = cleanOfficialCandidateText([anchorText, context, feedEntry.employer, feedEntry.tags?.join(' ')].join(' '));
+    const evidenceText = cleanOfficialCandidateText([anchorText, context].join(' '));
+    const combined = cleanOfficialCandidateText([evidenceText, feedEntry.employer, feedEntry.tags?.join(' ')].join(' '));
     const anchorOrHref = cleanOfficialCandidateText([anchorText, href].join(' '));
     const hasRecruitAnchor = includesAny(anchorOrHref, OFFICIAL_HTML_RECRUIT_TERMS)
       || /recruit|career|careers|job|hire|apply|notice/i.test(href);
-    const hasStrongEligibilitySignal = includesAny(combined, OFFICIAL_HTML_STRONG_HIGH_SCHOOL_SIGNALS);
+    const hasStrongEligibilitySignal = includesAny(evidenceText, OFFICIAL_HTML_STRONG_HIGH_SCHOOL_SIGNALS);
     const hasAnchorEligibilitySignal = includesAny(anchorOrHref, OFFICIAL_HTML_STRONG_HIGH_SCHOOL_SIGNALS);
-    const deadline = extractOfficialDeadlineText(combined);
-    if (feedEntry.builtIn && (!hasRecruitAnchor || !hasStrongEligibilitySignal || (!deadline && !hasAnchorEligibilitySignal))) {
-      continue;
+    const deadline = extractOfficialDeadlineText(evidenceText);
+    if (feedEntry.builtIn) {
+      if (isRegionalEducationOfficialFeed(source, feedEntry)) {
+        if (!regionalEducationLinkLooksRecruitable(evidenceText, anchorText, anchorOrHref, href, deadline)) continue;
+      } else if (!hasRecruitAnchor || !hasStrongEligibilitySignal || (!deadline && !hasAnchorEligibilitySignal)) {
+        continue;
+      }
     }
-    if (!officialHtmlHasRecruitCandidate(combined, href)) continue;
+    if (!officialHtmlHasRecruitCandidate(evidenceText, href)) continue;
     seen.add(url);
 
     const fallbackTitle = `${feedEntry.employer || source.name} 고졸·졸업예정 채용 공고 원문 확인`;
@@ -4081,6 +4185,8 @@ async function main() {
       financeLargeCompanyOfficialWatchCount: FINANCE_LARGE_COMPANY_OFFICIAL_WATCHLIST.length,
       financeLargeCompanyOfficialWatchEmployers: FINANCE_LARGE_COMPANY_OFFICIAL_WATCHLIST.map((entry) => entry.employer),
       financeLargeCompanySignalRule: '대기업·1금융·2금융 공식 채용 페이지에서 고졸·특성화고·졸업예정·학력무관·기술직·생산직·행원 등 응시 가능 신호와 채용 신호가 함께 확인될 때만 후보로 정규화한다.',
+      regionalEducationOfficialWatchCount: REGIONAL_EDUCATION_OFFICIAL_WATCHLIST.length,
+      regionalEducationOfficialWatchEmployers: REGIONAL_EDUCATION_OFFICIAL_WATCHLIST.map((entry) => entry.employer),
       seoulHighJobScanPages: SEOUL_HIGHJOB_SCAN_PAGES,
       primarySourceRule: '회사·기관 자체 홈페이지 또는 채용대행 공식 공고를 최우선 원문으로 사용하고, 잡알리오·고용24·사람인 등은 보완 출처로 사용한다.'
     },
