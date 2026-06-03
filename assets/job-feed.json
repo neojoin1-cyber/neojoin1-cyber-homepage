@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "generatedAt": "2026-06-02T23:53:02.074Z",
+  "generatedAt": "2026-06-03T05:08:13.632Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 19:10 KST",
   "mode": "official-public-recruit-auto-registration",
@@ -11,8 +11,8 @@
     "applicationClosed": 8,
     "examFormal": 28,
     "directInterview": 12,
-    "companyNoticeChecked": 28,
-    "detailedPublicRecruit": 28,
+    "companyNoticeChecked": 24,
+    "detailedPublicRecruit": 24,
     "briefDirect": 12,
     "briefingReady": 40,
     "firstDayCollected": 0,
@@ -28,10 +28,10 @@
   },
   "collectionReview": {
     "status": "review_needed",
-    "generatedAt": "2026-06-02T23:53:02.074Z",
+    "generatedAt": "2026-06-03T05:08:13.632Z",
     "firstDayGoal": "공채는 게시 첫날 수집을 목표로 하며, 늦게 발견된 공고는 누락 점검 대상으로 기록한다.",
     "missedReviewCount": 12,
-    "officialNoticePendingCount": 0,
+    "officialNoticePendingCount": 4,
     "sourceGapCount": 9,
     "criticalGapCount": 0,
     "missedReviewItems": [
@@ -168,7 +168,52 @@
         "reviewReason": "공고 게시 후 1일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
       }
     ],
-    "officialNoticePendingItems": [],
+    "officialNoticePendingItems": [
+      {
+        "title": "2026년 한국도로공사 순찰직(안전순찰원) 인재영입 공고 [취업지원대상자 보훈전형](원서 마감)",
+        "company": "한국도로공사",
+        "sourceName": "잡알리오 공공기관 채용",
+        "publishedDate": "2026-05-12",
+        "firstSeenDate": "2026-06-03",
+        "detectionLagDays": 22,
+        "status": "application_closed",
+        "primaryOfficialUrl": "https://www.ex.co.kr/",
+        "reviewReason": "공고 게시 후 22일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      },
+      {
+        "title": "2026년 한국도로공사 실무직(상황관리원) 인재영입 공고 [취업지원대상자 보훈전형](원서 마감)",
+        "company": "한국도로공사",
+        "sourceName": "잡알리오 공공기관 채용",
+        "publishedDate": "2026-05-12",
+        "firstSeenDate": "2026-06-03",
+        "detectionLagDays": 22,
+        "status": "application_closed",
+        "primaryOfficialUrl": "https://www.ex.co.kr/",
+        "reviewReason": "공고 게시 후 22일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      },
+      {
+        "title": "2026년 한국도로공사 실무직(상황관리원) 인재영입 공고 [일반전형](원서 마감)",
+        "company": "한국도로공사",
+        "sourceName": "잡알리오 공공기관 채용",
+        "publishedDate": "2026-05-12",
+        "firstSeenDate": "2026-06-03",
+        "detectionLagDays": 22,
+        "status": "application_closed",
+        "primaryOfficialUrl": "https://www.ex.co.kr/",
+        "reviewReason": "공고 게시 후 22일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      },
+      {
+        "title": "2026년 한국도로공사 실무직(사무원) 인재영입 공고 [취업지원대상자 보훈전형](원서 마감)",
+        "company": "한국도로공사",
+        "sourceName": "잡알리오 공공기관 채용",
+        "publishedDate": "2026-05-12",
+        "firstSeenDate": "2026-06-03",
+        "detectionLagDays": 22,
+        "status": "application_closed",
+        "primaryOfficialUrl": "https://www.ex.co.kr/",
+        "reviewReason": "공고 게시 후 22일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      }
+    ],
     "sourceGaps": [
       {
         "id": "work24-open-recruit",
@@ -235,7 +280,7 @@
       }
     ],
     "criticalCoverage": {
-      "checkedAt": "2026-06-02T23:53:02.074Z",
+      "checkedAt": "2026-06-03T05:08:13.632Z",
       "watchInstitutionCount": 38,
       "currentRequiredCount": 2,
       "coveredCurrent": [
@@ -269,7 +314,7 @@
   },
   "secretReadiness": {
     "status": "needs_secrets_or_official_feeds",
-    "generatedAt": "2026-06-02T23:53:02.074Z",
+    "generatedAt": "2026-06-03T05:08:13.632Z",
     "totalSources": 15,
     "readySources": 6,
     "partialSources": 0,
@@ -1069,7 +1114,7 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-06-02T23:53:02.074Z",
+      "checkedAt": "2026-06-03T05:08:13.632Z",
       "itemCount": 0,
       "message": "인사혁신처 공공취업 API 650건 점검, 후보 0건, 공식분류 조회 28회",
       "scannedCount": 650,
@@ -1092,7 +1137,7 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-06-02T23:53:02.074Z",
+      "checkedAt": "2026-06-03T05:08:13.632Z",
       "itemCount": 4,
       "message": "기재부 공공기관 채용 API 10건 점검, 후보 4건, 공식 공고 접속확인 0건, 호출방식 page,perPage,returnType",
       "scannedCount": 10,
@@ -1114,7 +1159,7 @@
       "readiness": "active",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-02T23:53:02.074Z",
+      "checkedAt": "2026-06-03T05:08:13.632Z",
       "itemCount": 0,
       "message": "GitHub Secret WORK24_AUTH_KEY 또는 WORKNET_AUTH_KEY 미설정"
     },
@@ -1129,15 +1174,15 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-06-02T23:53:02.074Z",
+      "checkedAt": "2026-06-03T05:08:13.632Z",
       "itemCount": 78,
-      "message": "공식 공개 원문 234건/193후보 점검, 검색경로 54개, 공식 공고 확인 27건, 핵심공고 누락 0건",
+      "message": "공식 공개 원문 234건/193후보 점검, 검색경로 54개, 공식 공고 확인 23건, 핵심공고 누락 0건",
       "scannedCount": 234,
       "scanTargetCount": 54,
       "candidateRowCount": 193,
       "rawItemCount": 193,
       "criticalCoverage": {
-        "checkedAt": "2026-06-02T23:53:02.074Z",
+        "checkedAt": "2026-06-03T05:08:13.632Z",
         "watchInstitutionCount": 38,
         "currentRequiredCount": 2,
         "coveredCurrent": [
@@ -1176,7 +1221,7 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-06-02T23:53:02.074Z",
+      "checkedAt": "2026-06-03T05:08:13.632Z",
       "itemCount": 1,
       "message": "서울 하이잡 공식 목록 20건 점검, 후보 1건, 공식 공고 확인 1건, 첫날 수집 0건, 누락점검 1건",
       "scannedCount": 20,
@@ -1197,7 +1242,7 @@
       "readiness": "active",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-02T23:53:02.074Z",
+      "checkedAt": "2026-06-03T05:08:13.632Z",
       "itemCount": 0,
       "message": "GitHub Secret SARAMIN_ACCESS_KEY 미설정"
     },
@@ -1217,7 +1262,7 @@
       "readiness": "pending",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-06-02T23:53:02.074Z",
+      "checkedAt": "2026-06-03T05:08:13.632Z",
       "itemCount": 0,
       "message": "공식 채용 페이지 41/41개 감시, 후보 0건, 접속확인전용 2개, 실패 0개",
       "scannedCount": 0,
@@ -1289,7 +1334,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-02T23:53:02.074Z",
+      "checkedAt": "2026-06-03T05:08:13.632Z",
       "itemCount": 0,
       "message": "인사혁신처 나라일터 공식 API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -1307,7 +1352,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-02T23:53:02.074Z",
+      "checkedAt": "2026-06-03T05:08:13.632Z",
       "itemCount": 0,
       "message": "국방부·각 군 공식 모집/채용 공고 데이터 경로 확인 후 연결"
     },
@@ -1325,7 +1370,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-02T23:53:02.074Z",
+      "checkedAt": "2026-06-03T05:08:13.632Z",
       "itemCount": 0,
       "message": "잡코리아 공식 제휴 또는 이용 허가된 API 확인 후 연결"
     },
@@ -1343,7 +1388,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-02T23:53:02.074Z",
+      "checkedAt": "2026-06-03T05:08:13.632Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -1361,7 +1406,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-02T23:53:02.074Z",
+      "checkedAt": "2026-06-03T05:08:13.632Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -1379,7 +1424,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-02T23:53:02.074Z",
+      "checkedAt": "2026-06-03T05:08:13.632Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -1396,10 +1441,10 @@
       "readiness": "pending",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-06-02T23:53:02.074Z",
+      "checkedAt": "2026-06-03T05:08:13.632Z",
       "itemCount": 4,
-      "message": "공식 채용 페이지 9/9개 감시, 후보 4건, 접속확인전용 0개, 실패 0개",
-      "scannedCount": 36,
+      "message": "공식 채용 페이지 8/9개 감시, 후보 4건, 접속확인전용 0개, 실패 1개",
+      "scannedCount": 26,
       "configuredFeedCount": 0,
       "builtInFeedCount": 9,
       "watchEmployerCount": 9,
@@ -1414,11 +1459,13 @@
         "경상남도교육청 취업지원센터",
         "부산광역시교육청 취업지원센터"
       ],
-      "checkedUrlCount": 9,
+      "checkedUrlCount": 8,
       "reachabilityOnlyCount": 0,
       "reachabilityOnlyEmployers": [],
-      "failedUrlCount": 0,
-      "watchFailures": []
+      "failedUrlCount": 1,
+      "watchFailures": [
+        "울산광역시교육청 취업지원센터: external client failed: Command failed: curl -L --silent --show-error --max-time 15 -X GET -H User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125 Sa"
+      ]
     },
     {
       "id": "nonprofit-recruit",
@@ -1434,7 +1481,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-02T23:53:02.074Z",
+      "checkedAt": "2026-06-03T05:08:13.632Z",
       "itemCount": 0,
       "message": "비영리기관 공식 채용 공고 경로와 이용 조건 확인 후 연결"
     }
@@ -1482,7 +1529,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301166"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-05-29T14:59:59.000Z",
       "publishedDate": "2026-05-29",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -1526,7 +1573,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다."
@@ -1601,7 +1648,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "http://recruit.kepco.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301166",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -1670,7 +1717,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301041"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-05-28T14:59:59.000Z",
       "publishedDate": "2026-05-28",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -1712,7 +1759,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -1777,7 +1824,7 @@
         "officialBasis": "회사 확인 권고",
         "officialUrl": "https://www.kca.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301041",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -1838,7 +1885,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301135"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-05-29T14:59:59.000Z",
       "publishedDate": "2026-05-29",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -1880,7 +1927,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -1955,7 +2002,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kice.re.kr/boardCnts/view.do?boardID=10028&boardSeq=5100602&lev=0&m=0503&searchType=S&statusYN=W&page=1&s=kice",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301135",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -2016,7 +2063,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=300970"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-05-26T14:59:59.000Z",
       "publishedDate": "2026-05-26",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -2059,7 +2106,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -2134,7 +2181,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kead.or.kr/bbs/deptgongji/bbsPage.do?menuId=MENU0895&bbsCode=deptgongji&pageIndex=1&searchCondition=sjcn&searchKeyword=%5B%ED%95%9C%EA%B5%AD%EC%9E%A5%EC%95%A0%EC%9D%B8%EA%B3%A0%EC%9A%A9%EA%B3%B5%EB%8B%A8+%EC%B6%A9%EB%82%A8%EC%A7%80%EC%82%AC%5D+%EA%B8%B0%EA%B0%84%EC%A0%9C+%EB%8C%80%EC%B2%B4%EA%B7%BC%EB%A1%9C%EC%9E%90%28%EC%B2%B4%ED%97%98%ED%98%95+%EC%B2%AD%EB%85%84%EC%9D%B8%ED%84%B4%29+%EC%B1%84%EC%9A%A9+%EA%B3%B5%EA%B3%A0",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300970",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -2195,7 +2242,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301137"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-06-01T14:59:59.000Z",
       "publishedDate": "2026-06-01",
       "firstSeenAt": "2026-06-02T16:21:49.473Z",
@@ -2237,7 +2284,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -2312,7 +2359,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/daejeon/down",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301137",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -2373,7 +2420,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301053"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-05-28T14:59:59.000Z",
       "publishedDate": "2026-05-28",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -2417,7 +2464,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -2492,7 +2539,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.posid.or.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301053",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -2561,7 +2608,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=300960"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-05-26T14:59:59.000Z",
       "publishedDate": "2026-05-26",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -2603,7 +2650,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -2683,7 +2730,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://kyci.fairyhr.com/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300960",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -2744,7 +2791,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301270"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -2786,7 +2833,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -2861,7 +2908,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777153",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301270",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -2922,7 +2969,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301268"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -2964,7 +3011,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -3039,7 +3086,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777151",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301268",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -3100,7 +3147,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301267"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -3142,7 +3189,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -3217,7 +3264,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=777150",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301267",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -3278,7 +3325,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301250"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -3320,7 +3367,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -3395,7 +3442,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/daejeon/down",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301250",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -3456,7 +3503,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301200"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -3498,7 +3545,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -3573,7 +3620,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/chungju/down",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301200",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -3634,7 +3681,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301243"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -3676,7 +3723,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -3751,7 +3798,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/semi/down",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301243",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -3812,7 +3859,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301209"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -3854,7 +3901,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -3929,7 +3976,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/namincheon/board.do?menu=6989&mode=view&post=777107",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301209",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -3998,7 +4045,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301279"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -4040,7 +4087,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -4119,7 +4166,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.keci.or.kr/common/bbs/selectBbs.do?bbs_code=A1003&bbs_seq=8380&sch_sort_col=&sch_sort=&sch_type=&row_per_page=&sch_text=&currentPage=1",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301279",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -4180,7 +4227,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301263"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -4222,7 +4269,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -4297,7 +4344,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/gangneung/down",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301263",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -4362,7 +4409,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301266"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -4404,7 +4451,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -4481,7 +4528,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019269",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301266",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -4542,7 +4589,7 @@
       "supplementarySourceUrls": [
         "https://high-job.sen.go.kr/FUS/JO/EMList.do"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-05-26T14:59:59.000Z",
       "publishedDate": "2026-05-26",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -4584,7 +4631,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -4660,7 +4707,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://kead.careerlink.kr/jobs/RC20260515029269",
         "sourceUrl": "https://high-job.sen.go.kr/FUS/JO/EMList.do",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "application_closed",
@@ -4729,7 +4776,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=300695"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-05-18T14:59:59.000Z",
       "publishedDate": "2026-05-18",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -4772,7 +4819,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -4851,7 +4898,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://kead.careerlink.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300695",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "application_closed",
@@ -4866,718 +4913,6 @@
         "공공기관",
         "무기계약직,청년인턴(채용형),정규직",
         "학력무관,고졸,대졸(2~3년),대졸(4년)",
-        "추천여부 확인",
-        "직무기술서 확인"
-      ]
-    },
-    {
-      "id": "c76f2b89a4aafad592",
-      "source": "job-alio-openapi",
-      "sourceName": "잡알리오 공공기관 채용",
-      "sourceId": "300412",
-      "title": "2026년 한국도로공사 순찰직(안전순찰원) 인재영입 공고 [취업지원대상자 보훈전형](원서 마감)",
-      "baseTitle": "2026년 한국도로공사 순찰직(안전순찰원) 인재영입 공고 [취업지원대상자 보훈전형]",
-      "company": "한국도로공사",
-      "region": "경기,강원,충남,경북,경남",
-      "education": "학력무관",
-      "career": "신입",
-      "employmentType": "무기계약직",
-      "recruitField": "기타(안전순찰원)",
-      "recruitNumber": "",
-      "applicationMethod": "",
-      "contact": "",
-      "attachments": [
-        {
-          "title": "2026년 한국도로공사 순찰직(안전순찰원) 인재영입 공고문[취업지원대상자 보훈전형].pdf",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048825"
-        },
-        {
-          "title": "공고문: 입사지원서 - 안전순찰원.hwp",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048826"
-        },
-        {
-          "title": "공고문: 직무기술서 - 안전순찰원.pdf",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048827"
-        }
-      ],
-      "detailText": "기타(안전순찰원) ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전 전역 예정자 포함 ㅇ 공사 인사규정 제8조의 취업지원대상자 등 제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기·체력전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형(50), 체력전형(50), 법정가점 합계 고득점자 순 - 조직적합도 검사 : JAT(Job Aptitude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기·체력전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(20), 체력전형(20), 면접전형(60), 법정가점 합계 고득점자 순 - 면접전형 불합격자 제외 수도권본부-시흥지사 구분 선발인원 응시인원 결과 확정일 1차 - - - 2차 - - - 최종 - - - 수도권본부-군포지사 구분 선발인원 응시인원 결과 확정일 1차 - - - 2차 - - - 최종 - - - 수",
-      "deadline": "2026-05-26",
-      "deadlineText": "2026-05-26 원서 마감",
-      "url": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=300412",
-      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=300412",
-      "companyNoticeUrl": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-      "primaryOfficialUrl": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-      "officialNoticePriority": "company-or-agency-notice-first",
-      "supplementarySourceUrls": [
-        "https://job.alio.go.kr/recruitview.do?idx=300412"
-      ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
-      "publishedAt": "2026-05-12T14:59:59.000Z",
-      "publishedDate": "2026-05-12",
-      "firstSeenAt": "2026-06-02T15:48:22.299Z",
-      "firstSeenDate": "2026-06-03",
-      "collectionAudit": {
-        "policy": "public-recruit-first-day-collection",
-        "publishedAt": "2026-05-12T14:59:59.000Z",
-        "publishedDate": "2026-05-12",
-        "firstSeenAt": "2026-06-02T15:48:22.299Z",
-        "firstSeenDate": "2026-06-03",
-        "detectionLagDays": 22,
-        "firstDayCollected": false,
-        "missedReviewNeeded": true,
-        "firstDayStatus": "late_detected",
-        "note": "공고 게시 후 22일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
-      },
-      "fitScore": 38,
-      "fitLabels": [
-        "학력무관",
-        "신입·경력무관",
-        "공식전형"
-      ],
-      "processTrack": "exam-formal",
-      "processTrackName": "필기·공식전형",
-      "writtenExam": "confirmed",
-      "processConfidence": "high",
-      "processLabels": [
-        "공공기관",
-        "필기 확인"
-      ],
-      "processNote": "필기시험 또는 공식 선발 절차가 원문 키워드에서 확인됩니다.",
-      "sector": "public-institution",
-      "sectorName": "공공기관",
-      "sourceVerification": {
-        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=300412",
-        "companyNoticeUrl": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-        "primaryOfficialUrl": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-        "officialNoticePriority": "company-or-agency-notice-first",
-        "companyNoticeCheckStatus": "content_matched",
-        "companyNoticeReachable": true,
-        "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
-        "doubleCheckStatus": "company_notice_confirmed",
-        "doubleCheckLabel": "공식 공고 2중확인",
-        "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
-      },
-      "servicePriority": "primary-public-recruit",
-      "servicePolicyLabel": "공채 상세",
-      "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
-      "contactAdvice": "지원 전 회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문을 다시 확인하세요.",
-      "publicRecruitDetails": {
-        "companyNotice": "회사·기관 공식 공고 확인",
-        "sourceCheck": "공식 공고 2중확인",
-        "hiring": "기타(안전순찰원)",
-        "eligibility": "학력무관 · 신입",
-        "process": "제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기·체력전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형(50), 체력전형(50), 법정가점 합계 고득점자 순 - 조직적합도 검사 : JAT(Job Aptitude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기·체력전형 및 조직적합도 검사 통과자 - 선발방법 : 블",
-        "application": "2026-05-26 원서 마감",
-        "attachments": [
-          "2026년 한국도로공사 순찰직(안전순찰원) 인재영입 공고문[취업지원대상자 보훈전형].pdf",
-          "공고문: 입사지원서 - 안전순찰원.hwp",
-          "공고문: 직무기술서 - 안전순찰원.pdf"
-        ]
-      },
-      "teacherBriefing": {
-        "version": 1,
-        "generator": "official-source-briefing-v1",
-        "label": "취업부 공채 브리핑",
-        "detailLevel": "detailed-public-recruit",
-        "headline": "한국도로공사 - 2026년 한국도로공사 순찰직(안전순찰원) 인재영입 공고 [취업지원대상자 보훈전형](원서 마감)",
-        "summaryLines": [
-          "한국도로공사 공채·공식전형",
-          "채용부문: 기타(안전순찰원)",
-          "학력·자격: ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전…",
-          "근무지: 경기,강원,충남,경북,경남",
-          "고용형태: 무기계약직"
-        ],
-        "scheduleLines": [
-          "원서접수: 2026-05-26 원서 마감",
-          "전형절차: 제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기·체력전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형(50), 체력전형(50), 법정가점 합계 고…",
-          "필기전형: : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기·체력전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전…",
-          "면접전형: itude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기·체력전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(20), 체력전형(20), …",
-          "발표·임용: 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(20), 체력전형(20), 면접전형(60), 법정가점 합계 고득점자 순 - 면접전형 불합격자 제외 수도권본부-시흥지사 구분 선발…"
-        ],
-        "examSubjects": [
-          "체력검정"
-        ],
-        "schoolActionItems": [
-          "공식 공고 2중확인",
-          "학교장 추천 필요 여부 원문 확인",
-          "지원 가능 학년·졸업예정 기준 확인",
-          "공고문·입사지원서·직무기술서 첨부 확보",
-          "필기/NCS 대비 일정 안내",
-          "공고 게시일과 첫날 수집 누락 여부 점검"
-        ],
-        "studentActionItems": [
-          "원서접수 마감 전 지원계정·제출서류 확인",
-          "NCS·직무능력·인적성 대비",
-          "자기소개서·경험기술서 초안 작성",
-          "근무지·고용형태·임용예정일 확인"
-        ],
-        "sourceLines": [
-          "공식 원문: https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=300412",
-          "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다.",
-          "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다."
-        ],
-        "attachmentLines": [
-          "2026년 한국도로공사 순찰직(안전순찰원) 인재영입 공고문[취업지원대상자 보훈전형].pdf: https://www.alio.go.kr/download/download.json?fileNo=3048825",
-          "공고문: 입사지원서 - 안전순찰원.hwp: https://www.alio.go.kr/download/download.json?fileNo=3048826",
-          "공고문: 직무기술서 - 안전순찰원.pdf: https://www.alio.go.kr/download/download.json?fileNo=3048827"
-        ],
-        "teacherShareText": "[한국도로공사]\n- 고졸(예정) 공채·공식전형\n\n[채용부문]\n- 한국도로공사 공채·공식전형\n- 채용부문: 기타(안전순찰원)\n- 학력·자격: ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전…\n- 근무지: 경기,강원,충남,경북,경남\n- 고용형태: 무기계약직\n\n[전형일정]\n- 원서접수: 2026-05-26 원서 마감\n- 전형절차: 제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기·체력전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형(50), 체력전형(50), 법정가점 합계 고…\n- 필기전형: : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기·체력전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전…\n- 면접전형: itude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기·체력전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(20), 체력전형(20), …\n- 발표·임용: 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(20), 체력전형(20), 면접전형(60), 법정가점 합계 고득점자 순 - 면접전형 불합격자 제외 수도권본부-시흥지사 구분 선발…\n\n[학교 확인]\n- 공식 공고 2중확인\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 필기/NCS 대비 일정 안내\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- NCS·직무능력·인적성 대비\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=300412\n- 공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다.\n- 2026년 한국도로공사 순찰직(안전순찰원) 인재영입 공고문[취업지원대상자 보훈전형].pdf: https://www.alio.go.kr/download/download.json?fileNo=3048825\n- 공고문: 입사지원서 - 안전순찰원.hwp: https://www.alio.go.kr/download/download.json?fileNo=3048826\n- 공고문: 직무기술서 - 안전순찰원.pdf: https://www.alio.go.kr/download/download.json?fileNo=3048827",
-        "officialBasis": "공식 공고 2중확인",
-        "officialUrl": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300412",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
-      },
-      "schoolRecommendation": "unknown",
-      "status": "application_closed",
-      "legalCheckFlags": [
-        "원문확인",
-        "마감확인",
-        "학력조건확인",
-        "추천여부확인"
-      ],
-      "guideTags": [
-        "필기·공식전형",
-        "공공기관",
-        "무기계약직",
-        "학력무관",
-        "추천여부 확인",
-        "직무기술서 확인"
-      ]
-    },
-    {
-      "id": "5b277ee545f1decfed",
-      "source": "job-alio-openapi",
-      "sourceName": "잡알리오 공공기관 채용",
-      "sourceId": "300410",
-      "title": "2026년 한국도로공사 실무직(상황관리원) 인재영입 공고 [취업지원대상자 보훈전형](원서 마감)",
-      "baseTitle": "2026년 한국도로공사 실무직(상황관리원) 인재영입 공고 [취업지원대상자 보훈전형]",
-      "company": "한국도로공사",
-      "region": "울산,경기,강원,충남,충북,전북",
-      "education": "학력무관",
-      "career": "신입",
-      "employmentType": "무기계약직",
-      "recruitField": "기타(상황관리원)",
-      "recruitNumber": "",
-      "applicationMethod": "",
-      "contact": "",
-      "attachments": [
-        {
-          "title": "2026년 한국도로공사 실무직(상황관리원) 인재영입 공고문[취업지원대상자 보훈전형].pdf",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048819"
-        },
-        {
-          "title": "공고문: 입사지원서 - 상황관리원.hwp",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048820"
-        },
-        {
-          "title": "공고문: 직무기술서 - 상황관리원.pdf",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048821"
-        }
-      ],
-      "detailText": "기타(상황관리원) ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전 전역 예정자 포함 ㅇ 공사 인사규정 제8조의 취업지원대상자 등 제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, 법정가점 합계 고득점자 순 - 조직적합도 검사 : JAT(Job Aptitude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60), 법정가점 합계 고득점자 순 - 면접전형 불합격자 제외 서울경기본부 구분 선발인원 응시인원 결과 확정일 1차 - - - 2차 - - - 최종 - - - 강원본부-홍천지사 구분 선발인원 응시인원 결과 확정일 1차 - - - 2차 - - - 최종 - - - 충북본부-충주지사 구분 선발인원 응시인원 결과 확정일 1차 - -",
-      "deadline": "2026-05-26",
-      "deadlineText": "2026-05-26 원서 마감",
-      "url": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=300410",
-      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=300410",
-      "companyNoticeUrl": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-      "primaryOfficialUrl": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-      "officialNoticePriority": "company-or-agency-notice-first",
-      "supplementarySourceUrls": [
-        "https://job.alio.go.kr/recruitview.do?idx=300410"
-      ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
-      "publishedAt": "2026-05-12T14:59:59.000Z",
-      "publishedDate": "2026-05-12",
-      "firstSeenAt": "2026-06-02T15:48:22.299Z",
-      "firstSeenDate": "2026-06-03",
-      "collectionAudit": {
-        "policy": "public-recruit-first-day-collection",
-        "publishedAt": "2026-05-12T14:59:59.000Z",
-        "publishedDate": "2026-05-12",
-        "firstSeenAt": "2026-06-02T15:48:22.299Z",
-        "firstSeenDate": "2026-06-03",
-        "detectionLagDays": 22,
-        "firstDayCollected": false,
-        "missedReviewNeeded": true,
-        "firstDayStatus": "late_detected",
-        "note": "공고 게시 후 22일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
-      },
-      "fitScore": 38,
-      "fitLabels": [
-        "학력무관",
-        "신입·경력무관",
-        "공식전형"
-      ],
-      "processTrack": "exam-formal",
-      "processTrackName": "필기·공식전형",
-      "writtenExam": "confirmed",
-      "processConfidence": "high",
-      "processLabels": [
-        "공공기관",
-        "필기 확인"
-      ],
-      "processNote": "필기시험 또는 공식 선발 절차가 원문 키워드에서 확인됩니다.",
-      "sector": "public-institution",
-      "sectorName": "공공기관",
-      "sourceVerification": {
-        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=300410",
-        "companyNoticeUrl": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-        "primaryOfficialUrl": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-        "officialNoticePriority": "company-or-agency-notice-first",
-        "companyNoticeCheckStatus": "content_matched",
-        "companyNoticeReachable": true,
-        "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
-        "doubleCheckStatus": "company_notice_confirmed",
-        "doubleCheckLabel": "공식 공고 2중확인",
-        "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
-      },
-      "servicePriority": "primary-public-recruit",
-      "servicePolicyLabel": "공채 상세",
-      "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
-      "contactAdvice": "지원 전 회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문을 다시 확인하세요.",
-      "publicRecruitDetails": {
-        "companyNotice": "회사·기관 공식 공고 확인",
-        "sourceCheck": "공식 공고 2중확인",
-        "hiring": "기타(상황관리원)",
-        "eligibility": "학력무관 · 신입",
-        "process": "제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, 법정가점 합계 고득점자 순 - 조직적합도 검사 : JAT(Job Aptitude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기",
-        "application": "2026-05-26 원서 마감",
-        "attachments": [
-          "2026년 한국도로공사 실무직(상황관리원) 인재영입 공고문[취업지원대상자 보훈전형].pdf",
-          "공고문: 입사지원서 - 상황관리원.hwp",
-          "공고문: 직무기술서 - 상황관리원.pdf"
-        ]
-      },
-      "teacherBriefing": {
-        "version": 1,
-        "generator": "official-source-briefing-v1",
-        "label": "취업부 공채 브리핑",
-        "detailLevel": "detailed-public-recruit",
-        "headline": "한국도로공사 - 2026년 한국도로공사 실무직(상황관리원) 인재영입 공고 [취업지원대상자 보훈전형](원서 마감)",
-        "summaryLines": [
-          "한국도로공사 공채·공식전형",
-          "채용부문: 기타(상황관리원)",
-          "학력·자격: ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전…",
-          "근무지: 울산,경기,강원,충남,충북,전북",
-          "고용형태: 무기계약직"
-        ],
-        "scheduleLines": [
-          "원서접수: 2026-05-26 원서 마감",
-          "전형절차: 제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, 법정가점 합계 고득점자 순 - 조직적합도 검사 …",
-          "필기전형: : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, …",
-          "면접전형: itude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60), 법정가…",
-          "발표·임용: 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60), 법정가점 합계 고득점자 순 - 면접전형 불합격자 제외 서울경기본부 구분 선발인원 응시인원 결과 확정일…"
-        ],
-        "examSubjects": [
-          "필기전형 있음 - 과목은 원문 확인"
-        ],
-        "schoolActionItems": [
-          "공식 공고 2중확인",
-          "학교장 추천 필요 여부 원문 확인",
-          "지원 가능 학년·졸업예정 기준 확인",
-          "공고문·입사지원서·직무기술서 첨부 확보",
-          "필기/NCS 대비 일정 안내",
-          "공고 게시일과 첫날 수집 누락 여부 점검"
-        ],
-        "studentActionItems": [
-          "원서접수 마감 전 지원계정·제출서류 확인",
-          "NCS·직무능력·인적성 대비",
-          "자기소개서·경험기술서 초안 작성",
-          "근무지·고용형태·임용예정일 확인"
-        ],
-        "sourceLines": [
-          "공식 원문: https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=300410",
-          "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다.",
-          "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다."
-        ],
-        "attachmentLines": [
-          "2026년 한국도로공사 실무직(상황관리원) 인재영입 공고문[취업지원대상자 보훈전형].pdf: https://www.alio.go.kr/download/download.json?fileNo=3048819",
-          "공고문: 입사지원서 - 상황관리원.hwp: https://www.alio.go.kr/download/download.json?fileNo=3048820",
-          "공고문: 직무기술서 - 상황관리원.pdf: https://www.alio.go.kr/download/download.json?fileNo=3048821"
-        ],
-        "teacherShareText": "[한국도로공사]\n- 고졸(예정) 공채·공식전형\n\n[채용부문]\n- 한국도로공사 공채·공식전형\n- 채용부문: 기타(상황관리원)\n- 학력·자격: ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전…\n- 근무지: 울산,경기,강원,충남,충북,전북\n- 고용형태: 무기계약직\n\n[전형일정]\n- 원서접수: 2026-05-26 원서 마감\n- 전형절차: 제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, 법정가점 합계 고득점자 순 - 조직적합도 검사 …\n- 필기전형: : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, …\n- 면접전형: itude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60), 법정가…\n- 발표·임용: 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60), 법정가점 합계 고득점자 순 - 면접전형 불합격자 제외 서울경기본부 구분 선발인원 응시인원 결과 확정일…\n\n[학교 확인]\n- 공식 공고 2중확인\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 필기/NCS 대비 일정 안내\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- NCS·직무능력·인적성 대비\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=300410\n- 공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다.\n- 2026년 한국도로공사 실무직(상황관리원) 인재영입 공고문[취업지원대상자 보훈전형].pdf: https://www.alio.go.kr/download/download.json?fileNo=3048819\n- 공고문: 입사지원서 - 상황관리원.hwp: https://www.alio.go.kr/download/download.json?fileNo=3048820\n- 공고문: 직무기술서 - 상황관리원.pdf: https://www.alio.go.kr/download/download.json?fileNo=3048821",
-        "officialBasis": "공식 공고 2중확인",
-        "officialUrl": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300410",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
-      },
-      "schoolRecommendation": "unknown",
-      "status": "application_closed",
-      "legalCheckFlags": [
-        "원문확인",
-        "마감확인",
-        "학력조건확인",
-        "추천여부확인"
-      ],
-      "guideTags": [
-        "필기·공식전형",
-        "공공기관",
-        "무기계약직",
-        "학력무관",
-        "추천여부 확인",
-        "직무기술서 확인"
-      ]
-    },
-    {
-      "id": "55a54b08ba5fcc761f",
-      "source": "job-alio-openapi",
-      "sourceName": "잡알리오 공공기관 채용",
-      "sourceId": "300408",
-      "title": "2026년 한국도로공사 실무직(상황관리원) 인재영입 공고 [일반전형](원서 마감)",
-      "baseTitle": "2026년 한국도로공사 실무직(상황관리원) 인재영입 공고 [일반전형]",
-      "company": "한국도로공사",
-      "region": "강원,경북",
-      "education": "학력무관",
-      "career": "신입",
-      "employmentType": "무기계약직",
-      "recruitField": "기타(상황관리원)",
-      "recruitNumber": "",
-      "applicationMethod": "",
-      "contact": "",
-      "attachments": [
-        {
-          "title": "2026년 한국도로공사 실무직(상황관리원) 인재영입 공고문[일반전형].pdf",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048811"
-        },
-        {
-          "title": "공고문: 입사지원서 - 상황관리원.hwp",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048812"
-        },
-        {
-          "title": "공고문: 직무기술서 - 상황관리원.pdf",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048813"
-        }
-      ],
-      "detailText": "기타(상황관리원) ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전 전역 예정자 포함 ㅇ 공사 인사규정 제8조의 관련 자격증 소지자 등 서류전형 세부기준 참고 제1차 : 서류전형 - 선발인원 : 최종 선발인원의 7배수(동점자 전원 선발) - 선발기준 : 자격요건을 갖춘 자를 대상으로 서류심사 결과 고득점자 순 - 서류심사 : 자격증(30), 역량기술서 평가(10), 선택가점 합계 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 서류전형 통과자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 서류전형(40), 필기전형(60) 합계 고득점자 순 - 조직적합도 검사 : JAT(Job Aptitude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60) 합계 고득점자 순 - 면접전형 불합격자 제외 강원본부-홍천지사 구분 선발인원 응시인원 결과 확정일 1차 - - - ",
-      "deadline": "2026-05-26",
-      "deadlineText": "2026-05-26 원서 마감",
-      "url": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=300408",
-      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=300408",
-      "companyNoticeUrl": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-      "primaryOfficialUrl": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-      "officialNoticePriority": "company-or-agency-notice-first",
-      "supplementarySourceUrls": [
-        "https://job.alio.go.kr/recruitview.do?idx=300408"
-      ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
-      "publishedAt": "2026-05-12T14:59:59.000Z",
-      "publishedDate": "2026-05-12",
-      "firstSeenAt": "2026-06-02T15:48:22.299Z",
-      "firstSeenDate": "2026-06-03",
-      "collectionAudit": {
-        "policy": "public-recruit-first-day-collection",
-        "publishedAt": "2026-05-12T14:59:59.000Z",
-        "publishedDate": "2026-05-12",
-        "firstSeenAt": "2026-06-02T15:48:22.299Z",
-        "firstSeenDate": "2026-06-03",
-        "detectionLagDays": 22,
-        "firstDayCollected": false,
-        "missedReviewNeeded": true,
-        "firstDayStatus": "late_detected",
-        "note": "공고 게시 후 22일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
-      },
-      "fitScore": 38,
-      "fitLabels": [
-        "학력무관",
-        "신입·경력무관",
-        "공식전형"
-      ],
-      "processTrack": "exam-formal",
-      "processTrackName": "필기·공식전형",
-      "writtenExam": "confirmed",
-      "processConfidence": "high",
-      "processLabels": [
-        "공공기관",
-        "필기 확인"
-      ],
-      "processNote": "필기시험 또는 공식 선발 절차가 원문 키워드에서 확인됩니다.",
-      "sector": "public-institution",
-      "sectorName": "공공기관",
-      "sourceVerification": {
-        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=300408",
-        "companyNoticeUrl": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-        "primaryOfficialUrl": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-        "officialNoticePriority": "company-or-agency-notice-first",
-        "companyNoticeCheckStatus": "content_matched",
-        "companyNoticeReachable": true,
-        "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
-        "doubleCheckStatus": "company_notice_confirmed",
-        "doubleCheckLabel": "공식 공고 2중확인",
-        "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
-      },
-      "servicePriority": "primary-public-recruit",
-      "servicePolicyLabel": "공채 상세",
-      "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
-      "contactAdvice": "지원 전 회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문을 다시 확인하세요.",
-      "publicRecruitDetails": {
-        "companyNotice": "회사·기관 공식 공고 확인",
-        "sourceCheck": "공식 공고 2중확인",
-        "hiring": "기타(상황관리원)",
-        "eligibility": "학력무관 · 신입",
-        "process": "제1차 : 서류전형 - 선발인원 : 최종 선발인원의 7배수(동점자 전원 선발) - 선발기준 : 자격요건을 갖춘 자를 대상으로 서류심사 결과 고득점자 순 - 서류심사 : 자격증(30), 역량기술서 평가(10), 선택가점 합계 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 서류전형 통과자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 서류전형(40), 필기전형(60) 합계 고득점자 순 - 조직적합도 검사 : JAT(Job Apt",
-        "application": "2026-05-26 원서 마감",
-        "attachments": [
-          "2026년 한국도로공사 실무직(상황관리원) 인재영입 공고문[일반전형].pdf",
-          "공고문: 입사지원서 - 상황관리원.hwp",
-          "공고문: 직무기술서 - 상황관리원.pdf"
-        ]
-      },
-      "teacherBriefing": {
-        "version": 1,
-        "generator": "official-source-briefing-v1",
-        "label": "취업부 공채 브리핑",
-        "detailLevel": "detailed-public-recruit",
-        "headline": "한국도로공사 - 2026년 한국도로공사 실무직(상황관리원) 인재영입 공고 [일반전형](원서 마감)",
-        "summaryLines": [
-          "한국도로공사 공채·공식전형",
-          "채용부문: 기타(상황관리원)",
-          "학력·자격: ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전…",
-          "근무지: 강원,경북",
-          "고용형태: 무기계약직"
-        ],
-        "scheduleLines": [
-          "원서접수: 2026-05-26 원서 마감",
-          "전형절차: 제1차 : 서류전형 - 선발인원 : 최종 선발인원의 7배수(동점자 전원 선발) - 선발기준 : 자격요건을 갖춘 자를 대상으로 서류심사 결과 고득점자 순 - 서류심사 : 자격증(30), 역량기술서 평가(10), 선택가점 합계 제2차 : 필기전형 및 조직적합도 검사 - …",
-          "필기전형: (30), 역량기술서 평가(10), 선택가점 합계 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 서류전형 통과자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 서류전형(40),…",
-          "면접전형: itude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60) 합계 고…",
-          "발표·임용: 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60) 합계 고득점자 순 - 면접전형 불합격자 제외 강원본부-홍천지사 구분 선발인원 응시인원 결과 확정일 1차…"
-        ],
-        "examSubjects": [
-          "필기전형 있음 - 과목은 원문 확인"
-        ],
-        "schoolActionItems": [
-          "공식 공고 2중확인",
-          "학교장 추천 필요 여부 원문 확인",
-          "지원 가능 학년·졸업예정 기준 확인",
-          "공고문·입사지원서·직무기술서 첨부 확보",
-          "필기/NCS 대비 일정 안내",
-          "공고 게시일과 첫날 수집 누락 여부 점검"
-        ],
-        "studentActionItems": [
-          "원서접수 마감 전 지원계정·제출서류 확인",
-          "NCS·직무능력·인적성 대비",
-          "자기소개서·경험기술서 초안 작성",
-          "근무지·고용형태·임용예정일 확인"
-        ],
-        "sourceLines": [
-          "공식 원문: https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=300408",
-          "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다.",
-          "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다."
-        ],
-        "attachmentLines": [
-          "2026년 한국도로공사 실무직(상황관리원) 인재영입 공고문[일반전형].pdf: https://www.alio.go.kr/download/download.json?fileNo=3048811",
-          "공고문: 입사지원서 - 상황관리원.hwp: https://www.alio.go.kr/download/download.json?fileNo=3048812",
-          "공고문: 직무기술서 - 상황관리원.pdf: https://www.alio.go.kr/download/download.json?fileNo=3048813"
-        ],
-        "teacherShareText": "[한국도로공사]\n- 고졸(예정) 공채·공식전형\n\n[채용부문]\n- 한국도로공사 공채·공식전형\n- 채용부문: 기타(상황관리원)\n- 학력·자격: ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전…\n- 근무지: 강원,경북\n- 고용형태: 무기계약직\n\n[전형일정]\n- 원서접수: 2026-05-26 원서 마감\n- 전형절차: 제1차 : 서류전형 - 선발인원 : 최종 선발인원의 7배수(동점자 전원 선발) - 선발기준 : 자격요건을 갖춘 자를 대상으로 서류심사 결과 고득점자 순 - 서류심사 : 자격증(30), 역량기술서 평가(10), 선택가점 합계 제2차 : 필기전형 및 조직적합도 검사 - …\n- 필기전형: (30), 역량기술서 평가(10), 선택가점 합계 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 서류전형 통과자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 서류전형(40),…\n- 면접전형: itude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60) 합계 고…\n- 발표·임용: 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60) 합계 고득점자 순 - 면접전형 불합격자 제외 강원본부-홍천지사 구분 선발인원 응시인원 결과 확정일 1차…\n\n[학교 확인]\n- 공식 공고 2중확인\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 필기/NCS 대비 일정 안내\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- NCS·직무능력·인적성 대비\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=300408\n- 공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다.\n- 2026년 한국도로공사 실무직(상황관리원) 인재영입 공고문[일반전형].pdf: https://www.alio.go.kr/download/download.json?fileNo=3048811\n- 공고문: 입사지원서 - 상황관리원.hwp: https://www.alio.go.kr/download/download.json?fileNo=3048812\n- 공고문: 직무기술서 - 상황관리원.pdf: https://www.alio.go.kr/download/download.json?fileNo=3048813",
-        "officialBasis": "공식 공고 2중확인",
-        "officialUrl": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300408",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
-      },
-      "schoolRecommendation": "unknown",
-      "status": "application_closed",
-      "legalCheckFlags": [
-        "원문확인",
-        "마감확인",
-        "학력조건확인",
-        "추천여부확인"
-      ],
-      "guideTags": [
-        "필기·공식전형",
-        "공공기관",
-        "무기계약직",
-        "학력무관",
-        "추천여부 확인",
-        "직무기술서 확인"
-      ]
-    },
-    {
-      "id": "f5ad6a72279041af02",
-      "source": "job-alio-openapi",
-      "sourceName": "잡알리오 공공기관 채용",
-      "sourceId": "300407",
-      "title": "2026년 한국도로공사 실무직(사무원) 인재영입 공고 [취업지원대상자 보훈전형](원서 마감)",
-      "baseTitle": "2026년 한국도로공사 실무직(사무원) 인재영입 공고 [취업지원대상자 보훈전형]",
-      "company": "한국도로공사",
-      "region": "경남,전북",
-      "education": "학력무관",
-      "career": "신입",
-      "employmentType": "무기계약직",
-      "recruitField": "기타(사무원)",
-      "recruitNumber": "",
-      "applicationMethod": "",
-      "contact": "",
-      "attachments": [
-        {
-          "title": "2026년 한국도로공사 실무직(사무원) 인재영입 공고문[취업지원대상자 보훈전형].pdf",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048805"
-        },
-        {
-          "title": "공고문: 입사지원서 - 사무원.hwp",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048806"
-        },
-        {
-          "title": "공고문: 직무기술서 - 사무원.pdf",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048807"
-        }
-      ],
-      "detailText": "기타(사무원) ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전 전역 예정자 포함 ㅇ 공사 인사규정 제8조의 취업지원대상자 등 제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, 법정가점 합계 고득점자 순 - 조직적합도 검사 : JAT(Job Aptitude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60), 법정가점 합계 고득점자 순 - 면접전형 불합격자 제외 전북본부-전주수목원 구분 선발인원 응시인원 결과 확정일 1차 - - - 2차 - - - 최종 - - - 부산경남본부 구분 선발인원 응시인원 결과 확정일 1차 - - - 2차 - - - 최종 - - - 2026년 한국도로공사 실무직(사무원) 인재영입 공고문[취업지원대상",
-      "deadline": "2026-05-26",
-      "deadlineText": "2026-05-26 원서 마감",
-      "url": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=300407",
-      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=300407",
-      "companyNoticeUrl": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-      "primaryOfficialUrl": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-      "officialNoticePriority": "company-or-agency-notice-first",
-      "supplementarySourceUrls": [
-        "https://job.alio.go.kr/recruitview.do?idx=300407"
-      ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
-      "publishedAt": "2026-05-12T14:59:59.000Z",
-      "publishedDate": "2026-05-12",
-      "firstSeenAt": "2026-06-02T15:48:22.299Z",
-      "firstSeenDate": "2026-06-03",
-      "collectionAudit": {
-        "policy": "public-recruit-first-day-collection",
-        "publishedAt": "2026-05-12T14:59:59.000Z",
-        "publishedDate": "2026-05-12",
-        "firstSeenAt": "2026-06-02T15:48:22.299Z",
-        "firstSeenDate": "2026-06-03",
-        "detectionLagDays": 22,
-        "firstDayCollected": false,
-        "missedReviewNeeded": true,
-        "firstDayStatus": "late_detected",
-        "note": "공고 게시 후 22일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
-      },
-      "fitScore": 38,
-      "fitLabels": [
-        "학력무관",
-        "신입·경력무관",
-        "공식전형"
-      ],
-      "processTrack": "exam-formal",
-      "processTrackName": "필기·공식전형",
-      "writtenExam": "confirmed",
-      "processConfidence": "high",
-      "processLabels": [
-        "공공기관",
-        "필기 확인"
-      ],
-      "processNote": "필기시험 또는 공식 선발 절차가 원문 키워드에서 확인됩니다.",
-      "sector": "public-institution",
-      "sectorName": "공공기관",
-      "sourceVerification": {
-        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=300407",
-        "companyNoticeUrl": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-        "primaryOfficialUrl": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-        "officialNoticePriority": "company-or-agency-notice-first",
-        "companyNoticeCheckStatus": "content_matched",
-        "companyNoticeReachable": true,
-        "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
-        "doubleCheckStatus": "company_notice_confirmed",
-        "doubleCheckLabel": "공식 공고 2중확인",
-        "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
-      },
-      "servicePriority": "primary-public-recruit",
-      "servicePolicyLabel": "공채 상세",
-      "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
-      "contactAdvice": "지원 전 회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문을 다시 확인하세요.",
-      "publicRecruitDetails": {
-        "companyNotice": "회사·기관 공식 공고 확인",
-        "sourceCheck": "공식 공고 2중확인",
-        "hiring": "기타(사무원)",
-        "eligibility": "학력무관 · 신입",
-        "process": "제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, 법정가점 합계 고득점자 순 - 조직적합도 검사 : JAT(Job Aptitude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기",
-        "application": "2026-05-26 원서 마감",
-        "attachments": [
-          "2026년 한국도로공사 실무직(사무원) 인재영입 공고문[취업지원대상자 보훈전형].pdf",
-          "공고문: 입사지원서 - 사무원.hwp",
-          "공고문: 직무기술서 - 사무원.pdf"
-        ]
-      },
-      "teacherBriefing": {
-        "version": 1,
-        "generator": "official-source-briefing-v1",
-        "label": "취업부 공채 브리핑",
-        "detailLevel": "detailed-public-recruit",
-        "headline": "한국도로공사 - 2026년 한국도로공사 실무직(사무원) 인재영입 공고 [취업지원대상자 보훈전형](원서 마감)",
-        "summaryLines": [
-          "한국도로공사 공채·공식전형",
-          "채용부문: 기타(사무원)",
-          "학력·자격: ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전…",
-          "근무지: 경남,전북",
-          "고용형태: 무기계약직"
-        ],
-        "scheduleLines": [
-          "원서접수: 2026-05-26 원서 마감",
-          "전형절차: 제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, 법정가점 합계 고득점자 순 - 조직적합도 검사 …",
-          "필기전형: : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, …",
-          "면접전형: itude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60), 법정가…",
-          "발표·임용: 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60), 법정가점 합계 고득점자 순 - 면접전형 불합격자 제외 전북본부-전주수목원 구분 선발인원 응시인원 결과…"
-        ],
-        "examSubjects": [
-          "필기전형 있음 - 과목은 원문 확인"
-        ],
-        "schoolActionItems": [
-          "공식 공고 2중확인",
-          "학교장 추천 필요 여부 원문 확인",
-          "지원 가능 학년·졸업예정 기준 확인",
-          "공고문·입사지원서·직무기술서 첨부 확보",
-          "필기/NCS 대비 일정 안내",
-          "공고 게시일과 첫날 수집 누락 여부 점검"
-        ],
-        "studentActionItems": [
-          "원서접수 마감 전 지원계정·제출서류 확인",
-          "NCS·직무능력·인적성 대비",
-          "자기소개서·경험기술서 초안 작성",
-          "근무지·고용형태·임용예정일 확인"
-        ],
-        "sourceLines": [
-          "공식 원문: https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=300407",
-          "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다.",
-          "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다."
-        ],
-        "attachmentLines": [
-          "2026년 한국도로공사 실무직(사무원) 인재영입 공고문[취업지원대상자 보훈전형].pdf: https://www.alio.go.kr/download/download.json?fileNo=3048805",
-          "공고문: 입사지원서 - 사무원.hwp: https://www.alio.go.kr/download/download.json?fileNo=3048806",
-          "공고문: 직무기술서 - 사무원.pdf: https://www.alio.go.kr/download/download.json?fileNo=3048807"
-        ],
-        "teacherShareText": "[한국도로공사]\n- 고졸(예정) 공채·공식전형\n\n[채용부문]\n- 한국도로공사 공채·공식전형\n- 채용부문: 기타(사무원)\n- 학력·자격: ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전…\n- 근무지: 경남,전북\n- 고용형태: 무기계약직\n\n[전형일정]\n- 원서접수: 2026-05-26 원서 마감\n- 전형절차: 제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, 법정가점 합계 고득점자 순 - 조직적합도 검사 …\n- 필기전형: : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, …\n- 면접전형: itude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60), 법정가…\n- 발표·임용: 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60), 법정가점 합계 고득점자 순 - 면접전형 불합격자 제외 전북본부-전주수목원 구분 선발인원 응시인원 결과…\n\n[학교 확인]\n- 공식 공고 2중확인\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 필기/NCS 대비 일정 안내\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- NCS·직무능력·인적성 대비\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=300407\n- 공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다.\n- 2026년 한국도로공사 실무직(사무원) 인재영입 공고문[취업지원대상자 보훈전형].pdf: https://www.alio.go.kr/download/download.json?fileNo=3048805\n- 공고문: 입사지원서 - 사무원.hwp: https://www.alio.go.kr/download/download.json?fileNo=3048806\n- 공고문: 직무기술서 - 사무원.pdf: https://www.alio.go.kr/download/download.json?fileNo=3048807",
-        "officialBasis": "공식 공고 2중확인",
-        "officialUrl": "https://www.ex.co.kr/?bbsCnId=100501010&bbsCode=deptgongji&menuId=MENU0895&pageIndex=1",
-        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300407",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
-      },
-      "schoolRecommendation": "unknown",
-      "status": "application_closed",
-      "legalCheckFlags": [
-        "원문확인",
-        "마감확인",
-        "학력조건확인",
-        "추천여부확인"
-      ],
-      "guideTags": [
-        "필기·공식전형",
-        "공공기관",
-        "무기계약직",
-        "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
       ]
@@ -5624,7 +4959,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301213"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-06-01T14:59:59.000Z",
       "publishedDate": "2026-06-01",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -5667,7 +5002,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다."
@@ -5742,7 +5077,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "https://kcpass.ai-recruit.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301213",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -5799,7 +5134,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=300803"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-05-26T14:59:59.000Z",
       "publishedDate": "2026-05-26",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -5841,7 +5176,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다."
@@ -5914,7 +5249,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "https://nids.incruit.com/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300803",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -5983,7 +5318,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301242"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-06-01T14:59:59.000Z",
       "publishedDate": "2026-06-01",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -6025,7 +5360,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다."
@@ -6104,7 +5439,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "https://www.koem.or.kr/common/board/Download.do?bcIdx=35866&cbIdx=478&fileNo=5",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301242",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -6165,7 +5500,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301265"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -6207,7 +5542,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다."
@@ -6282,7 +5617,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "https://iwest.machuda.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301265",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -6351,7 +5686,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=300516"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-05-13T14:59:59.000Z",
       "publishedDate": "2026-05-13",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -6394,7 +5729,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다."
@@ -6473,7 +5808,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "https://www.knps.or.kr/portal/file/cdown.do?tfId=TF006&fileId=ga17dIdZWk1f0CqjstNd9Q%3D%3D&fileNo=0",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300516",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "application_closed",
@@ -6534,7 +5869,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301120"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-05-29T14:59:59.000Z",
       "publishedDate": "2026-05-29",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -6576,7 +5911,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다."
@@ -6651,7 +5986,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "https://www.kps.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301120",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "application_closed",
@@ -6665,6 +6000,718 @@
         "필기·공식전형",
         "공공기관",
         "비정규직",
+        "학력무관",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ]
+    },
+    {
+      "id": "3b4f3dd3b144f55cf1",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "sourceId": "300412",
+      "title": "2026년 한국도로공사 순찰직(안전순찰원) 인재영입 공고 [취업지원대상자 보훈전형](원서 마감)",
+      "baseTitle": "2026년 한국도로공사 순찰직(안전순찰원) 인재영입 공고 [취업지원대상자 보훈전형]",
+      "company": "한국도로공사",
+      "region": "경기,강원,충남,경북,경남",
+      "education": "학력무관",
+      "career": "신입",
+      "employmentType": "무기계약직",
+      "recruitField": "기타(안전순찰원)",
+      "recruitNumber": "",
+      "applicationMethod": "",
+      "contact": "",
+      "attachments": [
+        {
+          "title": "2026년 한국도로공사 순찰직(안전순찰원) 인재영입 공고문[취업지원대상자 보훈전형].pdf",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048825"
+        },
+        {
+          "title": "공고문: 입사지원서 - 안전순찰원.hwp",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048826"
+        },
+        {
+          "title": "공고문: 직무기술서 - 안전순찰원.pdf",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048827"
+        }
+      ],
+      "detailText": "기타(안전순찰원) ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전 전역 예정자 포함 ㅇ 공사 인사규정 제8조의 취업지원대상자 등 제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기·체력전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형(50), 체력전형(50), 법정가점 합계 고득점자 순 - 조직적합도 검사 : JAT(Job Aptitude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기·체력전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(20), 체력전형(20), 면접전형(60), 법정가점 합계 고득점자 순 - 면접전형 불합격자 제외 수도권본부-시흥지사 구분 선발인원 응시인원 결과 확정일 1차 - - - 2차 - - - 최종 - - - 수도권본부-군포지사 구분 선발인원 응시인원 결과 확정일 1차 - - - 2차 - - - 최종 - - - 수",
+      "deadline": "2026-05-26",
+      "deadlineText": "2026-05-26 원서 마감",
+      "url": "https://www.ex.co.kr/",
+      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=300412",
+      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=300412",
+      "companyNoticeUrl": "https://www.ex.co.kr/",
+      "primaryOfficialUrl": "https://www.ex.co.kr/",
+      "officialNoticePriority": "company-or-agency-notice-first",
+      "supplementarySourceUrls": [
+        "https://job.alio.go.kr/recruitview.do?idx=300412"
+      ],
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
+      "publishedAt": "2026-05-12T14:59:59.000Z",
+      "publishedDate": "2026-05-12",
+      "firstSeenAt": "2026-06-02T15:48:22.299Z",
+      "firstSeenDate": "2026-06-03",
+      "collectionAudit": {
+        "policy": "public-recruit-first-day-collection",
+        "publishedAt": "2026-05-12T14:59:59.000Z",
+        "publishedDate": "2026-05-12",
+        "firstSeenAt": "2026-06-02T15:48:22.299Z",
+        "firstSeenDate": "2026-06-03",
+        "detectionLagDays": 22,
+        "firstDayCollected": false,
+        "missedReviewNeeded": true,
+        "firstDayStatus": "late_detected",
+        "note": "공고 게시 후 22일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      },
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "exam-formal",
+      "processTrackName": "필기·공식전형",
+      "writtenExam": "confirmed",
+      "processConfidence": "high",
+      "processLabels": [
+        "공공기관",
+        "필기 확인"
+      ],
+      "processNote": "필기시험 또는 공식 선발 절차가 원문 키워드에서 확인됩니다.",
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "sourceVerification": {
+        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=300412",
+        "companyNoticeUrl": "https://www.ex.co.kr/",
+        "primaryOfficialUrl": "https://www.ex.co.kr/",
+        "officialNoticePriority": "company-or-agency-notice-first",
+        "companyNoticeCheckStatus": "fetch_failed",
+        "companyNoticeReachable": false,
+        "companyNoticeMatched": false,
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
+        "doubleCheckStatus": "company_notice_linked",
+        "doubleCheckLabel": "공식 공고 링크확인",
+        "verificationNote": "공식 채용 소스에서 회사·기관 또는 채용대행 공식 공지사항 링크를 확보했습니다. 접속 또는 본문 대조는 추가 확인이 필요합니다."
+      },
+      "servicePriority": "primary-public-recruit",
+      "servicePolicyLabel": "공채 상세 확인중",
+      "detailLevel": "official-summary-pending-company-check",
+      "displayNote": "공채 후보로 우선 표시하되 회사·기관 또는 채용대행 공식 공지사항 2중 확인 전에는 상세 확정으로 보지 않습니다.",
+      "contactAdvice": "지원 전 회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문을 다시 확인하세요.",
+      "publicRecruitDetails": {
+        "companyNotice": "회사·기관 공식 공고 확인",
+        "sourceCheck": "공식 공고 링크확인",
+        "hiring": "기타(안전순찰원)",
+        "eligibility": "학력무관 · 신입",
+        "process": "제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기·체력전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형(50), 체력전형(50), 법정가점 합계 고득점자 순 - 조직적합도 검사 : JAT(Job Aptitude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기·체력전형 및 조직적합도 검사 통과자 - 선발방법 : 블",
+        "application": "2026-05-26 원서 마감",
+        "attachments": [
+          "2026년 한국도로공사 순찰직(안전순찰원) 인재영입 공고문[취업지원대상자 보훈전형].pdf",
+          "공고문: 입사지원서 - 안전순찰원.hwp",
+          "공고문: 직무기술서 - 안전순찰원.pdf"
+        ]
+      },
+      "teacherBriefing": {
+        "version": 1,
+        "generator": "official-source-briefing-v1",
+        "label": "취업부 공채 브리핑",
+        "detailLevel": "official-summary-pending-company-check",
+        "headline": "한국도로공사 - 2026년 한국도로공사 순찰직(안전순찰원) 인재영입 공고 [취업지원대상자 보훈전형](원서 마감)",
+        "summaryLines": [
+          "한국도로공사 공채·공식전형",
+          "채용부문: 기타(안전순찰원)",
+          "학력·자격: ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전…",
+          "근무지: 경기,강원,충남,경북,경남",
+          "고용형태: 무기계약직"
+        ],
+        "scheduleLines": [
+          "원서접수: 2026-05-26 원서 마감",
+          "전형절차: 제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기·체력전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형(50), 체력전형(50), 법정가점 합계 고…",
+          "필기전형: : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기·체력전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전…",
+          "면접전형: itude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기·체력전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(20), 체력전형(20), …",
+          "발표·임용: 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(20), 체력전형(20), 면접전형(60), 법정가점 합계 고득점자 순 - 면접전형 불합격자 제외 수도권본부-시흥지사 구분 선발…"
+        ],
+        "examSubjects": [
+          "체력검정"
+        ],
+        "schoolActionItems": [
+          "공식 공고 링크확인",
+          "학교장 추천 필요 여부 원문 확인",
+          "지원 가능 학년·졸업예정 기준 확인",
+          "공고문·입사지원서·직무기술서 첨부 확보",
+          "필기/NCS 대비 일정 안내",
+          "공고 게시일과 첫날 수집 누락 여부 점검"
+        ],
+        "studentActionItems": [
+          "원서접수 마감 전 지원계정·제출서류 확인",
+          "NCS·직무능력·인적성 대비",
+          "자기소개서·경험기술서 초안 작성",
+          "근무지·고용형태·임용예정일 확인"
+        ],
+        "sourceLines": [
+          "공식 원문: https://www.ex.co.kr/",
+          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=300412",
+          "공식 채용 소스에서 회사·기관 또는 채용대행 공식 공지사항 링크를 확보했습니다. 접속 또는 본문 대조는 추가 확인이 필요합니다.",
+          "공채 후보로 우선 표시하되 회사·기관 또는 채용대행 공식 공지사항 2중 확인 전에는 상세 확정으로 보지 않습니다."
+        ],
+        "attachmentLines": [
+          "2026년 한국도로공사 순찰직(안전순찰원) 인재영입 공고문[취업지원대상자 보훈전형].pdf: https://www.alio.go.kr/download/download.json?fileNo=3048825",
+          "공고문: 입사지원서 - 안전순찰원.hwp: https://www.alio.go.kr/download/download.json?fileNo=3048826",
+          "공고문: 직무기술서 - 안전순찰원.pdf: https://www.alio.go.kr/download/download.json?fileNo=3048827"
+        ],
+        "teacherShareText": "[한국도로공사]\n- 고졸(예정) 공채·공식전형\n\n[채용부문]\n- 한국도로공사 공채·공식전형\n- 채용부문: 기타(안전순찰원)\n- 학력·자격: ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전…\n- 근무지: 경기,강원,충남,경북,경남\n- 고용형태: 무기계약직\n\n[전형일정]\n- 원서접수: 2026-05-26 원서 마감\n- 전형절차: 제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기·체력전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형(50), 체력전형(50), 법정가점 합계 고…\n- 필기전형: : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기·체력전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전…\n- 면접전형: itude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기·체력전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(20), 체력전형(20), …\n- 발표·임용: 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(20), 체력전형(20), 면접전형(60), 법정가점 합계 고득점자 순 - 면접전형 불합격자 제외 수도권본부-시흥지사 구분 선발…\n\n[학교 확인]\n- 공식 공고 링크확인\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 필기/NCS 대비 일정 안내\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- NCS·직무능력·인적성 대비\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.ex.co.kr/\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=300412\n- 공식 채용 소스에서 회사·기관 또는 채용대행 공식 공지사항 링크를 확보했습니다. 접속 또는 본문 대조는 추가 확인이 필요합니다.\n- 2026년 한국도로공사 순찰직(안전순찰원) 인재영입 공고문[취업지원대상자 보훈전형].pdf: https://www.alio.go.kr/download/download.json?fileNo=3048825\n- 공고문: 입사지원서 - 안전순찰원.hwp: https://www.alio.go.kr/download/download.json?fileNo=3048826\n- 공고문: 직무기술서 - 안전순찰원.pdf: https://www.alio.go.kr/download/download.json?fileNo=3048827",
+        "officialBasis": "공식 공고 링크확인",
+        "officialUrl": "https://www.ex.co.kr/",
+        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300412",
+        "generatedAt": "2026-06-03T05:08:13.632Z"
+      },
+      "schoolRecommendation": "unknown",
+      "status": "application_closed",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "필기·공식전형",
+        "공공기관",
+        "무기계약직",
+        "학력무관",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ]
+    },
+    {
+      "id": "424e870704a57726f1",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "sourceId": "300410",
+      "title": "2026년 한국도로공사 실무직(상황관리원) 인재영입 공고 [취업지원대상자 보훈전형](원서 마감)",
+      "baseTitle": "2026년 한국도로공사 실무직(상황관리원) 인재영입 공고 [취업지원대상자 보훈전형]",
+      "company": "한국도로공사",
+      "region": "울산,경기,강원,충남,충북,전북",
+      "education": "학력무관",
+      "career": "신입",
+      "employmentType": "무기계약직",
+      "recruitField": "기타(상황관리원)",
+      "recruitNumber": "",
+      "applicationMethod": "",
+      "contact": "",
+      "attachments": [
+        {
+          "title": "2026년 한국도로공사 실무직(상황관리원) 인재영입 공고문[취업지원대상자 보훈전형].pdf",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048819"
+        },
+        {
+          "title": "공고문: 입사지원서 - 상황관리원.hwp",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048820"
+        },
+        {
+          "title": "공고문: 직무기술서 - 상황관리원.pdf",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048821"
+        }
+      ],
+      "detailText": "기타(상황관리원) ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전 전역 예정자 포함 ㅇ 공사 인사규정 제8조의 취업지원대상자 등 제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, 법정가점 합계 고득점자 순 - 조직적합도 검사 : JAT(Job Aptitude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60), 법정가점 합계 고득점자 순 - 면접전형 불합격자 제외 서울경기본부 구분 선발인원 응시인원 결과 확정일 1차 - - - 2차 - - - 최종 - - - 강원본부-홍천지사 구분 선발인원 응시인원 결과 확정일 1차 - - - 2차 - - - 최종 - - - 충북본부-충주지사 구분 선발인원 응시인원 결과 확정일 1차 - -",
+      "deadline": "2026-05-26",
+      "deadlineText": "2026-05-26 원서 마감",
+      "url": "https://www.ex.co.kr/",
+      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=300410",
+      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=300410",
+      "companyNoticeUrl": "https://www.ex.co.kr/",
+      "primaryOfficialUrl": "https://www.ex.co.kr/",
+      "officialNoticePriority": "company-or-agency-notice-first",
+      "supplementarySourceUrls": [
+        "https://job.alio.go.kr/recruitview.do?idx=300410"
+      ],
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
+      "publishedAt": "2026-05-12T14:59:59.000Z",
+      "publishedDate": "2026-05-12",
+      "firstSeenAt": "2026-06-02T15:48:22.299Z",
+      "firstSeenDate": "2026-06-03",
+      "collectionAudit": {
+        "policy": "public-recruit-first-day-collection",
+        "publishedAt": "2026-05-12T14:59:59.000Z",
+        "publishedDate": "2026-05-12",
+        "firstSeenAt": "2026-06-02T15:48:22.299Z",
+        "firstSeenDate": "2026-06-03",
+        "detectionLagDays": 22,
+        "firstDayCollected": false,
+        "missedReviewNeeded": true,
+        "firstDayStatus": "late_detected",
+        "note": "공고 게시 후 22일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      },
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "exam-formal",
+      "processTrackName": "필기·공식전형",
+      "writtenExam": "confirmed",
+      "processConfidence": "high",
+      "processLabels": [
+        "공공기관",
+        "필기 확인"
+      ],
+      "processNote": "필기시험 또는 공식 선발 절차가 원문 키워드에서 확인됩니다.",
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "sourceVerification": {
+        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=300410",
+        "companyNoticeUrl": "https://www.ex.co.kr/",
+        "primaryOfficialUrl": "https://www.ex.co.kr/",
+        "officialNoticePriority": "company-or-agency-notice-first",
+        "companyNoticeCheckStatus": "fetch_failed",
+        "companyNoticeReachable": false,
+        "companyNoticeMatched": false,
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
+        "doubleCheckStatus": "company_notice_linked",
+        "doubleCheckLabel": "공식 공고 링크확인",
+        "verificationNote": "공식 채용 소스에서 회사·기관 또는 채용대행 공식 공지사항 링크를 확보했습니다. 접속 또는 본문 대조는 추가 확인이 필요합니다."
+      },
+      "servicePriority": "primary-public-recruit",
+      "servicePolicyLabel": "공채 상세 확인중",
+      "detailLevel": "official-summary-pending-company-check",
+      "displayNote": "공채 후보로 우선 표시하되 회사·기관 또는 채용대행 공식 공지사항 2중 확인 전에는 상세 확정으로 보지 않습니다.",
+      "contactAdvice": "지원 전 회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문을 다시 확인하세요.",
+      "publicRecruitDetails": {
+        "companyNotice": "회사·기관 공식 공고 확인",
+        "sourceCheck": "공식 공고 링크확인",
+        "hiring": "기타(상황관리원)",
+        "eligibility": "학력무관 · 신입",
+        "process": "제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, 법정가점 합계 고득점자 순 - 조직적합도 검사 : JAT(Job Aptitude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기",
+        "application": "2026-05-26 원서 마감",
+        "attachments": [
+          "2026년 한국도로공사 실무직(상황관리원) 인재영입 공고문[취업지원대상자 보훈전형].pdf",
+          "공고문: 입사지원서 - 상황관리원.hwp",
+          "공고문: 직무기술서 - 상황관리원.pdf"
+        ]
+      },
+      "teacherBriefing": {
+        "version": 1,
+        "generator": "official-source-briefing-v1",
+        "label": "취업부 공채 브리핑",
+        "detailLevel": "official-summary-pending-company-check",
+        "headline": "한국도로공사 - 2026년 한국도로공사 실무직(상황관리원) 인재영입 공고 [취업지원대상자 보훈전형](원서 마감)",
+        "summaryLines": [
+          "한국도로공사 공채·공식전형",
+          "채용부문: 기타(상황관리원)",
+          "학력·자격: ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전…",
+          "근무지: 울산,경기,강원,충남,충북,전북",
+          "고용형태: 무기계약직"
+        ],
+        "scheduleLines": [
+          "원서접수: 2026-05-26 원서 마감",
+          "전형절차: 제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, 법정가점 합계 고득점자 순 - 조직적합도 검사 …",
+          "필기전형: : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, …",
+          "면접전형: itude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60), 법정가…",
+          "발표·임용: 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60), 법정가점 합계 고득점자 순 - 면접전형 불합격자 제외 서울경기본부 구분 선발인원 응시인원 결과 확정일…"
+        ],
+        "examSubjects": [
+          "필기전형 있음 - 과목은 원문 확인"
+        ],
+        "schoolActionItems": [
+          "공식 공고 링크확인",
+          "학교장 추천 필요 여부 원문 확인",
+          "지원 가능 학년·졸업예정 기준 확인",
+          "공고문·입사지원서·직무기술서 첨부 확보",
+          "필기/NCS 대비 일정 안내",
+          "공고 게시일과 첫날 수집 누락 여부 점검"
+        ],
+        "studentActionItems": [
+          "원서접수 마감 전 지원계정·제출서류 확인",
+          "NCS·직무능력·인적성 대비",
+          "자기소개서·경험기술서 초안 작성",
+          "근무지·고용형태·임용예정일 확인"
+        ],
+        "sourceLines": [
+          "공식 원문: https://www.ex.co.kr/",
+          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=300410",
+          "공식 채용 소스에서 회사·기관 또는 채용대행 공식 공지사항 링크를 확보했습니다. 접속 또는 본문 대조는 추가 확인이 필요합니다.",
+          "공채 후보로 우선 표시하되 회사·기관 또는 채용대행 공식 공지사항 2중 확인 전에는 상세 확정으로 보지 않습니다."
+        ],
+        "attachmentLines": [
+          "2026년 한국도로공사 실무직(상황관리원) 인재영입 공고문[취업지원대상자 보훈전형].pdf: https://www.alio.go.kr/download/download.json?fileNo=3048819",
+          "공고문: 입사지원서 - 상황관리원.hwp: https://www.alio.go.kr/download/download.json?fileNo=3048820",
+          "공고문: 직무기술서 - 상황관리원.pdf: https://www.alio.go.kr/download/download.json?fileNo=3048821"
+        ],
+        "teacherShareText": "[한국도로공사]\n- 고졸(예정) 공채·공식전형\n\n[채용부문]\n- 한국도로공사 공채·공식전형\n- 채용부문: 기타(상황관리원)\n- 학력·자격: ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전…\n- 근무지: 울산,경기,강원,충남,충북,전북\n- 고용형태: 무기계약직\n\n[전형일정]\n- 원서접수: 2026-05-26 원서 마감\n- 전형절차: 제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, 법정가점 합계 고득점자 순 - 조직적합도 검사 …\n- 필기전형: : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, …\n- 면접전형: itude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60), 법정가…\n- 발표·임용: 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60), 법정가점 합계 고득점자 순 - 면접전형 불합격자 제외 서울경기본부 구분 선발인원 응시인원 결과 확정일…\n\n[학교 확인]\n- 공식 공고 링크확인\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 필기/NCS 대비 일정 안내\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- NCS·직무능력·인적성 대비\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.ex.co.kr/\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=300410\n- 공식 채용 소스에서 회사·기관 또는 채용대행 공식 공지사항 링크를 확보했습니다. 접속 또는 본문 대조는 추가 확인이 필요합니다.\n- 2026년 한국도로공사 실무직(상황관리원) 인재영입 공고문[취업지원대상자 보훈전형].pdf: https://www.alio.go.kr/download/download.json?fileNo=3048819\n- 공고문: 입사지원서 - 상황관리원.hwp: https://www.alio.go.kr/download/download.json?fileNo=3048820\n- 공고문: 직무기술서 - 상황관리원.pdf: https://www.alio.go.kr/download/download.json?fileNo=3048821",
+        "officialBasis": "공식 공고 링크확인",
+        "officialUrl": "https://www.ex.co.kr/",
+        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300410",
+        "generatedAt": "2026-06-03T05:08:13.632Z"
+      },
+      "schoolRecommendation": "unknown",
+      "status": "application_closed",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "필기·공식전형",
+        "공공기관",
+        "무기계약직",
+        "학력무관",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ]
+    },
+    {
+      "id": "35740161c789f46aa7",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "sourceId": "300408",
+      "title": "2026년 한국도로공사 실무직(상황관리원) 인재영입 공고 [일반전형](원서 마감)",
+      "baseTitle": "2026년 한국도로공사 실무직(상황관리원) 인재영입 공고 [일반전형]",
+      "company": "한국도로공사",
+      "region": "강원,경북",
+      "education": "학력무관",
+      "career": "신입",
+      "employmentType": "무기계약직",
+      "recruitField": "기타(상황관리원)",
+      "recruitNumber": "",
+      "applicationMethod": "",
+      "contact": "",
+      "attachments": [
+        {
+          "title": "2026년 한국도로공사 실무직(상황관리원) 인재영입 공고문[일반전형].pdf",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048811"
+        },
+        {
+          "title": "공고문: 입사지원서 - 상황관리원.hwp",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048812"
+        },
+        {
+          "title": "공고문: 직무기술서 - 상황관리원.pdf",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048813"
+        }
+      ],
+      "detailText": "기타(상황관리원) ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전 전역 예정자 포함 ㅇ 공사 인사규정 제8조의 관련 자격증 소지자 등 서류전형 세부기준 참고 제1차 : 서류전형 - 선발인원 : 최종 선발인원의 7배수(동점자 전원 선발) - 선발기준 : 자격요건을 갖춘 자를 대상으로 서류심사 결과 고득점자 순 - 서류심사 : 자격증(30), 역량기술서 평가(10), 선택가점 합계 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 서류전형 통과자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 서류전형(40), 필기전형(60) 합계 고득점자 순 - 조직적합도 검사 : JAT(Job Aptitude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60) 합계 고득점자 순 - 면접전형 불합격자 제외 강원본부-홍천지사 구분 선발인원 응시인원 결과 확정일 1차 - - - ",
+      "deadline": "2026-05-26",
+      "deadlineText": "2026-05-26 원서 마감",
+      "url": "https://www.ex.co.kr/",
+      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=300408",
+      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=300408",
+      "companyNoticeUrl": "https://www.ex.co.kr/",
+      "primaryOfficialUrl": "https://www.ex.co.kr/",
+      "officialNoticePriority": "company-or-agency-notice-first",
+      "supplementarySourceUrls": [
+        "https://job.alio.go.kr/recruitview.do?idx=300408"
+      ],
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
+      "publishedAt": "2026-05-12T14:59:59.000Z",
+      "publishedDate": "2026-05-12",
+      "firstSeenAt": "2026-06-02T15:48:22.299Z",
+      "firstSeenDate": "2026-06-03",
+      "collectionAudit": {
+        "policy": "public-recruit-first-day-collection",
+        "publishedAt": "2026-05-12T14:59:59.000Z",
+        "publishedDate": "2026-05-12",
+        "firstSeenAt": "2026-06-02T15:48:22.299Z",
+        "firstSeenDate": "2026-06-03",
+        "detectionLagDays": 22,
+        "firstDayCollected": false,
+        "missedReviewNeeded": true,
+        "firstDayStatus": "late_detected",
+        "note": "공고 게시 후 22일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      },
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "exam-formal",
+      "processTrackName": "필기·공식전형",
+      "writtenExam": "confirmed",
+      "processConfidence": "high",
+      "processLabels": [
+        "공공기관",
+        "필기 확인"
+      ],
+      "processNote": "필기시험 또는 공식 선발 절차가 원문 키워드에서 확인됩니다.",
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "sourceVerification": {
+        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=300408",
+        "companyNoticeUrl": "https://www.ex.co.kr/",
+        "primaryOfficialUrl": "https://www.ex.co.kr/",
+        "officialNoticePriority": "company-or-agency-notice-first",
+        "companyNoticeCheckStatus": "fetch_failed",
+        "companyNoticeReachable": false,
+        "companyNoticeMatched": false,
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
+        "doubleCheckStatus": "company_notice_linked",
+        "doubleCheckLabel": "공식 공고 링크확인",
+        "verificationNote": "공식 채용 소스에서 회사·기관 또는 채용대행 공식 공지사항 링크를 확보했습니다. 접속 또는 본문 대조는 추가 확인이 필요합니다."
+      },
+      "servicePriority": "primary-public-recruit",
+      "servicePolicyLabel": "공채 상세 확인중",
+      "detailLevel": "official-summary-pending-company-check",
+      "displayNote": "공채 후보로 우선 표시하되 회사·기관 또는 채용대행 공식 공지사항 2중 확인 전에는 상세 확정으로 보지 않습니다.",
+      "contactAdvice": "지원 전 회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문을 다시 확인하세요.",
+      "publicRecruitDetails": {
+        "companyNotice": "회사·기관 공식 공고 확인",
+        "sourceCheck": "공식 공고 링크확인",
+        "hiring": "기타(상황관리원)",
+        "eligibility": "학력무관 · 신입",
+        "process": "제1차 : 서류전형 - 선발인원 : 최종 선발인원의 7배수(동점자 전원 선발) - 선발기준 : 자격요건을 갖춘 자를 대상으로 서류심사 결과 고득점자 순 - 서류심사 : 자격증(30), 역량기술서 평가(10), 선택가점 합계 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 서류전형 통과자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 서류전형(40), 필기전형(60) 합계 고득점자 순 - 조직적합도 검사 : JAT(Job Apt",
+        "application": "2026-05-26 원서 마감",
+        "attachments": [
+          "2026년 한국도로공사 실무직(상황관리원) 인재영입 공고문[일반전형].pdf",
+          "공고문: 입사지원서 - 상황관리원.hwp",
+          "공고문: 직무기술서 - 상황관리원.pdf"
+        ]
+      },
+      "teacherBriefing": {
+        "version": 1,
+        "generator": "official-source-briefing-v1",
+        "label": "취업부 공채 브리핑",
+        "detailLevel": "official-summary-pending-company-check",
+        "headline": "한국도로공사 - 2026년 한국도로공사 실무직(상황관리원) 인재영입 공고 [일반전형](원서 마감)",
+        "summaryLines": [
+          "한국도로공사 공채·공식전형",
+          "채용부문: 기타(상황관리원)",
+          "학력·자격: ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전…",
+          "근무지: 강원,경북",
+          "고용형태: 무기계약직"
+        ],
+        "scheduleLines": [
+          "원서접수: 2026-05-26 원서 마감",
+          "전형절차: 제1차 : 서류전형 - 선발인원 : 최종 선발인원의 7배수(동점자 전원 선발) - 선발기준 : 자격요건을 갖춘 자를 대상으로 서류심사 결과 고득점자 순 - 서류심사 : 자격증(30), 역량기술서 평가(10), 선택가점 합계 제2차 : 필기전형 및 조직적합도 검사 - …",
+          "필기전형: (30), 역량기술서 평가(10), 선택가점 합계 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 서류전형 통과자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 서류전형(40),…",
+          "면접전형: itude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60) 합계 고…",
+          "발표·임용: 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60) 합계 고득점자 순 - 면접전형 불합격자 제외 강원본부-홍천지사 구분 선발인원 응시인원 결과 확정일 1차…"
+        ],
+        "examSubjects": [
+          "필기전형 있음 - 과목은 원문 확인"
+        ],
+        "schoolActionItems": [
+          "공식 공고 링크확인",
+          "학교장 추천 필요 여부 원문 확인",
+          "지원 가능 학년·졸업예정 기준 확인",
+          "공고문·입사지원서·직무기술서 첨부 확보",
+          "필기/NCS 대비 일정 안내",
+          "공고 게시일과 첫날 수집 누락 여부 점검"
+        ],
+        "studentActionItems": [
+          "원서접수 마감 전 지원계정·제출서류 확인",
+          "NCS·직무능력·인적성 대비",
+          "자기소개서·경험기술서 초안 작성",
+          "근무지·고용형태·임용예정일 확인"
+        ],
+        "sourceLines": [
+          "공식 원문: https://www.ex.co.kr/",
+          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=300408",
+          "공식 채용 소스에서 회사·기관 또는 채용대행 공식 공지사항 링크를 확보했습니다. 접속 또는 본문 대조는 추가 확인이 필요합니다.",
+          "공채 후보로 우선 표시하되 회사·기관 또는 채용대행 공식 공지사항 2중 확인 전에는 상세 확정으로 보지 않습니다."
+        ],
+        "attachmentLines": [
+          "2026년 한국도로공사 실무직(상황관리원) 인재영입 공고문[일반전형].pdf: https://www.alio.go.kr/download/download.json?fileNo=3048811",
+          "공고문: 입사지원서 - 상황관리원.hwp: https://www.alio.go.kr/download/download.json?fileNo=3048812",
+          "공고문: 직무기술서 - 상황관리원.pdf: https://www.alio.go.kr/download/download.json?fileNo=3048813"
+        ],
+        "teacherShareText": "[한국도로공사]\n- 고졸(예정) 공채·공식전형\n\n[채용부문]\n- 한국도로공사 공채·공식전형\n- 채용부문: 기타(상황관리원)\n- 학력·자격: ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전…\n- 근무지: 강원,경북\n- 고용형태: 무기계약직\n\n[전형일정]\n- 원서접수: 2026-05-26 원서 마감\n- 전형절차: 제1차 : 서류전형 - 선발인원 : 최종 선발인원의 7배수(동점자 전원 선발) - 선발기준 : 자격요건을 갖춘 자를 대상으로 서류심사 결과 고득점자 순 - 서류심사 : 자격증(30), 역량기술서 평가(10), 선택가점 합계 제2차 : 필기전형 및 조직적합도 검사 - …\n- 필기전형: (30), 역량기술서 평가(10), 선택가점 합계 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 서류전형 통과자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 서류전형(40),…\n- 면접전형: itude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60) 합계 고…\n- 발표·임용: 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60) 합계 고득점자 순 - 면접전형 불합격자 제외 강원본부-홍천지사 구분 선발인원 응시인원 결과 확정일 1차…\n\n[학교 확인]\n- 공식 공고 링크확인\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 필기/NCS 대비 일정 안내\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- NCS·직무능력·인적성 대비\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.ex.co.kr/\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=300408\n- 공식 채용 소스에서 회사·기관 또는 채용대행 공식 공지사항 링크를 확보했습니다. 접속 또는 본문 대조는 추가 확인이 필요합니다.\n- 2026년 한국도로공사 실무직(상황관리원) 인재영입 공고문[일반전형].pdf: https://www.alio.go.kr/download/download.json?fileNo=3048811\n- 공고문: 입사지원서 - 상황관리원.hwp: https://www.alio.go.kr/download/download.json?fileNo=3048812\n- 공고문: 직무기술서 - 상황관리원.pdf: https://www.alio.go.kr/download/download.json?fileNo=3048813",
+        "officialBasis": "공식 공고 링크확인",
+        "officialUrl": "https://www.ex.co.kr/",
+        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300408",
+        "generatedAt": "2026-06-03T05:08:13.632Z"
+      },
+      "schoolRecommendation": "unknown",
+      "status": "application_closed",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "필기·공식전형",
+        "공공기관",
+        "무기계약직",
+        "학력무관",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ]
+    },
+    {
+      "id": "fd10254503abea4a18",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "sourceId": "300407",
+      "title": "2026년 한국도로공사 실무직(사무원) 인재영입 공고 [취업지원대상자 보훈전형](원서 마감)",
+      "baseTitle": "2026년 한국도로공사 실무직(사무원) 인재영입 공고 [취업지원대상자 보훈전형]",
+      "company": "한국도로공사",
+      "region": "경남,전북",
+      "education": "학력무관",
+      "career": "신입",
+      "employmentType": "무기계약직",
+      "recruitField": "기타(사무원)",
+      "recruitNumber": "",
+      "applicationMethod": "",
+      "contact": "",
+      "attachments": [
+        {
+          "title": "2026년 한국도로공사 실무직(사무원) 인재영입 공고문[취업지원대상자 보훈전형].pdf",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048805"
+        },
+        {
+          "title": "공고문: 입사지원서 - 사무원.hwp",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048806"
+        },
+        {
+          "title": "공고문: 직무기술서 - 사무원.pdf",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3048807"
+        }
+      ],
+      "detailText": "기타(사무원) ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전 전역 예정자 포함 ㅇ 공사 인사규정 제8조의 취업지원대상자 등 제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, 법정가점 합계 고득점자 순 - 조직적합도 검사 : JAT(Job Aptitude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60), 법정가점 합계 고득점자 순 - 면접전형 불합격자 제외 전북본부-전주수목원 구분 선발인원 응시인원 결과 확정일 1차 - - - 2차 - - - 최종 - - - 부산경남본부 구분 선발인원 응시인원 결과 확정일 1차 - - - 2차 - - - 최종 - - - 2026년 한국도로공사 실무직(사무원) 인재영입 공고문[취업지원대상",
+      "deadline": "2026-05-26",
+      "deadlineText": "2026-05-26 원서 마감",
+      "url": "https://www.ex.co.kr/",
+      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=300407",
+      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=300407",
+      "companyNoticeUrl": "https://www.ex.co.kr/",
+      "primaryOfficialUrl": "https://www.ex.co.kr/",
+      "officialNoticePriority": "company-or-agency-notice-first",
+      "supplementarySourceUrls": [
+        "https://job.alio.go.kr/recruitview.do?idx=300407"
+      ],
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
+      "publishedAt": "2026-05-12T14:59:59.000Z",
+      "publishedDate": "2026-05-12",
+      "firstSeenAt": "2026-06-02T15:48:22.299Z",
+      "firstSeenDate": "2026-06-03",
+      "collectionAudit": {
+        "policy": "public-recruit-first-day-collection",
+        "publishedAt": "2026-05-12T14:59:59.000Z",
+        "publishedDate": "2026-05-12",
+        "firstSeenAt": "2026-06-02T15:48:22.299Z",
+        "firstSeenDate": "2026-06-03",
+        "detectionLagDays": 22,
+        "firstDayCollected": false,
+        "missedReviewNeeded": true,
+        "firstDayStatus": "late_detected",
+        "note": "공고 게시 후 22일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      },
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "exam-formal",
+      "processTrackName": "필기·공식전형",
+      "writtenExam": "confirmed",
+      "processConfidence": "high",
+      "processLabels": [
+        "공공기관",
+        "필기 확인"
+      ],
+      "processNote": "필기시험 또는 공식 선발 절차가 원문 키워드에서 확인됩니다.",
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "sourceVerification": {
+        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=300407",
+        "companyNoticeUrl": "https://www.ex.co.kr/",
+        "primaryOfficialUrl": "https://www.ex.co.kr/",
+        "officialNoticePriority": "company-or-agency-notice-first",
+        "companyNoticeCheckStatus": "fetch_failed",
+        "companyNoticeReachable": false,
+        "companyNoticeMatched": false,
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
+        "doubleCheckStatus": "company_notice_linked",
+        "doubleCheckLabel": "공식 공고 링크확인",
+        "verificationNote": "공식 채용 소스에서 회사·기관 또는 채용대행 공식 공지사항 링크를 확보했습니다. 접속 또는 본문 대조는 추가 확인이 필요합니다."
+      },
+      "servicePriority": "primary-public-recruit",
+      "servicePolicyLabel": "공채 상세 확인중",
+      "detailLevel": "official-summary-pending-company-check",
+      "displayNote": "공채 후보로 우선 표시하되 회사·기관 또는 채용대행 공식 공지사항 2중 확인 전에는 상세 확정으로 보지 않습니다.",
+      "contactAdvice": "지원 전 회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문을 다시 확인하세요.",
+      "publicRecruitDetails": {
+        "companyNotice": "회사·기관 공식 공고 확인",
+        "sourceCheck": "공식 공고 링크확인",
+        "hiring": "기타(사무원)",
+        "eligibility": "학력무관 · 신입",
+        "process": "제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, 법정가점 합계 고득점자 순 - 조직적합도 검사 : JAT(Job Aptitude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기",
+        "application": "2026-05-26 원서 마감",
+        "attachments": [
+          "2026년 한국도로공사 실무직(사무원) 인재영입 공고문[취업지원대상자 보훈전형].pdf",
+          "공고문: 입사지원서 - 사무원.hwp",
+          "공고문: 직무기술서 - 사무원.pdf"
+        ]
+      },
+      "teacherBriefing": {
+        "version": 1,
+        "generator": "official-source-briefing-v1",
+        "label": "취업부 공채 브리핑",
+        "detailLevel": "official-summary-pending-company-check",
+        "headline": "한국도로공사 - 2026년 한국도로공사 실무직(사무원) 인재영입 공고 [취업지원대상자 보훈전형](원서 마감)",
+        "summaryLines": [
+          "한국도로공사 공채·공식전형",
+          "채용부문: 기타(사무원)",
+          "학력·자격: ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전…",
+          "근무지: 경남,전북",
+          "고용형태: 무기계약직"
+        ],
+        "scheduleLines": [
+          "원서접수: 2026-05-26 원서 마감",
+          "전형절차: 제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, 법정가점 합계 고득점자 순 - 조직적합도 검사 …",
+          "필기전형: : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, …",
+          "면접전형: itude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60), 법정가…",
+          "발표·임용: 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60), 법정가점 합계 고득점자 순 - 면접전형 불합격자 제외 전북본부-전주수목원 구분 선발인원 응시인원 결과…"
+        ],
+        "examSubjects": [
+          "필기전형 있음 - 과목은 원문 확인"
+        ],
+        "schoolActionItems": [
+          "공식 공고 링크확인",
+          "학교장 추천 필요 여부 원문 확인",
+          "지원 가능 학년·졸업예정 기준 확인",
+          "공고문·입사지원서·직무기술서 첨부 확보",
+          "필기/NCS 대비 일정 안내",
+          "공고 게시일과 첫날 수집 누락 여부 점검"
+        ],
+        "studentActionItems": [
+          "원서접수 마감 전 지원계정·제출서류 확인",
+          "NCS·직무능력·인적성 대비",
+          "자기소개서·경험기술서 초안 작성",
+          "근무지·고용형태·임용예정일 확인"
+        ],
+        "sourceLines": [
+          "공식 원문: https://www.ex.co.kr/",
+          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=300407",
+          "공식 채용 소스에서 회사·기관 또는 채용대행 공식 공지사항 링크를 확보했습니다. 접속 또는 본문 대조는 추가 확인이 필요합니다.",
+          "공채 후보로 우선 표시하되 회사·기관 또는 채용대행 공식 공지사항 2중 확인 전에는 상세 확정으로 보지 않습니다."
+        ],
+        "attachmentLines": [
+          "2026년 한국도로공사 실무직(사무원) 인재영입 공고문[취업지원대상자 보훈전형].pdf: https://www.alio.go.kr/download/download.json?fileNo=3048805",
+          "공고문: 입사지원서 - 사무원.hwp: https://www.alio.go.kr/download/download.json?fileNo=3048806",
+          "공고문: 직무기술서 - 사무원.pdf: https://www.alio.go.kr/download/download.json?fileNo=3048807"
+        ],
+        "teacherShareText": "[한국도로공사]\n- 고졸(예정) 공채·공식전형\n\n[채용부문]\n- 한국도로공사 공채·공식전형\n- 채용부문: 기타(사무원)\n- 학력·자격: ㅇ 연령, 성별, 학력 제한 없음[단, 공사 정년(만 60세)에 도달하는 자 제외] ㅇ 병역사항 : 남자의 경우 병역필 또는 면제자(병역특례 근무중인 자 제외) - 인턴 근무시작일(2026년 7월 3일 예정) 이전…\n- 근무지: 경남,전북\n- 고용형태: 무기계약직\n\n[전형일정]\n- 원서접수: 2026-05-26 원서 마감\n- 전형절차: 제1차 : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, 법정가점 합계 고득점자 순 - 조직적합도 검사 …\n- 필기전형: : 서류전형(생략) - 대구지방보훈청 추천자 선발 제2차 : 필기전형 및 조직적합도 검사 - 전형대상 : 대구지방보훈청 추천자 - 선발인원 : 최종 선발인원의 4배수(동점자 전원 선발) - 선발기준 : 필기전형, …\n- 면접전형: itude Test) 검사(부적격자 불합격 처리) 제3차 : 면접전형 - 전형대상 : 필기전형 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60), 법정가…\n- 발표·임용: 및 조직적합도 검사 통과자 - 선발방법 : 블라인드 면접 최종합격자 결정 : 필기전형(40), 면접전형(60), 법정가점 합계 고득점자 순 - 면접전형 불합격자 제외 전북본부-전주수목원 구분 선발인원 응시인원 결과…\n\n[학교 확인]\n- 공식 공고 링크확인\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 필기/NCS 대비 일정 안내\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- NCS·직무능력·인적성 대비\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.ex.co.kr/\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=300407\n- 공식 채용 소스에서 회사·기관 또는 채용대행 공식 공지사항 링크를 확보했습니다. 접속 또는 본문 대조는 추가 확인이 필요합니다.\n- 2026년 한국도로공사 실무직(사무원) 인재영입 공고문[취업지원대상자 보훈전형].pdf: https://www.alio.go.kr/download/download.json?fileNo=3048805\n- 공고문: 입사지원서 - 사무원.hwp: https://www.alio.go.kr/download/download.json?fileNo=3048806\n- 공고문: 직무기술서 - 사무원.pdf: https://www.alio.go.kr/download/download.json?fileNo=3048807",
+        "officialBasis": "공식 공고 링크확인",
+        "officialUrl": "https://www.ex.co.kr/",
+        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300407",
+        "generatedAt": "2026-06-03T05:08:13.632Z"
+      },
+      "schoolRecommendation": "unknown",
+      "status": "application_closed",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "필기·공식전형",
+        "공공기관",
+        "무기계약직",
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
@@ -6716,7 +6763,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301277"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -6758,7 +6805,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -6823,7 +6870,7 @@
         "officialBasis": "회사 확인 권고",
         "officialUrl": "https://www.kps.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301277",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -6888,7 +6935,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=300879"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-05-21T14:59:59.000Z",
       "publishedDate": "2026-05-21",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -6930,7 +6977,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -6994,7 +7041,7 @@
         "officialBasis": "회사 확인 권고",
         "officialUrl": "https://info.korail.com/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300879",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -7051,7 +7098,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301023"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-05-27T14:59:59.000Z",
       "publishedDate": "2026-05-27",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -7094,7 +7141,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -7156,7 +7203,7 @@
         "officialBasis": "회사 확인 권고",
         "officialUrl": "https://www.nps.or.kr/pnsgdnc/hiregdnc/getOHAE0004M1.do?menuId=MN24000969&pstId=ZZ202600000000000593&hmpgCd=01&hmpgBbsCd=BS20240138&sortSe=FR&pageIndex=1&searchText=&searchGbu=&pstSeCd=",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301023",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -7217,7 +7264,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=300831"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-05-20T14:59:59.000Z",
       "publishedDate": "2026-05-20",
       "firstSeenAt": "2026-06-02T16:21:49.473Z",
@@ -7259,7 +7306,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -7322,7 +7369,7 @@
         "officialBasis": "회사 확인 권고",
         "officialUrl": "https://kangwon.cairos.co.kr/kangwon",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300831",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -7383,7 +7430,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=300828"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-05-20T14:59:59.000Z",
       "publishedDate": "2026-05-20",
       "firstSeenAt": "2026-06-02T16:21:49.473Z",
@@ -7425,7 +7472,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -7488,7 +7535,7 @@
         "officialBasis": "회사 확인 권고",
         "officialUrl": "https://kangwon.cairos.co.kr/kangwon",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300828",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -7549,7 +7596,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301254"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -7591,7 +7638,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -7654,7 +7701,7 @@
         "officialBasis": "회사 확인 권고",
         "officialUrl": "https://www.pola.or.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301254",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -7719,7 +7766,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301271"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -7761,7 +7808,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -7826,7 +7873,7 @@
         "officialBasis": "회사 확인 권고",
         "officialUrl": "https://www.kps.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301271",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -7891,7 +7938,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301260"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-06-02T23:53:02.074Z",
@@ -7933,7 +7980,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -7997,7 +8044,7 @@
         "officialBasis": "회사 확인 권고",
         "officialUrl": "http://www.kps.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301260",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -8062,7 +8109,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301253"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -8104,7 +8151,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -8168,7 +8215,7 @@
         "officialBasis": "회사 확인 권고",
         "officialUrl": "https://www.kps.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301253",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -8229,7 +8276,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301207"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -8271,7 +8318,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -8334,7 +8381,7 @@
         "officialBasis": "회사 확인 권고",
         "officialUrl": "https://www.kps.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301207",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -8395,7 +8442,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=300932"
       ],
-      "verifiedAt": "2026-06-02T23:53:02.074Z",
+      "verifiedAt": "2026-06-03T05:08:13.632Z",
       "publishedAt": "2026-05-22T14:59:59.000Z",
       "publishedDate": "2026-05-22",
       "firstSeenAt": "2026-06-02T23:53:02.074Z",
@@ -8437,7 +8484,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-02T23:53:02.074Z",
+        "companyNoticeCheckedAt": "2026-06-03T05:08:13.632Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -8501,7 +8548,7 @@
         "officialBasis": "회사 확인 권고",
         "officialUrl": "https://www.kogas.or.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300932",
-        "generatedAt": "2026-06-02T23:53:02.074Z"
+        "generatedAt": "2026-06-03T05:08:13.632Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
