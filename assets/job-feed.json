@@ -1,22 +1,22 @@
 {
   "version": 4,
-  "generatedAt": "2026-06-05T08:51:31.151Z",
+  "generatedAt": "2026-06-05T12:48:16.876Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 19:10 KST",
   "mode": "official-public-recruit-auto-registration",
   "summary": {
     "total": 40,
-    "active": 26,
-    "deadlineSoon": 6,
+    "active": 27,
+    "deadlineSoon": 5,
     "applicationClosed": 8,
-    "examFormal": 37,
-    "directInterview": 3,
-    "companyNoticeChecked": 33,
-    "detailedPublicRecruit": 33,
-    "briefDirect": 3,
+    "examFormal": 39,
+    "directInterview": 1,
+    "companyNoticeChecked": 34,
+    "detailedPublicRecruit": 34,
+    "briefDirect": 1,
     "briefingReady": 40,
     "firstDayCollected": 21,
-    "lateDetected": 15,
+    "lateDetected": 14,
     "missedReviewNeeded": 19,
     "criticalCoverageMissing": 0,
     "staleFallbackItems": 0,
@@ -28,10 +28,10 @@
   },
   "collectionReview": {
     "status": "review_needed",
-    "generatedAt": "2026-06-05T08:51:31.151Z",
+    "generatedAt": "2026-06-05T12:48:16.876Z",
     "firstDayGoal": "공채는 게시 첫날 수집을 목표로 하며, 늦게 발견된 공고는 누락 점검 대상으로 기록한다.",
     "missedReviewCount": 12,
-    "officialNoticePendingCount": 4,
+    "officialNoticePendingCount": 5,
     "sourceGapCount": 9,
     "criticalGapCount": 0,
     "missedReviewItems": [
@@ -77,6 +77,17 @@
         "detectionLagDays": 1,
         "status": "deadline_soon",
         "primaryOfficialUrl": "https://www.kopo.ac.kr/chungju/down",
+        "reviewReason": "공고 게시 후 1일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      },
+      {
+        "title": "[경주] 2026년 경주국립공원 기간제(오악잇기 운영보조) 직원 채용 공고",
+        "company": "국립공원공단",
+        "sourceName": "잡알리오 공공기관 채용",
+        "publishedDate": "2026-06-04",
+        "firstSeenDate": "2026-06-05",
+        "detectionLagDays": 1,
+        "status": "deadline_soon",
+        "primaryOfficialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019272",
         "reviewReason": "공고 게시 후 1일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
       },
       {
@@ -155,17 +166,6 @@
         "status": "active",
         "primaryOfficialUrl": "https://www.koem.or.kr/common/board/Download.do?bcIdx=35866&cbIdx=478&fileNo=5",
         "reviewReason": "공고 게시 후 2일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
-      },
-      {
-        "title": "2026년 가덕도신공항건설공단 직원 채용 공고(신입채용)",
-        "company": "가덕도신공항건설공단",
-        "sourceName": "잡알리오 공공기관 채용",
-        "publishedDate": "2026-06-04",
-        "firstSeenDate": "2026-06-05",
-        "detectionLagDays": 1,
-        "status": "active",
-        "primaryOfficialUrl": "https://g-airport.recruitlab.co.kr/",
-        "reviewReason": "공고 게시 후 1일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
       }
     ],
     "officialNoticePendingItems": [
@@ -212,6 +212,17 @@
         "status": "application_closed",
         "primaryOfficialUrl": "https://www.ex.co.kr/",
         "reviewReason": "공고 게시 후 22일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      },
+      {
+        "title": "채용형 인턴 채용공고(주택관리공단 충북지사)",
+        "company": "주택관리공단(주)",
+        "sourceName": "잡알리오 공공기관 채용",
+        "publishedDate": "2026-06-04",
+        "firstSeenDate": "2026-06-05",
+        "detectionLagDays": 1,
+        "status": "active",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301311",
+        "reviewReason": "공고 게시 후 1일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
       }
     ],
     "sourceGaps": [
@@ -280,7 +291,7 @@
       }
     ],
     "criticalCoverage": {
-      "checkedAt": "2026-06-05T08:51:31.151Z",
+      "checkedAt": "2026-06-05T12:48:16.876Z",
       "watchInstitutionCount": 38,
       "currentRequiredCount": 2,
       "coveredCurrent": [
@@ -314,7 +325,7 @@
   },
   "secretReadiness": {
     "status": "needs_secrets_or_official_feeds",
-    "generatedAt": "2026-06-05T08:51:31.151Z",
+    "generatedAt": "2026-06-05T12:48:16.876Z",
     "totalSources": 15,
     "readySources": 6,
     "partialSources": 0,
@@ -1114,7 +1125,7 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-06-05T08:51:31.151Z",
+      "checkedAt": "2026-06-05T12:48:16.876Z",
       "itemCount": 0,
       "message": "인사혁신처 공공취업 API 650건 점검, 후보 0건, 공식분류 조회 28회",
       "scannedCount": 650,
@@ -1137,12 +1148,12 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-06-05T08:51:31.151Z",
-      "itemCount": 4,
-      "message": "기재부 공공기관 채용 API 10건 점검, 후보 4건, 공식 공고 접속확인 0건, 호출방식 page,perPage,returnType",
+      "checkedAt": "2026-06-05T12:48:16.876Z",
+      "itemCount": 2,
+      "message": "기재부 공공기관 채용 API 10건 점검, 후보 2건, 공식 공고 접속확인 0건, 호출방식 page,perPage,returnType",
       "scannedCount": 10,
       "rawItemCount": 10,
-      "firstDayCandidates": 4,
+      "firstDayCandidates": 2,
       "missedReviewNeeded": 0
     },
     {
@@ -1159,7 +1170,7 @@
       "readiness": "active",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-05T08:51:31.151Z",
+      "checkedAt": "2026-06-05T12:48:16.876Z",
       "itemCount": 0,
       "message": "GitHub Secret WORK24_AUTH_KEY 또는 WORKNET_AUTH_KEY 미설정"
     },
@@ -1174,15 +1185,15 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-06-05T08:51:31.151Z",
-      "itemCount": 83,
-      "message": "공식 공개 원문 230건/201후보 점검, 검색경로 53개, 공식 공고 확인 32건, 핵심공고 누락 0건",
-      "scannedCount": 230,
-      "scanTargetCount": 53,
-      "candidateRowCount": 201,
-      "rawItemCount": 201,
+      "checkedAt": "2026-06-05T12:48:16.876Z",
+      "itemCount": 86,
+      "message": "공식 공개 원문 240건/207후보 점검, 검색경로 54개, 공식 공고 확인 33건, 핵심공고 누락 0건",
+      "scannedCount": 240,
+      "scanTargetCount": 54,
+      "candidateRowCount": 207,
+      "rawItemCount": 207,
       "criticalCoverage": {
-        "checkedAt": "2026-06-05T08:51:31.151Z",
+        "checkedAt": "2026-06-05T12:48:16.876Z",
         "watchInstitutionCount": 38,
         "currentRequiredCount": 2,
         "coveredCurrent": [
@@ -1208,7 +1219,7 @@
         "missingCurrent": []
       },
       "firstDayCandidates": 30,
-      "missedReviewNeeded": 53
+      "missedReviewNeeded": 56
     },
     {
       "id": "seoul-highjob",
@@ -1221,7 +1232,7 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-06-05T08:51:31.151Z",
+      "checkedAt": "2026-06-05T12:48:16.876Z",
       "itemCount": 1,
       "message": "서울 하이잡 공식 목록 20건 점검, 후보 1건, 공식 공고 확인 1건, 첫날 수집 0건, 누락점검 1건",
       "scannedCount": 20,
@@ -1242,7 +1253,7 @@
       "readiness": "active",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-05T08:51:31.151Z",
+      "checkedAt": "2026-06-05T12:48:16.876Z",
       "itemCount": 0,
       "message": "GitHub Secret SARAMIN_ACCESS_KEY 미설정"
     },
@@ -1262,7 +1273,7 @@
       "readiness": "pending",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-06-05T08:51:31.151Z",
+      "checkedAt": "2026-06-05T12:48:16.876Z",
       "itemCount": 0,
       "message": "공식 채용 페이지 41/41개 감시, 후보 0건, 접속확인전용 2개, 실패 0개",
       "scannedCount": 0,
@@ -1334,7 +1345,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-05T08:51:31.151Z",
+      "checkedAt": "2026-06-05T12:48:16.876Z",
       "itemCount": 0,
       "message": "인사혁신처 나라일터 공식 API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -1352,7 +1363,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-05T08:51:31.151Z",
+      "checkedAt": "2026-06-05T12:48:16.876Z",
       "itemCount": 0,
       "message": "국방부·각 군 공식 모집/채용 공고 데이터 경로 확인 후 연결"
     },
@@ -1370,7 +1381,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-05T08:51:31.151Z",
+      "checkedAt": "2026-06-05T12:48:16.876Z",
       "itemCount": 0,
       "message": "잡코리아 공식 제휴 또는 이용 허가된 API 확인 후 연결"
     },
@@ -1388,7 +1399,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-05T08:51:31.151Z",
+      "checkedAt": "2026-06-05T12:48:16.876Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -1406,7 +1417,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-05T08:51:31.151Z",
+      "checkedAt": "2026-06-05T12:48:16.876Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -1424,7 +1435,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-05T08:51:31.151Z",
+      "checkedAt": "2026-06-05T12:48:16.876Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -1441,7 +1452,7 @@
       "readiness": "pending",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-06-05T08:51:31.151Z",
+      "checkedAt": "2026-06-05T12:48:16.876Z",
       "itemCount": 5,
       "message": "공식 채용 페이지 8/9개 감시, 후보 5건, 접속확인전용 0개, 실패 1개",
       "scannedCount": 27,
@@ -1481,7 +1492,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-05T08:51:31.151Z",
+      "checkedAt": "2026-06-05T12:48:16.876Z",
       "itemCount": 0,
       "message": "비영리기관 공식 채용 공고 경로와 이용 조건 확인 후 연결"
     }
@@ -1529,7 +1540,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301166"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-05-29T14:59:59.000Z",
       "publishedDate": "2026-05-29",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -1573,7 +1584,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다."
@@ -1648,7 +1659,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "http://recruit.kepco.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301166",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -1717,7 +1728,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301041"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-05-28T14:59:59.000Z",
       "publishedDate": "2026-05-28",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -1759,7 +1770,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_contact_recommended",
         "doubleCheckLabel": "회사 확인 권고",
         "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
@@ -1824,7 +1835,7 @@
         "officialBasis": "회사 확인 권고",
         "officialUrl": "https://www.kca.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301041",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -1885,7 +1896,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301135"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-05-29T14:59:59.000Z",
       "publishedDate": "2026-05-29",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -1927,7 +1938,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -2002,7 +2013,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kice.re.kr/boardCnts/view.do?boardID=10028&boardSeq=5100602&lev=0&m=0503&searchType=S&statusYN=W&page=1&s=kice",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301135",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -2063,7 +2074,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301200"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -2105,7 +2116,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -2180,7 +2191,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/chungju/down",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301200",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -2194,6 +2205,196 @@
         "필기·공식전형",
         "공공기관",
         "무기계약직",
+        "학력무관",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ]
+    },
+    {
+      "id": "1776b8002606d8f2d1",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "sourceId": "301314",
+      "title": "[경주] 2026년 경주국립공원 기간제(오악잇기 운영보조) 직원 채용 공고",
+      "baseTitle": "[경주] 2026년 경주국립공원 기간제(오악잇기 운영보조) 직원 채용 공고",
+      "company": "국립공원공단",
+      "region": "경북",
+      "education": "학력무관",
+      "career": "신입+경력",
+      "employmentType": "비정규직",
+      "recruitField": "계약직",
+      "recruitNumber": "",
+      "applicationMethod": "",
+      "contact": "",
+      "attachments": [
+        {
+          "title": "1. 채용 공고문.pdf",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3053869"
+        },
+        {
+          "title": "공고문: 5. 입사지원서 및 경험?경력기술서.hwp",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3053870"
+        },
+        {
+          "title": "입사지원서: 4. NCS 기반 채용 직무 설명자료.hwp",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3053871"
+        },
+        {
+          "title": "직무기술서: 2. 인정자격 목록.hwp",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3053872"
+        },
+        {
+          "title": "기타 첨부파일: 3. 경력 확인서.hwp",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3053873"
+        }
+      ],
+      "detailText": "계약직 - 공단 「인사규정」 제18조( 1. 국가유공자 등 예우 및 지원에 관한 법률 제29조의 규정에 의한 취업지원대상자(만점의 5%~10%, 전형단계별 가점) 2. 장애인고용촉진 및 직업재활법 제2조제1호의 규정에 의한 장애인(만점의 5%, 서류전형 한정) 3. 아동복지법 제38조에 따라 보호조치가 종료되거나 해당시설에서 퇴소한 지 5년 이내인 자(만점의 5%, 서류전형 한정) 직무적합성 평가 - 직무 경력·경험(70%), 직무자격(30%) - 우대가점(5~10%) 기간제(한시인력_오악잇기 운영보조) 구분 선발인원 응시인원 결과 확정일 최종 - - - 1. 채용 공고문.pdf 공고문: 5. 입사지원서 및 경험?경력기술서.hwp 입사지원서: 4. NCS 기반 채용 직무 설명자료.hwp 직무기술서: 2. 인정자격 목록.hwp 기타 첨부파일: 3. 경력 확인서.hwp 진행중 잡알리오 공공기관 채용",
+      "deadline": "2026-06-09",
+      "deadlineText": "26.06.09 마감",
+      "url": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019272",
+      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=301314",
+      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301314",
+      "companyNoticeUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019272",
+      "primaryOfficialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019272",
+      "officialNoticePriority": "company-or-agency-notice-first",
+      "supplementarySourceUrls": [
+        "https://job.alio.go.kr/recruitview.do?idx=301314"
+      ],
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
+      "publishedAt": "2026-06-04T14:59:59.000Z",
+      "publishedDate": "2026-06-04",
+      "firstSeenAt": "2026-06-05T12:48:16.876Z",
+      "firstSeenDate": "2026-06-05",
+      "collectionAudit": {
+        "policy": "public-recruit-first-day-collection",
+        "publishedAt": "2026-06-04T14:59:59.000Z",
+        "publishedDate": "2026-06-04",
+        "firstSeenAt": "2026-06-05T12:48:16.876Z",
+        "firstSeenDate": "2026-06-05",
+        "detectionLagDays": 1,
+        "firstDayCollected": false,
+        "missedReviewNeeded": true,
+        "firstDayStatus": "next_day",
+        "note": "공고 게시 후 1일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      },
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "exam-formal",
+      "processTrackName": "필기·공식전형",
+      "writtenExam": "confirmed",
+      "processConfidence": "high",
+      "processLabels": [
+        "공공기관",
+        "필기 확인"
+      ],
+      "processNote": "필기시험 또는 공식 선발 절차가 원문 키워드에서 확인됩니다.",
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "sourceVerification": {
+        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301314",
+        "companyNoticeUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019272",
+        "primaryOfficialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019272",
+        "officialNoticePriority": "company-or-agency-notice-first",
+        "companyNoticeCheckStatus": "content_matched",
+        "companyNoticeReachable": true,
+        "companyNoticeMatched": true,
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
+        "doubleCheckStatus": "company_notice_confirmed",
+        "doubleCheckLabel": "공식 공고 2중확인",
+        "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
+      },
+      "servicePriority": "primary-public-recruit",
+      "servicePolicyLabel": "공채 상세",
+      "detailLevel": "detailed-public-recruit",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "contactAdvice": "지원 전 회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문을 다시 확인하세요.",
+      "publicRecruitDetails": {
+        "companyNotice": "회사·기관 공식 공고 확인",
+        "sourceCheck": "공식 공고 2중확인",
+        "hiring": "계약직",
+        "eligibility": "학력무관 · 신입+경력",
+        "process": "직무적합성 평가 - 직무 경력·경험(70%), 직무자격(30%) - 우대가점(5~10%) 기간제(한시인력_오악잇기 운영보조) 구분 선발인원 응시인원 결과 확정일 최종 - - -",
+        "application": "26.06.09 마감",
+        "attachments": [
+          "1. 채용 공고문.pdf",
+          "공고문: 5. 입사지원서 및 경험?경력기술서.hwp",
+          "입사지원서: 4. NCS 기반 채용 직무 설명자료.hwp",
+          "직무기술서: 2. 인정자격 목록.hwp",
+          "기타 첨부파일: 3. 경력 확인서.hwp"
+        ]
+      },
+      "teacherBriefing": {
+        "version": 1,
+        "generator": "official-source-briefing-v1",
+        "label": "취업부 공채 브리핑",
+        "detailLevel": "detailed-public-recruit",
+        "headline": "국립공원공단 - [경주] 2026년 경주국립공원 기간제(오악잇기 운영보조) 직원 채용 공고",
+        "summaryLines": [
+          "국립공원공단 공채·공식전형",
+          "채용부문: 계약직",
+          "학력·자격: - 공단 「인사규정」 제18조(",
+          "근무지: 경북",
+          "고용형태: 비정규직"
+        ],
+        "scheduleLines": [
+          "원서접수: 26.06.09 마감",
+          "전형절차: 직무적합성 평가 - 직무 경력·경험(70%), 직무자격(30%) - 우대가점(5~10%) 기간제(한시인력_오악잇기 운영보조) 구분 선발인원 응시인원 결과 확정일 최종 - - -",
+          "필기전형: 5. 입사지원서 및 경험?경력기술서.hwp 입사지원서: 4. NCS 기반 채용 직무 설명자료.hwp 직무기술서: 2. 인정자격 목록.hwp 기타 첨부파일: 3. 경력 확인서.hwp 진행중 잡알리오 공공기관 채용",
+          "면접전형: 면접 일정·방식 원문 확인",
+          "발표·임용: 합격자 발표·임용일 원문 확인"
+        ],
+        "examSubjects": [
+          "NCS 직업기초능력"
+        ],
+        "schoolActionItems": [
+          "공식 공고 2중확인",
+          "학교장 추천 필요 여부 원문 확인",
+          "지원 가능 학년·졸업예정 기준 확인",
+          "공고문·입사지원서·직무기술서 첨부 확보",
+          "필기/NCS 대비 일정 안내",
+          "공고 게시일과 첫날 수집 누락 여부 점검"
+        ],
+        "studentActionItems": [
+          "원서접수 마감 전 지원계정·제출서류 확인",
+          "NCS·직무능력·인적성 대비",
+          "자기소개서·경험기술서 초안 작성",
+          "근무지·고용형태·임용예정일 확인"
+        ],
+        "sourceLines": [
+          "공식 원문: https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019272",
+          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=301314",
+          "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다.",
+          "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다."
+        ],
+        "attachmentLines": [
+          "1. 채용 공고문.pdf: https://www.alio.go.kr/download/download.json?fileNo=3053869",
+          "공고문: 5. 입사지원서 및 경험?경력기술서.hwp: https://www.alio.go.kr/download/download.json?fileNo=3053870",
+          "입사지원서: 4. NCS 기반 채용 직무 설명자료.hwp: https://www.alio.go.kr/download/download.json?fileNo=3053871",
+          "직무기술서: 2. 인정자격 목록.hwp: https://www.alio.go.kr/download/download.json?fileNo=3053872",
+          "기타 첨부파일: 3. 경력 확인서.hwp: https://www.alio.go.kr/download/download.json?fileNo=3053873"
+        ],
+        "teacherShareText": "[국립공원공단]\n- 고졸(예정) 공채·공식전형\n\n[채용부문]\n- 국립공원공단 공채·공식전형\n- 채용부문: 계약직\n- 학력·자격: - 공단 「인사규정」 제18조(\n- 근무지: 경북\n- 고용형태: 비정규직\n\n[전형일정]\n- 원서접수: 26.06.09 마감\n- 전형절차: 직무적합성 평가 - 직무 경력·경험(70%), 직무자격(30%) - 우대가점(5~10%) 기간제(한시인력_오악잇기 운영보조) 구분 선발인원 응시인원 결과 확정일 최종 - - -\n- 필기전형: 5. 입사지원서 및 경험?경력기술서.hwp 입사지원서: 4. NCS 기반 채용 직무 설명자료.hwp 직무기술서: 2. 인정자격 목록.hwp 기타 첨부파일: 3. 경력 확인서.hwp 진행중 잡알리오 공공기관 채용\n- 면접전형: 면접 일정·방식 원문 확인\n- 발표·임용: 합격자 발표·임용일 원문 확인\n\n[학교 확인]\n- 공식 공고 2중확인\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 필기/NCS 대비 일정 안내\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- NCS·직무능력·인적성 대비\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019272\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=301314\n- 공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다.\n- 1. 채용 공고문.pdf: https://www.alio.go.kr/download/download.json?fileNo=3053869\n- 공고문: 5. 입사지원서 및 경험?경력기술서.hwp: https://www.alio.go.kr/download/download.json?fileNo=3053870\n- 입사지원서: 4. NCS 기반 채용 직무 설명자료.hwp: https://www.alio.go.kr/download/download.json?fileNo=3053871",
+        "officialBasis": "공식 공고 2중확인",
+        "officialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019272",
+        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301314",
+        "generatedAt": "2026-06-05T12:48:16.876Z"
+      },
+      "schoolRecommendation": "unknown",
+      "status": "deadline_soon",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "필기·공식전형",
+        "공공기관",
+        "비정규직",
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
@@ -2241,7 +2442,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301209"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -2283,7 +2484,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -2358,7 +2559,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/namincheon/board.do?menu=6989&mode=view&post=777107",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301209",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -2419,7 +2620,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301053"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-05-28T14:59:59.000Z",
       "publishedDate": "2026-05-28",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -2463,7 +2664,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -2538,7 +2739,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.posid.or.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301053",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -2607,7 +2808,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301322"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-04T14:59:59.000Z",
       "publishedDate": "2026-06-04",
       "firstSeenAt": "2026-06-02T16:21:49.473Z",
@@ -2650,7 +2851,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -2729,7 +2930,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://kangwon.cairos.co.kr/kangwon",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301322",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -2790,7 +2991,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301317"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-04T14:59:59.000Z",
       "publishedDate": "2026-06-04",
       "firstSeenAt": "2026-06-04T08:58:19.071Z",
@@ -2832,7 +3033,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -2907,7 +3108,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/chuncheon/board.do?menu=10533&mode=view&post=777287",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301317",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -2977,7 +3178,7 @@
         "https://job.alio.go.kr/recruitview.do?idx=301410",
         "https://www.data.go.kr/data/15125273/openapi.do"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-05T14:59:59.000Z",
       "publishedDate": "2026-06-05",
       "firstSeenAt": "2026-06-05T08:51:31.151Z",
@@ -3019,7 +3220,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -3098,7 +3299,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.keci.or.kr/common/bbs/selectBbs.do?bbs_code=A1003&bbs_seq=8383&sch_sort_col=&sch_sort=&sch_type=&row_per_page=&sch_text=&currentPage=1",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301410",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -3159,7 +3360,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301327"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-05T14:59:59.000Z",
       "publishedDate": "2026-06-05",
       "firstSeenAt": "2026-06-05T04:43:55.741Z",
@@ -3201,7 +3402,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -3277,7 +3478,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/int/down",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301327",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -3338,7 +3539,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301330"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-05T14:59:59.000Z",
       "publishedDate": "2026-06-05",
       "firstSeenAt": "2026-06-05T04:43:55.741Z",
@@ -3380,7 +3581,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -3456,7 +3657,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/int/down",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301330",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -3517,7 +3718,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301325"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-04T14:59:59.000Z",
       "publishedDate": "2026-06-04",
       "firstSeenAt": "2026-06-04T08:58:19.071Z",
@@ -3559,7 +3760,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -3634,7 +3835,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/jb/down",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301325",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -3695,7 +3896,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301281"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-04T14:59:59.000Z",
       "publishedDate": "2026-06-04",
       "firstSeenAt": "2026-06-03T14:59:25.733Z",
@@ -3737,7 +3938,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -3812,7 +4013,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/cheongju/board.do?menu=10537&mode=view&post=777241",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301281",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -3873,7 +4074,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301280"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-04T14:59:59.000Z",
       "publishedDate": "2026-06-04",
       "firstSeenAt": "2026-06-03T14:59:25.733Z",
@@ -3915,7 +4116,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -3990,7 +4191,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/cheongju/board.do?menu=10537&mode=view&post=777240",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301280",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -4051,7 +4252,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301373"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-05T14:59:59.000Z",
       "publishedDate": "2026-06-05",
       "firstSeenAt": "2026-06-05T04:43:55.741Z",
@@ -4094,7 +4295,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -4169,7 +4370,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/kapc/down",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301373",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -4238,7 +4439,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301411"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-05T14:59:59.000Z",
       "publishedDate": "2026-06-05",
       "firstSeenAt": "2026-06-05T08:51:31.151Z",
@@ -4280,7 +4481,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -4359,198 +4560,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019287",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301411",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
-      },
-      "schoolRecommendation": "unknown",
-      "status": "active",
-      "legalCheckFlags": [
-        "원문확인",
-        "마감확인",
-        "학력조건확인",
-        "추천여부확인"
-      ],
-      "guideTags": [
-        "필기·공식전형",
-        "공공기관",
-        "비정규직",
-        "학력무관",
-        "추천여부 확인",
-        "직무기술서 확인"
-      ]
-    },
-    {
-      "id": "50cc4541d77291c600",
-      "source": "job-alio-openapi",
-      "sourceName": "잡알리오 공공기관 채용",
-      "sourceId": "301401",
-      "title": "[월악산] 2026년 월악산국립공원사무소 기간제(수익시설) 직원 채용",
-      "baseTitle": "[월악산] 2026년 월악산국립공원사무소 기간제(수익시설) 직원 채용",
-      "company": "국립공원공단",
-      "region": "충북",
-      "education": "학력무관",
-      "career": "신입+경력",
-      "employmentType": "비정규직",
-      "recruitField": "계약직",
-      "recruitNumber": "",
-      "applicationMethod": "",
-      "contact": "",
-      "attachments": [
-        {
-          "title": "1. 채용공고문.hwp",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3054391"
-        },
-        {
-          "title": "공고문: 2. 입사지원서 및 경험경력기술서.hwp",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3054392"
-        },
-        {
-          "title": "입사지원서: 5. NCS 기반 채용 직무 설명자료.hwp",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3054393"
-        },
-        {
-          "title": "직무기술서: 3. 경력확인서(양식).hwp",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3054394"
-        },
-        {
-          "title": "기타 첨부파일: 4. 인정자격 목록.hwp",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3054395"
-        }
-      ],
-      "detailText": "계약직 - 공단 인사규정 제18조( 1. 취업지원대상자 - 국가유공자 등 예우 및 지원에 관한 법률 제29조의 규정에 의한 취업지원대상자 - 만점의 5%, 10%, 전형단계별 가점 2. 장애인 - 장애인고용촉진 및 직업재활법 제2조제1호의 규정에 의한 장애인 - 만점의 5%, 서류전형 한정 가점 3. 자립준비청년 - 아동복지법 제38조에 따라 보호조치가 종료되거나 해당시설에서 퇴소한 지 5년 이내인 자(확인서 보유자) - 만점의 5%, 서류전형 한정 가점 4. 한국사능력검정시험 - 1급~3급(취득일 무관), 서류전형 내 점수 반영 1. 서류전형(40%) - 직업수행능력(40%), 직무수행능력(60%), 우대가점(5%~10%) - 선발인원: 채용인원의 3배수, 서류심사 기준에 따라 고득점자 선발 2. 면접전형(60%) - 직업기초역량(40%), 직무수행역량(60%), 우대가점(5%~10%) 3. 최종합격: 서류(40%) + 면접(60%) 합산, 고득점자 선정 기간제(수익시설) 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 1. 채용공고문.hwp 공고문: 2. 입사지원서 및 경험경력기술서.hwp 입사지원서: 5. NCS 기반 채용 직무 설명자료.hwp 직무기술서: 3. 경력확",
-      "deadline": "2026-06-19",
-      "deadlineText": "26.06.19 마감",
-      "url": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019282",
-      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=301401",
-      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301401",
-      "companyNoticeUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019282",
-      "primaryOfficialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019282",
-      "officialNoticePriority": "company-or-agency-notice-first",
-      "supplementarySourceUrls": [
-        "https://job.alio.go.kr/recruitview.do?idx=301401",
-        "https://www.data.go.kr/data/15125273/openapi.do"
-      ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
-      "publishedAt": "2026-06-05T14:59:59.000Z",
-      "publishedDate": "2026-06-05",
-      "firstSeenAt": "2026-06-05T08:51:31.151Z",
-      "firstSeenDate": "2026-06-05",
-      "collectionAudit": {
-        "policy": "public-recruit-first-day-collection",
-        "publishedAt": "2026-06-05T14:59:59.000Z",
-        "publishedDate": "2026-06-05",
-        "firstSeenAt": "2026-06-05T08:51:31.151Z",
-        "firstSeenDate": "2026-06-05",
-        "detectionLagDays": 0,
-        "firstDayCollected": true,
-        "missedReviewNeeded": false,
-        "firstDayStatus": "first_day",
-        "note": "공고 게시 첫날 자동 수집 대상입니다."
-      },
-      "fitScore": 38,
-      "fitLabels": [
-        "학력무관",
-        "신입·경력무관",
-        "공식전형"
-      ],
-      "processTrack": "exam-formal",
-      "processTrackName": "필기·공식전형",
-      "writtenExam": "confirmed",
-      "processConfidence": "high",
-      "processLabels": [
-        "공공기관",
-        "필기 확인"
-      ],
-      "processNote": "필기시험 또는 공식 선발 절차가 원문 키워드에서 확인됩니다.",
-      "sector": "public-institution",
-      "sectorName": "공공기관",
-      "sourceVerification": {
-        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301401",
-        "companyNoticeUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019282",
-        "primaryOfficialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019282",
-        "officialNoticePriority": "company-or-agency-notice-first",
-        "companyNoticeCheckStatus": "content_matched",
-        "companyNoticeReachable": true,
-        "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
-        "doubleCheckStatus": "company_notice_confirmed",
-        "doubleCheckLabel": "공식 공고 2중확인",
-        "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
-      },
-      "servicePriority": "primary-public-recruit",
-      "servicePolicyLabel": "공채 상세",
-      "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
-      "contactAdvice": "지원 전 회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문을 다시 확인하세요.",
-      "publicRecruitDetails": {
-        "companyNotice": "회사·기관 공식 공고 확인",
-        "sourceCheck": "공식 공고 2중확인",
-        "hiring": "계약직",
-        "eligibility": "학력무관 · 신입+경력",
-        "process": "1. 서류전형(40%) - 직업수행능력(40%), 직무수행능력(60%), 우대가점(5%~10%) - 선발인원: 채용인원의 3배수, 서류심사 기준에 따라 고득점자 선발 2. 면접전형(60%) - 직업기초역량(40%), 직무수행역량(60%), 우대가점(5%~10%) 3. 최종합격: 서류(40%) + 면접(60%) 합산, 고득점자 선정 기간제(수익시설) 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - -",
-        "application": "26.06.19 마감",
-        "attachments": [
-          "1. 채용공고문.hwp",
-          "공고문: 2. 입사지원서 및 경험경력기술서.hwp",
-          "입사지원서: 5. NCS 기반 채용 직무 설명자료.hwp",
-          "직무기술서: 3. 경력확인서(양식).hwp",
-          "기타 첨부파일: 4. 인정자격 목록.hwp"
-        ]
-      },
-      "teacherBriefing": {
-        "version": 1,
-        "generator": "official-source-briefing-v1",
-        "label": "취업부 공채 브리핑",
-        "detailLevel": "detailed-public-recruit",
-        "headline": "국립공원공단 - [월악산] 2026년 월악산국립공원사무소 기간제(수익시설) 직원 채용",
-        "summaryLines": [
-          "국립공원공단 공채·공식전형",
-          "채용부문: 계약직",
-          "학력·자격: - 공단 인사규정 제18조(",
-          "근무지: 충북",
-          "고용형태: 비정규직"
-        ],
-        "scheduleLines": [
-          "원서접수: 26.06.19 마감",
-          "전형절차: 1. 서류전형(40%) - 직업수행능력(40%), 직무수행능력(60%), 우대가점(5%~10%) - 선발인원: 채용인원의 3배수, 서류심사 기준에 따라 고득점자 선발 2. 면접전형(60%) - 직업기초역량(40%), 직무수행역량(60%), 우대가점(5%~10%) 3.…",
-          "필기전형: 2. 입사지원서 및 경험경력기술서.hwp 입사지원서: 5. NCS 기반 채용 직무 설명자료.hwp 직무기술서: 3. 경력확인서(양식).hwp 기타 첨부파일: 4. 인정자격 목록.hwp 진행중 잡알리오 공공기관 채용",
-          "면접전형: 채용인원의 3배수, 서류심사 기준에 따라 고득점자 선발 2. 면접전형(60%) - 직업기초역량(40%), 직무수행역량(60%), 우대가점(5%~10%) 3. 최종합격: 서류(40%) + 면접(60%) 합산, 고득점…",
-          "발표·임용: 0%), 직무수행역량(60%), 우대가점(5%~10%) 3. 최종합격: 서류(40%) + 면접(60%) 합산, 고득점자 선정 기간제(수익시설) 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 계…"
-        ],
-        "examSubjects": [
-          "NCS 직업기초능력"
-        ],
-        "schoolActionItems": [
-          "공식 공고 2중확인",
-          "학교장 추천 필요 여부 원문 확인",
-          "지원 가능 학년·졸업예정 기준 확인",
-          "공고문·입사지원서·직무기술서 첨부 확보",
-          "필기/NCS 대비 일정 안내",
-          "공고 게시 첫날 수집 기록"
-        ],
-        "studentActionItems": [
-          "원서접수 마감 전 지원계정·제출서류 확인",
-          "NCS·직무능력·인적성 대비",
-          "자기소개서·경험기술서 초안 작성",
-          "근무지·고용형태·임용예정일 확인"
-        ],
-        "sourceLines": [
-          "공식 원문: https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019282",
-          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=301401",
-          "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다.",
-          "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다."
-        ],
-        "attachmentLines": [
-          "1. 채용공고문.hwp: https://www.alio.go.kr/download/download.json?fileNo=3054391",
-          "공고문: 2. 입사지원서 및 경험경력기술서.hwp: https://www.alio.go.kr/download/download.json?fileNo=3054392",
-          "입사지원서: 5. NCS 기반 채용 직무 설명자료.hwp: https://www.alio.go.kr/download/download.json?fileNo=3054393",
-          "직무기술서: 3. 경력확인서(양식).hwp: https://www.alio.go.kr/download/download.json?fileNo=3054394",
-          "기타 첨부파일: 4. 인정자격 목록.hwp: https://www.alio.go.kr/download/download.json?fileNo=3054395"
-        ],
-        "teacherShareText": "[국립공원공단]\n- 고졸(예정) 공채·공식전형\n\n[채용부문]\n- 국립공원공단 공채·공식전형\n- 채용부문: 계약직\n- 학력·자격: - 공단 인사규정 제18조(\n- 근무지: 충북\n- 고용형태: 비정규직\n\n[전형일정]\n- 원서접수: 26.06.19 마감\n- 전형절차: 1. 서류전형(40%) - 직업수행능력(40%), 직무수행능력(60%), 우대가점(5%~10%) - 선발인원: 채용인원의 3배수, 서류심사 기준에 따라 고득점자 선발 2. 면접전형(60%) - 직업기초역량(40%), 직무수행역량(60%), 우대가점(5%~10%) 3.…\n- 필기전형: 2. 입사지원서 및 경험경력기술서.hwp 입사지원서: 5. NCS 기반 채용 직무 설명자료.hwp 직무기술서: 3. 경력확인서(양식).hwp 기타 첨부파일: 4. 인정자격 목록.hwp 진행중 잡알리오 공공기관 채용\n- 면접전형: 채용인원의 3배수, 서류심사 기준에 따라 고득점자 선발 2. 면접전형(60%) - 직업기초역량(40%), 직무수행역량(60%), 우대가점(5%~10%) 3. 최종합격: 서류(40%) + 면접(60%) 합산, 고득점…\n- 발표·임용: 0%), 직무수행역량(60%), 우대가점(5%~10%) 3. 최종합격: 서류(40%) + 면접(60%) 합산, 고득점자 선정 기간제(수익시설) 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 계…\n\n[학교 확인]\n- 공식 공고 2중확인\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 필기/NCS 대비 일정 안내\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- NCS·직무능력·인적성 대비\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019282\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=301401\n- 공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다.\n- 1. 채용공고문.hwp: https://www.alio.go.kr/download/download.json?fileNo=3054391\n- 공고문: 2. 입사지원서 및 경험경력기술서.hwp: https://www.alio.go.kr/download/download.json?fileNo=3054392\n- 입사지원서: 5. NCS 기반 채용 직무 설명자료.hwp: https://www.alio.go.kr/download/download.json?fileNo=3054393",
-        "officialBasis": "공식 공고 2중확인",
-        "officialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019282",
-        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301401",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -4619,7 +4629,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301394"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-05T14:59:59.000Z",
       "publishedDate": "2026-06-05",
       "firstSeenAt": "2026-06-05T08:51:31.151Z",
@@ -4661,7 +4671,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -4740,7 +4750,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019285",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301394",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -4809,7 +4819,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301393"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-05T14:59:59.000Z",
       "publishedDate": "2026-06-05",
       "firstSeenAt": "2026-06-05T08:51:31.151Z",
@@ -4851,7 +4861,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -4930,7 +4940,197 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019284",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301393",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
+      },
+      "schoolRecommendation": "unknown",
+      "status": "active",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "필기·공식전형",
+        "공공기관",
+        "비정규직",
+        "학력무관",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ]
+    },
+    {
+      "id": "50cc4541d77291c600",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "sourceId": "301401",
+      "title": "[월악산] 2026년 월악산국립공원사무소 기간제(수익시설) 직원 채용",
+      "baseTitle": "[월악산] 2026년 월악산국립공원사무소 기간제(수익시설) 직원 채용",
+      "company": "국립공원공단",
+      "region": "충북",
+      "education": "학력무관",
+      "career": "신입+경력",
+      "employmentType": "비정규직",
+      "recruitField": "계약직",
+      "recruitNumber": "",
+      "applicationMethod": "",
+      "contact": "",
+      "attachments": [
+        {
+          "title": "1. 채용공고문.hwp",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3054391"
+        },
+        {
+          "title": "공고문: 2. 입사지원서 및 경험경력기술서.hwp",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3054392"
+        },
+        {
+          "title": "입사지원서: 5. NCS 기반 채용 직무 설명자료.hwp",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3054393"
+        },
+        {
+          "title": "직무기술서: 3. 경력확인서(양식).hwp",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3054394"
+        },
+        {
+          "title": "기타 첨부파일: 4. 인정자격 목록.hwp",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3054395"
+        }
+      ],
+      "detailText": "계약직 - 공단 인사규정 제18조( 1. 취업지원대상자 - 국가유공자 등 예우 및 지원에 관한 법률 제29조의 규정에 의한 취업지원대상자 - 만점의 5%, 10%, 전형단계별 가점 2. 장애인 - 장애인고용촉진 및 직업재활법 제2조제1호의 규정에 의한 장애인 - 만점의 5%, 서류전형 한정 가점 3. 자립준비청년 - 아동복지법 제38조에 따라 보호조치가 종료되거나 해당시설에서 퇴소한 지 5년 이내인 자(확인서 보유자) - 만점의 5%, 서류전형 한정 가점 4. 한국사능력검정시험 - 1급~3급(취득일 무관), 서류전형 내 점수 반영 1. 서류전형(40%) - 직업수행능력(40%), 직무수행능력(60%), 우대가점(5%~10%) - 선발인원: 채용인원의 3배수, 서류심사 기준에 따라 고득점자 선발 2. 면접전형(60%) - 직업기초역량(40%), 직무수행역량(60%), 우대가점(5%~10%) 3. 최종합격: 서류(40%) + 면접(60%) 합산, 고득점자 선정 기간제(수익시설) 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 1. 채용공고문.hwp 공고문: 2. 입사지원서 및 경험경력기술서.hwp 입사지원서: 5. NCS 기반 채용 직무 설명자료.hwp 직무기술서: 3. 경력확",
+      "deadline": "2026-06-19",
+      "deadlineText": "26.06.19 마감",
+      "url": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019282",
+      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=301401",
+      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301401",
+      "companyNoticeUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019282",
+      "primaryOfficialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019282",
+      "officialNoticePriority": "company-or-agency-notice-first",
+      "supplementarySourceUrls": [
+        "https://job.alio.go.kr/recruitview.do?idx=301401"
+      ],
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
+      "publishedAt": "2026-06-05T14:59:59.000Z",
+      "publishedDate": "2026-06-05",
+      "firstSeenAt": "2026-06-05T08:51:31.151Z",
+      "firstSeenDate": "2026-06-05",
+      "collectionAudit": {
+        "policy": "public-recruit-first-day-collection",
+        "publishedAt": "2026-06-05T14:59:59.000Z",
+        "publishedDate": "2026-06-05",
+        "firstSeenAt": "2026-06-05T08:51:31.151Z",
+        "firstSeenDate": "2026-06-05",
+        "detectionLagDays": 0,
+        "firstDayCollected": true,
+        "missedReviewNeeded": false,
+        "firstDayStatus": "first_day",
+        "note": "공고 게시 첫날 자동 수집 대상입니다."
+      },
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "exam-formal",
+      "processTrackName": "필기·공식전형",
+      "writtenExam": "confirmed",
+      "processConfidence": "high",
+      "processLabels": [
+        "공공기관",
+        "필기 확인"
+      ],
+      "processNote": "필기시험 또는 공식 선발 절차가 원문 키워드에서 확인됩니다.",
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "sourceVerification": {
+        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301401",
+        "companyNoticeUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019282",
+        "primaryOfficialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019282",
+        "officialNoticePriority": "company-or-agency-notice-first",
+        "companyNoticeCheckStatus": "content_matched",
+        "companyNoticeReachable": true,
+        "companyNoticeMatched": true,
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
+        "doubleCheckStatus": "company_notice_confirmed",
+        "doubleCheckLabel": "공식 공고 2중확인",
+        "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
+      },
+      "servicePriority": "primary-public-recruit",
+      "servicePolicyLabel": "공채 상세",
+      "detailLevel": "detailed-public-recruit",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "contactAdvice": "지원 전 회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문을 다시 확인하세요.",
+      "publicRecruitDetails": {
+        "companyNotice": "회사·기관 공식 공고 확인",
+        "sourceCheck": "공식 공고 2중확인",
+        "hiring": "계약직",
+        "eligibility": "학력무관 · 신입+경력",
+        "process": "1. 서류전형(40%) - 직업수행능력(40%), 직무수행능력(60%), 우대가점(5%~10%) - 선발인원: 채용인원의 3배수, 서류심사 기준에 따라 고득점자 선발 2. 면접전형(60%) - 직업기초역량(40%), 직무수행역량(60%), 우대가점(5%~10%) 3. 최종합격: 서류(40%) + 면접(60%) 합산, 고득점자 선정 기간제(수익시설) 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - -",
+        "application": "26.06.19 마감",
+        "attachments": [
+          "1. 채용공고문.hwp",
+          "공고문: 2. 입사지원서 및 경험경력기술서.hwp",
+          "입사지원서: 5. NCS 기반 채용 직무 설명자료.hwp",
+          "직무기술서: 3. 경력확인서(양식).hwp",
+          "기타 첨부파일: 4. 인정자격 목록.hwp"
+        ]
+      },
+      "teacherBriefing": {
+        "version": 1,
+        "generator": "official-source-briefing-v1",
+        "label": "취업부 공채 브리핑",
+        "detailLevel": "detailed-public-recruit",
+        "headline": "국립공원공단 - [월악산] 2026년 월악산국립공원사무소 기간제(수익시설) 직원 채용",
+        "summaryLines": [
+          "국립공원공단 공채·공식전형",
+          "채용부문: 계약직",
+          "학력·자격: - 공단 인사규정 제18조(",
+          "근무지: 충북",
+          "고용형태: 비정규직"
+        ],
+        "scheduleLines": [
+          "원서접수: 26.06.19 마감",
+          "전형절차: 1. 서류전형(40%) - 직업수행능력(40%), 직무수행능력(60%), 우대가점(5%~10%) - 선발인원: 채용인원의 3배수, 서류심사 기준에 따라 고득점자 선발 2. 면접전형(60%) - 직업기초역량(40%), 직무수행역량(60%), 우대가점(5%~10%) 3.…",
+          "필기전형: 2. 입사지원서 및 경험경력기술서.hwp 입사지원서: 5. NCS 기반 채용 직무 설명자료.hwp 직무기술서: 3. 경력확인서(양식).hwp 기타 첨부파일: 4. 인정자격 목록.hwp 진행중 잡알리오 공공기관 채용",
+          "면접전형: 채용인원의 3배수, 서류심사 기준에 따라 고득점자 선발 2. 면접전형(60%) - 직업기초역량(40%), 직무수행역량(60%), 우대가점(5%~10%) 3. 최종합격: 서류(40%) + 면접(60%) 합산, 고득점…",
+          "발표·임용: 0%), 직무수행역량(60%), 우대가점(5%~10%) 3. 최종합격: 서류(40%) + 면접(60%) 합산, 고득점자 선정 기간제(수익시설) 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 계…"
+        ],
+        "examSubjects": [
+          "NCS 직업기초능력"
+        ],
+        "schoolActionItems": [
+          "공식 공고 2중확인",
+          "학교장 추천 필요 여부 원문 확인",
+          "지원 가능 학년·졸업예정 기준 확인",
+          "공고문·입사지원서·직무기술서 첨부 확보",
+          "필기/NCS 대비 일정 안내",
+          "공고 게시 첫날 수집 기록"
+        ],
+        "studentActionItems": [
+          "원서접수 마감 전 지원계정·제출서류 확인",
+          "NCS·직무능력·인적성 대비",
+          "자기소개서·경험기술서 초안 작성",
+          "근무지·고용형태·임용예정일 확인"
+        ],
+        "sourceLines": [
+          "공식 원문: https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019282",
+          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=301401",
+          "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다.",
+          "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다."
+        ],
+        "attachmentLines": [
+          "1. 채용공고문.hwp: https://www.alio.go.kr/download/download.json?fileNo=3054391",
+          "공고문: 2. 입사지원서 및 경험경력기술서.hwp: https://www.alio.go.kr/download/download.json?fileNo=3054392",
+          "입사지원서: 5. NCS 기반 채용 직무 설명자료.hwp: https://www.alio.go.kr/download/download.json?fileNo=3054393",
+          "직무기술서: 3. 경력확인서(양식).hwp: https://www.alio.go.kr/download/download.json?fileNo=3054394",
+          "기타 첨부파일: 4. 인정자격 목록.hwp: https://www.alio.go.kr/download/download.json?fileNo=3054395"
+        ],
+        "teacherShareText": "[국립공원공단]\n- 고졸(예정) 공채·공식전형\n\n[채용부문]\n- 국립공원공단 공채·공식전형\n- 채용부문: 계약직\n- 학력·자격: - 공단 인사규정 제18조(\n- 근무지: 충북\n- 고용형태: 비정규직\n\n[전형일정]\n- 원서접수: 26.06.19 마감\n- 전형절차: 1. 서류전형(40%) - 직업수행능력(40%), 직무수행능력(60%), 우대가점(5%~10%) - 선발인원: 채용인원의 3배수, 서류심사 기준에 따라 고득점자 선발 2. 면접전형(60%) - 직업기초역량(40%), 직무수행역량(60%), 우대가점(5%~10%) 3.…\n- 필기전형: 2. 입사지원서 및 경험경력기술서.hwp 입사지원서: 5. NCS 기반 채용 직무 설명자료.hwp 직무기술서: 3. 경력확인서(양식).hwp 기타 첨부파일: 4. 인정자격 목록.hwp 진행중 잡알리오 공공기관 채용\n- 면접전형: 채용인원의 3배수, 서류심사 기준에 따라 고득점자 선발 2. 면접전형(60%) - 직업기초역량(40%), 직무수행역량(60%), 우대가점(5%~10%) 3. 최종합격: 서류(40%) + 면접(60%) 합산, 고득점…\n- 발표·임용: 0%), 직무수행역량(60%), 우대가점(5%~10%) 3. 최종합격: 서류(40%) + 면접(60%) 합산, 고득점자 선정 기간제(수익시설) 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 계…\n\n[학교 확인]\n- 공식 공고 2중확인\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 필기/NCS 대비 일정 안내\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- NCS·직무능력·인적성 대비\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019282\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=301401\n- 공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다.\n- 1. 채용공고문.hwp: https://www.alio.go.kr/download/download.json?fileNo=3054391\n- 공고문: 2. 입사지원서 및 경험경력기술서.hwp: https://www.alio.go.kr/download/download.json?fileNo=3054392\n- 입사지원서: 5. NCS 기반 채용 직무 설명자료.hwp: https://www.alio.go.kr/download/download.json?fileNo=3054393",
+        "officialBasis": "공식 공고 2중확인",
+        "officialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019282",
+        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301401",
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -4991,7 +5191,7 @@
       "supplementarySourceUrls": [
         "https://high-job.sen.go.kr/FUS/JO/EMList.do"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-05-26T14:59:59.000Z",
       "publishedDate": "2026-05-26",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -5033,7 +5233,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -5109,7 +5309,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://kead.careerlink.kr/jobs/RC20260515029269",
         "sourceUrl": "https://high-job.sen.go.kr/FUS/JO/EMList.do",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "application_closed",
@@ -5178,7 +5378,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=300695"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-05-18T14:59:59.000Z",
       "publishedDate": "2026-05-18",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -5221,7 +5421,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -5300,7 +5500,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://kead.careerlink.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300695",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "application_closed",
@@ -5361,7 +5561,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=300970"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-05-26T14:59:59.000Z",
       "publishedDate": "2026-05-26",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -5404,7 +5604,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -5479,7 +5679,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kead.or.kr/bbs/deptgongji/bbsPage.do?menuId=MENU0895&bbsCode=deptgongji&pageIndex=1&searchCondition=sjcn&searchKeyword=%5B%ED%95%9C%EA%B5%AD%EC%9E%A5%EC%95%A0%EC%9D%B8%EA%B3%A0%EC%9A%A9%EA%B3%B5%EB%8B%A8+%EC%B6%A9%EB%82%A8%EC%A7%80%EC%82%AC%5D+%EA%B8%B0%EA%B0%84%EC%A0%9C+%EB%8C%80%EC%B2%B4%EA%B7%BC%EB%A1%9C%EC%9E%90%28%EC%B2%B4%ED%97%98%ED%98%95+%EC%B2%AD%EB%85%84%EC%9D%B8%ED%84%B4%29+%EC%B1%84%EC%9A%A9+%EA%B3%B5%EA%B3%A0",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300970",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "application_closed",
@@ -5544,7 +5744,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301374"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-05T14:59:59.000Z",
       "publishedDate": "2026-06-05",
       "firstSeenAt": "2026-06-05T04:43:55.741Z",
@@ -5586,7 +5786,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다."
@@ -5663,7 +5863,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "https://www.knps.or.kr/portal/file/cdown.do?tfId=TF006&fileId=UF56ZNVQRA49w2SHxAGyTg%3D%3D&fileNo=0",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301374",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -5724,7 +5924,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301213"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-01T14:59:59.000Z",
       "publishedDate": "2026-06-01",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -5767,7 +5967,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다."
@@ -5842,7 +6042,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "https://kcpass.ai-recruit.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301213",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -5903,7 +6103,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301381"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-05T14:59:59.000Z",
       "publishedDate": "2026-06-05",
       "firstSeenAt": "2026-06-05T04:43:55.741Z",
@@ -5946,7 +6146,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다."
@@ -6021,7 +6221,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "https://kdhc.scout.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301381",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -6090,7 +6290,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301242"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-01T14:59:59.000Z",
       "publishedDate": "2026-06-01",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -6132,7 +6332,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다."
@@ -6211,7 +6411,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "https://www.koem.or.kr/common/board/Download.do?bcIdx=35866&cbIdx=478&fileNo=5",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301242",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -6272,7 +6472,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301350"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-04T14:59:59.000Z",
       "publishedDate": "2026-06-04",
       "firstSeenAt": "2026-06-04T08:58:19.071Z",
@@ -6314,7 +6514,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다."
@@ -6389,7 +6589,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "https://www.comwel.or.kr/recruit/hp/main.do",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301350",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -6458,7 +6658,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301378"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-05T14:59:59.000Z",
       "publishedDate": "2026-06-05",
       "firstSeenAt": "2026-06-05T04:43:55.741Z",
@@ -6500,7 +6700,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다."
@@ -6579,7 +6779,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "http://www.knudh.or.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301378",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -6648,7 +6848,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301376"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-05T14:59:59.000Z",
       "publishedDate": "2026-06-05",
       "firstSeenAt": "2026-06-05T04:43:55.741Z",
@@ -6690,7 +6890,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다."
@@ -6769,7 +6969,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "http://www.knudh.or.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301376",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -6838,7 +7038,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301375"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-05T14:59:59.000Z",
       "publishedDate": "2026-06-05",
       "firstSeenAt": "2026-06-05T04:43:55.741Z",
@@ -6880,7 +7080,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다."
@@ -6959,7 +7159,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "http://www.knudh.or.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301375",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -7028,7 +7228,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301323"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-04T14:59:59.000Z",
       "publishedDate": "2026-06-04",
       "firstSeenAt": "2026-06-04T08:58:19.071Z",
@@ -7070,7 +7270,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다."
@@ -7149,7 +7349,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "https://www.knps.or.kr/portal/file/cdown.do?tfId=TF006&fileId=QyQNX4bJUfpRh3M49dmP2w%3D%3D&fileNo=0",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301323",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -7210,7 +7410,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301345"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-04T14:59:59.000Z",
       "publishedDate": "2026-06-04",
       "firstSeenAt": "2026-06-04T08:58:19.071Z",
@@ -7252,7 +7452,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다."
@@ -7328,7 +7528,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "https://matchingbank.career.co.kr/jobs/view.asp?id_num=19388584",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301345",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -7389,7 +7589,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301335"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-06-04T14:59:59.000Z",
       "publishedDate": "2026-06-04",
       "firstSeenAt": "2026-06-05T04:43:55.741Z",
@@ -7431,7 +7631,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다."
@@ -7506,7 +7706,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "https://g-airport.recruitlab.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301335",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -7575,7 +7775,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=300516"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-05-13T14:59:59.000Z",
       "publishedDate": "2026-05-13",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -7618,7 +7818,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다."
@@ -7697,7 +7897,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "https://www.knps.or.kr/portal/file/cdown.do?tfId=TF006&fileId=ga17dIdZWk1f0CqjstNd9Q%3D%3D&fileNo=0",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300516",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "application_closed",
@@ -7758,7 +7958,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=300412"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-05-12T14:59:59.000Z",
       "publishedDate": "2026-05-12",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -7800,7 +8000,7 @@
         "companyNoticeCheckStatus": "fetch_failed",
         "companyNoticeReachable": false,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_linked",
         "doubleCheckLabel": "공식 공고 링크확인",
         "verificationNote": "공식 채용 소스에서 회사·기관 또는 채용대행 공식 공지사항 링크를 확보했습니다. 접속 또는 본문 대조는 추가 확인이 필요합니다."
@@ -7875,7 +8075,7 @@
         "officialBasis": "공식 공고 링크확인",
         "officialUrl": "https://www.ex.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300412",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "application_closed",
@@ -7936,7 +8136,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=300410"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-05-12T14:59:59.000Z",
       "publishedDate": "2026-05-12",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -7978,7 +8178,7 @@
         "companyNoticeCheckStatus": "fetch_failed",
         "companyNoticeReachable": false,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_linked",
         "doubleCheckLabel": "공식 공고 링크확인",
         "verificationNote": "공식 채용 소스에서 회사·기관 또는 채용대행 공식 공지사항 링크를 확보했습니다. 접속 또는 본문 대조는 추가 확인이 필요합니다."
@@ -8053,7 +8253,7 @@
         "officialBasis": "공식 공고 링크확인",
         "officialUrl": "https://www.ex.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300410",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "application_closed",
@@ -8114,7 +8314,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=300408"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-05-12T14:59:59.000Z",
       "publishedDate": "2026-05-12",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -8156,7 +8356,7 @@
         "companyNoticeCheckStatus": "fetch_failed",
         "companyNoticeReachable": false,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_linked",
         "doubleCheckLabel": "공식 공고 링크확인",
         "verificationNote": "공식 채용 소스에서 회사·기관 또는 채용대행 공식 공지사항 링크를 확보했습니다. 접속 또는 본문 대조는 추가 확인이 필요합니다."
@@ -8231,7 +8431,7 @@
         "officialBasis": "공식 공고 링크확인",
         "officialUrl": "https://www.ex.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300408",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "application_closed",
@@ -8292,7 +8492,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=300407"
       ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
       "publishedAt": "2026-05-12T14:59:59.000Z",
       "publishedDate": "2026-05-12",
       "firstSeenAt": "2026-06-02T15:48:22.299Z",
@@ -8334,7 +8534,7 @@
         "companyNoticeCheckStatus": "fetch_failed",
         "companyNoticeReachable": false,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
         "doubleCheckStatus": "company_notice_linked",
         "doubleCheckLabel": "공식 공고 링크확인",
         "verificationNote": "공식 채용 소스에서 회사·기관 또는 채용대행 공식 공지사항 링크를 확보했습니다. 접속 또는 본문 대조는 추가 확인이 필요합니다."
@@ -8409,7 +8609,7 @@
         "officialBasis": "공식 공고 링크확인",
         "officialUrl": "https://www.ex.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300407",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
       "status": "application_closed",
@@ -8429,324 +8629,166 @@
       ]
     },
     {
-      "id": "8380b970aec6aeafd1",
-      "source": "regional-education-job",
-      "sourceName": "지역별 교육청 취업지원센터",
-      "sourceId": "5dcbe739bd2eca4c25",
-      "title": "제주특별자치도교육청 취업지원센터 [안내] 직업계고 채용연계형 직무교육... 직업계고학생들의꿈과미래를응원하는「직업계고채용연계형직무교육과... 2026-06-05",
-      "baseTitle": "제주특별자치도교육청 취업지원센터 [안내] 직업계고 채용연계형 직무교육... 직업계고학생들의꿈과미래를응원하는「직업계고채용연계형직무교육과... 2026-06-05",
-      "company": "제주특별자치도교육청 취업지원센터",
-      "region": "원문 확인",
-      "education": "고졸·특성화고 관련 원문 확인",
-      "career": "원문 확인",
-      "employmentType": "원문 확인",
-      "recruitField": "[안내] 직업계고 채용연계형 직무교육... 직업계고학생들의꿈과미래를응원하는「직업계고채용연계형직무교육과... 2026-06-05 youtube.com/watch?v=bGkYz86c…",
-      "recruitNumber": "",
-      "applicationMethod": "회사·기관 또는 채용대행 공식 채용 페이지에서 접수방법 확인",
-      "contact": "",
-      "attachments": [
-        {
-          "title": "회사·기관 공식 공고문",
-          "url": "https://www.jje.go.kr/board/view.jje?menuCd=DOM_000000301001000000&boardId=BBS_0000266&contentsSid=607&paging=ok&startPage=1&dataSid=1470876"
-        }
-      ],
-      "detailText": "[안내] 직업계고 채용연계형 직무교육... 직업계고학생들의꿈과미래를응원하는「직업계고채용연계형직무교육과... 2026-06-05 youtube.com/watch?v=bGkYz86cfB4\" >홍보영상 N EWS [안내] 직업계고 채용연계형 직무교육... 직업계고학생들의꿈과미래를응원하는「직업계고채용연계형직무교육과... 2026",
-      "deadline": "2026-06-05",
-      "deadlineText": "2026-06-05 마감",
-      "url": "https://www.jje.go.kr/board/view.jje?menuCd=DOM_000000301001000000&boardId=BBS_0000266&contentsSid=607&paging=ok&startPage=1&dataSid=1470876",
-      "originalUrl": "https://www.jje.go.kr/job/",
-      "sourceOfficialUrl": "https://www.jje.go.kr/job/",
-      "companyNoticeUrl": "https://www.jje.go.kr/board/view.jje?menuCd=DOM_000000301001000000&boardId=BBS_0000266&contentsSid=607&paging=ok&startPage=1&dataSid=1470876",
-      "primaryOfficialUrl": "https://www.jje.go.kr/board/view.jje?menuCd=DOM_000000301001000000&boardId=BBS_0000266&contentsSid=607&paging=ok&startPage=1&dataSid=1470876",
-      "officialNoticePriority": "company-or-agency-notice-first",
-      "supplementarySourceUrls": [
-        "https://www.jje.go.kr/job/"
-      ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
-      "publishedAt": "",
-      "publishedDate": null,
-      "firstSeenAt": "2026-06-05T08:51:31.151Z",
-      "firstSeenDate": "2026-06-05",
-      "collectionAudit": {
-        "policy": "public-recruit-first-day-collection",
-        "publishedAt": "",
-        "publishedDate": null,
-        "firstSeenAt": "2026-06-05T08:51:31.151Z",
-        "firstSeenDate": "2026-06-05",
-        "detectionLagDays": null,
-        "firstDayCollected": false,
-        "missedReviewNeeded": true,
-        "firstDayStatus": "unknown",
-        "note": "공고 게시일 확인이 필요합니다."
-      },
-      "fitScore": 100,
-      "fitLabels": [
-        "고졸",
-        "특성화고",
-        "직업계고",
-        "채용연계"
-      ],
-      "processTrack": "direct-interview",
-      "processTrackName": "면접중심·현장형",
-      "writtenExam": "not_found",
-      "processConfidence": "medium",
-      "processLabels": [
-        "교육청",
-        "면접 중심"
-      ],
-      "processNote": "필기시험은 확인되지 않았고 서류·면접 중심 채용으로 우선 분류했습니다.",
-      "sector": "education-office",
-      "sectorName": "교육청",
-      "sourceVerification": {
-        "sourceOfficialUrl": "https://www.jje.go.kr/job/",
-        "companyNoticeUrl": "https://www.jje.go.kr/board/view.jje?menuCd=DOM_000000301001000000&boardId=BBS_0000266&contentsSid=607&paging=ok&startPage=1&dataSid=1470876",
-        "primaryOfficialUrl": "https://www.jje.go.kr/board/view.jje?menuCd=DOM_000000301001000000&boardId=BBS_0000266&contentsSid=607&paging=ok&startPage=1&dataSid=1470876",
-        "officialNoticePriority": "company-or-agency-notice-first",
-        "companyNoticeCheckStatus": "content_matched",
-        "companyNoticeReachable": true,
-        "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
-        "doubleCheckStatus": "company_contact_recommended",
-        "doubleCheckLabel": "회사 확인 권고",
-        "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
-      },
-      "servicePriority": "support-brief-direct",
-      "servicePolicyLabel": "간단 안내",
-      "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다.",
-      "contactAdvice": "근무조건, 급여, 제출서류, 미성년자 근로 가능 여부는 회사 공식 공고 또는 인사담당자에게 확인하세요.",
-      "publicRecruitDetails": null,
-      "teacherBriefing": {
-        "version": 1,
-        "generator": "official-source-briefing-v1",
-        "label": "간단 채용 확인 브리핑",
-        "detailLevel": "brief-company-contact",
-        "headline": "제주특별자치도교육청 취업지원센터 - 제주특별자치도교육청 취업지원센터 [안내] 직업계고 채용연계형 직무교육... 직업계고학생들의꿈과미래를응원하는「직업계고채용연계형직무교육과... 2026-06-05",
-        "summaryLines": [
-          "제주특별자치도교육청 취업지원센터 채용정보",
-          "채용부문: [안내] 직업계고 채용연계형 직무교육... 직업계고학생들의꿈과미래를응원하는「직업계고채용연계형직무교육과... 2026-06-05 youtube.com/watch?v=bGkYz86c…",
-          "학력·자격: 고졸·특성화고 관련 원문 확인",
-          "근무지: 원문 확인",
-          "고용형태: 원문 확인"
-        ],
-        "scheduleLines": [
-          "원서접수: 2026-06-05 마감",
-          "전형절차: 전형절차 원문 확인",
-          "필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.",
-          "면접전형: 면접 일정·방식 원문 확인",
-          "발표·임용: 합격자 발표·임용일 원문 확인"
-        ],
-        "examSubjects": [
-          "필기시험 미확인"
-        ],
-        "schoolActionItems": [
-          "회사 확인 권고",
-          "학교장 추천 필요 여부 원문 확인",
-          "지원 가능 학년·졸업예정 기준 확인",
-          "공고문·입사지원서·직무기술서 첨부 확보",
-          "회사 인사담당자에게 세부 조건 확인",
-          "공고 게시일과 첫날 수집 누락 여부 점검"
-        ],
-        "studentActionItems": [
-          "원서접수 마감 전 지원계정·제출서류 확인",
-          "면접 예상 질문과 회사 직무 확인",
-          "자기소개서·경험기술서 초안 작성",
-          "근무지·고용형태·임용예정일 확인"
-        ],
-        "sourceLines": [
-          "공식 원문: https://www.jje.go.kr/board/view.jje?menuCd=DOM_000000301001000000&boardId=BBS_0000266&contentsSid=607&paging=ok&startPage=1&dataSid=1470876",
-          "보완 출처: https://www.jje.go.kr/job/",
-          "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.",
-          "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다."
-        ],
-        "attachmentLines": [
-          "회사·기관 공식 공고문: https://www.jje.go.kr/board/view.jje?menuCd=DOM_000000301001000000&boardId=BBS_0000266&contentsSid=607&paging=ok&startPage=1&dataSid=1470876"
-        ],
-        "teacherShareText": "[제주특별자치도교육청 취업지원센터]\n- 고졸·특성화고 관련 채용정보\n\n[채용부문]\n- 제주특별자치도교육청 취업지원센터 채용정보\n- 채용부문: [안내] 직업계고 채용연계형 직무교육... 직업계고학생들의꿈과미래를응원하는「직업계고채용연계형직무교육과... 2026-06-05 youtube.com/watch?v=bGkYz86c…\n- 학력·자격: 고졸·특성화고 관련 원문 확인\n- 근무지: 원문 확인\n- 고용형태: 원문 확인\n\n[전형일정]\n- 원서접수: 2026-06-05 마감\n- 전형절차: 전형절차 원문 확인\n- 필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.\n- 면접전형: 면접 일정·방식 원문 확인\n- 발표·임용: 합격자 발표·임용일 원문 확인\n\n[학교 확인]\n- 회사 확인 권고\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 회사 인사담당자에게 세부 조건 확인\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- 면접 예상 질문과 회사 직무 확인\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.jje.go.kr/board/view.jje?menuCd=DOM_000000301001000000&boardId=BBS_0000266&contentsSid=607&paging=ok&startPage=1&dataSid=1470876\n- 보완 출처: https://www.jje.go.kr/job/\n- 필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.\n- 회사·기관 공식 공고문: https://www.jje.go.kr/board/view.jje?menuCd=DOM_000000301001000000&boardId=BBS_0000266&contentsSid=607&paging=ok&startPage=1&dataSid=1470876",
-        "officialBasis": "회사 확인 권고",
-        "officialUrl": "https://www.jje.go.kr/board/view.jje?menuCd=DOM_000000301001000000&boardId=BBS_0000266&contentsSid=607&paging=ok&startPage=1&dataSid=1470876",
-        "sourceUrl": "https://www.jje.go.kr/job/",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
-      },
-      "schoolRecommendation": "unknown",
-      "status": "deadline_soon",
-      "legalCheckFlags": [
-        "원문확인",
-        "마감확인",
-        "학력조건확인",
-        "추천여부확인"
-      ],
-      "guideTags": [
-        "면접중심·현장형",
-        "교육청",
-        "원문 확인",
-        "고졸·특성화고 관련 원문 확인",
-        "추천여부 확인",
-        "직무기술서 확인"
-      ]
-    },
-    {
-      "id": "4ec1d45280ce5cdd2d",
+      "id": "88895af8bac617c2af",
       "source": "job-alio-openapi",
       "sourceName": "잡알리오 공공기관 채용",
-      "sourceId": "300994",
-      "title": "2026년 청년인턴(체험형) 공개채용 공고",
-      "baseTitle": "2026년 청년인턴(체험형) 공개채용 공고",
-      "company": "극지연구소",
-      "region": "인천",
-      "education": "고졸,대졸(2~3년),대졸(4년)",
-      "career": "신입",
-      "employmentType": "청년인턴(체험형)",
-      "recruitField": "기타",
+      "sourceId": "301311",
+      "title": "채용형 인턴 채용공고(주택관리공단 충북지사)",
+      "baseTitle": "채용형 인턴 채용공고(주택관리공단 충북지사)",
+      "company": "주택관리공단(주)",
+      "region": "충북",
+      "education": "학력무관",
+      "career": "신입+경력",
+      "employmentType": "청년인턴(채용형)",
+      "recruitField": "기술직",
       "recruitNumber": "",
       "applicationMethod": "",
       "contact": "",
       "attachments": [
         {
-          "title": "공고문: 2026년 청년인턴(체험형) 공개채용 공고.pdf",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3052109"
+          "title": "1. NCS 채용공고문(긴급_기술2명_26.06.04.).hwpx",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3053849"
         },
         {
-          "title": "입사지원서: 별첨1. 2026년 청년인턴(체험형) 채용 연수제안서.pdf",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3052110"
+          "title": "공고문: 입사지원서(주택관리공단).pdf",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3053850"
         },
         {
-          "title": "직무기술서: 별첨2. 2026년 청년인턴(체험형) 채용 이의신청서.pdf",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3052111"
-        },
-        {
-          "title": "기타 첨부파일: 별첨3. 2026년 청년인턴(체험형) 채용 결격사유.pdf",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3052112"
-        },
-        {
-          "title": "기타 첨부파일: 별첨4. 2026년 청년인턴(체험형) 지원서 및 증빙자료 내 블라인드 채용 위반사항 검토 기준.p…",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3052113"
+          "title": "공고문: 직무기술서(기술직).hwp",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3053851"
         }
       ],
-      "detailText": "기타 - (전공) 지질해양학 및 유관 학과(지질학 등) - (우대사항) 해양퇴적물 분석(입도, 지화학, 광물 등) 유경험자/ 자료처리(스프레드 시트, 통계처리 소프트웨어, 매트랩, 파이썬 등 활용) 유경험자 - (전공) 무관 - (우대사항) 공공기관, 출연연구소 행정 업무 수행 경력 우대 - (전공) 정책학 / 행정학 /",
-      "deadline": "2026-06-10",
-      "deadlineText": "26.06.10 마감",
-      "url": "https://kopri.recruiter.co.kr/",
-      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=300994",
-      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=300994",
-      "companyNoticeUrl": "https://kopri.recruiter.co.kr/",
-      "primaryOfficialUrl": "https://kopri.recruiter.co.kr/",
-      "officialNoticePriority": "company-or-agency-notice-first",
-      "supplementarySourceUrls": [
-        "https://job.alio.go.kr/recruitview.do?idx=300994"
-      ],
-      "verifiedAt": "2026-06-05T08:51:31.151Z",
-      "publishedAt": "2026-05-27T14:59:59.000Z",
-      "publishedDate": "2026-05-27",
-      "firstSeenAt": "2026-06-05T04:43:55.741Z",
+      "detailText": "기술직 ○ 응시자격 · 학력, 어학, 성별, 연령 : 제한없음 · 병역 : ?병역법? 제76조에서 정한 병역의무 불이행 사실이 없는 자 * 단, 최종 합격자 발표일까지 전역예정자로서 전형절차에 응시 가능자 지원 가능 · 기타 : 공단 직원채용 ○ 우대내용 · 공동주택관리의 행정, 기술업무 수행에 필요한 자격증소지자 · 장애인, 국민기초생활수급자 등 · 청년고용촉진 특별법에 의한 청년(만 15세 이상 34세 이하) 및 고졸자 · 본사 이전지역(경남, 울산) 인재 - 최종학력이 경상남도 또는 울산광역시 지역 고등학교 이상 졸업자(대학원 제외) · 공동주택 시설물 선임관련 기능사이상 자격소지자(선임 가능자) · 장애인 : 서류, 면접전형시 만점의 5% · 국민기초생활보장 수급자 : 서류, 면접전형시 만점의 5% · 우리공단근무(체험형인턴) : 서류전형시 만점의 3% · 기타 자세한 내용은 공고문 참조 ○ 채용절차 1. 채용공고 2. 입사지원서 작성 및 제출 3. 1차 서류전형 4. 1차 서류전형 합격자 발표 5. 2차 면접전형 6. 2차 면접전형 합격자 발표 7. 결격사유 확인 8. 최종합격자 발표 9. 임용 ○ 채용방법 - 국가직무능력표준(NCS)에 기반하여 직업능력(직업기초능력+직무수행능력)평가",
+      "deadline": "2026-06-11",
+      "deadlineText": "26.06.11 마감",
+      "url": "https://job.alio.go.kr/recruitview.do?idx=301311",
+      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=301311",
+      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301311",
+      "companyNoticeUrl": "",
+      "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301311",
+      "officialNoticePriority": "source-official-pending-company-or-agency-notice",
+      "supplementarySourceUrls": [],
+      "verifiedAt": "2026-06-05T12:48:16.876Z",
+      "publishedAt": "2026-06-04T14:59:59.000Z",
+      "publishedDate": "2026-06-04",
+      "firstSeenAt": "2026-06-05T12:48:16.876Z",
       "firstSeenDate": "2026-06-05",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
-        "publishedAt": "2026-05-27T14:59:59.000Z",
-        "publishedDate": "2026-05-27",
-        "firstSeenAt": "2026-06-05T04:43:55.741Z",
+        "publishedAt": "2026-06-04T14:59:59.000Z",
+        "publishedDate": "2026-06-04",
+        "firstSeenAt": "2026-06-05T12:48:16.876Z",
         "firstSeenDate": "2026-06-05",
-        "detectionLagDays": 9,
+        "detectionLagDays": 1,
         "firstDayCollected": false,
         "missedReviewNeeded": true,
-        "firstDayStatus": "late_detected",
-        "note": "공고 게시 후 9일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+        "firstDayStatus": "next_day",
+        "note": "공고 게시 후 1일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
       },
-      "fitScore": 50,
+      "fitScore": 68,
       "fitLabels": [
         "고졸",
+        "학력무관",
         "신입·경력무관",
         "공식전형"
       ],
-      "processTrack": "direct-interview",
-      "processTrackName": "면접중심·현장형",
-      "writtenExam": "not_found",
-      "processConfidence": "medium",
+      "processTrack": "exam-formal",
+      "processTrackName": "필기·공식전형",
+      "writtenExam": "confirmed",
+      "processConfidence": "high",
       "processLabels": [
         "공공기관",
-        "면접 중심",
-        "공채"
+        "필기 확인"
       ],
-      "processNote": "필기시험은 확인되지 않았고 서류·면접 중심 채용으로 우선 분류했습니다.",
+      "processNote": "필기시험 또는 공식 선발 절차가 원문 키워드에서 확인됩니다.",
       "sector": "public-institution",
       "sectorName": "공공기관",
       "sourceVerification": {
-        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=300994",
-        "companyNoticeUrl": "https://kopri.recruiter.co.kr/",
-        "primaryOfficialUrl": "https://kopri.recruiter.co.kr/",
-        "officialNoticePriority": "company-or-agency-notice-first",
-        "companyNoticeCheckStatus": "content_matched",
-        "companyNoticeReachable": true,
-        "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-05T08:51:31.151Z",
-        "doubleCheckStatus": "company_contact_recommended",
-        "doubleCheckLabel": "회사 확인 권고",
-        "verificationNote": "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다."
+        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301311",
+        "companyNoticeUrl": "",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301311",
+        "officialNoticePriority": "source-official-pending-company-or-agency-notice",
+        "companyNoticeCheckStatus": "not_found",
+        "companyNoticeReachable": false,
+        "companyNoticeMatched": false,
+        "companyNoticeCheckedAt": "2026-06-05T12:48:16.876Z",
+        "doubleCheckStatus": "company_notice_required",
+        "doubleCheckLabel": "공식 공고 확인필요",
+        "verificationNote": "공채 상세 제공 전 회사·기관 또는 채용대행 공식 공지사항 2중 확인이 필요합니다."
       },
-      "servicePriority": "support-brief-direct",
-      "servicePolicyLabel": "간단 안내",
-      "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다.",
-      "contactAdvice": "근무조건, 급여, 제출서류, 미성년자 근로 가능 여부는 회사 공식 공고 또는 인사담당자에게 확인하세요.",
-      "publicRecruitDetails": null,
+      "servicePriority": "primary-public-recruit",
+      "servicePolicyLabel": "공채 상세 확인중",
+      "detailLevel": "official-summary-pending-company-check",
+      "displayNote": "공채 후보로 우선 표시하되 회사·기관 또는 채용대행 공식 공지사항 2중 확인 전에는 상세 확정으로 보지 않습니다.",
+      "contactAdvice": "지원 전 회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문을 다시 확인하세요.",
+      "publicRecruitDetails": {
+        "companyNotice": "회사·기관 공식 공고 확인 필요",
+        "sourceCheck": "공식 공고 확인필요",
+        "hiring": "기술직",
+        "eligibility": "학력무관 · 신입+경력",
+        "process": "○ 채용절차 1. 채용공고 2. 입사지원서 작성 및 제출 3. 1차 서류전형 4. 1차 서류전형 합격자 발표 5. 2차 면접전형 6. 2차 면접전형 합격자 발표 7. 결격사유 확인 8. 최종합격자 발표 9. 임용 ○ 채용방법 - 국가직무능력표준(NCS)에 기반하여 직업능력(직업기초능력+직무수행능력)평가 충북지사권역(기술2) 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - -",
+        "application": "26.06.11 마감",
+        "attachments": [
+          "1. NCS 채용공고문(긴급_기술2명_26.06.04.).hwpx",
+          "공고문: 입사지원서(주택관리공단).pdf",
+          "공고문: 직무기술서(기술직).hwp"
+        ]
+      },
       "teacherBriefing": {
         "version": 1,
         "generator": "official-source-briefing-v1",
-        "label": "간단 채용 확인 브리핑",
-        "detailLevel": "brief-company-contact",
-        "headline": "극지연구소 - 2026년 청년인턴(체험형) 공개채용 공고",
+        "label": "취업부 공채 브리핑",
+        "detailLevel": "official-summary-pending-company-check",
+        "headline": "주택관리공단(주) - 채용형 인턴 채용공고(주택관리공단 충북지사)",
         "summaryLines": [
-          "극지연구소 채용정보",
-          "채용부문: 기타",
-          "학력·자격: - (전공) 지질해양학 및 유관 학과(지질학 등) - (우대사항) 해양퇴적물 분석(입도, 지화학, 광물 등) 유경험자/ 자료처리(스프레드 시트, 통계처리 소프트웨어, 매트랩, 파이썬 등 활용) 유경험자 - (전공)…",
-          "근무지: 인천",
-          "고용형태: 청년인턴(체험형)"
+          "주택관리공단(주) 공채·공식전형",
+          "채용부문: 기술직",
+          "학력·자격: ○ 응시자격 · 학력, 어학, 성별, 연령 : 제한없음 · 병역 : ?병역법? 제76조에서 정한 병역의무 불이행 사실이 없는 자 * 단, 최종 합격자 발표일까지 전역예정자로서 전형절차에 응시 가능자 지원 가능 · …",
+          "근무지: 충북",
+          "고용형태: 청년인턴(채용형)"
         ],
         "scheduleLines": [
-          "원서접수: 26.06.10 마감",
-          "전형절차: 1. 1차 전형(서류) : 지원 자격을 충족한 지원자를 대상으로 100점 만점 기준 총점 평균 60점 이상 득점자 중 고득점자 순으로 채용인원의 5배수 이내 선발 2. 2차 전형(면접) : 전문지식 및 인성 각 분야 만점의 60% 이상 득점자 중 총점 70점 이상 이…",
-          "필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.",
-          "면접전형: 고득점자 순으로 채용인원의 5배수 이내 선발 2. 2차 전형(면접) : 전문지식 및 인성 각 분야 만점의 60% 이상 득점자 중 총점 70점 이상 이상 고득점자순으로 합격자 선정 *세부사항 채용 기타 - (전공) …",
-          "발표·임용: 60% 이상 득점자 중 총점 70점 이상 이상 고득점자순으로 합격자 선정 *세부사항 채용 기타 - (전공) 지질해양학 및 유관 학과(지질학 등) - (우대사항) 해양퇴적물 분석(입도, 지화학, 광물 등) 유경험자/…"
+          "원서접수: 26.06.11 마감",
+          "전형절차: ○ 채용절차 1. 채용공고 2. 입사지원서 작성 및 제출 3. 1차 서류전형 4. 1차 서류전형 합격자 발표 5. 2차 면접전형 6. 2차 면접전형 합격자 발표 7. 결격사유 확인 8. 최종합격자 발표 9. 임용 ○ 채용방법 - 국가직무능력표준(NCS)에 기반하여 직…",
+          "필기전형: 최종합격자 발표 9. 임용 ○ 채용방법 - 국가직무능력표준(NCS)에 기반하여 직업능력(직업기초능력+직무수행능력)평가 충북지사권역(기술2) 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 기술직…",
+          "면접전형: . 1차 서류전형 4. 1차 서류전형 합격자 발표 5. 2차 면접전형 6. 2차 면접전형 합격자 발표 7. 결격사유 확인 8. 최종합격자 발표 9. 임용 ○ 채용방법 - 국가직무능력표준(NCS)에 기반하여 직업능력…",
+          "발표·임용: 지원서 작성 및 제출 3. 1차 서류전형 4. 1차 서류전형 합격자 발표 5. 2차 면접전형 6. 2차 면접전형 합격자 발표 7. 결격사유 확인 8. 최종합격자 발표 9. 임용 ○ 채용방법 - 국가직무능력표준(NC…"
         ],
         "examSubjects": [
-          "전공시험"
+          "NCS 직업기초능력"
         ],
         "schoolActionItems": [
-          "회사 확인 권고",
+          "공식 공고 확인필요",
           "학교장 추천 필요 여부 원문 확인",
           "지원 가능 학년·졸업예정 기준 확인",
           "공고문·입사지원서·직무기술서 첨부 확보",
-          "회사 인사담당자에게 세부 조건 확인",
+          "필기/NCS 대비 일정 안내",
           "공고 게시일과 첫날 수집 누락 여부 점검"
         ],
         "studentActionItems": [
           "원서접수 마감 전 지원계정·제출서류 확인",
-          "면접 예상 질문과 회사 직무 확인",
+          "NCS·직무능력·인적성 대비",
           "자기소개서·경험기술서 초안 작성",
           "근무지·고용형태·임용예정일 확인"
         ],
         "sourceLines": [
-          "공식 원문: https://kopri.recruiter.co.kr/",
-          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=300994",
-          "필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.",
-          "필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다."
+          "공식 원문: https://job.alio.go.kr/recruitview.do?idx=301311",
+          "공채 상세 제공 전 회사·기관 또는 채용대행 공식 공지사항 2중 확인이 필요합니다.",
+          "공채 후보로 우선 표시하되 회사·기관 또는 채용대행 공식 공지사항 2중 확인 전에는 상세 확정으로 보지 않습니다."
         ],
         "attachmentLines": [
-          "공고문: 2026년 청년인턴(체험형) 공개채용 공고.pdf: https://www.alio.go.kr/download/download.json?fileNo=3052109",
-          "입사지원서: 별첨1. 2026년 청년인턴(체험형) 채용 연수제안서.pdf: https://www.alio.go.kr/download/download.json?fileNo=3052110",
-          "직무기술서: 별첨2. 2026년 청년인턴(체험형) 채용 이의신청서.pdf: https://www.alio.go.kr/download/download.json?fileNo=3052111",
-          "기타 첨부파일: 별첨3. 2026년 청년인턴(체험형) 채용 결격사유.pdf: https://www.alio.go.kr/download/download.json?fileNo=3052112",
-          "기타 첨부파일: 별첨4. 2026년 청년인턴(체험형) 지원서 및 증빙자료 내 블라인드 채용 위반사항 검토 기준.p…: https://www.alio.go.kr/download/download.json?fileNo=3052113"
+          "1. NCS 채용공고문(긴급_기술2명_26.06.04.).hwpx: https://www.alio.go.kr/download/download.json?fileNo=3053849",
+          "공고문: 입사지원서(주택관리공단).pdf: https://www.alio.go.kr/download/download.json?fileNo=3053850",
+          "공고문: 직무기술서(기술직).hwp: https://www.alio.go.kr/download/download.json?fileNo=3053851"
         ],
-        "teacherShareText": "[극지연구소]\n- 고졸·특성화고 관련 채용정보\n\n[채용부문]\n- 극지연구소 채용정보\n- 채용부문: 기타\n- 학력·자격: - (전공) 지질해양학 및 유관 학과(지질학 등) - (우대사항) 해양퇴적물 분석(입도, 지화학, 광물 등) 유경험자/ 자료처리(스프레드 시트, 통계처리 소프트웨어, 매트랩, 파이썬 등 활용) 유경험자 - (전공)…\n- 근무지: 인천\n- 고용형태: 청년인턴(체험형)\n\n[전형일정]\n- 원서접수: 26.06.10 마감\n- 전형절차: 1. 1차 전형(서류) : 지원 자격을 충족한 지원자를 대상으로 100점 만점 기준 총점 평균 60점 이상 득점자 중 고득점자 순으로 채용인원의 5배수 이내 선발 2. 2차 전형(면접) : 전문지식 및 인성 각 분야 만점의 60% 이상 득점자 중 총점 70점 이상 이…\n- 필기전형: 필기시험은 현재 원문 키워드에서 확인되지 않았습니다.\n- 면접전형: 고득점자 순으로 채용인원의 5배수 이내 선발 2. 2차 전형(면접) : 전문지식 및 인성 각 분야 만점의 60% 이상 득점자 중 총점 70점 이상 이상 고득점자순으로 합격자 선정 *세부사항 채용 기타 - (전공) …\n- 발표·임용: 60% 이상 득점자 중 총점 70점 이상 이상 고득점자순으로 합격자 선정 *세부사항 채용 기타 - (전공) 지질해양학 및 유관 학과(지질학 등) - (우대사항) 해양퇴적물 분석(입도, 지화학, 광물 등) 유경험자/…\n\n[학교 확인]\n- 회사 확인 권고\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 회사 인사담당자에게 세부 조건 확인\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- 면접 예상 질문과 회사 직무 확인\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://kopri.recruiter.co.kr/\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=300994\n- 필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.\n- 공고문: 2026년 청년인턴(체험형) 공개채용 공고.pdf: https://www.alio.go.kr/download/download.json?fileNo=3052109\n- 입사지원서: 별첨1. 2026년 청년인턴(체험형) 채용 연수제안서.pdf: https://www.alio.go.kr/download/download.json?fileNo=3052110\n- 직무기술서: 별첨2. 2026년 청년인턴(체험형) 채용 이의신청서.pdf: https://www.alio.go.kr/download/download.json?fileNo=3052111",
-        "officialBasis": "회사 확인 권고",
-        "officialUrl": "https://kopri.recruiter.co.kr/",
-        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=300994",
-        "generatedAt": "2026-06-05T08:51:31.151Z"
+        "teacherShareText": "[주택관리공단(주)]\n- 고졸(예정) 공채·공식전형\n\n[채용부문]\n- 주택관리공단(주) 공채·공식전형\n- 채용부문: 기술직\n- 학력·자격: ○ 응시자격 · 학력, 어학, 성별, 연령 : 제한없음 · 병역 : ?병역법? 제76조에서 정한 병역의무 불이행 사실이 없는 자 * 단, 최종 합격자 발표일까지 전역예정자로서 전형절차에 응시 가능자 지원 가능 · …\n- 근무지: 충북\n- 고용형태: 청년인턴(채용형)\n\n[전형일정]\n- 원서접수: 26.06.11 마감\n- 전형절차: ○ 채용절차 1. 채용공고 2. 입사지원서 작성 및 제출 3. 1차 서류전형 4. 1차 서류전형 합격자 발표 5. 2차 면접전형 6. 2차 면접전형 합격자 발표 7. 결격사유 확인 8. 최종합격자 발표 9. 임용 ○ 채용방법 - 국가직무능력표준(NCS)에 기반하여 직…\n- 필기전형: 최종합격자 발표 9. 임용 ○ 채용방법 - 국가직무능력표준(NCS)에 기반하여 직업능력(직업기초능력+직무수행능력)평가 충북지사권역(기술2) 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 기술직…\n- 면접전형: . 1차 서류전형 4. 1차 서류전형 합격자 발표 5. 2차 면접전형 6. 2차 면접전형 합격자 발표 7. 결격사유 확인 8. 최종합격자 발표 9. 임용 ○ 채용방법 - 국가직무능력표준(NCS)에 기반하여 직업능력…\n- 발표·임용: 지원서 작성 및 제출 3. 1차 서류전형 4. 1차 서류전형 합격자 발표 5. 2차 면접전형 6. 2차 면접전형 합격자 발표 7. 결격사유 확인 8. 최종합격자 발표 9. 임용 ○ 채용방법 - 국가직무능력표준(NC…\n\n[학교 확인]\n- 공식 공고 확인필요\n- 학교장 추천 필요 여부 원문 확인\n- 지원 가능 학년·졸업예정 기준 확인\n- 공고문·입사지원서·직무기술서 첨부 확보\n- 필기/NCS 대비 일정 안내\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- NCS·직무능력·인적성 대비\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://job.alio.go.kr/recruitview.do?idx=301311\n- 공채 상세 제공 전 회사·기관 또는 채용대행 공식 공지사항 2중 확인이 필요합니다.\n- 공채 후보로 우선 표시하되 회사·기관 또는 채용대행 공식 공지사항 2중 확인 전에는 상세 확정으로 보지 않습니다.\n- 1. NCS 채용공고문(긴급_기술2명_26.06.04.).hwpx: https://www.alio.go.kr/download/download.json?fileNo=3053849\n- 공고문: 입사지원서(주택관리공단).pdf: https://www.alio.go.kr/download/download.json?fileNo=3053850\n- 공고문: 직무기술서(기술직).hwp: https://www.alio.go.kr/download/download.json?fileNo=3053851",
+        "officialBasis": "공식 공고 확인필요",
+        "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=301311",
+        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301311",
+        "generatedAt": "2026-06-05T12:48:16.876Z"
       },
       "schoolRecommendation": "unknown",
-      "status": "deadline_soon",
+      "status": "active",
       "legalCheckFlags": [
         "원문확인",
         "마감확인",
@@ -8754,10 +8796,10 @@
         "추천여부확인"
       ],
       "guideTags": [
-        "면접중심·현장형",
+        "필기·공식전형",
         "공공기관",
-        "청년인턴(체험형)",
-        "고졸,대졸(2~3년),대졸(4년)",
+        "청년인턴(채용형)",
+        "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
       ]
