@@ -1743,23 +1743,110 @@ function matchNoticeTermCount(text, terms) {
   return terms.reduce((count, term) => count + (normalized.includes(term) ? 1 : 0), 0);
 }
 
-function bbsViewUrlFromId(baseUrl, id) {
+function noticeRequiredTerms(title) {
+  const text = normalizeSpace(title);
+  const terms = [];
+  if (text.includes('일반전형')) terms.push('일반전형');
+  if (text.includes('보훈전형')) terms.push('보훈전형');
+  for (const match of text.matchAll(/[([]([^)\]]+)[)\]]/g)) {
+    for (const term of significantTerms(match[1], 4)) {
+      if (term.endsWith('원') || term.includes('직')) terms.push(term);
+    }
+  }
+  return Array.from(new Set(terms));
+}
+
+function noticeRequiredTermsMatched(text, title) {
+  const normalized = normalizeSpace(text);
+  return noticeRequiredTerms(title).every((term) => {
+    if (term === '보훈전형') return normalized.includes('보훈전형') || normalized.includes('취업지원대상자');
+    return normalized.includes(term);
+  });
+}
+
+function noticeAnchorMatches(anchorText, terms, title) {
+  return matchNoticeTermCount(anchorText, terms) >= Math.min(3, terms.length)
+    && noticeRequiredTermsMatched(anchorText, title);
+}
+
+function kohomNoticeSearchTerm(title, company = '') {
+  const text = normalizeSpace([title, company].join(' '));
+  return text.match(/[가-힣]+지사/)?.[0] || significantTerms(title, 1)[0] || significantTerms(company, 1)[0] || '';
+}
+
+function knownOfficialNoticeSearchUrls(company, title = '') {
+  const haystack = normalizeSpace([company, title].join(' '));
+  const urls = [];
+  if (haystack.includes('한국도로공사')) {
+    urls.push('https://www.ex.co.kr/portal/biz/bbs/layout1/selectBoardList.do?bbsId=BBSMSTR_000000000182');
+  }
+  if (haystack.includes('주택관리공단')) {
+    const searchTerm = kohomNoticeSearchTerm(title, company);
+    urls.push(buildUrl('https://www.kohom.or.kr/web/mainComm/HM005008005.do', {
+      mode: 'list',
+      page: 1,
+      schCon: 0,
+      schStr: searchTerm
+    }).toString());
+  }
+  return urls.map(publicDisplayUrl).filter(Boolean);
+}
+
+function isHomepageUrl(value) {
+  try {
+    const url = new URL(value);
+    return (url.pathname === '/' || url.pathname === '') && !url.search && !url.hash;
+  } catch {
+    return false;
+  }
+}
+
+function boardDetailUrlFromId(baseUrl, id) {
   try {
     const url = new URL(baseUrl);
-    url.pathname = url.pathname.replace(/bbsPage\.do$/i, 'bbsView.do');
-    url.search = '';
-    url.searchParams.set('bbsCnId', id);
-    url.searchParams.set('bbsCode', 'deptgongji');
-    url.searchParams.set('menuId', 'MENU0895');
-    url.searchParams.set('pageIndex', '1');
+    const host = url.hostname;
+    const path = url.pathname;
+    if (/ex\.co\.kr$/i.test(host) && /selectBoard(?:List|Article)\.do$/i.test(path)) {
+      const bbsId = url.searchParams.get('bbsId') || 'BBSMSTR_000000000182';
+      url.pathname = path.replace(/selectBoardList\.do$/i, 'selectBoardArticle.do');
+      url.search = '';
+      url.searchParams.set('bbsId', bbsId);
+      url.searchParams.set('nttId', id);
+      return publicDisplayUrl(url.toString());
+    }
+    if (/kohom\.or\.kr$/i.test(host) && /HM005008005\.do$/i.test(path)) {
+      const schCon = url.searchParams.get('schCon') || '0';
+      const schStr = url.searchParams.get('schStr') || '';
+      const page = url.searchParams.get('page') || '1';
+      url.search = '';
+      url.searchParams.set('mode', 'view');
+      url.searchParams.set('schCon', schCon);
+      url.searchParams.set('schStr', schStr);
+      url.searchParams.set('page', page);
+      url.searchParams.set('rnm_idx', id);
+      return publicDisplayUrl(url.toString());
+    }
+    if (/bbsPage\.do$/i.test(path)) {
+      url.pathname = path.replace(/bbsPage\.do$/i, 'bbsView.do');
+      url.search = '';
+      url.searchParams.set('bbsCnId', id);
+      url.searchParams.set('bbsCode', 'deptgongji');
+      url.searchParams.set('menuId', 'MENU0895');
+      url.searchParams.set('pageIndex', '1');
+      return publicDisplayUrl(url.toString());
+    }
     return publicDisplayUrl(url.toString());
   } catch {
     return '';
   }
 }
 
-function officialNoticeSearchUrls(candidateUrl, title) {
-  const urls = [candidateUrl];
+function officialNoticeSearchUrls(candidateUrl, title, company = '') {
+  const urls = [];
+  const knownUrls = knownOfficialNoticeSearchUrls(company, title);
+  if (candidateUrl && !(knownUrls.length && isHomepageUrl(candidateUrl))) urls.push(candidateUrl);
+  urls.push(...knownUrls);
+  if (candidateUrl && knownUrls.length && isHomepageUrl(candidateUrl)) urls.push(candidateUrl);
   try {
     const url = new URL(candidateUrl);
     if (/kead\.or\.kr$/i.test(url.hostname) && /bbsPage\.do$/i.test(url.pathname)) {
@@ -1782,28 +1869,32 @@ function findOfficialNoticeDetailUrl(html, baseUrl, title, company = '') {
   if (!terms.length) return '';
   const linkPattern = /<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi;
   for (const match of html.matchAll(linkPattern)) {
+    const tag = match[0];
     const href = match[1].replace(/&amp;/g, '&');
     const anchorText = htmlText(match[2]);
-    if (matchNoticeTermCount(anchorText, terms) < Math.min(3, terms.length)) continue;
+    if (!noticeAnchorMatches(anchorText, terms, title)) continue;
     const directUrl = absoluteUrlFromHref(href, baseUrl);
     if (directUrl) return directUrl;
-    const id = href.match(/(\d{5,})/)?.[1];
-    if (id) return bbsViewUrlFromId(baseUrl, id);
+    const id = [href, tag].join(' ').match(/(?:fn_egov_inqire_notice|fn_goView|nttId|rnm_idx)[^0-9]{0,30}(\d{2,})/i)?.[1]
+      || href.match(/(\d{5,})/)?.[1];
+    if (id) return boardDetailUrlFromId(baseUrl, id);
   }
 
   const strongestTerm = terms.find((term) => term.length >= 5) || terms[0];
   const index = html.indexOf(strongestTerm);
   if (index === -1) return '';
   const context = html.slice(Math.max(0, index - 1200), index + 1600);
+  if (!noticeRequiredTermsMatched(context, title)) return '';
   const id = context.match(/(?:bbsCnId|bbs_cn_id|cnId)[^0-9]{0,30}(\d{5,})/i)?.[1]
-    || context.match(/(?:bbsView|bbsPage|fn[A-Za-z0-9_]*|goView|view)[^0-9]{0,80}(\d{5,})/i)?.[1];
-  return id ? bbsViewUrlFromId(baseUrl, id) : '';
+    || context.match(/(?:nttId|rnm_idx|bbsView|bbsPage|fn[A-Za-z0-9_]*|goView|view)[^0-9]{0,80}(\d{2,})/i)?.[1];
+  return id ? boardDetailUrlFromId(baseUrl, id) : '';
 }
 
 async function resolveOfficialNoticeUrl(candidateUrl, title, company = '') {
   const cleanCandidateUrl = cleanUrl(candidateUrl);
-  if (!cleanCandidateUrl) return '';
-  for (const searchUrl of officialNoticeSearchUrls(cleanCandidateUrl, title)) {
+  const searchUrls = officialNoticeSearchUrls(cleanCandidateUrl, title, company);
+  if (!searchUrls.length) return '';
+  for (const searchUrl of searchUrls) {
     try {
       const html = await fetchWithTimeout(searchUrl, { timeoutMs: COMPANY_NOTICE_TIMEOUT_MS });
       const detailUrl = findOfficialNoticeDetailUrl(html, searchUrl, title, company);
