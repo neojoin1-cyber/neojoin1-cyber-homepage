@@ -535,7 +535,7 @@ const SOURCE_ONBOARDING = {
     easySteps: [
       '잡코리아 공식 제휴 또는 허용된 API 경로를 확인한다.',
       '키는 JOBKOREA_API_KEY, URL은 JOBKOREA_API_URL Secret에 저장한다.',
-      '필기 없는 채용은 간단 정보와 회사 확인 안내 중심으로 표시한다.'
+      '필기 없는 채용은 공식 소스 자동요약과 변동 항목 재수집 중심으로 표시한다.'
     ]
   },
   'incruit-highschool': {
@@ -759,6 +759,28 @@ const EXAM_TERMS = [
   '인적성',
   '논술',
   '전공시험',
+  '체력검정',
+  '체력시험',
+  '군무원',
+  '공무원',
+  '부사관',
+  '공개경쟁'
+];
+
+const WRITTEN_EXAM_TERMS = [
+  '필기',
+  '필기시험',
+  '필기전형',
+  '직무능력검사',
+  '직업기초능력평가',
+  '직업기초능력검사',
+  '직무수행능력평가',
+  '직무수행능력검사',
+  '인적성',
+  '논술',
+  '전공시험',
+  '전공평가',
+  '전공필기',
   '체력검정',
   '체력시험',
   '군무원',
@@ -2033,6 +2055,15 @@ function includesAny(value, terms) {
   return terms.some((term) => value.includes(term));
 }
 
+function hasWrittenExamSignal(value) {
+  const text = normalizeSpace(value);
+  if (includesAny(text, WRITTEN_EXAM_TERMS)) return true;
+  return [
+    /NCS\s*(직업기초능력|직무수행능력|직무능력)?\s*(평가|검사|시험|필기)/i,
+    /(필기|시험|평가|검사)\s*[^.。]{0,20}NCS/i
+  ].some((pattern) => pattern.test(text));
+}
+
 function withApplicationClosedSuffix(title) {
   const normalized = normalizeSpace(title);
   if (!normalized) return normalized;
@@ -2084,7 +2115,7 @@ function classifyProcess(raw) {
     raw.processText,
     raw.sourceName
   ].join(' ');
-  const hasExam = includesAny(haystack, EXAM_TERMS);
+  const hasExam = hasWrittenExamSignal(haystack);
   const hasDirect = includesAny(haystack, DIRECT_TERMS);
   const sector = classifySector(raw, haystack);
   const labels = [sectorLabel(sector)];
@@ -2092,7 +2123,7 @@ function classifyProcess(raw) {
   let processTrack = 'direct-interview';
   let writtenExam = 'unknown';
   let confidence = 'review';
-  let note = '전형절차는 원문에서 최종 확인해야 합니다.';
+  let note = '공식 소스에서 추출한 전형 키워드 기준으로 자동 분류했습니다.';
 
   if (hasExam) {
     processTrack = 'exam-formal';
@@ -2104,14 +2135,14 @@ function classifyProcess(raw) {
     processTrack = 'direct-interview';
     writtenExam = 'not_found';
     confidence = hasDirect || source?.trackHint === 'direct' ? 'medium' : 'review';
-    labels.push(hasDirect ? '면접 중심' : '필기 미확인');
-    note = '필기시험은 확인되지 않았고 서류·면접 중심 채용으로 우선 분류했습니다.';
+    labels.push(hasDirect ? '서류·면접 중심' : '필기 미탐지');
+    note = '필기시험 신호가 없어 서류·면접 중심 채용으로 자동 분류했습니다.';
   } else if (source?.trackHint === 'exam' || ['public-institution', 'government', 'military', 'finance', 'finance-large-company', 'large-company'].includes(sector)) {
     processTrack = 'exam-formal';
     writtenExam = 'likely';
     confidence = 'medium';
-    labels.push('필기 가능성 높음');
-    note = '공공·군·정부 채용 성격상 필기 또는 공식 선발 절차 가능성이 높습니다.';
+    labels.push('공식전형 후보');
+    note = '공공·군·정부 채용 성격상 공식 선발 절차 후보로 분류했습니다.';
   }
 
   if (haystack.includes('공채') || haystack.includes('공개채용')) labels.push('공채');
@@ -2139,28 +2170,26 @@ function buildSourceVerification(raw, process, displayUrl) {
   const hasCompanyNotice = Boolean(companyNoticeUrl);
   const isPublicRecruit = process.processTrack === 'exam-formal';
 
-  let doubleCheckStatus = 'company_contact_recommended';
-  let doubleCheckLabel = '회사 확인 권고';
-  let verificationNote = '필기시험 없는 채용은 요약 정보만 제공하고 세부 조건은 회사 공식 공고 또는 인사담당자에게 확인해야 합니다.';
+  let doubleCheckStatus = 'official_source_summarized';
+  let doubleCheckLabel = '공식 소스 자동요약';
+  let verificationNote = '공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다.';
 
-  if (isPublicRecruit) {
-    if (hasCompanyNotice && check.status === 'content_matched') {
-      doubleCheckStatus = 'company_notice_confirmed';
-      doubleCheckLabel = '공식 공고 2중확인';
-      verificationNote = '공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다.';
-    } else if (hasCompanyNotice && check.reachable) {
-      doubleCheckStatus = 'company_notice_reachable';
-      doubleCheckLabel = '공식 공고 접속확인';
-      verificationNote = '공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 문구는 원문에서 최종 확인해야 합니다.';
-    } else if (hasCompanyNotice) {
-      doubleCheckStatus = 'company_notice_linked';
-      doubleCheckLabel = '공식 공고 링크확인';
-      verificationNote = '공식 채용 소스에서 회사·기관 또는 채용대행 공식 공지사항 링크를 확보했습니다. 접속 또는 본문 대조는 추가 확인이 필요합니다.';
-    } else {
-      doubleCheckStatus = 'company_notice_required';
-      doubleCheckLabel = '공식 공고 확인필요';
-      verificationNote = '공채 상세 제공 전 회사·기관 또는 채용대행 공식 공지사항 2중 확인이 필요합니다.';
-    }
+  if (hasCompanyNotice && check.status === 'content_matched') {
+    doubleCheckStatus = 'company_notice_confirmed';
+    doubleCheckLabel = '공식 공고 2중확인';
+    verificationNote = '공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다.';
+  } else if (hasCompanyNotice && check.reachable) {
+    doubleCheckStatus = 'company_notice_reachable';
+    doubleCheckLabel = '공식 공고 접속확인';
+    verificationNote = '공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 변동 가능 항목은 다음 수집에서 다시 대조합니다.';
+  } else if (hasCompanyNotice) {
+    doubleCheckStatus = 'company_notice_linked';
+    doubleCheckLabel = '공식 공고 링크확보';
+    verificationNote = '공식 채용 소스에서 회사·기관 또는 채용대행 공식 공지사항 링크를 확보했습니다. 접속 대조는 다음 수집에서 이어갑니다.';
+  } else if (isPublicRecruit) {
+    doubleCheckStatus = 'company_notice_required';
+    doubleCheckLabel = '공식 공고 자동탐색중';
+    verificationNote = '공채 상세 제공을 위해 회사·기관 또는 채용대행 공식 공지사항 URL을 자동 탐색 중입니다.';
   }
 
   return {
@@ -2169,7 +2198,7 @@ function buildSourceVerification(raw, process, displayUrl) {
     primaryOfficialUrl: companyNoticeUrl || sourceOfficialUrl || displayOfficialUrl,
     officialNoticePriority: companyNoticeUrl
       ? 'company-or-agency-notice-first'
-      : 'source-official-pending-company-or-agency-notice',
+      : isPublicRecruit ? 'source-official-pending-company-or-agency-notice' : 'source-official-auto-summary',
     companyNoticeCheckStatus: check.status || (hasCompanyNotice ? 'link_found' : 'not_found'),
     companyNoticeReachable: Boolean(check.reachable),
     companyNoticeMatched: Boolean(check.titleMatched || check.companyMatched),
@@ -2190,7 +2219,7 @@ function buildServicePolicy(process, verification) {
       displayNote: isDetailed
         ? '회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.'
         : '공채 후보로 우선 표시하되 회사·기관 또는 채용대행 공식 공지사항 2중 확인 전에는 상세 확정으로 보지 않습니다.',
-      contactAdvice: '지원 전 회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문을 다시 확인하세요.'
+      contactAdvice: '회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.'
     };
   }
 
@@ -2198,8 +2227,8 @@ function buildServicePolicy(process, verification) {
     servicePriority: 'support-brief-direct',
     servicePolicyLabel: '간단 안내',
     detailLevel: 'brief-company-contact',
-    displayNote: '필기시험 없는 채용은 중견기업 중심으로 핵심 조건만 간단히 제공합니다.',
-    contactAdvice: '근무조건, 급여, 제출서류, 미성년자 근로 가능 여부는 회사 공식 공고 또는 인사담당자에게 확인하세요.'
+    displayNote: '필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다.',
+    contactAdvice: '근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.'
   };
 }
 
@@ -2317,51 +2346,73 @@ function buildRecruitBriefing(context) {
   const writtenExamLine = process.writtenExam === 'not_found'
     ? '필기시험은 현재 원문 키워드에서 확인되지 않았습니다.'
     : keywordSnippet([processText, detailText].join(' '), EXAM_TERMS, examSubjects.join(' · '));
-  const interviewLine = keywordSnippet([processText, detailText].join(' '), ['면접', '면접전형', '심층면접'], '면접 일정·방식 원문 확인');
-  const resultLine = keywordSnippet([processText, detailText].join(' '), ['합격자', '최종합격', '발표', '임용'], '합격자 발표·임용일 원문 확인');
+  const interviewLine = keywordSnippet([processText, detailText].join(' '), ['면접', '면접전형', '심층면접'], '면접 일정·방식 자동 추출 대기');
+  const resultLine = keywordSnippet([processText, detailText].join(' '), ['합격자', '최종합격', '발표', '임용'], '합격자 발표·임용일 자동 추출 대기');
   const attachmentLines = attachments.length
     ? attachments.map((item) => `${item.title}: ${item.url}`)
-    : ['공고문·입사지원서·직무기술서는 공식 공고에서 확인 필요'];
+    : ['공고문·입사지원서·직무기술서 공식 첨부 자동 탐색 대기'];
   const applicationLine = status === 'application_closed'
     ? (deadline ? `${deadline} 원서 마감` : '원서 마감')
-    : firstText(raw.deadlineText, deadline ? `${deadline} 마감` : '', applicationMethod, '마감일 원문 확인');
+    : firstText(raw.deadlineText, deadline ? `${deadline} 마감` : '', applicationMethod, '마감일 자동 추출 대기');
 
   const summaryLines = compactTags([
     `${company} ${isPublicRecruit ? '공채·공식전형' : '채용정보'}`,
     recruitField ? `채용부문: ${recruitField}` : `공고명: ${title}`,
     recruitNumber ? `채용규모: ${recruitNumber}` : '',
-    `학력·자격: ${shortText(eligibility, '응시자격 원문 확인', 120)}`,
-    raw.region ? `근무지: ${shortText(raw.region, '원문 확인', 80)}` : '',
-    raw.employmentType ? `고용형태: ${shortText(raw.employmentType, '원문 확인', 80)}` : ''
+    `학력·자격: ${shortText(eligibility, '응시자격 자동 추출 대기', 120)}`,
+    raw.region ? `근무지: ${shortText(raw.region, '자동 추출 대기', 80)}` : '',
+    raw.employmentType ? `고용형태: ${shortText(raw.employmentType, '자동 추출 대기', 80)}` : ''
   ]);
 
   const scheduleLines = compactTags([
-    `원서접수: ${shortText(applicationLine, '마감일 원문 확인', 120)}`,
+    `원서접수: ${shortText(applicationLine, '마감일 자동 추출 대기', 120)}`,
     `전형절차: ${shortText(processText, process.processNote, 150)}`,
-    `필기전형: ${shortText(writtenExamLine, '필기 원문 확인', 120)}`,
-    `면접전형: ${shortText(interviewLine, '면접 원문 확인', 120)}`,
-    `발표·임용: ${shortText(resultLine, '발표·임용 원문 확인', 120)}`
+    `필기전형: ${shortText(writtenExamLine, '필기 전형 자동 추출 대기', 120)}`,
+    `면접전형: ${shortText(interviewLine, '면접 일정 자동 추출 대기', 120)}`,
+    `발표·임용: ${shortText(resultLine, '발표·임용 자동 추출 대기', 120)}`
   ]);
+
+  const schoolCheckSections = [
+    {
+      title: '학교장 추천 필요 여부 원문 확인',
+      text: schoolRecommendation === 'required'
+        ? '학교장 추천 신호가 감지되어 추천 기준, 가능 인원, 교내 접수 마감을 정리합니다.'
+        : '학교장 추천 요구 신호는 감지되지 않았으며, 다음 자동 수집에서 추천 관련 문구를 계속 대조합니다.'
+    },
+    {
+      title: '지원 가능 학년·졸업예정 기준 확인',
+      text: shortText(eligibility, '학년·졸업예정·학력 기준 자동 추출 대기', 170)
+    },
+    {
+      title: '공고문·입사지원서·직무기술서 첨부 확보',
+      text: attachments.length
+        ? attachments.map((item) => item.title).slice(0, 4).join(' · ')
+        : '공식 첨부자료 자동 탐색 대기'
+    },
+    {
+      title: '필기/NCS 대비 일정 안내',
+      text: process.writtenExam === 'not_found'
+        ? '필기/NCS 시험 신호가 없어 서류·면접 준비 일정 중심으로 안내합니다.'
+        : examSubjects.join(' · ')
+    }
+  ];
 
   const schoolActionItems = compactTags([
     verification.doubleCheckLabel,
-    schoolRecommendation === 'required' ? '학교장 추천 가능 인원과 추천 기준 확인' : '학교장 추천 필요 여부 원문 확인',
-    '지원 가능 학년·졸업예정 기준 확인',
-    '공고문·입사지원서·직무기술서 첨부 확보',
-    process.writtenExam === 'not_found' ? '회사 인사담당자에게 세부 조건 확인' : '필기/NCS 대비 일정 안내',
+    ...schoolCheckSections.map((section) => `${section.title}: ${section.text}`),
     collectionAudit.missedReviewNeeded ? '공고 게시일과 첫날 수집 누락 여부 점검' : '공고 게시 첫날 수집 기록'
   ]);
 
   const studentActionItems = compactTags([
     '원서접수 마감 전 지원계정·제출서류 확인',
     schoolRecommendation === 'required' ? '학교장 추천 신청 서류 준비' : '',
-    process.writtenExam === 'not_found' ? '면접 예상 질문과 회사 직무 확인' : 'NCS·직무능력·인적성 대비',
+    process.writtenExam === 'not_found' ? '공식 공고 기반 직무·면접 예상 질문 정리' : 'NCS·직무능력·인적성 대비',
     '자기소개서·경험기술서 초안 작성',
     '근무지·고용형태·임용예정일 확인'
   ]);
 
   const sourceLines = compactTags([
-    officialUrl ? `공식 원문: ${officialUrl}` : '공식 원문 URL 확인 필요',
+    officialUrl ? `공식 원문: ${officialUrl}` : '공식 원문 URL 자동 탐색 대기',
     sourceUrl && sourceUrl !== officialUrl ? `보완 출처: ${sourceUrl}` : '',
     verification.verificationNote,
     servicePolicy.displayNote
@@ -2378,7 +2429,7 @@ function buildRecruitBriefing(context) {
     ...scheduleLines.map((line) => `- ${line}`),
     '',
     '[학교 확인]',
-    ...schoolActionItems.slice(0, 5).map((line) => `- ${line}`),
+    ...schoolCheckSections.map((section) => `- ${section.title}: ${section.text}`),
     '',
     '[학생 준비]',
     ...studentActionItems.slice(0, 5).map((line) => `- ${line}`),
@@ -2397,6 +2448,7 @@ function buildRecruitBriefing(context) {
     summaryLines,
     scheduleLines,
     examSubjects,
+    schoolCheckSections,
     schoolActionItems,
     studentActionItems,
     sourceLines,
@@ -2674,17 +2726,17 @@ function normalizeItem(raw) {
     displayNote: servicePolicy.displayNote,
     contactAdvice: servicePolicy.contactAdvice,
     publicRecruitDetails: process.processTrack === 'exam-formal' ? {
-      companyNotice: sourceVerification.companyNoticeUrl ? '회사·기관 공식 공고 확인' : '회사·기관 공식 공고 확인 필요',
+      companyNotice: sourceVerification.companyNoticeUrl ? '회사·기관 공식 공고 확인' : '회사·기관 공식 공고 자동 탐색중',
       sourceCheck: sourceVerification.doubleCheckLabel,
       hiring: compactTags([
         normalizeSpace(raw.recruitField || raw.jobField || raw.workField || raw.position),
         normalizeSpace(raw.recruitNumber || raw.hiringCount || raw.recruitCount)
-      ]).join(' · ') || '채용부문·규모 원문 확인',
-      eligibility: [normalizeSpace(raw.education), normalizeSpace(raw.career)].filter(Boolean).join(' · ') || '응시자격 원문 확인',
-      process: normalizeSpace(raw.processText || process.processNote).slice(0, 260) || '전형절차 원문 확인',
+      ]).join(' · ') || '채용부문·규모 자동 추출 대기',
+      eligibility: [normalizeSpace(raw.education), normalizeSpace(raw.career)].filter(Boolean).join(' · ') || '응시자격 자동 추출 대기',
+      process: normalizeSpace(raw.processText || process.processNote).slice(0, 260) || '전형절차 자동 추출 대기',
       application: status === 'application_closed'
         ? (deadline ? `${deadline} 원서 마감` : '원서 마감')
-        : normalizeSpace(raw.deadlineText) || (deadline ? `${deadline} 마감` : '마감일 원문 확인'),
+        : normalizeSpace(raw.deadlineText) || (deadline ? `${deadline} 마감` : '마감일 자동 추출 대기'),
       attachments: attachments.map((item) => item.title)
     } : null,
     teacherBriefing,
@@ -2725,7 +2777,7 @@ function dedupeAndSort(items) {
     }
   }
 
-  return Array.from(seen.values())
+  const sorted = Array.from(seen.values())
     .sort((a, b) => {
       const criticalDiff = criticalCurrentPriority(a) - criticalCurrentPriority(b);
       if (criticalDiff !== 0) return criticalDiff;
@@ -2736,8 +2788,9 @@ function dedupeAndSort(items) {
         company_notice_confirmed: 0,
         company_notice_reachable: 1,
         company_notice_linked: 2,
-        company_notice_required: 3,
-        company_contact_recommended: 4
+        official_source_summarized: 3,
+        company_notice_required: 4,
+        company_contact_recommended: 5
       };
       const verificationDiff = (verificationWeight[a.sourceVerification?.doubleCheckStatus] ?? 9)
         - (verificationWeight[b.sourceVerification?.doubleCheckStatus] ?? 9);
@@ -2750,8 +2803,28 @@ function dedupeAndSort(items) {
       if (a.deadline) return -1;
       if (b.deadline) return 1;
       return a.title.localeCompare(b.title, 'ko-KR');
-    })
-    .slice(0, MAX_ITEMS);
+    });
+  return balanceTrackItems(sorted);
+}
+
+function balanceTrackItems(sortedItems) {
+  if (sortedItems.length <= MAX_ITEMS) return sortedItems;
+  const selected = [];
+  const selectedIds = new Set();
+  const add = (item) => {
+    if (!item || selectedIds.has(item.id) || selected.length >= MAX_ITEMS) return;
+    selectedIds.add(item.id);
+    selected.push(item);
+  };
+  const criticalItems = sortedItems.filter((item) => criticalCurrentPriority(item) < 99);
+  const regularItems = sortedItems.filter((item) => criticalCurrentPriority(item) >= 99);
+  const directItems = regularItems.filter((item) => item.processTrack === 'direct-interview');
+  const directTarget = Math.min(directItems.length, Math.max(6, Math.floor(MAX_ITEMS * 0.25)));
+
+  criticalItems.forEach(add);
+  directItems.slice(0, directTarget).forEach(add);
+  regularItems.forEach(add);
+  return selected.slice(0, MAX_ITEMS);
 }
 
 function itemDedupeQuality(item) {
@@ -2759,6 +2832,7 @@ function itemDedupeQuality(item) {
     company_notice_confirmed: 50,
     company_notice_reachable: 42,
     company_notice_linked: 34,
+    official_source_summarized: 28,
     company_contact_recommended: 24,
     company_notice_required: 10
   }[item.sourceVerification?.doubleCheckStatus] || 0;
@@ -4290,7 +4364,7 @@ async function main() {
       {
         id: 'direct-interview',
         name: '면접중심·현장형 채용',
-        description: '필기시험이 확인되지 않은 중견기업 중심 채용. 핵심 조건만 간단히 제공하고 세부 조건은 회사 확인을 안내한다.'
+        description: '필기시험 신호가 없는 채용. 마감, 전형, 자격, 첨부자료를 공식 소스에서 자동 요약하고 변동 항목은 다음 수집에서 다시 대조한다.'
       }
     ],
     sourceStatus: sourceStatusList,
@@ -4349,7 +4423,7 @@ main().catch(async (error) => {
       {
         id: 'direct-interview',
         name: '면접중심·현장형 채용',
-        description: '필기시험이 확인되지 않은 중견기업 중심 채용. 핵심 조건만 간단히 제공하고 세부 조건은 회사 확인을 안내한다.'
+        description: '필기시험 신호가 없는 채용. 마감, 전형, 자격, 첨부자료를 공식 소스에서 자동 요약하고 변동 항목은 다음 수집에서 다시 대조한다.'
       }
     ],
     secretReadiness: buildSecretReadinessReport(sourceStatusList),
