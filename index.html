@@ -160,15 +160,16 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
 .closing-author{font-size:11px;color:rgba(255,255,255,.28)}
 
 /* ── CONTENT PAGE ── */
-.page-header{background:#fff;border-bottom:1px solid var(--border);padding:88px 36px 18px 36px;width:100%;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,360px);gap:18px;align-items:end}
-.page-label{grid-column:1;font-size:10px;letter-spacing:.1em;color:var(--teal);font-weight:700;text-transform:uppercase;margin-bottom:3px}
-.page-title{grid-column:1;font-family:'Noto Serif KR',serif;font-size:clamp(17px,2.5vw,23px);font-weight:600;color:var(--navy)}
-.page-visual{grid-column:2;grid-row:1/3;position:relative;min-height:128px;border:1px solid #e0ebe7;border-radius:16px;overflow:hidden;background:#eef8f5;box-shadow:0 14px 30px rgba(47,103,96,.1)}
+.page-header{background:#fff;border-bottom:1px solid var(--border);margin-top:var(--nav-h);padding:26px clamp(24px,4vw,56px) 24px;width:100%;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,420px);gap:24px;align-items:center}
+.page-label{grid-column:1;grid-row:1;font-size:10px;letter-spacing:.1em;color:var(--teal);font-weight:700;text-transform:uppercase;margin-bottom:0;align-self:center;transform:translateY(-18px)}
+.page-title{grid-column:1;grid-row:1;font-family:'Noto Serif KR',serif;font-size:clamp(20px,2.2vw,30px);font-weight:600;color:var(--navy);align-self:center;margin-top:38px}
+.page-visual{grid-column:2;grid-row:1;position:relative;min-height:160px;border:1px solid #e0ebe7;border-radius:16px;overflow:hidden;background:#eef8f5;box-shadow:0 14px 30px rgba(47,103,96,.1)}
 .page-visual img{display:block;width:100%;height:100%;min-height:128px;object-fit:cover;object-position:center;filter:saturate(1.02) contrast(.98)}
 .page-visual::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,29,44,0) 40%,rgba(15,29,44,.48));pointer-events:none}
 .page-visual span{position:absolute;left:14px;right:14px;bottom:11px;z-index:1;color:#fff;font-size:11px;font-weight:900;text-shadow:0 1px 8px rgba(0,0,0,.34);word-break:keep-all}
 .visual-dongari img{object-position:38% 50%}.visual-projects img{object-position:57% 50%}.visual-achievement img{object-position:47% 45%}.visual-career img{object-position:62% 50%}.visual-gallery img{object-position:42% 54%}.visual-connect img{object-position:54% 48%}
-.page-body{padding:24px 28px;max-width:min(860px,100%);width:100%;box-sizing:border-box}
+.page-body{padding:28px clamp(24px,4vw,56px);max-width:none;width:100%;box-sizing:border-box}
+.page [id]{scroll-margin-top:calc(var(--nav-h) + 18px)}
 
 /* ── 공통 컴포넌트 ── */
 .bar{width:30px;height:3px;background:var(--teal);border-radius:2px;margin:10px 0 20px}
@@ -286,8 +287,8 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
   .mobile-header-actions{display:none !important}
   .mobile-top-link{display:none !important}
   #mob-menu-btn{position:static !important;right:auto;top:auto;display:flex !important}
-  .page-header{grid-template-columns:1fr !important;gap:10px !important;padding:12px 16px 12px !important;background:#fff !important;border-bottom:1px solid var(--border) !important}
-  .page-label,.page-title{grid-column:1 !important}
+  .page-header{grid-template-columns:1fr !important;gap:10px !important;margin-top:0 !important;padding:12px 16px 12px !important;background:#fff !important;border-bottom:1px solid var(--border) !important}
+  .page-label,.page-title{grid-column:1 !important;grid-row:auto !important;align-self:auto !important;transform:none !important;margin-top:0 !important}
   .page-visual{grid-column:1 !important;grid-row:auto !important;min-height:116px !important;border-radius:12px !important}
   .page-visual img{min-height:116px !important}
   .page-visual span{font-size:10px !important;left:12px !important;right:12px !important;bottom:9px !important}
@@ -1804,50 +1805,72 @@ const TNAV_MAP = {
   'gallery':'tnav-owner'
 };
 
-function showPage(id, chapterId) {
+const HASH_ROUTE_MAP = {
+  'job-hub-home':['home','job-hub-home'],
+  'systems-home':['home','systems-home'],
+  'owner-top':['owner',null],
+  'ch-dongari':['dongari','ch-dongari'],
+  'ch-character':['dongari','ch-character'],
+  'ch-edusys':['dongari','ch-edusys'],
+  'ch-junggi':['projects','ch-junggi'],
+  'ch-bizcool':['projects','ch-bizcool'],
+  'ch-global':['projects','ch-global'],
+  'ch-doje':['projects','ch-doje'],
+  'achievement-top':['achievement','achievement-top'],
+  'career-top':['career','career-top'],
+  'gallery-grid':['gallery','gallery-grid'],
+  'connect-top':['connect','connect-top']
+};
+
+function scrollPageTarget(target, behavior) {
+  var mobile = window.matchMedia('(max-width:720px)').matches;
+  var offset = mobile ? 64 : 86;
+  if (!target) {
+    window.scrollTo({top:0, behavior:behavior});
+    return;
+  }
+  var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+  window.scrollTo({top: Math.max(0, top), behavior:behavior});
+}
+
+function routeFromHash(hash) {
+  var key = (hash || '').replace(/^#/, '');
+  if (!key) return null;
+  if (HASH_ROUTE_MAP[key]) return HASH_ROUTE_MAP[key];
+  if (key.indexOf('page-') === 0) {
+    var pageId = key.replace(/^page-/, '');
+    if (document.getElementById('page-' + pageId)) return [pageId, null];
+  }
+  var direct = document.getElementById(key);
+  var page = direct ? direct.closest('.page') : null;
+  return page ? [page.id.replace(/^page-/, ''), key] : null;
+}
+
+function handleHashRoute(options) {
+  var route = routeFromHash(location.hash);
+  if (!route) return false;
+  showPage(route[0], route[1], options || {});
+  return true;
+}
+
+function showPage(id, chapterId, options) {
+  options = options || {};
   var mobile = window.matchMedia('(max-width:720px)').matches;
   var jobFocus = id === 'home' && chapterId === 'job-hub-home';
+  var behavior = options.instant ? 'auto' : 'smooth';
   document.body.classList.toggle('job-focus-mode', jobFocus);
 
-  if (!mobile) {
-    // PC: 선택 페이지만 표시
-    document.querySelectorAll('.page').forEach(function(p){
-      if (p.id === 'page-'+id) {
-        p.style.display = 'block';
-      } else {
-        p.style.display = 'none';
-      }
-    });
-    // 스크롤
-    if (jobFocus) {
-      window.scrollTo({top:0, behavior:'smooth'});
-    } else if (chapterId) {
-      requestAnimationFrame(function(){
-        var ch = document.getElementById(chapterId);
-        if (ch) {
-          var top = ch.getBoundingClientRect().top + window.pageYOffset - 76;
-          window.scrollTo({top: Math.max(0,top), behavior:'smooth'});
-        }
-      });
-    } else {
-      window.scrollTo(0, 0);
-    }
-  } else {
-    // 모바일도 선택한 페이지만 표시해 메뉴 구조가 길게 꼬이지 않도록 한다.
-    document.querySelectorAll('.page').forEach(function(p){
-      p.style.display = (p.id === 'page-'+id) ? 'block' : 'none';
-    });
-    var target = jobFocus ? document.getElementById('page-home') : (chapterId ? document.getElementById(chapterId) : document.getElementById('page-'+id));
+  document.querySelectorAll('.page').forEach(function(p){
+    p.style.display = (p.id === 'page-'+id) ? 'block' : 'none';
+  });
+
+  var target = jobFocus ? document.getElementById('page-home') : (chapterId ? document.getElementById(chapterId) : document.getElementById('page-'+id));
+  requestAnimationFrame(function(){
     requestAnimationFrame(function(){
-      if (target) {
-        var top = target.getBoundingClientRect().top + window.pageYOffset - 64;
-        window.scrollTo({top: Math.max(0, top), behavior:'smooth'});
-      } else {
-        window.scrollTo(0, 0);
-      }
+      scrollPageTarget(target, behavior);
     });
-    if (typeof closeMobMenu === 'function') closeMobMenu();
-  }
+  });
+  if (mobile && typeof closeMobMenu === 'function') closeMobMenu();
 
   // topnav 활성화
   document.querySelectorAll('.tnav-links a, .tnav-actions a').forEach(function(el){
@@ -1862,8 +1885,24 @@ function showPage(id, chapterId) {
 
 function scrollToChapter(id, dir) {
   var el = document.getElementById(id);
-  if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  if (el) scrollPageTarget(el, 'smooth');
 }
+
+document.addEventListener('click', function(e) {
+  var link = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+  if (!link) return;
+  var href = link.getAttribute('href');
+  if (!href || href === '#') return;
+  var route = routeFromHash(href);
+  if (!route) return;
+  e.preventDefault();
+  if (location.hash !== href) history.pushState(null, '', href);
+  showPage(route[0], route[1]);
+});
+
+window.addEventListener('popstate', function() {
+  if (!handleHashRoute()) showPage('home');
+});
 
 // topnav 스크롤 감지
 window.addEventListener('scroll', function(){
@@ -1971,12 +2010,7 @@ function closeMobMenu() {
   setTimeout(function(){ if (panel.style.transform === 'translateX(100%)') panel.style.display = 'none'; }, 300);
 }
 function mobGoto(id) {
-  document.body.classList.remove('job-focus-mode');
-  closeMobMenu();
-  setTimeout(function(){
-    var el = document.getElementById('page-'+id);
-    if (el) el.scrollIntoView({behavior:'smooth', block:'start'});
-  }, 120);
+  showPage(id);
 }
 
 const JOB_FEED_URL = 'assets/job-feed.json?v=20260601-briefing';
@@ -2394,34 +2428,13 @@ document.addEventListener('keydown', function(e) {
 
 // ── 초기화 ──
 (function(){
-  var mobile = window.matchMedia('(max-width:720px)').matches;
-  if (!mobile) {
-    // PC: home만 표시, 나머지 숨김
-    document.querySelectorAll('.page').forEach(function(p){
-      p.style.display = (p.id === 'page-home') ? 'block' : 'none';
-    });
-  }
-  var handledHash = false;
-  if (location.hash === '#job-hub-home') {
-    showPage('home', 'job-hub-home');
-    handledHash = true;
-  } else if (location.hash === '#owner-top') {
-    showPage('owner');
-    handledHash = true;
-  }
-  if (!handledHash) {
-    var el = document.getElementById('tnav-home');
-    if (el) el.classList.add('tactive');
-  }
+  var handledHash = handleHashRoute({instant:true});
+  if (!handledHash) showPage('home', null, {instant:true});
   loadJobFeed();
 })();
 
 window.addEventListener('hashchange', function() {
-  if (location.hash === '#job-hub-home') {
-    showPage('home', 'job-hub-home');
-  } else if (location.hash === '#owner-top') {
-    showPage('owner');
-  }
+  handleHashRoute();
 });
 </script>
 </body>
