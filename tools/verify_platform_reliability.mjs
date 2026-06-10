@@ -515,17 +515,22 @@ async function fetchText(url) {
 
 async function validateLive(localFeed) {
   const cacheBust = `v=${Date.now()}`;
+  let liveFeedUrl = `${LIVE_FEED}?${cacheBust}`;
   try {
     const home = await fetchText(`${LIVE_HOME}?${cacheBust}`);
     fail('live.home.status', home.ok, '라이브 홈페이지가 HTTP 200 계열로 응답합니다.', `status ${home.status}`);
     fail('live.home.job-hub', home.text.includes('직업계고 취업지도 허브'), '라이브 홈페이지에 공채 허브가 포함되어 있습니다.');
     fail('live.home.feed-url', home.text.includes('assets/job-feed.json?v='), '라이브 홈페이지가 버전이 붙은 공채 피드를 참조합니다.');
+    fail('live.home.regional-education-display-guard', home.text.includes('isRegionalEducationDisplayBlocked'), '라이브 홈페이지가 오래된 교육청 보조자료 직접 카드를 클라이언트에서 차단합니다.');
+    const feedUrlMatch = home.text.match(/assets\/job-feed\.json\?v=[^'"<\s)]+/);
+    if (feedUrlMatch) liveFeedUrl = new URL(feedUrlMatch[0], LIVE_HOME).toString();
   } catch (error) {
     fail('live.home.fetch', false, '라이브 홈페이지 확인에 실패했습니다.', error.message);
   }
 
   try {
-    const feedResponse = await fetchText(`${LIVE_FEED}?${cacheBust}`);
+    const separator = liveFeedUrl.includes('?') ? '&' : '?';
+    const feedResponse = await fetchText(`${liveFeedUrl}${separator}${cacheBust}`);
     fail('live.feed.status', feedResponse.ok, '라이브 공채 피드가 HTTP 200 계열로 응답합니다.', `status ${feedResponse.status}`);
     const liveFeed = JSON.parse(feedResponse.text);
     validateFeed(liveFeed, 'live');
