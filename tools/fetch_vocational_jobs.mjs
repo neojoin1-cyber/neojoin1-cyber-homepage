@@ -25,6 +25,9 @@ const JOB_ALIO_SCAN_PAGES = 6;
 const OFFICIAL_WATCH_TIMEOUT_MS = 15000;
 const COMPANY_NOTICE_TIMEOUT_MS = 15000;
 const GENERIC_OFFICIAL_FEED_CONCURRENCY = 5;
+const EXTERNAL_CLIENT_GRACE_MS = 1500;
+const MIN_FALLBACK_TIMEOUT_MS = 1200;
+const REACHABILITY_TIMEOUT_MS = 7000;
 const DEFAULT_FETCH_HEADERS = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125 Safari/537.36',
   Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,application/json;q=0.8,*/*;q=0.7',
@@ -286,6 +289,12 @@ const REGIONAL_EDUCATION_CONCRETE_POST_TERMS = [
   '원서접수',
   '접수마감',
   '마감',
+  '채용공고',
+  '채용 정보',
+  '채용정보',
+  '채용의뢰',
+  '고졸 채용공고',
+  '고졸채용',
   '채용부문',
   '채용분야',
   '모집분야',
@@ -299,6 +308,45 @@ const REGIONAL_EDUCATION_CONCRETE_POST_TERMS = [
   '공고문',
   '직무기술서'
 ];
+
+const REGIONAL_EDUCATION_BOARD_ONLY_TERMS = [
+  '공채캘린더',
+  '고졸채용',
+  '고졸 채용',
+  '고졸 채용공고',
+  '채용정보',
+  '채용 정보',
+  '취업정보',
+  '채용의뢰',
+  '구인정보',
+  '일자리'
+];
+
+const REGIONAL_VERIFICATION_MATCH_STOP_TERMS = new Set([
+  '채용',
+  '채용공고',
+  '모집',
+  '모집공고',
+  '고졸',
+  '고등학교',
+  '특성화고',
+  '직업계고',
+  '마이스터고',
+  '졸업예정',
+  '원문',
+  '확인',
+  '공식',
+  '공고',
+  '채용정보',
+  '취업정보',
+  '구인정보',
+  '교육청',
+  '취업지원센터',
+  '하이잡',
+  '서울특별시교육청',
+  '경상남도교육청',
+  '부산광역시교육청'
+]);
 
 const REGIONAL_EDUCATION_SKIP_LINK_TERMS = [
   '특성화고란',
@@ -730,7 +778,7 @@ const SOURCE_CATALOG = [
     type: 'official-watchlist',
     sourceUrl: '',
     group: 'education-office',
-    trackHint: 'balanced',
+    trackHint: 'education-office',
     status: 'pending',
     secretNames: ['EDU_JOB_CENTER_FEEDS'],
     message: '주요 시도교육청 취업지원센터 공식 페이지 내장 감시, 추가 피드 Secret 보강 가능'
@@ -949,10 +997,24 @@ function sanitizeFetchErrorMessage(value) {
     .slice(0, 180);
 }
 
+function remainingTimeoutMs(startedAt, totalTimeoutMs) {
+  return Math.max(0, totalTimeoutMs - (Date.now() - startedAt));
+}
+
+function requireRemainingTimeout(startedAt, totalTimeoutMs, label = 'HTTP') {
+  const remaining = remainingTimeoutMs(startedAt, totalTimeoutMs);
+  if (remaining < MIN_FALLBACK_TIMEOUT_MS) {
+    throw new Error(`${label} timeout after ${totalTimeoutMs}ms`);
+  }
+  return remaining;
+}
+
 async function fetchWithTimeout(url, options = {}) {
   const { timeoutMs = REQUEST_TIMEOUT_MS, ...fetchOptions } = options;
+  const startedAt = Date.now();
+  const fetchTimeoutMs = requireRemainingTimeout(startedAt, timeoutMs);
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  const timer = setTimeout(() => controller.abort(), fetchTimeoutMs);
   try {
     const response = await fetch(url, {
       ...fetchOptions,
@@ -972,10 +1034,10 @@ async function fetchWithTimeout(url, options = {}) {
       throw new Error(`HTTP timeout after ${timeoutMs}ms`);
     }
     try {
-      return await fetchWithNodeHttp(url, fetchOptions, timeoutMs);
+      return await fetchWithNodeHttp(url, fetchOptions, requireRemainingTimeout(startedAt, timeoutMs));
     } catch (fallbackError) {
       try {
-        return await fetchWithExternalClient(url, fetchOptions, timeoutMs);
+        return await fetchWithExternalClient(url, fetchOptions, requireRemainingTimeout(startedAt, timeoutMs));
       } catch (externalError) {
         const cause = sanitizeFetchErrorMessage(error.cause?.code || error.message);
         const nodeCause = sanitizeFetchErrorMessage(fallbackError.message);
@@ -1031,7 +1093,7 @@ async function fetchWithExternalClient(url, options = {}, timeoutMs = REQUEST_TI
     ...DEFAULT_FETCH_HEADERS,
     ...(options.headers || {})
   };
-  const seconds = Math.max(2, Math.ceil(timeoutMs / 1000));
+  const seconds = Math.max(1, Math.ceil(timeoutMs / 1000));
   const curlArgs = [
     '-L',
     '--silent',
@@ -1053,7 +1115,7 @@ async function fetchWithExternalClient(url, options = {}, timeoutMs = REQUEST_TI
   const curlCommand = process.platform === 'win32' ? 'curl.exe' : 'curl';
   try {
     const { stdout } = await execFileAsync(curlCommand, curlArgs, {
-      timeout: timeoutMs + 3000,
+      timeout: timeoutMs + EXTERNAL_CLIENT_GRACE_MS,
       maxBuffer: 10 * 1024 * 1024,
       windowsHide: true
     });
@@ -1068,7 +1130,7 @@ async function fetchWithExternalClient(url, options = {}, timeoutMs = REQUEST_TI
     try {
       const command = `$ProgressPreference='SilentlyContinue'; (Invoke-WebRequest -Uri $args[0] -UseBasicParsing -TimeoutSec ${seconds}).Content`;
       const { stdout } = await execFileAsync('powershell.exe', ['-NoProfile', '-Command', command, url], {
-        timeout: timeoutMs + 3000,
+        timeout: timeoutMs + EXTERNAL_CLIENT_GRACE_MS,
         maxBuffer: 10 * 1024 * 1024,
         windowsHide: true
       });
@@ -1086,8 +1148,10 @@ async function checkUrlReachable(url, options = {}, timeoutMs = REQUEST_TIMEOUT_
     ...DEFAULT_FETCH_HEADERS,
     ...(options.headers || {})
   };
+  const startedAt = Date.now();
+  const fetchTimeoutMs = requireRemainingTimeout(startedAt, timeoutMs, 'reachability');
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  const timer = setTimeout(() => controller.abort(), fetchTimeoutMs);
   try {
     const response = await fetch(url, {
       method: 'GET',
@@ -1101,10 +1165,12 @@ async function checkUrlReachable(url, options = {}, timeoutMs = REQUEST_TIMEOUT_
     clearTimeout(timer);
   }
 
-  const seconds = Math.max(2, Math.ceil(timeoutMs / 1000));
+  const hasReachabilityBudget = () => remainingTimeoutMs(startedAt, timeoutMs) >= MIN_FALLBACK_TIMEOUT_MS;
   const curlCommand = process.platform === 'win32' ? 'curl.exe' : 'curl';
   const discardTarget = process.platform === 'win32' ? 'NUL' : '/dev/null';
   const tryCurlStatus = async (method, followRedirects = true) => {
+    const attemptTimeoutMs = requireRemainingTimeout(startedAt, timeoutMs, 'reachability');
+    const seconds = Math.max(1, Math.ceil(attemptTimeoutMs / 1000));
     const curlArgs = [
       '--silent',
       '--show-error',
@@ -1128,7 +1194,7 @@ async function checkUrlReachable(url, options = {}, timeoutMs = REQUEST_TIMEOUT_
     curlArgs.push(url);
 
     const { stdout } = await execFileAsync(curlCommand, curlArgs, {
-      timeout: timeoutMs + 3000,
+      timeout: attemptTimeoutMs + EXTERNAL_CLIENT_GRACE_MS,
       maxBuffer: 1024 * 1024,
       windowsHide: true
     });
@@ -1141,29 +1207,34 @@ async function checkUrlReachable(url, options = {}, timeoutMs = REQUEST_TIMEOUT_
     // A first-response 2xx/3xx is enough for official watchlist reachability.
   }
 
+  if (!hasReachabilityBudget()) return false;
   try {
     if (await tryCurlStatus('GET')) return true;
   } catch {
     // Some legacy servers reject curl status checks; try HEAD and then PowerShell on Windows.
   }
 
+  if (!hasReachabilityBudget()) return false;
   try {
     if (await tryCurlStatus('HEAD', false)) return true;
   } catch {
     // Try redirected HEAD before the Windows fallback.
   }
 
+  if (!hasReachabilityBudget()) return false;
   try {
     if (await tryCurlStatus('HEAD')) return true;
   } catch {
     // Fall through to PowerShell on Windows.
   }
 
-  if (process.platform === 'win32') {
+  if (process.platform === 'win32' && hasReachabilityBudget()) {
     try {
+      const attemptTimeoutMs = requireRemainingTimeout(startedAt, timeoutMs, 'reachability');
+      const seconds = Math.max(1, Math.ceil(attemptTimeoutMs / 1000));
       const command = `$ProgressPreference='SilentlyContinue'; try { $r=Invoke-WebRequest -Uri $args[0] -UseBasicParsing -TimeoutSec ${seconds} -ErrorAction Stop; [string]$r.StatusCode } catch { if ($_.Exception.Response -and $_.Exception.Response.StatusCode) { [string][int]$_.Exception.Response.StatusCode } else { throw } }`;
       const { stdout } = await execFileAsync('powershell.exe', ['-NoProfile', '-Command', command, url], {
-        timeout: timeoutMs + 3000,
+        timeout: attemptTimeoutMs + EXTERNAL_CLIENT_GRACE_MS,
         maxBuffer: 1024 * 1024,
         windowsHide: true
       });
@@ -1560,6 +1631,53 @@ function isRegionalEducationOfficialFeed(source, feedEntry = {}) {
   return source?.id === 'regional-education-job' || feedEntry.group === 'education-office';
 }
 
+function isRegionalEducationSourceId(sourceId = '') {
+  return ['regional-education-job', 'seoul-highjob'].includes(String(sourceId || ''));
+}
+
+function isRegionalEducationRaw(raw = {}) {
+  const source = catalogSource(raw.source);
+  return isRegionalEducationSourceId(raw.source)
+    || source?.group === 'education-office'
+    || /교육청\s*(취업지원센터|하이잡|직업계고)/.test(String(raw.sourceName || ''));
+}
+
+function isRegionalEducationDisplaySuppressed(item = {}) {
+  const source = catalogSource(item.source);
+  return isRegionalEducationSourceId(item.source)
+    || source?.group === 'education-office'
+    || /교육청\s*(취업지원센터|하이잡|직업계고)/.test(String(item.sourceName || ''));
+}
+
+function regionalEducationConcretePostScore(value = '') {
+  const text = normalizeSpace(value);
+  let score = 0;
+  if (includesAny(text, REGIONAL_EDUCATION_CONCRETE_POST_TERMS)) score += 24;
+  if (includesAny(text, REGIONAL_EDUCATION_RECRUIT_LINK_TERMS)) score += 18;
+  if (includesAny(text, OFFICIAL_HTML_STRONG_HIGH_SCHOOL_SIGNALS)) score += 16;
+  if (/채용공고|모집공고|원서접수|지원자격|응시자격/.test(text)) score += 18;
+  if (/접수|마감|지원자격|응시자격|전형|면접|필기|첨부|붙임|직무기술서/.test(text)) score += 14;
+  return score;
+}
+
+function isRegionalEducationConcreteRecruit(raw = {}) {
+  if (!isRegionalEducationRaw(raw)) return false;
+  const text = [
+    raw.title,
+    raw.company,
+    raw.education,
+    raw.career,
+    raw.employmentType,
+    raw.recruitField,
+    raw.deadline,
+    raw.deadlineText,
+    raw.description,
+    raw.processText,
+    raw.sourceName
+  ].join(' ');
+  return regionalEducationConcretePostScore(text) >= 42;
+}
+
 function regionalEducationLinkLooksRecruitable(evidenceText, anchorText, anchorOrHref, href, deadline) {
   const compactAnchor = compactKoreanText(anchorText);
   const compactAnchorOrHref = compactKoreanText(anchorOrHref);
@@ -1568,8 +1686,8 @@ function regionalEducationLinkLooksRecruitable(evidenceText, anchorText, anchorO
   const skipInformational = REGIONAL_EDUCATION_SKIP_LINK_TERMS.some((term) => compactAnchorOrHref.includes(compactKoreanText(term)));
   if (skipInformational && !hasRecruitWordInAnchor) return false;
 
-  const boardOnly = ['채용정보', '취업정보', '구인정보', '채용의뢰', '일자리'].some((term) => compactAnchor === term);
-  if (boardOnly) return false;
+  const boardOnly = REGIONAL_EDUCATION_BOARD_ONLY_TERMS.some((term) => compactAnchor === compactKoreanText(term));
+  if (boardOnly && !deadline) return false;
 
   const hasRecruitTitle = includesAny(anchorOrHref, [...REGIONAL_EDUCATION_RECRUIT_LINK_TERMS, '채용', '모집'])
     || /recruit|hire|apply|jobpost|employment/i.test(lowerHref);
@@ -1577,7 +1695,7 @@ function regionalEducationLinkLooksRecruitable(evidenceText, anchorText, anchorO
     || includesAny(anchorOrHref, OFFICIAL_HTML_STRONG_HIGH_SCHOOL_SIGNALS);
   const hasConcretePost = Boolean(deadline)
     || includesAny(evidenceText, REGIONAL_EDUCATION_CONCRETE_POST_TERMS)
-    || includesAny(anchorOrHref, ['채용공고', '모집공고', '원서접수', '입사지원', '지원서', '공채']);
+    || includesAny(anchorOrHref, ['채용공고', '모집공고', '원서접수', '입사지원', '지원서', '공고문']);
 
   return hasRecruitTitle && hasEligibility && hasConcretePost;
 }
@@ -2118,6 +2236,7 @@ function classifyProcess(raw) {
   const hasExam = hasWrittenExamSignal(haystack);
   const hasDirect = includesAny(haystack, DIRECT_TERMS);
   const sector = classifySector(raw, haystack);
+  const isRegionalEducationRecruit = isRegionalEducationConcreteRecruit(raw);
   const labels = [sectorLabel(sector)];
 
   let processTrack = 'direct-interview';
@@ -2131,6 +2250,12 @@ function classifyProcess(raw) {
     confidence = 'high';
     labels.push('필기 확인');
     note = '필기시험 또는 공식 선발 절차가 원문 키워드에서 확인됩니다.';
+  } else if (isRegionalEducationRecruit) {
+    processTrack = 'direct-interview';
+    writtenExam = 'not_found';
+    confidence = 'high';
+    labels.push('교육청 보조검증');
+    note = '지역 교육청 취업지원센터 소식은 직접 표시 후보가 아니라 잡알리오·고용24·기관 원문을 보강하는 2차·3차 검증 출처로 분리합니다.';
   } else if (hasDirect || source?.trackHint === 'direct' || ['mid-sme', 'part-time'].includes(sector)) {
     processTrack = 'direct-interview';
     writtenExam = 'not_found';
@@ -2169,12 +2294,17 @@ function buildSourceVerification(raw, process, displayUrl) {
   const check = raw.companyNoticeCheck || {};
   const hasCompanyNotice = Boolean(companyNoticeUrl);
   const isPublicRecruit = process.processTrack === 'exam-formal';
+  const isRegionalEducationRecruit = isRegionalEducationConcreteRecruit(raw);
 
   let doubleCheckStatus = 'official_source_summarized';
   let doubleCheckLabel = '공식 소스 자동요약';
   let verificationNote = '공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다.';
 
-  if (hasCompanyNotice && check.status === 'content_matched') {
+  if (isRegionalEducationRecruit && hasCompanyNotice) {
+    doubleCheckStatus = check.status === 'content_matched' ? 'regional_education_confirmed' : 'regional_education_linked';
+    doubleCheckLabel = check.status === 'content_matched' ? '교육청 보조검증 원문확인' : '교육청 보조검증 링크확보';
+    verificationNote = '지역 교육청 취업지원센터 소식은 직접 결과 카드로 노출하지 않고, 잡알리오·고용24·기관 공고와 같은 채용인지 대조하는 보조 검증 출처로만 사용합니다.';
+  } else if (hasCompanyNotice && check.status === 'content_matched') {
     doubleCheckStatus = 'company_notice_confirmed';
     doubleCheckLabel = '공식 공고 2중확인';
     verificationNote = '공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다.';
@@ -2196,9 +2326,11 @@ function buildSourceVerification(raw, process, displayUrl) {
     sourceOfficialUrl: sourceOfficialUrl || displayOfficialUrl,
     companyNoticeUrl,
     primaryOfficialUrl: companyNoticeUrl || sourceOfficialUrl || displayOfficialUrl,
-    officialNoticePriority: companyNoticeUrl
-      ? 'company-or-agency-notice-first'
-      : isPublicRecruit ? 'source-official-pending-company-or-agency-notice' : 'source-official-auto-summary',
+    officialNoticePriority: isRegionalEducationRecruit
+      ? 'regional-education-verification-only-source'
+      : companyNoticeUrl
+        ? 'company-or-agency-notice-first'
+        : isPublicRecruit ? 'source-official-pending-company-or-agency-notice' : 'source-official-auto-summary',
     companyNoticeCheckStatus: check.status || (hasCompanyNotice ? 'link_found' : 'not_found'),
     companyNoticeReachable: Boolean(check.reachable),
     companyNoticeMatched: Boolean(check.titleMatched || check.companyMatched),
@@ -2210,6 +2342,16 @@ function buildSourceVerification(raw, process, displayUrl) {
 }
 
 function buildServicePolicy(process, verification) {
+  if (verification.doubleCheckStatus === 'regional_education_confirmed' || verification.doubleCheckStatus === 'regional_education_linked') {
+    return {
+      servicePriority: 'regional-education-verification-only',
+      servicePolicyLabel: '교육청 보조검증',
+      detailLevel: 'regional-education-verification-source',
+      displayNote: '지역 교육청 취업지원센터 소식은 화면에 직접 노출하지 않고, 1차 공식 채용 원문과 일치할 때만 보조 검증 출처로 붙입니다.',
+      contactAdvice: '잡알리오·고용24·기관 또는 기업 공식 공고를 먼저 확정하고, 교육청 취업지원센터·학교 소식은 누락 보완과 2차·3차 확인에만 사용합니다.'
+    };
+  }
+
   if (process.processTrack === 'exam-formal') {
     const isDetailed = ['company_notice_confirmed', 'company_notice_reachable'].includes(verification.doubleCheckStatus);
     return {
@@ -2333,6 +2475,7 @@ function buildRecruitBriefing(context) {
     attachments
   } = context;
   const isPublicRecruit = process.processTrack === 'exam-formal';
+  const isRegionalEducationRecruit = servicePolicy.detailLevel === 'regional-education-verification-source';
   const officialUrl = publicDisplayUrl(verification.primaryOfficialUrl || raw.url);
   const sourceUrl = publicDisplayUrl(verification.sourceOfficialUrl || raw.sourceDetailUrl || raw.originalUrl);
   const applicationMethod = firstText(raw.applicationMethod, raw.application, raw.applyMethod);
@@ -2373,6 +2516,10 @@ function buildRecruitBriefing(context) {
   ]);
 
   const schoolCheckSections = [
+    ...(isRegionalEducationRecruit ? [{
+      title: '교육청 취업지원센터 보조검증',
+      text: '지역 교육청·학교 소식은 직접 노출하지 않고, 같은 기업·기관 공고가 잡알리오·고용24·기관 원문에도 있는지 확인하는 보조 출처로만 사용합니다.'
+    }] : []),
     {
       title: '학교장 추천 필요 여부 원문 확인',
       text: schoolRecommendation === 'required'
@@ -2442,8 +2589,8 @@ function buildRecruitBriefing(context) {
   return {
     version: 1,
     generator: 'official-source-briefing-v1',
-    label: isPublicRecruit ? '취업부 공채 브리핑' : '간단 채용 확인 브리핑',
-    detailLevel: isPublicRecruit ? servicePolicy.detailLevel : 'brief-company-contact',
+    label: isRegionalEducationRecruit ? '교육청 보조검증 브리핑' : isPublicRecruit ? '취업부 공채 브리핑' : '간단 채용 확인 브리핑',
+    detailLevel: isPublicRecruit || isRegionalEducationRecruit ? servicePolicy.detailLevel : 'brief-company-contact',
     headline: `${company} - ${title}`,
     summaryLines,
     scheduleLines,
@@ -2546,6 +2693,10 @@ function scoreItem(raw) {
     score += 6;
     labels.push('면접중심');
   }
+  if (isRegionalEducationConcreteRecruit(raw)) {
+    score += 34;
+    labels.push('교육청 취업지원센터');
+  }
 
   const hasPositiveTerm = HIGH_SCHOOL_TERMS.some((term) => haystack.includes(term));
   const hasNegativeEduOnly = NEGATIVE_EDU_TERMS.some((term) => haystack.includes(term)) && !hasPositiveTerm;
@@ -2624,6 +2775,7 @@ function normalizeItem(raw) {
   const publishedDate = parseDate(raw.publishedAt || raw.registeredAt || raw.postedAt || raw.openDate || raw.postingDate);
   const collectionAudit = buildCollectionAudit(raw, publishedDate);
   const isExamFormal = process.processTrack === 'exam-formal';
+  const isRegionalEducationVerificationSource = servicePolicy.detailLevel === 'regional-education-verification-source';
   const daysAfterDeadline = deadlineDistance !== null && deadlineDistance < 0 ? Math.abs(deadlineDistance) : 0;
   const lowerText = [
     baseTitle,
@@ -2688,7 +2840,7 @@ function normalizeItem(raw) {
     applicationMethod: normalizeSpace(raw.applicationMethod || raw.application || raw.applyMethod).slice(0, 180),
     contact: normalizeSpace(raw.contact || raw.contactInfo || raw.inquiry).slice(0, 120),
     attachments,
-    detailText: normalizeSpace(raw.description || raw.processText).slice(0, process.processTrack === 'exam-formal' ? 620 : 180),
+    detailText: normalizeSpace(raw.description || raw.processText).slice(0, isExamFormal || isRegionalEducationVerificationSource ? 620 : 180),
     deadline,
     deadlineText: status === 'application_closed'
       ? (deadline ? `${deadline} 원서 마감` : '원서 마감')
@@ -2725,7 +2877,7 @@ function normalizeItem(raw) {
     detailLevel: servicePolicy.detailLevel,
     displayNote: servicePolicy.displayNote,
     contactAdvice: servicePolicy.contactAdvice,
-    publicRecruitDetails: process.processTrack === 'exam-formal' ? {
+    publicRecruitDetails: isExamFormal ? {
       companyNotice: sourceVerification.companyNoticeUrl ? '회사·기관 공식 공고 확인' : '회사·기관 공식 공고 자동 탐색중',
       sourceCheck: sourceVerification.doubleCheckLabel,
       hiring: compactTags([
@@ -2751,6 +2903,7 @@ function normalizeItem(raw) {
 
 function shouldKeep(item) {
   if (!item.title || !item.company || !item.url) return false;
+  if (isRegionalEducationDisplaySuppressed(item)) return false;
   if (item.status === 'expired') return false;
   if (item.status === 'application_closed' && item.processTrack !== 'exam-formal') return false;
   if (isUnsuitableForHighSchoolChannel(item)) return false;
@@ -2759,6 +2912,21 @@ function shouldKeep(item) {
   if (!hasStrongHighSchool && PROFESSIONAL_ONLY_TERMS.some((term) => text.includes(term))) return false;
   if (item.fitScore >= 24) return true;
   return item.education.includes('고졸')
+    || item.education.includes('학력무관')
+    || hasEntryLevelSignal(item);
+}
+
+function shouldKeepRegionalEducationVerificationItem(item) {
+  if (!item.title || !item.company || !item.url) return false;
+  if (!isRegionalEducationDisplaySuppressed(item)) return false;
+  if (item.status === 'expired' || item.status === 'application_closed') return false;
+  if (isUnsuitableForHighSchoolChannel(item)) return false;
+  const text = [item.title, item.company, item.education, item.career, item.employmentType, item.detailText].join(' ');
+  const hasStrongHighSchool = STRONG_TERMS.some((term) => text.includes(term));
+  if (!hasStrongHighSchool && PROFESSIONAL_ONLY_TERMS.some((term) => text.includes(term))) return false;
+  return item.fitScore >= 24
+    || hasStrongHighSchool
+    || item.education.includes('고졸')
     || item.education.includes('학력무관')
     || hasEntryLevelSignal(item);
 }
@@ -2866,6 +3034,144 @@ function mergeDuplicateItem(preferred, other) {
   };
 }
 
+function itemCandidateUrls(item = {}) {
+  return compactTags([
+    item.primaryOfficialUrl,
+    item.companyNoticeUrl,
+    item.url,
+    item.originalUrl,
+    item.sourceOfficialUrl,
+    ...(item.supplementarySourceUrls || [])
+  ].map(publicDisplayUrl));
+}
+
+function verificationMatchTerms(value, limit = 10) {
+  return significantTerms(value, limit)
+    .filter((term) => !REGIONAL_VERIFICATION_MATCH_STOP_TERMS.has(term))
+    .filter((term) => term.length >= 2);
+}
+
+function regionalEducationVerificationMatchesItem(item, verification) {
+  const itemUrls = itemCandidateUrls(item);
+  const verificationUrls = itemCandidateUrls(verification);
+  if (verificationUrls.some((url) => itemUrls.includes(url))) return true;
+
+  const itemText = normalizeSpace([
+    item.company,
+    item.title,
+    item.baseTitle,
+    item.recruitField,
+    item.detailText
+  ].join(' '));
+  const verificationText = normalizeSpace([
+    verification.company,
+    verification.title,
+    verification.baseTitle,
+    verification.recruitField,
+    verification.detailText
+  ].join(' '));
+  const verificationCompanyTerms = verificationMatchTerms(verification.company, 5);
+  const itemCompanyTerms = verificationMatchTerms(item.company, 5);
+  const companyMatched = verificationCompanyTerms.some((term) => itemText.includes(term))
+    || itemCompanyTerms.some((term) => verificationText.includes(term));
+  if (!companyMatched) return false;
+
+  const verificationTitleTerms = verificationMatchTerms([
+    verification.baseTitle,
+    verification.title,
+    verification.recruitField
+  ].join(' '), 12);
+  const itemTitleTerms = verificationMatchTerms([
+    item.baseTitle,
+    item.title,
+    item.recruitField
+  ].join(' '), 12);
+  const forwardOverlap = verificationTitleTerms.filter((term) => itemText.includes(term)).length;
+  const reverseOverlap = itemTitleTerms.filter((term) => verificationText.includes(term)).length;
+  return forwardOverlap >= 2 || reverseOverlap >= 2;
+}
+
+function buildRegionalEducationVerificationSource(verification) {
+  const url = publicDisplayUrl(verification.primaryOfficialUrl || verification.url);
+  const sourceOfficialUrl = publicDisplayUrl(verification.sourceOfficialUrl || verification.originalUrl);
+  return {
+    source: verification.source,
+    sourceName: verification.sourceName,
+    title: verification.baseTitle || verification.title,
+    company: verification.company,
+    url,
+    sourceOfficialUrl,
+    checkedAt: verification.verifiedAt || CHECKED_AT,
+    policy: 'verification-only-no-direct-display'
+  };
+}
+
+function appendRegionalEducationBriefing(briefing, sources) {
+  if (!briefing || !sources.length) return briefing;
+  const sourceText = sources
+    .map((source) => `${source.sourceName}: ${source.title}`)
+    .slice(0, 3)
+    .join(' / ');
+  const sourceLines = compactTags([
+    ...(briefing.sourceLines || []),
+    `교육청·학교 보조검증: ${sourceText}`
+  ]);
+  const teacherShareText = String(briefing.teacherShareText || '').includes('[보조검증]')
+    ? briefing.teacherShareText
+    : [
+      briefing.teacherShareText || '',
+      '',
+      '[보조검증]',
+      `- 지역 교육청·학교 소식은 직접 노출하지 않고 같은 채용인지 확인하는 2차·3차 출처로만 대조했습니다: ${sourceText}`
+    ].filter(Boolean).join('\n');
+  return {
+    ...briefing,
+    sourceLines,
+    teacherShareText
+  };
+}
+
+function attachRegionalEducationVerificationSources(items, verificationItems) {
+  const usableVerificationItems = (verificationItems || [])
+    .filter((item) => isRegionalEducationDisplaySuppressed(item))
+    .filter(shouldKeepRegionalEducationVerificationItem);
+  if (!usableVerificationItems.length) return items;
+
+  return items.map((item) => {
+    const matched = usableVerificationItems
+      .filter((verification) => regionalEducationVerificationMatchesItem(item, verification))
+      .slice(0, 3);
+    if (!matched.length) return item;
+
+    const sources = matched.map(buildRegionalEducationVerificationSource);
+    const supplementarySourceUrls = compactTags([
+      ...(item.supplementarySourceUrls || []),
+      ...sources.flatMap((source) => [source.url, source.sourceOfficialUrl])
+    ].filter((url) => {
+      const clean = cleanUrl(url);
+      return clean && clean !== item.primaryOfficialUrl && clean !== item.url;
+    }));
+    const note = '지역 교육청·학교 취업지원 소식은 직접 결과 카드로 표시하지 않고, 같은 채용인지 확인하는 2차·3차 보조검증 출처로만 대조했습니다.';
+    return {
+      ...item,
+      supplementarySourceUrls,
+      regionalEducationVerification: {
+        policy: 'verification-only-no-direct-display',
+        count: sources.length,
+        sources
+      },
+      sourceVerification: {
+        ...(item.sourceVerification || {}),
+        verificationNote: compactTags([
+          item.sourceVerification?.verificationNote,
+          note
+        ]).join(' ')
+      },
+      teacherBriefing: appendRegionalEducationBriefing(item.teacherBriefing, sources)
+    };
+  });
+}
+
 function sourceStatus(base, overrides = {}) {
   return {
     id: base.id,
@@ -2935,6 +3241,7 @@ function fallbackPreviousItems(previousItems) {
   const items = [];
   for (const item of previousItems.values()) {
     if (!item?.id || seen.has(item.id)) continue;
+    if (!shouldKeep(item)) continue;
     seen.add(item.id);
     items.push({
       ...item,
@@ -3727,7 +4034,7 @@ async function fetchSeoulHighJobDetail(row) {
 }
 
 function keepSeoulHighJobItem(item) {
-  if (!shouldKeep(item)) return false;
+  if (!shouldKeepRegionalEducationVerificationItem(item)) return false;
   if (item.deadline) return true;
   const publishedDate = parseDate(item.publishedDate || item.publishedAt);
   if (!publishedDate) return true;
@@ -3763,26 +4070,28 @@ async function fetchSeoulHighJobRecruit() {
   });
   rawItems.push(...details.filter(Boolean));
 
-  const normalized = rawItems.map(normalizeItem).filter(keepSeoulHighJobItem);
+  const verificationItems = rawItems.map(normalizeItem).filter(keepSeoulHighJobItem);
   const ok = rawItems.length > 0 && errors.length < Math.max(1, rawItems.length);
-  const companyChecked = normalized.filter((item) => [
+  const companyChecked = verificationItems.filter((item) => [
     'company_notice_confirmed',
     'company_notice_reachable'
   ].includes(item.sourceVerification?.doubleCheckStatus)).length;
-  const firstDayCandidates = normalized.filter((item) => item.collectionAudit?.firstDayCollected).length;
-  const missedReview = normalized.filter((item) => item.collectionAudit?.missedReviewNeeded).length;
+  const firstDayCandidates = verificationItems.filter((item) => item.collectionAudit?.firstDayCollected).length;
+  const missedReview = verificationItems.filter((item) => item.collectionAudit?.missedReviewNeeded).length;
 
   return {
-    items: normalized,
+    items: [],
+    verificationItems,
     status: sourceStatus(base, {
       ok,
-      itemCount: normalized.length,
+      itemCount: 0,
+      verificationItemCount: verificationItems.length,
       scannedCount,
       rawItemCount: rawItems.length,
       firstDayCandidates,
       missedReviewNeeded: missedReview,
       message: ok
-        ? `서울 하이잡 공식 목록 ${scannedCount}건 점검, 후보 ${normalized.length}건, 공식 공고 확인 ${companyChecked}건, 첫날 수집 ${firstDayCandidates}건, 누락점검 ${missedReview}건`
+        ? `서울 하이잡 공식 목록 ${scannedCount}건 점검, 보조검증 후보 ${verificationItems.length}건, 공식 공고 확인 ${companyChecked}건, 첫날 수집 ${firstDayCandidates}건, 누락점검 ${missedReview}건`
         : `연결 실패: ${errors.slice(0, 2).join('; ')}`
     })
   };
@@ -3936,6 +4245,7 @@ async function fetchGenericConfiguredSource(id) {
     };
   }
 
+  const verificationOnlyRegionalEducation = id === 'regional-education-job';
   const rawItems = [];
   const errors = [];
   let checkedUrlCount = 0;
@@ -3980,7 +4290,7 @@ async function fetchGenericConfiguredSource(id) {
             Accept: 'application/json,application/xml,text/xml,text/html;q=0.9,*/*;q=0.7',
             ...(key ? { Authorization: `Bearer ${key}`, 'X-API-Key': key } : {})
           }
-        }, OFFICIAL_WATCH_TIMEOUT_MS)
+        }, Math.min(REACHABILITY_TIMEOUT_MS, OFFICIAL_WATCH_TIMEOUT_MS))
         : false;
       if (reachableOnly) {
         return {
@@ -4017,13 +4327,19 @@ async function fetchGenericConfiguredSource(id) {
   }
 
   await enrichCompanyNoticeChecks(rawItems);
-  const normalized = rawItems.map(normalizeItem).filter(shouldKeep);
+  const normalizedAll = rawItems.map(normalizeItem);
+  const normalized = verificationOnlyRegionalEducation ? [] : normalizedAll.filter(shouldKeep);
+  const verificationItems = verificationOnlyRegionalEducation
+    ? normalizedAll.filter(shouldKeepRegionalEducationVerificationItem)
+    : [];
   const ok = checkedUrlCount > 0 && errors.length < entries.length;
   return {
     items: normalized,
+    verificationItems,
     status: sourceStatus({ ...source, configured: true }, {
       ok,
       itemCount: normalized.length,
+      verificationItemCount: verificationItems.length,
       scannedCount: rawItems.length,
       configuredFeedCount,
       builtInFeedCount,
@@ -4035,7 +4351,7 @@ async function fetchGenericConfiguredSource(id) {
       failedUrlCount: errors.length,
       watchFailures: errors.slice(0, 12),
       message: ok
-        ? `공식 채용 페이지 ${checkedUrlCount}/${entries.length}개 감시, 후보 ${normalized.length}건, 접속확인전용 ${reachabilityOnlyCount}개, 실패 ${errors.length}개`
+        ? `공식 채용 페이지 ${checkedUrlCount}/${entries.length}개 감시, 표시후보 ${normalized.length}건, 보조검증 후보 ${verificationItems.length}건, 접속확인전용 ${reachabilityOnlyCount}개, 실패 ${errors.length}개`
         : `연결 실패: ${errors.slice(0, 2).join('; ')}`
     })
   };
@@ -4226,6 +4542,10 @@ function buildCollectionReview(items, sourceStatusList, criticalCoverage = build
       && !['company_notice_confirmed', 'company_notice_reachable'].includes(item.sourceVerification?.doubleCheckStatus))
     .map(reviewItem)
     .slice(0, 12);
+  const regionalEducationItems = items
+    .filter((item) => item.regionalEducationVerification?.count > 0)
+    .map(reviewItem)
+    .slice(0, 12);
   const sourceGaps = sourceStatusList
     .filter((source) => !source.ok)
     .map((source) => ({
@@ -4243,16 +4563,20 @@ function buildCollectionReview(items, sourceStatusList, criticalCoverage = build
     firstDayGoal: '공채는 게시 첫날 수집을 목표로 하며, 늦게 발견된 공고는 누락 점검 대상으로 기록한다.',
     missedReviewCount: missedReviewItems.length,
     officialNoticePendingCount: officialNoticePendingItems.length,
+    regionalEducationOfficialCount: regionalEducationItems.length,
+    regionalEducationDirectDisplayCount: 0,
     sourceGapCount: sourceGaps.length,
     criticalGapCount,
     missedReviewItems,
     officialNoticePendingItems,
+    regionalEducationItems,
     sourceGaps,
     criticalCoverage,
     nextActions: [
       '핵심 공기업 고졸 공채 감시 대상이 빠지면 잡알리오 상세번호·기관검색·검색어 경로를 즉시 재점검한다.',
       '누락점검 공고는 게시일 기준 공식 소스 연결 주기를 확인한다.',
       '공식 공고 미확인 공채는 회사·기관 또는 채용대행 공식 공지 URL을 보강한다.',
+      '지역 교육청·학교 취업지원 소식은 직접 결과 카드로 표시하지 않고 잡알리오·고용24·기관 원문과 같은 채용인지 2차·3차 보조검증으로만 붙인다.',
       '미연결 소스는 API Secret 또는 허용된 공식 피드 경로를 확인한다.'
     ]
   };
@@ -4270,12 +4594,14 @@ async function main() {
   results.push(...await pendingCatalogSources());
 
   const sourceStatusList = results.map((result) => result.status);
-  const freshItems = results.flatMap((result) => result.items);
+  const freshItems = results.flatMap((result) => result.items || []);
+  const regionalEducationVerificationItems = results.flatMap((result) => result.verificationItems || []);
   const sourceFallbackItems = fallbackFailedSourceItems(previousItems, sourceStatusList, freshItems);
   const currentItems = dedupeAndSort([...freshItems, ...sourceFallbackItems]);
-  const items = currentItems.length
+  const displayItems = currentItems.length
     ? mergePreviousAudit(currentItems, previousItems)
     : fallbackPreviousItems(previousItems);
+  const items = attachRegionalEducationVerificationSources(displayItems, regionalEducationVerificationItems);
   const active = items.filter((item) => item.status === 'active').length;
   const deadlineSoon = items.filter((item) => item.status === 'deadline_soon').length;
   const applicationClosed = items.filter((item) => item.status === 'application_closed').length;
@@ -4286,6 +4612,8 @@ async function main() {
     'company_notice_reachable'
   ].includes(item.sourceVerification?.doubleCheckStatus)).length;
   const detailedPublicRecruit = items.filter((item) => item.detailLevel === 'detailed-public-recruit').length;
+  const regionalEducationVerified = items.filter((item) => item.regionalEducationVerification?.count > 0).length;
+  const regionalEducationVerificationCandidates = regionalEducationVerificationItems.length;
   const briefDirect = items.filter((item) => item.detailLevel === 'brief-company-contact').length;
   const briefingReady = items.filter((item) => item.teacherBriefing?.teacherShareText).length;
   const firstDayCollected = items.filter((item) => item.collectionAudit?.firstDayCollected).length;
@@ -4312,6 +4640,10 @@ async function main() {
       directInterview,
       companyNoticeChecked,
       detailedPublicRecruit,
+      regionalEducationVerified,
+      regionalEducationVerificationLinked: regionalEducationVerified,
+      regionalEducationVerificationCandidates,
+      regionalEducationDirectDisplayed: 0,
       briefDirect,
       briefingReady,
       firstDayCollected,
@@ -4352,6 +4684,7 @@ async function main() {
       financeLargeCompanySignalRule: '대기업·1금융·2금융 공식 채용 페이지에서 고졸·특성화고·졸업예정·학력무관·기술직·생산직·행원 등 응시 가능 신호와 채용 신호가 함께 확인될 때만 후보로 정규화한다.',
       regionalEducationOfficialWatchCount: REGIONAL_EDUCATION_OFFICIAL_WATCHLIST.length,
       regionalEducationOfficialWatchEmployers: REGIONAL_EDUCATION_OFFICIAL_WATCHLIST.map((entry) => entry.employer),
+      regionalEducationSourceRule: '교육청 취업지원센터·학교 채용 소식은 직접 결과 카드로 노출하지 않는다. 잡알리오·고용24·기관·기업 공식 원문이 1차 채용 공고로 확인된 뒤, 같은 채용인지 맞는 경우에만 누락 보완과 2차·3차 보조검증 출처로 붙인다.',
       seoulHighJobScanPages: SEOUL_HIGHJOB_SCAN_PAGES,
       primarySourceRule: '회사·기관 자체 홈페이지 또는 채용대행 공식 공고를 최우선 원문으로 사용하고, 잡알리오·고용24·사람인 등은 보완 출처로 사용한다.'
     },
@@ -4402,6 +4735,10 @@ main().catch(async (error) => {
       directInterview: 0,
       companyNoticeChecked: 0,
       detailedPublicRecruit: 0,
+      regionalEducationVerified: 0,
+      regionalEducationVerificationLinked: 0,
+      regionalEducationVerificationCandidates: 0,
+      regionalEducationDirectDisplayed: 0,
       briefDirect: 0,
       briefingReady: 0,
       firstDayCollected: 0,

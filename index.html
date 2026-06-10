@@ -742,7 +742,7 @@ body.job-focus-mode .platform-flow,body.job-focus-mode .branch-board,body.job-fo
         <article class="job-intro job-portal-intro" aria-label="직업계고 공채정보 안내">
           <div class="section-kicker">Vocational Job Board</div>
           <h2>직업계고 공채정보 허브</h2>
-          <p>고졸 예정자와 특성화고 학생이 실제로 지원할 수 있는 공채를 공식 공지, 채용대행 공고, 첨부자료 기준으로 확인합니다. 공채는 상세하게 정리하고, 필기 없는 간단 채용은 공식 소스 자동요약으로 구분해 제공합니다.</p>
+          <p>고졸 예정자와 특성화고 학생이 실제로 지원할 수 있는 공채를 공식 공지, 채용대행 공고, 첨부자료 기준으로 확인합니다. 잡알리오와 기관 원문을 우선 표시하고, 지역 교육청·학교 소식은 직접 노출하지 않는 보조 검증망으로만 대조합니다.</p>
           <div class="pill-list" aria-label="공채정보 운영 원칙">
             <span>공채 첫날 수집</span><span>공식 원문 2중확인</span><span>첨부자료 확인</span><span>원서마감 표시</span>
           </div>
@@ -799,7 +799,7 @@ body.job-focus-mode .platform-flow,body.job-focus-mode .branch-board,body.job-fo
           </div>
           <div class="job-track-summary" aria-label="전형 유형별 자동 분류 요약">
             <div><b id="job-exam-count">0</b><span>필기·공식전형</span></div>
-            <div><b id="job-direct-count">0</b><span>면접중심·현장형</span></div>
+            <div><b id="job-direct-count">0</b><span>교육청·면접중심</span></div>
           </div>
           <div class="job-audit-summary" aria-label="공채 수집 점검 요약">
             <div><b id="job-first-day-count">0</b><span>첫날수집</span></div>
@@ -825,7 +825,7 @@ body.job-focus-mode .platform-flow,body.job-focus-mode .branch-board,body.job-fo
             </section>
             <section class="job-track-panel direct" aria-label="필기시험 없는 면접중심 채용">
               <div class="track-head">
-                <div><b>간단 채용 정보</b><small>필기 없는 채용 자동요약. 마감·전형·첨부 중심</small></div>
+                <div><b>면접중심·현장형 채용</b><small>필기 없는 채용, 마감·전형·첨부 중심</small></div>
                 <span class="track-badge">Brief</span>
               </div>
               <div class="job-live-feed" id="job-direct-feed">
@@ -833,7 +833,7 @@ body.job-focus-mode .platform-flow,body.job-focus-mode .branch-board,body.job-fo
                   <div>
                     <span class="feed-org">공식 API 자동 수집</span>
                     <div class="feed-title">면접중심 채용 확인 대기</div>
-                    <p class="feed-meta">고용24, 사람인, 잡코리아, 인크루트, 지역 교육청 취업지원센터를 연결합니다.</p>
+                    <p class="feed-meta">고용24, 사람인, 잡코리아, 인크루트를 연결하고 교육청·학교 소식은 보조 검증에만 사용합니다.</p>
                   </div>
                 </article>
               </div>
@@ -2154,7 +2154,7 @@ function mobGoto(id) {
   showPage(id);
 }
 
-const JOB_FEED_URL = 'assets/job-feed.json?v=20260601-briefing';
+const JOB_FEED_URL = 'assets/job-feed.json?v=20260610-regional-education-display-guard';
 var latestJobFeedItems = [];
 
 function escapeJobHtml(value) {
@@ -2203,6 +2203,30 @@ function collectionAuditLabel(item) {
   if (audit.firstDayStatus === 'next_day') return '다음날수집';
   if (audit.firstDayStatus === 'late_detected') return '누락점검';
   return '게시일확인';
+}
+
+function isEducationSupportCenterStaffRecruit(text) {
+  var boardOnlySignal = /공채캘린더|고졸\s*채용공고|고졸\s*채용\s*정보|특성화고\s*관련\s*원문|채용정보\s*게시판|구인정보|채용의뢰|취업정보/.test(text);
+  var staffRecruitSignal = /(취업지원센터|하이잡).{0,40}(직원|인력|공무직|기간제|계약직|사무|전담|상담|취업지원관).{0,40}(채용|모집)|(직원|인력|공무직|기간제|계약직|사무|전담|상담|취업지원관).{0,40}(취업지원센터|하이잡).{0,40}(채용|모집)/.test(text);
+  return staffRecruitSignal && !boardOnlySignal;
+}
+
+function isRegionalEducationDisplayBlocked(item) {
+  if (!item) return false;
+  var text = [
+    item.source,
+    item.sourceName,
+    item.company,
+    item.title,
+    item.detailLevel,
+    item.servicePolicyLabel
+  ].filter(Boolean).join(' ');
+  var directRegionalSource = item.source === 'regional-education-job'
+    || item.source === 'seoul-highjob'
+    || item.detailLevel === 'regional-education-verified-recruit'
+    || item.detailLevel === 'regional-education-verification-source';
+  var regionalEducationSignal = /교육청\s*(취업지원센터|하이잡)|하이잡|공채캘린더/.test(text);
+  return (directRegionalSource || regionalEducationSignal) && !isEducationSupportCenterStaffRecruit(text);
 }
 
 function renderJobTags(item) {
@@ -2484,7 +2508,9 @@ function renderJobSourceStatus(data) {
   var waiting = sources.filter(function(source) { return !source.configured; }).length;
   var examSources = sources.filter(function(source) { return source.trackHint === 'exam'; }).length;
   var directSources = sources.filter(function(source) { return source.trackHint === 'direct'; }).length;
+  var educationSources = sources.filter(function(source) { return source.trackHint === 'education-office'; }).length;
   var detailed = data.summary && data.summary.detailedPublicRecruit ? data.summary.detailedPublicRecruit : 0;
+  var regional = data.summary && data.summary.regionalEducationVerificationLinked ? data.summary.regionalEducationVerificationLinked : 0;
   var checked = data.summary && data.summary.companyNoticeChecked ? data.summary.companyNoticeChecked : 0;
   var briefing = data.summary && data.summary.briefingReady ? data.summary.briefingReady : 0;
   var firstDay = data.summary && data.summary.firstDayCollected ? data.summary.firstDayCollected : 0;
@@ -2493,7 +2519,7 @@ function renderJobSourceStatus(data) {
   var readySources = data.secretReadiness && data.secretReadiness.readySources ? data.secretReadiness.readySources : connected;
   var totalSources = data.secretReadiness && data.secretReadiness.totalSources ? data.secretReadiness.totalSources : sources.length;
   statusEl.textContent = connected
-    ? connected + '개 공식 소스 정상 수집 · 공채 상세 ' + detailed + '건 · 취업부 브리핑 ' + briefing + '건 · 공식 공고 확인 ' + checked + '건 · 첫날수집 ' + firstDay + '건 · 누락점검 ' + missed + '건 · 소스준비 ' + readySources + '/' + totalSources + ' · 소스점검 ' + sourceGaps + '개 · 필기형 ' + examSources + '개, 간단형 ' + directSources + '개 소스 상태 기록'
+    ? connected + '개 공식 소스 정상 수집 · 공채 상세 ' + detailed + '건 · 교육청 보조검증 연계 ' + regional + '건 · 취업부 브리핑 ' + briefing + '건 · 공식 공고 확인 ' + checked + '건 · 첫날수집 ' + firstDay + '건 · 누락점검 ' + missed + '건 · 소스준비 ' + readySources + '/' + totalSources + ' · 소스점검 ' + sourceGaps + '개 · 필기형 ' + examSources + '개, 교육청 보조검증형 ' + educationSources + '개, 간단형 ' + directSources + '개 소스 상태 기록'
     : '공식 API 키 연결 대기: 고용24·사람인·잡알리오·나라일터·군 채용 등 ' + waiting + '개 소스';
 }
 
@@ -2507,7 +2533,10 @@ function renderJobFeed(data) {
   var missedCount = document.getElementById('job-missed-count');
   var closedCount = document.getElementById('job-closed-count');
 
-  var items = Array.isArray(data.items) ? data.items : [];
+  var rawItems = Array.isArray(data.items) ? data.items : [];
+  var items = rawItems.filter(function(item) {
+    return !isRegionalEducationDisplayBlocked(item);
+  });
   latestJobFeedItems = items;
   var examItems = items.filter(function(item) { return item.processTrack === 'exam-formal'; });
   var directItems = items.filter(function(item) { return item.processTrack !== 'exam-formal'; });
@@ -2525,11 +2554,11 @@ function renderJobFeed(data) {
   if (!items.length) {
     var note = data.summary && data.summary.note ? data.summary.note : '공식 API 연결 후 공채정보가 자동 표시됩니다.';
     renderTrackFeed('job-exam-feed', [], '공채 상세 정보 확인 대기', note, ['공식공고', '첫날수집', '공채']);
-    renderTrackFeed('job-direct-feed', [], '간단 채용 정보 확인 대기', note, ['중견기업', '자동요약', '간단안내']);
+    renderTrackFeed('job-direct-feed', [], '면접중심·현장형 채용 확인 대기', note, ['자동요약', '공식원문', '보조검증']);
     return;
   }
   renderTrackFeed('job-exam-feed', examItems, '공채 상세 정보 확인 대기', '대기업·공공기관·군·정부 채용과 회사·기관·채용대행 공식 공고를 계속 확인합니다.', ['공식공고', '첫날수집', '상세'], 6);
-  renderTrackFeed('job-direct-feed', directItems, '간단 채용 정보 확인 대기', '필기 없는 채용은 마감·전형·자격·첨부자료 중심으로 자동 요약합니다.', ['중견기업', '자동요약', '간단'], 6);
+  renderTrackFeed('job-direct-feed', directItems, '면접중심·현장형 채용 확인 대기', '필기 없는 채용은 마감·전형·자격·첨부자료 중심으로 자동 요약하고, 지역 교육청·학교 소식은 직접 카드로 표시하지 않는 보조검증에만 사용합니다.', ['자동요약', '공식원문', '보조검증'], 6);
 }
 
 function loadJobFeed() {

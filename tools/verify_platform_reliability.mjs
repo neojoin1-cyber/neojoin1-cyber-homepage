@@ -42,7 +42,9 @@ const REQUIRED_REGIONAL_EDUCATION_WATCH_EMPLOYERS = [
   '충청북도교육청',
   '경상북도교육청',
   '세종특별자치시교육청',
-  '제주특별자치도교육청'
+  '제주특별자치도교육청',
+  '경상남도교육청',
+  '부산광역시교육청'
 ];
 const REQUIRED_CURRENT_CRITICAL_RECRUITS = [
   {
@@ -309,6 +311,7 @@ async function validateHomepage() {
 
   fail('home.feed-url-versioned', /assets\/job-feed\.json\?v=/.test(html), '공채 피드 URL에 캐시 버전이 붙어 있습니다.');
   fail('home.feed-no-store', html.includes("cache: 'no-store'"), '공채 피드는 브라우저 캐시를 피해서 읽습니다.');
+  fail('home.regional-education-display-guard', html.includes('function isRegionalEducationDisplayBlocked') && html.includes('regional-education-job') && html.includes('seoul-highjob') && html.includes('공채캘린더'), '오래된 피드가 들어와도 지역 교육청 취업지원센터 보조자료를 직접 카드로 렌더링하지 않습니다.');
   fail('home.law-link', html.includes('https://gyo6-law-info.web.app'), '법률정보 시스템 연결 URL이 유지되어 있습니다.');
   fail('home.ebook-link', html.includes('https://gyo6--ebook.web.app/'), '전자책 서재 연결 URL이 유지되어 있습니다.');
   fail('home.ebook-preview-list-count', ebookPreviewCount > 5 && ebookPreviewCount <= 8, '메인 전자책 맛보기 강좌 목록은 5권보다 많고 최대 8권까지 표시합니다.', `${ebookPreviewCount}권`);
@@ -398,7 +401,18 @@ function validateFeed(feed, label = 'local') {
   const activeCount = countItems(items, (item) => item.status === 'active');
   const soonCount = countItems(items, (item) => item.status === 'deadline_soon');
   const closedCount = countItems(items, (item) => item.status === 'application_closed');
-  const checkedCount = countItems(items, (item) => ['company_notice_confirmed', 'company_notice_reachable'].includes(item.sourceVerification?.doubleCheckStatus));
+  const companyNoticeCheckedStatuses = ['company_notice_confirmed', 'company_notice_reachable'];
+  const officialDoubleCheckStatuses = [...companyNoticeCheckedStatuses];
+  const checkedCount = countItems(items, (item) => companyNoticeCheckedStatuses.includes(item.sourceVerification?.doubleCheckStatus));
+  const regionalEducationVerifiedCount = countItems(items, (item) => item.regionalEducationVerification?.count > 0);
+  const regionalEducationDirectItems = items.filter((item) => {
+    const text = [item.source, item.sourceName, item.title, item.detailLevel].join(' ');
+    return item.source === 'regional-education-job'
+      || item.source === 'seoul-highjob'
+      || item.detailLevel === 'regional-education-verified-recruit'
+      || item.detailLevel === 'regional-education-verification-source'
+      || /교육청\s*(취업지원센터|하이잡)|공채캘린더/.test(text);
+  });
   const missedCount = countItems(items, (item) => item.collectionAudit?.missedReviewNeeded);
   const staleCount = countItems(items, (item) => item.staleSourceFallback);
   const briefingCount = countItems(items, (item) => item.teacherBriefing?.teacherShareText);
@@ -407,6 +421,7 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.summary.direct-count`, summary.directInterview === directCount, `${label} 면접중심·현장형 카운터가 실제 항목과 일치합니다.`, `${summary.directInterview} / ${directCount}`);
   fail(`${label}.summary.status-count`, summary.active === activeCount && summary.deadlineSoon === soonCount && summary.applicationClosed === closedCount, `${label} 진행/마감임박/원서마감 카운터가 실제 항목과 일치합니다.`);
   fail(`${label}.summary.official-check-count`, summary.companyNoticeChecked === checkedCount, `${label} 공식 공고 확인 카운터가 실제 항목과 일치합니다.`, `${summary.companyNoticeChecked} / ${checkedCount}`);
+  fail(`${label}.summary.regional-education-count`, (summary.regionalEducationVerificationLinked || summary.regionalEducationVerified || 0) === regionalEducationVerifiedCount, `${label} 교육청 보조검증 연계 카운터가 실제 항목과 일치합니다.`, `${summary.regionalEducationVerificationLinked || summary.regionalEducationVerified || 0} / ${regionalEducationVerifiedCount}`);
   fail(`${label}.summary.missed-count`, summary.missedReviewNeeded === missedCount, `${label} 누락점검 카운터가 실제 항목과 일치합니다.`, `${summary.missedReviewNeeded} / ${missedCount}`);
   fail(`${label}.summary.stale-count`, summary.staleFallbackItems === staleCount, `${label} 임시 보존 공고 카운터가 실제 항목과 일치합니다.`, `${summary.staleFallbackItems} / ${staleCount}`);
   fail(`${label}.summary.briefing-count`, summary.briefingReady === briefingCount, `${label} 취업부 브리핑 카운터가 실제 항목과 일치합니다.`, `${summary.briefingReady} / ${briefingCount}`);
@@ -435,7 +450,7 @@ function validateFeed(feed, label = 'local') {
     }
     if (item.processTrack === 'exam-formal') {
       if (!item.publicRecruitDetails || !item.sourceVerification?.doubleCheckStatus) examDetailProblems.push(prefix);
-      if (!['company_notice_confirmed', 'company_notice_reachable'].includes(item.sourceVerification?.doubleCheckStatus)) weakOfficialPublicRecruit.push(prefix);
+      if (!officialDoubleCheckStatuses.includes(item.sourceVerification?.doubleCheckStatus)) weakOfficialPublicRecruit.push(prefix);
     } else if (item.detailLevel !== 'brief-company-contact') {
       directPolicyProblems.push(prefix);
     }
@@ -446,7 +461,8 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.items.closed-title-suffix`, closedTitleProblems.length === 0, `${label} 원서 마감 공고는 제목 끝에 (원서 마감)이 붙습니다.`, closedTitleProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.exam-detail`, examDetailProblems.length === 0, `${label} 필기·공식전형 공채는 상세 정보와 2중확인 상태를 갖습니다.`, examDetailProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.teacher-briefing`, briefingProblems.length === 0, `${label} 모든 공고가 취업부 브리핑과 공유 문안을 갖습니다.`, briefingProblems.slice(0, 5).join(' | '));
-  fail(`${label}.items.direct-policy`, directPolicyProblems.length === 0, `${label} 필기 없는 채용은 간단 안내 정책으로 분리됩니다.`, directPolicyProblems.slice(0, 5).join(' | '));
+  fail(`${label}.items.direct-policy`, directPolicyProblems.length === 0, `${label} 필기 없는 채용은 간단 안내로 분리되고 교육청 소스는 직접 표시되지 않습니다.`, directPolicyProblems.slice(0, 5).join(' | '));
+  fail(`${label}.items.no-regional-education-direct-card`, regionalEducationDirectItems.length === 0, `${label} 지역 교육청·학교 취업지원 소식은 직접 결과 카드로 노출되지 않습니다.`, regionalEducationDirectItems.slice(0, 5).map((item) => `${item.source}:${item.title}`).join(' | '));
   fail(`${label}.items.high-school-suitability`, suitabilityProblems.length === 0, `${label} 고졸·졸업예정자 코너에 원장·센터장·경력전용 등 부적합 공고가 섞이지 않습니다.`, suitabilityProblems.slice(0, 5).join(' | '));
   warn(`${label}.items.official-double-check`, weakOfficialPublicRecruit.length === 0, `${label} 공채 상세 항목은 회사·기관 또는 채용대행 공식 공고 2중확인이 필요합니다.`, weakOfficialPublicRecruit.slice(0, 5).join(' | '));
 
@@ -470,6 +486,8 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.sources.regional-education-ok`, Boolean(regionalEducationStatus?.ok), `${label} 지역별 교육청 취업지원센터 감시원이 정상 동작합니다.`, regionalEducationStatus?.message || '');
   fail(`${label}.sources.regional-education-watch-count`, Number(regionalEducationStatus?.watchEmployerCount || 0) >= MIN_REGIONAL_EDUCATION_WATCH_COUNT && Number(regionalEducationStatus?.builtInFeedCount || 0) >= MIN_REGIONAL_EDUCATION_WATCH_COUNT, `${label} 지역 교육청 공식 취업지원센터 감시 대상이 충분합니다.`, `watch=${regionalEducationStatus?.watchEmployerCount || 0}, builtIn=${regionalEducationStatus?.builtInFeedCount || 0}`);
   fail(`${label}.sources.regional-education-required-watch`, missingRegionalWatchEmployers.length === 0, `${label} 핵심 시도교육청 취업지원센터가 감시 목록에 포함되어 있습니다.`, missingRegionalWatchEmployers.join(', '));
+  const regionalRule = String(feed.collectionPolicy?.regionalEducationSourceRule || '');
+  fail(`${label}.sources.regional-education-source-rule`, regionalRule.includes('직접 결과 카드로 노출하지') && regionalRule.includes('잡알리오') && regionalRule.includes('보조검증'), `${label} 지역 교육청·학교 소식은 직접 노출하지 않고 보조검증으로만 쓰는 정책이 기록되어 있습니다.`, regionalRule);
   warn(`${label}.sources.regional-education-url-failures`, Number(regionalEducationStatus?.checkedUrlCount || 0) >= Math.ceil(Number(regionalEducationStatus?.builtInFeedCount || 0) * 0.5), `${label} 지역 교육청 공식 취업지원센터 절반 이상에 접속했습니다.`, `checked=${regionalEducationStatus?.checkedUrlCount || 0}, failed=${regionalEducationStatus?.failedUrlCount || 0}`);
   warn(`${label}.sources.ready-count`, readySources >= 2, `${label} 현재 정상 수집 가능한 공식 소스가 2개 이상입니다.`, `${readySources}개`);
   warn(`${label}.sources.public-data-next`, secretReadiness.easiestNextAction?.id === 'mpm-public-job' || secretReadiness.readySources > 2, `${label} 다음 확장 우선순위가 인사혁신처 공공취업 API입니다.`, secretReadiness.easiestNextAction?.id || '');
