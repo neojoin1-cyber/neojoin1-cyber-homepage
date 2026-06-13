@@ -314,6 +314,8 @@ async function validateHomepage() {
   fail('home.regional-education-display-guard', html.includes('function isRegionalEducationDisplayBlocked') && html.includes('regional-education-job') && html.includes('seoul-highjob') && html.includes('공채캘린더'), '오래된 피드가 들어와도 지역 교육청 취업지원센터 보조자료를 직접 카드로 렌더링하지 않습니다.');
   fail('home.law-link', html.includes('https://gyo6-law-info.web.app'), '법률정보 시스템 연결 URL이 유지되어 있습니다.');
   fail('home.ebook-link', html.includes('https://gyo6--ebook.web.app/'), '전자책 서재 연결 URL이 유지되어 있습니다.');
+  fail('home.login-law-link', /class="tnav-login"\s+href="https:\/\/gyo6-law-info\.web\.app\/#legalTool"/.test(html), '상단 로그인 버튼은 법률정보 권한 로그인으로 연결합니다.');
+  fail('home.login-not-ebook', !/class="tnav-login"\s+href="https:\/\/gyo6--ebook\.web\.app/.test(html), '상단 로그인 버튼은 전자책 서재로 보내지 않습니다.');
   fail('home.ebook-preview-list-count', ebookPreviewCount > 5 && ebookPreviewCount <= 8, '메인 전자책 맛보기 강좌 목록은 5권보다 많고 최대 8권까지 표시합니다.', `${ebookPreviewCount}권`);
   fail('home.ebook-preview-latest-title', ebookPreviewSection.includes('품질경영 L3 외부평가 문제풀이') && ebookPreviewSection.includes('식음료서비스 L3 수업용 교재(자율학습용)') && ebookPreviewSection.includes('NCS직업기초능력 1권'), '메인 전자책 맛보기 강좌 목록에 최신 공개 교재 제목이 반영되어 있습니다.');
   fail('home.ebook-no-paid-teaser-copy', !hasPaidTeaserCopy(html), '전자책 안내에서 유료 전환처럼 보일 수 있는 맛보기 표현을 쓰지 않습니다.');
