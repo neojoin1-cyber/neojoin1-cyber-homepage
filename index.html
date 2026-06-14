@@ -439,6 +439,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
 #page-home .home-body{max-width:none;padding:22px 34px 34px;background:#fff}
 #page-home .home-body>.job-hub,#page-home .home-body>.home-sec-title,#page-home .home-body>.system-grid,#page-home .home-body>.portal-note,#page-home .home-body>.content-roadmap{display:none!important}
 .platform-home-body{max-width:1180px;margin:0 auto}
+body:not(.job-focus-mode) #job-hub-home{display:none!important}
 .job-console{display:grid;grid-template-columns:minmax(250px,.42fr) minmax(560px,1.15fr);gap:18px;align-items:start;margin-bottom:18px;scroll-margin-top:88px}
 .job-intro,.ebook-preview-list,.job-feed,.platform-card{min-width:0;box-sizing:border-box;background:rgba(255,255,255,.96);border:1px solid #e3ece9;border-radius:15px;box-shadow:0 16px 34px rgba(47,103,96,.08)}
 .job-intro{padding:24px}.section-kicker{font-size:11px;color:#16806f;text-transform:uppercase;letter-spacing:.08em;font-weight:900;margin-bottom:5px}.job-intro h2{font-size:21px;line-height:1.35;color:#142234;margin-bottom:12px}.job-intro p{font-size:13px;color:#4c5f69;line-height:1.75;word-break:keep-all}.pill-list{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}.pill-list span{flex:0 0 auto;font-size:11px;font-weight:800;color:#276d64;background:#eef8f5;border-radius:999px;padding:5px 10px}.job-intro-visual{position:relative;margin-top:18px;min-height:128px;border:1px solid #dcebe7;border-radius:13px;overflow:hidden;background:#eef8f5;box-shadow:0 12px 24px rgba(47,103,96,.1)}.job-intro-visual img{display:block;width:100%;height:100%;min-height:128px;object-fit:cover;object-position:center}.job-intro-visual::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,0) 46%,rgba(20,34,52,.34))}
@@ -893,30 +894,6 @@ body.job-focus-mode .platform-flow,body.job-focus-mode .branch-board,body.job-fo
             <div class="branch-meta"><span>원문 근거</span><span>최신성</span><span>참고용 안내</span></div>
             <strong>법률정보 열기</strong>
           </a>
-        </div>
-        <div class="ebook-portal-panel" aria-label="GYO6 보안 전자책 서재 연결">
-          <div class="ebook-portal-copy">
-            <div class="section-kicker">Secure Bookshelf</div>
-            <h3>GYO6 보안 전자책 서재</h3>
-            <p>기존 로컬 전자책 폴더를 건드리지 않고, GitHub 원격 저장소와 Firebase 배포본을 기준으로 연결합니다. 공개 포털에서는 무료 제공 서재 입구와 첫 챕터 실제 강좌를 안내하고, 교재·사용자·권한 관리는 전자책 시스템 안에서 관리자 로그인 후 처리합니다.</p>
-            <div class="ebook-status-row" aria-label="전자책 서재 운영 상태">
-              <span>Firebase Hosting 운영중</span><span>첫 챕터 강좌</span><span>C001 공개</span><span>Firestore 권한</span>
-            </div>
-            <div class="ebook-actions" aria-label="전자책 서재 바로가기">
-              <a class="primary" href="https://gyo6--ebook.web.app/#publicPreviewShelf" target="_blank" rel="noopener noreferrer">전자책 서재 열기</a>
-              <a href="https://gyo6--ebook.web.app/preview.html?v=392" target="_blank" rel="noopener noreferrer">첫 챕터 강좌</a>
-            </div>
-            <div class="ebook-feature-grid" aria-label="전자책 서재 주요 기능">
-              <div><b>사용자·그룹</b><span>학생, 교사, 학교 관리자, 총괄관리자 역할 기반 운영</span></div>
-              <div><b>교재 권한</b><span>개인·그룹 권한, 만료일, 열람 가능 상태 관리</span></div>
-              <div><b>보안 열람</b><span>동적 워터마크, 원본 직접 다운로드 차단, 읽기 로그</span></div>
-              <div><b>공개 강좌</b><span>첫 챕터와 NCS C001을 실제 전자책 화면으로 먼저 확인</span></div>
-            </div>
-          </div>
-          <figure class="ebook-portal-image">
-            <img src="assets/platform-hero-vocational.png?v=20260531" alt="학생과 교사가 교육자료, 공채정보, 전자책 서재를 함께 확인하는 장면">
-            <figcaption>메인 포털과 같은 교육 플랫폼 이미지 흐름으로 첫 챕터 강좌에 연결합니다.</figcaption>
-          </figure>
         </div>
       </section>
       <section class="philosophy-panel" aria-label="경북직업교육연구회 플랫폼 확장 방향">
@@ -1963,6 +1940,7 @@ function showPage(id, chapterId, options) {
   var jobFocus = id === 'home' && chapterId === 'job-hub-home';
   var behavior = options.instant ? 'auto' : 'smooth';
   document.body.classList.toggle('job-focus-mode', jobFocus);
+  if (jobFocus) loadJobFeedOnce();
 
   document.querySelectorAll('.page').forEach(function(p){
     p.style.display = (p.id === 'page-'+id) ? 'block' : 'none';
@@ -2156,6 +2134,7 @@ function mobGoto(id) {
 
 const JOB_FEED_URL = 'assets/job-feed.json?v=20260610-regional-education-display-guard';
 var latestJobFeedItems = [];
+var jobFeedLoaded = false;
 
 function escapeJobHtml(value) {
   return String(value == null ? '' : value).replace(/[&<>"']/g, function(ch) {
@@ -2578,6 +2557,12 @@ function loadJobFeed() {
     });
 }
 
+function loadJobFeedOnce() {
+  if (jobFeedLoaded) return;
+  jobFeedLoaded = true;
+  loadJobFeed();
+}
+
 document.addEventListener('click', function(e) {
   var openButton = e.target.closest && e.target.closest('.job-detail-open');
   if (openButton) {
@@ -2600,7 +2585,6 @@ document.addEventListener('keydown', function(e) {
 (function(){
   var handledHash = handleHashRoute({instant:true});
   if (!handledHash) showPage('home', null, {instant:true});
-  loadJobFeed();
 })();
 
 window.addEventListener('hashchange', function() {
