@@ -308,6 +308,16 @@ async function validateHomepage() {
   const portalBriefSection = sectionBetween(html, '<div class="portal-brief"', '<img src=');
   const ebookPreviewSection = sectionBetween(html, '<aside class="ebook-preview-list"', '<div class="job-feed"');
   const ebookPreviewCount = countText(ebookPreviewSection, 'class="ebook-title-item"');
+  const expectedEbookPreviewOrder = [
+    '특성화고 직업공통능력 인증 교재',
+    'NCS직업기초능력 1권',
+    'NCS직업기초능력 2권',
+    'NCS직업기초능력 3권',
+    '특성화고 공채대비 면접시험 교재',
+    '식음료서비스 L3 수업용 교재(자율학습용)',
+    '식음료서비스 L3 외부평가 문제풀이',
+    '품질경영 L3 수업용 교재(자율학습용)'
+  ];
 
   fail('home.feed-url-versioned', /assets\/job-feed\.json\?v=/.test(html), '공채 피드 URL에 캐시 버전이 붙어 있습니다.');
   fail('home.feed-no-store', html.includes("cache: 'no-store'"), '공채 피드는 브라우저 캐시를 피해서 읽습니다.');
@@ -317,7 +327,8 @@ async function validateHomepage() {
   fail('home.login-law-link', /class="tnav-login"\s+href="https:\/\/gyo6-law-info\.web\.app\/\?login=law#legalTool"/.test(html), '상단 로그인 버튼은 법률정보 권한 로그인으로 연결합니다.');
   fail('home.login-not-ebook', !/class="tnav-login"\s+href="https:\/\/gyo6--ebook\.web\.app/.test(html), '상단 로그인 버튼은 전자책 서재로 보내지 않습니다.');
   fail('home.ebook-preview-list-count', ebookPreviewCount > 5 && ebookPreviewCount <= 8, '메인 전자책 맛보기 강좌 목록은 5권보다 많고 최대 8권까지 표시합니다.', `${ebookPreviewCount}권`);
-  fail('home.ebook-preview-latest-title', ebookPreviewSection.includes('품질경영 L3 외부평가 문제풀이') && ebookPreviewSection.includes('식음료서비스 L3 수업용 교재(자율학습용)') && ebookPreviewSection.includes('NCS직업기초능력 1권'), '메인 전자책 맛보기 강좌 목록에 최신 공개 교재 제목이 반영되어 있습니다.');
+  fail('home.ebook-preview-latest-title', expectedEbookPreviewOrder.every((title) => ebookPreviewSection.includes(title)), '메인 전자책 맛보기 강좌 목록에 최신 공개 교재 제목이 반영되어 있습니다.');
+  fail('home.ebook-preview-priority-order', indexOrder(ebookPreviewSection, expectedEbookPreviewOrder), '메인 전자책 맛보기 강좌 순서가 직업공통능력 → NCS 1·2·3 → 공채면접 → 식음료서비스 → 품질경영입니다.');
   fail('home.ebook-no-paid-teaser-copy', !hasPaidTeaserCopy(html), '전자책 안내에서 유료 전환처럼 보일 수 있는 맛보기 표현을 쓰지 않습니다.');
   fail('home.closed-label', html.includes('application_closed') && html.includes('원서 마감'), '원서 마감 상태 표시 로직이 있습니다.');
   fail('home.teacher-briefing-ui', html.includes('취업부 브리핑') && html.includes('teacherBriefing'), '공채 카드에 취업부 브리핑 UI가 연결되어 있습니다.');
