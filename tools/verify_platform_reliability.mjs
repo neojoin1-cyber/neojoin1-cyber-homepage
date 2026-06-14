@@ -326,7 +326,8 @@ async function validateHomepage() {
   fail('home.no-stale-axis-copy', staleAxisHits.length === 0, '이전 4축/기업자료/실험실 문구가 홈페이지에서 제거되어 있습니다.', staleAxisHits.join(', '));
   fail('home.platform-action-count', countText(html, 'class="platform-action"') === 3, '첫 화면 주요 버튼이 3개 축으로 고정되어 있습니다.', `${countText(html, 'class="platform-action"')}개`);
   fail('home.mobile-platform-actions-fit', html.includes('@media(max-width:480px){.platform-actions{grid-template-columns:1fr!important;max-width:100%!important}'), '작은 모바일 화면에서 3축 버튼이 화면 밖으로 넘치지 않도록 세로 배치됩니다.');
-  fail('home.flow-card-count', countText(html, 'class="flow-card"') === 3, '업무 흐름 카드가 3개 축으로 고정되어 있습니다.', `${countText(html, 'class="flow-card"')}개`);
+  fail('home.branch-titlebar-count', countText(html, 'class="branch-titlebar"') === 3, '업무 흐름 요약이 시스템 분기 카드 제목부 3개로 통합되어 있습니다.', `${countText(html, 'class="branch-titlebar"')}개`);
+  fail('home.no-detached-flow-card', countText(html, 'class="flow-card"') === 0, '분리된 업무 흐름 카드는 시스템 분기 카드 제목부로 흡수되어 있습니다.', `${countText(html, 'class="flow-card"')}개`);
   fail('home.branch-card-count', countText(html, 'class="branch-card ') === 3, '시스템 분기 카드가 3개 축으로 고정되어 있습니다.', `${countText(html, 'class="branch-card ')}개`);
   fail('home.branch-axis-order', indexOrder(branchSection, ['직업계고 공채정보', '교육·강의 전자책 서재', 'AI 법률정보 도우미']), '시스템 분기 순서가 공채정보 → 전자책 → 법률정보입니다.');
   fail('home.system-grid-axis-order', indexOrder(systemGridSection, ['직업계고 취업지도 허브', '교육·강의 전자책 서재', 'AI 법률정보 도우미']), '보조 운영 목록 순서가 공채정보 → 전자책 → 법률정보입니다.');

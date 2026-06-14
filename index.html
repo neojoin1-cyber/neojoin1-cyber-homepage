@@ -271,7 +271,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
   .topnav{display:none !important}
   .main{margin-left:0 !important;width:100% !important;max-width:100vw !important;overflow-x:hidden !important;display:block !important}
   .page + .page{border-top:6px solid #e8ecf0}
-  .mobile-header{display:grid !important;grid-template-columns:minmax(0,1fr);gap:12px;position:sticky;top:0;left:0;right:0;z-index:200;background:var(--navy);padding:10px 16px;align-items:center;border-bottom:2px solid rgba(255,255,255,.1);width:100vw !important;max-width:100vw !important;box-sizing:border-box;overflow:hidden}
+  .mobile-header{display:grid !important;grid-template-columns:minmax(0,1fr);gap:12px;position:sticky;top:0;left:0;right:0;z-index:200;background:var(--navy);padding:10px 16px;align-items:center;border-bottom:2px solid rgba(255,255,255,.1);width:100% !important;max-width:100% !important;box-sizing:border-box;overflow:hidden}
   .mobile-header-logo{font-family:'Noto Serif KR',serif;font-size:16px;color:#fff;font-weight:600}
   .mobile-header-logo span{color:#7ec8e3}
   .mobile-header-tag{font-size:10px;color:rgba(255,255,255,.5)}
@@ -284,7 +284,7 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
   .page-visual{grid-column:1 !important;grid-row:auto !important;min-height:116px !important;border-radius:12px !important}
   .page-visual img{min-height:116px !important}
   .page-visual span{font-size:10px !important;left:12px !important;right:12px !important;bottom:9px !important}
-  .home-hero{padding:20px 16px 22px !important;margin-top:0 !important;width:100vw !important;max-width:100vw !important;overflow-x:hidden !important}
+  .home-hero{padding:20px 16px 22px !important;margin-top:0 !important;width:100% !important;max-width:100% !important;overflow-x:hidden !important}
   .page-title{font-size:16px !important}
   .home-hero{padding:20px 16px 22px !important;margin-top:0 !important}
   .home-inner{grid-template-columns:1fr !important;gap:18px !important;width:100% !important;max-width:100% !important;min-width:0 !important}
@@ -293,15 +293,15 @@ button,a,.nav-item,.sub-item,.quick-card,.lnk,.scard,.gallery img{touch-action:m
   .hero-h1{font-size:24px !important;line-height:1.3 !important}
   .hero-sub{font-size:13.5px !important}
   .hero-sub,.portal-brief p,.job-hub-text,.job-row-main p,.system-text{width:100% !important;max-width:100% !important;white-space:normal !important;word-break:break-all !important;overflow-wrap:anywhere !important}
-  .hero-sub{max-width:calc(100vw - 104px) !important}
-  .portal-brief p,.job-hub-text{max-width:calc(100vw - 128px) !important}
+  .hero-sub{max-width:100% !important}
+  .portal-brief p,.job-hub-text{max-width:100% !important}
   .portal-actions{display:grid !important;grid-template-columns:1fr 1fr !important;gap:8px !important;width:100% !important;margin-bottom:0}
   .portal-btn{width:100% !important;min-width:0 !important}
   .home-stats{padding:12px 16px !important}
   .stats-row{grid-template-columns:repeat(3,1fr) !important}
   .st:nth-child(4),.st:nth-child(5){display:none}
   .st-n{font-size:15px !important}
-  .home-body{padding:18px 16px !important;width:100vw !important;max-width:100vw !important;overflow-x:hidden !important}
+  .home-body{padding:18px 16px !important;width:100% !important;max-width:100% !important;overflow-x:hidden !important}
   .job-hub,.system-grid,.portal-brief,.job-board{width:100% !important;max-width:100% !important}
   .quick-grid,.connect-grid,.system-grid,.hero-feature-grid,.job-hub-head,.job-row,.job-workflow{grid-template-columns:1fr !important}
   .hero-feature{min-height:92px}
@@ -469,8 +469,8 @@ body.job-focus-mode .job-track-summary{grid-template-columns:repeat(2,minmax(0,1
 body.job-focus-mode .job-audit-summary{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 body.job-focus-mode .job-track-grid{grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:16px}
 body.job-focus-mode .job-track-panel{padding:14px 16px}
-body.job-focus-mode .platform-flow,body.job-focus-mode .branch-board{display:none!important}
-.platform-flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:22px}.flow-card{display:grid;grid-template-columns:42px 1fr;gap:12px;align-items:center;padding:16px;border-radius:14px;background:#f8fbfa;border:1px solid #e6efec}.flow-card b{display:block;font-size:14px;color:#173045;margin-bottom:2px}.flow-card span{font-size:12px;color:#65747b;line-height:1.5}
+body.job-focus-mode .branch-board{display:none!important}
+.platform-flow{display:none}
 .branch-board{margin:0 0 22px;padding:22px;background:#fff;border:1px solid #e0ebe7;border-radius:16px;box-shadow:0 16px 38px rgba(47,103,96,.08)}
 .branch-head{display:grid;grid-template-columns:minmax(0,.9fr) minmax(260px,.8fr);gap:18px;align-items:end;margin-bottom:18px}
 .branch-head h2{font-size:22px;line-height:1.35;color:#142234;margin:0}
@@ -478,7 +478,12 @@ body.job-focus-mode .platform-flow,body.job-focus-mode .branch-board{display:non
 .branch-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .branch-card{display:grid;grid-template-rows:auto 86px auto minmax(82px,1fr) auto auto;gap:10px;min-height:336px;padding:18px;border:1px solid #e3ece9;border-radius:14px;background:#f8fbfa;color:inherit;text-decoration:none;transition:transform .18s,border-color .18s,box-shadow .18s}
 .branch-card:hover{transform:translateY(-3px);border-color:#9ecfc4;box-shadow:0 18px 34px rgba(47,103,96,.12)}
-.branch-code{justify-self:start;border:1px solid #dbe8e5;border-radius:999px;padding:3px 8px;color:#24786d;font-size:10.5px;font-weight:900;letter-spacing:.08em}
+.branch-titlebar{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px;border:1px solid #dbe8e5;border-radius:13px;background:rgba(255,255,255,.8)}
+.branch-titlebar .line-icon{flex-shrink:0}
+.branch-titlecopy{min-width:0}
+.branch-titlecopy b{display:block;font-size:14px;line-height:1.35;color:#142234;margin-bottom:2px}
+.branch-titlecopy span{display:block;font-size:11.5px;color:#65747b;line-height:1.5;word-break:keep-all;overflow-wrap:break-word}
+.branch-code{justify-self:end;align-self:start;border:1px solid #dbe8e5;border-radius:999px;padding:3px 8px;color:#24786d;font-size:10.5px;font-weight:900;letter-spacing:.08em;background:#fff}
 .branch-visual{position:relative;display:block;width:100%;height:86px;border:1px solid rgba(255,255,255,.72);border-radius:11px;overflow:hidden;background:#e9f5f2;box-shadow:inset 0 0 0 1px rgba(255,255,255,.42)}
 .branch-visual img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;filter:saturate(1.04) contrast(.98)}
 .branch-visual::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.12),rgba(15,29,44,.28))}
@@ -521,10 +526,12 @@ body.job-focus-mode .platform-flow,body.job-focus-mode .branch-board{display:non
 @media(max-width:720px){.owner-story-hero{padding:18px}.owner-story-hero h2{font-size:24px}.owner-story-lead{font-size:13px;word-break:break-all;overflow-wrap:anywhere}.owner-story-visual,.owner-story-visual img{min-height:190px}.owner-story-stats,.owner-story-links{grid-template-columns:1fr}.owner-story-caption,.owner-arc-item p,.owner-thread-card p,.owner-story-closing p{word-break:break-all;overflow-wrap:anywhere}.journey-nav{position:static;grid-template-columns:1fr;gap:8px;margin-bottom:14px;padding:8px;border-radius:10px}.journey-nav-item{min-height:52px;padding:10px}.journey-nav-copy b,.journey-nav-copy span{white-space:normal;overflow:visible;text-overflow:clip}}
 @media(max-width:960px){.platform-shell{grid-template-columns:1fr;gap:10px;padding:28px 18px}.platform-direction{max-width:100%}.platform-visual{order:2}.job-console,.job-track-grid,.branch-head,.ebook-portal-panel,.job-portal-intro .job-feature-grid{grid-template-columns:1fr}.branch-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.platform-flow{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:720px){#page-home .home-hero{margin-top:0}#page-home .home-body{padding-left:16px;padding-right:16px}.platform-home-body,.job-console,.job-intro,.ebook-preview-list,.job-feed,.platform-flow,.branch-board,.ebook-portal-panel{width:100%;max-width:100%;overflow:hidden}.platform-title{font-size:30px}.platform-actions{grid-template-columns:repeat(2,minmax(0,1fr));max-width:100%}.platform-visual{min-height:290px;transform:scale(.9);transform-origin:center top;margin-bottom:-26px}.orbit-node{width:58px;height:58px}.node-job{left:3%}.node-company{right:3%}.node-law{left:-2%;bottom:72px}.node-book{right:-2%;bottom:72px}.school-scene{margin-top:46px}.job-console{gap:12px}.job-live-toolbar{justify-content:flex-start}.job-live-toolbar span{max-width:100%;white-space:normal}.job-track-summary,.job-track-grid,.job-detail-grid,.job-attachment-grid{grid-template-columns:1fr}.job-audit-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.track-head{flex-direction:column}.feed-item{grid-template-columns:1fr}.feed-tags{justify-content:flex-start}.job-deadline{justify-self:start}.job-detail-modal{padding:12px}.job-detail-dialog{max-height:90vh}.job-detail-head,.job-detail-body{padding-left:16px;padding-right:16px}.job-intro p,.ebook-preview-list p,.feed-meta,.job-source-status,.job-detail-lines span,.job-brief-note,.ebook-portal-copy p,.ebook-feature-grid span,.job-portal-intro .job-feature-grid span{word-break:break-all!important;overflow-wrap:anywhere!important}.platform-flow,.branch-grid,.ebook-feature-grid{grid-template-columns:1fr}.branch-board{padding:16px}.branch-card{min-height:auto}.ebook-portal-panel{padding:14px}.ebook-portal-image img{min-height:180px}}
+@media(max-width:720px){.branch-titlebar{grid-template-columns:auto minmax(0,1fr);gap:10px;padding:12px}.branch-titlebar .branch-code{grid-column:2;justify-self:start;align-self:auto}.branch-titlecopy b{font-size:13.5px}.branch-titlecopy span{font-size:11px}}
+@media(max-width:720px){.platform-copy,.platform-sub,.branch-head,.branch-head p,.branch-card,.branch-card h3,.branch-card p,.branch-titlebar,.branch-titlecopy,.branch-titlecopy span{min-width:0;max-width:100%;white-space:normal!important}.platform-sub,.branch-head p,.branch-card p,.branch-titlecopy span{word-break:break-all!important;overflow-wrap:anywhere!important}.branch-card{padding:14px}.branch-meta span{white-space:normal}}
 @media(max-width:720px){.job-school-check-grid{grid-template-columns:1fr}.job-briefing-open{width:100%}}
 @media(max-width:720px){.job-briefing-grid{grid-template-columns:1fr}.job-briefing-card{padding:10px}.job-briefing-head{align-items:flex-start;flex-direction:column}.job-briefing-share{max-height:180px}.job-briefing-section li,.job-briefing-sources{word-break:break-all!important;overflow-wrap:anywhere!important}}
-@media(max-width:720px){.platform-shell{display:block;padding:28px 16px 20px;overflow:hidden}.platform-sub{max-width:calc(100vw - 56px);word-break:break-all!important;overflow-wrap:anywhere!important}.platform-direction{display:none}.platform-visual{width:100%;min-height:auto;transform:none;margin:18px 0 0;overflow:hidden}.platform-hero-image{width:100%;border-radius:18px;box-shadow:0 18px 42px rgba(47,103,96,.18)}.platform-arc{width:330px;height:180px;top:16px}.school-scene{width:330px;height:225px;margin:46px auto 0}.people{transform:translateX(-50%) scale(.8);transform-origin:center bottom}.node-edu{top:8px}.node-job{left:13%;top:76px}.node-company{right:13%;top:76px}.node-law{left:13%;bottom:44px}.node-book{right:13%;bottom:44px}.orbit-node{width:52px;height:52px;border-radius:16px;font-size:8px}.orbit-node span:last-child{white-space:nowrap}.orbit-node .line-icon{transform:scale(.76)}}
-@media(max-width:720px){.platform-copy{width:100%;max-width:calc(100vw - 32px);overflow:hidden}.platform-actions{width:100%;max-width:calc(100vw - 64px);grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px}.platform-action{min-height:72px}.pill-list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.pill-list span{width:100%;min-width:0;text-align:center;white-space:normal}}
+@media(max-width:720px){.platform-shell{display:block;width:100%;max-width:100%;padding:28px 16px 20px;overflow:hidden}.platform-sub{max-width:100%;word-break:break-all!important;overflow-wrap:anywhere!important}.platform-direction{display:none}.platform-visual{width:100%;min-height:auto;transform:none;margin:18px 0 0;overflow:hidden}.platform-hero-image{width:100%;border-radius:18px;box-shadow:0 18px 42px rgba(47,103,96,.18)}.platform-arc{width:330px;height:180px;top:16px}.school-scene{width:330px;height:225px;margin:46px auto 0}.people{transform:translateX(-50%) scale(.8);transform-origin:center bottom}.node-edu{top:8px}.node-job{left:13%;top:76px}.node-company{right:13%;top:76px}.node-law{left:13%;bottom:44px}.node-book{right:13%;bottom:44px}.orbit-node{width:52px;height:52px;border-radius:16px;font-size:8px}.orbit-node span:last-child{white-space:nowrap}.orbit-node .line-icon{transform:scale(.76)}}
+@media(max-width:720px){.platform-copy{width:100%;max-width:100%;overflow:hidden}.platform-actions{width:100%;max-width:100%;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px}.platform-action{min-height:72px}.pill-list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.pill-list span{width:100%;min-width:0;text-align:center;white-space:normal}}
 @media(max-width:960px){body.job-focus-mode .job-intro,body.job-focus-mode .job-track-grid{grid-template-columns:1fr}body.job-focus-mode .job-intro-visual{grid-column:auto;grid-row:auto;min-height:170px}body.job-focus-mode .job-intro-visual img{min-height:170px}}
 @media(max-width:720px){body.job-focus-mode #page-home .home-body{padding:18px 14px 26px!important;box-sizing:border-box}body.job-focus-mode .job-console,body.job-focus-mode .job-feed,body.job-focus-mode .job-track-panel,body.job-focus-mode .feed-item,body.job-focus-mode .job-item-main,body.job-focus-mode .job-detail-open{min-width:0;max-width:100%;box-sizing:border-box}body.job-focus-mode .job-intro{padding:16px}body.job-focus-mode .job-feed{padding:12px;width:100%;overflow:hidden}body.job-focus-mode .job-track-grid{gap:10px}body.job-focus-mode .job-track-panel{padding:12px 10px}body.job-focus-mode .feed-title,body.job-focus-mode .feed-meta,body.job-focus-mode .feed-org{white-space:normal;overflow:visible;text-overflow:clip;word-break:keep-all;overflow-wrap:anywhere}body.job-focus-mode .job-briefing-open{width:100%;max-width:100%;padding-left:10px;padding-right:10px;white-space:normal;text-align:center;line-height:1.35}body.job-focus-mode .job-audit-summary{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:480px){.platform-actions{grid-template-columns:1fr!important;max-width:100%!important}.platform-action{width:100%;min-width:0}}
@@ -844,11 +851,6 @@ body.job-focus-mode .platform-flow,body.job-focus-mode .branch-board{display:non
           <div class="job-detail-body" id="job-detail-body"></div>
         </article>
       </div>
-      <section class="platform-flow" aria-label="취업지도 업무 흐름">
-        <article class="flow-card"><span class="line-icon icon-doc" aria-hidden="true"></span><div><b>공채정보</b><span>공식 원문, 마감, 첨부자료, 교사용 브리핑 확인</span></div></article>
-        <article class="flow-card"><span class="line-icon icon-book" aria-hidden="true"></span><div><b>전자책</b><span>NCS·공채 대비 교재와 첫 챕터 강좌 연결</span></div></article>
-        <article class="flow-card"><span class="line-icon icon-law" aria-hidden="true"></span><div><b>법률정보</b><span>현장실습·취업지도 관련 공식 원문 근거 확인</span></div></article>
-      </section>
       <section class="branch-board" id="systems-home" aria-label="경북직업교육연구회 시스템 분기">
         <div class="branch-head">
           <div>
@@ -859,7 +861,11 @@ body.job-focus-mode .platform-flow,body.job-focus-mode .branch-board{display:non
         </div>
         <div class="branch-grid">
           <a class="branch-card job-branch" href="#" onclick="showPage('home','job-hub-home');return false">
-            <span class="branch-code">JOBS</span>
+            <div class="branch-titlebar">
+              <span class="line-icon icon-doc" aria-hidden="true"></span>
+              <span class="branch-titlecopy"><b>공채정보</b><span>공식 원문, 마감, 첨부자료, 교사용 브리핑 확인</span></span>
+              <span class="branch-code">JOBS</span>
+            </div>
             <span class="branch-visual branch-visual-job" aria-hidden="true"><img src="assets/platform-hero-vocational.png?v=20260531" alt=""></span>
             <h3>직업계고 공채정보</h3>
             <p>고졸 예정자 채용공고를 원문, 마감일, 첨부자료, 전형일정, 학교장 추천 여부와 함께 확인하는 허브입니다.</p>
@@ -867,7 +873,11 @@ body.job-focus-mode .platform-flow,body.job-focus-mode .branch-board{display:non
             <strong>공채 허브 보기</strong>
           </a>
           <a class="branch-card book-branch" id="ebook-branch-home" href="https://gyo6--ebook.web.app/#publicPreviewShelf">
-            <span class="branch-code">BOOK</span>
+            <div class="branch-titlebar">
+              <span class="line-icon icon-book" aria-hidden="true"></span>
+              <span class="branch-titlecopy"><b>전자책</b><span>NCS·공채 대비 교재와 첫 챕터 강좌 연결</span></span>
+              <span class="branch-code">BOOK</span>
+            </div>
             <span class="branch-visual branch-visual-book" aria-hidden="true"><img src="assets/platform-hero-vocational.png?v=20260531" alt=""></span>
             <h3>교육·강의 전자책 서재</h3>
             <p>GitHub 원격 기준 보안 전자책 시스템으로 운영 중입니다. 로그인 전에는 첫 챕터를 실제 전자책 화면으로 열어 일러두기, 목차, 본학습, 바로 풀어보기와 해설 흐름을 먼저 확인할 수 있습니다.</p>
@@ -875,7 +885,11 @@ body.job-focus-mode .platform-flow,body.job-focus-mode .branch-board{display:non
             <strong>보안 서재 열기</strong>
           </a>
           <a class="branch-card law-branch" href="https://gyo6-law-info.web.app">
-            <span class="branch-code">LAW</span>
+            <div class="branch-titlebar">
+              <span class="line-icon icon-law" aria-hidden="true"></span>
+              <span class="branch-titlecopy"><b>법률정보</b><span>현장실습·취업지도 관련 공식 원문 근거 확인</span></span>
+              <span class="branch-code">LAW</span>
+            </div>
             <span class="branch-visual branch-visual-law" aria-hidden="true"><img src="assets/platform-hero-vocational.png?v=20260531" alt=""></span>
             <h3>AI 법률정보 도우미</h3>
             <p>현장실습, 도제학교, 취업지도, 학교 민원에 필요한 공식 법령·판례·행정자료를 찾고 쉽게 정리합니다.</p>
