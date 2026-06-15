@@ -3639,7 +3639,7 @@ function jobAlioListUrl(params = {}) {
 function activeCriticalJobAlioItems() {
   return CRITICAL_CURRENT_JOB_ALIO_ITEMS.filter((item) => {
     const distance = daysUntil(parseDate(item.deadline));
-    return distance === null || distance >= -APPLICATION_CLOSED_RETAIN_DAYS;
+    return distance === null || distance >= 0;
   });
 }
 
@@ -4629,7 +4629,7 @@ async function main() {
     version: 4,
     generatedAt: CHECKED_AT,
     timezone: 'Asia/Seoul',
-    schedule: '09:10, 14:10, 19:10 KST',
+    schedule: '09:10, 14:10, 23:10 KST',
     mode: 'official-public-recruit-auto-registration',
     summary: {
       total: items.length,
@@ -4724,7 +4724,7 @@ main().catch(async (error) => {
     version: 4,
     generatedAt: CHECKED_AT,
     timezone: 'Asia/Seoul',
-    schedule: '09:10, 14:10, 19:10 KST',
+    schedule: '09:10, 14:10, 23:10 KST',
     mode: 'official-public-recruit-auto-registration',
     summary: {
       total: 0,

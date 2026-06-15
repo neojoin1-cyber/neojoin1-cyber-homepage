@@ -18,7 +18,7 @@
 
 `tools/fetch_vocational_jobs.mjs`가 하루 3회 실행되어 `assets/job-feed.json`을 생성한다.
 
-- 실행 시간: 09:10, 14:10, 19:10 KST
+- 실행 시간: 09:10, 14:10, 23:10 KST
 - 실행 위치: GitHub Actions
 - 저장 방식: 정적 JSON 자동 갱신 후 커밋
 - 표시 방식: `index.html`이 `assets/job-feed.json`을 읽어 홈페이지 공채 허브에 표시

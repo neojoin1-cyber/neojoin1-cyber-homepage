@@ -13,7 +13,6 @@ const DO_EXTERNAL_LINKS = args.has('--external-links');
 const LIVE_HOME = 'https://gyo6.kr/';
 const LIVE_FEED = 'https://gyo6.kr/assets/job-feed.json';
 const MAX_FEED_AGE_HOURS = 48;
-const APPLICATION_CLOSED_RETAIN_DAYS = 21;
 const HIGH_SCHOOL_STRONG_TERMS = ['고졸', '특성화고', '직업계고', '마이스터고', '학교장 추천', '학교장추천'];
 const ENTRY_LEVEL_TERMS = ['고졸', '고등학교', '특성화고', '직업계고', '마이스터고', '졸업예정', '졸업 예정', '학교장 추천', '학교장추천', '고졸제한', '고졸 제한', '사회형평 고졸', '신입', '경력무관', '신입+경력', '신입·경력', '청년인턴', '채용형 인턴', '공무직', '업무지원직', '기간제', '9급', '지역인재', '기능인재'];
 const SENIOR_ROLE_PATTERN = /(원장|센터장|기관장|본부장|부원장|교장|공모교장|교감|원감|개방형\s*직위|전문계약직|연봉계약직|임원|상임감사|비상임감사|감사위원|이사장|대표이사)/;
@@ -169,8 +168,7 @@ function activeRequiredCriticalRecruits() {
   return REQUIRED_CURRENT_CRITICAL_RECRUITS.filter((job) => {
     const deadline = new Date(`${job.deadline}T23:59:59+09:00`);
     if (Number.isNaN(deadline.getTime())) return true;
-    const retainUntil = deadline.getTime() + APPLICATION_CLOSED_RETAIN_DAYS * 86400000;
-    return Date.now() <= retainUntil;
+    return Date.now() <= deadline.getTime();
   });
 }
 
@@ -234,7 +232,8 @@ function highSchoolSuitabilityProblem(item) {
 
 function validateProjectScope() {
   const normalized = ROOT_DIR.toLowerCase().replaceAll('\\', '/');
-  fail('scope.project-folder', normalized.endsWith('/neojoin1-cyber-homepage'), '작업 폴더가 개인 홈페이지 프로젝트입니다.', ROOT_DIR);
+  const isHomepageProject = normalized.endsWith('/neojoin1-cyber-homepage') || normalized.endsWith('/_audit_neojoin1-cyber-homepage');
+  fail('scope.project-folder', isHomepageProject, '작업 폴더가 개인 홈페이지 프로젝트입니다.', ROOT_DIR);
   fail('scope.no-ebook-path', !normalized.includes('gyo6_secure_ebook_platform_v2'), '전자책 기존 프로젝트 경로가 검증 대상에 포함되지 않았습니다.');
 }
 
@@ -291,7 +290,7 @@ async function validateSecretSafety() {
 
 async function validateWorkflow() {
   const workflow = await readText('.github/workflows/job-feed.yml');
-  fail('workflow.schedule-3x-kst', workflow.includes('10 0,5,10 * * *'), '공채 자동 수집이 하루 3회 KST 기준으로 예약되어 있습니다.');
+  fail('workflow.schedule-3x-kst', workflow.includes('10 0,5,14 * * *'), '공채 자동 수집이 09:10, 14:10, 23:10 KST 기준으로 예약되어 있습니다.');
   fail('workflow.manual-dispatch', workflow.includes('workflow_dispatch'), '수동 재실행 트리거가 있습니다.');
   fail('workflow.syntax-gate', workflow.includes('node --check tools/fetch_vocational_jobs.mjs'), '수집 전 문법 검사를 실행합니다.');
   for (const name of ['DATA_GO_KR_SERVICE_KEY', 'MPM_PUBLIC_JOB_SERVICE_KEY', 'MOEF_PUBLIC_RECRUIT_SERVICE_KEY', 'SARAMIN_ACCESS_KEY', 'EDU_JOB_CENTER_FEEDS', 'FINANCE_RECRUIT_FEEDS', 'LARGE_COMPANY_RECRUIT_FEEDS']) {
@@ -321,6 +320,7 @@ async function validateHomepage() {
 
   fail('home.feed-url-versioned', /assets\/job-feed\.json\?v=/.test(html), '공채 피드 URL에 캐시 버전이 붙어 있습니다.');
   fail('home.feed-no-store', html.includes("cache: 'no-store'"), '공채 피드는 브라우저 캐시를 피해서 읽습니다.');
+  fail('home.manual-job-feed-run', html.includes('actions/workflows/job-feed.yml') && html.includes('수동수집 실행'), '공채 자동수집 워크플로 수동 실행 버튼이 연결되어 있습니다.');
   fail('home.regional-education-display-guard', html.includes('function isRegionalEducationDisplayBlocked') && html.includes('regional-education-job') && html.includes('seoul-highjob') && html.includes('공채캘린더'), '오래된 피드가 들어와도 지역 교육청 취업지원센터 보조자료를 직접 카드로 렌더링하지 않습니다.');
   fail('home.law-link', html.includes('https://gyo6-law-info.web.app'), '법률정보 시스템 연결 URL이 유지되어 있습니다.');
   fail('home.ebook-link', html.includes('https://gyo6--ebook.web.app/'), '전자책 서재 연결 URL이 유지되어 있습니다.');
