@@ -18,8 +18,10 @@ const NOW = new Date();
 const CHECKED_AT = NOW.toISOString();
 const MAX_ITEMS = 40;
 const REQUEST_TIMEOUT_MS = 18000;
+const PUBLIC_API_TIMEOUT_MS = 9000;
 const DETAIL_FETCH_CONCURRENCY = 6;
 const JOB_ALIO_LIST_FETCH_CONCURRENCY = 8;
+const PUBLIC_API_FETCH_CONCURRENCY = 8;
 const APPLICATION_CLOSED_RETAIN_DAYS = 21;
 const JOB_ALIO_SCAN_LIMIT = 220;
 const JOB_ALIO_SCAN_PAGES = 6;
@@ -3352,6 +3354,7 @@ function publicJobKeep(item) {
 
 async function fetchPublicDataEndpoint(url, source, publicSourceUrl) {
   const body = await fetchWithTimeout(url, {
+    timeoutMs: PUBLIC_API_TIMEOUT_MS,
     headers: { Accept: 'application/json,application/xml,text/xml,*/*;q=0.8' }
   });
   return parsePublicDataRecords(body, source, publicSourceUrl);
@@ -3494,7 +3497,7 @@ async function fetchMpmPublicJob() {
   for (const endpoint of endpoints) {
     const endpointItems = new Map();
     const paramAttempts = mpmPublicJobParamAttempts(endpoint);
-    for (const params of paramAttempts) {
+    await mapWithConcurrency(paramAttempts, PUBLIC_API_FETCH_CONCURRENCY, async (params) => {
       const url = buildPublicDataUrl(endpoint, key, params);
       try {
         const records = await fetchPublicDataEndpoint(url, base, MPM_PUBLIC_JOB_DATA_URL);
@@ -3505,7 +3508,7 @@ async function fetchMpmPublicJob() {
       } catch (error) {
         errors.push(`${safePublicFeedUrl(endpoint) || 'candidate'}: ${error.message}`);
       }
-    }
+    });
     if (endpointItems.size) {
       rawItems = Array.from(endpointItems.values());
       usedEndpoint = safePublicFeedUrl(endpoint) || MPM_PUBLIC_JOB_DATA_URL;
@@ -3562,7 +3565,7 @@ async function fetchWork24OpenRecruit() {
   const rawItems = [];
   const errors = [];
 
-  for (const params of requests) {
+  await mapWithConcurrency(requests, requests.length, async (params) => {
     const url = buildUrl(WORK24_OPEN_RECRUIT_URL, {
       authKey: key,
       callTp: 'L',
@@ -3596,7 +3599,7 @@ async function fetchWork24OpenRecruit() {
     } catch (error) {
       errors.push(error.message);
     }
-  }
+  });
 
   const normalized = rawItems.map(normalizeItem).filter(shouldKeep);
   const ok = errors.length < requests.length;
