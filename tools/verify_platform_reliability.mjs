@@ -490,8 +490,14 @@ function validateFeed(feed, label = 'local') {
   const watchedRegionalEmployers = Array.isArray(regionalEducationStatus?.watchEmployers) ? regionalEducationStatus.watchEmployers : [];
   const missingRegionalWatchEmployers = REQUIRED_REGIONAL_EDUCATION_WATCH_EMPLOYERS
     .filter((employer) => !watchedRegionalEmployers.some((watched) => String(watched).includes(employer) || employer.includes(String(watched))));
-  fail(`${label}.sources.job-alio-ok`, Boolean(jobAlioStatus?.ok), `${label} 잡알리오 공식 채용 수집원이 정상 동작합니다.`, jobAlioStatus?.message || '');
-  fail(`${label}.sources.job-alio-expanded-scan`, Number(jobAlioStatus?.scanTargetCount || 0) >= 10 && Number(jobAlioStatus?.candidateRowCount || 0) >= requiredCritical.length, `${label} 잡알리오는 첫 페이지만이 아니라 검색어·핵심기관 경로를 함께 훑습니다.`, `scanTarget=${jobAlioStatus?.scanTargetCount || 0}, candidate=${jobAlioStatus?.candidateRowCount || 0}`);
+  const jobAlioItemCount = items.filter((item) => item.source === 'job-alio-openapi').length;
+  const jobAlioFallbackProtected = jobAlioItemCount > 0 || Number(summary.staleFallbackItems || 0) > 0;
+  const jobAlioLiveOk = Boolean(jobAlioStatus?.ok);
+  fail(`${label}.sources.job-alio-ok`, jobAlioLiveOk || jobAlioFallbackProtected, `${label} 잡알리오 공식 채용 수집원이 정상 동작하거나 직전 정상 공고를 보존합니다.`, jobAlioStatus?.message || `보존 항목 ${jobAlioItemCount}건`);
+  warn(`${label}.sources.job-alio-live-reachable`, jobAlioLiveOk, `${label} 잡알리오 공식 채용 실시간 접속 상태를 확인합니다.`, jobAlioStatus?.message || '');
+  fail(`${label}.sources.job-alio-expanded-scan`, jobAlioLiveOk
+    ? Number(jobAlioStatus?.scanTargetCount || 0) >= 10 && Number(jobAlioStatus?.candidateRowCount || 0) >= requiredCritical.length
+    : jobAlioFallbackProtected, `${label} 잡알리오는 검색어·핵심기관 경로를 훑거나 일시 장애 시 기존 정상 공고를 보존합니다.`, `scanTarget=${jobAlioStatus?.scanTargetCount || 0}, candidate=${jobAlioStatus?.candidateRowCount || 0}, preserved=${jobAlioItemCount}`);
   fail(`${label}.sources.job-alio-critical-coverage`, (jobAlioStatus?.criticalCoverage?.missingCurrent || []).length === 0, `${label} 잡알리오 핵심 공고 감시 대상 누락이 없습니다.`, (jobAlioStatus?.criticalCoverage?.missingCurrent || []).map((job) => `${job.company}:${job.idx}`).join(', '));
   fail(`${label}.sources.finance-large-company-ok`, Boolean(financeLargeCompanyStatus?.ok), `${label} 금융권·대기업 공식 채용 페이지 감시원이 정상 동작합니다.`, financeLargeCompanyStatus?.message || '');
   fail(`${label}.sources.finance-large-company-watch-count`, Number(financeLargeCompanyStatus?.watchEmployerCount || 0) >= MIN_FINANCE_LARGE_COMPANY_WATCH_COUNT && Number(financeLargeCompanyStatus?.builtInFeedCount || 0) >= MIN_FINANCE_LARGE_COMPANY_WATCH_COUNT, `${label} 대기업·1금융·2금융 공식 채용 감시 대상이 충분합니다.`, `watch=${financeLargeCompanyStatus?.watchEmployerCount || 0}, builtIn=${financeLargeCompanyStatus?.builtInFeedCount || 0}`);
