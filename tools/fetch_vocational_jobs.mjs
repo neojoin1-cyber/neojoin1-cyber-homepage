@@ -19,6 +19,7 @@ const CHECKED_AT = NOW.toISOString();
 const MAX_ITEMS = 40;
 const REQUEST_TIMEOUT_MS = 18000;
 const DETAIL_FETCH_CONCURRENCY = 6;
+const JOB_ALIO_LIST_FETCH_CONCURRENCY = 8;
 const APPLICATION_CLOSED_RETAIN_DAYS = 21;
 const JOB_ALIO_SCAN_LIMIT = 220;
 const JOB_ALIO_SCAN_PAGES = 6;
@@ -3812,7 +3813,7 @@ async function fetchJobAlioRecruit() {
   let scannedCount = 0;
   let scanTargetCount = 0;
 
-  for (const target of makeJobAlioScanTargets()) {
+  await mapWithConcurrency(makeJobAlioScanTargets(), JOB_ALIO_LIST_FETCH_CONCURRENCY, async (target) => {
     try {
       const html = await fetchWithTimeout(target.url);
       const rows = parseJobAlioRows(html);
@@ -3829,7 +3830,7 @@ async function fetchJobAlioRecruit() {
     } catch (error) {
       errors.push(`${target.id}: ${sanitizeFetchErrorMessage(error.message)}`);
     }
-  }
+  });
 
   for (const item of activeCriticalJobAlioItems()) {
     upsertJobAlioRow(rowsByIdx, {
@@ -4584,13 +4585,14 @@ function buildCollectionReview(items, sourceStatusList, criticalCoverage = build
 
 async function main() {
   const previousItems = await readPreviousItems();
-  const results = [];
-  results.push(await fetchMpmPublicJob());
-  results.push(await fetchMoefPublicRecruit());
-  results.push(await fetchWork24OpenRecruit());
-  results.push(await fetchJobAlioRecruit());
-  results.push(await fetchSeoulHighJobRecruit());
-  results.push(await fetchSaraminJobSearch());
+  const results = await Promise.all([
+    fetchMpmPublicJob(),
+    fetchMoefPublicRecruit(),
+    fetchWork24OpenRecruit(),
+    fetchJobAlioRecruit(),
+    fetchSeoulHighJobRecruit(),
+    fetchSaraminJobSearch()
+  ]);
   results.push(...await pendingCatalogSources());
 
   const sourceStatusList = results.map((result) => result.status);
