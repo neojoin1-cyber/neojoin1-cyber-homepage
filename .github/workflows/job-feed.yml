@@ -4,10 +4,24 @@ on:
   schedule:
     # 09:10, 14:10, 23:10 KST
     - cron: "10 0,5,14 * * *"
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/job-feed.yml"
+      - "tools/fetch_vocational_jobs.mjs"
+      - "tools/verify_platform_reliability.mjs"
+      - "index.html"
+      - "docs/JOB_FEED_AUTOMATION.md"
+      - "docs/JOB_FEED_SECRET_SETUP_SIMPLE.md"
   workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: vocational-job-feed
+  cancel-in-progress: false
 
 jobs:
   update:
