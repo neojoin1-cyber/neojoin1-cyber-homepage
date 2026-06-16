@@ -21,11 +21,12 @@ permissions:
 
 concurrency:
   group: vocational-job-feed
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v5
