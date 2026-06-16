@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "generatedAt": "2026-06-16T06:43:22.470Z",
+  "generatedAt": "2026-06-16T07:00:12.617Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "mode": "official-public-recruit-auto-registration",
@@ -23,22 +23,22 @@
     "lateDetected": 26,
     "missedReviewNeeded": 35,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 0,
+    "staleFallbackItems": 40,
     "sourcesChecked": 15,
-    "sourcesConfigured": 4,
-    "sourcesReady": 4,
-    "sourcesMissingSetup": 11,
-    "note": "공채 첫날 수집을 최우선으로 점검하고, 공식 공고 2중 확인 중심으로 취업부 브리핑을 자동 생성했습니다."
+    "sourcesConfigured": 6,
+    "sourcesReady": 6,
+    "sourcesMissingSetup": 9,
+    "note": "현재 실행에서 신규 수집이 0건이라 직전 정상 공고를 임시 보존하고 공식 소스 점검이 필요합니다."
   },
   "collectionReview": {
     "status": "review_needed",
-    "generatedAt": "2026-06-16T06:43:22.470Z",
+    "generatedAt": "2026-06-16T07:00:12.617Z",
     "firstDayGoal": "공채는 게시 첫날 수집을 목표로 하며, 늦게 발견된 공고는 누락 점검 대상으로 기록한다.",
     "missedReviewCount": 12,
     "officialNoticePendingCount": 0,
     "regionalEducationOfficialCount": 0,
     "regionalEducationDirectDisplayCount": 0,
-    "sourceGapCount": 11,
+    "sourceGapCount": 10,
     "criticalGapCount": 0,
     "missedReviewItems": [
       {
@@ -178,25 +178,18 @@
     "regionalEducationItems": [],
     "sourceGaps": [
       {
-        "id": "mpm-public-job",
-        "name": "인사혁신처 공공취업정보",
-        "readiness": "active",
-        "configured": false,
-        "message": "GitHub Secret MPM_PUBLIC_JOB_SERVICE_KEY 또는 DATA_GO_KR_SERVICE_KEY 미설정"
-      },
-      {
-        "id": "moef-public-recruit",
-        "name": "기재부 공공기관 채용정보",
-        "readiness": "active",
-        "configured": false,
-        "message": "GitHub Secret MOEF_PUBLIC_RECRUIT_SERVICE_KEY 또는 DATA_GO_KR_SERVICE_KEY 미설정"
-      },
-      {
         "id": "work24-open-recruit",
         "name": "고용24 공채속보",
         "readiness": "active",
         "configured": false,
         "message": "GitHub Secret WORK24_AUTH_KEY 또는 WORKNET_AUTH_KEY 미설정"
+      },
+      {
+        "id": "job-alio-openapi",
+        "name": "잡알리오 공공기관 채용",
+        "readiness": "active",
+        "configured": true,
+        "message": "연결 실패: recent-page-1: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-2: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT"
       },
       {
         "id": "saramin-job-search",
@@ -256,7 +249,7 @@
       }
     ],
     "criticalCoverage": {
-      "checkedAt": "2026-06-16T06:43:22.470Z",
+      "checkedAt": "2026-06-16T07:00:12.617Z",
       "watchInstitutionCount": 38,
       "currentRequiredCount": 0,
       "coveredCurrent": [],
@@ -272,11 +265,11 @@
   },
   "secretReadiness": {
     "status": "needs_secrets_or_official_feeds",
-    "generatedAt": "2026-06-16T06:43:22.470Z",
+    "generatedAt": "2026-06-16T07:00:12.617Z",
     "totalSources": 15,
-    "readySources": 4,
+    "readySources": 6,
     "partialSources": 0,
-    "missingSources": 11,
+    "missingSources": 9,
     "sources": [
       {
         "id": "mpm-public-job",
@@ -290,17 +283,18 @@
           "NARAILTER_API_KEY"
         ],
         "optionalSecretNames": [],
-        "configuredSecretNames": [],
+        "configuredSecretNames": [
+          "MPM_PUBLIC_JOB_SERVICE_KEY"
+        ],
         "configuredOptionalSecretNames": [],
         "missingSecretNames": [
-          "MPM_PUBLIC_JOB_SERVICE_KEY",
           "DATA_GO_KR_SERVICE_KEY",
           "NARAILTER_API_KEY"
         ],
         "configuredFeedCount": 0,
         "builtInFeedCount": 0,
-        "setupStatus": "missing",
-        "canAttemptImmediately": false,
+        "setupStatus": "ready",
+        "canAttemptImmediately": true,
         "adapter": "native",
         "actionLabel": "인사혁신처 공공취업 API 키 등록",
         "impact": "나라일터 계열 국가기관·지방자치단체·교육청·공공기관 채용 후보를 확보한다.",
@@ -322,16 +316,17 @@
           "DATA_GO_KR_SERVICE_KEY"
         ],
         "optionalSecretNames": [],
-        "configuredSecretNames": [],
+        "configuredSecretNames": [
+          "MOEF_PUBLIC_RECRUIT_SERVICE_KEY"
+        ],
         "configuredOptionalSecretNames": [],
         "missingSecretNames": [
-          "MOEF_PUBLIC_RECRUIT_SERVICE_KEY",
           "DATA_GO_KR_SERVICE_KEY"
         ],
         "configuredFeedCount": 0,
         "builtInFeedCount": 0,
-        "setupStatus": "missing",
-        "canAttemptImmediately": false,
+        "setupStatus": "ready",
+        "canAttemptImmediately": true,
         "adapter": "native",
         "actionLabel": "기재부 공공기관 채용 API 키 등록",
         "impact": "공공기관 채용공시 목록·상세를 구조화해 잡알리오 축을 보강한다.",
@@ -727,39 +722,6 @@
     ],
     "priorityQueue": [
       {
-        "id": "mpm-public-job",
-        "name": "인사혁신처 공공취업정보",
-        "priority": "P0",
-        "actionLabel": "인사혁신처 공공취업 API 키 등록",
-        "missingSecretNames": [
-          "MPM_PUBLIC_JOB_SERVICE_KEY",
-          "DATA_GO_KR_SERVICE_KEY",
-          "NARAILTER_API_KEY"
-        ],
-        "setupHint": "공공데이터포털 인사혁신처 공공취업정보 조회 서비스 확인",
-        "easySteps": [
-          "공공데이터포털에서 발급받은 인증키를 MPM_PUBLIC_JOB_SERVICE_KEY Secret에 저장한다.",
-          "같은 공공데이터포털 키를 공통으로 쓰는 경우 DATA_GO_KR_SERVICE_KEY에도 저장할 수 있다.",
-          "API 명세 경로가 바뀌면 NARAILTER_API_URL에 공식 URL을 저장해 우선 점검한다."
-        ]
-      },
-      {
-        "id": "moef-public-recruit",
-        "name": "기재부 공공기관 채용정보",
-        "priority": "P0",
-        "actionLabel": "기재부 공공기관 채용 API 키 등록",
-        "missingSecretNames": [
-          "MOEF_PUBLIC_RECRUIT_SERVICE_KEY",
-          "DATA_GO_KR_SERVICE_KEY"
-        ],
-        "setupHint": "공공데이터포털 기재부 공공기관 채용정보 조회서비스 확인",
-        "easySteps": [
-          "공공데이터포털에서 발급받은 인증키를 MOEF_PUBLIC_RECRUIT_SERVICE_KEY Secret에 저장한다.",
-          "같은 공공데이터포털 키를 공통으로 쓰는 경우 DATA_GO_KR_SERVICE_KEY에도 저장할 수 있다.",
-          "자동 수집 후 회사·기관 또는 채용대행 공식 공고 URL을 2중 확인한다."
-        ]
-      },
-      {
         "id": "work24-open-recruit",
         "name": "고용24 공채속보",
         "priority": "P0",
@@ -904,30 +866,26 @@
       }
     ],
     "easiestNextAction": {
-      "id": "mpm-public-job",
-      "name": "인사혁신처 공공취업정보",
+      "id": "work24-open-recruit",
+      "name": "고용24 공채속보",
       "priority": "P0",
-      "actionLabel": "인사혁신처 공공취업 API 키 등록",
+      "actionLabel": "고용24 인증키 등록",
       "missingSecretNames": [
-        "MPM_PUBLIC_JOB_SERVICE_KEY",
-        "DATA_GO_KR_SERVICE_KEY",
-        "NARAILTER_API_KEY"
+        "WORK24_AUTH_KEY",
+        "WORKNET_AUTH_KEY"
       ],
-      "setupHint": "공공데이터포털 인사혁신처 공공취업정보 조회 서비스 확인",
+      "setupHint": "공식 API 또는 허용된 피드 경로 확인 필요",
       "easySteps": [
-        "공공데이터포털에서 발급받은 인증키를 MPM_PUBLIC_JOB_SERVICE_KEY Secret에 저장한다.",
-        "같은 공공데이터포털 키를 공통으로 쓰는 경우 DATA_GO_KR_SERVICE_KEY에도 저장할 수 있다.",
-        "API 명세 경로가 바뀌면 NARAILTER_API_URL에 공식 URL을 저장해 우선 점검한다."
+        "공공데이터 또는 고용24 OPEN-API 인증키를 확보한다.",
+        "GitHub 저장소 Settings > Secrets and variables > Actions로 이동한다.",
+        "New repository secret에서 WORK24_AUTH_KEY 또는 WORKNET_AUTH_KEY 이름으로 저장한다."
       ]
     },
     "nextSecretNames": [
-      "MPM_PUBLIC_JOB_SERVICE_KEY",
-      "DATA_GO_KR_SERVICE_KEY",
-      "NARAILTER_API_KEY",
-      "MOEF_PUBLIC_RECRUIT_SERVICE_KEY",
       "WORK24_AUTH_KEY",
       "WORKNET_AUTH_KEY",
       "SARAMIN_ACCESS_KEY",
+      "NARAILTER_API_KEY",
       "NARAILTER_API_URL",
       "MILITARY_RECRUIT_API_KEY",
       "MILITARY_RECRUIT_API_URL",
@@ -1106,11 +1064,16 @@
         "NARAILTER_API_KEY"
       ],
       "readiness": "active",
-      "configured": false,
-      "ok": false,
-      "checkedAt": "2026-06-16T06:43:22.470Z",
+      "configured": true,
+      "ok": true,
+      "checkedAt": "2026-06-16T07:00:12.617Z",
       "itemCount": 0,
-      "message": "GitHub Secret MPM_PUBLIC_JOB_SERVICE_KEY 또는 DATA_GO_KR_SERVICE_KEY 미설정"
+      "message": "인사혁신처 공공취업 API 342건 점검, 후보 0건, 공식분류 조회 17회",
+      "scannedCount": 342,
+      "rawItemCount": 342,
+      "firstDayCandidates": 0,
+      "missedReviewNeeded": 0,
+      "resolvedEndpoint": "https://apis.data.go.kr/1760000/PblJobService/getList"
     },
     {
       "id": "moef-public-recruit",
@@ -1124,11 +1087,15 @@
         "DATA_GO_KR_SERVICE_KEY"
       ],
       "readiness": "active",
-      "configured": false,
-      "ok": false,
-      "checkedAt": "2026-06-16T06:43:22.470Z",
-      "itemCount": 0,
-      "message": "GitHub Secret MOEF_PUBLIC_RECRUIT_SERVICE_KEY 또는 DATA_GO_KR_SERVICE_KEY 미설정"
+      "configured": true,
+      "ok": true,
+      "checkedAt": "2026-06-16T07:00:12.617Z",
+      "itemCount": 5,
+      "message": "기재부 공공기관 채용 API 10건 점검, 후보 5건, 공식 공고 접속확인 2건, 호출방식 page,perPage,returnType",
+      "scannedCount": 10,
+      "rawItemCount": 10,
+      "firstDayCandidates": 4,
+      "missedReviewNeeded": 1
     },
     {
       "id": "work24-open-recruit",
@@ -1144,7 +1111,7 @@
       "readiness": "active",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-16T06:43:22.470Z",
+      "checkedAt": "2026-06-16T07:00:12.617Z",
       "itemCount": 0,
       "message": "GitHub Secret WORK24_AUTH_KEY 또는 WORKNET_AUTH_KEY 미설정"
     },
@@ -1158,23 +1125,23 @@
       "requiredSecrets": [],
       "readiness": "active",
       "configured": true,
-      "ok": true,
-      "checkedAt": "2026-06-16T06:43:22.470Z",
-      "itemCount": 83,
-      "message": "공식 공개 원문 223건/187후보 점검, 검색경로 54개, 공식 공고 확인 75건, 핵심공고 누락 0건",
-      "scannedCount": 223,
-      "scanTargetCount": 54,
-      "candidateRowCount": 187,
-      "rawItemCount": 187,
+      "ok": false,
+      "checkedAt": "2026-06-16T07:00:12.617Z",
+      "itemCount": 0,
+      "message": "연결 실패: recent-page-1: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-2: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT",
+      "scannedCount": 0,
+      "scanTargetCount": 0,
+      "candidateRowCount": 0,
+      "rawItemCount": 0,
       "criticalCoverage": {
-        "checkedAt": "2026-06-16T06:43:22.470Z",
+        "checkedAt": "2026-06-16T07:00:12.617Z",
         "watchInstitutionCount": 38,
         "currentRequiredCount": 0,
         "coveredCurrent": [],
         "missingCurrent": []
       },
-      "firstDayCandidates": 16,
-      "missedReviewNeeded": 67
+      "firstDayCandidates": 0,
+      "missedReviewNeeded": 0
     },
     {
       "id": "seoul-highjob",
@@ -1187,7 +1154,7 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-06-16T06:43:22.470Z",
+      "checkedAt": "2026-06-16T07:00:12.617Z",
       "itemCount": 0,
       "message": "서울 하이잡 공식 목록 20건 점검, 보조검증 후보 0건, 공식 공고 확인 0건, 첫날 수집 0건, 누락점검 0건",
       "verificationItemCount": 0,
@@ -1209,7 +1176,7 @@
       "readiness": "active",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-16T06:43:22.470Z",
+      "checkedAt": "2026-06-16T07:00:12.617Z",
       "itemCount": 0,
       "message": "GitHub Secret SARAMIN_ACCESS_KEY 미설정"
     },
@@ -1229,9 +1196,9 @@
       "readiness": "pending",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-06-16T06:43:22.470Z",
+      "checkedAt": "2026-06-16T07:00:12.617Z",
       "itemCount": 0,
-      "message": "공식 채용 페이지 41/41개 감시, 표시후보 0건, 보조검증 후보 0건, 접속확인전용 2개, 실패 0개",
+      "message": "공식 채용 페이지 37/41개 감시, 표시후보 0건, 보조검증 후보 0건, 접속확인전용 0개, 실패 4개",
       "verificationItemCount": 0,
       "scannedCount": 0,
       "configuredFeedCount": 0,
@@ -1279,14 +1246,16 @@
         "신협",
         "저축은행중앙회"
       ],
-      "checkedUrlCount": 41,
-      "reachabilityOnlyCount": 2,
-      "reachabilityOnlyEmployers": [
-        "NH농협은행",
-        "IBK기업은행"
-      ],
-      "failedUrlCount": 0,
-      "watchFailures": []
+      "checkedUrlCount": 37,
+      "reachabilityOnlyCount": 0,
+      "reachabilityOnlyEmployers": [],
+      "failedUrlCount": 4,
+      "watchFailures": [
+        "SK하이닉스: HTTP timeout after 15000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT",
+        "NH농협은행: external client failed: Command failed: curl -L --silent --show-error --max-time 15 -X GET -H User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125 Sa",
+        "IBK기업은행: external client failed: Command failed: curl -L --silent --show-error --max-time 11 -X GET -H User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125 Sa",
+        "저축은행중앙회: HTTP timeout after 15000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT"
+      ]
     },
     {
       "id": "gojobs-narailter",
@@ -1302,7 +1271,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-16T06:43:22.470Z",
+      "checkedAt": "2026-06-16T07:00:12.617Z",
       "itemCount": 0,
       "message": "인사혁신처 나라일터 공식 API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -1320,7 +1289,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-16T06:43:22.470Z",
+      "checkedAt": "2026-06-16T07:00:12.617Z",
       "itemCount": 0,
       "message": "국방부·각 군 공식 모집/채용 공고 데이터 경로 확인 후 연결"
     },
@@ -1338,7 +1307,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-16T06:43:22.470Z",
+      "checkedAt": "2026-06-16T07:00:12.617Z",
       "itemCount": 0,
       "message": "잡코리아 공식 제휴 또는 이용 허가된 API 확인 후 연결"
     },
@@ -1356,7 +1325,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-16T06:43:22.470Z",
+      "checkedAt": "2026-06-16T07:00:12.617Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -1374,7 +1343,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-16T06:43:22.470Z",
+      "checkedAt": "2026-06-16T07:00:12.617Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -1392,7 +1361,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-16T06:43:22.470Z",
+      "checkedAt": "2026-06-16T07:00:12.617Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -1409,11 +1378,11 @@
       "readiness": "pending",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-06-16T06:43:22.470Z",
+      "checkedAt": "2026-06-16T07:00:12.617Z",
       "itemCount": 0,
-      "message": "공식 채용 페이지 9/9개 감시, 표시후보 0건, 보조검증 후보 2건, 접속확인전용 0개, 실패 0개",
+      "message": "공식 채용 페이지 8/9개 감시, 표시후보 0건, 보조검증 후보 2건, 접속확인전용 0개, 실패 1개",
       "verificationItemCount": 2,
-      "scannedCount": 34,
+      "scannedCount": 26,
       "configuredFeedCount": 0,
       "builtInFeedCount": 9,
       "watchEmployerCount": 9,
@@ -1428,11 +1397,13 @@
         "경상남도교육청 취업지원센터",
         "부산광역시교육청 취업지원센터"
       ],
-      "checkedUrlCount": 9,
+      "checkedUrlCount": 8,
       "reachabilityOnlyCount": 0,
       "reachabilityOnlyEmployers": [],
-      "failedUrlCount": 0,
-      "watchFailures": []
+      "failedUrlCount": 1,
+      "watchFailures": [
+        "울산광역시교육청 취업지원센터: external client failed: Command failed: curl -L --silent --show-error --max-time 14 -X GET -H User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125 Sa"
+      ]
     },
     {
       "id": "nonprofit-recruit",
@@ -1448,7 +1419,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-06-16T06:43:22.470Z",
+      "checkedAt": "2026-06-16T07:00:12.617Z",
       "itemCount": 0,
       "message": "비영리기관 공식 채용 공고 경로와 이용 조건 확인 후 연결"
     }
@@ -1496,7 +1467,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301466"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-09T14:59:59.000Z",
       "publishedDate": "2026-06-09",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -1546,7 +1517,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다.",
+      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -1636,7 +1607,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "ca3122c930e71df4de",
@@ -1676,7 +1648,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301258"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -1726,7 +1698,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다.",
+      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -1815,7 +1787,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "db0e5f104a36a9a25d",
@@ -1859,7 +1832,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301492"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-09T14:59:59.000Z",
       "publishedDate": "2026-06-09",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -1909,7 +1882,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다.",
+      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -1999,7 +1972,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "945ee9af33fd7f5e85",
@@ -2043,7 +2017,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301499"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-09T14:59:59.000Z",
       "publishedDate": "2026-06-09",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -2093,7 +2067,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다.",
+      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -2183,7 +2157,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "3a2029a3f243182670",
@@ -2227,7 +2202,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301574"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-11T14:59:59.000Z",
       "publishedDate": "2026-06-11",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -2277,7 +2252,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다.",
+      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -2367,7 +2342,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "02f84ee6bceabc2a5e",
@@ -2411,7 +2387,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301528"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-10T14:59:59.000Z",
       "publishedDate": "2026-06-10",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -2461,7 +2437,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다.",
+      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -2551,7 +2527,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "9ebed1776327f2aa7e",
@@ -2595,7 +2572,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301540"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-10T14:59:59.000Z",
       "publishedDate": "2026-06-10",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -2645,7 +2622,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다.",
+      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -2735,7 +2712,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "709e5641c2e89fd8eb",
@@ -2779,7 +2757,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301541"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-10T14:59:59.000Z",
       "publishedDate": "2026-06-10",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -2829,7 +2807,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다.",
+      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -2919,7 +2897,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "ffbd9155b4b6f706e7",
@@ -2963,7 +2942,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301582"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-11T14:59:59.000Z",
       "publishedDate": "2026-06-11",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -3013,7 +2992,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다.",
+      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -3103,7 +3082,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "19e1edd66522315ef3",
@@ -3147,7 +3127,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301611"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-12T14:59:59.000Z",
       "publishedDate": "2026-06-12",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -3197,7 +3177,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다.",
+      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -3287,7 +3267,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "084a938435d47f0ee4",
@@ -3339,7 +3320,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301322"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-04T14:59:59.000Z",
       "publishedDate": "2026-06-04",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -3390,7 +3371,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -3496,7 +3477,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "8b8188c4da45d1cd9b",
@@ -3540,7 +3522,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301421"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-08T14:59:59.000Z",
       "publishedDate": "2026-06-08",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -3590,7 +3572,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -3692,7 +3674,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "637efe3d2b0dedcbcb",
@@ -3736,7 +3719,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301446"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-08T14:59:59.000Z",
       "publishedDate": "2026-06-08",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -3787,7 +3770,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -3889,7 +3872,8 @@
         "학력무관,고졸",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "6704e2e987c213f314",
@@ -3937,7 +3921,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301386"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-08T14:59:59.000Z",
       "publishedDate": "2026-06-08",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -3987,7 +3971,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -4091,7 +4075,8 @@
         "고졸",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "8a45afa8bee7aa9dba",
@@ -4139,7 +4124,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301583"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-11T14:59:59.000Z",
       "publishedDate": "2026-06-11",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -4189,7 +4174,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -4293,7 +4278,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "69feca504ab4beb347",
@@ -4345,7 +4331,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301710"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-16T14:59:59.000Z",
       "publishedDate": "2026-06-16",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -4395,7 +4381,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -4501,7 +4487,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "c88eb686b928dec1b3",
@@ -4549,7 +4536,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301644"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-15T14:59:59.000Z",
       "publishedDate": "2026-06-15",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -4599,7 +4586,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -4703,7 +4690,200 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
+    },
+    {
+      "id": "c533d07561445c0de5",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "sourceId": "301712",
+      "title": "공간정보품질관리원 2026년 제2차 기간제근로자 채용 공고",
+      "baseTitle": "공간정보품질관리원 2026년 제2차 기간제근로자 채용 공고",
+      "company": "공간정보품질관리원",
+      "region": "서울,경기",
+      "education": "학력무관",
+      "career": "신입+경력",
+      "employmentType": "비정규직",
+      "recruitField": "행정직,사무직,기술직",
+      "recruitNumber": "",
+      "applicationMethod": "",
+      "contact": "",
+      "attachments": [
+        {
+          "title": "(붙임A1) 채용 공고문v9.hwp",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3056181"
+        },
+        {
+          "title": "공고문: (붙임A2) 입사지원서v2.hwp",
+          "url": "https://www.alio.go.kr/download/download.json?fileNo=3056182"
+        }
+      ],
+      "detailText": "행정직,사무직,기술직 ㅇ 공통자격요건 - 공간정보품질관리원 인사규정의 - 취업지원대상자: 각 전형별 5% 또는 10% - 등록 장애인: 각 전형별 5% - 기초생활수급자: 서류전형 5% - 다문화가족: 서류전형 5% - 북한이탈주민: 서류전형 5% - 자립준비청년: 서류전형 5% - 1차. 서류전형: 지원자 전원 지원자격 및 적·부 판정, 계량·비계량 평가(5배수) - 2차. 필기전형: 인성검사 평가(적·부 판단) - 3차. 면접전형: 능력·인성 및 적격성 평가(1배수) ※ 자세한 내용은 채용 (붙임A1) 채용 공고문v9.hwp 공고문: (붙임A2) 입사지원서v2.hwp 진행중 잡알리오 공공기관 채용",
+      "deadline": "2026-06-30",
+      "deadlineText": "26.06.30 마감",
+      "url": "https://www.siqms.or.kr/M2001000/board_view.do?idx=409869",
+      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=301712",
+      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301712",
+      "companyNoticeUrl": "https://www.siqms.or.kr/M2001000/board_view.do?idx=409869",
+      "primaryOfficialUrl": "https://www.siqms.or.kr/M2001000/board_view.do?idx=409869",
+      "officialNoticePriority": "company-or-agency-notice-first",
+      "supplementarySourceUrls": [
+        "https://job.alio.go.kr/recruitview.do?idx=301712",
+        "https://www.data.go.kr/data/15125273/openapi.do"
+      ],
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
+      "publishedAt": "2026-06-16T14:59:59.000Z",
+      "publishedDate": "2026-06-16",
+      "firstSeenAt": "2026-06-16T06:43:22.470Z",
+      "firstSeenDate": "2026-06-16",
+      "collectionAudit": {
+        "policy": "public-recruit-first-day-collection",
+        "publishedAt": "2026-06-16T14:59:59.000Z",
+        "publishedDate": "2026-06-16",
+        "firstSeenAt": "2026-06-16T06:43:22.470Z",
+        "firstSeenDate": "2026-06-16",
+        "detectionLagDays": 0,
+        "firstDayCollected": true,
+        "missedReviewNeeded": false,
+        "firstDayStatus": "first_day",
+        "note": "공고 게시 첫날 자동 수집 대상입니다."
+      },
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "exam-formal",
+      "processTrackName": "필기·공식전형",
+      "writtenExam": "confirmed",
+      "processConfidence": "high",
+      "processLabels": [
+        "공공기관",
+        "필기 확인"
+      ],
+      "processNote": "필기시험 또는 공식 선발 절차가 원문 키워드에서 확인됩니다.",
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "sourceVerification": {
+        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301712",
+        "companyNoticeUrl": "https://www.siqms.or.kr/M2001000/board_view.do?idx=409869",
+        "primaryOfficialUrl": "https://www.siqms.or.kr/M2001000/board_view.do?idx=409869",
+        "officialNoticePriority": "company-or-agency-notice-first",
+        "companyNoticeCheckStatus": "content_matched",
+        "companyNoticeReachable": true,
+        "companyNoticeMatched": true,
+        "companyNoticeCheckedAt": "2026-06-16T06:43:22.470Z",
+        "doubleCheckStatus": "company_notice_confirmed",
+        "doubleCheckLabel": "공식 공고 2중확인",
+        "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
+      },
+      "servicePriority": "primary-public-recruit",
+      "servicePolicyLabel": "공채 상세",
+      "detailLevel": "detailed-public-recruit",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
+      "publicRecruitDetails": {
+        "companyNotice": "회사·기관 공식 공고 확인",
+        "sourceCheck": "공식 공고 2중확인",
+        "hiring": "행정직,사무직,기술직",
+        "eligibility": "학력무관 · 신입+경력",
+        "process": "- 1차. 서류전형: 지원자 전원 지원자격 및 적·부 판정, 계량·비계량 평가(5배수) - 2차. 필기전형: 인성검사 평가(적·부 판단) - 3차. 면접전형: 능력·인성 및 적격성 평가(1배수) ※ 자세한 내용은 채용",
+        "application": "26.06.30 마감",
+        "attachments": [
+          "(붙임A1) 채용 공고문v9.hwp",
+          "공고문: (붙임A2) 입사지원서v2.hwp"
+        ]
+      },
+      "teacherBriefing": {
+        "version": 1,
+        "generator": "official-source-briefing-v1",
+        "label": "취업부 공채 브리핑",
+        "detailLevel": "detailed-public-recruit",
+        "headline": "공간정보품질관리원 - 공간정보품질관리원 2026년 제2차 기간제근로자 채용 공고",
+        "summaryLines": [
+          "공간정보품질관리원 공채·공식전형",
+          "채용부문: 행정직,사무직,기술직",
+          "학력·자격: ㅇ 공통자격요건 - 공간정보품질관리원 인사규정의",
+          "근무지: 서울,경기",
+          "고용형태: 비정규직"
+        ],
+        "scheduleLines": [
+          "원서접수: 26.06.30 마감",
+          "전형절차: - 1차. 서류전형: 지원자 전원 지원자격 및 적·부 판정, 계량·비계량 평가(5배수) - 2차. 필기전형: 인성검사 평가(적·부 판단) - 3차. 면접전형: 능력·인성 및 적격성 평가(1배수) ※ 자세한 내용은 채용",
+          "필기전형: 자격 및 적·부 판정, 계량·비계량 평가(5배수) - 2차. 필기전형: 인성검사 평가(적·부 판단) - 3차. 면접전형: 능력·인성 및 적격성 평가(1배수) ※ 자세한 내용은 채용 행정직,사무직,기술직 ㅇ 공통자격…",
+          "면접전형: - 2차. 필기전형: 인성검사 평가(적·부 판단) - 3차. 면접전형: 능력·인성 및 적격성 평가(1배수) ※ 자세한 내용은 채용 행정직,사무직,기술직 ㅇ 공통자격요건 - 공간정보품질관리원 인사규정의 - 취업지원대…",
+          "발표·임용: 합격자 발표·임용일 자동 추출 대기"
+        ],
+        "examSubjects": [
+          "필기전형 있음 - 과목은 원문 확인"
+        ],
+        "schoolCheckSections": [
+          {
+            "title": "학교장 추천 필요 여부 원문 확인",
+            "text": "학교장 추천 요구 신호는 감지되지 않았으며, 다음 자동 수집에서 추천 관련 문구를 계속 대조합니다."
+          },
+          {
+            "title": "지원 가능 학년·졸업예정 기준 확인",
+            "text": "ㅇ 공통자격요건 - 공간정보품질관리원 인사규정의"
+          },
+          {
+            "title": "공고문·입사지원서·직무기술서 첨부 확보",
+            "text": "(붙임A1) 채용 공고문v9.hwp · 공고문: (붙임A2) 입사지원서v2.hwp"
+          },
+          {
+            "title": "필기/NCS 대비 일정 안내",
+            "text": "필기전형 있음 - 과목은 원문 확인"
+          }
+        ],
+        "schoolActionItems": [
+          "공식 공고 2중확인",
+          "학교장 추천 필요 여부 원문 확인: 학교장 추천 요구 신호는 감지되지 않았으며, 다음 자동 수집에서 추천 관련 문구를 계속 대조합니다.",
+          "지원 가능 학년·졸업예정 기준 확인: ㅇ 공통자격요건 - 공간정보품질관리원 인사규정의",
+          "공고문·입사지원서·직무기술서 첨부 확보: (붙임A1) 채용 공고문v9.hwp · 공고문: (붙임A2) 입사지원서v2.hwp",
+          "필기/NCS 대비 일정 안내: 필기전형 있음 - 과목은 원문 확인",
+          "공고 게시 첫날 수집 기록"
+        ],
+        "studentActionItems": [
+          "원서접수 마감 전 지원계정·제출서류 확인",
+          "NCS·직무능력·인적성 대비",
+          "자기소개서·경험기술서 초안 작성",
+          "근무지·고용형태·임용예정일 확인"
+        ],
+        "sourceLines": [
+          "공식 원문: https://www.siqms.or.kr/M2001000/board_view.do?idx=409869",
+          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=301712",
+          "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다.",
+          "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다."
+        ],
+        "attachmentLines": [
+          "(붙임A1) 채용 공고문v9.hwp: https://www.alio.go.kr/download/download.json?fileNo=3056181",
+          "공고문: (붙임A2) 입사지원서v2.hwp: https://www.alio.go.kr/download/download.json?fileNo=3056182"
+        ],
+        "teacherShareText": "[공간정보품질관리원]\n- 고졸(예정) 공채·공식전형\n\n[채용부문]\n- 공간정보품질관리원 공채·공식전형\n- 채용부문: 행정직,사무직,기술직\n- 학력·자격: ㅇ 공통자격요건 - 공간정보품질관리원 인사규정의\n- 근무지: 서울,경기\n- 고용형태: 비정규직\n\n[전형일정]\n- 원서접수: 26.06.30 마감\n- 전형절차: - 1차. 서류전형: 지원자 전원 지원자격 및 적·부 판정, 계량·비계량 평가(5배수) - 2차. 필기전형: 인성검사 평가(적·부 판단) - 3차. 면접전형: 능력·인성 및 적격성 평가(1배수) ※ 자세한 내용은 채용\n- 필기전형: 자격 및 적·부 판정, 계량·비계량 평가(5배수) - 2차. 필기전형: 인성검사 평가(적·부 판단) - 3차. 면접전형: 능력·인성 및 적격성 평가(1배수) ※ 자세한 내용은 채용 행정직,사무직,기술직 ㅇ 공통자격…\n- 면접전형: - 2차. 필기전형: 인성검사 평가(적·부 판단) - 3차. 면접전형: 능력·인성 및 적격성 평가(1배수) ※ 자세한 내용은 채용 행정직,사무직,기술직 ㅇ 공통자격요건 - 공간정보품질관리원 인사규정의 - 취업지원대…\n- 발표·임용: 합격자 발표·임용일 자동 추출 대기\n\n[학교 확인]\n- 학교장 추천 필요 여부 원문 확인: 학교장 추천 요구 신호는 감지되지 않았으며, 다음 자동 수집에서 추천 관련 문구를 계속 대조합니다.\n- 지원 가능 학년·졸업예정 기준 확인: ㅇ 공통자격요건 - 공간정보품질관리원 인사규정의\n- 공고문·입사지원서·직무기술서 첨부 확보: (붙임A1) 채용 공고문v9.hwp · 공고문: (붙임A2) 입사지원서v2.hwp\n- 필기/NCS 대비 일정 안내: 필기전형 있음 - 과목은 원문 확인\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- NCS·직무능력·인적성 대비\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.siqms.or.kr/M2001000/board_view.do?idx=409869\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=301712\n- 공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다.\n- (붙임A1) 채용 공고문v9.hwp: https://www.alio.go.kr/download/download.json?fileNo=3056181\n- 공고문: (붙임A2) 입사지원서v2.hwp: https://www.alio.go.kr/download/download.json?fileNo=3056182",
+        "officialBasis": "공식 공고 2중확인",
+        "officialUrl": "https://www.siqms.or.kr/M2001000/board_view.do?idx=409869",
+        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301712",
+        "generatedAt": "2026-06-16T06:43:22.470Z"
+      },
+      "schoolRecommendation": "unknown",
+      "status": "active",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "필기·공식전형",
+        "공공기관",
+        "비정규직",
+        "학력무관",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "0a31856b9922e88e43",
@@ -4751,7 +4931,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301674"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-16T14:59:59.000Z",
       "publishedDate": "2026-06-16",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -4801,7 +4981,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -4905,197 +5085,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
-    },
-    {
-      "id": "c533d07561445c0de5",
-      "source": "job-alio-openapi",
-      "sourceName": "잡알리오 공공기관 채용",
-      "sourceId": "301712",
-      "title": "공간정보품질관리원 2026년 제2차 기간제근로자 채용 공고",
-      "baseTitle": "공간정보품질관리원 2026년 제2차 기간제근로자 채용 공고",
-      "company": "공간정보품질관리원",
-      "region": "서울,경기",
-      "education": "학력무관",
-      "career": "신입+경력",
-      "employmentType": "비정규직",
-      "recruitField": "행정직,사무직,기술직",
-      "recruitNumber": "",
-      "applicationMethod": "",
-      "contact": "",
-      "attachments": [
-        {
-          "title": "(붙임A1) 채용 공고문v9.hwp",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3056181"
-        },
-        {
-          "title": "공고문: (붙임A2) 입사지원서v2.hwp",
-          "url": "https://www.alio.go.kr/download/download.json?fileNo=3056182"
-        }
       ],
-      "detailText": "행정직,사무직,기술직 ㅇ 공통자격요건 - 공간정보품질관리원 인사규정의 - 취업지원대상자: 각 전형별 5% 또는 10% - 등록 장애인: 각 전형별 5% - 기초생활수급자: 서류전형 5% - 다문화가족: 서류전형 5% - 북한이탈주민: 서류전형 5% - 자립준비청년: 서류전형 5% - 1차. 서류전형: 지원자 전원 지원자격 및 적·부 판정, 계량·비계량 평가(5배수) - 2차. 필기전형: 인성검사 평가(적·부 판단) - 3차. 면접전형: 능력·인성 및 적격성 평가(1배수) ※ 자세한 내용은 채용 (붙임A1) 채용 공고문v9.hwp 공고문: (붙임A2) 입사지원서v2.hwp 진행중 잡알리오 공공기관 채용",
-      "deadline": "2026-06-30",
-      "deadlineText": "26.06.30 마감",
-      "url": "https://www.siqms.or.kr/M2001000/board_view.do?idx=409869",
-      "originalUrl": "https://job.alio.go.kr/recruitview.do?idx=301712",
-      "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301712",
-      "companyNoticeUrl": "https://www.siqms.or.kr/M2001000/board_view.do?idx=409869",
-      "primaryOfficialUrl": "https://www.siqms.or.kr/M2001000/board_view.do?idx=409869",
-      "officialNoticePriority": "company-or-agency-notice-first",
-      "supplementarySourceUrls": [
-        "https://job.alio.go.kr/recruitview.do?idx=301712"
-      ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
-      "publishedAt": "2026-06-16T14:59:59.000Z",
-      "publishedDate": "2026-06-16",
-      "firstSeenAt": "2026-06-16T06:43:22.470Z",
-      "firstSeenDate": "2026-06-16",
-      "collectionAudit": {
-        "policy": "public-recruit-first-day-collection",
-        "publishedAt": "2026-06-16T14:59:59.000Z",
-        "publishedDate": "2026-06-16",
-        "firstSeenAt": "2026-06-16T06:43:22.470Z",
-        "firstSeenDate": "2026-06-16",
-        "detectionLagDays": 0,
-        "firstDayCollected": true,
-        "missedReviewNeeded": false,
-        "firstDayStatus": "first_day",
-        "note": "공고 게시 첫날 자동 수집 대상입니다."
-      },
-      "fitScore": 38,
-      "fitLabels": [
-        "학력무관",
-        "신입·경력무관",
-        "공식전형"
-      ],
-      "processTrack": "exam-formal",
-      "processTrackName": "필기·공식전형",
-      "writtenExam": "confirmed",
-      "processConfidence": "high",
-      "processLabels": [
-        "공공기관",
-        "필기 확인"
-      ],
-      "processNote": "필기시험 또는 공식 선발 절차가 원문 키워드에서 확인됩니다.",
-      "sector": "public-institution",
-      "sectorName": "공공기관",
-      "sourceVerification": {
-        "sourceOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301712",
-        "companyNoticeUrl": "https://www.siqms.or.kr/M2001000/board_view.do?idx=409869",
-        "primaryOfficialUrl": "https://www.siqms.or.kr/M2001000/board_view.do?idx=409869",
-        "officialNoticePriority": "company-or-agency-notice-first",
-        "companyNoticeCheckStatus": "content_matched",
-        "companyNoticeReachable": true,
-        "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-06-16T06:43:22.470Z",
-        "doubleCheckStatus": "company_notice_confirmed",
-        "doubleCheckLabel": "공식 공고 2중확인",
-        "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
-      },
-      "servicePriority": "primary-public-recruit",
-      "servicePolicyLabel": "공채 상세",
-      "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
-      "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
-      "publicRecruitDetails": {
-        "companyNotice": "회사·기관 공식 공고 확인",
-        "sourceCheck": "공식 공고 2중확인",
-        "hiring": "행정직,사무직,기술직",
-        "eligibility": "학력무관 · 신입+경력",
-        "process": "- 1차. 서류전형: 지원자 전원 지원자격 및 적·부 판정, 계량·비계량 평가(5배수) - 2차. 필기전형: 인성검사 평가(적·부 판단) - 3차. 면접전형: 능력·인성 및 적격성 평가(1배수) ※ 자세한 내용은 채용",
-        "application": "26.06.30 마감",
-        "attachments": [
-          "(붙임A1) 채용 공고문v9.hwp",
-          "공고문: (붙임A2) 입사지원서v2.hwp"
-        ]
-      },
-      "teacherBriefing": {
-        "version": 1,
-        "generator": "official-source-briefing-v1",
-        "label": "취업부 공채 브리핑",
-        "detailLevel": "detailed-public-recruit",
-        "headline": "공간정보품질관리원 - 공간정보품질관리원 2026년 제2차 기간제근로자 채용 공고",
-        "summaryLines": [
-          "공간정보품질관리원 공채·공식전형",
-          "채용부문: 행정직,사무직,기술직",
-          "학력·자격: ㅇ 공통자격요건 - 공간정보품질관리원 인사규정의",
-          "근무지: 서울,경기",
-          "고용형태: 비정규직"
-        ],
-        "scheduleLines": [
-          "원서접수: 26.06.30 마감",
-          "전형절차: - 1차. 서류전형: 지원자 전원 지원자격 및 적·부 판정, 계량·비계량 평가(5배수) - 2차. 필기전형: 인성검사 평가(적·부 판단) - 3차. 면접전형: 능력·인성 및 적격성 평가(1배수) ※ 자세한 내용은 채용",
-          "필기전형: 자격 및 적·부 판정, 계량·비계량 평가(5배수) - 2차. 필기전형: 인성검사 평가(적·부 판단) - 3차. 면접전형: 능력·인성 및 적격성 평가(1배수) ※ 자세한 내용은 채용 행정직,사무직,기술직 ㅇ 공통자격…",
-          "면접전형: - 2차. 필기전형: 인성검사 평가(적·부 판단) - 3차. 면접전형: 능력·인성 및 적격성 평가(1배수) ※ 자세한 내용은 채용 행정직,사무직,기술직 ㅇ 공통자격요건 - 공간정보품질관리원 인사규정의 - 취업지원대…",
-          "발표·임용: 합격자 발표·임용일 자동 추출 대기"
-        ],
-        "examSubjects": [
-          "필기전형 있음 - 과목은 원문 확인"
-        ],
-        "schoolCheckSections": [
-          {
-            "title": "학교장 추천 필요 여부 원문 확인",
-            "text": "학교장 추천 요구 신호는 감지되지 않았으며, 다음 자동 수집에서 추천 관련 문구를 계속 대조합니다."
-          },
-          {
-            "title": "지원 가능 학년·졸업예정 기준 확인",
-            "text": "ㅇ 공통자격요건 - 공간정보품질관리원 인사규정의"
-          },
-          {
-            "title": "공고문·입사지원서·직무기술서 첨부 확보",
-            "text": "(붙임A1) 채용 공고문v9.hwp · 공고문: (붙임A2) 입사지원서v2.hwp"
-          },
-          {
-            "title": "필기/NCS 대비 일정 안내",
-            "text": "필기전형 있음 - 과목은 원문 확인"
-          }
-        ],
-        "schoolActionItems": [
-          "공식 공고 2중확인",
-          "학교장 추천 필요 여부 원문 확인: 학교장 추천 요구 신호는 감지되지 않았으며, 다음 자동 수집에서 추천 관련 문구를 계속 대조합니다.",
-          "지원 가능 학년·졸업예정 기준 확인: ㅇ 공통자격요건 - 공간정보품질관리원 인사규정의",
-          "공고문·입사지원서·직무기술서 첨부 확보: (붙임A1) 채용 공고문v9.hwp · 공고문: (붙임A2) 입사지원서v2.hwp",
-          "필기/NCS 대비 일정 안내: 필기전형 있음 - 과목은 원문 확인",
-          "공고 게시 첫날 수집 기록"
-        ],
-        "studentActionItems": [
-          "원서접수 마감 전 지원계정·제출서류 확인",
-          "NCS·직무능력·인적성 대비",
-          "자기소개서·경험기술서 초안 작성",
-          "근무지·고용형태·임용예정일 확인"
-        ],
-        "sourceLines": [
-          "공식 원문: https://www.siqms.or.kr/M2001000/board_view.do?idx=409869",
-          "보완 출처: https://job.alio.go.kr/recruitview.do?idx=301712",
-          "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다.",
-          "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다."
-        ],
-        "attachmentLines": [
-          "(붙임A1) 채용 공고문v9.hwp: https://www.alio.go.kr/download/download.json?fileNo=3056181",
-          "공고문: (붙임A2) 입사지원서v2.hwp: https://www.alio.go.kr/download/download.json?fileNo=3056182"
-        ],
-        "teacherShareText": "[공간정보품질관리원]\n- 고졸(예정) 공채·공식전형\n\n[채용부문]\n- 공간정보품질관리원 공채·공식전형\n- 채용부문: 행정직,사무직,기술직\n- 학력·자격: ㅇ 공통자격요건 - 공간정보품질관리원 인사규정의\n- 근무지: 서울,경기\n- 고용형태: 비정규직\n\n[전형일정]\n- 원서접수: 26.06.30 마감\n- 전형절차: - 1차. 서류전형: 지원자 전원 지원자격 및 적·부 판정, 계량·비계량 평가(5배수) - 2차. 필기전형: 인성검사 평가(적·부 판단) - 3차. 면접전형: 능력·인성 및 적격성 평가(1배수) ※ 자세한 내용은 채용\n- 필기전형: 자격 및 적·부 판정, 계량·비계량 평가(5배수) - 2차. 필기전형: 인성검사 평가(적·부 판단) - 3차. 면접전형: 능력·인성 및 적격성 평가(1배수) ※ 자세한 내용은 채용 행정직,사무직,기술직 ㅇ 공통자격…\n- 면접전형: - 2차. 필기전형: 인성검사 평가(적·부 판단) - 3차. 면접전형: 능력·인성 및 적격성 평가(1배수) ※ 자세한 내용은 채용 행정직,사무직,기술직 ㅇ 공통자격요건 - 공간정보품질관리원 인사규정의 - 취업지원대…\n- 발표·임용: 합격자 발표·임용일 자동 추출 대기\n\n[학교 확인]\n- 학교장 추천 필요 여부 원문 확인: 학교장 추천 요구 신호는 감지되지 않았으며, 다음 자동 수집에서 추천 관련 문구를 계속 대조합니다.\n- 지원 가능 학년·졸업예정 기준 확인: ㅇ 공통자격요건 - 공간정보품질관리원 인사규정의\n- 공고문·입사지원서·직무기술서 첨부 확보: (붙임A1) 채용 공고문v9.hwp · 공고문: (붙임A2) 입사지원서v2.hwp\n- 필기/NCS 대비 일정 안내: 필기전형 있음 - 과목은 원문 확인\n\n[학생 준비]\n- 원서접수 마감 전 지원계정·제출서류 확인\n- NCS·직무능력·인적성 대비\n- 자기소개서·경험기술서 초안 작성\n- 근무지·고용형태·임용예정일 확인\n\n[원문·첨부]\n- 공식 원문: https://www.siqms.or.kr/M2001000/board_view.do?idx=409869\n- 보완 출처: https://job.alio.go.kr/recruitview.do?idx=301712\n- 공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다.\n- (붙임A1) 채용 공고문v9.hwp: https://www.alio.go.kr/download/download.json?fileNo=3056181\n- 공고문: (붙임A2) 입사지원서v2.hwp: https://www.alio.go.kr/download/download.json?fileNo=3056182",
-        "officialBasis": "공식 공고 2중확인",
-        "officialUrl": "https://www.siqms.or.kr/M2001000/board_view.do?idx=409869",
-        "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=301712",
-        "generatedAt": "2026-06-16T06:43:22.470Z"
-      },
-      "schoolRecommendation": "unknown",
-      "status": "active",
-      "legalCheckFlags": [
-        "원문확인",
-        "마감확인",
-        "학력조건확인",
-        "추천여부확인"
-      ],
-      "guideTags": [
-        "필기·공식전형",
-        "공공기관",
-        "비정규직",
-        "학력무관",
-        "추천여부 확인",
-        "직무기술서 확인"
-      ]
+      "staleSourceFallback": true
     },
     {
       "id": "5f9c3e8c0a85549123",
@@ -5147,7 +5138,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=300695"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-05-18T14:59:59.000Z",
       "publishedDate": "2026-05-18",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -5198,7 +5189,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -5304,7 +5295,8 @@
         "학력무관,고졸,대졸(2~3년),대졸(4년)",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "1deef32ccf0d298aeb",
@@ -5348,7 +5340,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=300970"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-05-26T14:59:59.000Z",
       "publishedDate": "2026-05-26",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -5399,7 +5391,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -5501,7 +5493,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "61849aaca7b4bc6eeb",
@@ -5545,7 +5538,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301381"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-05T14:59:59.000Z",
       "publishedDate": "2026-06-05",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -5596,7 +5589,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -5698,7 +5691,8 @@
         "학력무관,고졸",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "d486b49fcd55831726",
@@ -5742,7 +5736,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301479"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-09T14:59:59.000Z",
       "publishedDate": "2026-06-09",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -5793,7 +5787,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -5895,7 +5889,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "81b1b2f08991db6244",
@@ -5939,7 +5934,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301471"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-10T14:59:59.000Z",
       "publishedDate": "2026-06-10",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -5993,7 +5988,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -6096,7 +6091,8 @@
         "고졸",
         "학교장 추천 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "bb7a5909f70d055587",
@@ -6148,7 +6144,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301664"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-15T14:59:59.000Z",
       "publishedDate": "2026-06-15",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -6199,7 +6195,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -6305,7 +6301,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "de3b8425eb4cb15515",
@@ -6349,7 +6346,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301472"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-10T14:59:59.000Z",
       "publishedDate": "2026-06-10",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -6399,7 +6396,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -6502,7 +6499,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "72407134dc773e20ef",
@@ -6546,7 +6544,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301653"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-15T14:59:59.000Z",
       "publishedDate": "2026-06-15",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -6596,7 +6594,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -6698,7 +6696,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "d4ccf315a8c80bb638",
@@ -6738,7 +6737,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301646"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-16T14:59:59.000Z",
       "publishedDate": "2026-06-16",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -6788,7 +6787,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -6888,7 +6887,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "55cc24f9d01c3cccc4",
@@ -6936,7 +6936,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301697"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-15T14:59:59.000Z",
       "publishedDate": "2026-06-15",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -6987,7 +6987,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -7091,7 +7091,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "ea5fb4e0bf3c3d88cd",
@@ -7139,7 +7140,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301695"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-15T14:59:59.000Z",
       "publishedDate": "2026-06-15",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -7190,7 +7191,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -7294,7 +7295,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "cd3297dca081bded4b",
@@ -7342,7 +7344,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301696"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-15T14:59:59.000Z",
       "publishedDate": "2026-06-15",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -7392,7 +7394,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -7496,7 +7498,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "ddddde25b7bf8126bc",
@@ -7548,7 +7551,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=300516"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-05-13T14:59:59.000Z",
       "publishedDate": "2026-05-13",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -7599,7 +7602,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -7705,7 +7708,8 @@
         "학력무관,고졸,박사",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "925c829a66bfca8684",
@@ -7749,7 +7753,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301166"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-05-29T14:59:59.000Z",
       "publishedDate": "2026-05-29",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -7801,7 +7805,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -7903,7 +7907,8 @@
         "고졸",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "405e8a641ac2806f90",
@@ -7955,7 +7960,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301242"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-01T14:59:59.000Z",
       "publishedDate": "2026-06-01",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -8005,7 +8010,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -8111,7 +8116,8 @@
         "고졸",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "64555e3436fb822e1c",
@@ -8155,7 +8161,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301465"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-09T14:59:59.000Z",
       "publishedDate": "2026-06-09",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -8205,7 +8211,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -8307,7 +8313,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "d97e224148cbcce6fd",
@@ -8359,7 +8366,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301099"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -8408,7 +8415,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다.",
+      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -8500,7 +8507,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "cf75e6ecf6f649e01c",
@@ -8544,7 +8552,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301708"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-15T14:59:59.000Z",
       "publishedDate": "2026-06-15",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -8595,7 +8603,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다.",
+      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -8685,7 +8693,8 @@
         "학력무관,고졸",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "ca8404d1304ef57a8c",
@@ -8727,9 +8736,10 @@
       "primaryOfficialUrl": "https://hnibr.re.kr/ko/M000000515/bbs/view?pstNo=33626&pageUnit=10&pageIndex=1&searchCnd=01&searchWrd=&searchPstClCdId=",
       "officialNoticePriority": "company-or-agency-notice-first",
       "supplementarySourceUrls": [
-        "https://job.alio.go.kr/recruitview.do?idx=301705"
+        "https://job.alio.go.kr/recruitview.do?idx=301705",
+        "https://www.data.go.kr/data/15125273/openapi.do"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-16T14:59:59.000Z",
       "publishedDate": "2026-06-16",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -8779,7 +8789,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다.",
+      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -8869,7 +8879,8 @@
         "고졸,대졸(2~3년),대졸(4년),석사,박사",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "3c104725a648a5dcca",
@@ -8913,7 +8924,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301688"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-15T14:59:59.000Z",
       "publishedDate": "2026-06-15",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -8963,7 +8974,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다.",
+      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -9053,7 +9064,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     },
     {
       "id": "e428eb54c5bf2738a3",
@@ -9097,7 +9109,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301686"
       ],
-      "verifiedAt": "2026-06-16T06:43:22.470Z",
+      "verifiedAt": "2026-06-16T07:00:12.617Z",
       "publishedAt": "2026-06-15T14:59:59.000Z",
       "publishedDate": "2026-06-15",
       "firstSeenAt": "2026-06-16T06:43:22.470Z",
@@ -9147,7 +9159,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다.",
+      "displayNote": "필기시험 신호가 없는 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -9237,7 +9249,8 @@
         "학력무관",
         "추천여부 확인",
         "직무기술서 확인"
-      ]
+      ],
+      "staleSourceFallback": true
     }
   ]
 }
