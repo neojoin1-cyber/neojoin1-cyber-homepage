@@ -2554,15 +2554,7 @@ function renderClosedJobArchive(items) {
   var el = document.getElementById('job-closed-archive');
   if (!el) return;
   if (!items.length) {
-    el.innerHTML = [
-      '<section class="job-archive-board" aria-label="지난 공채자료 게시판">',
-        '<div class="job-archive-head">',
-          '<div><b>지난 공채자료 게시판</b><p>원서 접수가 끝난 공채 공고문과 첨부자료를 보관합니다.</p></div>',
-          '<span class="job-archive-count">보관 0건</span>',
-        '</div>',
-        '<div class="job-archive-empty">아직 보관된 마감 공채자료가 없습니다.</div>',
-      '</section>'
-    ].join('');
+    el.innerHTML = '';
     return;
   }
   var sortedItems = items.slice().sort(function(a, b) {
@@ -2570,24 +2562,18 @@ function renderClosedJobArchive(items) {
     if (deadlineDiff !== 0) return deadlineDiff;
     return archiveDisplayTitle(a).localeCompare(archiveDisplayTitle(b), 'ko-KR');
   });
-  var limit = showClosedJobItems ? sortedItems.length : 8;
-  var visibleItems = sortedItems.slice(0, limit);
-  var hiddenCount = Math.max(0, sortedItems.length - visibleItems.length);
-  var toggle = sortedItems.length > 8
-    ? renderJobListToggle(
-        'toggle-closed-jobs',
-        showClosedJobItems ? '지난 공채자료 접기' : '지난 공채자료 전체보기 (' + hiddenCount + '건 더)',
-        showClosedJobItems ? sortedItems.length : hiddenCount,
-        showClosedJobItems
-      )
-    : '';
+  if (!showClosedJobItems) {
+    el.innerHTML = renderJobListToggle('toggle-closed-jobs', '지난 공채자료 보기 (' + sortedItems.length + '건)', sortedItems.length, false);
+    return;
+  }
+  var toggle = renderJobListToggle('toggle-closed-jobs', '지난 공채자료 접기', sortedItems.length, true);
   el.innerHTML = [
     '<section class="job-archive-board" aria-label="지난 공채자료 게시판">',
       '<div class="job-archive-head">',
         '<div><b>지난 공채자료 게시판</b><p>원서 접수는 끝났지만 공고문, 입사지원서, 직무기술서와 취업부 브리핑은 자료 확인용으로 보관합니다.</p></div>',
         '<span class="job-archive-count">보관 ' + escapeJobHtml(String(sortedItems.length)) + '건</span>',
       '</div>',
-      '<div class="job-archive-list">' + visibleItems.map(renderArchiveBoardRow).join('') + '</div>',
+      '<div class="job-archive-list">' + sortedItems.map(renderArchiveBoardRow).join('') + '</div>',
       toggle,
     '</section>'
   ].join('');
