@@ -9,6 +9,7 @@
     "active": 16,
     "deadlineSoon": 16,
     "applicationClosed": 8,
+    "archivedPublicRecruit": 8,
     "examFormal": 16,
     "directInterview": 24,
     "companyNoticeChecked": 38,
@@ -930,7 +931,9 @@
     "firstDayField": "collectionAudit.firstDayCollected",
     "missedReviewField": "collectionAudit.missedReviewNeeded",
     "applicationClosedTitleSuffix": "(원서 마감)",
-    "applicationClosedRetainDays": 21,
+    "applicationClosedRetainDays": 365,
+    "applicationClosedArchiveField": "archiveItems",
+    "applicationClosedArchiveMaxItems": 160,
     "jobAlioScanLimit": 220,
     "jobAlioScanPages": 6,
     "jobAlioKeywordQueries": [
@@ -1446,6 +1449,7 @@
       "message": "비영리기관 공식 채용 공고 경로와 이용 조건 확인 후 연결"
     }
   ],
+  "archiveItems": [],
   "items": [
     {
       "id": "b61442e905a54fe899",

@@ -22,7 +22,8 @@ const PUBLIC_API_TIMEOUT_MS = 9000;
 const DETAIL_FETCH_CONCURRENCY = 6;
 const JOB_ALIO_LIST_FETCH_CONCURRENCY = 8;
 const PUBLIC_API_FETCH_CONCURRENCY = 8;
-const APPLICATION_CLOSED_RETAIN_DAYS = 21;
+const APPLICATION_CLOSED_RETAIN_DAYS = 365;
+const MAX_ARCHIVE_ITEMS = 160;
 const JOB_ALIO_SCAN_LIMIT = 220;
 const JOB_ALIO_SCAN_PAGES = 6;
 const OFFICIAL_WATCH_TIMEOUT_MS = 15000;
@@ -2934,7 +2935,7 @@ function shouldKeepRegionalEducationVerificationItem(item) {
     || hasEntryLevelSignal(item);
 }
 
-function dedupeAndSort(items) {
+function dedupeAndSortAll(items) {
   const seen = new Map();
   for (const item of items) {
     const key = [
@@ -2975,7 +2976,11 @@ function dedupeAndSort(items) {
       if (b.deadline) return 1;
       return a.title.localeCompare(b.title, 'ko-KR');
     });
-  return balanceTrackItems(sorted);
+  return sorted;
+}
+
+function dedupeAndSort(items) {
+  return balanceTrackItems(dedupeAndSortAll(items));
 }
 
 function balanceTrackItems(sortedItems) {
@@ -3208,9 +3213,15 @@ async function readPreviousItems() {
     const json = await fs.readFile(OUT_FILE, 'utf8');
     const payload = JSON.parse(json);
     const map = new Map();
-    for (const item of Array.isArray(payload.items) ? payload.items : []) {
-      for (const key of previousItemKeys(item)) {
-        if (!map.has(key)) map.set(key, item);
+    const lists = [
+      Array.isArray(payload.items) ? payload.items : [],
+      Array.isArray(payload.archiveItems) ? payload.archiveItems : []
+    ];
+    for (const list of lists) {
+      for (const item of list) {
+        for (const key of previousItemKeys(item)) {
+          if (!map.has(key)) map.set(key, item);
+        }
       }
     }
     return map;
@@ -3292,6 +3303,48 @@ function fallbackFailedSourceItems(previousItems, sourceStatusList, freshItems) 
     });
   }
   return items;
+}
+
+function archiveDedupeKey(item) {
+  return [
+    item.baseTitle || item.title,
+    item.company,
+    item.deadline || ''
+  ].join('|').toLowerCase();
+}
+
+function shouldArchiveItem(item) {
+  if (!item?.title || !item.company || !item.url) return false;
+  if (item.status !== 'application_closed') return false;
+  if (item.processTrack !== 'exam-formal') return false;
+  if (isRegionalEducationDisplaySuppressed(item)) return false;
+  if (isUnsuitableForHighSchoolChannel(item)) return false;
+  return true;
+}
+
+function archiveSort(a, b) {
+  const deadlineDiff = String(b.deadline || '').localeCompare(String(a.deadline || ''));
+  if (deadlineDiff !== 0) return deadlineDiff;
+  return String(a.title || '').localeCompare(String(b.title || ''), 'ko-KR');
+}
+
+function buildArchiveItems(currentItems, previousItems) {
+  const best = new Map();
+  const consider = (item) => {
+    if (!shouldArchiveItem(item)) return;
+    const key = archiveDedupeKey(item);
+    const existing = best.get(key);
+    if (!existing || itemDedupeQuality(item) > itemDedupeQuality(existing)) {
+      best.set(key, item);
+    }
+  };
+
+  currentItems.forEach(consider);
+  for (const item of previousItems.values()) consider(item);
+
+  return Array.from(best.values())
+    .sort(archiveSort)
+    .slice(0, MAX_ARCHIVE_ITEMS);
 }
 
 function publicDataKey(...names) {
@@ -4602,14 +4655,19 @@ async function main() {
   const freshItems = results.flatMap((result) => result.items || []);
   const regionalEducationVerificationItems = results.flatMap((result) => result.verificationItems || []);
   const sourceFallbackItems = fallbackFailedSourceItems(previousItems, sourceStatusList, freshItems);
-  const currentItems = dedupeAndSort([...freshItems, ...sourceFallbackItems]);
+  const allCurrentItems = dedupeAndSortAll([...freshItems, ...sourceFallbackItems]);
+  const currentItems = balanceTrackItems(allCurrentItems);
   const displayItems = currentItems.length
     ? mergePreviousAudit(currentItems, previousItems)
     : fallbackPreviousItems(previousItems);
   const items = attachRegionalEducationVerificationSources(displayItems, regionalEducationVerificationItems);
+  const archiveItems = attachRegionalEducationVerificationSources(
+    buildArchiveItems(mergePreviousAudit(allCurrentItems, previousItems), previousItems),
+    regionalEducationVerificationItems
+  );
   const active = items.filter((item) => item.status === 'active').length;
   const deadlineSoon = items.filter((item) => item.status === 'deadline_soon').length;
-  const applicationClosed = items.filter((item) => item.status === 'application_closed').length;
+  const applicationClosed = archiveItems.length;
   const examFormal = items.filter((item) => item.processTrack === 'exam-formal').length;
   const directInterview = items.filter((item) => item.processTrack === 'direct-interview').length;
   const companyNoticeChecked = items.filter((item) => [
@@ -4645,6 +4703,7 @@ async function main() {
       directInterview,
       companyNoticeChecked,
       detailedPublicRecruit,
+      archivedPublicRecruit: archiveItems.length,
       regionalEducationVerified,
       regionalEducationVerificationLinked: regionalEducationVerified,
       regionalEducationVerificationCandidates,
@@ -4674,6 +4733,8 @@ async function main() {
       missedReviewField: 'collectionAudit.missedReviewNeeded',
       applicationClosedTitleSuffix: '(원서 마감)',
       applicationClosedRetainDays: APPLICATION_CLOSED_RETAIN_DAYS,
+      applicationClosedArchiveField: 'archiveItems',
+      applicationClosedArchiveMaxItems: MAX_ARCHIVE_ITEMS,
       jobAlioScanLimit: JOB_ALIO_SCAN_LIMIT,
       jobAlioScanPages: JOB_ALIO_SCAN_PAGES,
       jobAlioKeywordQueries: JOB_ALIO_KEYWORD_QUERIES.map((query) => `${query.searchType}:${query.keyword}`),
@@ -4706,6 +4767,7 @@ async function main() {
       }
     ],
     sourceStatus: sourceStatusList,
+    archiveItems,
     items
   };
 
@@ -4770,6 +4832,7 @@ main().catch(async (error) => {
     ],
     secretReadiness: buildSecretReadinessReport(sourceStatusList),
     sourceStatus: sourceStatusList,
+    archiveItems: [],
     items: []
   };
   await fs.mkdir(path.dirname(OUT_FILE), { recursive: true });
