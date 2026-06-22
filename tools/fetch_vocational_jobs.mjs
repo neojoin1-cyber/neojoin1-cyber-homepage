@@ -5054,7 +5054,7 @@ async function main() {
   const zipAttachmentSummary = await enhanceZipAttachmentsForItems([...items, ...archiveItems], previousZipDetailsByUrl);
   const active = items.filter((item) => item.status === 'active').length;
   const deadlineSoon = items.filter((item) => item.status === 'deadline_soon').length;
-  const applicationClosed = archiveItems.length;
+  const applicationClosed = items.filter((item) => item.status === 'application_closed').length;
   const examFormal = items.filter((item) => item.processTrack === 'exam-formal').length;
   const directInterview = items.filter((item) => item.processTrack === 'direct-interview').length;
   const companyNoticeChecked = items.filter((item) => [
