@@ -2547,6 +2547,16 @@ function publicDisplayUrl(value) {
   }
 }
 
+function zipEntryPublicUrl(value) {
+  const raw = normalizeSpace(value).replace(/\\/g, '/').replace(/[),.;，]+$/g, '');
+  if (!raw) return '';
+  const absolute = publicDisplayUrl(raw);
+  if (absolute) return absolute;
+  if (!raw.startsWith(`${ZIP_ATTACHMENT_PUBLIC_BASE}/`)) return '';
+  if (raw.includes('..') || raw.startsWith('/') || raw.includes('//')) return '';
+  return /^assets\/job-attachment-files\/[a-z0-9]+\/[a-z0-9]+\.[a-z0-9]{1,12}$/i.test(raw) ? raw : '';
+}
+
 function isZipAttachment(item) {
   const title = normalizeSpace(item?.title || item?.name || item?.fileName || item?.filename);
   const url = cleanUrl(item?.url || item?.href || item?.link || item?.downloadUrl || item?.fileUrl);
@@ -2769,7 +2779,7 @@ function normalizeZipArchiveEntries(entries) {
     const parts = pathValue.split('/');
     const sizeValue = typeof entry === 'object' ? Number(entry.size || 0) : 0;
     const url = typeof entry === 'object'
-      ? publicDisplayUrl(entry.url || entry.href || entry.link || entry.downloadUrl || entry.fileUrl)
+      ? zipEntryPublicUrl(entry.url || entry.href || entry.link || entry.downloadUrl || entry.fileUrl)
       : '';
     const downloadName = typeof entry === 'object' ? normalizeSpace(entry.downloadName || '') : '';
     return {
@@ -2841,6 +2851,22 @@ function applyCachedZipDetails(details, cachedDetails) {
   };
 }
 
+function hasOpenableCachedZipEntries(cachedDetails) {
+  const entries = Array.isArray(cachedDetails?.archiveEntries) ? cachedDetails.archiveEntries : [];
+  return entries.length > 0 && entries.every((entry) => entry?.url);
+}
+
+function reuseCachedZipDetails(cachedDetails) {
+  return {
+    ...cachedDetails,
+    archiveScanStatus: 'cached',
+    archiveScanMessage: '직전 확인한 ZIP 내부 파일 링크를 유지합니다.',
+    archiveEntryCount: cachedDetails.archiveEntries.length,
+    archiveCachedFrom: cachedDetails.archiveScannedAt || cachedDetails.archiveCachedFrom || '',
+    archiveScannedAt: CHECKED_AT
+  };
+}
+
 function enhanceAttachmentArrayWithZipEntries(attachments, zipDetailsByUrl) {
   if (!Array.isArray(attachments)) return attachments;
   return attachments.map((attachment) => {
@@ -2869,8 +2895,13 @@ async function enhanceZipAttachmentsForItems(items, cachedZipDetailsByUrl = new 
 
   const zipDetailsByUrl = new Map();
   await mapWithConcurrency(Array.from(zipTargets.entries()), ZIP_ATTACHMENT_CONCURRENCY, async ([url, attachment]) => {
+    const cachedDetails = cachedZipDetailsByUrl.get(url);
+    if (hasOpenableCachedZipEntries(cachedDetails)) {
+      zipDetailsByUrl.set(url, reuseCachedZipDetails(cachedDetails));
+      return;
+    }
     const inspected = await inspectZipAttachment({ ...attachment, url });
-    zipDetailsByUrl.set(url, applyCachedZipDetails(inspected, cachedZipDetailsByUrl.get(url)));
+    zipDetailsByUrl.set(url, applyCachedZipDetails(inspected, cachedDetails));
   });
 
   for (const item of items) {
@@ -5244,7 +5275,7 @@ async function main() {
       regionalEducationOfficialWatchCount: REGIONAL_EDUCATION_OFFICIAL_WATCHLIST.length,
       regionalEducationOfficialWatchEmployers: REGIONAL_EDUCATION_OFFICIAL_WATCHLIST.map((entry) => entry.employer),
       regionalEducationSourceRule: '교육청 취업지원센터·학교 채용 소식은 직접 결과 카드로 노출하지 않는다. 잡알리오·고용24·기관·기업 공식 원문이 1차 채용 공고로 확인된 뒤, 같은 채용인지 맞는 경우에만 누락 보완과 2차·3차 보조검증 출처로 붙인다.',
-      zipAttachmentRule: 'ZIP 첨부는 자동 수집 단계에서 중앙 디렉터리 파일명을 읽어 archiveEntries로 보관하고, 새로 열기 실패 시 직전 정상 목록을 유지해 화면에서는 원본 ZIP 링크 아래에 내부 폴더·파일 목록을 펼쳐 표시한다.',
+      zipAttachmentRule: 'ZIP 첨부는 자동 수집 단계에서 내부 파일을 정적 첨부 사본으로 추출해 archiveEntries[].url로 보관하고, 추출 링크가 이미 있으면 직전 정상 링크를 우선 재사용해 화면에서는 원본 ZIP 아래에 파일별 열기 링크를 표시한다.',
       seoulHighJobScanPages: SEOUL_HIGHJOB_SCAN_PAGES,
       primarySourceRule: '회사·기관 자체 홈페이지 또는 채용대행 공식 공고를 최우선 원문으로 사용하고, 잡알리오·고용24·사람인 등은 보완 출처로 사용한다.'
     },

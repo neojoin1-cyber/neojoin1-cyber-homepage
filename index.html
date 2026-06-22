@@ -2372,8 +2372,11 @@ function renderJobZipEntryList(file) {
     }
     return '';
   }
+  var cacheMessage = file && typeof file !== 'string' && file.archiveScanMessage
+    ? file.archiveScanMessage
+    : '직전 확인한 ZIP 내부 파일 링크를 유지합니다.';
   var cacheNote = status === 'cached'
-    ? '<div class="job-zip-scan-note">최근 자동 수집에서 ZIP을 새로 열지 못해 직전 확인 목록을 유지합니다.</div>'
+    ? '<div class="job-zip-scan-note">' + escapeJobHtml(cacheMessage) + '</div>'
     : '';
   return [
     '<div class="job-zip-entry-list">',
