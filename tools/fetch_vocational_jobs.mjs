@@ -32,6 +32,10 @@ const GENERIC_OFFICIAL_FEED_CONCURRENCY = 5;
 const EXTERNAL_CLIENT_GRACE_MS = 1500;
 const MIN_FALLBACK_TIMEOUT_MS = 1200;
 const REACHABILITY_TIMEOUT_MS = 7000;
+const ZIP_ATTACHMENT_TIMEOUT_MS = 12000;
+const ZIP_ATTACHMENT_CONCURRENCY = 3;
+const ZIP_ATTACHMENT_MAX_BYTES = 16 * 1024 * 1024;
+const ZIP_ATTACHMENT_MAX_ENTRIES = 160;
 const DEFAULT_FETCH_HEADERS = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125 Safari/537.36',
   Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,application/json;q=0.8,*/*;q=0.7',
@@ -1145,6 +1149,139 @@ async function fetchWithExternalClient(url, options = {}, timeoutMs = REQUEST_TI
   }
 
   throw new Error('external client failed: empty response');
+}
+
+async function fetchBinaryWithTimeout(url, options = {}) {
+  const { timeoutMs = ZIP_ATTACHMENT_TIMEOUT_MS, maxBytes = ZIP_ATTACHMENT_MAX_BYTES, ...fetchOptions } = options;
+  const startedAt = Date.now();
+  const fetchTimeoutMs = requireRemainingTimeout(startedAt, timeoutMs);
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), fetchTimeoutMs);
+  try {
+    const response = await fetch(url, {
+      ...fetchOptions,
+      signal: controller.signal,
+      headers: {
+        ...DEFAULT_FETCH_HEADERS,
+        Accept: 'application/zip,application/octet-stream,*/*;q=0.8',
+        ...(fetchOptions.headers || {})
+      }
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const contentLength = Number(response.headers.get('content-length') || 0);
+    if (contentLength > maxBytes) throw new Error(`ZIP too large (${contentLength} bytes)`);
+    const buffer = Buffer.from(await response.arrayBuffer());
+    if (buffer.length > maxBytes) throw new Error(`ZIP too large (${buffer.length} bytes)`);
+    return buffer;
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error(`ZIP timeout after ${timeoutMs}ms`);
+    }
+    try {
+      return await fetchBinaryWithNodeHttp(url, fetchOptions, requireRemainingTimeout(startedAt, timeoutMs), maxBytes);
+    } catch (fallbackError) {
+      try {
+        return await fetchBinaryWithExternalClient(url, fetchOptions, requireRemainingTimeout(startedAt, timeoutMs), maxBytes);
+      } catch (externalError) {
+        const cause = sanitizeFetchErrorMessage(error.cause?.code || error.message);
+        const nodeCause = sanitizeFetchErrorMessage(fallbackError.message);
+        throw new Error(`${externalError.message}; node fallback after ${nodeCause}; fetch fallback after ${cause}`);
+      }
+    }
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function fetchBinaryWithNodeHttp(url, options = {}, timeoutMs = ZIP_ATTACHMENT_TIMEOUT_MS, maxBytes = ZIP_ATTACHMENT_MAX_BYTES) {
+  return new Promise((resolve, reject) => {
+    let parsed;
+    try {
+      parsed = new URL(url);
+    } catch (error) {
+      reject(error);
+      return;
+    }
+
+    const client = parsed.protocol === 'https:' ? https : http;
+    const request = client.request(parsed, {
+      method: options.method || 'GET',
+      timeout: timeoutMs,
+      headers: {
+        ...DEFAULT_FETCH_HEADERS,
+        Accept: 'application/zip,application/octet-stream,*/*;q=0.8',
+        ...(options.headers || {})
+      }
+    }, (response) => {
+      if (response.statusCode >= 300 && response.statusCode < 400 && response.headers.location) {
+        response.resume();
+        const nextUrl = new URL(response.headers.location, parsed).toString();
+        resolve(fetchBinaryWithNodeHttp(nextUrl, options, timeoutMs, maxBytes));
+        return;
+      }
+      const chunks = [];
+      let totalBytes = 0;
+      response.on('data', (chunk) => {
+        totalBytes += chunk.length;
+        if (totalBytes > maxBytes) {
+          request.destroy(new Error(`ZIP too large (${totalBytes} bytes)`));
+          return;
+        }
+        chunks.push(Buffer.from(chunk));
+      });
+      response.on('end', () => {
+        if (response.statusCode < 200 || response.statusCode >= 300) {
+          reject(new Error(`HTTP ${response.statusCode}`));
+          return;
+        }
+        resolve(Buffer.concat(chunks));
+      });
+    });
+
+    request.on('timeout', () => request.destroy(new Error('ZIP timeout')));
+    request.on('error', reject);
+    if (options.body) request.write(options.body);
+    request.end();
+  });
+}
+
+async function fetchBinaryWithExternalClient(url, options = {}, timeoutMs = ZIP_ATTACHMENT_TIMEOUT_MS, maxBytes = ZIP_ATTACHMENT_MAX_BYTES) {
+  const method = String(options.method || 'GET').toUpperCase();
+  const headers = {
+    ...DEFAULT_FETCH_HEADERS,
+    Accept: 'application/zip,application/octet-stream,*/*;q=0.8',
+    ...(options.headers || {})
+  };
+  const seconds = Math.max(1, Math.ceil(timeoutMs / 1000));
+  const curlArgs = [
+    '-L',
+    '--silent',
+    '--show-error',
+    '--max-time',
+    String(seconds),
+    '-X',
+    method
+  ];
+
+  for (const [name, value] of Object.entries(headers)) {
+    if (value !== undefined && value !== null && String(value).trim() !== '') {
+      curlArgs.push('-H', `${name}: ${value}`);
+    }
+  }
+  if (options.body) curlArgs.push('--data', String(options.body));
+  curlArgs.push(url);
+
+  const curlCommand = process.platform === 'win32' ? 'curl.exe' : 'curl';
+  const { stdout } = await execFileAsync(curlCommand, curlArgs, {
+    timeout: timeoutMs + EXTERNAL_CLIENT_GRACE_MS,
+    maxBuffer: maxBytes + 1,
+    windowsHide: true,
+    encoding: 'buffer'
+  });
+  const buffer = Buffer.from(stdout);
+  if (buffer.length > maxBytes) throw new Error(`ZIP too large (${buffer.length} bytes)`);
+  if (!buffer.length) throw new Error('external client failed: empty response');
+  return buffer;
 }
 
 async function checkUrlReachable(url, options = {}, timeoutMs = REQUEST_TIMEOUT_MS) {
@@ -2404,6 +2541,164 @@ function publicDisplayUrl(value) {
   } catch {
     return clean;
   }
+}
+
+function isZipAttachment(item) {
+  const title = normalizeSpace(item?.title || item?.name || item?.fileName || item?.filename);
+  const url = cleanUrl(item?.url || item?.href || item?.link || item?.downloadUrl || item?.fileUrl);
+  return /\.zip(?:$|[?#\s])/i.test(`${title} ${url}`) || /(?:zip|압축파일|압축\s*자료)/i.test(title);
+}
+
+function decodeZipEntryName(bytes, useUtf8) {
+  const buffer = Buffer.from(bytes);
+  const decode = (encoding) => {
+    try {
+      return new TextDecoder(encoding).decode(buffer);
+    } catch {
+      return '';
+    }
+  };
+  const decoded = useUtf8 ? decode('utf-8') : (decode('euc-kr') || decode('utf-8'));
+  return normalizeSpace(decoded.replace(/\0/g, ''));
+}
+
+function cleanZipEntryPath(value) {
+  return String(value || '')
+    .replace(/\\/g, '/')
+    .replace(/^\/+/, '')
+    .split('/')
+    .map((part) => normalizeSpace(part))
+    .filter(Boolean)
+    .join('/');
+}
+
+function findZipEndOfCentralDirectory(buffer) {
+  const minOffset = Math.max(0, buffer.length - 0xffff - 22);
+  for (let offset = buffer.length - 22; offset >= minOffset; offset -= 1) {
+    if (buffer.readUInt32LE(offset) === 0x06054b50) return offset;
+  }
+  return -1;
+}
+
+function parseZipEntries(buffer) {
+  if (!Buffer.isBuffer(buffer) || buffer.length < 22) return [];
+  if (buffer.readUInt32LE(0) !== 0x04034b50) return [];
+
+  const eocdOffset = findZipEndOfCentralDirectory(buffer);
+  if (eocdOffset < 0) return [];
+  const declaredEntryCount = buffer.readUInt16LE(eocdOffset + 10);
+  const centralDirectorySize = buffer.readUInt32LE(eocdOffset + 12);
+  const centralDirectoryOffset = buffer.readUInt32LE(eocdOffset + 16);
+  if (!centralDirectorySize || centralDirectoryOffset >= buffer.length) return [];
+
+  const entries = [];
+  const seen = new Set();
+  let offset = centralDirectoryOffset;
+  const endOffset = Math.min(buffer.length, centralDirectoryOffset + centralDirectorySize);
+  while (offset + 46 <= endOffset && entries.length < ZIP_ATTACHMENT_MAX_ENTRIES) {
+    if (buffer.readUInt32LE(offset) !== 0x02014b50) break;
+    const flags = buffer.readUInt16LE(offset + 8);
+    const compressedSize = buffer.readUInt32LE(offset + 20);
+    const uncompressedSize = buffer.readUInt32LE(offset + 24);
+    const fileNameLength = buffer.readUInt16LE(offset + 28);
+    const extraLength = buffer.readUInt16LE(offset + 30);
+    const commentLength = buffer.readUInt16LE(offset + 32);
+    const nameStart = offset + 46;
+    const nameEnd = nameStart + fileNameLength;
+    if (nameEnd > buffer.length) break;
+
+    const rawPath = decodeZipEntryName(buffer.subarray(nameStart, nameEnd), Boolean(flags & 0x0800));
+    const pathValue = cleanZipEntryPath(rawPath);
+    offset = nameEnd + extraLength + commentLength;
+    if (!pathValue || pathValue.endsWith('/') || seen.has(pathValue)) continue;
+
+    seen.add(pathValue);
+    const parts = pathValue.split('/');
+    entries.push({
+      name: parts[parts.length - 1],
+      path: pathValue,
+      folder: parts.length > 1 ? parts.slice(0, -1).join('/') : '',
+      size: uncompressedSize || compressedSize || null
+    });
+  }
+
+  if (declaredEntryCount > entries.length && entries.length >= ZIP_ATTACHMENT_MAX_ENTRIES) {
+    entries.truncated = true;
+  }
+  return entries;
+}
+
+async function inspectZipAttachment(item) {
+  const url = publicDisplayUrl(item.url || item.href || item.link || item.downloadUrl || item.fileUrl);
+  if (!url) return { archiveFormat: 'zip', archiveScanStatus: 'missing_url', archiveEntries: [] };
+  try {
+    const buffer = await fetchBinaryWithTimeout(url);
+    const entries = parseZipEntries(buffer);
+    return {
+      archiveFormat: 'zip',
+      archiveScanStatus: entries.length ? 'ok' : 'empty',
+      archiveEntryCount: entries.length,
+      archiveEntries: entries,
+      archiveScannedAt: CHECKED_AT
+    };
+  } catch (error) {
+    return {
+      archiveFormat: 'zip',
+      archiveScanStatus: 'failed',
+      archiveScanMessage: sanitizeFetchErrorMessage(error.message),
+      archiveEntries: [],
+      archiveScannedAt: CHECKED_AT
+    };
+  }
+}
+
+function enhanceAttachmentArrayWithZipEntries(attachments, zipDetailsByUrl) {
+  if (!Array.isArray(attachments)) return attachments;
+  return attachments.map((attachment) => {
+    if (!isZipAttachment(attachment)) return attachment;
+    const url = publicDisplayUrl(attachment.url || attachment.href || attachment.link || attachment.downloadUrl || attachment.fileUrl);
+    const details = zipDetailsByUrl.get(url);
+    return details ? { ...attachment, ...details } : attachment;
+  });
+}
+
+async function enhanceZipAttachmentsForItems(items) {
+  const zipTargets = new Map();
+  for (const item of items) {
+    const attachmentGroups = [
+      Array.isArray(item.attachments) ? item.attachments : [],
+      Array.isArray(item.publicRecruitDetails?.attachments) ? item.publicRecruitDetails.attachments : []
+    ];
+    for (const attachments of attachmentGroups) {
+      for (const attachment of attachments) {
+        if (!isZipAttachment(attachment)) continue;
+        const url = publicDisplayUrl(attachment.url || attachment.href || attachment.link || attachment.downloadUrl || attachment.fileUrl);
+        if (url && !zipTargets.has(url)) zipTargets.set(url, attachment);
+      }
+    }
+  }
+
+  const zipDetailsByUrl = new Map();
+  await mapWithConcurrency(Array.from(zipTargets.entries()), ZIP_ATTACHMENT_CONCURRENCY, async ([url, attachment]) => {
+    zipDetailsByUrl.set(url, await inspectZipAttachment({ ...attachment, url }));
+  });
+
+  for (const item of items) {
+    item.attachments = enhanceAttachmentArrayWithZipEntries(item.attachments, zipDetailsByUrl);
+    if (item.publicRecruitDetails && Array.isArray(item.publicRecruitDetails.attachments)) {
+      item.publicRecruitDetails.attachments = enhanceAttachmentArrayWithZipEntries(item.publicRecruitDetails.attachments, zipDetailsByUrl);
+    }
+  }
+
+  let scanned = 0;
+  let entryCount = 0;
+  let failed = 0;
+  for (const details of zipDetailsByUrl.values()) {
+    scanned += 1;
+    entryCount += details.archiveEntryCount || 0;
+    if (details.archiveScanStatus === 'failed') failed += 1;
+  }
+  return { scanned, entryCount, failed };
 }
 
 function normalizeAttachmentList(raw, verification) {
@@ -4665,6 +4960,7 @@ async function main() {
     buildArchiveItems(mergePreviousAudit(allCurrentItems, previousItems), previousItems),
     regionalEducationVerificationItems
   );
+  const zipAttachmentSummary = await enhanceZipAttachmentsForItems([...items, ...archiveItems]);
   const active = items.filter((item) => item.status === 'active').length;
   const deadlineSoon = items.filter((item) => item.status === 'deadline_soon').length;
   const applicationClosed = archiveItems.length;
@@ -4715,6 +5011,9 @@ async function main() {
       missedReviewNeeded,
       criticalCoverageMissing: criticalCoverage.missingCurrent.length,
       staleFallbackItems,
+      zipAttachmentsScanned: zipAttachmentSummary.scanned,
+      zipAttachmentEntries: zipAttachmentSummary.entryCount,
+      zipAttachmentScanFailures: zipAttachmentSummary.failed,
       sourcesChecked: sourceStatusList.length,
       sourcesConfigured,
       sourcesReady: secretReadiness.readySources,
@@ -4751,6 +5050,7 @@ async function main() {
       regionalEducationOfficialWatchCount: REGIONAL_EDUCATION_OFFICIAL_WATCHLIST.length,
       regionalEducationOfficialWatchEmployers: REGIONAL_EDUCATION_OFFICIAL_WATCHLIST.map((entry) => entry.employer),
       regionalEducationSourceRule: '교육청 취업지원센터·학교 채용 소식은 직접 결과 카드로 노출하지 않는다. 잡알리오·고용24·기관·기업 공식 원문이 1차 채용 공고로 확인된 뒤, 같은 채용인지 맞는 경우에만 누락 보완과 2차·3차 보조검증 출처로 붙인다.',
+      zipAttachmentRule: 'ZIP 첨부는 자동 수집 단계에서 중앙 디렉터리 파일명을 읽어 archiveEntries로 보관하고, 화면에서는 원본 ZIP 링크 아래에 내부 폴더·파일 목록을 펼쳐 표시한다.',
       seoulHighJobScanPages: SEOUL_HIGHJOB_SCAN_PAGES,
       primarySourceRule: '회사·기관 자체 홈페이지 또는 채용대행 공식 공고를 최우선 원문으로 사용하고, 잡알리오·고용24·사람인 등은 보완 출처로 사용한다.'
     },
