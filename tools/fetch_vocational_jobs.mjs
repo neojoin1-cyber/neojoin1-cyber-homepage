@@ -2549,6 +2549,10 @@ function isZipAttachment(item) {
   return /\.zip(?:$|[?#\s])/i.test(`${title} ${url}`) || /(?:zip|압축파일|압축\s*자료)/i.test(title);
 }
 
+function zipAttachmentUrl(item) {
+  return publicDisplayUrl(item?.url || item?.href || item?.link || item?.downloadUrl || item?.fileUrl);
+}
+
 function decodeZipEntryName(bytes, useUtf8) {
   const buffer = Buffer.from(bytes);
   const decode = (encoding) => {
@@ -2629,7 +2633,7 @@ function parseZipEntries(buffer) {
 }
 
 async function inspectZipAttachment(item) {
-  const url = publicDisplayUrl(item.url || item.href || item.link || item.downloadUrl || item.fileUrl);
+  const url = zipAttachmentUrl(item);
   if (!url) return { archiveFormat: 'zip', archiveScanStatus: 'missing_url', archiveEntries: [] };
   try {
     const buffer = await fetchBinaryWithTimeout(url);
@@ -2652,17 +2656,100 @@ async function inspectZipAttachment(item) {
   }
 }
 
+function normalizeZipArchiveEntries(entries) {
+  if (!Array.isArray(entries)) return [];
+  return entries.map((entry) => {
+    if (!entry) return null;
+    const rawPath = typeof entry === 'object'
+      ? (entry.path || entry.name || entry.fileName || entry.filename)
+      : String(entry);
+    const folder = typeof entry === 'object' ? cleanZipEntryPath(entry.folder || '') : '';
+    const name = typeof entry === 'object'
+      ? normalizeSpace(entry.name || entry.fileName || entry.filename)
+      : '';
+    let pathValue = cleanZipEntryPath(rawPath);
+    if (!pathValue && name) pathValue = folder ? `${folder}/${name}` : name;
+    if (!pathValue) return null;
+    const parts = pathValue.split('/');
+    const sizeValue = typeof entry === 'object' ? Number(entry.size || 0) : 0;
+    return {
+      name: name || parts[parts.length - 1],
+      path: pathValue,
+      folder: folder || (parts.length > 1 ? parts.slice(0, -1).join('/') : ''),
+      size: Number.isFinite(sizeValue) && sizeValue > 0 ? sizeValue : null
+    };
+  }).filter(Boolean).slice(0, ZIP_ATTACHMENT_MAX_ENTRIES);
+}
+
+function zipDetailsFromAttachment(attachment) {
+  if (!attachment || typeof attachment !== 'object') return null;
+  const archiveEntries = normalizeZipArchiveEntries(attachment.archiveEntries || attachment.zipEntries || attachment.entries);
+  if (!archiveEntries.length) return null;
+  return {
+    archiveFormat: attachment.archiveFormat || 'zip',
+    archiveScanStatus: attachment.archiveScanStatus || 'ok',
+    archiveEntryCount: archiveEntries.length,
+    archiveEntries,
+    archiveScannedAt: attachment.archiveScannedAt || attachment.archiveCachedFrom || ''
+  };
+}
+
+function buildPreviousZipDetailsByUrl(previousItems) {
+  const zipDetailsByUrl = new Map();
+  const uniqueItems = new Set(previousItems instanceof Map ? previousItems.values() : Array.isArray(previousItems) ? previousItems : []);
+  for (const item of uniqueItems) {
+    const attachmentGroups = [
+      Array.isArray(item?.attachments) ? item.attachments : [],
+      Array.isArray(item?.publicRecruitDetails?.attachments) ? item.publicRecruitDetails.attachments : []
+    ];
+    for (const attachments of attachmentGroups) {
+      for (const attachment of attachments) {
+        const url = zipAttachmentUrl(attachment);
+        const details = url ? zipDetailsFromAttachment(attachment) : null;
+        if (!url || !details) continue;
+        const existing = zipDetailsByUrl.get(url);
+        if (!existing || details.archiveEntries.length >= existing.archiveEntries.length) {
+          zipDetailsByUrl.set(url, details);
+        }
+      }
+    }
+  }
+  return zipDetailsByUrl;
+}
+
+function shouldUseCachedZipDetails(details, cachedDetails) {
+  if (!cachedDetails?.archiveEntries?.length) return false;
+  const currentEntries = Array.isArray(details?.archiveEntries) ? details.archiveEntries.length : 0;
+  return !currentEntries && ['failed', 'empty', 'missing_url'].includes(details?.archiveScanStatus);
+}
+
+function applyCachedZipDetails(details, cachedDetails) {
+  if (!shouldUseCachedZipDetails(details, cachedDetails)) return details;
+  const failedMessage = details.archiveScanMessage
+    ? `최근 자동 수집 실패: ${details.archiveScanMessage}`
+    : '최근 자동 수집에서 압축파일 내부 목록을 새로 확인하지 못해 직전 정상 목록을 유지합니다.';
+  return {
+    ...details,
+    archiveScanStatus: 'cached',
+    archiveScanMessage: failedMessage,
+    archiveEntryCount: cachedDetails.archiveEntries.length,
+    archiveEntries: cachedDetails.archiveEntries,
+    archiveCachedFrom: cachedDetails.archiveScannedAt || '',
+    archiveScannedAt: details.archiveScannedAt || CHECKED_AT
+  };
+}
+
 function enhanceAttachmentArrayWithZipEntries(attachments, zipDetailsByUrl) {
   if (!Array.isArray(attachments)) return attachments;
   return attachments.map((attachment) => {
     if (!isZipAttachment(attachment)) return attachment;
-    const url = publicDisplayUrl(attachment.url || attachment.href || attachment.link || attachment.downloadUrl || attachment.fileUrl);
+    const url = zipAttachmentUrl(attachment);
     const details = zipDetailsByUrl.get(url);
     return details ? { ...attachment, ...details } : attachment;
   });
 }
 
-async function enhanceZipAttachmentsForItems(items) {
+async function enhanceZipAttachmentsForItems(items, cachedZipDetailsByUrl = new Map()) {
   const zipTargets = new Map();
   for (const item of items) {
     const attachmentGroups = [
@@ -2672,7 +2759,7 @@ async function enhanceZipAttachmentsForItems(items) {
     for (const attachments of attachmentGroups) {
       for (const attachment of attachments) {
         if (!isZipAttachment(attachment)) continue;
-        const url = publicDisplayUrl(attachment.url || attachment.href || attachment.link || attachment.downloadUrl || attachment.fileUrl);
+        const url = zipAttachmentUrl(attachment);
         if (url && !zipTargets.has(url)) zipTargets.set(url, attachment);
       }
     }
@@ -2680,7 +2767,8 @@ async function enhanceZipAttachmentsForItems(items) {
 
   const zipDetailsByUrl = new Map();
   await mapWithConcurrency(Array.from(zipTargets.entries()), ZIP_ATTACHMENT_CONCURRENCY, async ([url, attachment]) => {
-    zipDetailsByUrl.set(url, await inspectZipAttachment({ ...attachment, url }));
+    const inspected = await inspectZipAttachment({ ...attachment, url });
+    zipDetailsByUrl.set(url, applyCachedZipDetails(inspected, cachedZipDetailsByUrl.get(url)));
   });
 
   for (const item of items) {
@@ -2693,12 +2781,14 @@ async function enhanceZipAttachmentsForItems(items) {
   let scanned = 0;
   let entryCount = 0;
   let failed = 0;
+  let cached = 0;
   for (const details of zipDetailsByUrl.values()) {
     scanned += 1;
     entryCount += details.archiveEntryCount || 0;
-    if (details.archiveScanStatus === 'failed') failed += 1;
+    if (details.archiveScanStatus === 'cached') cached += 1;
+    else if (details.archiveScanStatus === 'failed') failed += 1;
   }
-  return { scanned, entryCount, failed };
+  return { scanned, entryCount, failed, cached };
 }
 
 function normalizeAttachmentList(raw, verification) {
@@ -4960,7 +5050,8 @@ async function main() {
     buildArchiveItems(mergePreviousAudit(allCurrentItems, previousItems), previousItems),
     regionalEducationVerificationItems
   );
-  const zipAttachmentSummary = await enhanceZipAttachmentsForItems([...items, ...archiveItems]);
+  const previousZipDetailsByUrl = buildPreviousZipDetailsByUrl(previousItems);
+  const zipAttachmentSummary = await enhanceZipAttachmentsForItems([...items, ...archiveItems], previousZipDetailsByUrl);
   const active = items.filter((item) => item.status === 'active').length;
   const deadlineSoon = items.filter((item) => item.status === 'deadline_soon').length;
   const applicationClosed = archiveItems.length;
@@ -5014,6 +5105,7 @@ async function main() {
       zipAttachmentsScanned: zipAttachmentSummary.scanned,
       zipAttachmentEntries: zipAttachmentSummary.entryCount,
       zipAttachmentScanFailures: zipAttachmentSummary.failed,
+      zipAttachmentCachedScans: zipAttachmentSummary.cached,
       sourcesChecked: sourceStatusList.length,
       sourcesConfigured,
       sourcesReady: secretReadiness.readySources,
@@ -5050,7 +5142,7 @@ async function main() {
       regionalEducationOfficialWatchCount: REGIONAL_EDUCATION_OFFICIAL_WATCHLIST.length,
       regionalEducationOfficialWatchEmployers: REGIONAL_EDUCATION_OFFICIAL_WATCHLIST.map((entry) => entry.employer),
       regionalEducationSourceRule: '교육청 취업지원센터·학교 채용 소식은 직접 결과 카드로 노출하지 않는다. 잡알리오·고용24·기관·기업 공식 원문이 1차 채용 공고로 확인된 뒤, 같은 채용인지 맞는 경우에만 누락 보완과 2차·3차 보조검증 출처로 붙인다.',
-      zipAttachmentRule: 'ZIP 첨부는 자동 수집 단계에서 중앙 디렉터리 파일명을 읽어 archiveEntries로 보관하고, 화면에서는 원본 ZIP 링크 아래에 내부 폴더·파일 목록을 펼쳐 표시한다.',
+      zipAttachmentRule: 'ZIP 첨부는 자동 수집 단계에서 중앙 디렉터리 파일명을 읽어 archiveEntries로 보관하고, 새로 열기 실패 시 직전 정상 목록을 유지해 화면에서는 원본 ZIP 링크 아래에 내부 폴더·파일 목록을 펼쳐 표시한다.',
       seoulHighJobScanPages: SEOUL_HIGHJOB_SCAN_PAGES,
       primarySourceRule: '회사·기관 자체 홈페이지 또는 채용대행 공식 공고를 최우선 원문으로 사용하고, 잡알리오·고용24·사람인 등은 보완 출처로 사용한다.'
     },
