@@ -2612,9 +2612,10 @@ function parseZipEntries(buffer) {
     if (nameEnd > buffer.length) break;
 
     const rawPath = decodeZipEntryName(buffer.subarray(nameStart, nameEnd), Boolean(flags & 0x0800));
+    const rawPathText = rawPath.replace(/\\/g, '/');
     const pathValue = cleanZipEntryPath(rawPath);
     offset = nameEnd + extraLength + commentLength;
-    if (!pathValue || pathValue.endsWith('/') || seen.has(pathValue)) continue;
+    if (!pathValue || rawPathText.endsWith('/') || seen.has(pathValue)) continue;
 
     seen.add(pathValue);
     const parts = pathValue.split('/');
