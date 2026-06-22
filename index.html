@@ -2843,25 +2843,6 @@ function closeJobArchiveWindow() {
   }, 120);
 }
 
-function shouldUseDefaultJobFileLink() {
-  var userAgent = window.navigator ? window.navigator.userAgent || '' : '';
-  return window.innerWidth <= 720 || /Android|iPhone|iPad|iPod|Mobile/i.test(userAgent);
-}
-
-function openJobFileInDesktopWindow(link) {
-  if (!link || shouldUseDefaultJobFileLink()) return false;
-  var opened = window.open(link.href, '_blank', 'noopener,noreferrer');
-  if (opened) {
-    try {
-      opened.opener = null;
-      opened.focus();
-    } catch (err) {}
-  } else {
-    window.location.href = link.href;
-  }
-  return true;
-}
-
 document.addEventListener('click', function(e) {
   var archiveWindowLink = e.target.closest && e.target.closest('#job-archive-open-link');
   if (archiveWindowLink) {
@@ -2897,11 +2878,6 @@ document.addEventListener('click', function(e) {
     var action = listToggle.getAttribute('data-job-list-action');
     if (action === 'toggle-all-exam-jobs') showAllExamJobItems = !showAllExamJobItems;
     if (latestJobFeedData) renderJobFeed(latestJobFeedData);
-    return;
-  }
-  var zipEntryLink = e.target.closest && e.target.closest('a.job-zip-entry-link');
-  if (zipEntryLink && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.altKey && openJobFileInDesktopWindow(zipEntryLink)) {
-    e.preventDefault();
     return;
   }
   var openButton = e.target.closest && e.target.closest('.job-detail-open');
