@@ -2367,9 +2367,13 @@ function renderJobZipEntryList(file) {
     }
     return '';
   }
+  var cacheNote = status === 'cached'
+    ? '<div class="job-zip-scan-note">최근 자동 수집에서 ZIP을 새로 열지 못해 직전 확인 목록을 유지합니다.</div>'
+    : '';
   return [
     '<div class="job-zip-entry-list">',
       '<div class="job-zip-entry-head">압축파일 내부 ' + escapeJobHtml(String(entries.length)) + '개 <span>공식 ZIP 기준 파일명</span></div>',
+      cacheNote,
       entries.map(function(entry) {
         var path = entry && typeof entry === 'object' ? (entry.path || entry.name || '') : String(entry || '');
         var parts = String(path).replace(/\\/g, '/').split('/').filter(Boolean);
