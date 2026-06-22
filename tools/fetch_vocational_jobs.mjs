@@ -6,10 +6,13 @@ import https from 'node:https';
 import path from 'node:path';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
+import { inflateRawSync } from 'node:zlib';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(__dirname, '..');
 const OUT_FILE = path.join(ROOT_DIR, 'assets', 'job-feed.json');
+const ZIP_ATTACHMENT_EXTRACT_DIR = path.join(ROOT_DIR, 'assets', 'job-attachment-files');
+const ZIP_ATTACHMENT_PUBLIC_BASE = 'assets/job-attachment-files';
 const execFileAsync = promisify(execFile);
 
 await loadLocalEnvFile(path.join(ROOT_DIR, '.env.local'));
@@ -35,6 +38,7 @@ const REACHABILITY_TIMEOUT_MS = 7000;
 const ZIP_ATTACHMENT_TIMEOUT_MS = 30000;
 const ZIP_ATTACHMENT_CONCURRENCY = 3;
 const ZIP_ATTACHMENT_MAX_BYTES = 16 * 1024 * 1024;
+const ZIP_ATTACHMENT_EXTRACT_MAX_BYTES = 16 * 1024 * 1024;
 const ZIP_ATTACHMENT_MAX_ENTRIES = 160;
 const DEFAULT_FETCH_HEADERS = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125 Safari/537.36',
@@ -2576,6 +2580,32 @@ function cleanZipEntryPath(value) {
     .join('/');
 }
 
+function safeJoinInside(baseDir, ...segments) {
+  const target = path.join(baseDir, ...segments);
+  const relative = path.relative(baseDir, target);
+  if (relative.startsWith('..') || path.isAbsolute(relative)) {
+    throw new Error('Unsafe generated attachment path');
+  }
+  return target;
+}
+
+function zipEntryExtension(name) {
+  const ext = path.extname(String(name || '')).toLowerCase();
+  if (/^\.[a-z0-9]{1,12}$/.test(ext)) return ext;
+  return '.bin';
+}
+
+function zipEntryAssetLocation(zipUrl, entry) {
+  const zipKey = sha(zipUrl || 'zip');
+  const entryKey = sha(entry.path || entry.name || 'entry');
+  const fileName = `${entryKey}${zipEntryExtension(entry.name || entry.path)}`;
+  const filePath = safeJoinInside(ZIP_ATTACHMENT_EXTRACT_DIR, zipKey, fileName);
+  return {
+    filePath,
+    publicUrl: `${ZIP_ATTACHMENT_PUBLIC_BASE}/${zipKey}/${fileName}`
+  };
+}
+
 function findZipEndOfCentralDirectory(buffer) {
   const minOffset = Math.max(0, buffer.length - 0xffff - 22);
   for (let offset = buffer.length - 22; offset >= minOffset; offset -= 1) {
@@ -2584,7 +2614,7 @@ function findZipEndOfCentralDirectory(buffer) {
   return -1;
 }
 
-function parseZipEntries(buffer) {
+function parseZipEntryRecords(buffer) {
   if (!Buffer.isBuffer(buffer) || buffer.length < 22) return [];
   if (buffer.readUInt32LE(0) !== 0x04034b50) return [];
 
@@ -2602,11 +2632,13 @@ function parseZipEntries(buffer) {
   while (offset + 46 <= endOffset && entries.length < ZIP_ATTACHMENT_MAX_ENTRIES) {
     if (buffer.readUInt32LE(offset) !== 0x02014b50) break;
     const flags = buffer.readUInt16LE(offset + 8);
+    const compressionMethod = buffer.readUInt16LE(offset + 10);
     const compressedSize = buffer.readUInt32LE(offset + 20);
     const uncompressedSize = buffer.readUInt32LE(offset + 24);
     const fileNameLength = buffer.readUInt16LE(offset + 28);
     const extraLength = buffer.readUInt16LE(offset + 30);
     const commentLength = buffer.readUInt16LE(offset + 32);
+    const localHeaderOffset = buffer.readUInt32LE(offset + 42);
     const nameStart = offset + 46;
     const nameEnd = nameStart + fileNameLength;
     if (nameEnd > buffer.length) break;
@@ -2623,7 +2655,11 @@ function parseZipEntries(buffer) {
       name: parts[parts.length - 1],
       path: pathValue,
       folder: parts.length > 1 ? parts.slice(0, -1).join('/') : '',
-      size: uncompressedSize || compressedSize || null
+      size: uncompressedSize || compressedSize || null,
+      compressedSize,
+      uncompressedSize,
+      compressionMethod,
+      localHeaderOffset
     });
   }
 
@@ -2633,12 +2669,71 @@ function parseZipEntries(buffer) {
   return entries;
 }
 
+function publicZipEntry(record, overrides = {}) {
+  const entry = {
+    name: record.name,
+    path: record.path,
+    folder: record.folder,
+    size: record.size || null,
+    ...overrides
+  };
+  if (!entry.url) delete entry.url;
+  if (!entry.downloadName) delete entry.downloadName;
+  return entry;
+}
+
+function extractZipRecordBuffer(zipBuffer, record) {
+  if (!Buffer.isBuffer(zipBuffer) || !record) return null;
+  const offset = Number(record.localHeaderOffset);
+  if (!Number.isFinite(offset) || offset < 0 || offset + 30 > zipBuffer.length) return null;
+  if (zipBuffer.readUInt32LE(offset) !== 0x04034b50) return null;
+  if ((record.uncompressedSize || record.size || 0) > ZIP_ATTACHMENT_EXTRACT_MAX_BYTES) return null;
+  const fileNameLength = zipBuffer.readUInt16LE(offset + 26);
+  const extraLength = zipBuffer.readUInt16LE(offset + 28);
+  const dataStart = offset + 30 + fileNameLength + extraLength;
+  const dataEnd = dataStart + Number(record.compressedSize || 0);
+  if (dataStart < 0 || dataEnd < dataStart || dataEnd > zipBuffer.length) return null;
+  const compressed = zipBuffer.subarray(dataStart, dataEnd);
+  if (record.compressionMethod === 0) return compressed;
+  if (record.compressionMethod === 8) return inflateRawSync(compressed);
+  return null;
+}
+
+async function extractZipEntryAssets(zipUrl, records, zipBuffer) {
+  const entries = [];
+  for (const record of records) {
+    const baseEntry = publicZipEntry(record);
+    try {
+      const content = extractZipRecordBuffer(zipBuffer, record);
+      if (!content || content.length > ZIP_ATTACHMENT_EXTRACT_MAX_BYTES) {
+        entries.push(baseEntry);
+        continue;
+      }
+      const { filePath, publicUrl } = zipEntryAssetLocation(zipUrl, record);
+      await fs.mkdir(path.dirname(filePath), { recursive: true });
+      await fs.writeFile(filePath, content);
+      entries.push(publicZipEntry(record, {
+        url: publicUrl,
+        downloadName: record.name
+      }));
+    } catch {
+      entries.push(baseEntry);
+    }
+  }
+  return entries;
+}
+
+function parseZipEntries(buffer) {
+  return parseZipEntryRecords(buffer).map((record) => publicZipEntry(record));
+}
+
 async function inspectZipAttachment(item) {
   const url = zipAttachmentUrl(item);
   if (!url) return { archiveFormat: 'zip', archiveScanStatus: 'missing_url', archiveEntries: [] };
   try {
     const buffer = await fetchBinaryWithTimeout(url);
-    const entries = parseZipEntries(buffer);
+    const records = parseZipEntryRecords(buffer);
+    const entries = await extractZipEntryAssets(url, records, buffer);
     return {
       archiveFormat: 'zip',
       archiveScanStatus: entries.length ? 'ok' : 'empty',
@@ -2673,11 +2768,17 @@ function normalizeZipArchiveEntries(entries) {
     if (!pathValue) return null;
     const parts = pathValue.split('/');
     const sizeValue = typeof entry === 'object' ? Number(entry.size || 0) : 0;
+    const url = typeof entry === 'object'
+      ? publicDisplayUrl(entry.url || entry.href || entry.link || entry.downloadUrl || entry.fileUrl)
+      : '';
+    const downloadName = typeof entry === 'object' ? normalizeSpace(entry.downloadName || '') : '';
     return {
       name: name || parts[parts.length - 1],
       path: pathValue,
       folder: folder || (parts.length > 1 ? parts.slice(0, -1).join('/') : ''),
-      size: Number.isFinite(sizeValue) && sizeValue > 0 ? sizeValue : null
+      size: Number.isFinite(sizeValue) && sizeValue > 0 ? sizeValue : null,
+      ...(url ? { url } : {}),
+      ...(downloadName ? { downloadName } : {})
     };
   }).filter(Boolean).slice(0, ZIP_ATTACHMENT_MAX_ENTRIES);
 }
