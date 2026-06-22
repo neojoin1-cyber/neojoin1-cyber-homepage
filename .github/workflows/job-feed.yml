@@ -79,12 +79,15 @@ jobs:
 
       - name: Commit updated feed
         run: |
-          if git diff --quiet -- assets/job-feed.json; then
-            echo "No job feed changes."
+          if [ -z "$(git status --short -- assets/job-feed.json assets/job-attachment-files)" ]; then
+            echo "No job feed or attachment changes."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add assets/job-feed.json
+          if [ -d assets/job-attachment-files ]; then
+            git add assets/job-attachment-files
+          fi
           git commit -m "Update vocational job feed"
           git push
