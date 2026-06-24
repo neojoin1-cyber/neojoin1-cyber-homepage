@@ -1918,7 +1918,7 @@ function officialHtmlEmbeddedRecruitText(html) {
       .replace(/\\u003c/gi, '<')
       .replace(/\\u003e/gi, '>')
       .replace(/\\u0026/gi, '&')
-      .replace(/[{}[\]"':,]/g, ' ');
+      .replace(/[{}[\]"',]/g, ' ');
     const snippets = officialEmbeddedSignalSnippets(scriptText);
     if (snippets.length) {
       values.push(...snippets);
@@ -2005,15 +2005,77 @@ function officialBuiltInPageLooksRecruitable(text, sourceUrl = '', feedEntry = {
   return hasRecruit && hasEducationSignal && hasConcretePostSignal;
 }
 
+function currentKstYear() {
+  const year = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Asia/Seoul',
+    year: 'numeric'
+  }).format(NOW);
+  return Number(year) || NOW.getUTCFullYear();
+}
+
+function canonicalDeadlineTextFromParts(yearValue, monthValue, dayValue, hourValue = '', minuteValue = '') {
+  let year = Number(yearValue);
+  const month = Number(monthValue);
+  const day = Number(dayValue);
+  if (String(yearValue).length === 2) year += 2000;
+  if (!Number.isInteger(year) || !Number.isInteger(month) || !Number.isInteger(day)) return '';
+  if (year < 2000 || year > 2099 || month < 1 || month > 12 || day < 1) return '';
+  const maxDay = new Date(Date.UTC(year, month, 0)).getUTCDate();
+  if (day > maxDay) return '';
+
+  const yyyy = String(year).padStart(4, '0');
+  const mm = String(month).padStart(2, '0');
+  const dd = String(day).padStart(2, '0');
+  if (hourValue === '' || hourValue === null || hourValue === undefined) return `${yyyy}-${mm}-${dd}`;
+
+  const hour = Number(hourValue);
+  const minute = minuteValue === '' || minuteValue === null || minuteValue === undefined ? 0 : Number(minuteValue);
+  if (!Number.isInteger(hour) || !Number.isInteger(minute) || hour < 0 || hour > 23 || minute < 0 || minute > 59) {
+    return `${yyyy}-${mm}-${dd}`;
+  }
+  return `${yyyy}-${mm}-${dd} ${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+}
+
+function canonicalDeadlineTextFromText(value, options = {}) {
+  const raw = normalizeSpace(value);
+  if (!raw) return '';
+
+  const korean = raw.match(/(?:^|[^0-9])((?:20)?\d{2})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일?(?:\s*\([^)]+\))?(?:\s*(\d{1,2})\s*(?::|시)\s*(\d{1,2})?\s*분?)?/);
+  if (korean) return canonicalDeadlineTextFromParts(korean[1], korean[2], korean[3], korean[4], korean[5]);
+
+  const dotted = raw.match(/(?:^|[^0-9])((?:20)?\d{2})\s*[.\-/]\s*(\d{1,2})\s*[.\-/]\s*(\d{1,2})(?:\.|(?=[^0-9])|$)(?:\s*\([^)]+\))?(?:\s*(\d{1,2})\s*(?::|시)\s*(\d{1,2})?\s*분?)?/);
+  if (dotted) return canonicalDeadlineTextFromParts(dotted[1], dotted[2], dotted[3], dotted[4], dotted[5]);
+
+  if (options.inferYear) {
+    const noYear = raw.match(/(?:^|[^0-9])(\d{1,2})\s*[.\/]\s*(\d{1,2})(?:\.|(?=[^0-9])|$)(?:\s*\([^)]+\))?(?:\s*(\d{1,2})\s*(?::|시)\s*(\d{1,2})?\s*분?)?/);
+    if (noYear) return canonicalDeadlineTextFromParts(currentKstYear(), noYear[1], noYear[2], noYear[3], noYear[4]);
+  }
+  return '';
+}
+
+function deadlineTextHasExplicitTime(value) {
+  return /\d{1,2}\s*(?::|시)\s*\d{0,2}\s*분?/.test(String(value || ''));
+}
+
 function extractOfficialDeadlineText(text) {
   const normalized = normalizeSpace(text);
   if (!normalized) return '';
+  const deadlineContexts = [
+    ...Array.from(normalized.matchAll(/(?:접수|원서|지원|채용|서류)?\s*(?:기간|마감|종료|접수)\D{0,120}?(?:(?:20)?\d{2}\s*년\s*\d{1,2}\s*월\s*\d{1,2}\s*일?(?:\s*\([^)]+\))?(?:\s*\d{1,2}\s*(?::|시)\s*\d{0,2}\s*분?)?|(?:20)?\d{2}\s*[.\-/]\s*\d{1,2}\s*[.\-/]\s*\d{1,2}(?:\.|\s|$)(?:\s*\([^)]+\))?(?:\s*\d{1,2}\s*(?::|시)\s*\d{0,2}\s*분?)?)/gi), (match) => match[0]),
+    ...Array.from(normalized.matchAll(/(?:(?:20)?\d{2}\s*년\s*\d{1,2}\s*월\s*\d{1,2}\s*일?(?:\s*\([^)]+\))?(?:\s*\d{1,2}\s*(?::|시)\s*\d{0,2}\s*분?)?|(?:20)?\d{2}\s*[.\-/]\s*\d{1,2}\s*[.\-/]\s*\d{1,2}(?:\.|\s|$)(?:\s*\([^)]+\))?(?:\s*\d{1,2}\s*(?::|시)\s*\d{0,2}\s*분?)?)\D{0,30}(?:까지|마감|종료)/gi), (match) => match[0]),
+    ...Array.from(normalized.matchAll(/(?:~|-|부터|까지)\s*\d{1,2}\s*[.\/]\s*\d{1,2}(?:\.|\s|$)(?:\s*\([^)]+\))?(?:\s*\d{1,2}\s*(?::|시)\s*\d{0,2}\s*분?)?/gi), (match) => match[0])
+  ];
+  for (const context of deadlineContexts) {
+    const canonical = canonicalDeadlineTextFromText(context, { inferYear: true });
+    if (canonical) return canonical;
+  }
+
   const datePattern = '(?:20)?\\d{2}\\s*[.\\-/년]\\s*\\d{1,2}\\s*[.\\-/월]\\s*\\d{1,2}';
   const ranged = normalized.match(new RegExp(`(?:접수|원서|지원|채용)?\\s*(?:기간|접수)\\D{0,60}(?:${datePattern})\\D{0,20}(?:~|-|부터|까지)\\D{0,20}(${datePattern})`, 'i'));
-  if (ranged) return ranged[1].replace(/\s+/g, '');
+  if (ranged) return canonicalDeadlineTextFromText(ranged[1]) || ranged[1].replace(/\s+/g, '');
   const deadline = normalized.match(new RegExp(`(?:마감|종료|접수마감|원서마감)\\D{0,40}(${datePattern})`, 'i'));
-  if (deadline) return deadline[1].replace(/\s+/g, '');
-  const dates = Array.from(normalized.matchAll(new RegExp(datePattern, 'g')), (match) => match[0].replace(/\s+/g, ''));
+  if (deadline) return canonicalDeadlineTextFromText(deadline[1]) || deadline[1].replace(/\s+/g, '');
+  const dates = Array.from(normalized.matchAll(new RegExp(datePattern, 'g')), (match) => canonicalDeadlineTextFromText(match[0]) || match[0].replace(/\s+/g, ''));
   return dates.length >= 2 ? dates[dates.length - 1] : (dates[0] || '');
 }
 
@@ -2209,6 +2271,98 @@ function pageLevelHtmlRecord(html, source, sourceUrl, publicSourceUrl, feedEntry
   }];
 }
 
+function officialRecruitTitleFromText(text, fallbackTitle) {
+  const normalized = normalizeSpace(text);
+  const patterns = [
+    /((?:20\d{2}년\s*)?(?:상반기|하반기|하계|동계|신입|경력|체험형|채용형)[^.!?。]{0,90}(?:모집|채용|공고))/,
+    /(20\d{2}년[^.!?。]{0,100}(?:모집|채용|공고))/
+  ];
+  for (const pattern of patterns) {
+    const match = normalized.match(pattern);
+    if (match) return shortText(match[1], fallbackTitle, 120);
+  }
+  return fallbackTitle;
+}
+
+function officialRecruitTitleFromHtml(html, fallbackTitle) {
+  const decoded = decodeXml(String(html || ''))
+    .replace(/\\u003c/gi, '<')
+    .replace(/\\u003e/gi, '>')
+    .replace(/\\u0026/gi, '&');
+  const candidates = [];
+  for (const match of decoded.matchAll(/<(?:strong|h1|h2|h3)\b[^>]*>([\s\S]{1,240}?(?:모집|채용|공고)[\s\S]{0,80}?)<\/(?:strong|h1|h2|h3)>/gi)) {
+    candidates.push(cleanOfficialCandidateText(htmlText(match[1])));
+  }
+  const title = candidates
+    .map((candidate) => shortText(candidate, '', 140))
+    .find((candidate) => /(?:20\d{2}년|상반기|하반기|하계|동계|신입|인턴|채용|모집|공고)/.test(candidate));
+  return title || officialRecruitTitleFromText(decoded, fallbackTitle);
+}
+
+function embeddedJobLabelNear(html, index) {
+  const context = html.slice(Math.max(0, index - 700), index + 220);
+  const matches = Array.from(context.matchAll(/"key"\s*:\s*"(?:first|second)_button_text"[\s\S]{0,120}?"value"\s*:\s*"([^"]{1,80})"/g));
+  const label = matches.length ? matches[matches.length - 1][1] : '';
+  return normalizeSpace(decodeXml(label));
+}
+
+function embeddedOfficialJobPathRecords(html, source, sourceUrl, publicSourceUrl, feedEntry = {}, options = {}) {
+  if (!options.builtInFallback || isRegionalEducationOfficialFeed(source, feedEntry)) return [];
+  const pageText = officialHtmlSearchText(html).slice(0, 120000);
+  if (!officialBuiltInPageLooksRecruitable(pageText, sourceUrl, feedEntry)) return [];
+
+  const paths = [];
+  const seen = new Set();
+  for (const match of String(html || '').matchAll(/"value"\s*:\s*"(\/jobs\/RC[A-Za-z0-9_-]+)"/g)) {
+    const path = match[1];
+    if (seen.has(path)) continue;
+    seen.add(path);
+    paths.push({ path, label: embeddedJobLabelNear(html, match.index || 0) });
+  }
+  if (!paths.length) return [];
+
+  const fallbackTitle = `${feedEntry.employer || source.name} 고졸·졸업예정 채용 공고 원문 확인`;
+  const recruitTitle = officialRecruitTitleFromHtml(html, fallbackTitle);
+  const deadline = extractOfficialDeadlineText(pageText);
+  const pageDescription = keywordSnippet(
+    pageText,
+    ['고졸', '고등학교', '특성화고', '직업계고', '마이스터고', '신입행원', '사무행원', '학력무관', '인턴십'],
+    '공식 채용 페이지에서 고졸·특성화고 관련 신호가 확인되었습니다.',
+    720
+  );
+  const embeddedEmploymentType = /체험형\s*인턴|체험형\s*인턴십/.test(pageText)
+    ? '체험형 인턴'
+    : (/채용형\s*인턴/.test(pageText) ? '채용형 인턴' : '공식 채용 원문 확인');
+
+  return paths.slice(0, 12).map(({ path, label }) => {
+    const url = absoluteUrlFromHref(path, sourceUrl);
+    const titleParts = [recruitTitle, label].filter(Boolean);
+    const title = titleParts.join(' ');
+    const combined = normalizeSpace([pageText, label, feedEntry.tags?.join(' ')].join(' '));
+    return {
+      source: source.id,
+      sourceName: source.name,
+      sourceId: sha([source.id, feedEntry.employer, path, title].join('|')),
+      title: title.includes(feedEntry.employer || '') ? title : `${feedEntry.employer || source.name} ${title}`,
+      company: feedEntry.employer || source.name,
+      region: '원문 확인',
+      education: includesAny(combined, ['학력무관', '학력 무관']) ? '학력무관' : '고졸·특성화고 관련 원문 확인',
+      career: includesAny(combined, ['신입', '인턴', '공채']) ? '신입·공채 원문 확인' : '원문 확인',
+      employmentType: embeddedEmploymentType,
+      deadline,
+      deadlineText: deadline ? `${deadline} 마감` : '마감일 원문 확인',
+      recruitField: label || keywordSnippet(combined, ['고졸', '특성화고', '직업계고', '마이스터고', '행원', '기술직', '생산직', '기능직'], '채용부문 원문 확인', 100),
+      applicationMethod: '회사·기관 또는 채용대행 공식 채용 페이지에서 접수방법 확인',
+      url,
+      originalUrl: publicSourceUrl,
+      sourceDetailUrl: publicSourceUrl,
+      companyNoticeUrl: url,
+      processText: keywordSnippet(combined, ['필기', 'NCS', '인적성', '서류전형', '면접전형', 'AI역량'], '전형절차 원문 확인', 220),
+      description: pageDescription
+    };
+  });
+}
+
 function parseGenericOfficialFeed(body, source, sourceUrl, feedEntry = {}) {
   const trimmed = body.trim();
   const publicSourceUrl = source.sourceUrl || safePublicFeedUrl(sourceUrl);
@@ -2229,11 +2383,14 @@ function parseGenericOfficialFeed(body, source, sourceUrl, feedEntry = {}) {
       description: normalizeSpace([record.description, feedEntry.tags?.join(' ')].join(' '))
     }));
     const htmlRecords = htmlLinkRecords(trimmed, source, sourceUrl, publicSourceUrl, feedEntry);
+    const embeddedRecords = embeddedOfficialJobPathRecords(trimmed, source, sourceUrl, publicSourceUrl, feedEntry, {
+      builtInFallback: Boolean(feedEntry.builtIn)
+    });
     const pageRecords = pageLevelHtmlRecord(trimmed, source, sourceUrl, publicSourceUrl, feedEntry, {
       builtInFallback: Boolean(feedEntry.builtIn)
     });
-    if (xmlRecords.length || htmlRecords.length) {
-      return [...xmlRecords, ...htmlRecords, ...pageRecords];
+    if (xmlRecords.length || htmlRecords.length || embeddedRecords.length) {
+      return [...xmlRecords, ...htmlRecords, ...embeddedRecords, ...(embeddedRecords.length ? [] : pageRecords)];
     }
     return pageRecords;
   }
@@ -2686,7 +2843,7 @@ async function enrichCompanyNoticeChecks(rawItems, limit = 40) {
   });
 }
 
-function kstDateFromParts(yearValue, monthValue, dayValue) {
+function kstDateFromParts(yearValue, monthValue, dayValue, hourValue = '', minuteValue = '', secondValue = '') {
   const year = Number(yearValue);
   const month = Number(monthValue);
   const day = Number(dayValue);
@@ -2694,15 +2851,38 @@ function kstDateFromParts(yearValue, monthValue, dayValue) {
   if (year < 2000 || year > 2099 || month < 1 || month > 12 || day < 1) return null;
   const maxDay = new Date(Date.UTC(year, month, 0)).getUTCDate();
   if (day > maxDay) return null;
+  const hasTime = hourValue !== '' && hourValue !== null && hourValue !== undefined;
+  const hour = hasTime ? Number(hourValue) : 23;
+  const minute = hasTime
+    ? (minuteValue === '' || minuteValue === null || minuteValue === undefined ? 0 : Number(minuteValue))
+    : 59;
+  const second = hasTime
+    ? (secondValue === '' || secondValue === null || secondValue === undefined ? 0 : Number(secondValue))
+    : 59;
+  if (!Number.isInteger(hour) || !Number.isInteger(minute) || !Number.isInteger(second)) return null;
+  if (hour < 0 || hour > 23 || minute < 0 || minute > 59 || second < 0 || second > 59) return null;
   const yyyy = String(year).padStart(4, '0');
   const mm = String(month).padStart(2, '0');
   const dd = String(day).padStart(2, '0');
-  return new Date(`${yyyy}-${mm}-${dd}T23:59:59+09:00`);
+  const hh = String(hour).padStart(2, '0');
+  const mi = String(minute).padStart(2, '0');
+  const ss = String(second).padStart(2, '0');
+  return new Date(`${yyyy}-${mm}-${dd}T${hh}:${mi}:${ss}+09:00`);
+}
+
+function dateFromCanonicalDeadlineText(value) {
+  const raw = normalizeSpace(value);
+  const match = raw.match(/^(\d{4})-(\d{2})-(\d{2})(?:\s+(\d{1,2}):(\d{2}))?$/);
+  if (!match) return null;
+  return kstDateFromParts(match[1], match[2], match[3], match[4], match[5]);
 }
 
 function structuredDateFromText(value) {
   const raw = normalizeSpace(value);
   if (!raw) return null;
+
+  const canonical = canonicalDeadlineTextFromText(raw);
+  if (canonical) return dateFromCanonicalDeadlineText(canonical);
 
   const compact = raw.match(/(?:^|[^0-9])(\d{4})(\d{2})(\d{2})(?=[^0-9]|$)/);
   if (compact) return kstDateFromParts(compact[1], compact[2], compact[3]);
@@ -2718,12 +2898,16 @@ function structuredDateFromText(value) {
 
 function containsStructuredDatePattern(value) {
   const raw = normalizeSpace(value);
-  return /(?:^|[^0-9])(?:\d{4}\d{2}\d{2}|\d{2,4}\s*[.\-/]\s*\d{1,2}\s*[.\-/]\s*\d{1,2})(?=[^0-9]|$)/.test(raw);
+  return /(?:^|[^0-9])(?:\d{4}\d{2}\d{2}|\d{2,4}\s*[.\-/]\s*\d{1,2}\s*[.\-/]\s*\d{1,2})(?=[^0-9]|$)/.test(raw)
+    || /(?:^|[^0-9])(?:20)?\d{2}\s*년\s*\d{1,2}\s*월\s*\d{1,2}\s*일?/.test(raw);
 }
 
 function parseDate(value) {
   const raw = normalizeSpace(value);
   if (!raw) return null;
+
+  const canonical = canonicalDeadlineTextFromText(raw);
+  if (canonical) return dateFromCanonicalDeadlineText(canonical);
 
   if (/^\d{4}-\d{2}-\d{2}T/i.test(raw)) {
     const date = new Date(raw);
@@ -2739,6 +2923,9 @@ function parseDate(value) {
 
   const compact = raw.match(/^(\d{4})(\d{2})(\d{2})$/);
   if (compact) return kstDateFromParts(compact[1], compact[2], compact[3]);
+
+  const isoLikeTime = raw.match(/^(\d{4})\s*[.\-/]\s*(\d{1,2})\s*[.\-/]\s*(\d{1,2})(?:\.|\s|$)(?:\s*(\d{1,2})\s*(?::|시)\s*(\d{1,2})?)?/);
+  if (isoLikeTime?.[4]) return kstDateFromParts(isoLikeTime[1], isoLikeTime[2], isoLikeTime[3], isoLikeTime[4], isoLikeTime[5]);
 
   const dotted = raw.match(/^(\d{4})\s*[.\-/]\s*(\d{1,2})\s*[.\-/]\s*(\d{1,2})/);
   if (dotted) {
@@ -2766,13 +2953,25 @@ function formatDate(date) {
   }).format(date);
 }
 
+function formatTime(date) {
+  if (!date || Number.isNaN(date.getTime())) return '';
+  const parts = Object.fromEntries(new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Asia/Seoul',
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23'
+  }).formatToParts(date).map((part) => [part.type, part.value]));
+  return parts.hour && parts.minute ? `${parts.hour}:${parts.minute}` : '';
+}
+
 function safeDeadlineDisplayText(value, fallback = '마감일 원문 확인') {
   const text = normalizeSpace(value);
   const fallbackText = normalizeSpace(fallback) || '마감일 원문 확인';
   if (!text) return fallbackText;
   const structuredDate = structuredDateFromText(text);
   if (structuredDate) {
-    return `${formatDate(structuredDate)}${/원서\s*마감/.test(text) ? ' 원서 마감' : ' 마감'}`;
+    const timeText = deadlineTextHasExplicitTime(text) ? ` ${formatTime(structuredDate)}` : '';
+    return `${formatDate(structuredDate)}${timeText}${/원서\s*마감/.test(text) ? ' 원서 마감' : ' 마감'}`;
   }
   if (containsStructuredDatePattern(text)) return fallbackText;
   return text;
@@ -3607,9 +3806,12 @@ function buildRecruitBriefing(context) {
   const attachmentLines = attachments.length
     ? attachments.map((item) => `${item.title}: ${item.url}`)
     : ['공고문·입사지원서·직무기술서 공식 첨부 자동 탐색 대기'];
+  const resolvedApplicationLine = safeDeadlineDisplayText(raw.deadlineText, deadline ? `${deadline} 마감` : '공식 원문에서 확인');
   const applicationLine = status === 'application_closed'
-    ? (deadline ? `${deadline} 원서 마감` : '원서 마감')
-    : safeDeadlineDisplayText(raw.deadlineText, deadline ? `${deadline} 마감` : '공식 원문에서 확인');
+    ? (/\d/.test(resolvedApplicationLine)
+      ? resolvedApplicationLine.replace(/\s*(?:원서\s*)?마감$/, ' 원서 마감')
+      : (deadline ? `${deadline} 원서 마감` : '원서 마감'))
+    : resolvedApplicationLine;
 
   const summaryLines = compactTags([
     `${company} ${isPublicRecruit ? '공채·공식전형' : '채용정보'}`,
@@ -3889,7 +4091,10 @@ function normalizeItem(raw) {
   const collectionAudit = buildCollectionAudit(raw, publishedDate);
   const isExamFormal = process.processTrack === 'exam-formal';
   const isRegionalEducationVerificationSource = servicePolicy.detailLevel === 'regional-education-verification-source';
-  const daysAfterDeadline = deadlineDistance !== null && deadlineDistance < 0 ? Math.abs(deadlineDistance) : 0;
+  const deadlinePassed = Boolean(deadlineDate && !Number.isNaN(deadlineDate.getTime()) && NOW.getTime() >= deadlineDate.getTime());
+  const daysAfterDeadline = deadlinePassed
+    ? Math.max(0, Math.ceil((NOW.getTime() - deadlineDate.getTime()) / 86400000))
+    : 0;
   const lowerText = [
     baseTitle,
     company,
@@ -3901,7 +4106,7 @@ function normalizeItem(raw) {
   ].join(' ');
 
   let status = 'active';
-  if (deadlineDistance !== null && deadlineDistance < 0) {
+  if (deadlinePassed || (deadlineDistance !== null && deadlineDistance < 0)) {
     status = isExamFormal && daysAfterDeadline <= APPLICATION_CLOSED_RETAIN_DAYS ? 'application_closed' : 'expired';
   }
   else if (deadlineDistance !== null && deadlineDistance <= 5) status = 'deadline_soon';
@@ -3912,12 +4117,17 @@ function normalizeItem(raw) {
     schoolRecommendation = 'required';
   }
   const attachments = normalizeAttachmentList(raw, sourceVerification);
+  const resolvedDeadlineDisplayText = safeDeadlineDisplayText(raw.deadlineText, deadline ? `${deadline} 마감` : '마감일 확인 필요');
+  const resolvedApplicationDeadlineText = safeDeadlineDisplayText(raw.deadlineText, deadline ? `${deadline} 마감` : '공식 원문에서 확인');
+  const closedDeadlineText = /\d/.test(resolvedDeadlineDisplayText)
+    ? resolvedDeadlineDisplayText.replace(/\s*(?:원서\s*)?마감$/, ' 원서 마감')
+    : (deadline ? `${deadline} 원서 마감` : '원서 마감');
   const displayDeadlineText = status === 'application_closed'
-    ? (deadline ? `${deadline} 원서 마감` : '원서 마감')
-    : safeDeadlineDisplayText(raw.deadlineText, deadline ? `${deadline} 마감` : '마감일 확인 필요');
+    ? closedDeadlineText
+    : resolvedDeadlineDisplayText;
   const displayApplicationDeadlineText = status === 'application_closed'
-    ? (deadline ? `${deadline} 원서 마감` : '원서 마감')
-    : safeDeadlineDisplayText(raw.deadlineText, deadline ? `${deadline} 마감` : '공식 원문에서 확인');
+    ? closedDeadlineText
+    : resolvedApplicationDeadlineText;
 
   const legalCheckFlags = ['원문확인', '마감확인', '학력조건확인', '추천여부확인'];
   const guideTags = compactTags([
@@ -4016,11 +4226,23 @@ function normalizeItem(raw) {
   return item;
 }
 
+function hasResolvedApplicationDeadline(item = {}) {
+  const text = normalizeSpace([
+    item.deadline,
+    item.deadlineText,
+    item.publicRecruitDetails?.application,
+    item.teacherBriefing?.scheduleLines?.join(' ')
+  ].join(' '));
+  return Boolean(item.deadline)
+    || /상시\s*채용|채용\s*시까지|수시\s*채용/.test(text);
+}
+
 function shouldKeep(item) {
   if (!item.title || !item.company || !item.url) return false;
   if (isRegionalEducationDisplaySuppressed(item)) return false;
   if (item.status === 'expired') return false;
   if (item.status === 'application_closed' && item.processTrack !== 'exam-formal') return false;
+  if (item.processTrack === 'exam-formal' && item.detailLevel === 'detailed-public-recruit' && !hasResolvedApplicationDeadline(item)) return false;
   if (isUnsuitableForHighSchoolChannel(item)) return false;
   const text = [item.title, item.company, item.education, item.career, item.employmentType, item.detailText].join(' ');
   const hasStrongHighSchool = STRONG_TERMS.some((term) => text.includes(term));
@@ -4433,6 +4655,20 @@ function shouldArchiveItem(item) {
   return true;
 }
 
+function isSupersededGenericArchiveItem(item, currentItems) {
+  const title = normalizeSpace(item?.baseTitle || item?.title);
+  const url = publicDisplayUrl(item?.url || item?.primaryOfficialUrl || '');
+  if (!/고졸·졸업예정\s*채용\s*공고\s*원문\s*확인/.test(title)) return false;
+  if (/\/jobs\/RC[A-Za-z0-9_-]+/i.test(url)) return false;
+  return currentItems.some((current) => {
+    const currentUrl = publicDisplayUrl(current?.url || current?.primaryOfficialUrl || '');
+    return current?.source === item.source
+      && current?.company === item.company
+      && current?.deadline === item.deadline
+      && /\/jobs\/RC[A-Za-z0-9_-]+/i.test(currentUrl);
+  });
+}
+
 function archiveSort(a, b) {
   const deadlineDiff = String(b.deadline || '').localeCompare(String(a.deadline || ''));
   if (deadlineDiff !== 0) return deadlineDiff;
@@ -4442,6 +4678,7 @@ function archiveSort(a, b) {
 function buildArchiveItems(currentItems, previousItems) {
   const best = new Map();
   const consider = (item) => {
+    if (isSupersededGenericArchiveItem(item, currentItems)) return;
     if (!shouldArchiveItem(item)) return;
     const key = archiveDedupeKey(item);
     const existing = best.get(key);

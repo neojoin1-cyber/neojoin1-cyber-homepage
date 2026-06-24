@@ -2156,7 +2156,7 @@ function mobGoto(id) {
   showPage(id);
 }
 
-const JOB_FEED_URL = 'assets/job-feed.json?v=20260624-deadline-copy';
+const JOB_FEED_URL = 'assets/job-feed.json?v=20260624-kb-deadline-v2';
 const JOB_SORT_STORAGE_KEY = 'gyo6.jobHub.sortMode.v1';
 var latestJobFeedItems = [];
 var latestJobFeedData = null;
@@ -2210,8 +2210,16 @@ function jobDateTextFromParts(yearValue, monthValue, dayValue) {
 
 function findJobDeadlineDateMatch(value) {
   var text = String(value || '').replace(/\s+/g, ' ').trim();
-  return text.match(/(?:^|[^0-9])(\d{2,4})\s*[.\-/]\s*(\d{1,2})\s*[.\-/]\s*(\d{1,2})(?=[^0-9]|$)/)
+  return text.match(/(?:^|[^0-9])(\d{2,4})\s*[.\-/]\s*(\d{1,2})\s*[.\-/]\s*(\d{1,2})(?:\s*(\d{1,2})\s*(?::|시)\s*(\d{1,2})?)?(?=[^0-9]|$)/)
     || text.match(/(?:^|[^0-9])(\d{4})(\d{2})(\d{2})(?=[^0-9]|$)/);
+}
+
+function jobDeadlineTimeTextFromMatch(match) {
+  var hour = match && match[4] !== undefined ? Number(match[4]) : null;
+  var minute = match && match[5] !== undefined ? Number(match[5] || 0) : null;
+  if (!Number.isInteger(hour) || !Number.isInteger(minute)) return '';
+  if (hour < 0 || hour > 23 || minute < 0 || minute > 59) return '';
+  return ' ' + String(hour).padStart(2, '0') + ':' + String(minute).padStart(2, '0');
 }
 
 function cleanJobDeadlineText(value, fallback) {
@@ -2222,7 +2230,7 @@ function cleanJobDeadlineText(value, fallback) {
   if (!match) return text;
   var dateText = jobDateTextFromParts(match[1], match[2], match[3]);
   if (!dateText) return fallbackText;
-  return dateText + (/원서\s*마감/.test(text) ? ' 원서 마감' : ' 마감');
+  return dateText + jobDeadlineTimeTextFromMatch(match) + (/원서\s*마감/.test(text) ? ' 원서 마감' : ' 마감');
 }
 
 function isUnknownJobDeadlineText(value) {

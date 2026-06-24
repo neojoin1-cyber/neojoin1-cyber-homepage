@@ -180,6 +180,29 @@ function malformedDeadlineFields(item) {
   return fields.flatMap(([name, value]) => malformedDeadlineFragments(value).map((fragment) => `${name}=${fragment}`));
 }
 
+function unresolvedDeadlineFields(item) {
+  const pattern = /마감일\s*(확인\s*필요|원문\s*확인|자동\s*추출\s*대기)|공식\s*원문에서\s*확인/;
+  const fields = [
+    ['deadlineText', item.deadlineText],
+    ['publicRecruitDetails.application', item.publicRecruitDetails?.application],
+    ...(Array.isArray(item.teacherBriefing?.scheduleLines)
+      ? item.teacherBriefing.scheduleLines.map((line, index) => [`teacherBriefing.scheduleLines[${index}]`, line])
+      : [])
+  ];
+  return fields
+    .filter(([, value]) => pattern.test(String(value || '')))
+    .map(([name, value]) => `${name}=${String(value || '').slice(0, 80)}`);
+}
+
+function isKbMainPageRecruitLink(item) {
+  const company = String(item.company || '');
+  const title = String(item.title || item.baseTitle || '');
+  const url = String(item.url || item.primaryOfficialUrl || '').replace(/\/+$/, '');
+  return company.includes('KB국민은행')
+    && /하계\s*체험형\s*인턴십|고졸·졸업예정\s*채용\s*공고\s*원문\s*확인/.test(title)
+    && url === 'https://kbstar.careerlink.kr';
+}
+
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -366,7 +389,7 @@ async function validateHomepage() {
   fail('home.job-priority-education-sort', html.includes('function currentJobEducationPriority') && html.includes('function isHighSchoolFriendlyOpenJob') && html.includes('priority-highschool') && html.includes('priority-friendly-open') && html.includes('job-priority-badge') && html.includes('특성화고 지원가능 기관') && html.includes('학력무관 공채'), '고졸·특성화고·마이스터고 대상과 학력무관 공공기관·대기업 공채를 일반 학력무관 공채보다 먼저 정렬하고 굵게 표시합니다.');
   fail('home.job-track-display-refine', html.includes('function displayProcessTrack') && html.includes('function jobClassificationText') && html.includes('function hasProtectedPublicRecruitJob') && html.includes('JOB_FIELD_DIRECT_ROLE_PATTERN') && html.includes('JOB_FIELD_DIRECT_LIMITED_PATTERN') && html.includes('JOB_STUDENT_RECOMMENDED_ROLE_PATTERN') && html.includes('hasRecommendedInternshipJob') && html.includes('추천 공채 상세') && html.includes('면접중심·현장형') && html.includes('채용형 인턴'), '공기업·금융권·대기업 공고라도 진짜 현장형은 면접중심으로 분리하고 NCS·인턴·전공/행정 직무 공채는 공채 상세에 남깁니다.');
   fail('home.regional-education-display-guard', html.includes('function isRegionalEducationDisplayBlocked') && html.includes('regional-education-job') && html.includes('seoul-highjob') && html.includes('공채캘린더'), '오래된 피드가 들어와도 지역 교육청 취업지원센터 보조자료를 직접 카드로 렌더링하지 않습니다.');
-  fail('home.deadline-text-sanitizer', html.includes('function cleanJobDeadlineText') && html.includes('function displayJobDeadlineText') && html.includes('function cleanJobTeacherShareText'), '이미 내려온 피드에 잘못된 마감일 숫자가 있어도 카드·상세·브리핑 표시에서 원문 확인 문구로 치환합니다.');
+  fail('home.deadline-text-sanitizer', html.includes('function cleanJobDeadlineText') && html.includes('function displayJobDeadlineText') && html.includes('function cleanJobTeacherShareText') && html.includes('function jobDeadlineTimeTextFromMatch'), '이미 내려온 피드에 잘못된 마감일 숫자가 있어도 카드·상세·브리핑 표시에서 원문 확인 문구로 치환하고 확정 마감 시각은 보존합니다.');
   fail('home.law-link', html.includes('https://gyo6-law-info.web.app'), '법률정보 시스템 연결 URL이 유지되어 있습니다.');
   fail('home.ebook-link', html.includes('https://gyo6--ebook.web.app/'), '전자책 서재 연결 URL이 유지되어 있습니다.');
   fail('home.login-law-link', /class="tnav-login"\s+href="https:\/\/gyo6-law-info\.web\.app\/\?login=law#legalTool"/.test(html), '상단 로그인 버튼은 법률정보 권한 로그인으로 연결합니다.');
@@ -494,16 +517,23 @@ function validateFeed(feed, label = 'local') {
   const weakOfficialPublicRecruit = [];
   const suitabilityProblems = [];
   const malformedDeadlineProblems = [];
+  const unresolvedDeadlineProblems = [];
+  const mainPageRecruitLinkProblems = [];
 
   for (const item of items) {
     const prefix = `${item.source || 'source'}:${item.title || item.id || 'untitled'}`;
     const suitabilityProblem = highSchoolSuitabilityProblem(item);
     const deadlineProblems = malformedDeadlineFields(item);
+    const unresolvedDeadline = unresolvedDeadlineFields(item);
     if (!item.id || !item.title || !item.company || !item.sourceName || !item.url || !item.verifiedAt) itemProblems.push(prefix);
     if (!isHttpUrl(item.url) || !isHttpUrl(item.primaryOfficialUrl || item.url)) itemProblems.push(`${prefix} URL`);
     if (!['active', 'deadline_soon', 'application_closed', 'needs_review'].includes(item.status)) itemProblems.push(`${prefix} status=${item.status}`);
     if (suitabilityProblem) suitabilityProblems.push(`${prefix} ${suitabilityProblem}`);
     if (deadlineProblems.length) malformedDeadlineProblems.push(`${prefix} ${deadlineProblems.slice(0, 3).join(', ')}`);
+    if (item.status !== 'application_closed' && item.processTrack === 'exam-formal' && item.detailLevel === 'detailed-public-recruit' && unresolvedDeadline.length) {
+      unresolvedDeadlineProblems.push(`${prefix} ${unresolvedDeadline.slice(0, 2).join(', ')}`);
+    }
+    if (isKbMainPageRecruitLink(item)) mainPageRecruitLinkProblems.push(`${prefix} ${item.url}`);
     if ((item.collectionAudit?.detectionLagDays ?? 0) < 0) negativeLag.push(prefix);
     if (item.status === 'application_closed' && !String(item.title).endsWith('(원서 마감)')) closedTitleProblems.push(prefix);
     if (item.status === 'application_closed' && item.processTrack !== 'exam-formal') closedTitleProblems.push(`${prefix} direct-closed`);
@@ -527,6 +557,8 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.items.no-regional-education-direct-card`, regionalEducationDirectItems.length === 0, `${label} 지역 교육청·학교 취업지원 소식은 직접 결과 카드로 노출되지 않습니다.`, regionalEducationDirectItems.slice(0, 5).map((item) => `${item.source}:${item.title}`).join(' | '));
   fail(`${label}.items.high-school-suitability`, suitabilityProblems.length === 0, `${label} 고졸·졸업예정자 코너에 원장·센터장·경력전용 등 부적합 공고가 섞이지 않습니다.`, suitabilityProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-malformed-deadline-text`, malformedDeadlineProblems.length === 0, `${label} 마감일 표시에 존재하지 않는 날짜 조각이 없습니다.`, malformedDeadlineProblems.slice(0, 5).join(' | '));
+  fail(`${label}.items.no-unresolved-current-deadline`, unresolvedDeadlineProblems.length === 0, `${label} 진행중 공채 상세는 공식 원문 재확인 후 확정 마감일을 표시합니다.`, unresolvedDeadlineProblems.slice(0, 5).join(' | '));
+  fail(`${label}.items.no-kb-main-page-recruit-link`, mainPageRecruitLinkProblems.length === 0, `${label} KB국민은행 공고는 채용 메인페이지가 아니라 상세 공고 URL로 연결합니다.`, mainPageRecruitLinkProblems.slice(0, 5).join(' | '));
   warn(`${label}.items.official-double-check`, weakOfficialPublicRecruit.length === 0, `${label} 공채 상세 항목은 회사·기관 또는 채용대행 공식 공고 2중확인이 필요합니다.`, weakOfficialPublicRecruit.slice(0, 5).join(' | '));
 
   const readySources = sourceStatus.filter((source) => source.configured && source.ok).length;
