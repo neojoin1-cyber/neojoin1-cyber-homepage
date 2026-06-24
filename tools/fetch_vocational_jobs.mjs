@@ -3609,7 +3609,7 @@ function buildRecruitBriefing(context) {
     : ['공고문·입사지원서·직무기술서 공식 첨부 자동 탐색 대기'];
   const applicationLine = status === 'application_closed'
     ? (deadline ? `${deadline} 원서 마감` : '원서 마감')
-    : safeDeadlineDisplayText(raw.deadlineText, deadline ? `${deadline} 마감` : '마감일 자동 추출 대기');
+    : safeDeadlineDisplayText(raw.deadlineText, deadline ? `${deadline} 마감` : '공식 원문에서 확인');
 
   const summaryLines = compactTags([
     `${company} ${isPublicRecruit ? '공채·공식전형' : '채용정보'}`,
@@ -3914,10 +3914,10 @@ function normalizeItem(raw) {
   const attachments = normalizeAttachmentList(raw, sourceVerification);
   const displayDeadlineText = status === 'application_closed'
     ? (deadline ? `${deadline} 원서 마감` : '원서 마감')
-    : safeDeadlineDisplayText(raw.deadlineText, deadline ? `${deadline} 마감` : '마감일 원문 확인');
+    : safeDeadlineDisplayText(raw.deadlineText, deadline ? `${deadline} 마감` : '마감일 확인 필요');
   const displayApplicationDeadlineText = status === 'application_closed'
     ? (deadline ? `${deadline} 원서 마감` : '원서 마감')
-    : safeDeadlineDisplayText(raw.deadlineText, deadline ? `${deadline} 마감` : '마감일 자동 추출 대기');
+    : safeDeadlineDisplayText(raw.deadlineText, deadline ? `${deadline} 마감` : '공식 원문에서 확인');
 
   const legalCheckFlags = ['원문확인', '마감확인', '학력조건확인', '추천여부확인'];
   const guideTags = compactTags([

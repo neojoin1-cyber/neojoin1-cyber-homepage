@@ -2157,7 +2157,7 @@ function mobGoto(id) {
   showPage(id);
 }
 
-const JOB_FEED_URL = 'assets/job-feed.json?v=20260624-deadline-guard';
+const JOB_FEED_URL = 'assets/job-feed.json?v=20260624-deadline-copy';
 const JOB_SORT_STORAGE_KEY = 'gyo6.jobHub.sortMode.v1';
 var latestJobFeedItems = [];
 var latestJobFeedData = null;
@@ -2226,19 +2226,36 @@ function cleanJobDeadlineText(value, fallback) {
   return dateText + (/원서\s*마감/.test(text) ? ' 원서 마감' : ' 마감');
 }
 
+function isUnknownJobDeadlineText(value) {
+  return /^(?:마감일\s*)?(?:원문\s*확인|확인\s*필요|자동\s*추출\s*대기)$/.test(String(value || '').replace(/\s+/g, ' ').trim())
+    || /마감일\s*(?:원문\s*확인|확인\s*필요|자동\s*추출\s*대기)/.test(String(value || ''))
+    || /공식\s*원문에서\s*마감일\s*확인/.test(String(value || ''));
+}
+
+function polishUnknownJobDeadlineText(value, unknownText) {
+  var text = String(value || '').replace(/\s+/g, ' ').trim();
+  return isUnknownJobDeadlineText(text) ? unknownText : text;
+}
+
 function displayJobDeadlineText(item, fallback) {
   var deadlineFallback = item && item.deadline
     ? item.deadline + (item.status === 'application_closed' ? ' 원서 마감' : ' 마감')
-    : (fallback || '마감일 원문 확인');
-  return cleanJobDeadlineText(item && (item.deadlineText || item.deadline), deadlineFallback);
+    : (fallback || '마감일 확인 필요');
+  return polishUnknownJobDeadlineText(
+    cleanJobDeadlineText(item && (item.deadlineText || item.deadline), deadlineFallback),
+    '마감일 확인 필요'
+  );
 }
 
 function displayJobApplicationText(item, fallback) {
   var details = item && item.publicRecruitDetails ? item.publicRecruitDetails : {};
   var deadlineFallback = item && item.deadline
     ? item.deadline + (item.status === 'application_closed' ? ' 원서 마감' : ' 마감')
-    : (fallback || '마감일 자동 추출 대기');
-  return cleanJobDeadlineText(details.application || (item && (item.deadlineText || item.deadline)), deadlineFallback);
+    : (fallback || '공식 원문에서 확인');
+  return polishUnknownJobDeadlineText(
+    cleanJobDeadlineText(details.application || (item && (item.deadlineText || item.deadline)), deadlineFallback),
+    '공식 원문에서 확인'
+  );
 }
 
 function replaceMalformedJobDeadlineFragments(value, replacement) {
@@ -2249,7 +2266,9 @@ function replaceMalformedJobDeadlineFragments(value, replacement) {
 
 function cleanJobDeadlineLine(line, item) {
   var replacement = displayJobDeadlineText(item, '마감일 원문 확인');
-  return replaceMalformedJobDeadlineFragments(line, replacement);
+  return replaceMalformedJobDeadlineFragments(line, replacement)
+    .replace(/원서접수\s*:\s*마감일\s*(?:원문\s*확인|확인\s*필요|자동\s*추출\s*대기)/g, '원서접수: 공식 원문에서 확인')
+    .replace(/마감\s*:\s*마감일\s*(?:원문\s*확인|확인\s*필요|자동\s*추출\s*대기)/g, '마감일: 공식 원문에서 확인');
 }
 
 function cleanJobDeadlineLines(lines, item) {
@@ -2259,7 +2278,9 @@ function cleanJobDeadlineLines(lines, item) {
 }
 
 function cleanJobTeacherShareText(value, item) {
-  return replaceMalformedJobDeadlineFragments(value, displayJobDeadlineText(item, '마감일 원문 확인'));
+  return replaceMalformedJobDeadlineFragments(value, displayJobDeadlineText(item, '마감일 원문 확인'))
+    .replace(/원서접수\s*:\s*마감일\s*(?:원문\s*확인|확인\s*필요|자동\s*추출\s*대기)/g, '원서접수: 공식 원문에서 확인')
+    .replace(/마감\s*:\s*마감일\s*(?:원문\s*확인|확인\s*필요|자동\s*추출\s*대기)/g, '마감일: 공식 원문에서 확인');
 }
 
 function jobItemKey(item) {
@@ -2542,7 +2563,7 @@ function renderPublicRecruitDetails(item) {
       '<span><b>채용부문</b>' + escapeJobHtml(hiring) + '</span>',
       '<span><b>전형</b>' + escapeJobHtml(process) + '</span>',
       '<span><b>자격</b>' + escapeJobHtml(eligibility) + '</span>',
-      '<span><b>마감</b>' + escapeJobHtml(application) + '</span>',
+      '<span><b>마감일</b>' + escapeJobHtml(application) + '</span>',
     '</div>'
   ].join('');
 }
@@ -2725,14 +2746,14 @@ function renderSchoolCheckSections(briefing) {
 function renderJobDetailSections(item) {
   var briefing = item.teacherBriefing || {};
   var details = item.publicRecruitDetails || {};
-  var applicationText = displayJobApplicationText(item, '자동 추출 대기');
+  var applicationText = displayJobApplicationText(item, '공식 원문에서 확인');
   var deadlineText = displayJobDeadlineText(item, '마감일 자동 추출 대기');
   var scheduleLines = cleanJobDeadlineLines(briefing.scheduleLines, item);
   var shareText = cleanJobTeacherShareText(briefing.teacherShareText, item);
   var summaryFallback = [
     '채용부문: ' + (details.hiring || item.recruitField || '자동 추출 대기'),
     '응시자격: ' + (details.eligibility || [item.education, item.career].filter(Boolean).join(' · ') || '자동 추출 대기'),
-    '마감: ' + applicationText
+    '마감일: ' + applicationText
   ];
   var scheduleFallback = [
     details.process || item.processNote || item.processTrackName || '전형절차 자동 추출 대기',
