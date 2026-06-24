@@ -26,12 +26,13 @@
 | 3 | 고용24 공채속보 | `WORK24_AUTH_KEY` 또는 `WORKNET_AUTH_KEY` | 고용24 OPEN-API 인증키 확보 후 Secret 저장 |
 | 4 | 사람인 공채/채용 API | `SARAMIN_ACCESS_KEY` | 사람인 Open API 접근키 확보 후 Secret 저장 |
 | 5 | 서울특별시교육청 하이잡 | 없음 | 별도 키 없이 시스템이 공식 채용정보 목록과 상세 원문을 보조검증용으로 자동 확인 |
-| 6 | 나라일터 추가 피드 | `MPM_PUBLIC_JOB_API_URL` 또는 `NARAILTER_API_URL` | 인사혁신처 호출 URL이 바뀌거나 별도 공식 URL이 있으면 Secret 저장 |
-| 7 | 군 부사관·군무원 | `MILITARY_RECRUIT_API_URL`, 필요 시 `MILITARY_RECRUIT_API_KEY` | 각 군 또는 국방부 공식 채용 데이터 경로 확인 |
-| 8 | 지역별 교육청 취업지원센터 | `EDU_JOB_CENTER_FEEDS` | 기본 내장 목록 외 추가 시도교육청 취업지원센터 RSS/API/게시판 URL을 줄바꿈 또는 쉼표로 모아 저장 |
-| 9 | 잡코리아 고졸채용 루키 | `JOBKOREA_API_URL`, 필요 시 `JOBKOREA_API_KEY` | 공식 제휴/API 가능 여부 확인 |
-| 10 | 인크루트 고졸·신입 | `INCRUIT_API_URL`, 필요 시 `INCRUIT_API_KEY` | 공식 제휴/API 가능 여부 확인 |
-| 11 | 비영리·공익기관 | `NONPROFIT_RECRUIT_API_URL`, 필요 시 `NONPROFIT_RECRUIT_API_KEY` | 공식 채용 피드 경로 확인 |
+| 6 | 잡알리오 추가 감시기관 | `JOB_ALIO_EXTRA_WATCH_ORGS` | 반복 누락 기관을 `기관명`, `기관코드\|기관명`, `기관명\|기관코드` 형식으로 줄바꿈 또는 쉼표 저장 |
+| 7 | 나라일터 추가 피드 | `MPM_PUBLIC_JOB_API_URL` 또는 `NARAILTER_API_URL` | 인사혁신처 호출 URL이 바뀌거나 별도 공식 URL이 있으면 Secret 저장 |
+| 8 | 군 부사관·군무원 | `MILITARY_RECRUIT_API_URL`, 필요 시 `MILITARY_RECRUIT_API_KEY` | 각 군 또는 국방부 공식 채용 데이터 경로 확인 |
+| 9 | 지역별 교육청 취업지원센터 | `EDU_JOB_CENTER_FEEDS` | 기본 내장 목록 외 추가 시도교육청 취업지원센터 RSS/API/게시판 URL을 줄바꿈 또는 쉼표로 모아 저장 |
+| 10 | 잡코리아 고졸채용 루키 | `JOBKOREA_API_URL`, 필요 시 `JOBKOREA_API_KEY` | 공식 제휴/API 가능 여부 확인 |
+| 11 | 인크루트 고졸·신입 | `INCRUIT_API_URL`, 필요 시 `INCRUIT_API_KEY` | 공식 제휴/API 가능 여부 확인 |
+| 12 | 비영리·공익기관 | `NONPROFIT_RECRUIT_API_URL`, 필요 시 `NONPROFIT_RECRUIT_API_KEY` | 공식 채용 피드 경로 확인 |
 
 ## 절대 하지 않을 일
 
@@ -46,6 +47,7 @@
 - 인사혁신처와 기재부 공공데이터 API는 전용 어댑터로 수집한다.
 - 고용24와 사람인은 전용 어댑터로 수집한다.
 - 서울특별시교육청 하이잡은 전용 어댑터로 수집하되 직접 표시하지 않고 보조검증 후보로만 둔다.
+- 잡알리오 추가 감시기관은 기본 핵심기관 목록에 합쳐 기관별 검색 대상으로 확인한다.
 - 경상남도교육청·부산광역시교육청 등 지역 교육청 취업지원센터는 내장 공식 감시 목록으로 먼저 확인하고, 추가 URL은 같은 보조검증 어댑터로 확장한다.
 - 교육청 취업지원센터의 `고졸채용`, `공채캘린더`, `채용공고`, `채용의뢰`, `구인정보`는 배제하지 않지만 직접 결과 카드로 표시하지 않는다. 잡알리오·고용24·기관·기업 공식 원문에서 같은 채용이 확인될 때만 누락 보완과 2차·3차 검증 출처로 붙인다.
 - 나라일터, 군 채용 등은 먼저 범용 JSON/XML/RSS 어댑터로 읽고, 구조가 확인되면 전용 어댑터로 강화한다.

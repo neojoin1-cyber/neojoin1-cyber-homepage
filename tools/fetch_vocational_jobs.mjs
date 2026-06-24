@@ -173,6 +173,7 @@ const CRITICAL_JOB_ALIO_ORGS = [
   { orgCode: 'C0251', orgName: '한국인터넷진흥원', aliases: ['KISA'] },
   { orgCode: 'C0261', orgName: '한국직업능력연구원', aliases: [] }
 ];
+const JOB_ALIO_EXTRA_WATCH_ORG_SECRET_NAMES = ['JOB_ALIO_EXTRA_WATCH_ORGS', 'JOB_ALIO_WATCH_ORGS'];
 const CRITICAL_CURRENT_JOB_ALIO_ITEMS = [
   {
     id: 'kepco-2026-highschool-4grade',
@@ -867,7 +868,6 @@ const DIRECT_TERMS = [
   '면접',
   '수시채용',
   '상시채용',
-  '채용연계',
   '현장실습',
   '산학협력',
   '서류전형',
@@ -876,6 +876,22 @@ const DIRECT_TERMS = [
   '알바',
   '파트타임'
 ];
+
+const PUBLIC_RECRUIT_SECTORS = new Set([
+  'public-institution',
+  'government',
+  'military',
+  'finance',
+  'finance-large-company',
+  'large-company'
+]);
+const RECOMMENDED_INTERNSHIP_PATTERN = /(채용형\s*인턴|채용형인턴|채용\s*연계|채용연계|청년\s*인턴|청년인턴|체험형\s*인턴|체험형인턴|인턴)/;
+const RECOMMENDED_PUBLIC_ROLE_PATTERN = /(신입직|신입사원|신입행원|일반직|행정직|사무직|전산직|기술직|생산직|업무지원직|지역인재|기능인재|고졸인재|사회형평|공채|공개채용|공개\s*경쟁|블라인드\s*채용)/;
+const STUDENT_RECOMMENDED_ROLE_PATTERN = /(신입직|신입사원|신입행원|신규직원|직원\s*공개채용|정규직|무기계약직|일반직|행정직|사무직|전산직|기술직|생산직|업무지원직|교육행정|연구행정|일반행정|사무보조|행정보조|전문행정|연구지원|사업관리|회계|총무|정보화|IT|디지털|데이터|기계|전기|전자|토목|건축|안전관리|품질|실험|검사|지역인재|기능인재|고졸인재|사회형평|공채|공개채용|공개\s*경쟁|블라인드\s*채용)/i;
+const FIELD_DIRECT_ROLE_PATTERN = /(일용직|일용|단기노무|단기\s*노무|노무원|한시인력|탐방로\s*보수|보수전담|환경관리|수익시설|경비원|경비|보안직|미화|청소|시설관리|시설직|조리원|조리사|운전원|운전직|주차|안내원|감시원|순찰|현장관리|현장지원|계절직)/;
+const FIELD_DIRECT_LIMITED_PATTERN = /(기간제근로자|기간제\s*계약직|기간제\s*직원|계약직\s*직원|계약직\s*채용|한시적|대체인력|휴직자\s*대체|육아휴직\s*대체|임시직|촉탁|촉탁직|위촉직|수탁과제|수탁폐수|대학운영직|특정업무직)/;
+const FIELD_DIRECT_EMPLOYMENT_PATTERN = /(기간제|비정규직|계약직|단기|한시적|임시직)/;
+const FIELD_DIRECT_CONTEXT_PATTERN = /(현장|보수|환경|수익시설|경비|보안|시설|미화|청소|조리|운전|노무|대체인력|육아휴직|임시직)/;
 
 const COMPANY_NOTICE_TERMS = ['채용', '모집', '공고', '입사지원', '응시자격', '전형절차', '서류전형', '면접전형'];
 const GENERIC_NOTICE_TERMS = new Set([
@@ -939,6 +955,83 @@ function secretNamesForSource(source) {
 
 function sha(value) {
   return crypto.createHash('sha256').update(value).digest('hex').slice(0, 18);
+}
+
+function splitSecretList(value) {
+  return textValue(value)
+    .split(/[\r\n,;]+/)
+    .map((entry) => normalizeSpace(entry))
+    .filter(Boolean);
+}
+
+function parseJobAlioWatchOrg(value) {
+  const parts = normalizeSpace(value)
+    .split('|')
+    .map((part) => normalizeSpace(part))
+    .filter(Boolean);
+  if (!parts.length) return null;
+
+  let orgCode = '';
+  let orgName = '';
+  const aliases = [];
+
+  for (const part of parts) {
+    if (/^C\d{4}$/i.test(part)) {
+      orgCode = part.toUpperCase();
+    } else if (!orgName) {
+      orgName = part;
+    } else {
+      aliases.push(part);
+    }
+  }
+
+  if (!orgName && !orgCode) return null;
+  return {
+    orgCode,
+    orgName: orgName || orgCode,
+    aliases,
+    configured: true
+  };
+}
+
+function extraJobAlioWatchOrgs() {
+  return Array.from(new Set(JOB_ALIO_EXTRA_WATCH_ORG_SECRET_NAMES
+    .flatMap((secretName) => splitSecretList(readSecret(secretName)))))
+    .map(parseJobAlioWatchOrg)
+    .filter(Boolean);
+}
+
+function normalizedJobAlioWatchOrg(org) {
+  const orgCode = normalizeSpace(org?.orgCode || '').toUpperCase();
+  const orgName = normalizeSpace(org?.orgName || orgCode);
+  if (!orgName && !orgCode) return null;
+  return {
+    ...org,
+    orgCode,
+    orgName,
+    aliases: Array.isArray(org?.aliases)
+      ? org.aliases.map((alias) => normalizeSpace(alias)).filter(Boolean)
+      : []
+  };
+}
+
+function allJobAlioWatchOrgs() {
+  const merged = [];
+  const seen = new Set();
+
+  for (const rawOrg of [...CRITICAL_JOB_ALIO_ORGS, ...extraJobAlioWatchOrgs()]) {
+    const org = normalizedJobAlioWatchOrg(rawOrg);
+    if (!org) continue;
+    const keys = [
+      org.orgCode ? `code:${org.orgCode}` : '',
+      org.orgName ? `name:${org.orgName.toLowerCase()}` : ''
+    ].filter(Boolean);
+    if (keys.some((key) => seen.has(key))) continue;
+    keys.forEach((key) => seen.add(key));
+    merged.push(org);
+  }
+
+  return merged;
 }
 
 function textValue(value) {
@@ -2593,6 +2686,41 @@ async function enrichCompanyNoticeChecks(rawItems, limit = 40) {
   });
 }
 
+function kstDateFromParts(yearValue, monthValue, dayValue) {
+  const year = Number(yearValue);
+  const month = Number(monthValue);
+  const day = Number(dayValue);
+  if (!Number.isInteger(year) || !Number.isInteger(month) || !Number.isInteger(day)) return null;
+  if (year < 2000 || year > 2099 || month < 1 || month > 12 || day < 1) return null;
+  const maxDay = new Date(Date.UTC(year, month, 0)).getUTCDate();
+  if (day > maxDay) return null;
+  const yyyy = String(year).padStart(4, '0');
+  const mm = String(month).padStart(2, '0');
+  const dd = String(day).padStart(2, '0');
+  return new Date(`${yyyy}-${mm}-${dd}T23:59:59+09:00`);
+}
+
+function structuredDateFromText(value) {
+  const raw = normalizeSpace(value);
+  if (!raw) return null;
+
+  const compact = raw.match(/(?:^|[^0-9])(\d{4})(\d{2})(\d{2})(?=[^0-9]|$)/);
+  if (compact) return kstDateFromParts(compact[1], compact[2], compact[3]);
+
+  const dotted = raw.match(/(?:^|[^0-9])(\d{4})\s*[.\-/]\s*(\d{1,2})\s*[.\-/]\s*(\d{1,2})(?=[^0-9]|$)/);
+  if (dotted) return kstDateFromParts(dotted[1], dotted[2], dotted[3]);
+
+  const shortDotted = raw.match(/(?:^|[^0-9])(\d{2})\s*[.\-/]\s*(\d{1,2})\s*[.\-/]\s*(\d{1,2})(?=[^0-9]|$)/);
+  if (shortDotted) return kstDateFromParts(Number(shortDotted[1]) + 2000, shortDotted[2], shortDotted[3]);
+
+  return null;
+}
+
+function containsStructuredDatePattern(value) {
+  const raw = normalizeSpace(value);
+  return /(?:^|[^0-9])(?:\d{4}\d{2}\d{2}|\d{2,4}\s*[.\-/]\s*\d{1,2}\s*[.\-/]\s*\d{1,2})(?=[^0-9]|$)/.test(raw);
+}
+
 function parseDate(value) {
   const raw = normalizeSpace(value);
   if (!raw) return null;
@@ -2610,22 +2738,19 @@ function parseDate(value) {
   }
 
   const compact = raw.match(/^(\d{4})(\d{2})(\d{2})$/);
-  if (compact) return new Date(`${compact[1]}-${compact[2]}-${compact[3]}T23:59:59+09:00`);
+  if (compact) return kstDateFromParts(compact[1], compact[2], compact[3]);
 
   const dotted = raw.match(/^(\d{4})\s*[.\-/]\s*(\d{1,2})\s*[.\-/]\s*(\d{1,2})/);
   if (dotted) {
-    const month = dotted[2].padStart(2, '0');
-    const day = dotted[3].padStart(2, '0');
-    return new Date(`${dotted[1]}-${month}-${day}T23:59:59+09:00`);
+    return kstDateFromParts(dotted[1], dotted[2], dotted[3]);
   }
 
   const shortDotted = raw.match(/^(\d{2})\s*[.\-/]\s*(\d{1,2})\s*[.\-/]\s*(\d{1,2})/);
   if (shortDotted) {
-    const year = Number(shortDotted[1]) + 2000;
-    const month = shortDotted[2].padStart(2, '0');
-    const day = shortDotted[3].padStart(2, '0');
-    return new Date(`${year}-${month}-${day}T23:59:59+09:00`);
+    return kstDateFromParts(Number(shortDotted[1]) + 2000, shortDotted[2], shortDotted[3]);
   }
+
+  if (containsStructuredDatePattern(raw)) return null;
 
   const date = new Date(raw);
   return Number.isNaN(date.getTime()) ? null : date;
@@ -2639,6 +2764,18 @@ function formatDate(date) {
     month: '2-digit',
     day: '2-digit'
   }).format(date);
+}
+
+function safeDeadlineDisplayText(value, fallback = '마감일 원문 확인') {
+  const text = normalizeSpace(value);
+  const fallbackText = normalizeSpace(fallback) || '마감일 원문 확인';
+  if (!text) return fallbackText;
+  const structuredDate = structuredDateFromText(text);
+  if (structuredDate) {
+    return `${formatDate(structuredDate)}${/원서\s*마감/.test(text) ? ' 원서 마감' : ' 마감'}`;
+  }
+  if (containsStructuredDatePattern(text)) return fallbackText;
+  return text;
 }
 
 function daysUntil(date) {
@@ -2709,11 +2846,62 @@ function includesAny(value, terms) {
 
 function hasWrittenExamSignal(value) {
   const text = normalizeSpace(value);
+  if (/필기시험은\s*현재.{0,40}확인되지|필기시험\s*신호가\s*없어|필기시험\s*미확인|필기\/NCS\s*시험\s*신호가\s*없어|필기\s*미탐지/.test(text)) return false;
   if (includesAny(text, WRITTEN_EXAM_TERMS)) return true;
   return [
     /NCS\s*(직업기초능력|직무수행능력|직무능력)?\s*(평가|검사|시험|필기)/i,
     /(필기|시험|평가|검사)\s*[^.。]{0,20}NCS/i
   ].some((pattern) => pattern.test(text));
+}
+
+function hasExplicitHighSchoolRecruitSignal(value) {
+  const text = normalizeSpace(value);
+  return STRONG_TERMS.some((term) => text.includes(term))
+    || /고졸\s*(제한|전형|채용|구분|인재|사회형평)/.test(text);
+}
+
+function hasRecommendedInternshipSignal(value) {
+  return RECOMMENDED_INTERNSHIP_PATTERN.test(normalizeSpace(value));
+}
+
+function hasHardFieldDirectRecruitSignal(value) {
+  const text = normalizeSpace(value);
+  return FIELD_DIRECT_ROLE_PATTERN.test(text);
+}
+
+function hasSoftFieldDirectRecruitSignal(value) {
+  const text = normalizeSpace(value);
+  return FIELD_DIRECT_LIMITED_PATTERN.test(text)
+    || (FIELD_DIRECT_EMPLOYMENT_PATTERN.test(text) && FIELD_DIRECT_CONTEXT_PATTERN.test(text));
+}
+
+function hasProtectedPublicRecruitSignal(value, hasExam = false) {
+  const text = normalizeSpace(value);
+  return hasRecommendedInternshipSignal(text)
+    || (hasExam && !hasHardFieldDirectRecruitSignal(text))
+    || ((hasExplicitHighSchoolRecruitSignal(text) || /학력\s*무관/.test(text)) && STUDENT_RECOMMENDED_ROLE_PATTERN.test(text))
+    || STUDENT_RECOMMENDED_ROLE_PATTERN.test(text)
+    || RECOMMENDED_PUBLIC_ROLE_PATTERN.test(text)
+    || hasWrittenExamSignal(text);
+}
+
+function hasRecommendedPublicRecruitSignal(value, hasExam = false) {
+  return hasProtectedPublicRecruitSignal(value, hasExam);
+}
+
+function hasFieldDirectRecruitSignal(value) {
+  const text = normalizeSpace(value);
+  return hasHardFieldDirectRecruitSignal(text) || hasSoftFieldDirectRecruitSignal(text);
+}
+
+function shouldForceFieldDirectRecruit(raw, sector, text, hasExam = false) {
+  const source = catalogSource(raw.source);
+  const formalSource = source?.trackHint === 'exam' || PUBLIC_RECRUIT_SECTORS.has(sector);
+  const normalized = normalizeSpace(text);
+  if (!formalSource || !hasFieldDirectRecruitSignal(normalized)) return false;
+  if (hasRecommendedInternshipSignal(normalized)) return false;
+  if (hasHardFieldDirectRecruitSignal(normalized)) return true;
+  return !hasProtectedPublicRecruitSignal(normalized, hasExam);
 }
 
 function withApplicationClosedSuffix(title) {
@@ -2771,6 +2959,8 @@ function classifyProcess(raw) {
   const hasDirect = includesAny(haystack, DIRECT_TERMS);
   const sector = classifySector(raw, haystack);
   const isRegionalEducationRecruit = isRegionalEducationConcreteRecruit(raw);
+  const forceFieldDirect = shouldForceFieldDirectRecruit(raw, sector, haystack, hasExam);
+  const recommendedPublicRecruit = hasRecommendedPublicRecruitSignal(haystack, hasExam);
   const labels = [sectorLabel(sector)];
 
   let processTrack = 'direct-interview';
@@ -2778,7 +2968,13 @@ function classifyProcess(raw) {
   let confidence = 'review';
   let note = '공식 소스에서 추출한 전형 키워드 기준으로 자동 분류했습니다.';
 
-  if (hasExam) {
+  if (forceFieldDirect) {
+    processTrack = 'direct-interview';
+    writtenExam = hasExam ? 'likely' : 'not_found';
+    confidence = 'high';
+    labels.push('현장형 분리');
+    note = '공공·금융·대기업 소스라도 단기노무·한시인력·환경관리 등 현장형 신호가 우세해 면접중심·현장형 채용으로 분리했습니다.';
+  } else if (hasExam) {
     processTrack = 'exam-formal';
     writtenExam = 'confirmed';
     confidence = 'high';
@@ -2790,6 +2986,12 @@ function classifyProcess(raw) {
     confidence = 'high';
     labels.push('교육청 보조검증');
     note = '지역 교육청 취업지원센터 소식은 직접 표시 후보가 아니라 잡알리오·고용24·기관 원문을 보강하는 2차·3차 검증 출처로 분리합니다.';
+  } else if (recommendedPublicRecruit && (source?.trackHint === 'exam' || PUBLIC_RECRUIT_SECTORS.has(sector))) {
+    processTrack = 'exam-formal';
+    writtenExam = 'likely';
+    confidence = 'medium';
+    labels.push('추천 공채 후보');
+    note = '채용형 인턴·신입·전공직무·고졸/특성화고 신호가 있어 공채 상세 정보 후보로 분류했습니다.';
   } else if (hasDirect || source?.trackHint === 'direct' || ['mid-sme', 'part-time'].includes(sector)) {
     processTrack = 'direct-interview';
     writtenExam = 'not_found';
@@ -2797,11 +2999,11 @@ function classifyProcess(raw) {
     labels.push(hasDirect ? '서류·면접 중심' : '필기 미탐지');
     note = '필기시험 신호가 없어 서류·면접 중심 채용으로 자동 분류했습니다.';
   } else if (source?.trackHint === 'exam' || ['public-institution', 'government', 'military', 'finance', 'finance-large-company', 'large-company'].includes(sector)) {
-    processTrack = 'exam-formal';
-    writtenExam = 'likely';
-    confidence = 'medium';
-    labels.push('공식전형 후보');
-    note = '공공·군·정부 채용 성격상 공식 선발 절차 후보로 분류했습니다.';
+    processTrack = 'direct-interview';
+    writtenExam = 'unknown';
+    confidence = 'review';
+    labels.push('공채상세 검토대기');
+    note = '공공·금융·대기업 소스라도 특성화고 학생에게 추천할 만한 공채·인턴·전공직무 신호가 약해 면접중심·현장형 채용으로 분리했습니다.';
   }
 
   if (haystack.includes('공채') || haystack.includes('공개채용')) labels.push('공채');
@@ -3407,7 +3609,7 @@ function buildRecruitBriefing(context) {
     : ['공고문·입사지원서·직무기술서 공식 첨부 자동 탐색 대기'];
   const applicationLine = status === 'application_closed'
     ? (deadline ? `${deadline} 원서 마감` : '원서 마감')
-    : firstText(raw.deadlineText, deadline ? `${deadline} 마감` : '', applicationMethod, '마감일 자동 추출 대기');
+    : safeDeadlineDisplayText(raw.deadlineText, deadline ? `${deadline} 마감` : '마감일 자동 추출 대기');
 
   const summaryLines = compactTags([
     `${company} ${isPublicRecruit ? '공채·공식전형' : '채용정보'}`,
@@ -3710,6 +3912,12 @@ function normalizeItem(raw) {
     schoolRecommendation = 'required';
   }
   const attachments = normalizeAttachmentList(raw, sourceVerification);
+  const displayDeadlineText = status === 'application_closed'
+    ? (deadline ? `${deadline} 원서 마감` : '원서 마감')
+    : safeDeadlineDisplayText(raw.deadlineText, deadline ? `${deadline} 마감` : '마감일 원문 확인');
+  const displayApplicationDeadlineText = status === 'application_closed'
+    ? (deadline ? `${deadline} 원서 마감` : '원서 마감')
+    : safeDeadlineDisplayText(raw.deadlineText, deadline ? `${deadline} 마감` : '마감일 자동 추출 대기');
 
   const legalCheckFlags = ['원문확인', '마감확인', '학력조건확인', '추천여부확인'];
   const guideTags = compactTags([
@@ -3753,9 +3961,7 @@ function normalizeItem(raw) {
     attachments,
     detailText: normalizeSpace(raw.description || raw.processText).slice(0, isExamFormal || isRegionalEducationVerificationSource ? 620 : 180),
     deadline,
-    deadlineText: status === 'application_closed'
-      ? (deadline ? `${deadline} 원서 마감` : '원서 마감')
-      : normalizeSpace(raw.deadlineText) || (deadline ? `${deadline} 마감` : '마감일 원문 확인'),
+    deadlineText: displayDeadlineText,
     url: sourceVerification.primaryOfficialUrl || sourceVerification.companyNoticeUrl || url || sourceVerification.sourceOfficialUrl,
     originalUrl: sourceVerification.sourceOfficialUrl || url,
     sourceOfficialUrl: sourceVerification.sourceOfficialUrl,
@@ -3797,9 +4003,7 @@ function normalizeItem(raw) {
       ]).join(' · ') || '채용부문·규모 자동 추출 대기',
       eligibility: [normalizeSpace(raw.education), normalizeSpace(raw.career)].filter(Boolean).join(' · ') || '응시자격 자동 추출 대기',
       process: normalizeSpace(raw.processText || process.processNote).slice(0, 260) || '전형절차 자동 추출 대기',
-      application: status === 'application_closed'
-        ? (deadline ? `${deadline} 원서 마감` : '원서 마감')
-        : normalizeSpace(raw.deadlineText) || (deadline ? `${deadline} 마감` : '마감일 자동 추출 대기'),
+      application: displayApplicationDeadlineText,
       attachments: attachments.map((item) => item.title)
     } : null,
     teacherBriefing,
@@ -4629,12 +4833,13 @@ function makeJobAlioScanTargets() {
       priority: query.searchType === 'elig' ? 10 : 15
     });
   }
-  for (const org of CRITICAL_JOB_ALIO_ORGS) {
+  for (const org of allJobAlioWatchOrgs()) {
+    const searchValue = org.orgCode || org.orgName;
     targets.push({
-      id: `critical-org-${org.orgCode}`,
+      id: `critical-org-${org.orgCode || sha(org.orgName)}`,
       url: jobAlioListUrl({
         pageNo: 1,
-        org_name: org.orgCode
+        org_name: searchValue
       }),
       reason: `critical-org:${org.orgName}`,
       priority: 5,
@@ -5553,7 +5758,7 @@ function buildCriticalJobAlioCoverage(items) {
 
   return {
     checkedAt: CHECKED_AT,
-    watchInstitutionCount: CRITICAL_JOB_ALIO_ORGS.length,
+    watchInstitutionCount: allJobAlioWatchOrgs().length,
     currentRequiredCount: current.length,
     coveredCurrent,
     missingCurrent
@@ -5660,6 +5865,8 @@ async function main() {
   const criticalCoverage = buildCriticalJobAlioCoverage(items);
   const collectionReview = buildCollectionReview(items, sourceStatusList, criticalCoverage);
   const secretReadiness = buildSecretReadinessReport(sourceStatusList);
+  const jobAlioWatchOrgs = allJobAlioWatchOrgs();
+  const extraJobAlioWatchOrgList = extraJobAlioWatchOrgs();
 
   const payload = {
     version: 4,
@@ -5715,7 +5922,10 @@ async function main() {
       jobAlioScanLimit: JOB_ALIO_SCAN_LIMIT,
       jobAlioScanPages: JOB_ALIO_SCAN_PAGES,
       jobAlioKeywordQueries: JOB_ALIO_KEYWORD_QUERIES.map((query) => `${query.searchType}:${query.keyword}`),
-      jobAlioCriticalWatchInstitutions: CRITICAL_JOB_ALIO_ORGS.map((org) => org.orgName),
+      jobAlioCriticalWatchInstitutions: jobAlioWatchOrgs.map((org) => org.orgName),
+      jobAlioBaseWatchInstitutions: CRITICAL_JOB_ALIO_ORGS.map((org) => org.orgName),
+      jobAlioExtraWatchInstitutions: extraJobAlioWatchOrgList.map((org) => org.orgName),
+      jobAlioExtraWatchInstitutionSecretNames: JOB_ALIO_EXTRA_WATCH_ORG_SECRET_NAMES,
       jobAlioCurrentCriticalItems: CRITICAL_CURRENT_JOB_ALIO_ITEMS.map((item) => ({
         id: item.id,
         idx: item.idx,

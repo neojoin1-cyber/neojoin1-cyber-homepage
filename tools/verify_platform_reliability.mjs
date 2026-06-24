@@ -147,6 +147,39 @@ function collectMatches(text, regex) {
   return Array.from(text.matchAll(regex));
 }
 
+function deadlineDateTextFromParts(yearValue, monthValue, dayValue) {
+  let year = Number(yearValue);
+  const month = Number(monthValue);
+  const day = Number(dayValue);
+  if (String(yearValue).length === 2) year += 2000;
+  if (!Number.isInteger(year) || !Number.isInteger(month) || !Number.isInteger(day)) return '';
+  if (year < 2000 || year > 2099 || month < 1 || month > 12 || day < 1) return '';
+  const maxDay = new Date(Date.UTC(year, month, 0)).getUTCDate();
+  if (day > maxDay) return '';
+  return `${String(year).padStart(4, '0')}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+}
+
+function malformedDeadlineFragments(value) {
+  const text = String(value || '');
+  const fragments = [];
+  for (const match of text.matchAll(/(\d{2,4})\s*[.\-/]\s*(\d{1,2})\s*[.\-/]\s*(\d{1,2})\s*(?:원서\s*)?마감/g)) {
+    if (!deadlineDateTextFromParts(match[1], match[2], match[3])) fragments.push(match[0]);
+  }
+  return fragments;
+}
+
+function malformedDeadlineFields(item) {
+  const fields = [
+    ['deadlineText', item.deadlineText],
+    ['publicRecruitDetails.application', item.publicRecruitDetails?.application],
+    ...(Array.isArray(item.teacherBriefing?.scheduleLines)
+      ? item.teacherBriefing.scheduleLines.map((line, index) => [`teacherBriefing.scheduleLines[${index}]`, line])
+      : []),
+    ['teacherBriefing.teacherShareText', item.teacherBriefing?.teacherShareText]
+  ];
+  return fields.flatMap(([name, value]) => malformedDeadlineFragments(value).map((fragment) => `${name}=${fragment}`));
+}
+
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -293,9 +326,17 @@ async function validateWorkflow() {
   fail('workflow.schedule-3x-kst', workflow.includes('10 0,5,14 * * *'), '공채 자동 수집이 09:10, 14:10, 23:10 KST 기준으로 예약되어 있습니다.');
   fail('workflow.manual-dispatch', workflow.includes('workflow_dispatch'), '수동 재실행 트리거가 있습니다.');
   fail('workflow.syntax-gate', workflow.includes('node --check tools/fetch_vocational_jobs.mjs'), '수집 전 문법 검사를 실행합니다.');
-  for (const name of ['DATA_GO_KR_SERVICE_KEY', 'MPM_PUBLIC_JOB_SERVICE_KEY', 'MOEF_PUBLIC_RECRUIT_SERVICE_KEY', 'SARAMIN_ACCESS_KEY', 'EDU_JOB_CENTER_FEEDS', 'FINANCE_RECRUIT_FEEDS', 'LARGE_COMPANY_RECRUIT_FEEDS']) {
+  for (const name of ['DATA_GO_KR_SERVICE_KEY', 'MPM_PUBLIC_JOB_SERVICE_KEY', 'MOEF_PUBLIC_RECRUIT_SERVICE_KEY', 'SARAMIN_ACCESS_KEY', 'JOB_ALIO_EXTRA_WATCH_ORGS', 'EDU_JOB_CENTER_FEEDS', 'FINANCE_RECRUIT_FEEDS', 'LARGE_COMPANY_RECRUIT_FEEDS']) {
     fail(`workflow.secret.${name}`, workflow.includes(name), `${name} Secret 이름이 워크플로에 연결되어 있습니다.`);
   }
+}
+
+async function validateJobFetcherRules() {
+  const fetcher = await readText('tools/fetch_vocational_jobs.mjs');
+  const directTerms = sectionBetween(fetcher, 'const DIRECT_TERMS = [', '];');
+  fail('fetcher.job-track-refine', fetcher.includes('function shouldForceFieldDirectRecruit') && fetcher.includes('function hasProtectedPublicRecruitSignal') && fetcher.includes('FIELD_DIRECT_ROLE_PATTERN') && fetcher.includes('FIELD_DIRECT_LIMITED_PATTERN') && fetcher.includes('STUDENT_RECOMMENDED_ROLE_PATTERN') && fetcher.includes('RECOMMENDED_INTERNSHIP_PATTERN') && fetcher.includes('현장형 분리') && fetcher.includes('추천 공채 후보'), '자동 수집 단계에서 진짜 현장형 공고는 분리하고 NCS·인턴·전공/행정 직무 공채는 공채 상세에 보호합니다.');
+  fail('fetcher.internship-not-direct-term', !directTerms.includes('채용연계'), '채용연계·채용형 인턴은 면접중심 직접 분류 키워드에서 제외되어 공채 상세 보호 대상이 됩니다.');
+  fail('fetcher.deadline-text-sanitizer', fetcher.includes('function safeDeadlineDisplayText') && fetcher.includes('function kstDateFromParts') && fetcher.includes('containsStructuredDatePattern'), '자동 수집 단계에서 불가능한 마감일 숫자를 원문 확인 문구로 정제합니다.');
 }
 
 async function validateHomepage() {
@@ -321,7 +362,11 @@ async function validateHomepage() {
   fail('home.feed-url-versioned', /assets\/job-feed\.json\?v=/.test(html), '공채 피드 URL에 캐시 버전이 붙어 있습니다.');
   fail('home.feed-no-store', html.includes("cache: 'no-store'"), '공채 피드는 브라우저 캐시를 피해서 읽습니다.');
   fail('home.manual-job-feed-run', html.includes('actions/workflows/job-feed.yml') && html.includes('수동수집 실행'), '공채 자동수집 워크플로 수동 실행 버튼이 연결되어 있습니다.');
+  fail('home.job-sort-controls', html.includes('data-job-sort-mode="recent"') && html.includes('data-job-sort-mode="deadline"') && html.includes('job-sort-status') && html.includes('saveJobSortMode'), '공채 허브 최신순/마감임박 정렬 버튼과 선택 저장 로직이 연결되어 있습니다.');
+  fail('home.job-priority-education-sort', html.includes('function currentJobEducationPriority') && html.includes('function isHighSchoolFriendlyOpenJob') && html.includes('priority-highschool') && html.includes('priority-friendly-open') && html.includes('job-priority-badge') && html.includes('특성화고 지원가능 기관') && html.includes('학력무관 공채'), '고졸·특성화고·마이스터고 대상과 학력무관 공공기관·대기업 공채를 일반 학력무관 공채보다 먼저 정렬하고 굵게 표시합니다.');
+  fail('home.job-track-display-refine', html.includes('function displayProcessTrack') && html.includes('function jobClassificationText') && html.includes('function hasProtectedPublicRecruitJob') && html.includes('JOB_FIELD_DIRECT_ROLE_PATTERN') && html.includes('JOB_FIELD_DIRECT_LIMITED_PATTERN') && html.includes('JOB_STUDENT_RECOMMENDED_ROLE_PATTERN') && html.includes('hasRecommendedInternshipJob') && html.includes('추천 공채 상세') && html.includes('면접중심·현장형') && html.includes('채용형 인턴'), '공기업·금융권·대기업 공고라도 진짜 현장형은 면접중심으로 분리하고 NCS·인턴·전공/행정 직무 공채는 공채 상세에 남깁니다.');
   fail('home.regional-education-display-guard', html.includes('function isRegionalEducationDisplayBlocked') && html.includes('regional-education-job') && html.includes('seoul-highjob') && html.includes('공채캘린더'), '오래된 피드가 들어와도 지역 교육청 취업지원센터 보조자료를 직접 카드로 렌더링하지 않습니다.');
+  fail('home.deadline-text-sanitizer', html.includes('function cleanJobDeadlineText') && html.includes('function displayJobDeadlineText') && html.includes('function cleanJobTeacherShareText'), '이미 내려온 피드에 잘못된 마감일 숫자가 있어도 카드·상세·브리핑 표시에서 원문 확인 문구로 치환합니다.');
   fail('home.law-link', html.includes('https://gyo6-law-info.web.app'), '법률정보 시스템 연결 URL이 유지되어 있습니다.');
   fail('home.ebook-link', html.includes('https://gyo6--ebook.web.app/'), '전자책 서재 연결 URL이 유지되어 있습니다.');
   fail('home.login-law-link', /class="tnav-login"\s+href="https:\/\/gyo6-law-info\.web\.app\/\?login=law#legalTool"/.test(html), '상단 로그인 버튼은 법률정보 권한 로그인으로 연결합니다.');
@@ -448,14 +493,17 @@ function validateFeed(feed, label = 'local') {
   const directPolicyProblems = [];
   const weakOfficialPublicRecruit = [];
   const suitabilityProblems = [];
+  const malformedDeadlineProblems = [];
 
   for (const item of items) {
     const prefix = `${item.source || 'source'}:${item.title || item.id || 'untitled'}`;
     const suitabilityProblem = highSchoolSuitabilityProblem(item);
+    const deadlineProblems = malformedDeadlineFields(item);
     if (!item.id || !item.title || !item.company || !item.sourceName || !item.url || !item.verifiedAt) itemProblems.push(prefix);
     if (!isHttpUrl(item.url) || !isHttpUrl(item.primaryOfficialUrl || item.url)) itemProblems.push(`${prefix} URL`);
     if (!['active', 'deadline_soon', 'application_closed', 'needs_review'].includes(item.status)) itemProblems.push(`${prefix} status=${item.status}`);
     if (suitabilityProblem) suitabilityProblems.push(`${prefix} ${suitabilityProblem}`);
+    if (deadlineProblems.length) malformedDeadlineProblems.push(`${prefix} ${deadlineProblems.slice(0, 3).join(', ')}`);
     if ((item.collectionAudit?.detectionLagDays ?? 0) < 0) negativeLag.push(prefix);
     if (item.status === 'application_closed' && !String(item.title).endsWith('(원서 마감)')) closedTitleProblems.push(prefix);
     if (item.status === 'application_closed' && item.processTrack !== 'exam-formal') closedTitleProblems.push(`${prefix} direct-closed`);
@@ -478,6 +526,7 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.items.direct-policy`, directPolicyProblems.length === 0, `${label} 필기 없는 채용은 간단 안내로 분리되고 교육청 소스는 직접 표시되지 않습니다.`, directPolicyProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-regional-education-direct-card`, regionalEducationDirectItems.length === 0, `${label} 지역 교육청·학교 취업지원 소식은 직접 결과 카드로 노출되지 않습니다.`, regionalEducationDirectItems.slice(0, 5).map((item) => `${item.source}:${item.title}`).join(' | '));
   fail(`${label}.items.high-school-suitability`, suitabilityProblems.length === 0, `${label} 고졸·졸업예정자 코너에 원장·센터장·경력전용 등 부적합 공고가 섞이지 않습니다.`, suitabilityProblems.slice(0, 5).join(' | '));
+  fail(`${label}.items.no-malformed-deadline-text`, malformedDeadlineProblems.length === 0, `${label} 마감일 표시에 존재하지 않는 날짜 조각이 없습니다.`, malformedDeadlineProblems.slice(0, 5).join(' | '));
   warn(`${label}.items.official-double-check`, weakOfficialPublicRecruit.length === 0, `${label} 공채 상세 항목은 회사·기관 또는 채용대행 공식 공고 2중확인이 필요합니다.`, weakOfficialPublicRecruit.slice(0, 5).join(' | '));
 
   const readySources = sourceStatus.filter((source) => source.configured && source.ok).length;
@@ -641,6 +690,7 @@ async function main() {
   await validateStaticFiles();
   await validateSecretSafety();
   await validateWorkflow();
+  await validateJobFetcherRules();
   await validateHomepage();
   await validateDirectionDocs();
   const localFeed = await readJson('assets/job-feed.json');
