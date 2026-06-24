@@ -19,7 +19,7 @@ await loadLocalEnvFile(path.join(ROOT_DIR, '.env.local'));
 
 const NOW = new Date();
 const CHECKED_AT = NOW.toISOString();
-const MAX_ITEMS = 40;
+const MAX_ITEMS = 80;
 const REQUEST_TIMEOUT_MS = 18000;
 const PUBLIC_API_TIMEOUT_MS = 9000;
 const DETAIL_FETCH_CONCURRENCY = 6;
@@ -28,7 +28,7 @@ const PUBLIC_API_FETCH_CONCURRENCY = 8;
 const APPLICATION_CLOSED_RETAIN_DAYS = 365;
 const MAX_ARCHIVE_ITEMS = 160;
 const JOB_ALIO_SCAN_LIMIT = 220;
-const JOB_ALIO_SCAN_PAGES = 6;
+const JOB_ALIO_SCAN_PAGES = 12;
 const OFFICIAL_WATCH_TIMEOUT_MS = 15000;
 const COMPANY_NOTICE_TIMEOUT_MS = 15000;
 const GENERIC_OFFICIAL_FEED_CONCURRENCY = 5;
@@ -99,6 +99,10 @@ const RESTRICTED_ROLE_PATTERN = /(관리직|별정직|책임연구원|선임연�
 const WORK24_OPEN_RECRUIT_URL = 'https://www.work24.go.kr/cm/openApi/call/wk/callOpenApiSvcInfo210L21.do';
 const SARAMIN_JOB_SEARCH_URL = 'https://oapi.saramin.co.kr/job-search';
 const JOB_ALIO_RECRUIT_URL = 'https://job.alio.go.kr/recruit.do';
+const RECRUITER_JOBFLEX_LIST_URL = 'https://api-recruiter.recruiter.co.kr/position/v1/jobflex';
+const RECRUITER_JOBFLEX_DETAIL_BASE_URL = 'https://api-recruiter.recruiter.co.kr/position/v2/jobflex';
+const RECRUITER_JOBFLEX_PAGE_SIZE = 80;
+const RECRUITER_JOBFLEX_DETAIL_CONCURRENCY = 3;
 const SEOUL_HIGHJOB_RECRUIT_URL = 'https://high-job.sen.go.kr/FUS/JO/EMList.do';
 const SEOUL_HIGHJOB_DETAIL_URL = 'https://high-job.sen.go.kr/FUS/JO/EMView.do';
 const SEOUL_HIGHJOB_SCAN_PAGES = 2;
@@ -163,6 +167,7 @@ const CRITICAL_JOB_ALIO_ORGS = [
   { orgCode: 'C0074', orgName: '신용보증기금', aliases: [] },
   { orgCode: 'C0022', orgName: '기술보증기금', aliases: [] },
   { orgCode: 'C0245', orgName: '한국자산관리공사', aliases: ['캠코'] },
+  { orgCode: 'C0061', orgName: '주택도시보증공사', aliases: ['HUG', '주택보증공사'] },
   { orgCode: 'C0150', orgName: '한국농어촌공사', aliases: [] },
   { orgCode: 'C0166', orgName: '한국방송광고진흥공사', aliases: ['코바코'] },
   { orgCode: 'C0251', orgName: '한국인터넷진흥원', aliases: ['KISA'] },
@@ -186,6 +191,15 @@ const CRITICAL_CURRENT_JOB_ALIO_ITEMS = [
     titleTerms: ['경력', '신입', '직원'],
     bodyTerms: ['사무행정', '고졸전형'],
     deadline: '2026-06-11'
+  },
+  {
+    id: 'hug-2026-entry-regular',
+    idx: '301943',
+    company: '주택도시보증공사',
+    titleHint: '2026년도 주택도시보증공사 정규직(신입직) 채용공고',
+    titleTerms: ['정규직', '신입직'],
+    bodyTerms: ['고졸', '학력무관'],
+    deadline: '2026-07-08'
   }
 ];
 
@@ -1756,6 +1770,148 @@ function officialHtmlTitle(html) {
   return htmlText(String(html || '').match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1] || '');
 }
 
+function officialHtmlMetaContent(html) {
+  const values = [];
+  const pattern = /<meta\b[^>]*\bcontent=["']([^"']{1,2000})["'][^>]*>/gi;
+  for (const match of String(html || '').matchAll(pattern)) {
+    values.push(decodeXml(match[1]));
+  }
+  return normalizeSpace(values.join(' '));
+}
+
+function officialEmbeddedSignalSnippets(text) {
+  const normalized = normalizeSpace(text);
+  if (!normalized) return [];
+  const terms = [
+    '고졸',
+    '고등학교',
+    '고교',
+    '특성화고',
+    '직업계고',
+    '마이스터고',
+    '학교장 추천',
+    '학교장추천',
+    '학력무관',
+    '학력 무관',
+    '신입행원',
+    '사무행원',
+    '행원',
+    '사무보조',
+    '업무지원'
+  ];
+  const snippets = [];
+  const seen = new Set();
+  for (const term of terms) {
+    const index = normalized.indexOf(term);
+    if (index === -1) continue;
+    const start = Math.max(0, index - 1200);
+    const end = Math.min(normalized.length, index + 2400);
+    const snippet = normalized.slice(start, end);
+    const key = `${start}:${end}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    snippets.push(snippet);
+    if (snippets.length >= 12) break;
+  }
+  return snippets;
+}
+
+function officialHtmlEmbeddedRecruitText(html) {
+  const values = [];
+  const source = String(html || '');
+  const scriptPattern = /<script\b[^>]*>([\s\S]*?)<\/script>/gi;
+  for (const match of source.matchAll(scriptPattern)) {
+    const scriptText = decodeXml(match[1])
+      .replace(/\\u003c/gi, '<')
+      .replace(/\\u003e/gi, '>')
+      .replace(/\\u0026/gi, '&')
+      .replace(/[{}[\]"':,]/g, ' ');
+    const snippets = officialEmbeddedSignalSnippets(scriptText);
+    if (snippets.length) {
+      values.push(...snippets);
+    } else if (officialHtmlHasRecruitCandidate(scriptText) || includesAny(scriptText, ['신입행원', '사무행원', '고등학교'])) {
+      values.push(scriptText.slice(0, 60000));
+    }
+  }
+  return cleanOfficialCandidateText(values.join(' '));
+}
+
+function officialHtmlSearchText(html) {
+  return cleanOfficialCandidateText([
+    htmlText(html),
+    officialHtmlMetaContent(html),
+    officialHtmlEmbeddedRecruitText(html)
+  ].join(' '));
+}
+
+function officialBuiltInPageHasEducationSignal(text) {
+  const normalized = normalizeSpace(text);
+  if (!normalized) return false;
+  if (includesAny(normalized, [
+    '고졸',
+    '특성화고',
+    '직업계고',
+    '마이스터고',
+    '고졸전형',
+    '고졸 전형',
+    '고졸채용',
+    '고졸 채용',
+    '고졸공채',
+    '고졸 공채',
+    '학교장 추천',
+    '학교장추천',
+    '사회형평 고졸',
+    '기능인재'
+  ])) {
+    return true;
+  }
+  if (/고등학교.{0,50}(졸업|재학|예정|소재)|고교.{0,50}(졸업|재학|예정)|졸업.{0,50}고등학교/.test(normalized)) {
+    return true;
+  }
+  return false;
+}
+
+function officialBuiltInPageLooksRecruitable(text, sourceUrl = '', feedEntry = {}) {
+  const normalized = normalizeSpace(text);
+  if (!normalized || isRegionalEducationOfficialFeed(null, feedEntry)) return false;
+  const hasRecruit = officialHtmlHasRecruitCandidate(normalized, sourceUrl)
+    || (includesAny(normalized, OFFICIAL_HTML_RECRUIT_TERMS) && /recruit|career|careers|job|apply|notice/i.test(String(sourceUrl || '')));
+  const hasEducationSignal = officialBuiltInPageHasEducationSignal(normalized);
+  const deadline = extractOfficialDeadlineText(normalized);
+  const hasConcretePostSignal = Boolean(deadline)
+    || includesAny(normalized, [
+      '접수기간',
+      '원서접수',
+      '입사지원',
+      '지원서 접수',
+      '채용공고',
+      '모집공고',
+      '지원자격',
+      '응시자격',
+      '전형일정',
+      '신입행원',
+      '사무행원',
+      '공채',
+      '공개채용'
+    ]);
+  if (!deadline && !includesAny(normalized, [
+    '신입행원',
+    '사무행원',
+    '고졸전형',
+    '고졸 전형',
+    '고졸채용',
+    '고졸 채용',
+    '고졸공채',
+    '고졸 공채',
+    '특성화고',
+    '직업계고',
+    '마이스터고'
+  ])) {
+    return false;
+  }
+  return hasRecruit && hasEducationSignal && hasConcretePostSignal;
+}
+
 function extractOfficialDeadlineText(text) {
   const normalized = normalizeSpace(text);
   if (!normalized) return '';
@@ -1913,11 +2069,30 @@ function htmlLinkRecords(html, source, sourceUrl, publicSourceUrl, feedEntry = {
   return records.slice(0, 30);
 }
 
-function pageLevelHtmlRecord(html, source, sourceUrl, publicSourceUrl, feedEntry = {}) {
-  const pageText = htmlText(html).slice(0, 50000);
-  if (!officialHtmlHasRecruitCandidate(pageText, sourceUrl)) return [];
-  const title = shortText(officialHtmlTitle(html), `${feedEntry.employer || source.name} 고졸·졸업예정 채용 공고 원문 확인`, 120);
+function pageLevelHtmlRecord(html, source, sourceUrl, publicSourceUrl, feedEntry = {}, options = {}) {
+  if (options.builtInFallback && isRegionalEducationOfficialFeed(source, feedEntry)) return [];
+  const pageText = officialHtmlSearchText(html).slice(0, 120000);
+  const recruitable = options.builtInFallback
+    ? officialBuiltInPageLooksRecruitable(pageText, sourceUrl, feedEntry)
+    : officialHtmlHasRecruitCandidate(pageText, sourceUrl);
+  if (!recruitable) return [];
+  const fallbackTitle = `${feedEntry.employer || source.name} 고졸·졸업예정 채용 공고 원문 확인`;
+  const rawTitle = officialHtmlTitle(html);
+  const title = shortText(
+    rawTitle && officialBuiltInPageHasEducationSignal(rawTitle) ? rawTitle : fallbackTitle,
+    fallbackTitle,
+    120
+  );
   const deadline = extractOfficialDeadlineText(pageText);
+  const employmentType = options.builtInFallback
+    ? '공식 채용 원문 확인'
+    : keywordSnippet(pageText, ['정규직', '계약직', '인턴', '무기계약직', '기간제'], '원문 확인', 80);
+  const description = keywordSnippet(
+    pageText,
+    ['고졸', '고등학교', '특성화고', '직업계고', '마이스터고', '신입행원', '사무행원', '학력무관'],
+    '공식 채용 페이지에서 고졸·특성화고 관련 신호가 확인되었습니다.',
+    720
+  );
   return [{
     source: source.id,
     sourceName: source.name,
@@ -1927,7 +2102,7 @@ function pageLevelHtmlRecord(html, source, sourceUrl, publicSourceUrl, feedEntry
     region: '원문 확인',
     education: pageText.includes('학력무관') || pageText.includes('학력 무관') ? '학력무관' : '고졸·특성화고 관련 원문 확인',
     career: pageText.includes('신입') || pageText.includes('공채') ? '신입·공채 원문 확인' : '원문 확인',
-    employmentType: keywordSnippet(pageText, ['정규직', '계약직', '인턴', '무기계약직', '기간제'], '원문 확인', 80),
+    employmentType,
     deadline,
     deadlineText: deadline ? `${deadline} 마감` : '마감일 원문 확인',
     recruitField: keywordSnippet(pageText, ['고졸', '특성화고', '직업계고', '마이스터고', '행원', '기술직', '생산직', '기능직'], '채용부문 원문 확인', 100),
@@ -1937,7 +2112,7 @@ function pageLevelHtmlRecord(html, source, sourceUrl, publicSourceUrl, feedEntry
     sourceDetailUrl: publicSourceUrl,
     companyNoticeUrl: publicDisplayUrl(sourceUrl),
     processText: keywordSnippet(pageText, ['필기', 'NCS', '인적성', '서류전형', '면접전형', 'AI역량'], '전형절차 원문 확인', 220),
-    description: shortText(pageText, '공식 채용 페이지에서 고졸·특성화고 관련 신호가 확인되었습니다.', 720)
+    description
   }];
 }
 
@@ -1961,14 +2136,226 @@ function parseGenericOfficialFeed(body, source, sourceUrl, feedEntry = {}) {
       description: normalizeSpace([record.description, feedEntry.tags?.join(' ')].join(' '))
     }));
     const htmlRecords = htmlLinkRecords(trimmed, source, sourceUrl, publicSourceUrl, feedEntry);
+    const pageRecords = pageLevelHtmlRecord(trimmed, source, sourceUrl, publicSourceUrl, feedEntry, {
+      builtInFallback: Boolean(feedEntry.builtIn)
+    });
     if (xmlRecords.length || htmlRecords.length) {
-      return [...xmlRecords, ...htmlRecords];
+      return [...xmlRecords, ...htmlRecords, ...pageRecords];
     }
-    return feedEntry.builtIn
-      ? []
-      : pageLevelHtmlRecord(trimmed, source, sourceUrl, publicSourceUrl, feedEntry);
+    return pageRecords;
   }
   return [];
+}
+
+function recruiterJobflexPrefixFromUrl(url) {
+  try {
+    const hostname = new URL(url).hostname.toLowerCase();
+    return hostname.endsWith('.recruiter.co.kr') ? hostname : '';
+  } catch {
+    return '';
+  }
+}
+
+function recruiterJobflexPublicUrl(prefix, positionSn) {
+  return `https://${prefix}/career/jobs/${encodeURIComponent(String(positionSn || ''))}`;
+}
+
+function recruiterJobflexHeaders(prefix) {
+  return {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    prefix,
+    Origin: `https://${prefix}`,
+    Referer: `https://${prefix}/career/home`
+  };
+}
+
+function recruiterJobflexTagText(record = {}) {
+  return (Array.isArray(record.tagList) ? record.tagList : [])
+    .map((tag) => tag?.tagName)
+    .filter(Boolean)
+    .join(' ');
+}
+
+function recruiterJobflexText(record = {}, detail = {}) {
+  return cleanOfficialCandidateText([
+    record.title,
+    detail.title,
+    record.classificationCode,
+    detail.classificationCode,
+    recruiterJobflexTagText(record),
+    recruiterJobflexTagText(detail),
+    htmlText(detail.jobDescription || '')
+  ].join(' '));
+}
+
+function recruiterJobflexIsCurrent(record = {}, detail = {}) {
+  const submissionStatus = String(detail.submissionStatus || record.submissionStatus || '');
+  const progressStatus = String(detail.progressStatus || record.progressStatus || '');
+  const dday = Number(detail.dday ?? record.dday);
+  return submissionStatus === 'IN_SUBMISSION'
+    || progressStatus === 'IN_PROGRESS'
+    || (!Number.isNaN(dday) && dday >= 0);
+}
+
+function recruiterJobflexHasEducationOpenSignal(text) {
+  return /학력\s*,?\s*연령에\s*제한\s*없음/.test(text)
+    || /학력(?:에)?\s*(?:관계없이|무관|제한\s*없음)/.test(text)
+    || /학력\s*무관/.test(text);
+}
+
+function recruiterJobflexLooksRelevant(record = {}, detail = {}) {
+  if (!recruiterJobflexIsCurrent(record, detail)) return false;
+  const text = recruiterJobflexText(record, detail);
+  if (!text) return false;
+
+  const hasEducationSignal = officialBuiltInPageHasEducationSignal(text);
+  const hasEducationOpen = recruiterJobflexHasEducationOpenSignal(text);
+  const hasEntrySignal = includesAny(text, [
+    '신규채용',
+    '경력무관',
+    '사무행원',
+    '행원',
+    '업무지원',
+    '사무보조',
+    '지원직원',
+    '창구',
+    '텔러',
+    '피크타이머',
+    '인턴',
+    '청년인턴',
+    '계약인력',
+    '생산직',
+    '기술직',
+    '기능직',
+    '공무직'
+  ]);
+  const hasRecruitSignal = includesAny(text, OFFICIAL_HTML_RECRUIT_TERMS);
+  const trainingOnly = /교육생|교육과정|K-디지털트레이닝/.test(text)
+    && !/채용\s*연계|학력|고졸|고등학교|특성화고|마이스터고|직업계고/.test(text);
+  if (trainingOnly) return false;
+
+  const careerType = String(detail.careerType || record.careerType || '');
+  const careerOnly = careerType === 'CAREER'
+    && !/(경력무관|신입|신규|계약인력|업무지원|사무보조|지원직원|사무행원|창구|텔러|피크타이머|학력\s*(무관|제한\s*없음))/.test(text);
+  if (careerOnly && !hasEducationSignal && !hasEducationOpen) return false;
+
+  return hasRecruitSignal && (hasEducationSignal || hasEducationOpen || hasEntrySignal);
+}
+
+function recruiterJobflexEducationLabel(text) {
+  if (officialBuiltInPageHasEducationSignal(text)) return '고졸·특성화고 관련 원문 확인';
+  if (recruiterJobflexHasEducationOpenSignal(text)) return '학력무관';
+  return '원문 확인';
+}
+
+function recruiterJobflexCareerLabel(record = {}, detail = {}) {
+  const text = recruiterJobflexText(record, detail);
+  if (/경력\s*무관/.test(text)) return '경력무관';
+  const careerType = String(detail.careerType || record.careerType || '');
+  if (careerType === 'NEW') return '신입';
+  if (careerType === 'NEW_CAREER') return '신입·경력';
+  if (careerType === 'CAREER') return '경력';
+  if (careerType === 'FIELD_DIFFERENCE') return '직무별 상이';
+  return includesAny(text, ['신입', '공채']) ? '신입·공채 원문 확인' : '원문 확인';
+}
+
+function recruiterJobflexEmploymentType(record = {}, detail = {}) {
+  const recruitmentType = String(detail.recruitmentType || record.recruitmentType || '');
+  if (recruitmentType === 'PERMANENT') return '상시채용';
+  if (recruitmentType === 'GENERAL') return '공식 채용';
+  if (recruitmentType === 'RECOMMEND') return '추천채용';
+  return keywordSnippet(recruiterJobflexText(record, detail), ['정규직', '계약직', '인턴', '기간제', '상시채용'], '원문 확인', 80);
+}
+
+function recruiterJobflexDeadline(record = {}, detail = {}) {
+  const value = String(detail.endDateTime || record.endDateTime || '');
+  return value ? value.slice(0, 10) : '';
+}
+
+function recruiterJobflexAttachments(detail = {}) {
+  return (Array.isArray(detail.attachFileDtoList) ? detail.attachFileDtoList : [])
+    .map((file) => ({
+      title: file.originalFileName || file.fileName || file.name || '공식 첨부자료',
+      url: file.downloadUrl || file.fileDownloadUrl || file.fileUrl || file.url || ''
+    }))
+    .filter((file) => file.url);
+}
+
+function recruiterJobflexRecordToRaw(record, detail, source, sourceUrl, feedEntry, prefix) {
+  const text = recruiterJobflexText(record, detail);
+  const positionSn = detail.positionSn || record.positionSn;
+  const publicUrl = recruiterJobflexPublicUrl(prefix, positionSn);
+  const deadline = recruiterJobflexDeadline(record, detail);
+  const tags = compactTags([
+    recruiterJobflexTagText(record),
+    recruiterJobflexTagText(detail),
+    record.classificationCode,
+    detail.classificationCode
+  ]);
+  return {
+    source: source.id,
+    sourceName: source.name,
+    sourceId: sha([source.id, prefix, positionSn, record.title || detail.title].join('|')),
+    title: shortText(detail.title || record.title, `${feedEntry.employer || source.name} 공식 채용 공고`, 140),
+    company: feedEntry.employer || source.name,
+    region: keywordSnippet(text, ['근무지', '지역', '전국', '서울', '부산', '경남', '대구'], '원문 확인', 80),
+    education: recruiterJobflexEducationLabel(text),
+    career: recruiterJobflexCareerLabel(record, detail),
+    employmentType: recruiterJobflexEmploymentType(record, detail),
+    deadline,
+    deadlineText: deadline ? `${deadline} 마감` : '상시채용 또는 마감일 원문 확인',
+    publishedAt: String(detail.startDateTime || record.startDateTime || '').slice(0, 10),
+    recruitField: keywordSnippet(text, ['고졸', '특성화고', '직업계고', '마이스터고', '행원', '사무행원', '창구', '텔러', '업무지원', '생산직', '기술직', '기능직'], tags.join(' · ') || '채용부문 원문 확인', 120),
+    applicationMethod: detail.applyUrl ? '채용대행 공식 페이지 온라인 접수' : '채용대행 공식 페이지에서 접수방법 확인',
+    url: publicUrl,
+    originalUrl: sourceUrl,
+    sourceDetailUrl: sourceUrl,
+    companyNoticeUrl: publicUrl,
+    processText: keywordSnippet(text, ['서류', '필기', 'NCS', '인적성', '면접', '전형', '합격자'], '전형절차 원문 확인', 260),
+    description: shortText(text, '채용대행 공식 페이지에서 지원 가능 신호가 확인되었습니다.', 780),
+    attachments: recruiterJobflexAttachments(detail)
+  };
+}
+
+async function fetchRecruiterJobflexRecords(source, sourceUrl, feedEntry = {}) {
+  const prefix = recruiterJobflexPrefixFromUrl(sourceUrl);
+  if (!prefix) return { checked: false, records: [] };
+  const listBody = await fetchWithTimeout(RECRUITER_JOBFLEX_LIST_URL, {
+    method: 'POST',
+    timeoutMs: OFFICIAL_WATCH_TIMEOUT_MS,
+    headers: recruiterJobflexHeaders(prefix),
+    body: JSON.stringify({
+      pageableRq: { page: 1, size: RECRUITER_JOBFLEX_PAGE_SIZE },
+      filter: { resumeLanguageTypeList: ['KOR'] }
+    })
+  });
+  const payload = JSON.parse(listBody);
+  const list = Array.isArray(payload.list) ? payload.list : [];
+  const currentList = list
+    .filter((record) => recruiterJobflexIsCurrent(record))
+    .slice(0, RECRUITER_JOBFLEX_PAGE_SIZE);
+  const detailResults = await mapWithConcurrency(currentList, RECRUITER_JOBFLEX_DETAIL_CONCURRENCY, async (record) => {
+    if (!record?.positionSn) return { record, detail: {} };
+    try {
+      const detailBody = await fetchWithTimeout(`${RECRUITER_JOBFLEX_DETAIL_BASE_URL}/${encodeURIComponent(String(record.positionSn))}`, {
+        timeoutMs: OFFICIAL_WATCH_TIMEOUT_MS,
+        headers: recruiterJobflexHeaders(prefix)
+      });
+      return { record, detail: JSON.parse(detailBody) };
+    } catch {
+      return { record, detail: {} };
+    }
+  });
+  const records = detailResults
+    .filter(({ record, detail }) => recruiterJobflexLooksRelevant(record, detail))
+    .map(({ record, detail }) => recruiterJobflexRecordToRaw(record, detail, source, sourceUrl, feedEntry, prefix));
+  return {
+    checked: true,
+    totalCount: Number(payload.pagination?.totalCount || list.length || 0),
+    currentCount: currentList.length,
+    records
+  };
 }
 
 function significantTerms(value, limit = 8) {
@@ -2245,7 +2632,7 @@ function parseDate(value) {
 }
 
 function formatDate(date) {
-  if (!date) return null;
+  if (!date || Number.isNaN(date.getTime())) return null;
   return new Intl.DateTimeFormat('en-CA', {
     timeZone: 'Asia/Seoul',
     year: 'numeric',
@@ -2255,7 +2642,7 @@ function formatDate(date) {
 }
 
 function daysUntil(date) {
-  if (!date) return null;
+  if (!date || Number.isNaN(date.getTime())) return null;
   const nowKst = new Date(new Intl.DateTimeFormat('en-US', {
     timeZone: 'Asia/Seoul',
     year: 'numeric',
@@ -2272,9 +2659,11 @@ function daysUntil(date) {
 }
 
 function daysBetweenKst(startDate, endDate) {
-  if (!startDate || !endDate) return null;
-  const start = new Date(`${formatDate(startDate)}T00:00:00+09:00`);
-  const end = new Date(`${formatDate(endDate)}T00:00:00+09:00`);
+  const startText = formatDate(startDate);
+  const endText = formatDate(endDate);
+  if (!startText || !endText) return null;
+  const start = new Date(`${startText}T00:00:00+09:00`);
+  const end = new Date(`${endText}T00:00:00+09:00`);
   return Math.round((end.getTime() - start.getTime()) / 86400000);
 }
 
@@ -4825,7 +5214,12 @@ async function fetchGenericConfiguredSource(id) {
   const errors = [];
   let checkedUrlCount = 0;
   let reachabilityOnlyCount = 0;
+  let recruiterApiCheckedCount = 0;
+  let recruiterApiTotalCount = 0;
+  let recruiterApiCurrentCount = 0;
+  let recruiterApiRecordCount = 0;
   const reachabilityOnlyEmployers = [];
+  const recruiterApiFailures = [];
   const results = await mapWithConcurrency(entries, GENERIC_OFFICIAL_FEED_CONCURRENCY, async (entry) => {
     try {
       let sourceUrl = entry.url;
@@ -4850,15 +5244,60 @@ async function fetchGenericConfiguredSource(id) {
           }
         });
       }
-      const records = parseGenericOfficialFeed(body, source, sourceUrl, entry);
+      const records = [...parseGenericOfficialFeed(body, source, sourceUrl, entry)];
+      let recruiterApiResult = { checked: false, records: [] };
+      let recruiterApiError = '';
+      if (entry.builtIn && recruiterJobflexPrefixFromUrl(sourceUrl)) {
+        try {
+          recruiterApiResult = await fetchRecruiterJobflexRecords(source, sourceUrl, entry);
+          records.push(...recruiterApiResult.records);
+        } catch (apiError) {
+          recruiterApiError = sanitizeFetchErrorMessage(apiError.message);
+        }
+      }
       return {
         ok: true,
         entry,
         records,
         recordCount: records.length,
-        url: safePublicFeedUrl(sourceUrl)
+        url: safePublicFeedUrl(sourceUrl),
+        recruiterApiChecked: recruiterApiResult.checked,
+        recruiterApiTotalCount: recruiterApiResult.totalCount || 0,
+        recruiterApiCurrentCount: recruiterApiResult.currentCount || 0,
+        recruiterApiRecordCount: recruiterApiResult.records?.length || 0,
+        recruiterApiError
       };
     } catch (error) {
+      if (entry.builtIn && recruiterJobflexPrefixFromUrl(entry.url)) {
+        try {
+          const recruiterApiResult = await fetchRecruiterJobflexRecords(source, entry.url, entry);
+          return {
+            ok: true,
+            entry,
+            records: recruiterApiResult.records,
+            recordCount: recruiterApiResult.records.length,
+            url: safePublicFeedUrl(entry.url),
+            recruiterApiChecked: recruiterApiResult.checked,
+            recruiterApiTotalCount: recruiterApiResult.totalCount || 0,
+            recruiterApiCurrentCount: recruiterApiResult.currentCount || 0,
+            recruiterApiRecordCount: recruiterApiResult.records?.length || 0,
+            recruiterApiError: '',
+            htmlFetchError: sanitizeFetchErrorMessage(error.message)
+          };
+        } catch (apiError) {
+          const combinedError = `${sanitizeFetchErrorMessage(error.message)}; recruiter API ${sanitizeFetchErrorMessage(apiError.message)}`;
+          return {
+            ok: false,
+            entry,
+            records: [],
+            recordCount: 0,
+            url: safePublicFeedUrl(entry.url),
+            recruiterApiChecked: false,
+            recruiterApiError: combinedError,
+            error: combinedError
+          };
+        }
+      }
       const reachableOnly = entry.builtIn
         ? await checkUrlReachable(entry.url, {
           headers: {
@@ -4891,6 +5330,15 @@ async function fetchGenericConfiguredSource(id) {
   for (const result of results) {
     if (result.ok) {
       checkedUrlCount += 1;
+      if (result.recruiterApiChecked) {
+        recruiterApiCheckedCount += 1;
+        recruiterApiTotalCount += result.recruiterApiTotalCount || 0;
+        recruiterApiCurrentCount += result.recruiterApiCurrentCount || 0;
+        recruiterApiRecordCount += result.recruiterApiRecordCount || 0;
+      }
+      if (result.recruiterApiError) {
+        recruiterApiFailures.push(`${result.entry.employer || result.url}: ${result.recruiterApiError}`);
+      }
       if (result.reachabilityOnly) {
         reachabilityOnlyCount += 1;
         reachabilityOnlyEmployers.push(result.entry.employer || result.url);
@@ -4923,10 +5371,15 @@ async function fetchGenericConfiguredSource(id) {
       checkedUrlCount,
       reachabilityOnlyCount,
       reachabilityOnlyEmployers,
+      recruiterApiCheckedCount,
+      recruiterApiTotalCount,
+      recruiterApiCurrentCount,
+      recruiterApiRecordCount,
+      recruiterApiFailures: recruiterApiFailures.slice(0, 12),
       failedUrlCount: errors.length,
       watchFailures: errors.slice(0, 12),
       message: ok
-        ? `공식 채용 페이지 ${checkedUrlCount}/${entries.length}개 감시, 표시후보 ${normalized.length}건, 보조검증 후보 ${verificationItems.length}건, 접속확인전용 ${reachabilityOnlyCount}개, 실패 ${errors.length}개`
+        ? `공식 채용 페이지 ${checkedUrlCount}/${entries.length}개 감시, 채용대행 API ${recruiterApiCheckedCount}개 추가확인, 표시후보 ${normalized.length}건, 보조검증 후보 ${verificationItems.length}건, 접속확인전용 ${reachabilityOnlyCount}개, 실패 ${errors.length}개`
         : `연결 실패: ${errors.slice(0, 2).join('; ')}`
     })
   };
@@ -5271,7 +5724,7 @@ async function main() {
       })),
       financeLargeCompanyOfficialWatchCount: FINANCE_LARGE_COMPANY_OFFICIAL_WATCHLIST.length,
       financeLargeCompanyOfficialWatchEmployers: FINANCE_LARGE_COMPANY_OFFICIAL_WATCHLIST.map((entry) => entry.employer),
-      financeLargeCompanySignalRule: '대기업·1금융·2금융 공식 채용 페이지에서 고졸·특성화고·졸업예정·학력무관·기술직·생산직·행원 등 응시 가능 신호와 채용 신호가 함께 확인될 때만 후보로 정규화한다.',
+      financeLargeCompanySignalRule: '대기업·1금융·2금융 공식 채용 페이지와 채용대행 API 목록·상세에서 고졸·특성화고·고등학교 졸업예정·학력무관·사무행원·창구·업무지원·사무보조·기술직·생산직 등 응시 가능 신호와 채용 신호가 함께 확인될 때만 후보로 정규화한다.',
       regionalEducationOfficialWatchCount: REGIONAL_EDUCATION_OFFICIAL_WATCHLIST.length,
       regionalEducationOfficialWatchEmployers: REGIONAL_EDUCATION_OFFICIAL_WATCHLIST.map((entry) => entry.employer),
       regionalEducationSourceRule: '교육청 취업지원센터·학교 채용 소식은 직접 결과 카드로 노출하지 않는다. 잡알리오·고용24·기관·기업 공식 원문이 1차 채용 공고로 확인된 뒤, 같은 채용인지 맞는 경우에만 누락 보완과 2차·3차 보조검증 출처로 붙인다.',
