@@ -203,6 +203,20 @@ function isKbMainPageRecruitLink(item) {
     && url === 'https://kbstar.careerlink.kr';
 }
 
+function companyTitleCompareText(value) {
+  return String(value || '')
+    .replace(/\(주\)|㈜|주식회사/g, '')
+    .replace(/[\s·ㆍ\-\[\]\(\){}.,:;'"“”‘’]/g, '')
+    .toLowerCase();
+}
+
+function titleIncludesCompanyName(item) {
+  const company = companyTitleCompareText(item.company);
+  const title = companyTitleCompareText(item.title || item.baseTitle);
+  if (!company || !title) return true;
+  return title.includes(company);
+}
+
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -519,6 +533,7 @@ function validateFeed(feed, label = 'local') {
   const malformedDeadlineProblems = [];
   const unresolvedDeadlineProblems = [];
   const mainPageRecruitLinkProblems = [];
+  const titleCompanyProblems = [];
 
   for (const item of items) {
     const prefix = `${item.source || 'source'}:${item.title || item.id || 'untitled'}`;
@@ -533,6 +548,7 @@ function validateFeed(feed, label = 'local') {
     if (item.status !== 'application_closed' && item.processTrack === 'exam-formal' && item.detailLevel === 'detailed-public-recruit' && unresolvedDeadline.length) {
       unresolvedDeadlineProblems.push(`${prefix} ${unresolvedDeadline.slice(0, 2).join(', ')}`);
     }
+    if (!titleIncludesCompanyName(item)) titleCompanyProblems.push(`${prefix} company=${item.company}`);
     if (isKbMainPageRecruitLink(item)) mainPageRecruitLinkProblems.push(`${prefix} ${item.url}`);
     if ((item.collectionAudit?.detectionLagDays ?? 0) < 0) negativeLag.push(prefix);
     if (item.status === 'application_closed' && !String(item.title).endsWith('(원서 마감)')) closedTitleProblems.push(prefix);
@@ -559,6 +575,7 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.items.no-malformed-deadline-text`, malformedDeadlineProblems.length === 0, `${label} 마감일 표시에 존재하지 않는 날짜 조각이 없습니다.`, malformedDeadlineProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-unresolved-current-deadline`, unresolvedDeadlineProblems.length === 0, `${label} 진행중 공채 상세는 공식 원문 재확인 후 확정 마감일을 표시합니다.`, unresolvedDeadlineProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-kb-main-page-recruit-link`, mainPageRecruitLinkProblems.length === 0, `${label} KB국민은행 공고는 채용 메인페이지가 아니라 상세 공고 URL로 연결합니다.`, mainPageRecruitLinkProblems.slice(0, 5).join(' | '));
+  fail(`${label}.items.title-includes-company`, titleCompanyProblems.length === 0, `${label} 채용 공고 제목에는 기관명·기업명이 포함됩니다.`, titleCompanyProblems.slice(0, 5).join(' | '));
   warn(`${label}.items.official-double-check`, weakOfficialPublicRecruit.length === 0, `${label} 공채 상세 항목은 회사·기관 또는 채용대행 공식 공고 2중확인이 필요합니다.`, weakOfficialPublicRecruit.slice(0, 5).join(' | '));
 
   const readySources = sourceStatus.filter((source) => source.configured && source.ok).length;

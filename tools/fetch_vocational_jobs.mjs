@@ -4076,9 +4076,26 @@ function isUnsuitableForHighSchoolChannel(item) {
   return false;
 }
 
+function companyTitleCompareText(value) {
+  return normalizeSpace(value)
+    .replace(/\(주\)|㈜|주식회사/g, '')
+    .replace(/[\s·ㆍ\-\[\]\(\){}.,:;'"“”‘’]/g, '')
+    .toLowerCase();
+}
+
+function titleWithCompanyName(title, company) {
+  const cleanTitle = normalizeSpace(title);
+  const cleanCompany = normalizeSpace(company);
+  if (!cleanTitle || !cleanCompany) return cleanTitle || cleanCompany;
+  const titleKey = companyTitleCompareText(cleanTitle);
+  const companyKey = companyTitleCompareText(cleanCompany);
+  if (companyKey && titleKey.includes(companyKey)) return cleanTitle;
+  return `${cleanCompany} ${cleanTitle}`;
+}
+
 function normalizeItem(raw) {
-  const baseTitle = normalizeSpace(raw.title);
   const company = normalizeSpace(raw.company);
+  const baseTitle = titleWithCompanyName(raw.title, company);
   const deadlineDate = parseDate(raw.deadline || raw.deadlineTimestamp);
   const deadline = formatDate(deadlineDate);
   const deadlineDistance = daysUntil(deadlineDate);
