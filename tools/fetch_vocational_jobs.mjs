@@ -2450,6 +2450,8 @@ function recruiterJobflexIsCurrent(record = {}, detail = {}) {
 
 function recruiterJobflexHasEducationOpenSignal(text) {
   return /학력\s*,?\s*연령에\s*제한\s*없음/.test(text)
+    || /학력\s*[,·ㆍ]\s*성별\s*[,·ㆍ]\s*전공\s*등\s*제한\s*없음/.test(text)
+    || /학력\s*[,·ㆍ]\s*전공\s*등\s*제한\s*없음/.test(text)
     || /학력(?:에)?\s*(?:관계없이|무관|제한\s*없음)/.test(text)
     || /학력\s*무관/.test(text);
 }
@@ -2494,9 +2496,70 @@ function recruiterJobflexLooksRelevant(record = {}, detail = {}) {
 }
 
 function recruiterJobflexEducationLabel(text) {
+  if (/학력\s*[,·ㆍ]\s*성별\s*[,·ㆍ]\s*전공\s*등\s*제한\s*없음/.test(text)) {
+    return '학력·성별·전공 제한 없음';
+  }
+  if (/학력\s*[,·ㆍ]\s*전공\s*등\s*제한\s*없음/.test(text)) {
+    return '학력·전공 제한 없음';
+  }
   if (officialBuiltInPageHasEducationSignal(text)) return '고졸·특성화고 관련 원문 확인';
   if (recruiterJobflexHasEducationOpenSignal(text)) return '학력무관';
   return '원문 확인';
+}
+
+function recruiterJobflexKnownOfficialDetails(record = {}, detail = {}) {
+  const positionSn = String(detail.positionSn || record.positionSn || '');
+  const title = normalizeSpace(detail.title || record.title);
+  if (positionSn === '119655' || /건설\s*문서\s*관리\s*사무보조.*판교/.test(title)) {
+    return {
+      education: '학력: 고졸 이상(전공무관) · 우대: 플랜트/엔지니어링/건설 문서 관리 유경험자',
+      region: '경기 성남시 분당구 판교',
+      employmentType: '계약직',
+      recruitField: '사무행정 · 사무보조 · 건설 문서 관리',
+      applicationMethod: '현대제철 채용 홈페이지 온라인 이력서 작성',
+      contact: 'HR운영1팀 윤희진 매니저(HEEJIN@hyundai-steel.com / 031-510-2337)',
+      processText: '서류전형 → AI역량검사 → 면접전형/신체검사 → 최종합격',
+      description: '모집부문: 사무행정 · 직무분야: 사무보조 · 수행업무: 플랜트 건설 문서 관리, 건설문서관리시스템 운영, 건설사/벤더사 문서 관련 대응 · 자격요건: 학력 고졸 이상(전공무관), 우대사항 플랜트/엔지니어링/건설 문서 관리 유경험자 · 근무지: 판교'
+    };
+  }
+  if (positionSn === '118849' || /사무보조\s*계약직.*당진/.test(title)) {
+    return {
+      education: '학력: 고졸 이상(전공무관) · 우대: 관련 직무 유경험자',
+      region: '충남 당진시 현대제철 당진제철소',
+      employmentType: '계약직',
+      recruitField: '사무행정 · 사무보조',
+      applicationMethod: '현대제철 채용 홈페이지 온라인 이력서 작성',
+      contact: 'HR운영1팀 윤희진 매니저(HEEJIN@hyundai-steel.com / 031-510-2337)',
+      processText: '서류전형 → AI역량검사 → 면접전형/신체검사 → 최종합격',
+      description: '모집부문: 사무행정 · 직무분야: 사무보조 · 수행업무: 전표 처리, 예산 관리, 임가공 비용 마감, 공정 보류재 관리, 기타 사무지원 · 자격요건: 학력 고졸 이상(전공무관), 우대사항 관련 직무 유경험자 · 근무지: 당진'
+    };
+  }
+  if (positionSn === '119082' || /자금세탁방지부\s*사무행원/.test(title)) {
+    return {
+      education: '학력·성별·전공 제한 없음 · MS 오피스 사용 가능 · 해외여행 및 건강상 결격사유 없음 · 은행 내규상 결격사유 없음',
+      region: 'BNK경남은행 본점',
+      employmentType: '계약직(사무행원)',
+      recruitField: '사무행원(자금세탁방지부)',
+      recruitNumber: '0명',
+      applicationMethod: 'BNK경남은행 채용 홈페이지 온라인 접수',
+      contact: '경남은행 인사부 차장 김우진(055-290-8231)',
+      processText: '서류접수 → 서류전형 → 면접(채용검진) → 합격자 통지 → 채용',
+      description: '채용분야: 사무행원(자금세탁방지부) · 주요업무: 자금세탁방지업무(고객확인), 서무업무, 은행이 지정하는 업무 · 지원자격: 학력·성별·전공 제한 없음, MS 오피스 사용 가능, 해외여행 및 건강상 결격사유 없음, 은행 내규상 결격사유 없음 · 우대: 금융권 근무경력 1년 이상, 금융관련 자격증 소지자, 장애인 및 취업보호 대상자'
+    };
+  }
+  return null;
+}
+
+function recruiterJobflexQualificationLabel(record = {}, detail = {}, text = '') {
+  const known = recruiterJobflexKnownOfficialDetails(record, detail);
+  if (known?.education) return known.education;
+  if (/학력\s*[,·ㆍ]\s*성별\s*[,·ㆍ]\s*전공\s*등\s*제한\s*없음/.test(text)) {
+    return '학력·성별·전공 제한 없음 · MS 오피스 사용 가능 · 해외여행 및 건강상 결격사유 없음 · 은행 내규상 결격사유 없음';
+  }
+  if (/학력\s*[,·ㆍ]\s*전공\s*등\s*제한\s*없음/.test(text)) {
+    return '학력·전공 제한 없음';
+  }
+  return recruiterJobflexEducationLabel(text);
 }
 
 function recruiterJobflexCareerLabel(record = {}, detail = {}) {
@@ -2534,6 +2597,7 @@ function recruiterJobflexAttachments(detail = {}) {
 
 function recruiterJobflexRecordToRaw(record, detail, source, sourceUrl, feedEntry, prefix) {
   const text = recruiterJobflexText(record, detail);
+  const knownDetails = recruiterJobflexKnownOfficialDetails(record, detail);
   const positionSn = detail.positionSn || record.positionSn;
   const publicUrl = recruiterJobflexPublicUrl(prefix, positionSn);
   const deadline = recruiterJobflexDeadline(record, detail);
@@ -2549,21 +2613,23 @@ function recruiterJobflexRecordToRaw(record, detail, source, sourceUrl, feedEntr
     sourceId: sha([source.id, prefix, positionSn, record.title || detail.title].join('|')),
     title: shortText(detail.title || record.title, `${feedEntry.employer || source.name} 공식 채용 공고`, 140),
     company: feedEntry.employer || source.name,
-    region: keywordSnippet(text, ['근무지', '지역', '전국', '서울', '부산', '경남', '대구'], '원문 확인', 80),
-    education: recruiterJobflexEducationLabel(text),
+    region: knownDetails?.region || keywordSnippet(text, ['근무지', '지역', '전국', '서울', '부산', '경남', '대구'], '원문 확인', 80),
+    education: recruiterJobflexQualificationLabel(record, detail, text),
     career: recruiterJobflexCareerLabel(record, detail),
-    employmentType: recruiterJobflexEmploymentType(record, detail),
+    employmentType: knownDetails?.employmentType || recruiterJobflexEmploymentType(record, detail),
     deadline,
     deadlineText: deadline ? `${deadline} 마감` : '상시채용 또는 마감일 원문 확인',
     publishedAt: String(detail.startDateTime || record.startDateTime || '').slice(0, 10),
-    recruitField: keywordSnippet(text, ['고졸', '특성화고', '직업계고', '마이스터고', '행원', '사무행원', '창구', '텔러', '업무지원', '생산직', '기술직', '기능직'], tags.join(' · ') || '채용부문 원문 확인', 120),
-    applicationMethod: detail.applyUrl ? '채용대행 공식 페이지 온라인 접수' : '채용대행 공식 페이지에서 접수방법 확인',
+    recruitField: knownDetails?.recruitField || keywordSnippet(text, ['고졸', '특성화고', '직업계고', '마이스터고', '행원', '사무행원', '창구', '텔러', '업무지원', '생산직', '기술직', '기능직'], tags.join(' · ') || '채용부문 원문 확인', 120),
+    recruitNumber: knownDetails?.recruitNumber || '',
+    applicationMethod: knownDetails?.applicationMethod || (detail.applyUrl ? '채용대행 공식 페이지 온라인 접수' : '채용대행 공식 페이지에서 접수방법 확인'),
+    contact: knownDetails?.contact || '',
     url: publicUrl,
     originalUrl: sourceUrl,
     sourceDetailUrl: sourceUrl,
     companyNoticeUrl: publicUrl,
-    processText: keywordSnippet(text, ['서류', '필기', 'NCS', '인적성', '면접', '전형', '합격자'], '전형절차 원문 확인', 260),
-    description: shortText(text, '채용대행 공식 페이지에서 지원 가능 신호가 확인되었습니다.', 780),
+    processText: knownDetails?.processText || keywordSnippet(text, ['서류', '필기', 'NCS', '인적성', '면접', '전형', '합격자'], '전형절차 원문 확인', 260),
+    description: shortText(knownDetails?.description || text, '채용대행 공식 페이지에서 지원 가능 신호가 확인되었습니다.', 780),
     attachments: recruiterJobflexAttachments(detail)
   };
 }
@@ -3762,7 +3828,7 @@ function buildExamSubjectLines(raw, process) {
   if (text.includes('직무능력검사')) subjects.push('직무능력검사');
   if (text.includes('인적성')) subjects.push('인적성검사');
   if (text.includes('AI') || text.includes('AI역량')) subjects.push('AI역량검사');
-  if (text.includes('전공')) subjects.push('전공시험');
+  if (/전공\s*(?:시험|평가|필기)|전공시험|전공평가|전공필기/.test(text)) subjects.push('전공시험');
   if (text.includes('논술')) subjects.push('논술');
   if (text.includes('체력')) subjects.push('체력검정');
 

@@ -194,6 +194,23 @@ function unresolvedDeadlineFields(item) {
     .map(([name, value]) => `${name}=${String(value || '').slice(0, 80)}`);
 }
 
+function unresolvedQualificationFields(item) {
+  const pattern = /^원문\s*확인(?:\s*·|$)/;
+  const fields = [
+    ['education', item.education],
+    ['publicRecruitDetails.eligibility', item.publicRecruitDetails?.eligibility],
+    ...(Array.isArray(item.teacherBriefing?.summaryLines)
+      ? item.teacherBriefing.summaryLines.map((line, index) => [`teacherBriefing.summaryLines[${index}]`, line])
+      : []),
+    ...(Array.isArray(item.teacherBriefing?.schoolCheckSections)
+      ? item.teacherBriefing.schoolCheckSections.map((section, index) => [`teacherBriefing.schoolCheckSections[${index}]`, section?.text])
+      : [])
+  ];
+  return fields
+    .filter(([, value]) => pattern.test(String(value || '').replace(/^학력·자격:\s*/, '')))
+    .map(([name, value]) => `${name}=${String(value || '').slice(0, 100)}`);
+}
+
 function isKbMainPageRecruitLink(item) {
   const company = String(item.company || '');
   const title = String(item.title || item.baseTitle || '');
@@ -532,6 +549,7 @@ function validateFeed(feed, label = 'local') {
   const suitabilityProblems = [];
   const malformedDeadlineProblems = [];
   const unresolvedDeadlineProblems = [];
+  const unresolvedQualificationProblems = [];
   const mainPageRecruitLinkProblems = [];
   const titleCompanyProblems = [];
 
@@ -540,6 +558,7 @@ function validateFeed(feed, label = 'local') {
     const suitabilityProblem = highSchoolSuitabilityProblem(item);
     const deadlineProblems = malformedDeadlineFields(item);
     const unresolvedDeadline = unresolvedDeadlineFields(item);
+    const unresolvedQualification = unresolvedQualificationFields(item);
     if (!item.id || !item.title || !item.company || !item.sourceName || !item.url || !item.verifiedAt) itemProblems.push(prefix);
     if (!isHttpUrl(item.url) || !isHttpUrl(item.primaryOfficialUrl || item.url)) itemProblems.push(`${prefix} URL`);
     if (!['active', 'deadline_soon', 'application_closed', 'needs_review'].includes(item.status)) itemProblems.push(`${prefix} status=${item.status}`);
@@ -547,6 +566,9 @@ function validateFeed(feed, label = 'local') {
     if (deadlineProblems.length) malformedDeadlineProblems.push(`${prefix} ${deadlineProblems.slice(0, 3).join(', ')}`);
     if (item.status !== 'application_closed' && item.processTrack === 'exam-formal' && item.detailLevel === 'detailed-public-recruit' && unresolvedDeadline.length) {
       unresolvedDeadlineProblems.push(`${prefix} ${unresolvedDeadline.slice(0, 2).join(', ')}`);
+    }
+    if (item.status !== 'application_closed' && item.processTrack === 'exam-formal' && item.detailLevel === 'detailed-public-recruit' && unresolvedQualification.length) {
+      unresolvedQualificationProblems.push(`${prefix} ${unresolvedQualification.slice(0, 2).join(', ')}`);
     }
     if (!titleIncludesCompanyName(item)) titleCompanyProblems.push(`${prefix} company=${item.company}`);
     if (isKbMainPageRecruitLink(item)) mainPageRecruitLinkProblems.push(`${prefix} ${item.url}`);
@@ -574,6 +596,7 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.items.high-school-suitability`, suitabilityProblems.length === 0, `${label} 고졸·졸업예정자 코너에 원장·센터장·경력전용 등 부적합 공고가 섞이지 않습니다.`, suitabilityProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-malformed-deadline-text`, malformedDeadlineProblems.length === 0, `${label} 마감일 표시에 존재하지 않는 날짜 조각이 없습니다.`, malformedDeadlineProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-unresolved-current-deadline`, unresolvedDeadlineProblems.length === 0, `${label} 진행중 공채 상세는 공식 원문 재확인 후 확정 마감일을 표시합니다.`, unresolvedDeadlineProblems.slice(0, 5).join(' | '));
+  fail(`${label}.items.no-unresolved-current-qualification`, unresolvedQualificationProblems.length === 0, `${label} 진행중 공채 상세는 공식 원문 재확인 후 자격요건을 구체적으로 표시합니다.`, unresolvedQualificationProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-kb-main-page-recruit-link`, mainPageRecruitLinkProblems.length === 0, `${label} KB국민은행 공고는 채용 메인페이지가 아니라 상세 공고 URL로 연결합니다.`, mainPageRecruitLinkProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.title-includes-company`, titleCompanyProblems.length === 0, `${label} 채용 공고 제목에는 기관명·기업명이 포함됩니다.`, titleCompanyProblems.slice(0, 5).join(' | '));
   warn(`${label}.items.official-double-check`, weakOfficialPublicRecruit.length === 0, `${label} 공채 상세 항목은 회사·기관 또는 채용대행 공식 공고 2중확인이 필요합니다.`, weakOfficialPublicRecruit.slice(0, 5).join(' | '));
