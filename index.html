@@ -2507,8 +2507,8 @@ function currentJobEducationPriority(item) {
 }
 
 function jobPriorityLabel(item) {
-  if (item && displayProcessTrack(item) === 'exam-formal' && isHighSchoolTargetJob(item)) return '고졸·특성화고 우선';
-  if (isHighSchoolFriendlyOpenJob(item)) return '특성화고 지원가능 기관';
+  if (item && displayProcessTrack(item) === 'exam-formal' && isHighSchoolTargetJob(item)) return '고졸·특성화고 응시 가능';
+  if (isHighSchoolFriendlyOpenJob(item)) return '학력무관·특성화고 응시 가능';
   if (item && displayProcessTrack(item) === 'exam-formal' && isEducationOpenJob(item)) return '학력무관 공채';
   return '';
 }
