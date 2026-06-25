@@ -4813,7 +4813,7 @@ function buildFeedHealth(payload, safetyReport = null, statusOverride = '') {
   const configuredSources = sources.filter((source) => source.configured);
   const failedConfiguredSources = configuredSources.filter((source) => !source.ok);
   const status = statusOverride
-    || (summary.total > 0 && !summary.criticalCoverageMissing && !failedConfiguredSources.some((source) => source.isolatedFailure)
+    || (summary.total > 0 && !summary.criticalCoverageMissing && !failedConfiguredSources.length
       ? 'ok'
       : summary.total > 0 ? 'degraded' : 'failed');
   return {

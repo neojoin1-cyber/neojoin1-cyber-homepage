@@ -4,7 +4,7 @@
   "feedGeneratedAt": "2026-06-25T15:15:07.099Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "ok",
+  "status": "degraded",
   "summary": {
     "total": 80,
     "active": 41,

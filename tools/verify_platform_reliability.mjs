@@ -651,13 +651,22 @@ function validateFeedHealth(health, feed, label = 'local') {
   const sourceStatus = Array.isArray(feed.sourceStatus) ? feed.sourceStatus : [];
   const configuredSources = sourceStatus.filter((source) => source.configured);
   const failedConfiguredSources = configuredSources.filter((source) => !source.ok);
+  const healthSourceFailures = Array.isArray(health.sourceFailures) ? health.sourceFailures : [];
   const safety = feed.publicationSafety || {};
+  const feedGeneratedAt = new Date(feed.generatedAt || '');
+  const healthFeedGeneratedAt = new Date(health.feedGeneratedAt || '');
+  const isNewerDiagnostic = health.feedGeneratedAt !== feed.generatedAt
+    && !Number.isNaN(feedGeneratedAt.getTime())
+    && !Number.isNaN(healthFeedGeneratedAt.getTime())
+    && healthFeedGeneratedAt.getTime() >= feedGeneratedAt.getTime()
+    && health.status !== 'ok'
+    && healthSourceFailures.length > 0;
 
   fail(`${label}.health.version`, health.version === 1, `${label} 자동수집 건강 상태 파일 버전이 1입니다.`);
   fail(`${label}.health.generated-at`, hoursSince(health.generatedAt) !== null, `${label} 자동수집 건강 상태 생성 시각이 유효합니다.`, health.generatedAt || '');
-  fail(`${label}.health.feed-generated-at-match`, health.feedGeneratedAt === feed.generatedAt, `${label} 건강 상태 파일이 현재 공채 피드 생성 시각과 일치합니다.`, `${health.feedGeneratedAt || ''} / ${feed.generatedAt || ''}`);
-  fail(`${label}.health.total-match`, healthSummary.total === summary.total, `${label} 건강 상태 총 공고 수가 피드 summary와 일치합니다.`, `${healthSummary.total} / ${summary.total}`);
-  fail(`${label}.health.source-failure-count`, healthSummary.sourcesFailed === failedConfiguredSources.length, `${label} 건강 상태 소스 실패 수가 sourceStatus와 일치합니다.`, `${healthSummary.sourcesFailed} / ${failedConfiguredSources.length}`);
+  fail(`${label}.health.feed-generated-at-match`, health.feedGeneratedAt === feed.generatedAt || isNewerDiagnostic, `${label} 건강 상태 파일이 현재 피드 또는 더 최신 부분실패 진단을 가리킵니다.`, `${health.feedGeneratedAt || ''} / ${feed.generatedAt || ''}`);
+  fail(`${label}.health.total-match`, isNewerDiagnostic || healthSummary.total === summary.total, `${label} 건강 상태 총 공고 수가 피드 summary와 일치합니다.`, `${healthSummary.total} / ${summary.total}`);
+  fail(`${label}.health.source-failure-count`, isNewerDiagnostic ? healthSummary.sourcesFailed === healthSourceFailures.length : healthSummary.sourcesFailed === failedConfiguredSources.length, `${label} 건강 상태 소스 실패 수가 기록과 일치합니다.`, `${healthSummary.sourcesFailed} / ${isNewerDiagnostic ? healthSourceFailures.length : failedConfiguredSources.length}`);
   fail(`${label}.health.publication-safety`, safety.policy === 'pre-publication-safety-guard-v1' && health.publicationSafety?.policy === safety.policy, `${label} 게시 직전 안전 필터 결과가 피드와 건강 상태 파일에 기록됩니다.`);
   fail(`${label}.health.no-failed-status-with-items`, health.status !== 'failed' || summary.total === 0, `${label} 공고가 있는 피드는 건강 상태가 failed로 표시되지 않습니다.`, health.status || '');
 }
