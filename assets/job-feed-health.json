@@ -1,33 +1,31 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-25T15:04:01.520Z",
-  "feedGeneratedAt": "2026-06-25T15:04:01.520Z",
+  "generatedAt": "2026-06-25T15:07:23.135Z",
+  "feedGeneratedAt": "2026-06-25T15:07:23.135Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
     "total": 80,
-    "active": 42,
-    "deadlineSoon": 20,
-    "applicationClosed": 18,
+    "active": 41,
+    "deadlineSoon": 19,
+    "applicationClosed": 20,
     "sourcesChecked": 15,
-    "sourcesConfigured": 4,
+    "sourcesConfigured": 6,
     "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
     "staleFallbackItems": 0,
     "publicationBlocked": 0,
-    "publicationRepaired": 9
+    "publicationRepaired": 0
   },
   "sourceFailures": [],
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-06-25T15:04:01.520Z",
+    "generatedAt": "2026-06-25T15:07:23.135Z",
     "blockedCount": 0,
-    "repairedCount": 9,
+    "repairedCount": 0,
     "blockedByReason": {},
-    "repairedByReason": {
-      "title-company": 9
-    },
+    "repairedByReason": {},
     "blockedSamples": []
   },
   "nextOperatorActions": [
