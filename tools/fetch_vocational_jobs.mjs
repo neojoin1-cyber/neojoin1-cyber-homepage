@@ -4347,13 +4347,19 @@ function hasResolvedRecruitQualification(item = {}) {
   return fields.every((value) => !unresolvedPattern.test(value));
 }
 
+function isUnresolvedDetailedPublicRecruit(item = {}) {
+  return item.processTrack === 'exam-formal'
+    && item.detailLevel === 'detailed-public-recruit'
+    && (!hasResolvedApplicationDeadline(item)
+      || (item.status !== 'application_closed' && !hasResolvedRecruitQualification(item)));
+}
+
 function shouldKeep(item) {
   if (!item.title || !item.company || !item.url) return false;
   if (isRegionalEducationDisplaySuppressed(item)) return false;
   if (item.status === 'expired') return false;
   if (item.status === 'application_closed' && item.processTrack !== 'exam-formal') return false;
-  if (item.processTrack === 'exam-formal' && item.detailLevel === 'detailed-public-recruit' && !hasResolvedApplicationDeadline(item)) return false;
-  if (item.status !== 'application_closed' && item.processTrack === 'exam-formal' && item.detailLevel === 'detailed-public-recruit' && !hasResolvedRecruitQualification(item)) return false;
+  if (isUnresolvedDetailedPublicRecruit(item)) return false;
   if (isUnsuitableForHighSchoolChannel(item)) return false;
   const text = [item.title, item.company, item.education, item.career, item.employmentType, item.detailText].join(' ');
   const hasStrongHighSchool = STRONG_TERMS.some((term) => text.includes(term));
@@ -4829,6 +4835,7 @@ function parsePublicDataRecords(body, source, publicSourceUrl) {
 function publicJobKeep(item) {
   if (!item.title || !item.company || !item.url) return false;
   if (item.status === 'expired') return false;
+  if (isUnresolvedDetailedPublicRecruit(item)) return false;
   if (isUnsuitableForHighSchoolChannel(item)) return false;
   const text = [
     item.title,
