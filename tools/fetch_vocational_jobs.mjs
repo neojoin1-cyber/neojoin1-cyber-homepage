@@ -4896,11 +4896,20 @@ function mergePreviousAudit(items, previousItems) {
     const firstSeenDate = parseDate(firstSeenAt) || NOW;
     const publishedDate = parseDate(item.publishedDate || item.publishedAt);
     const collectionAudit = buildCollectionAudit(item, publishedDate, firstSeenAt);
+    const fallbackAudit = item.collectionAudit || {};
     return {
       ...item,
       firstSeenAt,
       firstSeenDate: formatDate(firstSeenDate),
-      collectionAudit
+      collectionAudit: {
+        ...collectionAudit,
+        missedReviewNeeded: Boolean(collectionAudit.missedReviewNeeded || fallbackAudit.missedReviewNeeded),
+        ...(fallbackAudit.fallbackFromPreviousRun ? { fallbackFromPreviousRun: true } : {}),
+        ...(fallbackAudit.sourceFallback ? { sourceFallback: true } : {}),
+        note: fallbackAudit.sourceFallback || fallbackAudit.fallbackFromPreviousRun
+          ? fallbackAudit.note || collectionAudit.note
+          : collectionAudit.note
+      }
     };
   });
 }
