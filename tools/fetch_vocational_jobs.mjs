@@ -2547,6 +2547,20 @@ function recruiterJobflexKnownOfficialDetails(record = {}, detail = {}) {
       description: '채용분야: 사무행원(자금세탁방지부) · 주요업무: 자금세탁방지업무(고객확인), 서무업무, 은행이 지정하는 업무 · 지원자격: 학력·성별·전공 제한 없음, MS 오피스 사용 가능, 해외여행 및 건강상 결격사유 없음, 은행 내규상 결격사유 없음 · 우대: 금융권 근무경력 1년 이상, 금융관련 자격증 소지자, 장애인 및 취업보호 대상자'
     };
   }
+  if (positionSn === '119895' || /당진제철소\s*기술직\(계약\)/.test(title)) {
+    return {
+      education: '지원자격: 제조업 사업장 근무 적격자 · 해외여행 결격사유 없음(남성은 병역필 또는 면제) · 지정 입사일 입사 가능',
+      region: '충남 당진시 현대제철 당진제철소',
+      employmentType: '계약직(상주/교대)',
+      recruitField: '금속/제철 · 기계정비 · 전기정비 · 생산지원 · 기중기',
+      recruitNumber: '00명',
+      deadlineText: '상시(채용 시 마감)',
+      applicationMethod: '현대제철 채용 홈페이지 지원서 작성 · 별도 지원자 추가정보 작성 필요',
+      contact: '041-680-1348, 1330',
+      processText: '서류전형 → 인성/신체검사 → 인성·실무면접 → 입사',
+      description: '모집부문: 금속/제철, 기계정비, 전기정비, 생산지원, 기중기 · 근무형태: 상주/교대 · 인원: 00명 · 근무지: 당진제철소 · 지원자격: 제조업 사업장 근무 적격자, 해외여행 결격사유 없음, 지정 입사일 입사 가능 · 우대: 관련 자격증 소지자, 동종업계 경력, 관련 학과 계열 전공자'
+    };
+  }
   return null;
 }
 
@@ -2618,7 +2632,7 @@ function recruiterJobflexRecordToRaw(record, detail, source, sourceUrl, feedEntr
     career: recruiterJobflexCareerLabel(record, detail),
     employmentType: knownDetails?.employmentType || recruiterJobflexEmploymentType(record, detail),
     deadline,
-    deadlineText: deadline ? `${deadline} 마감` : '상시채용 또는 마감일 원문 확인',
+    deadlineText: knownDetails?.deadlineText || (deadline ? `${deadline} 마감` : '상시채용 또는 마감일 원문 확인'),
     publishedAt: String(detail.startDateTime || record.startDateTime || '').slice(0, 10),
     recruitField: knownDetails?.recruitField || keywordSnippet(text, ['고졸', '특성화고', '직업계고', '마이스터고', '행원', '사무행원', '창구', '텔러', '업무지원', '생산직', '기술직', '기능직'], tags.join(' · ') || '채용부문 원문 확인', 120),
     recruitNumber: knownDetails?.recruitNumber || '',
