@@ -118,6 +118,20 @@ function countItems(items, predicate) {
   return items.filter(predicate).length;
 }
 
+function staleFallbackCountForSource(items, sourceId) {
+  return countItems(items, (item) => item.source === sourceId && item.staleSourceFallback);
+}
+
+function sourceFallbackProtected(items, sourceStatus, sourceId) {
+  return Boolean(sourceStatus?.fallbackProtected)
+    || Number(sourceStatus?.fallbackItemCount || 0) > 0
+    || staleFallbackCountForSource(items, sourceId) > 0;
+}
+
+function sourceOperationalOrPreserved(items, sourceStatus, sourceId) {
+  return Boolean(sourceStatus?.ok) || sourceFallbackProtected(items, sourceStatus, sourceId);
+}
+
 function countText(haystack, needle) {
   return haystack.split(needle).length - 1;
 }
@@ -396,6 +410,7 @@ async function validateJobFetcherRules() {
   fail('fetcher.pending-source-concurrency', fetcher.includes('PENDING_SOURCE_CONCURRENCY') && fetcher.includes('return mapWithConcurrency(pending, PENDING_SOURCE_CONCURRENCY'), '보조 수집원은 제한 병렬로 점검해 느린 소스 하나가 전체 시간을 잡아먹지 않게 합니다.');
   fail('fetcher.publication-safety-guard', fetcher.includes('function applyPublicationSafetyGuards') && fetcher.includes('publicationBlockReason') && fetcher.includes('publicationSafety'), '검증 실패를 일으킬 공고는 게시 직전 자동 보정하거나 차단합니다.');
   fail('fetcher.health-report', fetcher.includes('job-feed-health.json') && fetcher.includes('function buildFeedHealth') && fetcher.includes('writeJsonAtomic(HEALTH_FILE'), '자동 수집 건강 상태 파일을 매 실행마다 생성합니다.');
+  fail('fetcher.source-fallback-diagnostics', fetcher.includes('function annotateSourceFallbackProtection') && fetcher.includes('fallbackProtected') && fetcher.includes('sourceFallbackProtected'), '일시 실패한 공식 수집원은 직전 정상 공고 보존 건수를 피드와 건강 상태에 남깁니다.');
   fail('fetcher.job-track-refine', fetcher.includes('function shouldForceFieldDirectRecruit') && fetcher.includes('function hasProtectedPublicRecruitSignal') && fetcher.includes('FIELD_DIRECT_ROLE_PATTERN') && fetcher.includes('FIELD_DIRECT_LIMITED_PATTERN') && fetcher.includes('STUDENT_RECOMMENDED_ROLE_PATTERN') && fetcher.includes('RECOMMENDED_INTERNSHIP_PATTERN') && fetcher.includes('현장형 분리') && fetcher.includes('추천 공채 후보'), '자동 수집 단계에서 진짜 현장형 공고는 분리하고 NCS·인턴·전공/행정 직무 공채는 공채 상세에 보호합니다.');
   fail('fetcher.internship-not-direct-term', !directTerms.includes('채용연계'), '채용연계·채용형 인턴은 면접중심 직접 분류 키워드에서 제외되어 공채 상세 보호 대상이 됩니다.');
   fail('fetcher.deadline-text-sanitizer', fetcher.includes('function safeDeadlineDisplayText') && fetcher.includes('function kstDateFromParts') && fetcher.includes('containsStructuredDatePattern'), '자동 수집 단계에서 불가능한 마감일 숫자를 원문 확인 문구로 정제합니다.');
@@ -537,6 +552,7 @@ function validateFeed(feed, label = 'local') {
   });
   const missedCount = countItems(items, (item) => item.collectionAudit?.missedReviewNeeded);
   const staleCount = countItems(items, (item) => item.staleSourceFallback);
+  const sourceFallbackCount = countItems(items, (item) => item.collectionAudit?.sourceFallback);
   const briefingCount = countItems(items, (item) => item.teacherBriefing?.teacherShareText);
 
   fail(`${label}.summary.exam-count`, summary.examFormal === examCount, `${label} 필기·공식전형 카운터가 실제 항목과 일치합니다.`, `${summary.examFormal} / ${examCount}`);
@@ -546,6 +562,7 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.summary.regional-education-count`, (summary.regionalEducationVerificationLinked || summary.regionalEducationVerified || 0) === regionalEducationVerifiedCount, `${label} 교육청 보조검증 연계 카운터가 실제 항목과 일치합니다.`, `${summary.regionalEducationVerificationLinked || summary.regionalEducationVerified || 0} / ${regionalEducationVerifiedCount}`);
   fail(`${label}.summary.missed-count`, summary.missedReviewNeeded === missedCount, `${label} 누락점검 카운터가 실제 항목과 일치합니다.`, `${summary.missedReviewNeeded} / ${missedCount}`);
   fail(`${label}.summary.stale-count`, summary.staleFallbackItems === staleCount, `${label} 임시 보존 공고 카운터가 실제 항목과 일치합니다.`, `${summary.staleFallbackItems} / ${staleCount}`);
+  fail(`${label}.summary.source-fallback-count`, (summary.sourceFallbackProtected || 0) === sourceFallbackCount, `${label} 실패 소스 보존 공고 카운터가 실제 항목과 일치합니다.`, `${summary.sourceFallbackProtected || 0} / ${sourceFallbackCount}`);
   fail(`${label}.summary.briefing-count`, summary.briefingReady === briefingCount, `${label} 취업부 브리핑 카운터가 실제 항목과 일치합니다.`, `${summary.briefingReady} / ${briefingCount}`);
 
   const itemProblems = [];
@@ -610,7 +627,7 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.items.title-includes-company`, titleCompanyProblems.length === 0, `${label} 채용 공고 제목에는 기관명·기업명이 포함됩니다.`, titleCompanyProblems.slice(0, 5).join(' | '));
   warn(`${label}.items.official-double-check`, weakOfficialPublicRecruit.length === 0, `${label} 공채 상세 항목은 회사·기관 또는 채용대행 공식 공고 2중확인이 필요합니다.`, weakOfficialPublicRecruit.slice(0, 5).join(' | '));
 
-  const readySources = sourceStatus.filter((source) => source.configured && source.ok).length;
+  const readySources = sourceStatus.filter((source) => source.configured && sourceOperationalOrPreserved(items, source, source.id)).length;
   const jobAlioStatus = sourceStatus.find((source) => source.id === 'job-alio-openapi');
   const financeLargeCompanyStatus = sourceStatus.find((source) => source.id === 'finance-large-company-recruit');
   const regionalEducationStatus = sourceStatus.find((source) => source.id === 'regional-education-job');
@@ -621,17 +638,20 @@ function validateFeed(feed, label = 'local') {
   const missingRegionalWatchEmployers = REQUIRED_REGIONAL_EDUCATION_WATCH_EMPLOYERS
     .filter((employer) => !watchedRegionalEmployers.some((watched) => String(watched).includes(employer) || employer.includes(String(watched))));
   const jobAlioItemCount = items.filter((item) => item.source === 'job-alio-openapi').length;
-  const jobAlioFallbackProtected = jobAlioItemCount > 0 || Number(summary.staleFallbackItems || 0) > 0;
+  const jobAlioFallbackCount = staleFallbackCountForSource(items, 'job-alio-openapi');
+  const jobAlioFallbackProtected = sourceFallbackProtected(items, jobAlioStatus, 'job-alio-openapi');
   const jobAlioLiveOk = Boolean(jobAlioStatus?.ok);
+  const jobAlioMissingCurrent = jobAlioStatus?.criticalCoverage?.missingCurrent || [];
   fail(`${label}.sources.job-alio-ok`, jobAlioLiveOk || jobAlioFallbackProtected, `${label} 잡알리오 공식 채용 수집원이 정상 동작하거나 직전 정상 공고를 보존합니다.`, jobAlioStatus?.message || `보존 항목 ${jobAlioItemCount}건`);
   warn(`${label}.sources.job-alio-live-reachable`, jobAlioLiveOk, `${label} 잡알리오 공식 채용 실시간 접속 상태를 확인합니다.`, jobAlioStatus?.message || '');
   fail(`${label}.sources.job-alio-expanded-scan`, jobAlioLiveOk
     ? Number(jobAlioStatus?.scanTargetCount || 0) >= 10 && Number(jobAlioStatus?.candidateRowCount || 0) >= requiredCritical.length
-    : jobAlioFallbackProtected, `${label} 잡알리오는 검색어·핵심기관 경로를 훑거나 일시 장애 시 기존 정상 공고를 보존합니다.`, `scanTarget=${jobAlioStatus?.scanTargetCount || 0}, candidate=${jobAlioStatus?.candidateRowCount || 0}, preserved=${jobAlioItemCount}`);
-  fail(`${label}.sources.job-alio-critical-coverage`, (jobAlioStatus?.criticalCoverage?.missingCurrent || []).length === 0, `${label} 잡알리오 핵심 공고 감시 대상 누락이 없습니다.`, (jobAlioStatus?.criticalCoverage?.missingCurrent || []).map((job) => `${job.company}:${job.idx}`).join(', '));
-  fail(`${label}.sources.finance-large-company-ok`, Boolean(financeLargeCompanyStatus?.ok), `${label} 금융권·대기업 공식 채용 페이지 감시원이 정상 동작합니다.`, financeLargeCompanyStatus?.message || '');
-  fail(`${label}.sources.finance-large-company-watch-count`, Number(financeLargeCompanyStatus?.watchEmployerCount || 0) >= MIN_FINANCE_LARGE_COMPANY_WATCH_COUNT && Number(financeLargeCompanyStatus?.builtInFeedCount || 0) >= MIN_FINANCE_LARGE_COMPANY_WATCH_COUNT, `${label} 대기업·1금융·2금융 공식 채용 감시 대상이 충분합니다.`, `watch=${financeLargeCompanyStatus?.watchEmployerCount || 0}, builtIn=${financeLargeCompanyStatus?.builtInFeedCount || 0}`);
-  fail(`${label}.sources.finance-large-company-required-watch`, missingWatchEmployers.length === 0, `${label} 핵심 대기업·금융권 공식 채용 채널이 감시 목록에 포함되어 있습니다.`, missingWatchEmployers.join(', '));
+    : jobAlioFallbackProtected, `${label} 잡알리오는 검색어·핵심기관 경로를 훑거나 일시 장애 시 기존 정상 공고를 보존합니다.`, `scanTarget=${jobAlioStatus?.scanTargetCount || 0}, candidate=${jobAlioStatus?.candidateRowCount || 0}, preserved=${jobAlioFallbackCount || jobAlioItemCount}`);
+  fail(`${label}.sources.job-alio-critical-coverage`, jobAlioLiveOk ? jobAlioMissingCurrent.length === 0 : (jobAlioFallbackProtected || jobAlioMissingCurrent.length === 0), `${label} 잡알리오 핵심 공고 감시 대상 누락이 없습니다.`, jobAlioMissingCurrent.map((job) => `${job.company}:${job.idx}`).join(', '));
+  const financeLargeCompanyProtected = sourceFallbackProtected(items, financeLargeCompanyStatus, 'finance-large-company-recruit');
+  fail(`${label}.sources.finance-large-company-ok`, Boolean(financeLargeCompanyStatus?.ok) || financeLargeCompanyProtected, `${label} 금융권·대기업 공식 채용 페이지 감시원이 정상 동작하거나 직전 정상 공고를 보존합니다.`, financeLargeCompanyStatus?.message || '');
+  fail(`${label}.sources.finance-large-company-watch-count`, financeLargeCompanyProtected || (Number(financeLargeCompanyStatus?.watchEmployerCount || 0) >= MIN_FINANCE_LARGE_COMPANY_WATCH_COUNT && Number(financeLargeCompanyStatus?.builtInFeedCount || 0) >= MIN_FINANCE_LARGE_COMPANY_WATCH_COUNT), `${label} 대기업·1금융·2금융 공식 채용 감시 대상이 충분하거나 일시 장애 시 기존 정상 공고를 보존합니다.`, `watch=${financeLargeCompanyStatus?.watchEmployerCount || 0}, builtIn=${financeLargeCompanyStatus?.builtInFeedCount || 0}, preserved=${staleFallbackCountForSource(items, 'finance-large-company-recruit')}`);
+  fail(`${label}.sources.finance-large-company-required-watch`, financeLargeCompanyProtected || missingWatchEmployers.length === 0, `${label} 핵심 대기업·금융권 공식 채용 채널이 감시 목록에 포함되어 있거나 보존 공고로 보호됩니다.`, missingWatchEmployers.join(', '));
   warn(`${label}.sources.finance-large-company-url-failures`, Number(financeLargeCompanyStatus?.checkedUrlCount || 0) >= Math.ceil(Number(financeLargeCompanyStatus?.builtInFeedCount || 0) * 0.5), `${label} 금융권·대기업 공식 채용 페이지 절반 이상에 접속했습니다.`, `checked=${financeLargeCompanyStatus?.checkedUrlCount || 0}, failed=${financeLargeCompanyStatus?.failedUrlCount || 0}`);
   fail(`${label}.sources.regional-education-ok`, Boolean(regionalEducationStatus?.ok), `${label} 지역별 교육청 취업지원센터 감시원이 정상 동작합니다.`, regionalEducationStatus?.message || '');
   fail(`${label}.sources.regional-education-watch-count`, Number(regionalEducationStatus?.watchEmployerCount || 0) >= MIN_REGIONAL_EDUCATION_WATCH_COUNT && Number(regionalEducationStatus?.builtInFeedCount || 0) >= MIN_REGIONAL_EDUCATION_WATCH_COUNT, `${label} 지역 교육청 공식 취업지원센터 감시 대상이 충분합니다.`, `watch=${regionalEducationStatus?.watchEmployerCount || 0}, builtIn=${regionalEducationStatus?.builtInFeedCount || 0}`);
@@ -667,6 +687,7 @@ function validateFeedHealth(health, feed, label = 'local') {
   fail(`${label}.health.feed-generated-at-match`, health.feedGeneratedAt === feed.generatedAt || isNewerDiagnostic, `${label} 건강 상태 파일이 현재 피드 또는 더 최신 부분실패 진단을 가리킵니다.`, `${health.feedGeneratedAt || ''} / ${feed.generatedAt || ''}`);
   fail(`${label}.health.total-match`, isNewerDiagnostic || healthSummary.total === summary.total, `${label} 건강 상태 총 공고 수가 피드 summary와 일치합니다.`, `${healthSummary.total} / ${summary.total}`);
   fail(`${label}.health.source-failure-count`, isNewerDiagnostic ? healthSummary.sourcesFailed === healthSourceFailures.length : healthSummary.sourcesFailed === failedConfiguredSources.length, `${label} 건강 상태 소스 실패 수가 기록과 일치합니다.`, `${healthSummary.sourcesFailed} / ${isNewerDiagnostic ? healthSourceFailures.length : failedConfiguredSources.length}`);
+  fail(`${label}.health.source-fallback-count`, isNewerDiagnostic || (healthSummary.sourceFallbackProtected || 0) === (summary.sourceFallbackProtected || 0), `${label} 건강 상태의 실패 소스 보존 공고 수가 피드 summary와 일치합니다.`, `${healthSummary.sourceFallbackProtected || 0} / ${summary.sourceFallbackProtected || 0}`);
   fail(`${label}.health.publication-safety`, safety.policy === 'pre-publication-safety-guard-v1' && health.publicationSafety?.policy === safety.policy, `${label} 게시 직전 안전 필터 결과가 피드와 건강 상태 파일에 기록됩니다.`);
   fail(`${label}.health.no-failed-status-with-items`, health.status !== 'failed' || summary.total === 0, `${label} 공고가 있는 피드는 건강 상태가 failed로 표시되지 않습니다.`, health.status || '');
 }

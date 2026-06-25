@@ -4833,6 +4833,7 @@ function buildFeedHealth(payload, safetyReport = null, statusOverride = '') {
       sourcesFailed: failedConfiguredSources.length,
       criticalCoverageMissing: summary.criticalCoverageMissing || 0,
       staleFallbackItems: summary.staleFallbackItems || 0,
+      sourceFallbackProtected: summary.sourceFallbackProtected || 0,
       publicationBlocked: safetyReport?.blockedCount || 0,
       publicationRepaired: safetyReport?.repairedCount || 0
     },
@@ -4840,6 +4841,8 @@ function buildFeedHealth(payload, safetyReport = null, statusOverride = '') {
       id: source.id,
       name: source.name,
       isolatedFailure: Boolean(source.isolatedFailure),
+      fallbackProtected: Boolean(source.fallbackProtected),
+      fallbackItemCount: source.fallbackItemCount || 0,
       message: source.message || ''
     })).slice(0, 20),
     publicationSafety: safetyReport,
@@ -4955,6 +4958,27 @@ function fallbackFailedSourceItems(previousItems, sourceStatusList, freshItems) 
     });
   }
   return items;
+}
+
+function annotateSourceFallbackProtection(sourceStatusList, fallbackItems) {
+  const fallbackCounts = new Map();
+  for (const item of fallbackItems) {
+    if (!item?.source) continue;
+    fallbackCounts.set(item.source, (fallbackCounts.get(item.source) || 0) + 1);
+  }
+
+  return sourceStatusList.map((source) => {
+    const fallbackItemCount = fallbackCounts.get(source.id) || 0;
+    if (!fallbackItemCount) return source;
+    return {
+      ...source,
+      fallbackProtected: true,
+      fallbackItemCount,
+      message: source.ok
+        ? source.message
+        : `${source.message || '연결 실패'} · 직전 정상 공고 ${fallbackItemCount}건 보존`
+    };
+  });
 }
 
 function archiveDedupeKey(item) {
@@ -6342,6 +6366,8 @@ function buildCollectionReview(items, sourceStatusList, criticalCoverage = build
       name: source.name,
       readiness: source.readiness,
       configured: source.configured,
+      fallbackProtected: Boolean(source.fallbackProtected),
+      fallbackItemCount: source.fallbackItemCount || 0,
       message: source.message || '연결 상태 확인 필요'
     }));
   const criticalGapCount = criticalCoverage.missingCurrent.length;
@@ -6383,10 +6409,11 @@ async function main() {
   ]);
   results.push(...await pendingCatalogSources());
 
-  const sourceStatusList = results.map((result) => result.status);
+  const initialSourceStatusList = results.map((result) => result.status);
   const freshItems = results.flatMap((result) => result.items || []);
   const regionalEducationVerificationItems = results.flatMap((result) => result.verificationItems || []);
-  const sourceFallbackItems = fallbackFailedSourceItems(previousItems, sourceStatusList, freshItems);
+  const sourceFallbackItems = fallbackFailedSourceItems(previousItems, initialSourceStatusList, freshItems);
+  const sourceStatusList = annotateSourceFallbackProtection(initialSourceStatusList, sourceFallbackItems);
   const allCurrentItems = dedupeAndSortAll([...freshItems, ...sourceFallbackItems]);
   const currentItems = balanceTrackItems(allCurrentItems);
   const displayItems = currentItems.length
@@ -6420,6 +6447,7 @@ async function main() {
   const lateDetected = items.filter((item) => item.collectionAudit?.firstDayStatus === 'late_detected').length;
   const missedReviewNeeded = items.filter((item) => item.collectionAudit?.missedReviewNeeded).length;
   const staleFallbackItems = items.filter((item) => item.staleSourceFallback).length;
+  const sourceFallbackProtected = items.filter((item) => item.collectionAudit?.sourceFallback).length;
   const sourcesConfigured = sourceStatusList.filter((source) => source.configured).length;
   const criticalCoverage = buildCriticalJobAlioCoverage(items);
   const collectionReview = buildCollectionReview(items, sourceStatusList, criticalCoverage);
@@ -6454,6 +6482,7 @@ async function main() {
       missedReviewNeeded,
       criticalCoverageMissing: criticalCoverage.missingCurrent.length,
       staleFallbackItems,
+      sourceFallbackProtected,
       publicationBlocked: publicationSafety.report.blockedCount,
       publicationRepaired: publicationSafety.report.repairedCount,
       zipAttachmentsScanned: zipAttachmentSummary.scanned,
@@ -6465,7 +6494,9 @@ async function main() {
       sourcesReady: secretReadiness.readySources,
       sourcesMissingSetup: secretReadiness.missingSources,
       note: staleFallbackItems
-        ? '현재 실행에서 신규 수집이 0건이라 직전 정상 공고를 임시 보존하고 공식 소스 점검이 필요합니다.'
+        ? sourceFallbackProtected
+          ? `일부 공식 소스가 일시 실패해 직전 정상 공고 ${sourceFallbackProtected}건을 보존하고 나머지 수집 결과와 함께 게시했습니다.`
+          : '현재 실행에서 신규 수집이 0건이라 직전 정상 공고를 임시 보존하고 공식 소스 점검이 필요합니다.'
         : sourcesConfigured
         ? '공채 첫날 수집을 최우선으로 점검하고, 공식 공고 2중 확인 중심으로 취업부 브리핑을 자동 생성했습니다.'
         : '공식 API 키가 아직 연결되지 않아 자동 수집 대기 상태입니다.'
