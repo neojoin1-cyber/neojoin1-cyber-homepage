@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-06-25T15:15:07.099Z",
-  "feedGeneratedAt": "2026-06-25T15:15:07.099Z",
+  "generatedAt": "2026-06-25T15:22:11.363Z",
+  "feedGeneratedAt": "2026-06-25T15:22:11.363Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "degraded",
@@ -23,12 +23,12 @@
       "id": "job-alio-openapi",
       "name": "잡알리오 공공기관 채용",
       "isolatedFailure": false,
-      "message": "연결 실패: recent-page-1: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-2: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT"
+      "message": "연결 실패: recent-page-8: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-6: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT"
     }
   ],
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-06-25T15:15:07.099Z",
+    "generatedAt": "2026-06-25T15:22:11.363Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "blockedByReason": {},
