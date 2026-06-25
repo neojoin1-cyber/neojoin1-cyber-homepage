@@ -4334,12 +4334,26 @@ function hasResolvedApplicationDeadline(item = {}) {
     || /상시\s*채용|채용\s*시까지|수시\s*채용/.test(text);
 }
 
+function hasResolvedRecruitQualification(item = {}) {
+  const unresolvedPattern = /^원문\s*확인(?:\s*·|$)/;
+  const fields = [
+    item.education,
+    item.publicRecruitDetails?.eligibility,
+    ...(Array.isArray(item.teacherBriefing?.summaryLines) ? item.teacherBriefing.summaryLines : []),
+    ...(Array.isArray(item.teacherBriefing?.schoolCheckSections)
+      ? item.teacherBriefing.schoolCheckSections.map((section) => section?.text)
+      : [])
+  ].map((value) => normalizeSpace(value).replace(/^학력·자격:\s*/, ''));
+  return fields.every((value) => !unresolvedPattern.test(value));
+}
+
 function shouldKeep(item) {
   if (!item.title || !item.company || !item.url) return false;
   if (isRegionalEducationDisplaySuppressed(item)) return false;
   if (item.status === 'expired') return false;
   if (item.status === 'application_closed' && item.processTrack !== 'exam-formal') return false;
   if (item.processTrack === 'exam-formal' && item.detailLevel === 'detailed-public-recruit' && !hasResolvedApplicationDeadline(item)) return false;
+  if (item.status !== 'application_closed' && item.processTrack === 'exam-formal' && item.detailLevel === 'detailed-public-recruit' && !hasResolvedRecruitQualification(item)) return false;
   if (isUnsuitableForHighSchoolChannel(item)) return false;
   const text = [item.title, item.company, item.education, item.career, item.employmentType, item.detailText].join(' ');
   const hasStrongHighSchool = STRONG_TERMS.some((term) => text.includes(term));
