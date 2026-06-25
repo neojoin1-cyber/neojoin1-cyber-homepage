@@ -33,6 +33,7 @@ const JOB_ALIO_SCAN_PAGES = 12;
 const OFFICIAL_WATCH_TIMEOUT_MS = 15000;
 const COMPANY_NOTICE_TIMEOUT_MS = 15000;
 const GENERIC_OFFICIAL_FEED_CONCURRENCY = 5;
+const PENDING_SOURCE_CONCURRENCY = 3;
 const EXTERNAL_CLIENT_GRACE_MS = 1500;
 const MIN_FALLBACK_TIMEOUT_MS = 1200;
 const REACHABILITY_TIMEOUT_MS = 7000;
@@ -6147,11 +6148,10 @@ async function fetchGenericConfiguredSource(id) {
 }
 
 async function pendingCatalogSources() {
-  const results = [];
-  for (const source of SOURCE_CATALOG.filter((item) => item.status !== 'active')) {
-    results.push(await runSource(source.id, () => fetchGenericConfiguredSource(source.id)));
-  }
-  return results;
+  const pending = SOURCE_CATALOG.filter((item) => item.status !== 'active');
+  return mapWithConcurrency(pending, PENDING_SOURCE_CONCURRENCY, (source) => (
+    runSource(source.id, () => fetchGenericConfiguredSource(source.id))
+  ));
 }
 
 function sourceSecretState(source, status) {

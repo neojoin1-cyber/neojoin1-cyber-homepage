@@ -379,6 +379,8 @@ async function validateSecretSafety() {
 async function validateWorkflow() {
   const workflow = await readText('.github/workflows/job-feed.yml');
   fail('workflow.schedule-3x-kst', workflow.includes('10 0,5,14 * * *'), '공채 자동 수집이 09:10, 14:10, 23:10 KST 기준으로 예약되어 있습니다.');
+  fail('workflow.backup-schedule-3x-kst', workflow.includes('40 0,5,14 * * *'), '정규 수집 30분 뒤 백업 수집이 다시 실행됩니다.');
+  fail('workflow.no-cancel-in-progress', workflow.includes('cancel-in-progress: false'), '진행 중인 자동 수집을 새 실행이 취소하지 않고 순차 처리합니다.');
   fail('workflow.manual-dispatch', workflow.includes('workflow_dispatch'), '수동 재실행 트리거가 있습니다.');
   fail('workflow.syntax-gate', workflow.includes('node --check tools/fetch_vocational_jobs.mjs'), '수집 전 문법 검사를 실행합니다.');
   fail('workflow.health-commit', workflow.includes('assets/job-feed-health.json') && workflow.includes('Commit automation health diagnostics'), '자동수집 건강 상태 파일을 정상·실패 경로 모두에서 게시할 수 있습니다.');
@@ -391,6 +393,7 @@ async function validateJobFetcherRules() {
   const fetcher = await readText('tools/fetch_vocational_jobs.mjs');
   const directTerms = sectionBetween(fetcher, 'const DIRECT_TERMS = [', '];');
   fail('fetcher.source-failure-isolation', fetcher.includes('function runSource') && fetcher.includes('sourceFailureResult') && fetcher.includes('수집원 예외 격리'), '개별 수집원 예외가 전체 자동수집 실패로 번지지 않도록 격리합니다.');
+  fail('fetcher.pending-source-concurrency', fetcher.includes('PENDING_SOURCE_CONCURRENCY') && fetcher.includes('return mapWithConcurrency(pending, PENDING_SOURCE_CONCURRENCY'), '보조 수집원은 제한 병렬로 점검해 느린 소스 하나가 전체 시간을 잡아먹지 않게 합니다.');
   fail('fetcher.publication-safety-guard', fetcher.includes('function applyPublicationSafetyGuards') && fetcher.includes('publicationBlockReason') && fetcher.includes('publicationSafety'), '검증 실패를 일으킬 공고는 게시 직전 자동 보정하거나 차단합니다.');
   fail('fetcher.health-report', fetcher.includes('job-feed-health.json') && fetcher.includes('function buildFeedHealth') && fetcher.includes('writeJsonAtomic(HEALTH_FILE'), '자동 수집 건강 상태 파일을 매 실행마다 생성합니다.');
   fail('fetcher.job-track-refine', fetcher.includes('function shouldForceFieldDirectRecruit') && fetcher.includes('function hasProtectedPublicRecruitSignal') && fetcher.includes('FIELD_DIRECT_ROLE_PATTERN') && fetcher.includes('FIELD_DIRECT_LIMITED_PATTERN') && fetcher.includes('STUDENT_RECOMMENDED_ROLE_PATTERN') && fetcher.includes('RECOMMENDED_INTERNSHIP_PATTERN') && fetcher.includes('현장형 분리') && fetcher.includes('추천 공채 후보'), '자동 수집 단계에서 진짜 현장형 공고는 분리하고 NCS·인턴·전공/행정 직무 공채는 공채 상세에 보호합니다.');
