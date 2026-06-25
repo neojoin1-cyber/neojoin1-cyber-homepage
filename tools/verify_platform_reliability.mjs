@@ -328,6 +328,7 @@ async function validateStaticFiles() {
   const requiredFiles = [
     'index.html',
     'assets/job-feed.json',
+    'assets/job-feed-health.json',
     'assets/platform-hero-vocational.png',
     'tools/fetch_vocational_jobs.mjs',
     '.github/workflows/job-feed.yml',
@@ -380,6 +381,7 @@ async function validateWorkflow() {
   fail('workflow.schedule-3x-kst', workflow.includes('10 0,5,14 * * *'), '공채 자동 수집이 09:10, 14:10, 23:10 KST 기준으로 예약되어 있습니다.');
   fail('workflow.manual-dispatch', workflow.includes('workflow_dispatch'), '수동 재실행 트리거가 있습니다.');
   fail('workflow.syntax-gate', workflow.includes('node --check tools/fetch_vocational_jobs.mjs'), '수집 전 문법 검사를 실행합니다.');
+  fail('workflow.health-commit', workflow.includes('assets/job-feed-health.json') && workflow.includes('Commit automation health diagnostics'), '자동수집 건강 상태 파일을 정상·실패 경로 모두에서 게시할 수 있습니다.');
   for (const name of ['DATA_GO_KR_SERVICE_KEY', 'MPM_PUBLIC_JOB_SERVICE_KEY', 'MOEF_PUBLIC_RECRUIT_SERVICE_KEY', 'SARAMIN_ACCESS_KEY', 'JOB_ALIO_EXTRA_WATCH_ORGS', 'EDU_JOB_CENTER_FEEDS', 'FINANCE_RECRUIT_FEEDS', 'LARGE_COMPANY_RECRUIT_FEEDS']) {
     fail(`workflow.secret.${name}`, workflow.includes(name), `${name} Secret 이름이 워크플로에 연결되어 있습니다.`);
   }
@@ -388,6 +390,9 @@ async function validateWorkflow() {
 async function validateJobFetcherRules() {
   const fetcher = await readText('tools/fetch_vocational_jobs.mjs');
   const directTerms = sectionBetween(fetcher, 'const DIRECT_TERMS = [', '];');
+  fail('fetcher.source-failure-isolation', fetcher.includes('function runSource') && fetcher.includes('sourceFailureResult') && fetcher.includes('수집원 예외 격리'), '개별 수집원 예외가 전체 자동수집 실패로 번지지 않도록 격리합니다.');
+  fail('fetcher.publication-safety-guard', fetcher.includes('function applyPublicationSafetyGuards') && fetcher.includes('publicationBlockReason') && fetcher.includes('publicationSafety'), '검증 실패를 일으킬 공고는 게시 직전 자동 보정하거나 차단합니다.');
+  fail('fetcher.health-report', fetcher.includes('job-feed-health.json') && fetcher.includes('function buildFeedHealth') && fetcher.includes('writeJsonAtomic(HEALTH_FILE'), '자동 수집 건강 상태 파일을 매 실행마다 생성합니다.');
   fail('fetcher.job-track-refine', fetcher.includes('function shouldForceFieldDirectRecruit') && fetcher.includes('function hasProtectedPublicRecruitSignal') && fetcher.includes('FIELD_DIRECT_ROLE_PATTERN') && fetcher.includes('FIELD_DIRECT_LIMITED_PATTERN') && fetcher.includes('STUDENT_RECOMMENDED_ROLE_PATTERN') && fetcher.includes('RECOMMENDED_INTERNSHIP_PATTERN') && fetcher.includes('현장형 분리') && fetcher.includes('추천 공채 후보'), '자동 수집 단계에서 진짜 현장형 공고는 분리하고 NCS·인턴·전공/행정 직무 공채는 공채 상세에 보호합니다.');
   fail('fetcher.internship-not-direct-term', !directTerms.includes('채용연계'), '채용연계·채용형 인턴은 면접중심 직접 분류 키워드에서 제외되어 공채 상세 보호 대상이 됩니다.');
   fail('fetcher.deadline-text-sanitizer', fetcher.includes('function safeDeadlineDisplayText') && fetcher.includes('function kstDateFromParts') && fetcher.includes('containsStructuredDatePattern'), '자동 수집 단계에서 불가능한 마감일 숫자를 원문 확인 문구로 정제합니다.');
@@ -421,6 +426,7 @@ async function validateHomepage() {
   fail('home.job-track-display-refine', html.includes('function displayProcessTrack') && html.includes('function jobClassificationText') && html.includes('function hasProtectedPublicRecruitJob') && html.includes('JOB_FIELD_DIRECT_ROLE_PATTERN') && html.includes('JOB_FIELD_DIRECT_LIMITED_PATTERN') && html.includes('JOB_STUDENT_RECOMMENDED_ROLE_PATTERN') && html.includes('hasRecommendedInternshipJob') && html.includes('추천 공채 상세') && html.includes('면접중심·현장형') && html.includes('채용형 인턴'), '공기업·금융권·대기업 공고라도 진짜 현장형은 면접중심으로 분리하고 NCS·인턴·전공/행정 직무 공채는 공채 상세에 남깁니다.');
   fail('home.regional-education-display-guard', html.includes('function isRegionalEducationDisplayBlocked') && html.includes('regional-education-job') && html.includes('seoul-highjob') && html.includes('공채캘린더'), '오래된 피드가 들어와도 지역 교육청 취업지원센터 보조자료를 직접 카드로 렌더링하지 않습니다.');
   fail('home.deadline-text-sanitizer', html.includes('function cleanJobDeadlineText') && html.includes('function displayJobDeadlineText') && html.includes('function cleanJobTeacherShareText') && html.includes('function jobDeadlineTimeTextFromMatch'), '이미 내려온 피드에 잘못된 마감일 숫자가 있어도 카드·상세·브리핑 표시에서 원문 확인 문구로 치환하고 확정 마감 시각은 보존합니다.');
+  fail('home.feed-freshness-warning', html.includes('function jobFeedFreshnessState') && html.includes('JOB_FEED_WARN_STALE_HOURS') && html.includes('data-feed-state') && html.includes('자동수집 지연'), '공채 피드가 오래되거나 부분 실패하면 화면 상태가 정상처럼 보이지 않게 표시합니다.');
   fail('home.law-link', html.includes('https://gyo6-law-info.web.app'), '법률정보 시스템 연결 URL이 유지되어 있습니다.');
   fail('home.ebook-link', html.includes('https://gyo6--ebook.web.app/'), '전자책 서재 연결 URL이 유지되어 있습니다.');
   fail('home.login-law-link', /class="tnav-login"\s+href="https:\/\/gyo6-law-info\.web\.app\/\?login=law#legalTool"/.test(html), '상단 로그인 버튼은 법률정보 권한 로그인으로 연결합니다.');
@@ -636,6 +642,23 @@ function validateFeed(feed, label = 'local') {
   return { items };
 }
 
+function validateFeedHealth(health, feed, label = 'local') {
+  const summary = feed.summary || {};
+  const healthSummary = health.summary || {};
+  const sourceStatus = Array.isArray(feed.sourceStatus) ? feed.sourceStatus : [];
+  const configuredSources = sourceStatus.filter((source) => source.configured);
+  const failedConfiguredSources = configuredSources.filter((source) => !source.ok);
+  const safety = feed.publicationSafety || {};
+
+  fail(`${label}.health.version`, health.version === 1, `${label} 자동수집 건강 상태 파일 버전이 1입니다.`);
+  fail(`${label}.health.generated-at`, hoursSince(health.generatedAt) !== null, `${label} 자동수집 건강 상태 생성 시각이 유효합니다.`, health.generatedAt || '');
+  fail(`${label}.health.feed-generated-at-match`, health.feedGeneratedAt === feed.generatedAt, `${label} 건강 상태 파일이 현재 공채 피드 생성 시각과 일치합니다.`, `${health.feedGeneratedAt || ''} / ${feed.generatedAt || ''}`);
+  fail(`${label}.health.total-match`, healthSummary.total === summary.total, `${label} 건강 상태 총 공고 수가 피드 summary와 일치합니다.`, `${healthSummary.total} / ${summary.total}`);
+  fail(`${label}.health.source-failure-count`, healthSummary.sourcesFailed === failedConfiguredSources.length, `${label} 건강 상태 소스 실패 수가 sourceStatus와 일치합니다.`, `${healthSummary.sourcesFailed} / ${failedConfiguredSources.length}`);
+  fail(`${label}.health.publication-safety`, safety.policy === 'pre-publication-safety-guard-v1' && health.publicationSafety?.policy === safety.policy, `${label} 게시 직전 안전 필터 결과가 피드와 건강 상태 파일에 기록됩니다.`);
+  fail(`${label}.health.no-failed-status-with-items`, health.status !== 'failed' || summary.total === 0, `${label} 공고가 있는 피드는 건강 상태가 failed로 표시되지 않습니다.`, health.status || '');
+}
+
 async function fetchText(url) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 18000);
@@ -766,7 +789,9 @@ async function main() {
   await validateHomepage();
   await validateDirectionDocs();
   const localFeed = await readJson('assets/job-feed.json');
+  const localHealth = await readJson('assets/job-feed-health.json');
   const { items } = validateFeed(localFeed, 'local');
+  validateFeedHealth(localHealth, localFeed, 'local');
 
   if (DO_LIVE) await validateLive(localFeed);
   else info('live.skipped', true, '라이브 검증은 --live 옵션으로 실행합니다.');

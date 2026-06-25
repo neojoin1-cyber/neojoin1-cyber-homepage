@@ -11,6 +11,7 @@ import { inflateRawSync } from 'node:zlib';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(__dirname, '..');
 const OUT_FILE = path.join(ROOT_DIR, 'assets', 'job-feed.json');
+const HEALTH_FILE = path.join(ROOT_DIR, 'assets', 'job-feed-health.json');
 const ZIP_ATTACHMENT_EXTRACT_DIR = path.join(ROOT_DIR, 'assets', 'job-attachment-files');
 const ZIP_ATTACHMENT_PUBLIC_BASE = 'assets/job-attachment-files';
 const execFileAsync = promisify(execFile);
@@ -4649,6 +4650,206 @@ function sourceStatus(base, overrides = {}) {
   };
 }
 
+function sanitizedErrorMessage(error) {
+  return normalizeSpace(error?.message || String(error || 'unknown error'))
+    .replace(/[A-Za-z0-9_./+=:-]{48,}/g, '[redacted]')
+    .slice(0, 180);
+}
+
+function sourceFailureResult(sourceId, error) {
+  const base = catalogSource(sourceId) || {
+    id: sourceId,
+    name: sourceId,
+    type: 'unknown',
+    sourceUrl: '',
+    configured: true,
+    status: 'active'
+  };
+  return {
+    items: [],
+    verificationItems: [],
+    status: sourceStatus({ ...base, configured: true }, {
+      ok: false,
+      isolatedFailure: true,
+      errorType: error?.name || 'Error',
+      message: `수집원 예외 격리: ${sanitizedErrorMessage(error)}`
+    })
+  };
+}
+
+async function runSource(sourceId, fetcher) {
+  try {
+    const result = await fetcher();
+    if (result?.status) return result;
+    throw new Error('수집원이 status를 반환하지 않았습니다.');
+  } catch (error) {
+    return sourceFailureResult(sourceId, error);
+  }
+}
+
+async function writeJsonAtomic(filePath, payload) {
+  await fs.mkdir(path.dirname(filePath), { recursive: true });
+  await fs.writeFile(`${filePath}.tmp`, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+  await fs.rename(`${filePath}.tmp`, filePath);
+}
+
+function isHttpPublicUrl(value) {
+  return /^https?:\/\//i.test(normalizeSpace(value));
+}
+
+function titleIncludesCompanyName(item = {}) {
+  const company = companyTitleCompareText(item.company);
+  const title = companyTitleCompareText(item.title || item.baseTitle);
+  if (!company || !title) return true;
+  return title.includes(company);
+}
+
+function isKbMainPageRecruitLink(item = {}) {
+  const company = normalizeSpace(item.company);
+  const title = normalizeSpace(item.title || item.baseTitle);
+  const url = normalizeSpace(item.url || item.primaryOfficialUrl).replace(/\/+$/, '');
+  return company.includes('KB국민은행')
+    && /하계\s*체험형\s*인턴십|고졸·졸업예정\s*채용\s*공고\s*원문\s*확인/.test(title)
+    && url === 'https://kbstar.careerlink.kr';
+}
+
+function hasMalformedDeadlineText(item = {}) {
+  const values = [
+    item.deadlineText,
+    item.publicRecruitDetails?.application,
+    ...(Array.isArray(item.teacherBriefing?.scheduleLines) ? item.teacherBriefing.scheduleLines : [])
+  ];
+  return values.some((value) => {
+    const text = normalizeSpace(value);
+    return text && containsStructuredDatePattern(text) && !structuredDateFromText(text);
+  });
+}
+
+function publicationBlockReason(item = {}) {
+  if (!item.id || !item.title || !item.company || !item.sourceName || !item.url || !item.verifiedAt) return 'required-fields';
+  if (!isHttpPublicUrl(item.url) || !isHttpPublicUrl(item.primaryOfficialUrl || item.url)) return 'invalid-url';
+  if (!['active', 'deadline_soon', 'application_closed', 'needs_review'].includes(item.status)) return `bad-status:${item.status || 'empty'}`;
+  if (item.status === 'application_closed' && item.processTrack !== 'exam-formal') return 'closed-direct-item';
+  if (isRegionalEducationDisplaySuppressed(item)) return 'regional-education-direct-display';
+  if (isUnsuitableForHighSchoolChannel(item)) return 'high-school-unsuitable';
+  if (hasMalformedDeadlineText(item)) return 'malformed-deadline';
+  if (isUnresolvedDetailedPublicRecruit(item)) return 'unresolved-detailed-public-recruit';
+  if (isKbMainPageRecruitLink(item)) return 'kb-main-page-link';
+  return '';
+}
+
+function normalizePublicationItem(item = {}) {
+  let next = { ...item };
+  const repairs = [];
+
+  if (!titleIncludesCompanyName(next)) {
+    const title = titleWithCompanyName(next.title || next.baseTitle, next.company);
+    next = {
+      ...next,
+      title: next.status === 'application_closed' ? withApplicationClosedSuffix(title.replace(/\(원서 마감\)$/, '')) : title,
+      baseTitle: title.replace(/\(원서 마감\)$/, '')
+    };
+    repairs.push('title-company');
+  }
+
+  if (next.status === 'application_closed' && !normalizeSpace(next.title).endsWith('(원서 마감)')) {
+    next = { ...next, title: withApplicationClosedSuffix(next.title) };
+    repairs.push('closed-title-suffix');
+  }
+
+  return { item: next, repairs };
+}
+
+function applyPublicationSafetyGuards(items = [], archiveItems = []) {
+  const report = {
+    policy: 'pre-publication-safety-guard-v1',
+    generatedAt: CHECKED_AT,
+    blockedCount: 0,
+    repairedCount: 0,
+    blockedByReason: {},
+    repairedByReason: {},
+    blockedSamples: []
+  };
+
+  const guardList = (list, listName) => {
+    const safe = [];
+    for (const original of list) {
+      const { item, repairs } = normalizePublicationItem(original);
+      const reason = publicationBlockReason(item);
+      if (reason) {
+        report.blockedCount += 1;
+        report.blockedByReason[reason] = (report.blockedByReason[reason] || 0) + 1;
+        if (report.blockedSamples.length < 12) {
+          report.blockedSamples.push({
+            list: listName,
+            reason,
+            source: item.source || '',
+            company: item.company || '',
+            title: item.title || item.id || ''
+          });
+        }
+        continue;
+      }
+      for (const repair of repairs) {
+        report.repairedCount += 1;
+        report.repairedByReason[repair] = (report.repairedByReason[repair] || 0) + 1;
+      }
+      safe.push(item);
+    }
+    return safe;
+  };
+
+  return {
+    items: guardList(items, 'items'),
+    archiveItems: guardList(archiveItems, 'archiveItems'),
+    report
+  };
+}
+
+function buildFeedHealth(payload, safetyReport = null, statusOverride = '') {
+  const summary = payload.summary || {};
+  const sources = Array.isArray(payload.sourceStatus) ? payload.sourceStatus : [];
+  const configuredSources = sources.filter((source) => source.configured);
+  const failedConfiguredSources = configuredSources.filter((source) => !source.ok);
+  const status = statusOverride
+    || (summary.total > 0 && !summary.criticalCoverageMissing && !failedConfiguredSources.some((source) => source.isolatedFailure)
+      ? 'ok'
+      : summary.total > 0 ? 'degraded' : 'failed');
+  return {
+    version: 1,
+    generatedAt: CHECKED_AT,
+    feedGeneratedAt: payload.generatedAt || '',
+    timezone: payload.timezone || 'Asia/Seoul',
+    schedule: payload.schedule || '09:10, 14:10, 23:10 KST',
+    status,
+    summary: {
+      total: summary.total || 0,
+      active: summary.active || 0,
+      deadlineSoon: summary.deadlineSoon || 0,
+      applicationClosed: summary.applicationClosed || 0,
+      sourcesChecked: sources.length,
+      sourcesConfigured: configuredSources.length,
+      sourcesFailed: failedConfiguredSources.length,
+      criticalCoverageMissing: summary.criticalCoverageMissing || 0,
+      staleFallbackItems: summary.staleFallbackItems || 0,
+      publicationBlocked: safetyReport?.blockedCount || 0,
+      publicationRepaired: safetyReport?.repairedCount || 0
+    },
+    sourceFailures: failedConfiguredSources.map((source) => ({
+      id: source.id,
+      name: source.name,
+      isolatedFailure: Boolean(source.isolatedFailure),
+      message: source.message || ''
+    })).slice(0, 20),
+    publicationSafety: safetyReport,
+    nextOperatorActions: [
+      'status가 failed 또는 degraded이면 GitHub Actions의 최신 Update vocational job feed 실행을 확인한다.',
+      'publicationSafety.blockedSamples가 있으면 해당 공식 원문에서 마감·자격·URL을 보강한다.',
+      'sourceFailures의 isolatedFailure가 true인 수집원은 다음 예약 실행에서도 반복되는지 확인한다.'
+    ]
+  };
+}
+
 function previousItemKeys(item) {
   return [
     item.id,
@@ -5948,7 +6149,7 @@ async function fetchGenericConfiguredSource(id) {
 async function pendingCatalogSources() {
   const results = [];
   for (const source of SOURCE_CATALOG.filter((item) => item.status !== 'active')) {
-    results.push(await fetchGenericConfiguredSource(source.id));
+    results.push(await runSource(source.id, () => fetchGenericConfiguredSource(source.id)));
   }
   return results;
 }
@@ -6173,12 +6374,12 @@ function buildCollectionReview(items, sourceStatusList, criticalCoverage = build
 async function main() {
   const previousItems = await readPreviousItems();
   const results = await Promise.all([
-    fetchMpmPublicJob(),
-    fetchMoefPublicRecruit(),
-    fetchWork24OpenRecruit(),
-    fetchJobAlioRecruit(),
-    fetchSeoulHighJobRecruit(),
-    fetchSaraminJobSearch()
+    runSource('mpm-public-job', fetchMpmPublicJob),
+    runSource('moef-public-recruit', fetchMoefPublicRecruit),
+    runSource('work24-open-recruit', fetchWork24OpenRecruit),
+    runSource('job-alio-openapi', fetchJobAlioRecruit),
+    runSource('seoul-highjob', fetchSeoulHighJobRecruit),
+    runSource('saramin-job-search', fetchSaraminJobSearch)
   ]);
   results.push(...await pendingCatalogSources());
 
@@ -6191,11 +6392,14 @@ async function main() {
   const displayItems = currentItems.length
     ? mergePreviousAudit(currentItems, previousItems)
     : fallbackPreviousItems(previousItems);
-  const items = attachRegionalEducationVerificationSources(displayItems, regionalEducationVerificationItems);
-  const archiveItems = attachRegionalEducationVerificationSources(
+  const attachedItems = attachRegionalEducationVerificationSources(displayItems, regionalEducationVerificationItems);
+  const attachedArchiveItems = attachRegionalEducationVerificationSources(
     buildArchiveItems(mergePreviousAudit(allCurrentItems, previousItems), previousItems),
     regionalEducationVerificationItems
   );
+  const publicationSafety = applyPublicationSafetyGuards(attachedItems, attachedArchiveItems);
+  const items = publicationSafety.items;
+  const archiveItems = publicationSafety.archiveItems;
   const previousZipDetailsByUrl = buildPreviousZipDetailsByUrl(previousItems);
   const zipAttachmentSummary = await enhanceZipAttachmentsForItems([...items, ...archiveItems], previousZipDetailsByUrl);
   const active = items.filter((item) => item.status === 'active').length;
@@ -6250,6 +6454,8 @@ async function main() {
       missedReviewNeeded,
       criticalCoverageMissing: criticalCoverage.missingCurrent.length,
       staleFallbackItems,
+      publicationBlocked: publicationSafety.report.blockedCount,
+      publicationRepaired: publicationSafety.report.repairedCount,
       zipAttachmentsScanned: zipAttachmentSummary.scanned,
       zipAttachmentEntries: zipAttachmentSummary.entryCount,
       zipAttachmentScanFailures: zipAttachmentSummary.failed,
@@ -6264,6 +6470,7 @@ async function main() {
         ? '공채 첫날 수집을 최우선으로 점검하고, 공식 공고 2중 확인 중심으로 취업부 브리핑을 자동 생성했습니다.'
         : '공식 API 키가 아직 연결되지 않아 자동 수집 대기 상태입니다.'
     },
+    publicationSafety: publicationSafety.report,
     collectionReview,
     secretReadiness,
     collectionPolicy: {
@@ -6314,9 +6521,8 @@ async function main() {
     items
   };
 
-  await fs.mkdir(path.dirname(OUT_FILE), { recursive: true });
-  await fs.writeFile(`${OUT_FILE}.tmp`, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
-  await fs.rename(`${OUT_FILE}.tmp`, OUT_FILE);
+  await writeJsonAtomic(OUT_FILE, payload);
+  await writeJsonAtomic(HEALTH_FILE, buildFeedHealth(payload, publicationSafety.report));
   console.log(`job-feed: ${items.length} items, ${sourcesConfigured} configured sources`);
 }
 
@@ -6375,11 +6581,20 @@ main().catch(async (error) => {
     ],
     secretReadiness: buildSecretReadinessReport(sourceStatusList),
     sourceStatus: sourceStatusList,
+    publicationSafety: {
+      policy: 'pre-publication-safety-guard-v1',
+      generatedAt: CHECKED_AT,
+      blockedCount: 0,
+      repairedCount: 0,
+      blockedByReason: {},
+      repairedByReason: {},
+      blockedSamples: []
+    },
     archiveItems: [],
     items: []
   };
-  await fs.mkdir(path.dirname(OUT_FILE), { recursive: true });
-  await fs.writeFile(OUT_FILE, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+  await writeJsonAtomic(OUT_FILE, payload);
+  await writeJsonAtomic(HEALTH_FILE, buildFeedHealth(payload, payload.publicationSafety, 'failed'));
   console.error(`job-feed failed: ${error.message}`);
   process.exitCode = 1;
 });

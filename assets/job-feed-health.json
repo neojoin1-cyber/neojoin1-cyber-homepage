@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "generatedAt": "2026-06-25T15:04:01.520Z",
+  "feedGeneratedAt": "2026-06-25T15:04:01.520Z",
+  "timezone": "Asia/Seoul",
+  "schedule": "09:10, 14:10, 23:10 KST",
+  "status": "ok",
+  "summary": {
+    "total": 80,
+    "active": 42,
+    "deadlineSoon": 20,
+    "applicationClosed": 18,
+    "sourcesChecked": 15,
+    "sourcesConfigured": 4,
+    "sourcesFailed": 0,
+    "criticalCoverageMissing": 0,
+    "staleFallbackItems": 0,
+    "publicationBlocked": 0,
+    "publicationRepaired": 9
+  },
+  "sourceFailures": [],
+  "publicationSafety": {
+    "policy": "pre-publication-safety-guard-v1",
+    "generatedAt": "2026-06-25T15:04:01.520Z",
+    "blockedCount": 0,
+    "repairedCount": 9,
+    "blockedByReason": {},
+    "repairedByReason": {
+      "title-company": 9
+    },
+    "blockedSamples": []
+  },
+  "nextOperatorActions": [
+    "status가 failed 또는 degraded이면 GitHub Actions의 최신 Update vocational job feed 실행을 확인한다.",
+    "publicationSafety.blockedSamples가 있으면 해당 공식 원문에서 마감·자격·URL을 보강한다.",
+    "sourceFailures의 isolatedFailure가 true인 수집원은 다음 예약 실행에서도 반복되는지 확인한다."
+  ]
+}
