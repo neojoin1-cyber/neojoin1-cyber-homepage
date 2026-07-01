@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-01T04:48:32.962Z",
-  "feedGeneratedAt": "2026-07-01T04:48:32.962Z",
+  "generatedAt": "2026-07-01T05:10:32.211Z",
+  "feedGeneratedAt": "2026-07-01T05:10:32.211Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "degraded",
@@ -31,7 +31,7 @@
   ],
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-01T04:48:32.962Z",
+    "generatedAt": "2026-07-01T05:10:32.211Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "blockedByReason": {},
