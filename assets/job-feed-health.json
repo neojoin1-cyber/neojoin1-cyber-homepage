@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-02T04:16:30.703Z",
-  "feedGeneratedAt": "2026-07-02T04:16:30.703Z",
+  "generatedAt": "2026-07-02T04:45:27.891Z",
+  "feedGeneratedAt": "2026-07-02T04:45:27.891Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "degraded",
@@ -25,13 +25,13 @@
       "name": "잡알리오 공공기관 채용",
       "isolatedFailure": false,
       "fallbackProtected": true,
-      "fallbackItemCount": 99,
-      "message": "연결 실패: recent-page-2: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-1: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT · 직전 정상 공고 99건 보존"
+      "fallbackItemCount": 98,
+      "message": "연결 실패: recent-page-1: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-3: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT · 직전 정상 공고 98건 보존"
     }
   ],
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-02T04:16:30.703Z",
+    "generatedAt": "2026-07-02T04:45:27.891Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "blockedByReason": {},
