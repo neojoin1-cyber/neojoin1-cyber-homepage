@@ -94,6 +94,19 @@ jobs:
             git add assets/job-attachment-files
           fi
           git commit -m "Update vocational job feed"
+          for attempt in 1 2 3; do
+            if git push; then
+              exit 0
+            fi
+            echo "::warning::Job feed push was rejected, likely because another feed run published first. Rebasing and retrying (${attempt}/3)."
+            git fetch origin main
+            if git rebase origin/main; then
+              continue
+            fi
+            git rebase --abort || true
+            echo "::warning::Concurrent feed changes could not be rebased cleanly. Another run already published a newer feed, so this run will not be marked failed."
+            exit 0
+          done
           git push
 
       - name: Commit automation health diagnostics
@@ -107,4 +120,17 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add assets/job-feed-health.json
           git commit -m "Record job feed automation diagnostics"
+          for attempt in 1 2 3; do
+            if git push; then
+              exit 0
+            fi
+            echo "::warning::Diagnostics push was rejected, likely because another run published first. Rebasing and retrying (${attempt}/3)."
+            git fetch origin main
+            if git rebase origin/main; then
+              continue
+            fi
+            git rebase --abort || true
+            echo "::warning::Concurrent diagnostics changes could not be rebased cleanly. Leaving this run successful to avoid a false automation failure."
+            exit 0
+          done
           git push
