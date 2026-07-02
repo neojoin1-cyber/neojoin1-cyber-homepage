@@ -1,21 +1,21 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-01T17:01:25.485Z",
-  "feedGeneratedAt": "2026-07-01T17:01:25.485Z",
+  "generatedAt": "2026-07-02T04:16:30.703Z",
+  "feedGeneratedAt": "2026-07-02T04:16:30.703Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "degraded",
   "summary": {
     "total": 80,
-    "active": 41,
-    "deadlineSoon": 11,
+    "active": 40,
+    "deadlineSoon": 12,
     "applicationClosed": 28,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
     "sourcesFailed": 1,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 77,
-    "sourceFallbackProtected": 77,
+    "staleFallbackItems": 76,
+    "sourceFallbackProtected": 76,
     "publicationBlocked": 0,
     "publicationRepaired": 0
   },
@@ -25,13 +25,13 @@
       "name": "잡알리오 공공기관 채용",
       "isolatedFailure": false,
       "fallbackProtected": true,
-      "fallbackItemCount": 109,
-      "message": "연결 실패: recent-page-1: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-2: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT · 직전 정상 공고 109건 보존"
+      "fallbackItemCount": 99,
+      "message": "연결 실패: recent-page-2: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-1: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT · 직전 정상 공고 99건 보존"
     }
   ],
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-01T17:01:25.485Z",
+    "generatedAt": "2026-07-02T04:16:30.703Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "blockedByReason": {},
