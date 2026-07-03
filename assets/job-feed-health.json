@@ -1,14 +1,14 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-03T08:20:29.320Z",
-  "feedGeneratedAt": "2026-07-03T08:20:29.320Z",
+  "generatedAt": "2026-07-03T08:39:01.480Z",
+  "feedGeneratedAt": "2026-07-03T08:39:01.480Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
     "total": 79,
-    "active": 51,
-    "deadlineSoon": 10,
+    "active": 50,
+    "deadlineSoon": 11,
     "applicationClosed": 18,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
@@ -22,7 +22,7 @@
   "sourceFailures": [],
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-03T08:20:29.320Z",
+    "generatedAt": "2026-07-03T08:39:01.480Z",
     "blockedCount": 1,
     "repairedCount": 0,
     "blockedByReason": {
