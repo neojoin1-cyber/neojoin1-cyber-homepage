@@ -1,43 +1,42 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-03T08:39:01.480Z",
-  "feedGeneratedAt": "2026-07-03T08:39:01.480Z",
+  "generatedAt": "2026-07-03T15:57:58.846Z",
+  "feedGeneratedAt": "2026-07-03T15:57:58.846Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "ok",
+  "status": "degraded",
   "summary": {
-    "total": 79,
-    "active": 50,
-    "deadlineSoon": 11,
-    "applicationClosed": 18,
+    "total": 80,
+    "active": 41,
+    "deadlineSoon": 10,
+    "applicationClosed": 29,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
-    "sourcesFailed": 0,
+    "sourcesFailed": 1,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 0,
-    "sourceFallbackProtected": 0,
-    "publicationBlocked": 1,
+    "staleFallbackItems": 76,
+    "sourceFallbackProtected": 76,
+    "publicationBlocked": 0,
     "publicationRepaired": 0
   },
-  "sourceFailures": [],
+  "sourceFailures": [
+    {
+      "id": "job-alio-openapi",
+      "name": "잡알리오 공공기관 채용",
+      "isolatedFailure": false,
+      "fallbackProtected": true,
+      "fallbackItemCount": 108,
+      "message": "연결 실패: recent-page-4: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-5: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT · 직전 정상 공고 108건 보존"
+    }
+  ],
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-03T08:39:01.480Z",
-    "blockedCount": 1,
+    "generatedAt": "2026-07-03T15:57:58.846Z",
+    "blockedCount": 0,
     "repairedCount": 0,
-    "blockedByReason": {
-      "malformed-deadline": 1
-    },
+    "blockedByReason": {},
     "repairedByReason": {},
-    "blockedSamples": [
-      {
-        "list": "items",
-        "reason": "malformed-deadline",
-        "source": "job-alio-openapi",
-        "company": "학교법인한국폴리텍",
-        "title": "학교법인한국폴리텍 한국폴리텍대학 반도체융합캠퍼스 업무직(대학운영직_전기원) 채용 공고"
-      }
-    ]
+    "blockedSamples": []
   },
   "nextOperatorActions": [
     "status가 failed 또는 degraded이면 GitHub Actions의 최신 Update vocational job feed 실행을 확인한다.",
