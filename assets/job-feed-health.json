@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-05T08:29:41.588Z",
-  "feedGeneratedAt": "2026-07-05T08:29:41.588Z",
+  "generatedAt": "2026-07-05T15:22:19.209Z",
+  "feedGeneratedAt": "2026-07-05T15:22:19.209Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "degraded",
@@ -26,12 +26,12 @@
       "isolatedFailure": false,
       "fallbackProtected": true,
       "fallbackItemCount": 99,
-      "message": "연결 실패: recent-page-2: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-1: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT · 직전 정상 공고 99건 보존"
+      "message": "연결 실패: recent-page-1: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-7: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT · 직전 정상 공고 99건 보존"
     }
   ],
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-05T08:29:41.588Z",
+    "generatedAt": "2026-07-05T15:22:19.209Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "blockedByReason": {},
