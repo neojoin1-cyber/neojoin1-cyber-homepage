@@ -1,45 +1,37 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-06T04:58:42.711Z",
-  "feedGeneratedAt": "2026-07-06T04:58:42.711Z",
+  "generatedAt": "2026-07-06T09:08:16.038Z",
+  "feedGeneratedAt": "2026-07-06T09:08:16.038Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "degraded",
   "summary": {
     "total": 80,
-    "active": 34,
-    "deadlineSoon": 17,
-    "applicationClosed": 29,
+    "active": 35,
+    "deadlineSoon": 15,
+    "applicationClosed": 30,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
-    "sourcesFailed": 2,
+    "sourcesFailed": 1,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 72,
-    "sourceFallbackProtected": 72,
+    "staleFallbackItems": 73,
+    "sourceFallbackProtected": 73,
     "publicationBlocked": 0,
     "publicationRepaired": 0
   },
   "sourceFailures": [
-    {
-      "id": "mpm-public-job",
-      "name": "인사혁신처 공공취업정보",
-      "isolatedFailure": false,
-      "fallbackProtected": true,
-      "fallbackItemCount": 2,
-      "message": "키 확인됨. 공식 호출 URL 확인 필요: https://apis.data.go.kr/1760000/PblJobService/getList: HTTP timeout after 9000ms; https://apis.data.go.kr/1760000/PblJobService/getList: HTTP timeout after 9000ms · 직전 정상 공고 2건 보존"
-    },
     {
       "id": "job-alio-openapi",
       "name": "잡알리오 공공기관 채용",
       "isolatedFailure": false,
       "fallbackProtected": true,
       "fallbackItemCount": 95,
-      "message": "연결 실패: recent-page-1: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-2: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT · 직전 정상 공고 95건 보존"
+      "message": "연결 실패: recent-page-2: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-1: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT · 직전 정상 공고 95건 보존"
     }
   ],
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-06T04:58:42.711Z",
+    "generatedAt": "2026-07-06T09:08:16.038Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "blockedByReason": {},
