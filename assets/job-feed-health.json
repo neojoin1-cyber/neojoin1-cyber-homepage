@@ -1,25 +1,33 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-05T15:50:35.037Z",
-  "feedGeneratedAt": "2026-07-05T15:50:35.037Z",
+  "generatedAt": "2026-07-06T04:23:35.625Z",
+  "feedGeneratedAt": "2026-07-06T04:23:35.625Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "degraded",
   "summary": {
     "total": 80,
-    "active": 37,
-    "deadlineSoon": 14,
+    "active": 34,
+    "deadlineSoon": 17,
     "applicationClosed": 29,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
-    "sourcesFailed": 1,
+    "sourcesFailed": 2,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 76,
-    "sourceFallbackProtected": 76,
+    "staleFallbackItems": 72,
+    "sourceFallbackProtected": 72,
     "publicationBlocked": 0,
     "publicationRepaired": 0
   },
   "sourceFailures": [
+    {
+      "id": "mpm-public-job",
+      "name": "인사혁신처 공공취업정보",
+      "isolatedFailure": false,
+      "fallbackProtected": true,
+      "fallbackItemCount": 2,
+      "message": "키 확인됨. 공식 호출 URL 확인 필요: https://apis.data.go.kr/1760000/PblJobService/getList: HTTP timeout after 9000ms; https://apis.data.go.kr/1760000/PblJobService/getList: HTTP timeout after 9000ms · 직전 정상 공고 2건 보존"
+    },
     {
       "id": "job-alio-openapi",
       "name": "잡알리오 공공기관 채용",
@@ -31,7 +39,7 @@
   ],
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-05T15:50:35.037Z",
+    "generatedAt": "2026-07-06T04:23:35.625Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "blockedByReason": {},
