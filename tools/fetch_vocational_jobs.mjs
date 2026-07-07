@@ -22,11 +22,13 @@ const NOW = new Date();
 const CHECKED_AT = NOW.toISOString();
 const MAX_ITEMS = 80;
 const REQUEST_TIMEOUT_MS = 18000;
-const JOB_ALIO_LIST_RETRY_TIMEOUTS_MS = [18000, 26000];
-const JOB_ALIO_CRITICAL_RETRY_TIMEOUTS_MS = [18000, 26000, 34000];
+const JOB_ALIO_LIST_RETRY_TIMEOUTS_MS = [12000];
+const JOB_ALIO_CRITICAL_LIST_RETRY_TIMEOUTS_MS = [12000, 18000];
+const JOB_ALIO_DETAIL_TIMEOUT_MS = 12000;
+const JOB_ALIO_CRITICAL_DETAIL_RETRY_TIMEOUTS_MS = [15000, 22000];
 const PUBLIC_API_TIMEOUT_MS = 9000;
-const DETAIL_FETCH_CONCURRENCY = 6;
-const JOB_ALIO_LIST_FETCH_CONCURRENCY = 8;
+const DETAIL_FETCH_CONCURRENCY = 8;
+const JOB_ALIO_LIST_FETCH_CONCURRENCY = 10;
 const PUBLIC_API_FETCH_CONCURRENCY = 8;
 const APPLICATION_CLOSED_RETAIN_DAYS = 365;
 const MAX_ARCHIVE_ITEMS = 160;
@@ -5723,7 +5725,7 @@ function extractJobAlioAttachments(html) {
 
 async function fetchJobAlioDetail(row) {
   const detailUrl = `https://job.alio.go.kr/recruitview.do?idx=${encodeURIComponent(row.idx)}`;
-  const retryTimeouts = (row.priority ?? 99) <= 5 ? JOB_ALIO_CRITICAL_RETRY_TIMEOUTS_MS : [REQUEST_TIMEOUT_MS];
+  const retryTimeouts = (row.priority ?? 99) <= 5 ? JOB_ALIO_CRITICAL_DETAIL_RETRY_TIMEOUTS_MS : [JOB_ALIO_DETAIL_TIMEOUT_MS];
   let html = '';
   try {
     html = await fetchTextWithRetries(detailUrl, {}, retryTimeouts, `job-alio-detail-${row.idx}`);
@@ -5792,7 +5794,7 @@ async function fetchJobAlioRecruit() {
 
   await mapWithConcurrency(makeJobAlioScanTargets(), JOB_ALIO_LIST_FETCH_CONCURRENCY, async (target) => {
     try {
-      const retryTimeouts = target.priority <= 5 ? JOB_ALIO_CRITICAL_RETRY_TIMEOUTS_MS : JOB_ALIO_LIST_RETRY_TIMEOUTS_MS;
+      const retryTimeouts = target.priority <= 5 ? JOB_ALIO_CRITICAL_LIST_RETRY_TIMEOUTS_MS : JOB_ALIO_LIST_RETRY_TIMEOUTS_MS;
       const html = await fetchTextWithRetries(target.url, {}, retryTimeouts, target.id);
       const rows = parseJobAlioRows(html);
       scannedCount += rows.length;
