@@ -508,8 +508,8 @@ const FINANCE_LARGE_COMPANY_OFFICIAL_WATCHLIST = [
   { employer: '신한은행', group: 'finance', url: 'https://shinhan.recruiter.co.kr/', tags: ['1금융권', '은행'] },
   { employer: '하나은행', group: 'finance', url: 'https://hanabank.recruiter.co.kr/', tags: ['1금융권', '은행'] },
   { employer: '우리은행', group: 'finance', url: 'https://wooribank.recruiter.co.kr/', tags: ['1금융권', '은행'] },
-  { employer: 'NH농협은행', group: 'finance', url: 'https://with.nonghyup.com/jbnf/jbnfLst.do?srcAuthDsc=1', tags: ['1금융권', '은행'] },
-  { employer: 'IBK기업은행', group: 'finance', url: 'https://ibk.incruit.com/index_main_2025.asp', tags: ['금융공기업', '은행'] },
+  { employer: 'NH농협은행', group: 'finance', url: 'https://with.nonghyup.com/jbnf/jbnfLst.do?srcAuthDsc=1', fallbackUrls: ['https://with.nonghyup.com/'], timeoutMs: 24000, tags: ['1금융권', '은행'] },
+  { employer: 'IBK기업은행', group: 'finance', url: 'https://ibk.incruit.com/hire/hirelist.asp', fallbackUrls: ['https://ibk.incruit.com/index_main_2025.asp'], timeoutMs: 18000, tags: ['금융공기업', '은행'] },
   { employer: 'DGB대구은행', group: 'finance', url: 'https://im.recruiter.co.kr/', tags: ['1금융권', '지방은행', 'iM뱅크'] },
   { employer: 'BNK부산은행', group: 'finance', url: 'https://busanbank.recruiter.co.kr/', tags: ['1금융권', '지방은행'] },
   { employer: 'BNK경남은행', group: 'finance', url: 'https://knbank.recruiter.co.kr/', tags: ['1금융권', '지방은행'] },
@@ -6361,6 +6361,48 @@ async function fetchGenericConfiguredSource(id) {
     };
   }
 
+  const requestHeaders = {
+    Accept: 'application/json,application/xml,text/xml,text/html;q=0.9,*/*;q=0.7',
+    ...(key ? { Authorization: `Bearer ${key}`, 'X-API-Key': key } : {})
+  };
+  const entryTimeoutMs = (entry) => {
+    const timeoutMs = Number(entry?.timeoutMs);
+    return Number.isFinite(timeoutMs) && timeoutMs > 0
+      ? timeoutMs
+      : entry.builtIn ? OFFICIAL_WATCH_TIMEOUT_MS : REQUEST_TIMEOUT_MS;
+  };
+  const entryCandidateUrls = (entry, primaryUrl = entry?.url) => Array.from(new Set([
+    primaryUrl,
+    ...(Array.isArray(entry?.fallbackUrls) ? entry.fallbackUrls : [])
+  ]
+    .map((url) => normalizeSpace(url))
+    .filter(Boolean)));
+  const fetchEntryBody = async (entry, primaryUrl = entry.url) => {
+    let lastError = null;
+    for (const sourceUrl of entryCandidateUrls(entry, primaryUrl)) {
+      try {
+        const requestUrl = injectSecretIntoUrl(sourceUrl, key);
+        const body = await fetchWithTimeout(requestUrl, {
+          timeoutMs: entryTimeoutMs(entry),
+          headers: requestHeaders
+        });
+        return { body, sourceUrl };
+      } catch (error) {
+        lastError = error;
+      }
+    }
+    throw lastError || new Error('official feed fetch failed');
+  };
+  const isEntryReachable = async (entry) => {
+    for (const sourceUrl of entryCandidateUrls(entry)) {
+      const reachable = await checkUrlReachable(sourceUrl, {
+        headers: requestHeaders
+      }, Math.min(REACHABILITY_TIMEOUT_MS, entryTimeoutMs(entry)));
+      if (reachable) return true;
+    }
+    return false;
+  };
+
   const verificationOnlyRegionalEducation = id === 'regional-education-job';
   const rawItems = [];
   const errors = [];
@@ -6374,26 +6416,15 @@ async function fetchGenericConfiguredSource(id) {
   const recruiterApiFailures = [];
   const results = await mapWithConcurrency(entries, GENERIC_OFFICIAL_FEED_CONCURRENCY, async (entry) => {
     try {
-      let sourceUrl = entry.url;
-      let requestUrl = injectSecretIntoUrl(sourceUrl, key);
-      let body = await fetchWithTimeout(requestUrl, {
-        timeoutMs: entry.builtIn ? OFFICIAL_WATCH_TIMEOUT_MS : REQUEST_TIMEOUT_MS,
-        headers: {
-          Accept: 'application/json,application/xml,text/xml,text/html;q=0.9,*/*;q=0.7',
-          ...(key ? { Authorization: `Bearer ${key}`, 'X-API-Key': key } : {})
-        }
-      });
+      let { body, sourceUrl } = await fetchEntryBody(entry);
       for (let redirectCount = 0; redirectCount < 2; redirectCount += 1) {
         const redirectUrl = extractHtmlRedirectUrl(body, sourceUrl);
         if (!redirectUrl) break;
         sourceUrl = redirectUrl;
-        requestUrl = injectSecretIntoUrl(sourceUrl, key);
+        const requestUrl = injectSecretIntoUrl(sourceUrl, key);
         body = await fetchWithTimeout(requestUrl, {
-          timeoutMs: entry.builtIn ? OFFICIAL_WATCH_TIMEOUT_MS : REQUEST_TIMEOUT_MS,
-          headers: {
-            Accept: 'application/json,application/xml,text/xml,text/html;q=0.9,*/*;q=0.7',
-            ...(key ? { Authorization: `Bearer ${key}`, 'X-API-Key': key } : {})
-          }
+          timeoutMs: entryTimeoutMs(entry),
+          headers: requestHeaders
         });
       }
       const records = [...parseGenericOfficialFeed(body, source, sourceUrl, entry)];
@@ -6450,14 +6481,7 @@ async function fetchGenericConfiguredSource(id) {
           };
         }
       }
-      const reachableOnly = entry.builtIn
-        ? await checkUrlReachable(entry.url, {
-          headers: {
-            Accept: 'application/json,application/xml,text/xml,text/html;q=0.9,*/*;q=0.7',
-            ...(key ? { Authorization: `Bearer ${key}`, 'X-API-Key': key } : {})
-          }
-        }, Math.min(REACHABILITY_TIMEOUT_MS, OFFICIAL_WATCH_TIMEOUT_MS))
-        : false;
+      const reachableOnly = entry.builtIn ? await isEntryReachable(entry) : false;
       if (reachableOnly) {
         return {
           ok: true,
