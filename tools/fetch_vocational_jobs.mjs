@@ -22,6 +22,8 @@ const NOW = new Date();
 const CHECKED_AT = NOW.toISOString();
 const MAX_ITEMS = 80;
 const REQUEST_TIMEOUT_MS = 18000;
+const JOB_ALIO_LIST_RETRY_TIMEOUTS_MS = [18000, 26000];
+const JOB_ALIO_CRITICAL_RETRY_TIMEOUTS_MS = [18000, 26000, 34000];
 const PUBLIC_API_TIMEOUT_MS = 9000;
 const DETAIL_FETCH_CONCURRENCY = 6;
 const JOB_ALIO_LIST_FETCH_CONCURRENCY = 8;
@@ -49,6 +51,7 @@ const DEFAULT_FETCH_HEADERS = {
   Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,application/json;q=0.8,*/*;q=0.7',
   'Accept-Language': 'ko-KR,ko;q=0.9,en;q=0.6'
 };
+const CORE_PUBLICATION_SOURCE_IDS = new Set(['job-alio-openapi']);
 
 const HIGH_SCHOOL_TERMS = [
   '고졸',
@@ -1146,6 +1149,10 @@ function requireRemainingTimeout(startedAt, totalTimeoutMs, label = 'HTTP') {
   return remaining;
 }
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function fetchWithTimeout(url, options = {}) {
   const { timeoutMs = REQUEST_TIMEOUT_MS, ...fetchOptions } = options;
   const startedAt = Date.now();
@@ -1184,6 +1191,24 @@ async function fetchWithTimeout(url, options = {}) {
   } finally {
     clearTimeout(timer);
   }
+}
+
+async function fetchTextWithRetries(url, options = {}, retryTimeouts = [REQUEST_TIMEOUT_MS], label = 'HTTP') {
+  let lastError = null;
+  for (let attempt = 0; attempt < retryTimeouts.length; attempt += 1) {
+    try {
+      return await fetchWithTimeout(url, {
+        ...options,
+        timeoutMs: retryTimeouts[attempt]
+      });
+    } catch (error) {
+      lastError = error;
+      if (attempt < retryTimeouts.length - 1) {
+        await sleep(350 + attempt * 650);
+      }
+    }
+  }
+  throw new Error(`${label} failed after ${retryTimeouts.length} attempts: ${sanitizeFetchErrorMessage(lastError?.message || lastError)}`);
 }
 
 function fetchWithNodeHttp(url, options = {}, timeoutMs = REQUEST_TIMEOUT_MS) {
@@ -4885,6 +4910,46 @@ function buildFeedHealth(payload, safetyReport = null, statusOverride = '') {
   };
 }
 
+async function fileExists(filePath) {
+  try {
+    await fs.access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function publicFeedHoldReason(payload, previousItems) {
+  if (!previousItems?.size) return '';
+  const sources = Array.isArray(payload.sourceStatus) ? payload.sourceStatus : [];
+  const failedCoreSources = sources.filter((source) =>
+    CORE_PUBLICATION_SOURCE_IDS.has(source.id)
+    && source.configured
+    && !source.ok
+  );
+  if (!failedCoreSources.length) return '';
+  const protectedCount = failedCoreSources.reduce((sum, source) => sum + Number(source.fallbackItemCount || 0), 0);
+  if (protectedCount <= 0) return '';
+  return `핵심 수집원 ${failedCoreSources.map((source) => source.name || source.id).join(', ')} 실패로 공개 피드는 직전 정상본을 유지합니다.`;
+}
+
+function withPublicationHold(health, reason) {
+  if (!reason) return health;
+  return {
+    ...health,
+    status: 'degraded-held',
+    publicationHold: {
+      heldAt: CHECKED_AT,
+      previousFeedPreserved: true,
+      reason
+    },
+    nextOperatorActions: [
+      '공개 job-feed.json은 직전 정상본을 유지했습니다. sourceFailures와 publicationHold.reason을 확인합니다.',
+      ...(health.nextOperatorActions || [])
+    ]
+  };
+}
+
 function previousItemKeys(item) {
   return [
     item.id,
@@ -5658,12 +5723,13 @@ function extractJobAlioAttachments(html) {
 
 async function fetchJobAlioDetail(row) {
   const detailUrl = `https://job.alio.go.kr/recruitview.do?idx=${encodeURIComponent(row.idx)}`;
+  const retryTimeouts = (row.priority ?? 99) <= 5 ? JOB_ALIO_CRITICAL_RETRY_TIMEOUTS_MS : [REQUEST_TIMEOUT_MS];
   let html = '';
   try {
-    html = await fetchWithTimeout(detailUrl);
+    html = await fetchTextWithRetries(detailUrl, {}, retryTimeouts, `job-alio-detail-${row.idx}`);
   } catch (error) {
     const mobileDetailUrl = `https://job.alio.go.kr/mobile2021/recruit/recruitView.do?idx=${encodeURIComponent(row.idx)}`;
-    html = await fetchWithTimeout(mobileDetailUrl);
+    html = await fetchTextWithRetries(mobileDetailUrl, {}, retryTimeouts, `job-alio-mobile-detail-${row.idx}`);
   }
   const text = htmlText(html);
   const originalUrl = text.match(/(?:공고 URL|원문 URL)\s*:?\s*(https?:\/\/\S+)/);
@@ -5726,7 +5792,8 @@ async function fetchJobAlioRecruit() {
 
   await mapWithConcurrency(makeJobAlioScanTargets(), JOB_ALIO_LIST_FETCH_CONCURRENCY, async (target) => {
     try {
-      const html = await fetchWithTimeout(target.url);
+      const retryTimeouts = target.priority <= 5 ? JOB_ALIO_CRITICAL_RETRY_TIMEOUTS_MS : JOB_ALIO_LIST_RETRY_TIMEOUTS_MS;
+      const html = await fetchTextWithRetries(target.url, {}, retryTimeouts, target.id);
       const rows = parseJobAlioRows(html);
       scannedCount += rows.length;
       scanTargetCount += 1;
@@ -6730,6 +6797,13 @@ async function main() {
     items
   };
 
+  const holdReason = publicFeedHoldReason(payload, previousItems);
+  if (holdReason) {
+    await writeJsonAtomic(HEALTH_FILE, withPublicationHold(buildFeedHealth(payload, publicationSafety.report, 'degraded-held'), holdReason));
+    console.log(`job-feed held: ${holdReason}`);
+    return;
+  }
+
   await writeJsonAtomic(OUT_FILE, payload);
   await writeJsonAtomic(HEALTH_FILE, buildFeedHealth(payload, publicationSafety.report));
   console.log(`job-feed: ${items.length} items, ${sourcesConfigured} configured sources`);
@@ -6802,8 +6876,14 @@ main().catch(async (error) => {
     archiveItems: [],
     items: []
   };
-  await writeJsonAtomic(OUT_FILE, payload);
-  await writeJsonAtomic(HEALTH_FILE, buildFeedHealth(payload, payload.publicationSafety, 'failed'));
+  const preservePreviousFeed = await fileExists(OUT_FILE);
+  if (!preservePreviousFeed) {
+    await writeJsonAtomic(OUT_FILE, payload);
+  }
+  const health = buildFeedHealth(payload, payload.publicationSafety, preservePreviousFeed ? 'failed-held' : 'failed');
+  await writeJsonAtomic(HEALTH_FILE, preservePreviousFeed
+    ? withPublicationHold(health, '자동 수집 실행 오류로 공개 피드는 직전 정상본을 유지합니다.')
+    : health);
   console.error(`job-feed failed: ${error.message}`);
   process.exitCode = 1;
 });
