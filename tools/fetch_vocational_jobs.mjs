@@ -32,10 +32,10 @@ const JOB_ALIO_LIST_FETCH_CONCURRENCY = 10;
 const PUBLIC_API_FETCH_CONCURRENCY = 8;
 const APPLICATION_CLOSED_RETAIN_DAYS = 365;
 const MAX_ARCHIVE_ITEMS = 160;
-const JOB_ALIO_SCAN_LIMIT = 360;
-const JOB_ALIO_SCAN_PAGES = 18;
+const JOB_ALIO_SCAN_LIMIT = 500;
+const JOB_ALIO_SCAN_PAGES = 30;
 const JOB_ALIO_RECENT_DETAIL_DAYS = 21;
-const JOB_ALIO_RECENT_DETAIL_LIMIT = 260;
+const JOB_ALIO_RECENT_DETAIL_LIMIT = 340;
 const OFFICIAL_WATCH_TIMEOUT_MS = 15000;
 const COMPANY_NOTICE_TIMEOUT_MS = 15000;
 const GENERIC_OFFICIAL_FEED_CONCURRENCY = 5;
@@ -127,7 +127,7 @@ const MPM_PUBLIC_JOB_ENDPOINT_CANDIDATES = [
   'https://apis.data.go.kr/1741000/PublicJobInformationService/getPublicJobInfo'
 ];
 const MPM_PUBLIC_JOB_NOTICE_TYPES = ['e01', 'e02', 'e03', 'e04', 'e06', 'e07', 'e08'];
-const MPM_PUBLIC_JOB_INSTITUTION_TYPES = ['g01', 'g02', 'g03', 'g04'];
+const MPM_PUBLIC_JOB_INSTITUTION_TYPES = ['g01', 'g02', 'g03', 'g04', 'g05', 'g06', 'g07', 'g08'];
 const PUBLIC_DATA_PAGE_SIZE = 60;
 const JOB_ALIO_KEYWORD_QUERIES = [
   { searchType: 'title', keyword: '고졸' },
@@ -135,11 +135,20 @@ const JOB_ALIO_KEYWORD_QUERIES = [
   { searchType: 'title', keyword: '직업계고' },
   { searchType: 'title', keyword: '마이스터고' },
   { searchType: 'title', keyword: '졸업예정' },
+  { searchType: 'title', keyword: '학력무관' },
+  { searchType: 'title', keyword: '청년인턴' },
+  { searchType: 'title', keyword: '채용형 인턴' },
+  { searchType: 'title', keyword: '기능인재' },
+  { searchType: 'title', keyword: '지역인재' },
   { searchType: 'elig', keyword: '고졸' },
   { searchType: 'elig', keyword: '고등학교' },
+  { searchType: 'elig', keyword: '고교' },
   { searchType: 'elig', keyword: '졸업예정' },
   { searchType: 'elig', keyword: '특성화고' },
-  { searchType: 'elig', keyword: '직업계고' }
+  { searchType: 'elig', keyword: '직업계고' },
+  { searchType: 'elig', keyword: '학력무관' },
+  { searchType: 'elig', keyword: '기술직' },
+  { searchType: 'elig', keyword: '업무지원직' }
 ];
 const CRITICAL_JOB_ALIO_ORGS = [
   { orgCode: 'C0247', orgName: '한국전력공사', aliases: ['한전', 'KEPCO'] },
@@ -186,6 +195,58 @@ const CRITICAL_JOB_ALIO_ORGS = [
   { orgCode: 'C0166', orgName: '한국방송광고진흥공사', aliases: ['코바코'] },
   { orgCode: 'C0251', orgName: '한국인터넷진흥원', aliases: ['KISA'] },
   { orgCode: 'C0261', orgName: '한국직업능력연구원', aliases: [] }
+];
+const PUBLIC_INSTITUTION_CATEGORY_WATCH_ORGS = [
+  { orgName: '한국광해광업공단', aliases: ['광해광업공단'] },
+  { orgName: '한국환경공단', aliases: [] },
+  { orgName: '한국교통안전공단', aliases: [] },
+  { orgName: '한국국토정보공사', aliases: ['LX'] },
+  { orgName: '국가철도공단', aliases: [] },
+  { orgName: '한국해양교통안전공단', aliases: [] },
+  { orgName: '한국소방산업기술원', aliases: [] },
+  { orgName: '한국승강기안전공단', aliases: [] },
+  { orgName: '한국가스안전공사', aliases: [] },
+  { orgName: '한국에너지공단', aliases: [] },
+  { orgName: '국토안전관리원', aliases: [] },
+  { orgName: '도로교통공단', aliases: [] },
+  { orgName: '공무원연금공단', aliases: [] },
+  { orgName: '사립학교교직원연금공단', aliases: ['사학연금'] },
+  { orgName: '국가철도공단', aliases: [] },
+  { orgName: '한국고용정보원', aliases: [] },
+  { orgName: '소상공인시장진흥공단', aliases: [] },
+  { orgName: '중소벤처기업진흥공단', aliases: ['중진공'] },
+  { orgName: '한국무역보험공사', aliases: [] },
+  { orgName: '서민금융진흥원', aliases: [] },
+  { orgName: '한국투자공사', aliases: ['KIC'] },
+  { orgName: '한국벤처투자', aliases: [] },
+  { orgName: '한국콘텐츠진흥원', aliases: [] },
+  { orgName: '정보통신산업진흥원', aliases: ['NIPA'] },
+  { orgName: '한국지능정보사회진흥원', aliases: ['NIA'] },
+  { orgName: '한국데이터산업진흥원', aliases: [] },
+  { orgName: '한국산업기술진흥원', aliases: ['KIAT'] },
+  { orgName: '한국산업기술기획평가원', aliases: ['KEIT'] },
+  { orgName: '한국에너지기술평가원', aliases: [] },
+  { orgName: '한국보건산업진흥원', aliases: [] },
+  { orgName: '한국사회보장정보원', aliases: [] },
+  { orgName: '건강보험심사평가원', aliases: ['심평원'] },
+  { orgName: '한국교육학술정보원', aliases: ['KERIS'] },
+  { orgName: '한국장학재단', aliases: [] },
+  { orgName: '국가평생교육진흥원', aliases: [] },
+  { orgName: '한국청소년활동진흥원', aliases: [] },
+  { orgName: '한국문화예술위원회', aliases: [] },
+  { orgName: '한국문화관광연구원', aliases: [] },
+  { orgName: '한국언론진흥재단', aliases: [] },
+  { orgName: '한국보훈복지의료공단', aliases: [] },
+  { orgName: '한국보건복지인재원', aliases: [] },
+  { orgName: '한국노인인력개발원', aliases: [] },
+  { orgName: '한국사회복지협의회', aliases: [] },
+  { orgName: '한국농수산식품유통공사', aliases: ['aT'] },
+  { orgName: '축산물품질평가원', aliases: [] },
+  { orgName: '농림식품기술기획평가원', aliases: [] },
+  { orgName: '한국어촌어항공단', aliases: [] },
+  { orgName: '한국해양수산연수원', aliases: [] },
+  { orgName: '한국산림복지진흥원', aliases: [] },
+  { orgName: '한국임업진흥원', aliases: [] }
 ];
 const JOB_ALIO_EXTRA_WATCH_ORG_SECRET_NAMES = ['JOB_ALIO_EXTRA_WATCH_ORGS', 'JOB_ALIO_WATCH_ORGS'];
 const CRITICAL_CURRENT_JOB_ALIO_ITEMS = [
@@ -464,6 +525,75 @@ const FINANCE_LARGE_COMPANY_OFFICIAL_WATCHLIST = [
   { employer: '저축은행중앙회', group: 'finance', url: 'https://www.fsb.or.kr/index.act', tags: ['2금융권'] }
 ];
 
+const LISTED_MID_COMPANY_OFFICIAL_WATCHLIST = [
+  { employer: '신세계', group: 'listed-company', url: 'https://job.shinsegae.com/', tags: ['상장·중견', '유통'] },
+  { employer: '이마트', group: 'listed-company', url: 'https://job.shinsegae.com/', tags: ['상장·중견', '유통'] },
+  { employer: '현대백화점그룹', group: 'listed-company', url: 'https://recruit.ehyundai.com/', tags: ['상장·중견', '유통'] },
+  { employer: 'GS리테일', group: 'listed-company', url: 'https://gsretail.recruiter.co.kr/', tags: ['상장·중견', '유통', '채용대행공식'] },
+  { employer: 'BGF리테일', group: 'listed-company', url: 'https://bgf.recruiter.co.kr/', tags: ['상장·중견', '유통', '채용대행공식'] },
+  { employer: '농심', group: 'listed-company', url: 'https://recruit.nongshim.com/', tags: ['상장·중견', '식품'] },
+  { employer: '오뚜기', group: 'listed-company', url: 'https://www.ottogi.co.kr/recruit/recruitMain', tags: ['상장·중견', '식품'] },
+  { employer: '오리온', group: 'listed-company', url: 'https://orion.recruiter.co.kr/', tags: ['상장·중견', '식품', '채용대행공식'] },
+  { employer: 'SPC', group: 'listed-company', url: 'https://spc.recruiter.co.kr/', tags: ['상장·중견', '식품', '채용대행공식'] },
+  { employer: '삼양그룹', group: 'listed-company', url: 'https://samyang.recruiter.co.kr/', tags: ['상장·중견', '화학·식품', '채용대행공식'] },
+  { employer: '아모레퍼시픽', group: 'listed-company', url: 'https://careers.apgroup.com/', tags: ['상장·중견', '소비재', '공식채용'] },
+  { employer: '코오롱', group: 'listed-company', url: 'https://kolon.recruiter.co.kr/', tags: ['상장·중견', '화학·패션', '채용대행공식'] },
+  { employer: '효성', group: 'listed-company', url: 'https://hyosung.recruiter.co.kr/', tags: ['상장·중견', '소재', '채용대행공식'] },
+  { employer: 'DB그룹', group: 'listed-company', url: 'https://dbgroup.recruiter.co.kr/', tags: ['상장·중견', '그룹공채', '채용대행공식'] },
+  { employer: '셀트리온', group: 'listed-company', url: 'https://celltrion.recruiter.co.kr/', tags: ['상장·중견', '바이오', '채용대행공식'] },
+  { employer: 'GC녹십자', group: 'listed-company', url: 'https://gc.recruiter.co.kr/', tags: ['상장·중견', '바이오', '채용대행공식'] },
+  { employer: '종근당', group: 'listed-company', url: 'https://ckd.recruiter.co.kr/', tags: ['상장·중견', '제약', '채용대행공식'] },
+  { employer: '유한양행', group: 'listed-company', url: 'https://www.yuhan.co.kr/Recruit', tags: ['상장·중견', '제약'] },
+  { employer: '일동제약', group: 'listed-company', url: 'https://ildong.recruiter.co.kr/', tags: ['상장·중견', '제약', '채용대행공식'] },
+  { employer: '한미약품', group: 'listed-company', url: 'https://hanmi.recruiter.co.kr/', tags: ['상장·중견', '제약', '채용대행공식'] },
+  { employer: '현대오토에버', group: 'listed-company', url: 'https://hyundai-autoever.recruiter.co.kr/', tags: ['상장·중견', 'IT', '채용대행공식'] },
+  { employer: '롯데이노베이트', group: 'listed-company', url: 'https://recruit.lotte.co.kr/', tags: ['상장·중견', 'IT', '롯데그룹공식'] },
+  { employer: '카카오페이', group: 'listed-company', url: 'https://kakaopay.recruiter.co.kr/', tags: ['상장·중견', '핀테크', '채용대행공식'] },
+  { employer: '네이버파이낸셜', group: 'listed-company', url: 'https://recruit.navercorp.com/', tags: ['상장·중견', '핀테크'] },
+  { employer: '크래프톤', group: 'listed-company', url: 'https://krafton.com/careers/', tags: ['상장·중견', '게임'] },
+  { employer: '엔씨소프트', group: 'listed-company', url: 'https://careers.ncsoft.com/', tags: ['상장·중견', '게임'] },
+  { employer: '넷마블', group: 'listed-company', url: 'https://company.netmarble.com/rem/www/careers/recruit.jsp', tags: ['상장·중견', '게임'] },
+  { employer: '카카오게임즈', group: 'listed-company', url: 'https://kakaogames.recruiter.co.kr/', tags: ['상장·중견', '게임', '채용대행공식'] },
+  { employer: '한글과컴퓨터', group: 'listed-company', url: 'https://www.hancom.com/career', tags: ['상장·중견', 'IT'] },
+  { employer: '더존비즈온', group: 'listed-company', url: 'https://douzone.recruiter.co.kr/', tags: ['상장·중견', 'IT', '채용대행공식'] },
+  { employer: '한솔그룹', group: 'listed-company', url: 'https://hansol.recruiter.co.kr/', tags: ['상장·중견', '소재', '채용대행공식'] },
+  { employer: '세아그룹', group: 'listed-company', url: 'https://seah.recruiter.co.kr/', tags: ['상장·중견', '철강', '채용대행공식'] },
+  { employer: '동원그룹', group: 'listed-company', url: 'https://careers.dongwon.com/', tags: ['상장·중견', '식품·물류'] }
+];
+
+const SECOND_THIRD_FINANCE_OFFICIAL_WATCHLIST = [
+  { employer: 'KB증권', group: 'finance-secondary', url: 'https://kbsec.recruiter.co.kr/', tags: ['증권', '금융권', '채용대행공식'] },
+  { employer: '신한투자증권', group: 'finance-secondary', url: 'https://shinhansec.recruiter.co.kr/', tags: ['증권', '금융권', '채용대행공식'] },
+  { employer: '미래에셋증권', group: 'finance-secondary', url: 'https://miraeassetsecurities.recruiter.co.kr/', tags: ['증권', '금융권', '채용대행공식'] },
+  { employer: '한국투자증권', group: 'finance-secondary', url: 'https://koreainvestment.recruiter.co.kr/', tags: ['증권', '금융권', '채용대행공식'] },
+  { employer: '삼성증권', group: 'finance-secondary', url: 'https://www.samsungcareers.com/', tags: ['증권', '금융권', '삼성그룹공식'] },
+  { employer: 'NH투자증권', group: 'finance-secondary', url: 'https://nhqv.recruiter.co.kr/', tags: ['증권', '금융권', '채용대행공식'] },
+  { employer: '키움증권', group: 'finance-secondary', url: 'https://kiwoom.recruiter.co.kr/', tags: ['증권', '금융권', '채용대행공식'] },
+  { employer: 'KB손해보험', group: 'finance-secondary', url: 'https://kbinsure.recruiter.co.kr/', tags: ['보험', '금융권', '채용대행공식'] },
+  { employer: 'DB손해보험', group: 'finance-secondary', url: 'https://dbins.recruiter.co.kr/', tags: ['보험', '금융권', '채용대행공식'] },
+  { employer: '메리츠화재', group: 'finance-secondary', url: 'https://meritzfire.recruiter.co.kr/', tags: ['보험', '금융권', '채용대행공식'] },
+  { employer: '현대해상', group: 'finance-secondary', url: 'https://hi.recruiter.co.kr/', tags: ['보험', '금융권', '채용대행공식'] },
+  { employer: '교보생명', group: 'finance-secondary', url: 'https://kyobo.recruiter.co.kr/', tags: ['보험', '금융권', '채용대행공식'] },
+  { employer: 'KB국민카드', group: 'finance-secondary', url: 'https://kbcard.recruiter.co.kr/', tags: ['카드', '2금융권', '채용대행공식'] },
+  { employer: '신한카드', group: 'finance-secondary', url: 'https://shinhancard.recruiter.co.kr/', tags: ['카드', '2금융권', '채용대행공식'] },
+  { employer: '현대카드', group: 'finance-secondary', url: 'https://hyundaicard.recruiter.co.kr/', tags: ['카드', '2금융권', '채용대행공식'] },
+  { employer: '롯데카드', group: 'finance-secondary', url: 'https://lottecard.recruiter.co.kr/', tags: ['카드', '2금융권', '채용대행공식'] },
+  { employer: '하나카드', group: 'finance-secondary', url: 'https://hanacard.recruiter.co.kr/', tags: ['카드', '2금융권', '채용대행공식'] },
+  { employer: '우리카드', group: 'finance-secondary', url: 'https://wooricard.recruiter.co.kr/', tags: ['카드', '2금융권', '채용대행공식'] },
+  { employer: 'KB캐피탈', group: 'finance-secondary', url: 'https://kbcapital.recruiter.co.kr/', tags: ['캐피탈', '2금융권', '채용대행공식'] },
+  { employer: '현대캐피탈', group: 'finance-secondary', url: 'https://hyundaicapital.recruiter.co.kr/', tags: ['캐피탈', '2금융권', '채용대행공식'] },
+  { employer: '하나캐피탈', group: 'finance-secondary', url: 'https://hanacapital.recruiter.co.kr/', tags: ['캐피탈', '2금융권', '채용대행공식'] },
+  { employer: '우리금융캐피탈', group: 'finance-secondary', url: 'https://woorifcapital.recruiter.co.kr/', tags: ['캐피탈', '2금융권', '채용대행공식'] },
+  { employer: 'OK금융그룹', group: 'finance-secondary', url: 'https://ok.recruiter.co.kr/', tags: ['저축은행', '2금융권', '채용대행공식'] },
+  { employer: 'SBI저축은행', group: 'finance-secondary', url: 'https://sbi.recruiter.co.kr/', tags: ['저축은행', '2금융권', '채용대행공식'] }
+];
+
+const FINANCE_LARGE_COMPANY_EXPANDED_WATCHLIST = [
+  ...FINANCE_LARGE_COMPANY_OFFICIAL_WATCHLIST,
+  ...LISTED_MID_COMPANY_OFFICIAL_WATCHLIST,
+  ...SECOND_THIRD_FINANCE_OFFICIAL_WATCHLIST
+];
+
 const REGIONAL_EDUCATION_OFFICIAL_WATCHLIST = [
   { employer: '인천광역시교육청 직업계고 취업지원센터', group: 'education-office', url: 'https://www.ice.go.kr/jci/main.do', tags: ['교육청', '직업계고', '채용정보'] },
   { employer: '경기도교육청 취창업지원센터', group: 'education-office', url: 'https://more.goe.go.kr/gajago/index.do', tags: ['교육청', '직업계고', '취창업지원'] },
@@ -477,7 +607,7 @@ const REGIONAL_EDUCATION_OFFICIAL_WATCHLIST = [
 ];
 
 const BUILT_IN_OFFICIAL_FEEDS = {
-  'finance-large-company-recruit': FINANCE_LARGE_COMPANY_OFFICIAL_WATCHLIST,
+  'finance-large-company-recruit': FINANCE_LARGE_COMPANY_EXPANDED_WATCHLIST,
   'regional-education-job': REGIONAL_EDUCATION_OFFICIAL_WATCHLIST
 };
 
@@ -579,9 +709,9 @@ const SOURCE_ONBOARDING = {
   'finance-large-company-recruit': {
     priority: 'P0',
     actionLabel: '금융권·대기업 공식 공채 상시 감시',
-    impact: '은행·금융공기업·대기업의 고졸 공개채용을 내장 공식 채용 페이지와 추가 공식 피드 기준으로 보강한다.',
+    impact: '은행·금융공기업·2/3금융권·대기업·상장/중견기업의 고졸 공개채용을 내장 공식 채용 페이지와 추가 공식 피드 기준으로 보강한다.',
     easySteps: [
-      '기본 실행만으로 주요 대기업·1금융권·2금융권 공식 채용 페이지를 매일 3회 감시한다.',
+      '기본 실행만으로 주요 대기업·상장/중견기업·1금융권·2/3금융권 공식 채용 페이지를 매일 3회 감시한다.',
       '추가 확인한 공식 공지/RSS/API URL은 줄바꿈 또는 쉼표로 묶어 FINANCE_RECRUIT_FEEDS 또는 LARGE_COMPANY_RECRUIT_FEEDS Secret에 저장한다.',
       '공채 후보는 공식 원문과 채용대행 원문을 2중 확인한 뒤 전형일정·첨부자료 중심으로 상세화한다.'
     ]
@@ -725,14 +855,14 @@ const SOURCE_CATALOG = [
   },
   {
     id: 'finance-large-company-recruit',
-    name: '금융권·대기업 고졸 공채 공식 피드',
+    name: '금융권·상장기업 고졸 공채 공식 피드',
     type: 'official-watchlist',
     sourceUrl: '',
     group: 'finance-large-company',
     trackHint: 'exam',
     status: 'pending',
     secretNames: ['FINANCE_RECRUIT_FEEDS', 'LARGE_COMPANY_RECRUIT_FEEDS', 'FINANCE_RECRUIT_API_KEY', 'LARGE_COMPANY_RECRUIT_API_KEY'],
-    message: '주요 대기업·1금융권·2금융권 공식 채용 페이지 내장 감시, 추가 피드 Secret 보강 가능'
+    message: '주요 대기업·상장/중견기업·1금융권·2/3금융권 공식 채용 페이지 내장 감시, 추가 피드 Secret 보강 가능'
   },
   {
     id: 'job-alio-openapi',
@@ -1042,7 +1172,7 @@ function allJobAlioWatchOrgs() {
   const merged = [];
   const seen = new Set();
 
-  for (const rawOrg of [...CRITICAL_JOB_ALIO_ORGS, ...extraJobAlioWatchOrgs()]) {
+  for (const rawOrg of [...CRITICAL_JOB_ALIO_ORGS, ...PUBLIC_INSTITUTION_CATEGORY_WATCH_ORGS, ...extraJobAlioWatchOrgs()]) {
     const org = normalizedJobAlioWatchOrg(rawOrg);
     if (!org) continue;
     const keys = [
@@ -6216,7 +6346,7 @@ async function fetchGenericConfiguredSource(id) {
   const watchEmployers = Array.from(new Set(entries
     .map((entry) => normalizeSpace(entry.employer))
     .filter((name) => name && name !== '사용자 설정 공식 피드')))
-    .slice(0, 80);
+    .slice(0, 160);
   const key = readSecret(...(config.keySecrets || []));
   const configured = entries.length > 0 || Boolean(key);
   if (!entries.length) {
@@ -6772,9 +6902,9 @@ async function main() {
         company: item.company,
         deadline: item.deadline
       })),
-      financeLargeCompanyOfficialWatchCount: FINANCE_LARGE_COMPANY_OFFICIAL_WATCHLIST.length,
-      financeLargeCompanyOfficialWatchEmployers: FINANCE_LARGE_COMPANY_OFFICIAL_WATCHLIST.map((entry) => entry.employer),
-      financeLargeCompanySignalRule: '대기업·1금융·2금융 공식 채용 페이지와 채용대행 API 목록·상세에서 고졸·특성화고·고등학교 졸업예정·학력무관·사무행원·창구·업무지원·사무보조·기술직·생산직 등 응시 가능 신호와 채용 신호가 함께 확인될 때만 후보로 정규화한다.',
+      financeLargeCompanyOfficialWatchCount: FINANCE_LARGE_COMPANY_EXPANDED_WATCHLIST.length,
+      financeLargeCompanyOfficialWatchEmployers: FINANCE_LARGE_COMPANY_EXPANDED_WATCHLIST.map((entry) => entry.employer),
+      financeLargeCompanySignalRule: '대기업·상장/중견기업·1금융·2금융·3금융 공식 채용 페이지와 채용대행 API 목록·상세에서 고졸·특성화고·고등학교 졸업예정·학력무관·사무행원·창구·업무지원·사무보조·기술직·생산직 등 응시 가능 신호와 채용 신호가 함께 확인될 때만 후보로 정규화한다.',
       regionalEducationOfficialWatchCount: REGIONAL_EDUCATION_OFFICIAL_WATCHLIST.length,
       regionalEducationOfficialWatchEmployers: REGIONAL_EDUCATION_OFFICIAL_WATCHLIST.map((entry) => entry.employer),
       regionalEducationSourceRule: '교육청 취업지원센터·학교 채용 소식은 직접 결과 카드로 노출하지 않는다. 잡알리오·고용24·기관·기업 공식 원문이 1차 채용 공고로 확인된 뒤, 같은 채용인지 맞는 경우에만 누락 보완과 2차·3차 보조검증 출처로 붙인다.',
