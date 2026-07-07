@@ -61,6 +61,14 @@ const REQUIRED_CURRENT_CRITICAL_RECRUITS = [
     titleTerms: ['경력', '신입', '직원'],
     bodyTerms: ['사무행정', '고졸전형'],
     deadline: '2026-06-11'
+  },
+  {
+    id: 'komipo-2026-2nd-grade4-highschool',
+    sourceId: '302314',
+    company: '한국중부발전',
+    titleTerms: ['제2차', '4직급', '신입직원'],
+    bodyTerms: ['고졸수준', '고졸 채용'],
+    deadline: '2026-07-22'
   }
 ];
 
@@ -296,6 +304,13 @@ function matchesRequiredCriticalRecruit(item, job) {
   return [...job.titleTerms, ...job.bodyTerms].every((term) => text.includes(term));
 }
 
+function hasOfficialPublicRecruitSource(item) {
+  const sourceUrl = String(item.sourceOfficialUrl || item.originalUrl || item.url || '');
+  return /job\.alio\.go\.kr\/recruitview\.do\?idx=\d+/i.test(sourceUrl)
+    && Array.isArray(item.attachments)
+    && item.attachments.some((attachment) => /공고문|직무기술서|입사지원서/.test(String(attachment?.title || '')));
+}
+
 function hasStrongHighSchoolSignal(item) {
   const text = feedItemEligibilityText(item);
   return HIGH_SCHOOL_STRONG_TERMS.some((term) => text.includes(term))
@@ -414,6 +429,7 @@ async function validateJobFetcherRules() {
   fail('fetcher.job-track-refine', fetcher.includes('function shouldForceFieldDirectRecruit') && fetcher.includes('function hasProtectedPublicRecruitSignal') && fetcher.includes('FIELD_DIRECT_ROLE_PATTERN') && fetcher.includes('FIELD_DIRECT_LIMITED_PATTERN') && fetcher.includes('STUDENT_RECOMMENDED_ROLE_PATTERN') && fetcher.includes('RECOMMENDED_INTERNSHIP_PATTERN') && fetcher.includes('현장형 분리') && fetcher.includes('추천 공채 후보'), '자동 수집 단계에서 진짜 현장형 공고는 분리하고 NCS·인턴·전공/행정 직무 공채는 공채 상세에 보호합니다.');
   fail('fetcher.internship-not-direct-term', !directTerms.includes('채용연계'), '채용연계·채용형 인턴은 면접중심 직접 분류 키워드에서 제외되어 공채 상세 보호 대상이 됩니다.');
   fail('fetcher.deadline-text-sanitizer', fetcher.includes('function safeDeadlineDisplayText') && fetcher.includes('function kstDateFromParts') && fetcher.includes('containsStructuredDatePattern'), '자동 수집 단계에서 불가능한 마감일 숫자를 원문 확인 문구로 정제합니다.');
+  fail('fetcher.job-alio-dynamic-current-scan', fetcher.includes('JOB_ALIO_RECENT_DETAIL_DAYS') && fetcher.includes('function selectJobAlioRowsForDetail') && fetcher.includes('function buildJobAlioDynamicDiscovery') && fetcher.includes('dynamic-current-job-alio-detail-scan'), '잡알리오 최근 등록 공고는 기관 화이트리스트나 제목 키워드와 무관하게 상세 원문을 열어 오늘 기준 후보 누락을 점검합니다.');
 }
 
 async function validateHomepage() {
@@ -516,6 +532,8 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.feed.secret-total`, secretReadiness.totalSources === sourceStatus.length, `${label} Secret 준비 상태의 소스 수가 sourceStatus와 일치합니다.`);
   fail(`${label}.feed.review-next-actions`, Array.isArray(collectionReview.nextActions) && collectionReview.nextActions.length > 0, `${label} 누락·공식공고·소스보강 다음 조치가 기록됩니다.`);
   fail(`${label}.feed.critical-review-field`, collectionReview.criticalCoverage && Array.isArray(collectionReview.criticalCoverage.missingCurrent), `${label} 핵심 공기업 고졸 공채 감시 결과가 기록됩니다.`);
+  fail(`${label}.feed.dynamic-job-alio-review-field`, collectionReview.jobAlioDynamicDiscovery?.policy === 'dynamic-current-job-alio-detail-scan', `${label} 잡알리오 최근 상세 원문 기반 동적 누락 점검 결과가 기록됩니다.`);
+  fail(`${label}.feed.dynamic-job-alio-no-gap`, Number(collectionReview.dynamicJobAlioGapCount || 0) === 0 && Number(collectionReview.jobAlioDynamicDiscovery?.missingCandidateCount || 0) === 0, `${label} 잡알리오 최근 상세에서 확인된 고졸·학력무관 후보가 최종 피드에서 빠지지 않았습니다.`, (collectionReview.jobAlioDynamicDiscovery?.missingCandidates || []).map((item) => `${item.company}:${item.title}`).join(' | '));
 
   const age = hoursSince(feed.generatedAt);
   fail(`${label}.feed.generated-at-valid`, age !== null, `${label} generatedAt이 유효한 날짜입니다.`, feed.generatedAt || '');
@@ -538,7 +556,7 @@ function validateFeed(feed, label = 'local') {
   const activeCount = countItems(items, (item) => item.status === 'active');
   const soonCount = countItems(items, (item) => item.status === 'deadline_soon');
   const closedCount = countItems(items, (item) => item.status === 'application_closed');
-  const companyNoticeCheckedStatuses = ['company_notice_confirmed', 'company_notice_reachable'];
+  const companyNoticeCheckedStatuses = ['company_notice_confirmed', 'company_notice_reachable', 'job_alio_detail_confirmed'];
   const officialDoubleCheckStatuses = [...companyNoticeCheckedStatuses];
   const checkedCount = countItems(items, (item) => companyNoticeCheckedStatuses.includes(item.sourceVerification?.doubleCheckStatus));
   const regionalEducationVerifiedCount = countItems(items, (item) => item.regionalEducationVerification?.count > 0);
@@ -561,6 +579,7 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.summary.official-check-count`, summary.companyNoticeChecked === checkedCount, `${label} 공식 공고 확인 카운터가 실제 항목과 일치합니다.`, `${summary.companyNoticeChecked} / ${checkedCount}`);
   fail(`${label}.summary.regional-education-count`, (summary.regionalEducationVerificationLinked || summary.regionalEducationVerified || 0) === regionalEducationVerifiedCount, `${label} 교육청 보조검증 연계 카운터가 실제 항목과 일치합니다.`, `${summary.regionalEducationVerificationLinked || summary.regionalEducationVerified || 0} / ${regionalEducationVerifiedCount}`);
   fail(`${label}.summary.missed-count`, summary.missedReviewNeeded === missedCount, `${label} 누락점검 카운터가 실제 항목과 일치합니다.`, `${summary.missedReviewNeeded} / ${missedCount}`);
+  fail(`${label}.summary.dynamic-job-alio-gap-count`, Number(summary.dynamicJobAlioGapCount || 0) === Number(collectionReview.dynamicJobAlioGapCount || 0), `${label} 잡알리오 동적 누락 카운터가 검토 결과와 일치합니다.`, `${summary.dynamicJobAlioGapCount || 0} / ${collectionReview.dynamicJobAlioGapCount || 0}`);
   fail(`${label}.summary.stale-count`, summary.staleFallbackItems === staleCount, `${label} 임시 보존 공고 카운터가 실제 항목과 일치합니다.`, `${summary.staleFallbackItems} / ${staleCount}`);
   fail(`${label}.summary.source-fallback-count`, (summary.sourceFallbackProtected || 0) === sourceFallbackCount, `${label} 실패 소스 보존 공고 카운터가 실제 항목과 일치합니다.`, `${summary.sourceFallbackProtected || 0} / ${sourceFallbackCount}`);
   fail(`${label}.summary.briefing-count`, summary.briefingReady === briefingCount, `${label} 취업부 브리핑 카운터가 실제 항목과 일치합니다.`, `${summary.briefingReady} / ${briefingCount}`);
@@ -606,7 +625,7 @@ function validateFeed(feed, label = 'local') {
     }
     if (item.processTrack === 'exam-formal') {
       if (!item.publicRecruitDetails || !item.sourceVerification?.doubleCheckStatus) examDetailProblems.push(prefix);
-      if (!officialDoubleCheckStatuses.includes(item.sourceVerification?.doubleCheckStatus)) weakOfficialPublicRecruit.push(prefix);
+      if (!officialDoubleCheckStatuses.includes(item.sourceVerification?.doubleCheckStatus) && !hasOfficialPublicRecruitSource(item)) weakOfficialPublicRecruit.push(prefix);
     } else if (item.detailLevel !== 'brief-company-contact') {
       directPolicyProblems.push(prefix);
     }
@@ -625,7 +644,7 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.items.no-unresolved-current-qualification`, unresolvedQualificationProblems.length === 0, `${label} 진행중 공채 상세는 공식 원문 재확인 후 자격요건을 구체적으로 표시합니다.`, unresolvedQualificationProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-kb-main-page-recruit-link`, mainPageRecruitLinkProblems.length === 0, `${label} KB국민은행 공고는 채용 메인페이지가 아니라 상세 공고 URL로 연결합니다.`, mainPageRecruitLinkProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.title-includes-company`, titleCompanyProblems.length === 0, `${label} 채용 공고 제목에는 기관명·기업명이 포함됩니다.`, titleCompanyProblems.slice(0, 5).join(' | '));
-  warn(`${label}.items.official-double-check`, weakOfficialPublicRecruit.length === 0, `${label} 공채 상세 항목은 회사·기관 또는 채용대행 공식 공고 2중확인이 필요합니다.`, weakOfficialPublicRecruit.slice(0, 5).join(' | '));
+  warn(`${label}.items.official-double-check`, weakOfficialPublicRecruit.length === 0, `${label} 공채 상세 항목은 회사·기관·채용대행 또는 잡알리오 상세 공식 공고 확인이 필요합니다.`, weakOfficialPublicRecruit.slice(0, 5).join(' | '));
 
   const readySources = sourceStatus.filter((source) => source.configured && sourceOperationalOrPreserved(items, source, source.id)).length;
   const jobAlioStatus = sourceStatus.find((source) => source.id === 'job-alio-openapi');
@@ -647,6 +666,10 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.sources.job-alio-expanded-scan`, jobAlioLiveOk
     ? Number(jobAlioStatus?.scanTargetCount || 0) >= 10 && Number(jobAlioStatus?.candidateRowCount || 0) >= requiredCritical.length
     : jobAlioFallbackProtected, `${label} 잡알리오는 검색어·핵심기관 경로를 훑거나 일시 장애 시 기존 정상 공고를 보존합니다.`, `scanTarget=${jobAlioStatus?.scanTargetCount || 0}, candidate=${jobAlioStatus?.candidateRowCount || 0}, preserved=${jobAlioFallbackCount || jobAlioItemCount}`);
+  fail(`${label}.sources.job-alio-dynamic-current-scan`, jobAlioLiveOk
+    ? Number(jobAlioStatus?.dynamicDiscovery?.recentRowsDetailed || 0) > 0
+      && Number(jobAlioStatus?.dynamicDiscovery?.missingCandidateCount || 0) === 0
+    : jobAlioFallbackProtected, `${label} 잡알리오는 오늘 기준 최근 등록 공고 상세를 열어 고졸·학력무관 후보 누락을 자동 점검합니다.`, `recentDetailed=${jobAlioStatus?.dynamicDiscovery?.recentRowsDetailed || 0}, missing=${jobAlioStatus?.dynamicDiscovery?.missingCandidateCount || 0}`);
   fail(`${label}.sources.job-alio-critical-coverage`, jobAlioLiveOk ? jobAlioMissingCurrent.length === 0 : (jobAlioFallbackProtected || jobAlioMissingCurrent.length === 0), `${label} 잡알리오 핵심 공고 감시 대상 누락이 없습니다.`, jobAlioMissingCurrent.map((job) => `${job.company}:${job.idx}`).join(', '));
   const financeLargeCompanyProtected = sourceFallbackProtected(items, financeLargeCompanyStatus, 'finance-large-company-recruit');
   fail(`${label}.sources.finance-large-company-ok`, Boolean(financeLargeCompanyStatus?.ok) || financeLargeCompanyProtected, `${label} 금융권·대기업 공식 채용 페이지 감시원이 정상 동작하거나 직전 정상 공고를 보존합니다.`, financeLargeCompanyStatus?.message || '');
