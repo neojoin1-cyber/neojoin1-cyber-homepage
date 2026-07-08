@@ -75,7 +75,7 @@ const HIGH_SCHOOL_TERMS = [
 
 const STRONG_TERMS = ['고졸', '특성화고', '직업계고', '마이스터고', '학교장 추천', '학교장추천'];
 const NEGATIVE_EDU_TERMS = ['대졸 이상', '대졸(4년)', '대졸(2~3년)', '전문대졸', '4년제', '대학교 졸업', '학사 이상', '석사', '박사'];
-const PROFESSIONAL_ONLY_TERMS = ['전문의', '의사', '약사', '간호사', '방사선사', '공인회계사', '회계사', '변호사', '세무사', '노무사', '법무사', '건축사', '정교사', '교원자격', '교사 자격', '보육교사', '면허 소지', '면허소지', '석사', '박사', '기술사'];
+const PROFESSIONAL_ONLY_TERMS = ['전문의', '의사', '약사', '간호사', '간호조무사', '간호조무', '요양보호사', '요양보호직', '치과위생사', '임상병리사', '물리치료사', '작업치료사', '방사선사', '청능사', '보건의료정보관리사', '영양사', '공인회계사', '회계사', '변호사', '세무사', '노무사', '법무사', '건축사', '정교사', '교원자격', '교사 자격', '보육교사', '면허 소지', '면허소지', '석사', '박사', '기술사'];
 const ENTRY_LEVEL_TERMS = [
   '고졸',
   '고등학교',
@@ -104,6 +104,7 @@ const ENTRY_LEVEL_TERMS = [
 ];
 const SENIOR_ROLE_PATTERN = /(원장|센터장|기관장|본부장|부원장|교장|공모교장|교감|원감|개방형\s*직위|전문계약직|연봉계약직|임원|상임감사|비상임감사|감사위원|이사장|대표이사)/;
 const RESTRICTED_ROLE_PATTERN = /(관리직|별정직|책임연구원|선임연구원|교수)/;
+const STUDENT_UNSUITABLE_HEALTHCARE_ROLE_PATTERN = /(요양보호(?:사|직)|간호조무(?:사|직)?|병동\s*간호조무|치과위생사|임상병리사|물리치료사|작업치료사|방사선사|청능사|보건의료정보관리사|사회복지사\s*1급|영양사)/;
 
 const WORK24_OPEN_RECRUIT_URL = 'https://www.work24.go.kr/cm/openApi/call/wk/callOpenApiSvcInfo210L21.do';
 const SARAMIN_JOB_SEARCH_URL = 'https://oapi.saramin.co.kr/job-search';
@@ -3311,6 +3312,14 @@ function hasRecommendedInternshipSignal(value) {
   return RECOMMENDED_INTERNSHIP_PATTERN.test(normalizeSpace(value));
 }
 
+function hasStudentUnsuitableProfessionalRole(value) {
+  const text = normalizeSpace(value);
+  if (!text || hasExplicitHighSchoolRecruitSignal(text) || hasRecommendedInternshipSignal(text)) return false;
+  return STUDENT_UNSUITABLE_HEALTHCARE_ROLE_PATTERN.test(text)
+    || (/자격증\s*소지자|면허(?:증)?\s*소지자|면허\s*소지|전문자격|전문\s*자격/.test(text)
+      && /(의료|병원|병동|요양|간호|보건|치과|진료|치료|재활|환자)/.test(text));
+}
+
 function hasHardFieldDirectRecruitSignal(value) {
   const text = normalizeSpace(value);
   return FIELD_DIRECT_ROLE_PATTERN.test(text);
@@ -3324,6 +3333,7 @@ function hasSoftFieldDirectRecruitSignal(value) {
 
 function hasProtectedPublicRecruitSignal(value, hasExam = false) {
   const text = normalizeSpace(value);
+  if (hasStudentUnsuitableProfessionalRole(text) && !hasExam) return false;
   return hasRecommendedInternshipSignal(text)
     || (hasExam && !hasHardFieldDirectRecruitSignal(text))
     || ((hasExplicitHighSchoolRecruitSignal(text) || /학력\s*무관/.test(text)) && STUDENT_RECOMMENDED_ROLE_PATTERN.test(text))
@@ -3407,6 +3417,7 @@ function classifyProcess(raw) {
   const sector = classifySector(raw, haystack);
   const isRegionalEducationRecruit = isRegionalEducationConcreteRecruit(raw);
   const forceFieldDirect = shouldForceFieldDirectRecruit(raw, sector, haystack, hasExam);
+  const unsuitableProfessionalRole = hasStudentUnsuitableProfessionalRole(haystack);
   const recommendedPublicRecruit = hasRecommendedPublicRecruitSignal(haystack, hasExam);
   const labels = [sectorLabel(sector)];
 
@@ -3415,7 +3426,13 @@ function classifyProcess(raw) {
   let confidence = 'review';
   let note = '공식 소스에서 추출한 전형 키워드 기준으로 자동 분류했습니다.';
 
-  if (forceFieldDirect) {
+  if (unsuitableProfessionalRole) {
+    processTrack = 'direct-interview';
+    writtenExam = hasExam ? 'likely' : 'not_found';
+    confidence = 'high';
+    labels.push('전문자격 분리');
+    note = '학력무관이어도 의료·돌봄 전문자격 또는 면허 중심 채용으로 확인되어 공채 상세 정보가 아닌 학생 추천 제외/현장형 검토 대상으로 분리했습니다.';
+  } else if (forceFieldDirect) {
     processTrack = 'direct-interview';
     writtenExam = hasExam ? 'likely' : 'not_found';
     confidence = 'high';
@@ -4326,6 +4343,7 @@ function isUnsuitableForHighSchoolChannel(item) {
   const strongHighSchool = hasStrongHighSchoolSignal(item);
   const entryLevel = hasEntryLevelSignal(item);
   const educationOpen = hasEducationOpenSignal(item);
+  if (hasStudentUnsuitableProfessionalRole(text)) return true;
   if (SENIOR_ROLE_PATTERN.test(text)) return true;
   if (!strongHighSchool && !entryLevel && !educationOpen && RESTRICTED_ROLE_PATTERN.test(text)) return true;
   if (!strongHighSchool && PROFESSIONAL_ONLY_TERMS.some((term) => text.includes(term))) return true;
