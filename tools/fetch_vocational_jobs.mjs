@@ -743,7 +743,7 @@ const SOURCE_ONBOARDING = {
     easySteps: [
       '각 군 또는 국방부 공식 모집/채용 데이터 경로를 확인한다.',
       '키는 MILITARY_RECRUIT_API_KEY, URL은 MILITARY_RECRUIT_API_URL Secret에 저장한다.',
-      '필기·체력검정·면접 일정이 있는 채용은 필기·공식전형으로 우선 분류한다.'
+      '필기·NCS·인적성·전공시험 등 시험 준비 신호가 있는 채용은 필기시험 준비 공채로 우선 분류한다.'
     ]
   },
   'regional-education-job': {
@@ -988,11 +988,7 @@ const EXAM_TERMS = [
   '논술',
   '전공시험',
   '체력검정',
-  '체력시험',
-  '군무원',
-  '공무원',
-  '부사관',
-  '공개경쟁'
+  '체력시험'
 ];
 
 const WRITTEN_EXAM_TERMS = [
@@ -1010,11 +1006,7 @@ const WRITTEN_EXAM_TERMS = [
   '전공평가',
   '전공필기',
   '체력검정',
-  '체력시험',
-  '군무원',
-  '공무원',
-  '부사관',
-  '공개경쟁'
+  '체력시험'
 ];
 
 const DIRECT_TERMS = [
@@ -3304,7 +3296,8 @@ function hasWrittenExamSignal(value) {
   if (includesAny(text, WRITTEN_EXAM_TERMS)) return true;
   return [
     /NCS\s*(직업기초능력|직무수행능력|직무능력)?\s*(평가|검사|시험|필기)/i,
-    /(필기|시험|평가|검사)\s*[^.。]{0,20}NCS/i
+    /(필기|시험|평가|검사)\s*[^.。]{0,20}NCS/i,
+    /(공무원|군무원|부사관)\s*[^.。]{0,24}(필기|시험|평가|검사)/i
   ].some((pattern) => pattern.test(text));
 }
 
@@ -3381,7 +3374,7 @@ function sectorLabel(sector) {
 }
 
 function trackLabel(track) {
-  return track === 'exam-formal' ? '필기·공식전형' : '면접중심·현장형';
+  return track === 'exam-formal' ? '필기시험 준비 공채' : '필기 없는 채용';
 }
 
 function classifySector(raw, haystack) {
@@ -3427,13 +3420,13 @@ function classifyProcess(raw) {
     writtenExam = hasExam ? 'likely' : 'not_found';
     confidence = 'high';
     labels.push('현장형 분리');
-    note = '공공·금융·대기업 소스라도 단기노무·한시인력·환경관리 등 현장형 신호가 우세해 면접중심·현장형 채용으로 분리했습니다.';
+    note = '공공·금융·대기업 소스라도 단기노무·한시인력·환경관리 등 현장형 신호가 우세해 필기 없는 채용으로 분리했습니다.';
   } else if (hasExam) {
     processTrack = 'exam-formal';
     writtenExam = 'confirmed';
     confidence = 'high';
     labels.push('필기 확인');
-    note = '필기시험 또는 공식 선발 절차가 원문 키워드에서 확인됩니다.';
+    note = '필기·NCS·인적성·전공시험 등 학생이 시험 준비를 해야 할 신호가 원문 키워드에서 확인됩니다.';
   } else if (isRegionalEducationRecruit) {
     processTrack = 'direct-interview';
     writtenExam = 'not_found';
@@ -3441,23 +3434,24 @@ function classifyProcess(raw) {
     labels.push('교육청 보조검증');
     note = '지역 교육청 취업지원센터 소식은 직접 표시 후보가 아니라 잡알리오·고용24·기관 원문을 보강하는 2차·3차 검증 출처로 분리합니다.';
   } else if (recommendedPublicRecruit && (source?.trackHint === 'exam' || PUBLIC_RECRUIT_SECTORS.has(sector))) {
-    processTrack = 'exam-formal';
-    writtenExam = 'likely';
+    processTrack = 'direct-interview';
+    writtenExam = 'not_found';
     confidence = 'medium';
-    labels.push('추천 공채 후보');
-    note = '채용형 인턴·신입·전공직무·고졸/특성화고 신호가 있어 공채 상세 정보 후보로 분류했습니다.';
+    labels.push('필기 미탐지');
+    labels.push('학생추천 채용');
+    note = '특성화고 학생에게 안내할 가치가 있는 채용이지만 필기시험 준비 신호가 확인되지 않아 필기 없는 채용으로 분리했습니다.';
   } else if (hasDirect || source?.trackHint === 'direct' || ['mid-sme', 'part-time'].includes(sector)) {
     processTrack = 'direct-interview';
     writtenExam = 'not_found';
     confidence = hasDirect || source?.trackHint === 'direct' ? 'medium' : 'review';
     labels.push(hasDirect ? '서류·면접 중심' : '필기 미탐지');
-    note = '필기시험 신호가 없어 서류·면접 중심 채용으로 자동 분류했습니다.';
+    note = '필기시험 준비 신호가 없어 서류·면접 중심 채용으로 자동 분류했습니다.';
   } else if (source?.trackHint === 'exam' || ['public-institution', 'government', 'military', 'finance', 'finance-large-company', 'large-company'].includes(sector)) {
     processTrack = 'direct-interview';
     writtenExam = 'unknown';
     confidence = 'review';
     labels.push('공채상세 검토대기');
-    note = '공공·금융·대기업 소스라도 특성화고 학생에게 추천할 만한 공채·인턴·전공직무 신호가 약해 면접중심·현장형 채용으로 분리했습니다.';
+    note = '공공·금융·대기업 소스라도 필기시험 준비 신호가 확인되지 않아 필기 없는 채용으로 분리했습니다.';
   }
 
   if (haystack.includes('공채') || haystack.includes('공개채용')) labels.push('공채');
@@ -4270,7 +4264,7 @@ function scoreItem(raw) {
   }
   if (source?.trackHint === 'direct') {
     score += 6;
-    labels.push('면접중심');
+    labels.push('필기 없음');
   }
   if (isRegionalEducationConcreteRecruit(raw)) {
     score += 34;
@@ -6939,13 +6933,13 @@ async function main() {
     tracks: [
       {
         id: 'exam-formal',
-        name: '필기·공식전형 공채',
-        description: '대기업, 공공기관, 군 부사관·군무원, 정부·비영리기관처럼 공식 공채 절차가 있는 채용. 회사·기관 공지사항 2중 확인 후 상세 제공한다.'
+        name: '필기시험 준비 공채',
+        description: '필기·NCS·인적성·전공시험 등 시험 준비 신호가 확인된 채용. 회사·기관 공지사항 2중 확인 후 상세 제공한다.'
       },
       {
         id: 'direct-interview',
-        name: '면접중심·현장형 채용',
-        description: '필기시험 신호가 없는 채용. 마감, 전형, 자격, 첨부자료를 공식 소스에서 자동 요약하고 변동 항목은 다음 수집에서 다시 대조한다.'
+        name: '필기 없는 채용',
+        description: '필기시험 준비 신호가 없는 채용. 마감, 전형, 자격, 첨부자료를 공식 소스에서 자동 요약하고 변동 항목은 다음 수집에서 다시 대조한다.'
       }
     ],
     sourceStatus: sourceStatusList,
@@ -7009,13 +7003,13 @@ main().catch(async (error) => {
     tracks: [
       {
         id: 'exam-formal',
-        name: '필기·공식전형 공채',
-        description: '대기업, 공공기관, 군 부사관·군무원, 정부·비영리기관처럼 공식 공채 절차가 있는 채용. 회사·기관 공지사항 2중 확인 후 상세 제공한다.'
+        name: '필기시험 준비 공채',
+        description: '필기·NCS·인적성·전공시험 등 시험 준비 신호가 확인된 채용. 회사·기관 공지사항 2중 확인 후 상세 제공한다.'
       },
       {
         id: 'direct-interview',
-        name: '면접중심·현장형 채용',
-        description: '필기시험 신호가 없는 채용. 마감, 전형, 자격, 첨부자료를 공식 소스에서 자동 요약하고 변동 항목은 다음 수집에서 다시 대조한다.'
+        name: '필기 없는 채용',
+        description: '필기시험 준비 신호가 없는 채용. 마감, 전형, 자격, 첨부자료를 공식 소스에서 자동 요약하고 변동 항목은 다음 수집에서 다시 대조한다.'
       }
     ],
     secretReadiness: buildSecretReadinessReport(sourceStatusList),

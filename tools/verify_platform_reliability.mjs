@@ -428,14 +428,16 @@ async function validateWorkflow() {
 async function validateJobFetcherRules() {
   const fetcher = await readText('tools/fetch_vocational_jobs.mjs');
   const directTerms = sectionBetween(fetcher, 'const DIRECT_TERMS = [', '];');
+  const examTerms = sectionBetween(fetcher, 'const EXAM_TERMS = [', '];');
+  const writtenExamTerms = sectionBetween(fetcher, 'const WRITTEN_EXAM_TERMS = [', '];');
   fail('fetcher.source-failure-isolation', fetcher.includes('function runSource') && fetcher.includes('sourceFailureResult') && fetcher.includes('수집원 예외 격리'), '개별 수집원 예외가 전체 자동수집 실패로 번지지 않도록 격리합니다.');
   fail('fetcher.pending-source-concurrency', fetcher.includes('PENDING_SOURCE_CONCURRENCY') && fetcher.includes('return mapWithConcurrency(pending, PENDING_SOURCE_CONCURRENCY'), '보조 수집원은 제한 병렬로 점검해 느린 소스 하나가 전체 시간을 잡아먹지 않게 합니다.');
   fail('fetcher.publication-safety-guard', fetcher.includes('function applyPublicationSafetyGuards') && fetcher.includes('publicationBlockReason') && fetcher.includes('publicationSafety'), '검증 실패를 일으킬 공고는 게시 직전 자동 보정하거나 차단합니다.');
   fail('fetcher.health-report', fetcher.includes('job-feed-health.json') && fetcher.includes('function buildFeedHealth') && fetcher.includes('writeJsonAtomic(HEALTH_FILE'), '자동 수집 건강 상태 파일을 매 실행마다 생성합니다.');
   fail('fetcher.core-source-publication-hold', fetcher.includes('function publicFeedHoldReason') && fetcher.includes('CORE_PUBLICATION_SOURCE_IDS') && fetcher.includes('degraded-held'), '잡알리오 같은 핵심 수집원이 실패한 실행은 정상 공개 피드를 덮어쓰지 않고 건강 진단만 남깁니다.');
   fail('fetcher.source-fallback-diagnostics', fetcher.includes('function annotateSourceFallbackProtection') && fetcher.includes('fallbackProtected') && fetcher.includes('sourceFallbackProtected'), '일시 실패한 공식 수집원은 직전 정상 공고 보존 건수를 피드와 건강 상태에 남깁니다.');
-  fail('fetcher.job-track-refine', fetcher.includes('function shouldForceFieldDirectRecruit') && fetcher.includes('function hasProtectedPublicRecruitSignal') && fetcher.includes('FIELD_DIRECT_ROLE_PATTERN') && fetcher.includes('FIELD_DIRECT_LIMITED_PATTERN') && fetcher.includes('STUDENT_RECOMMENDED_ROLE_PATTERN') && fetcher.includes('RECOMMENDED_INTERNSHIP_PATTERN') && fetcher.includes('현장형 분리') && fetcher.includes('추천 공채 후보'), '자동 수집 단계에서 진짜 현장형 공고는 분리하고 NCS·인턴·전공/행정 직무 공채는 공채 상세에 보호합니다.');
-  fail('fetcher.internship-not-direct-term', !directTerms.includes('채용연계'), '채용연계·채용형 인턴은 면접중심 직접 분류 키워드에서 제외되어 공채 상세 보호 대상이 됩니다.');
+  fail('fetcher.job-track-refine', fetcher.includes('function shouldForceFieldDirectRecruit') && fetcher.includes('function hasWrittenExamSignal') && fetcher.includes('WRITTEN_EXAM_TERMS') && fetcher.includes('필기시험 준비 공채') && fetcher.includes('필기 없는 채용') && fetcher.includes('필기시험 준비 신호가 확인되지 않아 필기 없는 채용') && !/공개\s*경쟁|공채|공무원|군무원|부사관/.test(writtenExamTerms) && !/공개\s*경쟁|공채|공무원|군무원|부사관/.test(examTerms), '자동 수집 단계에서 필기·NCS·인적성·전공시험 신호가 확인된 공고만 필기시험 준비 공채로 분류합니다.');
+  fail('fetcher.internship-not-direct-term', !directTerms.includes('채용연계'), '채용연계·채용형 인턴은 직접 분리 키워드에서 제외되어 학생 추천 채용으로 검토됩니다.');
   fail('fetcher.deadline-text-sanitizer', fetcher.includes('function safeDeadlineDisplayText') && fetcher.includes('function kstDateFromParts') && fetcher.includes('containsStructuredDatePattern'), '자동 수집 단계에서 불가능한 마감일 숫자를 원문 확인 문구로 정제합니다.');
   fail('fetcher.job-alio-dynamic-current-scan', fetcher.includes('JOB_ALIO_RECENT_DETAIL_DAYS') && fetcher.includes('function selectJobAlioRowsForDetail') && fetcher.includes('function buildJobAlioDynamicDiscovery') && fetcher.includes('dynamic-current-job-alio-detail-scan'), '잡알리오 최근 등록 공고는 기관 화이트리스트나 제목 키워드와 무관하게 상세 원문을 열어 오늘 기준 후보 누락을 점검합니다.');
 }
@@ -444,6 +446,7 @@ async function validateHomepage() {
   const html = await readText('index.html');
   const staleAxisTerms = ['기업자료', '공채·기업자료', 'AI 활용 실험실', 'lab-branch-home', '기록 보관소', '디지털 기록'];
   const staleAxisHits = staleAxisTerms.filter((term) => html.includes(term));
+  const jobWrittenExamPattern = sectionBetween(html, 'var JOB_WRITTEN_EXAM_PATTERN =', ';');
   const branchSection = sectionBetween(html, '<div class="branch-grid">', '<div class="ebook-portal-panel"');
   const systemGridSection = sectionBetween(html, '<div class="system-grid">', '<div class="portal-note">');
   const portalBriefSection = sectionBetween(html, '<div class="portal-brief"', '<img src=');
@@ -465,13 +468,13 @@ async function validateHomepage() {
   fail('home.no-public-manual-job-feed-run', !html.includes('actions/workflows/job-feed.yml') && !html.includes('수동수집 실행'), '공개 홈에는 GitHub Actions 수동수집 버튼을 노출하지 않습니다.');
   fail('home.job-sort-controls', html.includes('data-job-sort-mode="recent"') && html.includes('data-job-sort-mode="deadline"') && html.includes('job-sort-status') && html.includes('saveJobSortMode'), '공채 허브 최신순/마감임박 정렬 버튼과 선택 저장 로직이 연결되어 있습니다.');
   fail('home.job-priority-education-sort', html.includes('function currentJobEducationPriority') && html.includes('function isHighSchoolFriendlyOpenJob') && html.includes('priority-highschool') && html.includes('priority-friendly-open') && html.includes('job-priority-badge') && html.includes('고졸·특성화고 응시 가능') && html.includes('학력무관·특성화고 응시 가능') && html.includes('학력무관 공채'), '고졸·특성화고·마이스터고 응시 가능 공채와 학력무관 공공기관·대기업 공채를 일반 학력무관 공채보다 먼저 정렬하고 굵게 표시합니다.');
-  fail('home.job-track-display-refine', html.includes('function displayProcessTrack') && html.includes('function jobClassificationText') && html.includes('function hasProtectedPublicRecruitJob') && html.includes('JOB_FIELD_DIRECT_ROLE_PATTERN') && html.includes('JOB_FIELD_DIRECT_LIMITED_PATTERN') && html.includes('JOB_STUDENT_RECOMMENDED_ROLE_PATTERN') && html.includes('hasRecommendedInternshipJob') && html.includes('추천 공채 상세') && html.includes('면접중심·현장형') && html.includes('채용형 인턴'), '공기업·금융권·대기업 공고라도 진짜 현장형은 면접중심으로 분리하고 NCS·인턴·전공/행정 직무 공채는 공채 상세에 남깁니다.');
+  fail('home.job-track-display-refine', html.includes('function displayProcessTrack') && html.includes('function jobClassificationText') && html.includes('function hasPositiveWrittenExamJob') && html.includes('JOB_WRITTEN_EXAM_PATTERN') && html.includes("hasPositiveWrittenExamJob(item) ? 'exam-formal' : 'direct-interview'") && html.includes('필기시험 준비 공채') && html.includes('필기 없는 채용') && !/공개\s*경쟁|공채|공무원|군무원|부사관/.test(jobWrittenExamPattern), '화면에서도 필기·NCS·인적성·전공시험 신호가 확인된 공고만 좌측 필기시험 준비 공채로 표시합니다.');
   fail('home.regional-education-display-guard', html.includes('function isRegionalEducationDisplayBlocked') && html.includes('regional-education-job') && html.includes('seoul-highjob') && html.includes('공채캘린더'), '오래된 피드가 들어와도 지역 교육청 취업지원센터 보조자료를 직접 카드로 렌더링하지 않습니다.');
   fail('home.deadline-text-sanitizer', html.includes('function cleanJobDeadlineText') && html.includes('function displayJobDeadlineText') && html.includes('function cleanJobTeacherShareText') && html.includes('function jobDeadlineTimeTextFromMatch'), '이미 내려온 피드에 잘못된 마감일 숫자가 있어도 카드·상세·브리핑 표시에서 원문 확인 문구로 치환하고 확정 마감 시각은 보존합니다.');
   fail('home.feed-freshness-warning', html.includes('function jobFeedFreshnessState') && html.includes('JOB_FEED_WARN_STALE_HOURS') && html.includes('data-feed-state') && html.includes('자동수집 지연'), '공채 피드가 오래되거나 부분 실패하면 화면 상태가 정상처럼 보이지 않게 표시합니다.');
   fail('home.law-link', html.includes('https://gyo6-law-info.web.app'), '법률정보 시스템 연결 URL이 유지되어 있습니다.');
   fail('home.ebook-link', html.includes('https://gyo6--ebook.web.app/'), '전자책 서재 연결 URL이 유지되어 있습니다.');
-  fail('home.login-law-link', /class="tnav-login"\s+href="https:\/\/gyo6-law-info\.web\.app\/\?login=law#legalTool"/.test(html), '상단 로그인 버튼은 법률정보 권한 로그인으로 연결합니다.');
+  fail('home.login-law-link', /class="tnav-login"\s+href="https:\/\/gyo6-law-info\.web\.app\/\?login=law#legalTool"[^>]*>로그인<\/a>/.test(html), '상단 로그인 버튼은 상담실 로그인으로 연결하고 버튼명은 로그인으로 표시합니다.');
   fail('home.login-not-ebook', !/class="tnav-login"\s+href="https:\/\/gyo6--ebook\.web\.app/.test(html), '상단 로그인 버튼은 전자책 서재로 보내지 않습니다.');
   fail('home.ebook-preview-list-count', ebookPreviewCount > 5 && ebookPreviewCount <= 8, '메인 전자책 맛보기 강좌 목록은 5권보다 많고 최대 8권까지 표시합니다.', `${ebookPreviewCount}권`);
   fail('home.ebook-preview-latest-title', expectedEbookPreviewOrder.every((title) => ebookPreviewSection.includes(title)), '메인 전자책 맛보기 강좌 목록에 최신 공개 교재 제목이 반영되어 있습니다.');
@@ -480,16 +483,16 @@ async function validateHomepage() {
   fail('home.closed-label', html.includes('application_closed') && html.includes('원서 마감'), '원서 마감 상태 표시 로직이 있습니다.');
   fail('home.teacher-briefing-ui', html.includes('취업부 브리핑') && html.includes('teacherBriefing'), '공채 카드에 취업부 브리핑 UI가 연결되어 있습니다.');
   fail('home.hero-image-versioned', /platform-hero-vocational\.png\?v=/.test(html), '플랫폼 대표 이미지에 캐시 버전이 붙어 있습니다.');
-  fail('home.three-axis-copy', html.includes('공채정보, 전자책, 법률정보에 집중합니다.'), '메인 카피가 공채정보·전자책·법률정보 3축에 집중합니다.');
+  fail('home.three-axis-copy', html.includes('공채정보, 전자책, 상담실에 집중합니다.'), '메인 카피가 공채정보·전자책·상담실 3축에 집중합니다.');
   fail('home.no-stale-axis-copy', staleAxisHits.length === 0, '이전 4축/기업자료/실험실 문구가 홈페이지에서 제거되어 있습니다.', staleAxisHits.join(', '));
   fail('home.platform-action-count', countText(html, 'class="platform-action"') === 3, '첫 화면 주요 버튼이 3개 축으로 고정되어 있습니다.', `${countText(html, 'class="platform-action"')}개`);
   fail('home.mobile-platform-actions-fit', html.includes('@media(max-width:480px){.platform-actions{grid-template-columns:1fr!important;max-width:100%!important}'), '작은 모바일 화면에서 3축 버튼이 화면 밖으로 넘치지 않도록 세로 배치됩니다.');
   fail('home.branch-titlebar-count', countText(html, 'class="branch-titlebar"') === 3, '업무 흐름 요약이 시스템 분기 카드 제목부 3개로 통합되어 있습니다.', `${countText(html, 'class="branch-titlebar"')}개`);
   fail('home.no-detached-flow-card', countText(html, 'class="flow-card"') === 0, '분리된 업무 흐름 카드는 시스템 분기 카드 제목부로 흡수되어 있습니다.', `${countText(html, 'class="flow-card"')}개`);
   fail('home.branch-card-count', countText(html, 'class="branch-card ') === 3, '시스템 분기 카드가 3개 축으로 고정되어 있습니다.', `${countText(html, 'class="branch-card ')}개`);
-  fail('home.branch-axis-order', indexOrder(branchSection, ['직업계고 공채정보', '교육·강의 전자책 서재', 'AI 법률정보 도우미']), '시스템 분기 순서가 공채정보 → 전자책 → 법률정보입니다.');
-  fail('home.system-grid-axis-order', indexOrder(systemGridSection, ['직업계고 취업지도 허브', '교육·강의 전자책 서재', 'AI 법률정보 도우미']), '보조 운영 목록 순서가 공채정보 → 전자책 → 법률정보입니다.');
-  fail('home.portal-brief-axis-order', indexOrder(portalBriefSection, ['공채 원문', '전자책 서재', '법률정보']), '포털 맵 보조 문구 순서가 공채정보 → 전자책 → 법률정보입니다.');
+  fail('home.branch-axis-order', indexOrder(branchSection, ['직업계고 공채정보', '교육·강의 전자책 서재', '상담실']), '시스템 분기 순서가 공채정보 → 전자책 → 상담실입니다.');
+  fail('home.system-grid-axis-order', indexOrder(systemGridSection, ['직업계고 취업지도 허브', '교육·강의 전자책 서재', '상담실·상담자료실']), '보조 운영 목록 순서가 공채정보 → 전자책 → 상담실입니다.');
+  fail('home.portal-brief-axis-order', indexOrder(portalBriefSection, ['공채 원문', '전자책 서재', '상담실']), '포털 맵 보조 문구 순서가 공채정보 → 전자책 → 상담실입니다.');
 
   const ids = new Set(collectMatches(html, /\bid="([^"]+)"/g).map((match) => match[1]));
   const pages = new Set(collectMatches(html, /\bid="page-([^"]+)"/g).map((match) => match[1]));
@@ -518,7 +521,7 @@ async function validateHomepage() {
 async function validateDirectionDocs() {
   const direction = await readText('docs/PROJECT_DIRECTION.md');
   const bookshelfPlan = await readText('docs/BOOKSHELF_MVP_PLAN.md');
-  fail('docs.direction-three-axis', direction.includes('직업계고 공채정보, 전자책 서재, 법률정보를 플랫폼의 3대 핵심 축으로 둔다'), '프로젝트 방향 문서가 3대 핵심 축을 명시합니다.');
+  fail('docs.direction-three-axis', direction.includes('직업계고 공채정보, 전자책 서재, 상담실·상담자료실을 플랫폼의 3대 핵심 축으로 둔다'), '프로젝트 방향 문서가 공채정보·전자책·상담실 3대 핵심 축을 명시합니다.');
   fail('docs.direction-company-scope', direction.includes('기업정보는 별도 서비스 축으로 키우지 않고'), '기업정보를 별도 축으로 확장하지 않는 범위 통제가 문서화되어 있습니다.');
   fail('docs.direction-no-old-expansion-axis', !direction.includes('AI 도구, 기록 보관소') && !direction.includes('기업자료'), '방향 문서에서 이전 확장축 표현이 제거되어 있습니다.');
   fail('docs.bookshelf-free-policy', bookshelfPlan.includes('전자책은 무료 제공을 전제로 하되') && bookshelfPlan.includes('학교별 회원 승인과 사용량 제한'), '전자책 서재 계획 문서가 무료 제공과 학교별 사용량 통제 원칙을 명시합니다.');
@@ -581,8 +584,8 @@ function validateFeed(feed, label = 'local') {
   const sourceFallbackCount = countItems(items, (item) => item.collectionAudit?.sourceFallback);
   const briefingCount = countItems(items, (item) => item.teacherBriefing?.teacherShareText);
 
-  fail(`${label}.summary.exam-count`, summary.examFormal === examCount, `${label} 필기·공식전형 카운터가 실제 항목과 일치합니다.`, `${summary.examFormal} / ${examCount}`);
-  fail(`${label}.summary.direct-count`, summary.directInterview === directCount, `${label} 면접중심·현장형 카운터가 실제 항목과 일치합니다.`, `${summary.directInterview} / ${directCount}`);
+  fail(`${label}.summary.exam-count`, summary.examFormal === examCount, `${label} 필기시험 준비 공채 카운터가 실제 항목과 일치합니다.`, `${summary.examFormal} / ${examCount}`);
+  fail(`${label}.summary.direct-count`, summary.directInterview === directCount, `${label} 필기 없는 채용 카운터가 실제 항목과 일치합니다.`, `${summary.directInterview} / ${directCount}`);
   fail(`${label}.summary.status-count`, summary.active === activeCount && summary.deadlineSoon === soonCount && summary.applicationClosed === closedCount, `${label} 진행/마감임박/원서마감 카운터가 실제 항목과 일치합니다.`);
   fail(`${label}.summary.official-check-count`, summary.companyNoticeChecked === checkedCount, `${label} 공식 공고 확인 카운터가 실제 항목과 일치합니다.`, `${summary.companyNoticeChecked} / ${checkedCount}`);
   fail(`${label}.summary.regional-education-count`, (summary.regionalEducationVerificationLinked || summary.regionalEducationVerified || 0) === regionalEducationVerifiedCount, `${label} 교육청 보조검증 연계 카운터가 실제 항목과 일치합니다.`, `${summary.regionalEducationVerificationLinked || summary.regionalEducationVerified || 0} / ${regionalEducationVerifiedCount}`);
@@ -642,7 +645,7 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.items.required-fields`, itemProblems.length === 0, `${label} 모든 공고가 필수 표시 필드를 갖습니다.`, itemProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-negative-lag`, negativeLag.length === 0, `${label} 첫날수집 계산에 음수 지연이 없습니다.`, negativeLag.slice(0, 5).join(' | '));
   fail(`${label}.items.closed-title-suffix`, closedTitleProblems.length === 0, `${label} 원서 마감 공고는 제목 끝에 (원서 마감)이 붙습니다.`, closedTitleProblems.slice(0, 5).join(' | '));
-  fail(`${label}.items.exam-detail`, examDetailProblems.length === 0, `${label} 필기·공식전형 공채는 상세 정보와 2중확인 상태를 갖습니다.`, examDetailProblems.slice(0, 5).join(' | '));
+  fail(`${label}.items.exam-detail`, examDetailProblems.length === 0, `${label} 필기시험 준비 공채는 상세 정보와 2중확인 상태를 갖습니다.`, examDetailProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.teacher-briefing`, briefingProblems.length === 0, `${label} 모든 공고가 취업부 브리핑과 공유 문안을 갖습니다.`, briefingProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.direct-policy`, directPolicyProblems.length === 0, `${label} 필기 없는 채용은 간단 안내로 분리되고 교육청 소스는 직접 표시되지 않습니다.`, directPolicyProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-regional-education-direct-card`, regionalEducationDirectItems.length === 0, `${label} 지역 교육청·학교 취업지원 소식은 직접 결과 카드로 노출되지 않습니다.`, regionalEducationDirectItems.slice(0, 5).map((item) => `${item.source}:${item.title}`).join(' | '));
@@ -652,7 +655,7 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.items.no-unresolved-current-qualification`, unresolvedQualificationProblems.length === 0, `${label} 진행중 공채 상세는 공식 원문 재확인 후 자격요건을 구체적으로 표시합니다.`, unresolvedQualificationProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-kb-main-page-recruit-link`, mainPageRecruitLinkProblems.length === 0, `${label} KB국민은행 공고는 채용 메인페이지가 아니라 상세 공고 URL로 연결합니다.`, mainPageRecruitLinkProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.title-includes-company`, titleCompanyProblems.length === 0, `${label} 채용 공고 제목에는 기관명·기업명이 포함됩니다.`, titleCompanyProblems.slice(0, 5).join(' | '));
-  warn(`${label}.items.official-double-check`, weakOfficialPublicRecruit.length === 0, `${label} 공채 상세 항목은 회사·기관·채용대행 또는 잡알리오 상세 공식 공고 확인이 필요합니다.`, weakOfficialPublicRecruit.slice(0, 5).join(' | '));
+  warn(`${label}.items.official-double-check`, weakOfficialPublicRecruit.length === 0, `${label} 필기시험 준비 공채 항목은 회사·기관·채용대행 또는 잡알리오 상세 공식 공고 확인이 필요합니다.`, weakOfficialPublicRecruit.slice(0, 5).join(' | '));
 
   const readySources = sourceStatus.filter((source) => source.configured && sourceOperationalOrPreserved(items, source, source.id)).length;
   const jobAlioStatus = sourceStatus.find((source) => source.id === 'job-alio-openapi');
