@@ -1,28 +1,37 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-08T04:15:01.575Z",
-  "feedGeneratedAt": "2026-07-08T04:15:01.575Z",
+  "generatedAt": "2026-07-08T04:27:30.095Z",
+  "feedGeneratedAt": "2026-07-08T04:27:30.095Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "ok",
+  "status": "degraded-held",
   "summary": {
     "total": 80,
-    "active": 19,
-    "deadlineSoon": 53,
-    "applicationClosed": 8,
+    "active": 9,
+    "deadlineSoon": 26,
+    "applicationClosed": 45,
     "sourcesChecked": 15,
-    "sourcesConfigured": 4,
-    "sourcesFailed": 0,
+    "sourcesConfigured": 6,
+    "sourcesFailed": 1,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 0,
-    "sourceFallbackProtected": 0,
+    "staleFallbackItems": 79,
+    "sourceFallbackProtected": 79,
     "publicationBlocked": 0,
     "publicationRepaired": 0
   },
-  "sourceFailures": [],
+  "sourceFailures": [
+    {
+      "id": "job-alio-openapi",
+      "name": "잡알리오 공공기관 채용",
+      "isolatedFailure": false,
+      "fallbackProtected": true,
+      "fallbackItemCount": 125,
+      "message": "연결 실패: recent-page-1: recent-page-1 failed after 1 attempts: HTTP timeout after 12000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-2: recent-page-2 failed after 1 attempts: HTTP timeout after 12000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT · 직전 정상 공고 125건 보존"
+    }
+  ],
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-08T04:15:01.575Z",
+    "generatedAt": "2026-07-08T04:27:30.095Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "blockedByReason": {},
@@ -30,8 +39,14 @@
     "blockedSamples": []
   },
   "nextOperatorActions": [
+    "공개 job-feed.json은 직전 정상본을 유지했습니다. sourceFailures와 publicationHold.reason을 확인합니다.",
     "status가 failed 또는 degraded이면 GitHub Actions의 최신 Update vocational job feed 실행을 확인한다.",
     "publicationSafety.blockedSamples가 있으면 해당 공식 원문에서 마감·자격·URL을 보강한다.",
     "sourceFailures의 isolatedFailure가 true인 수집원은 다음 예약 실행에서도 반복되는지 확인한다."
-  ]
+  ],
+  "publicationHold": {
+    "heldAt": "2026-07-08T04:27:30.095Z",
+    "previousFeedPreserved": true,
+    "reason": "핵심 수집원 잡알리오 공공기관 채용 실패로 공개 피드는 직전 정상본을 유지합니다."
+  }
 }
