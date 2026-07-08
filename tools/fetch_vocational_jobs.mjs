@@ -1031,13 +1031,19 @@ const PUBLIC_RECRUIT_SECTORS = new Set([
   'finance-large-company',
   'large-company'
 ]);
-const RECOMMENDED_INTERNSHIP_PATTERN = /(채용형\s*인턴|채용형인턴|채용\s*연계|채용연계|청년\s*인턴|청년인턴|체험형\s*인턴|체험형인턴|인턴)/;
+const RECOMMENDED_INTERNSHIP_PATTERN = /(채용형\s*인턴|채용형인턴|채용\s*연계|채용연계|(?:청년\s*인턴|청년인턴|체험형\s*인턴|체험형인턴|인턴(?:행정원|직|사원)?).{0,18}(?:채용|모집|선발)|(?:채용|모집|선발).{0,20}(?:청년\s*인턴|청년인턴|체험형\s*인턴|체험형인턴|인턴(?:행정원|직|사원)?))/;
 const RECOMMENDED_PUBLIC_ROLE_PATTERN = /(신입직|신입사원|신입행원|일반직|행정직|사무직|전산직|기술직|생산직|업무지원직|지역인재|기능인재|고졸인재|사회형평|공채|공개채용|공개\s*경쟁|블라인드\s*채용)/;
 const STUDENT_RECOMMENDED_ROLE_PATTERN = /(신입직|신입사원|신입행원|신규직원|직원\s*공개채용|정규직|무기계약직|일반직|행정직|사무직|전산직|기술직|생산직|업무지원직|교육행정|연구행정|일반행정|사무보조|행정보조|전문행정|연구지원|사업관리|회계|총무|정보화|IT|디지털|데이터|기계|전기|전자|토목|건축|안전관리|품질|실험|검사|지역인재|기능인재|고졸인재|사회형평|공채|공개채용|공개\s*경쟁|블라인드\s*채용)/i;
 const FIELD_DIRECT_ROLE_PATTERN = /(일용직|일용|단기노무|단기\s*노무|노무원|한시인력|탐방로\s*보수|보수전담|환경관리|수익시설|경비원|경비|보안직|미화|청소|시설관리|시설직|조리원|조리사|운전원|운전직|주차|안내원|감시원|순찰|현장관리|현장지원|계절직)/;
 const FIELD_DIRECT_LIMITED_PATTERN = /(기간제근로자|기간제\s*계약직|기간제\s*직원|계약직\s*직원|계약직\s*채용|한시적|대체인력|휴직자\s*대체|육아휴직\s*대체|임시직|촉탁|촉탁직|위촉직|수탁과제|수탁폐수|대학운영직|특정업무직)/;
 const FIELD_DIRECT_EMPLOYMENT_PATTERN = /(기간제|비정규직|계약직|단기|한시적|임시직)/;
 const FIELD_DIRECT_CONTEXT_PATTERN = /(현장|보수|환경|수익시설|경비|보안|시설|미화|청소|조리|운전|노무|대체인력|육아휴직|임시직)/;
+const WEAK_EXAM_INFERENCE_PATTERN = /(필기\s*또는\s*공식\s*선발절차\s*가능성\s*높음|필기\/NCS\s*대비\s*일정\s*안내:\s*필기\s*또는\s*공식\s*선발절차\s*가능성\s*높음)/;
+const COLLEGE_APPLICANT_PATTERN = /(대학생|대학\s*(?:재학생|휴학생|졸업\s*예정|졸업예정)|대학교\s*(?:재학생|휴학생|졸업\s*예정|졸업예정)|재학생\s*(?:및|·|,|또는)\s*휴학생|휴학생\s*(?:및|·|,|또는)\s*재학생)/;
+const COLLEGE_APPLICANT_DISQUALIFIED_PATTERN = /(대학(?:교)?\s*(?:재학생|휴학생|졸업생)|대학생|재학생\s*(?:및|·|,|또는)\s*휴학생|휴학생\s*(?:및|·|,|또는)\s*재학생).{0,40}(지원\s*불가|지원불가|지원\s*제외|제외|불인정)/;
+const HIGH_SCHOOL_ELIGIBLE_PATTERN = /(학력\s*[:：]?\s*(?:무관|제한\s*없음)|학력\s*제한\s*없음|고졸\s*이상|고등학교\s*졸업|고졸|특성화고(?:등학교)?|직업계고|마이스터고(?:등학교)?)/;
+const DEGREE_ONLY_APPLICANT_PATTERN = /(전문학사|대졸|학사\s*(?:이상|학위|졸업)|석사|박사)/;
+const STUDENT_UNSUITABLE_RECRUIT_PATTERN = /(급식|조리\s*실무사|조리\s*종사원|배식|요양보호(?:사|직)?|병동\s*간호조무|간호조무사|응급구조사|미화|청소|경비원|경비|주차|보안직|환경관리|수익시설)/;
 
 const COMPANY_NOTICE_TERMS = ['채용', '모집', '공고', '입사지원', '응시자격', '전형절차', '서류전형', '면접전형'];
 const GENERIC_NOTICE_TERMS = new Set([
@@ -3291,21 +3297,28 @@ function includesAny(value, terms) {
   return terms.some((term) => value.includes(term));
 }
 
+function verifiedEducationSignal(value) {
+  const text = normalizeSpace(value);
+  return /(원문\s*확인|확인\s*필요|관련\s*원문)/.test(text) ? '' : text;
+}
+
 function hasWrittenExamSignal(value) {
   const text = normalizeSpace(value);
-  if (/필기시험은\s*현재.{0,40}확인되지|필기시험\s*신호가\s*없어|필기시험\s*미확인|필기\/NCS\s*시험\s*신호가\s*없어|필기\s*미탐지/.test(text)) return false;
-  if (includesAny(text, WRITTEN_EXAM_TERMS)) return true;
+  const examText = normalizeSpace(text.replace(WEAK_EXAM_INFERENCE_PATTERN, ' '));
+  if (/필기시험은\s*현재.{0,40}확인되지|필기시험\s*신호가\s*없어|필기시험\s*미확인|필기\/NCS\s*시험\s*신호가\s*없어|필기\s*미탐지/.test(examText)) return false;
+  if (includesAny(examText, WRITTEN_EXAM_TERMS)) return true;
   return [
     /NCS\s*(직업기초능력|직무수행능력|직무능력)?\s*(평가|검사|시험|필기)/i,
     /(필기|시험|평가|검사)\s*[^.。]{0,20}NCS/i,
     /(공무원|군무원|부사관)\s*[^.。]{0,24}(필기|시험|평가|검사)/i
-  ].some((pattern) => pattern.test(text));
+  ].some((pattern) => pattern.test(examText));
 }
 
 function hasExplicitHighSchoolRecruitSignal(value) {
   const text = normalizeSpace(value);
-  return STRONG_TERMS.some((term) => text.includes(term))
-    || /고졸\s*(제한|전형|채용|구분|인재|사회형평)/.test(text);
+  return /(특성화고(?:등학교)?|직업계고|마이스터고(?:등학교)?|학교장\s*추천|학교장추천)/.test(text)
+    || /고졸\s*(제한|전형|채용|구분|인재|사회형평|공채|졸업\s*예정|졸업예정)/.test(text)
+    || /고등학교\s*(?:졸업|졸업예정|졸업\s*예정).{0,24}(?:제한|전형|채용|공채|추천)/.test(text);
 }
 
 function hasRecommendedInternshipSignal(value) {
@@ -3320,6 +3333,22 @@ function hasStudentUnsuitableProfessionalRole(value) {
       && /(의료|병원|병동|요양|간호|보건|치과|진료|치료|재활|환자)/.test(text));
 }
 
+function hasCollegeOnlyApplicantSignal(value) {
+  const text = normalizeSpace(value);
+  if (HIGH_SCHOOL_ELIGIBLE_PATTERN.test(text)) return false;
+  return (COLLEGE_APPLICANT_PATTERN.test(text) && !COLLEGE_APPLICANT_DISQUALIFIED_PATTERN.test(text))
+    || DEGREE_ONLY_APPLICANT_PATTERN.test(text);
+}
+
+function hasVerifiedStudentEligibilitySignal(value) {
+  const text = normalizeSpace(value);
+  return HIGH_SCHOOL_ELIGIBLE_PATTERN.test(text) || hasExplicitHighSchoolRecruitSignal(text);
+}
+
+function hasStudentUnsuitableRecruitSignal(value) {
+  return STUDENT_UNSUITABLE_RECRUIT_PATTERN.test(normalizeSpace(value));
+}
+
 function hasHardFieldDirectRecruitSignal(value) {
   const text = normalizeSpace(value);
   return FIELD_DIRECT_ROLE_PATTERN.test(text);
@@ -3328,18 +3357,24 @@ function hasHardFieldDirectRecruitSignal(value) {
 function hasSoftFieldDirectRecruitSignal(value) {
   const text = normalizeSpace(value);
   return FIELD_DIRECT_LIMITED_PATTERN.test(text)
-    || (FIELD_DIRECT_EMPLOYMENT_PATTERN.test(text) && FIELD_DIRECT_CONTEXT_PATTERN.test(text));
+    || FIELD_DIRECT_EMPLOYMENT_PATTERN.test(text);
 }
 
 function hasProtectedPublicRecruitSignal(value, hasExam = false) {
   const text = normalizeSpace(value);
+  if (hasCollegeOnlyApplicantSignal(text) || hasStudentUnsuitableRecruitSignal(text)) return false;
   if (hasStudentUnsuitableProfessionalRole(text) && !hasExam) return false;
+  if (!hasVerifiedStudentEligibilitySignal(text)) return false;
   return hasRecommendedInternshipSignal(text)
-    || (hasExam && !hasHardFieldDirectRecruitSignal(text))
-    || ((hasExplicitHighSchoolRecruitSignal(text) || /학력\s*무관/.test(text)) && STUDENT_RECOMMENDED_ROLE_PATTERN.test(text))
-    || STUDENT_RECOMMENDED_ROLE_PATTERN.test(text)
-    || RECOMMENDED_PUBLIC_ROLE_PATTERN.test(text)
-    || hasWrittenExamSignal(text);
+    || (hasExam && !hasHardFieldDirectRecruitSignal(text) && !hasSoftFieldDirectRecruitSignal(text))
+    || (hasWrittenExamSignal(text) && !hasHardFieldDirectRecruitSignal(text) && !hasSoftFieldDirectRecruitSignal(text))
+    || (hasExplicitHighSchoolRecruitSignal(text) && (
+      STUDENT_RECOMMENDED_ROLE_PATTERN.test(text) || RECOMMENDED_PUBLIC_ROLE_PATTERN.test(text)
+    ))
+    || (RECOMMENDED_PUBLIC_ROLE_PATTERN.test(text) && (
+      (hasExam && !hasHardFieldDirectRecruitSignal(text) && !hasSoftFieldDirectRecruitSignal(text))
+      || hasExplicitHighSchoolRecruitSignal(text)
+    ));
 }
 
 function hasRecommendedPublicRecruitSignal(value, hasExam = false) {
@@ -3405,7 +3440,7 @@ function classifyProcess(raw) {
     raw.title,
     raw.company,
     raw.region,
-    raw.education,
+    verifiedEducationSignal(raw.education),
     raw.career,
     raw.employmentType,
     raw.description,
@@ -3416,6 +3451,11 @@ function classifyProcess(raw) {
   const hasDirect = includesAny(haystack, DIRECT_TERMS);
   const sector = classifySector(raw, haystack);
   const isRegionalEducationRecruit = isRegionalEducationConcreteRecruit(raw);
+  const privateLargeUnverified = ['finance-large-company', 'large-company', 'private-platform'].includes(sector)
+    && !hasVerifiedStudentEligibilitySignal(haystack);
+  const studentRecommendBlocked = hasCollegeOnlyApplicantSignal(haystack)
+    || hasStudentUnsuitableRecruitSignal(haystack)
+    || privateLargeUnverified;
   const forceFieldDirect = shouldForceFieldDirectRecruit(raw, sector, haystack, hasExam);
   const unsuitableProfessionalRole = hasStudentUnsuitableProfessionalRole(haystack);
   const recommendedPublicRecruit = hasRecommendedPublicRecruitSignal(haystack, hasExam);
@@ -3426,7 +3466,13 @@ function classifyProcess(raw) {
   let confidence = 'review';
   let note = '공식 소스에서 추출한 전형 키워드 기준으로 자동 분류했습니다.';
 
-  if (unsuitableProfessionalRole) {
+  if (studentRecommendBlocked) {
+    processTrack = 'direct-interview';
+    writtenExam = hasExam ? 'likely' : 'not_found';
+    confidence = 'high';
+    labels.push('학생추천 제외');
+    note = '대학생·휴학생 전용 또는 특성화고 학생에게 추천하기 어려운 직무 신호가 있어 공채 상세 정보에서 제외했습니다.';
+  } else if (unsuitableProfessionalRole) {
     processTrack = 'direct-interview';
     writtenExam = hasExam ? 'likely' : 'not_found';
     confidence = 'high';
