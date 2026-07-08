@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-08T03:37:36.211Z",
-  "feedGeneratedAt": "2026-07-08T03:37:36.211Z",
+  "generatedAt": "2026-07-08T03:57:54.668Z",
+  "feedGeneratedAt": "2026-07-08T03:57:54.668Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "degraded-held",
@@ -26,12 +26,12 @@
       "isolatedFailure": false,
       "fallbackProtected": true,
       "fallbackItemCount": 144,
-      "message": "연결 실패: recent-page-3: recent-page-3 failed after 1 attempts: HTTP timeout after 12000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-5: recent-page-5 failed after 1 attempts: HTTP timeout after 12000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT · 직전 정상 공고 144건 보존"
+      "message": "연결 실패: recent-page-5: recent-page-5 failed after 1 attempts: HTTP timeout after 12000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-3: recent-page-3 failed after 1 attempts: HTTP timeout after 12000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT · 직전 정상 공고 144건 보존"
     }
   ],
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-08T03:37:36.211Z",
+    "generatedAt": "2026-07-08T03:57:54.668Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "blockedByReason": {},
@@ -45,7 +45,7 @@
     "sourceFailures의 isolatedFailure가 true인 수집원은 다음 예약 실행에서도 반복되는지 확인한다."
   ],
   "publicationHold": {
-    "heldAt": "2026-07-08T03:37:36.211Z",
+    "heldAt": "2026-07-08T03:57:54.668Z",
     "previousFeedPreserved": true,
     "reason": "핵심 수집원 잡알리오 공공기관 채용 실패로 공개 피드는 직전 정상본을 유지합니다."
   }
