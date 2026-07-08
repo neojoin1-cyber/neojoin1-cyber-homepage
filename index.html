@@ -820,8 +820,8 @@ body.job-focus-mode .branch-board{display:none!important}
             <button class="job-manual-run job-feed-refresh" type="button" data-job-feed-refresh>최신 공채 다시 확인</button>
           </div>
           <div class="job-track-summary" aria-label="전형 유형별 자동 분류 요약">
-            <div><b id="job-exam-count">0</b><span>필기준비 공채</span></div>
-            <div><b id="job-direct-count">0</b><span>필기 없는 채용</span></div>
+            <div><b id="job-exam-count">0</b><span>공채 상세</span></div>
+            <div><b id="job-direct-count">0</b><span>현장형·면접중심</span></div>
           </div>
           <div class="job-audit-summary" aria-label="공채 수집 점검 요약">
             <div><b id="job-first-day-count">0</b><span>첫날수집</span></div>
@@ -830,10 +830,10 @@ body.job-focus-mode .branch-board{display:none!important}
             <div><b id="job-closed-count">0</b><span>원서마감</span></div>
           </div>
           <div class="job-track-grid" aria-live="polite">
-            <section class="job-track-panel exam" aria-label="필기시험 준비가 필요한 공채">
+            <section class="job-track-panel exam" aria-label="특성화고 학생에게 추천할 공식 공채 상세 정보">
               <div class="track-head">
-                <div><b>필기시험 준비 공채</b><small>필기·NCS·인적성·전공시험 등 시험 준비가 필요한 공채만 표시</small></div>
-                <span class="track-badge">Written</span>
+                <div><b>공채 상세 정보</b><small>공공기관·금융권·대기업의 정규직·무기계약직·채용형 인턴 등 학생에게 추천할 공식 공채</small></div>
+                <span class="track-badge">Formal</span>
               </div>
               <div class="job-sort-controls" aria-label="채용정보 정렬 방식">
                 <button class="job-sort-button active" type="button" data-job-sort-mode="recent" aria-pressed="true">최신 공고부터 보기</button>
@@ -844,22 +844,22 @@ body.job-focus-mode .branch-board{display:none!important}
                 <article class="feed-item job-empty">
                   <div>
                     <span class="feed-org">공식 API 자동 수집</span>
-                    <div class="feed-title">필기시험 준비 공채 확인 대기</div>
-                    <p class="feed-meta">잡알리오, 나라일터, 군 채용, 대기업 공채와 회사·기관·채용대행 공지사항에서 필기시험 준비 신호를 함께 확인합니다.</p>
+                    <div class="feed-title">공채 상세 정보 확인 대기</div>
+                    <p class="feed-meta">잡알리오, 나라일터, 군 채용, 금융권·대기업 공채와 회사·기관·채용대행 공지사항에서 추천 공채 신호를 함께 확인합니다.</p>
                   </div>
                 </article>
               </div>
             </section>
-            <section class="job-track-panel direct" aria-label="필기시험 준비가 필요 없는 채용">
+            <section class="job-track-panel direct" aria-label="면접중심·현장형 채용">
               <div class="track-head">
-                <div><b>필기 없는 채용</b><small>필기시험 신호가 없는 특성화고 학생 채용은 자격·면접·첨부자료 중심으로 요약</small></div>
+                <div><b>면접중심·현장형 채용</b><small>추천 공채 상세보다 간단 확인이 적합한 채용은 자격·면접·첨부자료 중심으로 요약</small></div>
                 <span class="track-badge">Brief</span>
               </div>
               <div class="job-live-feed" id="job-direct-feed">
                 <article class="feed-item job-empty">
                   <div>
                     <span class="feed-org">공식 API 자동 수집</span>
-                    <div class="feed-title">필기 없는 채용 확인 대기</div>
+                    <div class="feed-title">면접중심·현장형 채용 확인 대기</div>
                     <p class="feed-meta">고용24, 사람인, 잡코리아, 인크루트와 공식 기관 공지를 함께 확인해 자격·전형·마감 중심으로 안내합니다.</p>
                   </div>
                 </article>
@@ -2450,12 +2450,17 @@ function isHighSchoolFriendlyInstitution(item) {
 }
 
 var JOB_RECOMMENDED_INTERNSHIP_PATTERN = /(채용형\s*인턴|채용형인턴|채용\s*연계|채용연계|(?:청년\s*인턴|청년인턴|체험형\s*인턴|체험형인턴|인턴(?:행정원|직|사원)?).{0,18}(?:채용|모집|선발)|(?:채용|모집|선발).{0,20}(?:청년\s*인턴|청년인턴|체험형\s*인턴|체험형인턴|인턴(?:행정원|직|사원)?))/;
+var JOB_CAREER_LADDER_INTERNSHIP_PATTERN = /(채용형\s*인턴|채용형인턴|채용\s*연계|채용연계|전환형\s*인턴|전환\s*형\s*인턴)/;
+var JOB_CAREER_LADDER_EMPLOYMENT_PATTERN = /(정규직|무기계약직|신입직|신입직원|신규직원|신입사원|신입행원|일반직\s*[B]?\s*신입|4직급|5급|6급|7급|채용형\s*인턴|채용형인턴|채용\s*연계|채용연계|전환형\s*인턴|전환\s*형\s*인턴)/;
+var JOB_FORMAL_PUBLIC_RECRUIT_PROCESS_PATTERN = /(공채|공개채용|공개\s*채용|공개\s*경쟁|채용\s*공고|모집\s*공고|공고문|블라인드\s*채용|NCS|직업기초능력|직무수행능력|서류전형|필기전형|면접전형|전형절차|원서접수|입사지원)/;
 var JOB_RECOMMENDED_PUBLIC_ROLE_PATTERN = /(신입직|신입사원|신입행원|일반직|행정직|사무직|전산직|기술직|생산직|업무지원직|지역인재|기능인재|고졸인재|사회형평|공채|공개채용|공개\s*경쟁|블라인드\s*채용)/;
 var JOB_STUDENT_RECOMMENDED_ROLE_PATTERN = /(신입직|신입사원|신입행원|신규직원|직원\s*공개채용|정규직|무기계약직|일반직|행정직|사무직|전산직|기술직|생산직|업무지원직|교육행정|연구행정|일반행정|전문행정|연구지원|사업관리|회계|총무|정보화|IT|디지털|데이터|기계|전기|전자|토목|건축|안전관리|지역인재|기능인재|고졸인재|사회형평|공채|공개채용|공개\s*경쟁|블라인드\s*채용)/i;
 var JOB_WRITTEN_EXAM_PATTERN = /(NCS|필기|인적성|논술|전공\s*(?:시험|평가|필기)|직업기초능력\s*(?:평가|검사|시험)?|직무(?:수행)?능력\s*(?:평가|검사|시험))/i;
 var JOB_FIELD_DIRECT_ROLE_PATTERN = /(일용직|일용|단기노무|단기\s*노무|노무원|한시인력|탐방로\s*보수|보수전담|환경관리|수익시설|경비원|경비|보안직|미화|청소|시설관리|시설직|조리원|조리사|운전원|운전직|주차|안내원|감시원|순찰|현장관리|현장지원|계절직)/;
 var JOB_FIELD_DIRECT_LIMITED_PATTERN = /(기간제근로자|기간제\s*계약직|기간제\s*직원|계약직\s*직원|계약직\s*채용|한시적|대체인력|휴직자\s*대체|육아휴직\s*대체|임시직|촉탁|촉탁직|위촉직|수탁과제|수탁폐수|대학운영직|특정업무직)/;
 var JOB_FIELD_DIRECT_EMPLOYMENT_PATTERN = /(기간제|비정규직|계약직|단기|한시적|임시직)/;
+var JOB_LIMITED_PUBLIC_RECRUIT_PATTERN = /(기간제|비정규직|계약직|한시적|대체인력|휴직자\s*대체|육아휴직|임시직|촉탁|위촉|단기|특수직|실무직|국립공원지킴이|소포직|행정지원직\s*\(휴직|휴직\s*대체|공고\s*취소|공고취소|채용\s*취소|채용취소)/;
+var JOB_CANCELED_RECRUIT_PATTERN = /(공고\s*취소|공고취소|채용\s*취소|채용취소|취소\s*공고)/;
 var JOB_FIELD_DIRECT_CONTEXT_PATTERN = /(현장|보수|환경|수익시설|경비|보안|시설|미화|청소|조리|운전|노무|대체인력|육아휴직|임시직)/;
 var JOB_STUDENT_UNSUITABLE_HEALTHCARE_ROLE_PATTERN = /(요양보호(?:사|직)|간호조무(?:사|직)?|병동\s*간호조무|치과위생사|임상병리사|물리치료사|작업치료사|방사선사|청능사|보건의료정보관리사|사회복지사\s*1급|영양사)/;
 var JOB_WEAK_EXAM_INFERENCE_PATTERN = /(필기\s*또는\s*공식\s*선발절차\s*가능성\s*높음|필기\/NCS\s*대비\s*일정\s*안내:\s*필기\s*또는\s*공식\s*선발절차\s*가능성\s*높음)/;
@@ -2464,7 +2469,7 @@ var JOB_COLLEGE_APPLICANT_DISQUALIFIED_PATTERN = /(대학(?:교)?\s*(?:재학생
 var JOB_HIGH_SCHOOL_ELIGIBLE_PATTERN = /(학력\s*[:：]?\s*(?:무관|제한\s*없음)|학력\s*제한\s*없음|고졸\s*이상|고등학교\s*졸업|고졸|특성화고(?:등학교)?|직업계고|마이스터고(?:등학교)?)/;
 var JOB_DEGREE_ONLY_APPLICANT_PATTERN = /(전문학사|대졸|학사\s*(?:이상|학위|졸업)|석사|박사)/;
 var JOB_DEGREE_PREFERENCE_PATTERN = /(우대|가점|우대조건|우대사항|우대함).{0,32}(전문학사|대졸|학사|석사|박사)|(전문학사|대졸|학사|석사|박사).{0,32}(우대|가점|우대조건|우대사항|우대함)/;
-var JOB_STUDENT_UNSUITABLE_RECRUIT_PATTERN = /(급식|조리\s*실무사|조리\s*종사원|배식|요양보호(?:사|직)?|병동\s*간호조무|간호조무사|응급구조사|미화|청소|경비원|경비|주차|보안직|환경관리|수익시설)/;
+var JOB_STUDENT_UNSUITABLE_RECRUIT_PATTERN = /(급식|취사|조리\s*실무사|조리\s*종사원|조리원|조리사|배식|요양보호(?:사|직)?|병동\s*간호조무|간호조무사|응급구조사|미화|청소|경비원|경비|주차|보안직|환경관리|수익시설)/;
 
 function hasExplicitHighSchoolRecruitJob(item) {
   var text = jobClassificationText(item);
@@ -2475,6 +2480,36 @@ function hasExplicitHighSchoolRecruitJob(item) {
 
 function hasRecommendedInternshipJob(item) {
   return JOB_RECOMMENDED_INTERNSHIP_PATTERN.test(jobClassificationText(item));
+}
+
+function hasCareerLadderInternshipJob(item) {
+  return JOB_CAREER_LADDER_INTERNSHIP_PATTERN.test(jobClassificationText(item));
+}
+
+function careerLadderEmploymentJobText(item) {
+  return jobClassificationText(item)
+    .replace(/정규직\s*전환\s*(?:없음|불가|제외|미실시)/g, ' ')
+    .replace(/비정규직/g, ' ');
+}
+
+function hasCareerLadderEmploymentJob(item) {
+  return JOB_CAREER_LADDER_EMPLOYMENT_PATTERN.test(careerLadderEmploymentJobText(item));
+}
+
+function hasLimitedTemporaryRecruitJob(item) {
+  var text = jobClassificationText(item)
+    .replace(/무기계약직/g, ' ')
+    .replace(/채용형\s*인턴|채용형인턴|채용\s*연계|채용연계|전환형\s*인턴|전환\s*형\s*인턴/g, ' ');
+  return JOB_LIMITED_PUBLIC_RECRUIT_PATTERN.test(text);
+}
+
+function hasCanceledRecruitJob(item) {
+  return JOB_CANCELED_RECRUIT_PATTERN.test(jobClassificationText(item));
+}
+
+function isCriticalProtectedRecruitJob(item) {
+  var labels = Array.isArray(item && item.processLabels) ? item.processLabels.join(' ') : String(item && item.processLabels || '');
+  return /핵심\s*공채\s*보호/.test(labels);
 }
 
 function hasStudentUnsuitableProfessionalJob(item) {
@@ -2508,6 +2543,25 @@ function hasStudentUnsuitableRecruitJob(item) {
   return JOB_STUDENT_UNSUITABLE_RECRUIT_PATTERN.test(jobClassificationText(item));
 }
 
+function hasFormalPublicStudentRecruitJob(item) {
+  if (!item || !isHighSchoolFriendlyInstitution(item)) return false;
+  var text = jobClassificationText(item);
+  if (hasCanceledRecruitJob(item)) return false;
+  if (!hasVerifiedStudentEligibilityJob(item)) return false;
+  if (hasCollegeOnlyApplicantJob(item)) return false;
+  if (hasStudentUnsuitableRecruitJob(item)) return false;
+  if (hasStudentUnsuitableProfessionalJob(item)) return false;
+  if (hasHardFieldDirectRecruitJob(item)) return false;
+  var hasCareerLadder = hasCareerLadderEmploymentJob(item) || hasCareerLadderInternshipJob(item);
+  var hasStudentRole = JOB_STUDENT_RECOMMENDED_ROLE_PATTERN.test(text) || JOB_RECOMMENDED_PUBLIC_ROLE_PATTERN.test(text);
+  var hasFormalProcess = JOB_FORMAL_PUBLIC_RECRUIT_PROCESS_PATTERN.test(text);
+  var limitedTemporary = hasLimitedTemporaryRecruitJob(item);
+  if (limitedTemporary && !hasExplicitHighSchoolRecruitJob(item) && !hasCareerLadderInternshipJob(item) && !hasCareerLadderEmploymentJob(item)) return false;
+  if (!hasCareerLadder || !hasStudentRole || !hasFormalProcess) return false;
+  var softLimitedOnly = hasSoftFieldDirectRecruitJob(item) && !/(정규직|무기계약직|채용형\s*인턴|채용형인턴|채용\s*연계|채용연계|전환형\s*인턴)/.test(text);
+  return !softLimitedOnly;
+}
+
 function isPrivateLargeCompanyJob(item) {
   if (!item) return false;
   var text = [
@@ -2526,7 +2580,9 @@ function hasUnverifiedPrivateLargeStudentEligibilityJob(item) {
 }
 
 function isJobDisplayBlocked(item) {
-  return hasCollegeOnlyApplicantJob(item)
+  if (isCriticalProtectedRecruitJob(item)) return false;
+  return hasCanceledRecruitJob(item)
+    || hasCollegeOnlyApplicantJob(item)
     || hasStudentUnsuitableRecruitJob(item)
     || hasStudentUnsuitableProfessionalJob(item)
     || hasUnverifiedPrivateLargeStudentEligibilityJob(item);
@@ -2547,6 +2603,7 @@ function hasProtectedPublicRecruitJob(item) {
   if (isJobDisplayBlocked(item)) return false;
   if (!hasVerifiedStudentEligibilityJob(item)) return false;
   return hasRecommendedInternshipJob(item)
+    || hasFormalPublicStudentRecruitJob(item)
     || (hasPositiveWrittenExamJob(item) && !hasHardFieldDirectRecruitJob(item) && !hasSoftFieldDirectRecruitJob(item))
     || (hasExplicitHighSchoolRecruitJob(item) && (
       JOB_STUDENT_RECOMMENDED_ROLE_PATTERN.test(text) || JOB_RECOMMENDED_PUBLIC_ROLE_PATTERN.test(text)
@@ -2567,25 +2624,32 @@ function hasFieldDirectRecruitJob(item) {
   if (hasRecommendedInternshipJob(item)) return false;
   if (hasStudentUnsuitableProfessionalJob(item)) return true;
   if (hasHardFieldDirectRecruitJob(item)) return true;
+  if (!hasPositiveWrittenExamJob(item)
+    && !isCriticalProtectedRecruitJob(item)
+    && hasLimitedTemporaryRecruitJob(item)
+    && !hasExplicitHighSchoolRecruitJob(item)
+    && !hasCareerLadderInternshipJob(item)) return true;
   if (!hasSoftFieldDirectRecruitJob(item)) return false;
   return !hasProtectedPublicRecruitJob(item);
 }
 
 function displayProcessTrack(item) {
   if (!item) return 'direct-interview';
+  if (isCriticalProtectedRecruitJob(item)) return 'exam-formal';
   if (hasFieldDirectRecruitJob(item)) return 'direct-interview';
   var writtenExamTrack = hasPositiveWrittenExamJob(item) ? 'exam-formal' : 'direct-interview';
   if (writtenExamTrack === 'exam-formal' && hasRecommendedPublicRecruitJob(item)) return 'exam-formal';
+  if (hasFormalPublicStudentRecruitJob(item)) return 'exam-formal';
   if (hasRecommendedPublicRecruitJob(item) && isHighSchoolFriendlyInstitution(item)) return 'exam-formal';
   return 'direct-interview';
 }
 
 function displayProcessTrackName(item) {
-  return displayProcessTrack(item) === 'exam-formal' ? '필기시험 준비 공채' : '필기 없는 채용';
+  return displayProcessTrack(item) === 'exam-formal' ? '공채 상세 정보' : '면접중심·현장형 채용';
 }
 
 function displayServicePolicyLabel(item) {
-  if (displayProcessTrack(item) !== 'exam-formal' && item && item.servicePolicyLabel === '공채 상세') return '필기 없음';
+  if (displayProcessTrack(item) !== 'exam-formal' && item && item.servicePolicyLabel === '공채 상세') return '현장형 채용';
   return item && item.servicePolicyLabel ? item.servicePolicyLabel : '표시정책 확인';
 }
 
@@ -2703,7 +2767,7 @@ function renderTeacherBriefing(item) {
 }
 
 function renderBriefingOpenButton(item, detailKey) {
-  var label = displayProcessTrack(item) === 'exam-formal' ? '취업부 브리핑 크게 보기' : '간단 채용 브리핑 보기';
+  var label = displayProcessTrack(item) === 'exam-formal' ? '취업부 브리핑 크게 보기' : '현장형 채용 브리핑 보기';
   return '<button class="job-briefing-open job-detail-open" type="button" data-job-key="' + detailKey + '" aria-haspopup="dialog">' + escapeJobHtml(label) + '</button>';
 }
 
@@ -3130,8 +3194,8 @@ function updateJobSortControls() {
   var status = document.getElementById('job-sort-status');
   if (status) {
     status.textContent = jobExamSortMode === 'deadline'
-      ? '필기·NCS·인적성·전공시험 신호가 있는 공채만 왼쪽에 두고, 고졸·특성화고 대상 공고를 우선한 뒤 마감일순으로 표시합니다.'
-      : '필기·NCS·인적성·전공시험 신호가 있는 공채만 왼쪽에 두고, 고졸·특성화고 대상 공고를 우선한 뒤 최신순으로 표시합니다.';
+      ? '고졸·특성화고 대상과 학력무관 공식 공채를 우선한 뒤 마감일순으로 표시합니다.'
+      : '고졸·특성화고 대상과 학력무관 공식 공채를 우선한 뒤 최신순으로 표시합니다.';
   }
 }
 
@@ -3257,7 +3321,7 @@ function renderJobSourceStatus(data) {
   var safetyText = safety.blockedCount ? ' · 게시 전 차단 ' + safety.blockedCount + '건' : '';
   var prefix = freshness.state === 'ok' ? '' : freshness.label + ' · ';
   statusEl.textContent = connected
-    ? prefix + connected + '개 공식 소스 정상 수집 · 공채 상세 ' + detailed + '건 · 교육청 보조검증 연계 ' + regional + '건 · 취업부 브리핑 ' + briefing + '건 · 공식 공고 확인 ' + checked + '건 · 첫날수집 ' + firstDay + '건 · 누락점검 ' + missed + '건' + safetyText + ' · 소스준비 ' + readySources + '/' + totalSources + ' · 소스점검 ' + sourceGaps + '개 · 필기형 ' + examSources + '개, 교육청 보조검증형 ' + educationSources + '개, 간단형 ' + directSources + '개 소스 상태 기록'
+    ? prefix + connected + '개 공식 소스 정상 수집 · 공채 상세 ' + detailed + '건 · 교육청 보조검증 연계 ' + regional + '건 · 취업부 브리핑 ' + briefing + '건 · 공식 공고 확인 ' + checked + '건 · 첫날수집 ' + firstDay + '건 · 누락점검 ' + missed + '건' + safetyText + ' · 소스준비 ' + readySources + '/' + totalSources + ' · 소스점검 ' + sourceGaps + '개 · 공채상세형 ' + examSources + '개, 교육청 보조검증형 ' + educationSources + '개, 간단형 ' + directSources + '개 소스 상태 기록'
     : '공식 API 키 연결 대기: 고용24·사람인·잡알리오·나라일터·군 채용 등 ' + waiting + '개 소스';
 }
 
@@ -3308,21 +3372,21 @@ function renderJobFeed(data) {
 
   if (!items.length && !closedItems.length) {
     var note = data.summary && data.summary.note ? data.summary.note : '공식 API 연결 후 공채정보가 자동 표시됩니다.';
-    renderTrackFeed('job-exam-feed', [], '필기시험 준비 공채 확인 대기', note, ['필기준비', '공식공고', '첫날수집']);
-    renderTrackFeed('job-direct-feed', [], '필기 없는 채용 확인 대기', note, ['자격요약', '공식원문', '보조검증']);
+    renderTrackFeed('job-exam-feed', [], '공채 상세 정보 확인 대기', note, ['추천공채', '공식공고', '첫날수집']);
+    renderTrackFeed('job-direct-feed', [], '면접중심·현장형 채용 확인 대기', note, ['자격요약', '공식원문', '보조검증']);
     renderClosedJobArchive([]);
     return;
   }
   examItems = sortCurrentJobItems(examItems, jobExamSortMode);
   directItems = sortCurrentJobItems(directItems, jobExamSortMode);
-  renderTrackFeed('job-exam-feed', examItems, '진행중 필기시험 준비 공채 확인 대기', '필기·NCS·인적성·전공시험 등 시험 준비가 필요한 공채만 왼쪽에 표시합니다.', ['필기준비', '공식공고', '상세'], {
+  renderTrackFeed('job-exam-feed', examItems, '진행중 공채 상세 정보 확인 대기', '정규직·무기계약직·채용형 인턴 등 학생에게 추천할 공식 공채를 왼쪽에 표시합니다.', ['추천공채', '공식공고', '상세'], {
     limit: JOB_EXAM_DEFAULT_LIMIT,
     expanded: showAllExamJobItems,
     toggleAction: 'toggle-all-exam-jobs',
-    collapsedLabel: '필기준비 공채 전부보기',
-    expandedLabel: '필기준비 공채 접기'
+    collapsedLabel: '공채 상세 전부보기',
+    expandedLabel: '공채 상세 접기'
   });
-  renderTrackFeed('job-direct-feed', directItems, '진행중 필기 없는 채용 확인 대기', '필기시험 준비 신호가 없는 특성화고 학생 채용은 자격·면접·마감·첨부자료 중심으로 자동 요약합니다.', ['자격요약', '공식원문', '보조검증'], {
+  renderTrackFeed('job-direct-feed', directItems, '진행중 면접중심·현장형 채용 확인 대기', '공채 상세보다 간단 확인이 적합한 채용은 자격·면접·마감·첨부자료 중심으로 자동 요약합니다.', ['자격요약', '공식원문', '보조검증'], {
     limit: JOB_DIRECT_DEFAULT_LIMIT
   });
   renderClosedJobArchive(closedItems);
