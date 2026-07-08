@@ -2451,7 +2451,7 @@ function isHighSchoolFriendlyInstitution(item) {
 
 var JOB_RECOMMENDED_INTERNSHIP_PATTERN = /(채용형\s*인턴|채용형인턴|채용\s*연계|채용연계|(?:청년\s*인턴|청년인턴|체험형\s*인턴|체험형인턴|인턴(?:행정원|직|사원)?).{0,18}(?:채용|모집|선발)|(?:채용|모집|선발).{0,20}(?:청년\s*인턴|청년인턴|체험형\s*인턴|체험형인턴|인턴(?:행정원|직|사원)?))/;
 var JOB_RECOMMENDED_PUBLIC_ROLE_PATTERN = /(신입직|신입사원|신입행원|일반직|행정직|사무직|전산직|기술직|생산직|업무지원직|지역인재|기능인재|고졸인재|사회형평|공채|공개채용|공개\s*경쟁|블라인드\s*채용)/;
-var JOB_STUDENT_RECOMMENDED_ROLE_PATTERN = /(신입직|신입사원|신입행원|신규직원|직원\s*공개채용|정규직|무기계약직|일반직|행정직|사무직|전산직|기술직|생산직|업무지원직|교육행정|연구행정|일반행정|사무보조|행정보조|전문행정|연구지원|사업관리|회계|총무|정보화|IT|디지털|데이터|기계|전기|전자|토목|건축|안전관리|품질|실험|검사|지역인재|기능인재|고졸인재|사회형평|공채|공개채용|공개\s*경쟁|블라인드\s*채용)/i;
+var JOB_STUDENT_RECOMMENDED_ROLE_PATTERN = /(신입직|신입사원|신입행원|신규직원|직원\s*공개채용|정규직|무기계약직|일반직|행정직|사무직|전산직|기술직|생산직|업무지원직|교육행정|연구행정|일반행정|전문행정|연구지원|사업관리|회계|총무|정보화|IT|디지털|데이터|기계|전기|전자|토목|건축|안전관리|지역인재|기능인재|고졸인재|사회형평|공채|공개채용|공개\s*경쟁|블라인드\s*채용)/i;
 var JOB_WRITTEN_EXAM_PATTERN = /(NCS|필기|인적성|논술|전공\s*(?:시험|평가|필기)|직업기초능력\s*(?:평가|검사|시험)?|직무(?:수행)?능력\s*(?:평가|검사|시험))/i;
 var JOB_FIELD_DIRECT_ROLE_PATTERN = /(일용직|일용|단기노무|단기\s*노무|노무원|한시인력|탐방로\s*보수|보수전담|환경관리|수익시설|경비원|경비|보안직|미화|청소|시설관리|시설직|조리원|조리사|운전원|운전직|주차|안내원|감시원|순찰|현장관리|현장지원|계절직)/;
 var JOB_FIELD_DIRECT_LIMITED_PATTERN = /(기간제근로자|기간제\s*계약직|기간제\s*직원|계약직\s*직원|계약직\s*채용|한시적|대체인력|휴직자\s*대체|육아휴직\s*대체|임시직|촉탁|촉탁직|위촉직|수탁과제|수탁폐수|대학운영직|특정업무직)/;
@@ -2463,6 +2463,7 @@ var JOB_COLLEGE_APPLICANT_PATTERN = /(대학생|대학\s*(?:재학생|휴학생|
 var JOB_COLLEGE_APPLICANT_DISQUALIFIED_PATTERN = /(대학(?:교)?\s*(?:재학생|휴학생|졸업생)|대학생|재학생\s*(?:및|·|,|또는)\s*휴학생|휴학생\s*(?:및|·|,|또는)\s*재학생).{0,40}(지원\s*불가|지원불가|지원\s*제외|제외|불인정)/;
 var JOB_HIGH_SCHOOL_ELIGIBLE_PATTERN = /(학력\s*[:：]?\s*(?:무관|제한\s*없음)|학력\s*제한\s*없음|고졸\s*이상|고등학교\s*졸업|고졸|특성화고(?:등학교)?|직업계고|마이스터고(?:등학교)?)/;
 var JOB_DEGREE_ONLY_APPLICANT_PATTERN = /(전문학사|대졸|학사\s*(?:이상|학위|졸업)|석사|박사)/;
+var JOB_DEGREE_PREFERENCE_PATTERN = /(우대|가점|우대조건|우대사항|우대함).{0,32}(전문학사|대졸|학사|석사|박사)|(전문학사|대졸|학사|석사|박사).{0,32}(우대|가점|우대조건|우대사항|우대함)/;
 var JOB_STUDENT_UNSUITABLE_RECRUIT_PATTERN = /(급식|조리\s*실무사|조리\s*종사원|배식|요양보호(?:사|직)?|병동\s*간호조무|간호조무사|응급구조사|미화|청소|경비원|경비|주차|보안직|환경관리|수익시설)/;
 
 function hasExplicitHighSchoolRecruitJob(item) {
@@ -2494,9 +2495,8 @@ function hasPositiveWrittenExamJob(item) {
 
 function hasCollegeOnlyApplicantJob(item) {
   var text = jobClassificationText(item);
-  if (JOB_HIGH_SCHOOL_ELIGIBLE_PATTERN.test(text)) return false;
   return (JOB_COLLEGE_APPLICANT_PATTERN.test(text) && !JOB_COLLEGE_APPLICANT_DISQUALIFIED_PATTERN.test(text))
-    || JOB_DEGREE_ONLY_APPLICANT_PATTERN.test(text);
+    || (JOB_DEGREE_ONLY_APPLICANT_PATTERN.test(text) && !JOB_DEGREE_PREFERENCE_PATTERN.test(text));
 }
 
 function hasVerifiedStudentEligibilityJob(item) {
