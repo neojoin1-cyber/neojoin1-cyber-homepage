@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-08T08:59:48.456Z",
-  "feedGeneratedAt": "2026-07-08T08:59:48.456Z",
+  "generatedAt": "2026-07-08T16:07:06.055Z",
+  "feedGeneratedAt": "2026-07-08T16:07:06.055Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "degraded-held",
@@ -14,8 +14,8 @@
     "sourcesConfigured": 6,
     "sourcesFailed": 1,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 75,
-    "sourceFallbackProtected": 75,
+    "staleFallbackItems": 76,
+    "sourceFallbackProtected": 76,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
     "studentRecruitSafetyReview": 121
@@ -27,12 +27,12 @@
       "isolatedFailure": false,
       "fallbackProtected": true,
       "fallbackItemCount": 115,
-      "message": "연결 실패: recent-page-9: recent-page-9 failed after 1 attempts: HTTP timeout after 12000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-10: recent-page-10 failed after 1 attempts: HTTP timeout after 12000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT · 직전 정상 공고 115건 보존"
+      "message": "연결 실패: recent-page-1: recent-page-1 failed after 1 attempts: HTTP timeout after 12000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-2: recent-page-2 failed after 1 attempts: HTTP timeout after 12000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT · 직전 정상 공고 115건 보존"
     }
   ],
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-08T08:59:48.456Z",
+    "generatedAt": "2026-07-08T16:07:06.055Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
@@ -41,27 +41,6 @@
     "repairedByReason": {},
     "blockedSamples": [],
     "studentRecruitReviewSamples": [
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "주택도시보증공사",
-        "title": "2026년도 주택도시보증공사 정규직(신입직) 채용공고",
-        "deadline": "2026-07-08",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=301943"
-      },
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
@@ -462,6 +441,27 @@
         "status": "application_closed",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B0%95%EC%9B%90%EC%A7%80%EC%82%AC&page=1&rnm_idx=903"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "주택관리공단(주)",
+        "title": "채용형 인턴 채용공고(주택관리공단 전북지사)(원서 마감)",
+        "deadline": "2026-07-06",
+        "status": "application_closed",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EC%A0%84%EB%B6%81%EC%A7%80%EC%82%AC&page=1&rnm_idx=909"
       }
     ]
   },
@@ -473,7 +473,7 @@
     "sourceFailures의 isolatedFailure가 true인 수집원은 다음 예약 실행에서도 반복되는지 확인한다."
   ],
   "publicationHold": {
-    "heldAt": "2026-07-08T08:59:48.456Z",
+    "heldAt": "2026-07-08T16:07:06.055Z",
     "previousFeedPreserved": true,
     "reason": "핵심 수집원 잡알리오 공공기관 채용 실패로 공개 피드는 직전 정상본을 유지합니다."
   }
