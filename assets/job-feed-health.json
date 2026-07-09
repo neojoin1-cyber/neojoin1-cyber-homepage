@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-08T16:19:06.489Z",
-  "feedGeneratedAt": "2026-07-08T16:19:06.489Z",
+  "generatedAt": "2026-07-09T04:07:40.290Z",
+  "feedGeneratedAt": "2026-07-09T04:07:40.290Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "degraded-held",
@@ -32,7 +32,7 @@
   ],
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-08T16:19:06.489Z",
+    "generatedAt": "2026-07-09T04:07:40.290Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
@@ -473,7 +473,7 @@
     "sourceFailures의 isolatedFailure가 true인 수집원은 다음 예약 실행에서도 반복되는지 확인한다."
   ],
   "publicationHold": {
-    "heldAt": "2026-07-08T16:19:06.489Z",
+    "heldAt": "2026-07-09T04:07:40.290Z",
     "previousFeedPreserved": true,
     "reason": "핵심 수집원 잡알리오 공공기관 채용 실패로 공개 피드는 직전 정상본을 유지합니다."
   }
