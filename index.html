@@ -2513,6 +2513,14 @@ function isCriticalProtectedRecruitJob(item) {
   return /핵심\s*공채\s*보호/.test(labels);
 }
 
+function hasStudentRecommendationExcludedJob(item) {
+  if (!item) return false;
+  var labels = Array.isArray(item.processLabels) ? item.processLabels.join(' ') : String(item.processLabels || '');
+  var note = String(item.processNote || '');
+  return /학생추천\s*제외/.test(labels)
+    || /(대학생|휴학생|특성화고\s*학생에게\s*추천하기\s*어려운|학생\s*추천\s*공채에서는\s*제외|공채\s*상세\s*정보에서\s*제외)/.test(note);
+}
+
 function hasStudentUnsuitableProfessionalJob(item) {
   var text = jobClassificationText(item);
   if (hasExplicitHighSchoolRecruitJob(item) || hasRecommendedInternshipJob(item)) return false;
@@ -2595,6 +2603,7 @@ function hasUnverifiedPrivateLargeStudentEligibilityJob(item) {
 }
 
 function isJobDisplayBlocked(item) {
+  if (hasStudentRecommendationExcludedJob(item)) return true;
   if (isCriticalProtectedRecruitJob(item)) return false;
   return hasCanceledRecruitJob(item)
     || hasCollegeOnlyApplicantJob(item)

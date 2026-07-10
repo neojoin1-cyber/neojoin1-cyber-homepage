@@ -557,7 +557,7 @@ async function validateHomepage() {
   fail('home.no-public-manual-job-feed-run', !html.includes('actions/workflows/job-feed.yml') && !html.includes('수동수집 실행'), '공개 홈에는 GitHub Actions 수동수집 버튼을 노출하지 않습니다.');
   fail('home.job-sort-controls', html.includes('data-job-sort-mode="recent"') && html.includes('data-job-sort-mode="deadline"') && html.includes('job-sort-status') && html.includes('saveJobSortMode'), '공채 허브 최신순/마감임박 정렬 버튼과 선택 저장 로직이 연결되어 있습니다.');
   fail('home.job-priority-education-sort', html.includes('function currentJobEducationPriority') && html.includes('function isHighSchoolFriendlyOpenJob') && html.includes('priority-highschool') && html.includes('priority-friendly-open') && html.includes('job-priority-badge') && html.includes('고졸·특성화고 응시 가능') && html.includes('학력무관·특성화고 응시 가능') && html.includes('학력무관 공채'), '고졸·특성화고·마이스터고 응시 가능 공채와 학력무관 공공기관·대기업 공채를 일반 학력무관 공채보다 먼저 정렬하고 굵게 표시합니다.');
-  fail('home.job-track-display-refine', html.includes('function displayProcessTrack') && html.includes('function jobClassificationText') && html.includes('function hasPositiveWrittenExamJob') && html.includes('function hasFormalPublicStudentRecruitJob') && html.includes('JOB_WRITTEN_EXAM_PATTERN') && html.includes('JOB_CAREER_LADDER_EMPLOYMENT_PATTERN') && html.includes('공채 상세 정보') && html.includes('면접중심·현장형 채용') && !/공개\s*경쟁|공채|공무원|군무원|부사관/.test(jobWrittenExamPattern), '화면에서도 필기·NCS 신호뿐 아니라 정규직·무기계약직·채용형 인턴 등 학생 추천 공식 공채를 공채 상세 정보로 보호합니다.');
+  fail('home.job-track-display-refine', html.includes('function displayProcessTrack') && html.includes('function jobClassificationText') && html.includes('function hasPositiveWrittenExamJob') && html.includes('function hasFormalPublicStudentRecruitJob') && html.includes('function hasStudentRecommendationExcludedJob') && html.includes('JOB_WRITTEN_EXAM_PATTERN') && html.includes('JOB_CAREER_LADDER_EMPLOYMENT_PATTERN') && html.includes('공채 상세 정보') && html.includes('면접중심·현장형 채용') && !/공개\s*경쟁|공채|공무원|군무원|부사관/.test(jobWrittenExamPattern), '화면에서도 필기·NCS 신호와 정규직·무기계약직·채용형 인턴 등 학생 추천 공식 공채를 보호하되, 학생추천 제외 라벨은 공채 상세 정보에 남기지 않습니다.');
   fail('home.student-exclusion-overrides-eligibility', html.includes('JOB_DEGREE_PREFERENCE_PATTERN') && !html.includes('if (JOB_HIGH_SCHOOL_ELIGIBLE_PATTERN.test(text)) return false;'), '화면에서도 대학생·휴학생·학위 전용 제외 신호가 학력무관 또는 고졸 관련 문구보다 우선합니다.');
   fail('home.student-fit-exception-guard', html.includes('function hasStudentRecommendationFitExceptionJob') && html.includes('JOB_VOCATIONAL_MAJOR_FIT_PATTERN'), '화면에서도 학생 추천 제외를 특정 직무명만으로 무조건 처리하지 않고 적합성 예외를 함께 봅니다.');
   fail('home.professional-healthcare-display-guard', html.includes('function hasStudentUnsuitableProfessionalJob') && html.includes('JOB_STUDENT_UNSUITABLE_HEALTHCARE_ROLE_PATTERN') && html.includes('요양보호') && html.includes('간호조무'), '오래된 피드가 들어와도 전문면허·전문자격 중심 채용은 공채 칸으로 표시하지 않습니다.');
@@ -651,6 +651,17 @@ function validateFeed(feed, label = 'local') {
     .map((item) => `${item.company}:${item.title}`)
     .slice(0, 12);
   fail(`${label}.feed.formal-public-recruit-left-track`, misplacedFormalPublicRecruits.length === 0, `${label} 학력무관 공식 정규 공채 후보는 공채 상세 정보에 남습니다.`, misplacedFormalPublicRecruits.join(' | '));
+
+  const studentExcludedLeftTrack = items
+    .filter((item) => {
+      const labels = Array.isArray(item.processLabels) ? item.processLabels.join(' ') : String(item.processLabels || '');
+      const note = String(item.processNote || '');
+      return item.processTrack === 'exam-formal'
+        && (/학생추천\s*제외/.test(labels) || /공채\s*상세\s*정보에서\s*제외|학생\s*추천\s*공채에서는\s*제외|추천하기\s*어려운\s*직무/.test(note));
+    })
+    .map((item) => `${item.company}:${item.title}`)
+    .slice(0, 12);
+  fail(`${label}.feed.student-excluded-not-left-track`, studentExcludedLeftTrack.length === 0, `${label} 학생추천 제외 공고는 공채 상세 정보에 남지 않습니다.`, studentExcludedLeftTrack.join(' | '));
 
   const ids = new Set();
   const duplicates = [];
