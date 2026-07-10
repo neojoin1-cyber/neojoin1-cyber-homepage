@@ -1060,6 +1060,7 @@ const HIGH_SCHOOL_ELIGIBLE_PATTERN = /(학력\s*[:：]?\s*(?:무관|제한\s*없
 const DEGREE_ONLY_APPLICANT_PATTERN = /(전문학사|대졸|학사\s*(?:이상|학위|졸업)|석사|박사)/;
 const DEGREE_PREFERENCE_PATTERN = /(우대|가점|우대조건|우대사항|우대함).{0,32}(전문학사|대졸|학사|석사|박사)|(전문학사|대졸|학사|석사|박사).{0,32}(우대|가점|우대조건|우대사항|우대함)/;
 const STUDENT_UNSUITABLE_RECRUIT_PATTERN = /(급식|취사|조리\s*실무사|조리\s*종사원|조리원|조리사|배식|요양보호(?:사|직)?|병동\s*간호조무|간호조무사|응급구조사|미화|청소|경비원|경비|주차|보안직|환경관리|수익시설)/;
+const VOCATIONAL_MAJOR_FIT_PATTERN = /((조리|식품|외식|제과|제빵|호텔|관광|보건|간호|복지|보안|경비|시설|전기|기계|환경|안전|위생).{0,36}(전공|학과|계열|기능사|산업기사|자격|우대|관련|실무))|((전공|학과|계열|기능사|산업기사|자격|우대|관련|실무).{0,36}(조리|식품|외식|제과|제빵|호텔|관광|보건|간호|복지|보안|시설|전기|기계|환경|안전|위생))/;
 const IMPORTANT_PUBLIC_RECRUIT_REVIEW_PATTERN = /(고졸|고등학교|특성화고|직업계고|마이스터고|학력\s*무관|신입직|신입사원|신입행원|정규직|무기계약직|일반직|행정직|사무직|전산직|기술직|생산직|채용형\s*인턴|청년\s*인턴|체험형\s*인턴|NCS|필기|인적성|전공\s*(?:시험|평가|필기)|공채|공개채용|공개\s*경쟁|블라인드\s*채용|지역인재|기능인재|고졸인재)/i;
 
 const COMPANY_NOTICE_TERMS = ['채용', '모집', '공고', '입사지원', '응시자격', '전형절차', '서류전형', '면접전형'];
@@ -3386,8 +3387,22 @@ function hasVerifiedStudentEligibilitySignal(value) {
   return HIGH_SCHOOL_ELIGIBLE_PATTERN.test(text) || hasExplicitHighSchoolRecruitSignal(text);
 }
 
+function hasStudentRecommendationFitException(value) {
+  const text = normalizeSpace(value);
+  if (!text || !STUDENT_UNSUITABLE_RECRUIT_PATTERN.test(text)) return false;
+  if (hasCollegeOnlyApplicantSignal(text) || hasStudentUnsuitableProfessionalRole(text)) return false;
+  const hasMajorFit = VOCATIONAL_MAJOR_FIT_PATTERN.test(text);
+  const hasStudentAccess = hasVerifiedStudentEligibilitySignal(text);
+  const hasCareerPath = hasCareerLadderEmploymentSignal(text)
+    || hasCareerLadderInternshipSignal(text)
+    || hasRecommendedInternshipSignal(text);
+  const hasFormalProcess = FORMAL_PUBLIC_RECRUIT_PROCESS_PATTERN.test(text);
+  return hasMajorFit && hasStudentAccess && hasCareerPath && hasFormalProcess;
+}
+
 function hasStudentUnsuitableRecruitSignal(value) {
-  return STUDENT_UNSUITABLE_RECRUIT_PATTERN.test(normalizeSpace(value));
+  const text = normalizeSpace(value);
+  return STUDENT_UNSUITABLE_RECRUIT_PATTERN.test(text) && !hasStudentRecommendationFitException(text);
 }
 
 function isFormalPublicRecruitSource(sector, source, value = '') {
@@ -3558,7 +3573,7 @@ function classifyProcess(raw) {
     writtenExam = hasExam ? 'likely' : 'not_found';
     confidence = 'high';
     labels.push('학생추천 제외');
-    note = '대학생·휴학생 전용 또는 특성화고 학생에게 추천하기 어려운 직무 신호가 있어 공채 상세 정보에서 제외했습니다.';
+    note = '대학생·휴학생 전용이거나 전공 적합성·경력 사다리·공식 전형 신호가 부족해 특성화고 학생 추천 공채에서는 제외했습니다.';
   } else if (unsuitableProfessionalRole) {
     processTrack = 'direct-interview';
     writtenExam = hasExam ? 'likely' : 'not_found';
@@ -3570,7 +3585,7 @@ function classifyProcess(raw) {
     writtenExam = hasExam ? 'likely' : 'not_found';
     confidence = 'high';
     labels.push('현장형 분리');
-    note = '공공·금융·대기업 소스라도 단기노무·한시인력·환경관리 등 현장형 신호가 우세해 면접중심·현장형 채용으로 분리했습니다.';
+    note = '공공·금융·대기업 소스라도 학생 진로 추천에 필요한 경력 사다리·공식 전형 신호보다 현장형·한시성 신호가 우세해 면접중심·현장형 채용으로 분리했습니다.';
   } else if (hasExam) {
     processTrack = 'exam-formal';
     writtenExam = 'confirmed';

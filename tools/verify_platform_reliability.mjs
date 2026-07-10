@@ -21,6 +21,7 @@ const ADVANCED_EDU_PATTERN = /(대졸\s*이상|대졸\([^)]*\)|전문대졸|4년
 const PROFESSIONAL_ONLY_PATTERN = /(전문의|의사|약사|간호사|간호조무사|간호조무|요양보호사|요양보호직|치과위생사|임상병리사|물리치료사|작업치료사|방사선사|청능사|보건의료정보관리사|영양사|공인회계사|회계사|변호사|세무사|노무사|법무사|건축사|정교사|교원자격|교사\s*자격|보육교사|면허\s*소지|면허소지|기술사)/;
 const STUDENT_UNSUITABLE_HEALTHCARE_ROLE_PATTERN = /(요양보호(?:사|직)|간호조무(?:사|직)?|병동\s*간호조무|치과위생사|임상병리사|물리치료사|작업치료사|방사선사|청능사|보건의료정보관리사|사회복지사\s*1급|영양사)/;
 const STUDENT_UNSUITABLE_RECRUIT_PATTERN = /(급식|취사|조리\s*실무사|조리\s*종사원|조리원|조리사|배식|요양보호(?:사|직)?|병동\s*간호조무|간호조무사|응급구조사|미화|청소|경비원|경비|주차|보안직|환경관리|수익시설)/;
+const VOCATIONAL_MAJOR_FIT_PATTERN = /((조리|식품|외식|제과|제빵|호텔|관광|보건|간호|복지|보안|경비|시설|전기|기계|환경|안전|위생).{0,36}(전공|학과|계열|기능사|산업기사|자격|우대|관련|실무))|((전공|학과|계열|기능사|산업기사|자격|우대|관련|실무).{0,36}(조리|식품|외식|제과|제빵|호텔|관광|보건|간호|복지|보안|시설|전기|기계|환경|안전|위생))/;
 const FORMAL_PUBLIC_RECRUIT_PROCESS_PATTERN = /(공채|공개채용|공개\s*채용|공개\s*경쟁|채용\s*공고|모집\s*공고|공고문|블라인드\s*채용|NCS|직업기초능력|직무수행능력|서류전형|필기전형|면접전형|전형절차|원서접수|입사지원)/;
 const CAREER_LADDER_EMPLOYMENT_PATTERN = /(정규직|무기계약직|신입직|신입직원|신규직원|신입사원|신입행원|일반직\s*[B]?\s*신입|4직급|5급|6급|7급|채용형\s*인턴|채용형인턴|채용\s*연계|채용연계|전환형\s*인턴|전환\s*형\s*인턴)/;
 const STUDENT_RECOMMENDED_ROLE_PATTERN = /(신입직|신입사원|신입행원|신규직원|직원\s*공개채용|정규직|무기계약직|일반직|행정직|사무직|전산직|기술직|생산직|업무지원직|교육행정|연구행정|일반행정|전문행정|연구지원|사업관리|회계|총무|정보화|IT|디지털|데이터|기계|전기|전자|토목|건축|안전관리|지역인재|기능인재|고졸인재|사회형평|공채|공개채용|공개\s*경쟁|블라인드\s*채용)/i;
@@ -389,7 +390,7 @@ function isFormalPublicStudentRecruitCandidate(item) {
   if (/학생추천 제외|전문자격 분리|현장형 분리/.test(labels)) return false;
   if (CANCELED_RECRUIT_PATTERN.test(text)) return false;
   if (!hasStrongHighSchoolSignal(item) && !hasEducationOpenSignal(item)) return false;
-  if (STUDENT_UNSUITABLE_RECRUIT_PATTERN.test(text)) return false;
+  if (hasStudentRecommendationMismatchSignal(item)) return false;
   if (STUDENT_UNSUITABLE_HEALTHCARE_ROLE_PATTERN.test(text)) return false;
   if (PROFESSIONAL_ONLY_PATTERN.test(text) && !hasStrongHighSchoolSignal(item)) return false;
   if (hasLimitedTemporaryRecruitSignal(text)
@@ -398,6 +399,18 @@ function isFormalPublicStudentRecruitCandidate(item) {
   return hasCareerLadderEmploymentSignal(text)
     && STUDENT_RECOMMENDED_ROLE_PATTERN.test(text)
     && FORMAL_PUBLIC_RECRUIT_PROCESS_PATTERN.test(text);
+}
+
+function hasStudentRecommendationMismatchSignal(item) {
+  const text = feedItemEligibilityText(item);
+  if (!STUDENT_UNSUITABLE_RECRUIT_PATTERN.test(text)) return false;
+  if (VOCATIONAL_MAJOR_FIT_PATTERN.test(text)
+    && (hasStrongHighSchoolSignal(item) || hasEducationOpenSignal(item))
+    && hasCareerLadderEmploymentSignal(text)
+    && FORMAL_PUBLIC_RECRUIT_PROCESS_PATTERN.test(text)) {
+    return false;
+  }
+  return true;
 }
 
 function isCareerOnlyWithoutStudentSignal(item) {
@@ -413,7 +426,7 @@ function highSchoolSuitabilityProblem(item) {
   const entryLevel = hasEntryLevelSignal(item);
   const educationOpen = hasEducationOpenSignal(item);
   if (CANCELED_RECRUIT_PATTERN.test(text)) return 'canceled-recruit';
-  if (STUDENT_UNSUITABLE_RECRUIT_PATTERN.test(text)) return 'student-unsuitable-role';
+  if (hasStudentRecommendationMismatchSignal(item)) return 'student-recommendation-mismatch';
   if (!strongHighSchool && STUDENT_UNSUITABLE_HEALTHCARE_ROLE_PATTERN.test(text)) return 'student-unsuitable-professional-healthcare';
   if (SENIOR_ROLE_PATTERN.test(text)) return 'senior-role';
   if (!strongHighSchool && PROFESSIONAL_ONLY_PATTERN.test(text)) return 'professional-only';
@@ -511,7 +524,8 @@ async function validateJobFetcherRules() {
   fail('fetcher.job-track-refine', fetcher.includes('function shouldForceFieldDirectRecruit') && fetcher.includes('function hasWrittenExamSignal') && fetcher.includes('function hasFormalPublicStudentRecruitSignal') && fetcher.includes('CAREER_LADDER_EMPLOYMENT_PATTERN') && fetcher.includes('공채 상세 정보') && fetcher.includes('면접중심·현장형 채용') && !/공개\s*경쟁|공채|공무원|군무원|부사관/.test(writtenExamTerms) && !/공개\s*경쟁|공채|공무원|군무원|부사관/.test(examTerms), '자동 수집 단계에서 필기·NCS 신호뿐 아니라 정규직·무기계약직·채용형 인턴 등 학생 추천 공식 공채를 공채 상세 정보로 보호합니다.');
   fail('fetcher.student-exclusion-overrides-eligibility', fetcher.includes('DEGREE_PREFERENCE_PATTERN') && !fetcher.includes('if (HIGH_SCHOOL_ELIGIBLE_PATTERN.test(text)) return false;'), '대학생·휴학생·학위 전용 제외 신호는 학력무관 또는 고졸 관련 문구보다 우선합니다.');
   fail('fetcher.important-recruit-review-safety-net', fetcher.includes('function importantRecruitSafetySignals') && fetcher.includes('function studentRecruitReviewSample') && fetcher.includes('studentRecruitReviewSamples') && fetcher.includes('중요 공채 후보 안전검토') && fetcher.includes('studentRecruitSafetyReviewRule'), '좌측 추천에서 제외된 중요 공채 후보는 안전검토 큐에 남겨 조용히 누락되지 않게 합니다.');
-  fail('fetcher.professional-healthcare-guard', fetcher.includes('function hasStudentUnsuitableProfessionalRole') && fetcher.includes('요양보호') && fetcher.includes('간호조무') && fetcher.includes('전문자격 분리'), '학력무관이어도 요양보호직·간호조무사 등 전문자격 의료·돌봄 직무는 학생 공채 상세 후보에서 제외합니다.');
+  fail('fetcher.student-fit-exception-guard', fetcher.includes('function hasStudentRecommendationFitException') && fetcher.includes('VOCATIONAL_MAJOR_FIT_PATTERN') && fetcher.includes('전공 적합성') && fetcher.includes('경력 사다리'), '학생 추천 제외는 특정 직무명만으로 무조건 처리하지 않고 전공 적합성, 학생 접근 가능성, 경력 사다리, 공식 전형을 함께 봅니다.');
+  fail('fetcher.professional-healthcare-guard', fetcher.includes('function hasStudentUnsuitableProfessionalRole') && fetcher.includes('요양보호') && fetcher.includes('간호조무') && fetcher.includes('전문자격 분리'), '학력무관이어도 전문면허·전문자격 중심 채용은 학생 추천 공채 후보에서 분리합니다.');
   fail('fetcher.internship-not-direct-term', !directTerms.includes('채용연계'), '채용연계·채용형 인턴은 직접 분리 키워드에서 제외되어 학생 추천 채용으로 검토됩니다.');
   fail('fetcher.deadline-text-sanitizer', fetcher.includes('function safeDeadlineDisplayText') && fetcher.includes('function kstDateFromParts') && fetcher.includes('containsStructuredDatePattern'), '자동 수집 단계에서 불가능한 마감일 숫자를 원문 확인 문구로 정제합니다.');
   fail('fetcher.job-alio-dynamic-current-scan', fetcher.includes('JOB_ALIO_RECENT_DETAIL_DAYS') && fetcher.includes('function selectJobAlioRowsForDetail') && fetcher.includes('function buildJobAlioDynamicDiscovery') && fetcher.includes('dynamic-current-job-alio-detail-scan'), '잡알리오 최근 등록 공고는 기관 화이트리스트나 제목 키워드와 무관하게 상세 원문을 열어 오늘 기준 후보 누락을 점검합니다.');
@@ -545,7 +559,8 @@ async function validateHomepage() {
   fail('home.job-priority-education-sort', html.includes('function currentJobEducationPriority') && html.includes('function isHighSchoolFriendlyOpenJob') && html.includes('priority-highschool') && html.includes('priority-friendly-open') && html.includes('job-priority-badge') && html.includes('고졸·특성화고 응시 가능') && html.includes('학력무관·특성화고 응시 가능') && html.includes('학력무관 공채'), '고졸·특성화고·마이스터고 응시 가능 공채와 학력무관 공공기관·대기업 공채를 일반 학력무관 공채보다 먼저 정렬하고 굵게 표시합니다.');
   fail('home.job-track-display-refine', html.includes('function displayProcessTrack') && html.includes('function jobClassificationText') && html.includes('function hasPositiveWrittenExamJob') && html.includes('function hasFormalPublicStudentRecruitJob') && html.includes('JOB_WRITTEN_EXAM_PATTERN') && html.includes('JOB_CAREER_LADDER_EMPLOYMENT_PATTERN') && html.includes('공채 상세 정보') && html.includes('면접중심·현장형 채용') && !/공개\s*경쟁|공채|공무원|군무원|부사관/.test(jobWrittenExamPattern), '화면에서도 필기·NCS 신호뿐 아니라 정규직·무기계약직·채용형 인턴 등 학생 추천 공식 공채를 공채 상세 정보로 보호합니다.');
   fail('home.student-exclusion-overrides-eligibility', html.includes('JOB_DEGREE_PREFERENCE_PATTERN') && !html.includes('if (JOB_HIGH_SCHOOL_ELIGIBLE_PATTERN.test(text)) return false;'), '화면에서도 대학생·휴학생·학위 전용 제외 신호가 학력무관 또는 고졸 관련 문구보다 우선합니다.');
-  fail('home.professional-healthcare-display-guard', html.includes('function hasStudentUnsuitableProfessionalJob') && html.includes('JOB_STUDENT_UNSUITABLE_HEALTHCARE_ROLE_PATTERN') && html.includes('요양보호') && html.includes('간호조무'), '오래된 피드가 들어와도 요양보호직·간호조무사 등 전문자격 의료·돌봄 직무는 공채 칸으로 표시하지 않습니다.');
+  fail('home.student-fit-exception-guard', html.includes('function hasStudentRecommendationFitExceptionJob') && html.includes('JOB_VOCATIONAL_MAJOR_FIT_PATTERN'), '화면에서도 학생 추천 제외를 특정 직무명만으로 무조건 처리하지 않고 적합성 예외를 함께 봅니다.');
+  fail('home.professional-healthcare-display-guard', html.includes('function hasStudentUnsuitableProfessionalJob') && html.includes('JOB_STUDENT_UNSUITABLE_HEALTHCARE_ROLE_PATTERN') && html.includes('요양보호') && html.includes('간호조무'), '오래된 피드가 들어와도 전문면허·전문자격 중심 채용은 공채 칸으로 표시하지 않습니다.');
   fail('home.regional-education-display-guard', html.includes('function isRegionalEducationDisplayBlocked') && html.includes('regional-education-job') && html.includes('seoul-highjob') && html.includes('공채캘린더'), '오래된 피드가 들어와도 지역 교육청 취업지원센터 보조자료를 직접 카드로 렌더링하지 않습니다.');
   fail('home.deadline-text-sanitizer', html.includes('function cleanJobDeadlineText') && html.includes('function displayJobDeadlineText') && html.includes('function cleanJobTeacherShareText') && html.includes('function jobDeadlineTimeTextFromMatch'), '이미 내려온 피드에 잘못된 마감일 숫자가 있어도 카드·상세·브리핑 표시에서 원문 확인 문구로 치환하고 확정 마감 시각은 보존합니다.');
   fail('home.feed-freshness-warning', html.includes('function jobFeedFreshnessState') && html.includes('JOB_FEED_WARN_STALE_HOURS') && html.includes('data-feed-state') && html.includes('자동수집 지연'), '공채 피드가 오래되거나 부분 실패하면 화면 상태가 정상처럼 보이지 않게 표시합니다.');
@@ -732,7 +747,7 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.items.teacher-briefing`, briefingProblems.length === 0, `${label} 모든 공고가 취업부 브리핑과 공유 문안을 갖습니다.`, briefingProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.direct-policy`, directPolicyProblems.length === 0, `${label} 면접중심·현장형 채용은 간단 안내로 분리되고 교육청 소스는 직접 표시되지 않습니다.`, directPolicyProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-regional-education-direct-card`, regionalEducationDirectItems.length === 0, `${label} 지역 교육청·학교 취업지원 소식은 직접 결과 카드로 노출되지 않습니다.`, regionalEducationDirectItems.slice(0, 5).map((item) => `${item.source}:${item.title}`).join(' | '));
-  fail(`${label}.items.high-school-suitability`, suitabilityProblems.length === 0, `${label} 고졸·졸업예정자 코너에 급식·미화·요양·간호조무·원장·경력전용 등 부적합 공고가 섞이지 않습니다.`, suitabilityProblems.slice(0, 5).join(' | '));
+  fail(`${label}.items.high-school-suitability`, suitabilityProblems.length === 0, `${label} 고졸·졸업예정자 코너에 학생 추천 적합성이 낮거나 경력·전문자격 전용인 공고가 섞이지 않습니다.`, suitabilityProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-malformed-deadline-text`, malformedDeadlineProblems.length === 0, `${label} 마감일 표시에 존재하지 않는 날짜 조각이 없습니다.`, malformedDeadlineProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-unresolved-current-deadline`, unresolvedDeadlineProblems.length === 0, `${label} 진행중 공채 상세는 공식 원문 재확인 후 확정 마감일을 표시합니다.`, unresolvedDeadlineProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-unresolved-current-qualification`, unresolvedQualificationProblems.length === 0, `${label} 진행중 공채 상세는 공식 원문 재확인 후 자격요건을 구체적으로 표시합니다.`, unresolvedQualificationProblems.slice(0, 5).join(' | '));
