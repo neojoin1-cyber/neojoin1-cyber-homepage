@@ -20,7 +20,7 @@ await loadLocalEnvFile(path.join(ROOT_DIR, '.env.local'));
 
 const NOW = new Date();
 const CHECKED_AT = NOW.toISOString();
-const MAX_ITEMS = 80;
+const MAX_ITEMS = 120;
 const REQUEST_TIMEOUT_MS = 18000;
 const JOB_ALIO_LIST_RETRY_TIMEOUTS_MS = [12000];
 const JOB_ALIO_CRITICAL_LIST_RETRY_TIMEOUTS_MS = [12000, 18000];
@@ -4814,7 +4814,7 @@ function balanceTrackItems(sortedItems) {
   const regularItems = sortedItems.filter((item) => criticalCurrentPriority(item) >= 99);
   const protectedFormalItems = regularItems.filter(isProtectedFormalPublicRecruitItem);
   const directItems = regularItems.filter((item) => item.processTrack === 'direct-interview' && !isProtectedFormalPublicRecruitItem(item));
-  const directTarget = Math.min(directItems.length, Math.max(6, Math.floor(MAX_ITEMS * 0.25)));
+  const directTarget = Math.min(directItems.length, Math.max(36, Math.floor(MAX_ITEMS * 0.4)));
 
   criticalItems.forEach(add);
   protectedFormalItems.forEach(add);
@@ -7330,7 +7330,7 @@ async function main() {
       {
         id: 'direct-interview',
         name: '면접중심·현장형 채용',
-        description: '공채 상세보다 간단 확인이 적합한 채용. 마감, 전형, 자격, 첨부자료를 공식 소스에서 자동 요약하고 변동 항목은 다음 수집에서 다시 대조한다.'
+        description: '공채 시험 준비형은 아니지만 일반 특성화고 학생에게 현실적인 취업처가 될 수 있는 일반·면접형 취업정보. 마감, 전형, 자격, 첨부자료를 공식 소스에서 자동 요약하고 변동 항목은 다음 수집에서 다시 대조한다.'
       }
     ],
     sourceStatus: sourceStatusList,
@@ -7401,7 +7401,7 @@ main().catch(async (error) => {
       {
         id: 'direct-interview',
         name: '면접중심·현장형 채용',
-        description: '공채 상세보다 간단 확인이 적합한 채용. 마감, 전형, 자격, 첨부자료를 공식 소스에서 자동 요약하고 변동 항목은 다음 수집에서 다시 대조한다.'
+        description: '공채 시험 준비형은 아니지만 일반 특성화고 학생에게 현실적인 취업처가 될 수 있는 일반·면접형 취업정보. 마감, 전형, 자격, 첨부자료를 공식 소스에서 자동 요약하고 변동 항목은 다음 수집에서 다시 대조한다.'
       }
     ],
     secretReadiness: buildSecretReadinessReport(sourceStatusList),

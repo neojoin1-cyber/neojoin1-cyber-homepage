@@ -821,7 +821,7 @@ body.job-focus-mode .branch-board{display:none!important}
           </div>
           <div class="job-track-summary" aria-label="전형 유형별 자동 분류 요약">
             <div><b id="job-exam-count">0</b><span>공채 상세</span></div>
-            <div><b id="job-direct-count">0</b><span>현장형·면접중심</span></div>
+            <div><b id="job-direct-count">0</b><span>일반·면접형</span></div>
           </div>
           <div class="job-audit-summary" aria-label="공채 수집 점검 요약">
             <div><b id="job-first-day-count">0</b><span>첫날수집</span></div>
@@ -850,16 +850,16 @@ body.job-focus-mode .branch-board{display:none!important}
                 </article>
               </div>
             </section>
-            <section class="job-track-panel direct" aria-label="면접중심·현장형 채용">
+            <section class="job-track-panel direct" aria-label="일반·면접형 취업정보">
               <div class="track-head">
-                <div><b>면접중심·현장형 채용</b><small>추천 공채 상세보다 간단 확인이 적합한 채용은 자격·면접·첨부자료 중심으로 요약</small></div>
+                <div><b>일반·면접형 취업정보</b><small>공채 시험 준비형은 아니지만 일반 학생에게 현실적인 취업처가 될 수 있는 채용을 자격·면접·마감 중심으로 요약</small></div>
                 <span class="track-badge">Brief</span>
               </div>
               <div class="job-live-feed" id="job-direct-feed">
                 <article class="feed-item job-empty">
                   <div>
                     <span class="feed-org">공식 API 자동 수집</span>
-                    <div class="feed-title">면접중심·현장형 채용 확인 대기</div>
+                    <div class="feed-title">일반·면접형 취업정보 확인 대기</div>
                     <p class="feed-meta">고용24, 사람인, 잡코리아, 인크루트와 공식 기관 공지를 함께 확인해 자격·전형·마감 중심으로 안내합니다.</p>
                   </div>
                 </article>
@@ -2165,8 +2165,9 @@ var latestClosedJobArchiveItems = [];
 var jobFeedLoaded = false;
 var jobExamSortMode = initialJobSortMode();
 var showAllExamJobItems = false;
+var showAllDirectJobItems = false;
 const JOB_EXAM_DEFAULT_LIMIT = 10;
-const JOB_DIRECT_DEFAULT_LIMIT = 6;
+const JOB_DIRECT_DEFAULT_LIMIT = 12;
 const JOB_ARCHIVE_PAGE_SIZE = 25;
 const JOB_FEED_WARN_STALE_HOURS = 14;
 const JOB_FEED_CRITICAL_STALE_HOURS = 30;
@@ -2613,7 +2614,6 @@ function hasUnverifiedPrivateLargeStudentEligibilityJob(item) {
 }
 
 function isJobDisplayBlocked(item) {
-  if (hasStudentRecommendationExcludedJob(item)) return true;
   if (isCriticalProtectedRecruitJob(item)) return false;
   return hasCanceledRecruitJob(item)
     || hasCollegeOnlyApplicantJob(item)
@@ -2679,16 +2679,30 @@ function displayProcessTrack(item) {
 }
 
 function displayProcessTrackName(item) {
-  return displayProcessTrack(item) === 'exam-formal' ? '공채 상세 정보' : '면접중심·현장형 채용';
+  return displayProcessTrack(item) === 'exam-formal' ? '공채 상세 정보' : '일반·면접형 취업정보';
 }
 
 function displayServicePolicyLabel(item) {
-  if (displayProcessTrack(item) !== 'exam-formal' && item && item.servicePolicyLabel === '공채 상세') return '현장형 채용';
+  if (displayProcessTrack(item) !== 'exam-formal' && item && item.servicePolicyLabel === '공채 상세') return '일반 취업';
   return item && item.servicePolicyLabel ? item.servicePolicyLabel : '표시정책 확인';
 }
 
 function isHighSchoolFriendlyOpenJob(item) {
   return item && !isJobDisplayBlocked(item) && displayProcessTrack(item) === 'exam-formal' && isEducationOpenJob(item) && isHighSchoolFriendlyInstitution(item);
+}
+
+function currentJobDirectPracticalPriority(item) {
+  if (!item || displayProcessTrack(item) === 'exam-formal') return 0;
+  var text = jobClassificationText(item);
+  if (hasCollegeOnlyApplicantJob(item) || hasStudentUnsuitableProfessionalJob(item)) return 9;
+  if (hasRecommendedInternshipJob(item) || hasCareerLadderInternshipJob(item)) return 0;
+  if (hasExplicitHighSchoolRecruitJob(item) && /(정규직|무기계약직|신입|청년\s*인턴|체험형\s*인턴|공무직|업무지원직|사무|행정|기술|생산|전산|IT|디지털|기계|전기|전자|품질|물류|호텔|관광|조리|식품)/i.test(text)) return 1;
+  if (hasVerifiedStudentEligibilityJob(item) && /(정규직|무기계약직|신입|공무직|업무지원직|사무직|행정직|기술직|생산직|전산직|IT|디지털|기계|전기|전자|품질|물류|호텔|관광|식품)/i.test(text)) return 2;
+  if (hasVerifiedStudentEligibilityJob(item) && /(기간제|계약직|체험형|청년\s*인턴|현장|시설|안전|보안|조리|식품|사무|행정|기술)/.test(text)) return 3;
+  if (hasStudentRecommendationExcludedJob(item)) return 4;
+  if (hasLimitedTemporaryRecruitJob(item)) return 5;
+  if (hasHardFieldDirectRecruitJob(item)) return 6;
+  return 4;
 }
 
 function currentJobEducationPriority(item) {
@@ -2804,7 +2818,7 @@ function renderTeacherBriefing(item) {
 }
 
 function renderBriefingOpenButton(item, detailKey) {
-  var label = displayProcessTrack(item) === 'exam-formal' ? '취업부 브리핑 크게 보기' : '현장형 채용 브리핑 보기';
+  var label = displayProcessTrack(item) === 'exam-formal' ? '취업부 브리핑 크게 보기' : '취업정보 브리핑 보기';
   return '<button class="job-briefing-open job-detail-open" type="button" data-job-key="' + detailKey + '" aria-haspopup="dialog">' + escapeJobHtml(label) + '</button>';
 }
 
@@ -3198,6 +3212,8 @@ function currentJobDeadlineStatusWeight(item) {
 function compareCurrentJobsByRecent(a, b) {
   var educationPriorityDiff = currentJobEducationPriority(a) - currentJobEducationPriority(b);
   if (educationPriorityDiff !== 0) return educationPriorityDiff;
+  var directPracticalDiff = currentJobDirectPracticalPriority(a) - currentJobDirectPracticalPriority(b);
+  if (directPracticalDiff !== 0) return directPracticalDiff;
   var recentDiff = currentJobRecentValue(b) - currentJobRecentValue(a);
   if (recentDiff !== 0) return recentDiff;
   var deadlineDiff = currentJobDeadlineValue(a) - currentJobDeadlineValue(b);
@@ -3208,6 +3224,8 @@ function compareCurrentJobsByRecent(a, b) {
 function compareCurrentJobsByDeadline(a, b) {
   var educationPriorityDiff = currentJobEducationPriority(a) - currentJobEducationPriority(b);
   if (educationPriorityDiff !== 0) return educationPriorityDiff;
+  var directPracticalDiff = currentJobDirectPracticalPriority(a) - currentJobDirectPracticalPriority(b);
+  if (directPracticalDiff !== 0) return directPracticalDiff;
   var statusDiff = currentJobDeadlineStatusWeight(a) - currentJobDeadlineStatusWeight(b);
   if (statusDiff !== 0) return statusDiff;
   var deadlineDiff = currentJobDeadlineValue(a) - currentJobDeadlineValue(b);
@@ -3411,7 +3429,7 @@ function renderJobFeed(data) {
   if (!items.length && !closedItems.length) {
     var note = data.summary && data.summary.note ? data.summary.note : '공식 API 연결 후 공채정보가 자동 표시됩니다.';
     renderTrackFeed('job-exam-feed', [], '공채 상세 정보 확인 대기', note, ['추천공채', '공식공고', '첫날수집']);
-    renderTrackFeed('job-direct-feed', [], '면접중심·현장형 채용 확인 대기', note, ['자격요약', '공식원문', '보조검증']);
+    renderTrackFeed('job-direct-feed', [], '일반·면접형 취업정보 확인 대기', note, ['자격요약', '공식원문', '보조검증']);
     renderClosedJobArchive([]);
     return;
   }
@@ -3424,8 +3442,12 @@ function renderJobFeed(data) {
     collapsedLabel: '공채 상세 전부보기',
     expandedLabel: '공채 상세 접기'
   });
-  renderTrackFeed('job-direct-feed', directItems, '진행중 면접중심·현장형 채용 확인 대기', '공채 상세보다 간단 확인이 적합한 채용은 자격·면접·마감·첨부자료 중심으로 자동 요약합니다.', ['자격요약', '공식원문', '보조검증'], {
-    limit: JOB_DIRECT_DEFAULT_LIMIT
+  renderTrackFeed('job-direct-feed', directItems, '진행중 일반·면접형 취업정보 확인 대기', '공채 시험 준비형은 아니지만 일반 특성화고 학생에게 현실적인 취업처가 될 수 있는 채용을 자격·면접·마감 중심으로 안내합니다.', ['일반취업', '공식원문', '면접중심'], {
+    limit: JOB_DIRECT_DEFAULT_LIMIT,
+    expanded: showAllDirectJobItems,
+    toggleAction: 'toggle-all-direct-jobs',
+    collapsedLabel: '일반 취업정보 전부보기',
+    expandedLabel: '일반 취업정보 접기'
   });
   renderClosedJobArchive(closedItems);
 }
@@ -3505,6 +3527,7 @@ document.addEventListener('click', function(e) {
     e.preventDefault();
     var action = listToggle.getAttribute('data-job-list-action');
     if (action === 'toggle-all-exam-jobs') showAllExamJobItems = !showAllExamJobItems;
+    if (action === 'toggle-all-direct-jobs') showAllDirectJobItems = !showAllDirectJobItems;
     if (latestJobFeedData) renderJobFeed(latestJobFeedData);
     return;
   }
@@ -3516,6 +3539,7 @@ document.addEventListener('click', function(e) {
       jobExamSortMode = sortMode;
       saveJobSortMode(jobExamSortMode);
       showAllExamJobItems = false;
+      showAllDirectJobItems = false;
       if (latestJobFeedData) renderJobFeed(latestJobFeedData);
       else updateJobSortControls();
     }
