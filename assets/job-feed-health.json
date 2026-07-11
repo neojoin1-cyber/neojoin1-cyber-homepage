@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-10T16:46:56.033Z",
-  "feedGeneratedAt": "2026-07-10T16:46:56.033Z",
+  "generatedAt": "2026-07-11T03:34:26.077Z",
+  "feedGeneratedAt": "2026-07-11T03:34:26.077Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
@@ -23,7 +23,7 @@
   "sourceFailures": [],
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-10T16:46:56.033Z",
+    "generatedAt": "2026-07-11T03:34:26.077Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
@@ -303,7 +303,7 @@
         "deadline": "2026-07-03",
         "status": "application_closed",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kohom.or.kr/"
+        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B0%95%EC%9B%90%EC%A7%80%EC%82%AC&page=1&rnm_idx=903"
       },
       {
         "list": "items",
