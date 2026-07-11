@@ -34,7 +34,8 @@ await setPersistence(auth, browserLocalPersistence).catch(() => null);
 
 window.GYO6_PORTAL_AUTH = {
   getState: () => ({ ...state }),
-  requireApproved
+  requireApproved,
+  getAccessToken
 };
 
 trigger?.addEventListener("click", () => openAuthDialog());
@@ -64,6 +65,14 @@ function requireApproved(message = "") {
     : "로그인하고 관리자 승인을 받은 회원만 세부 내용을 이용할 수 있습니다.");
   openAuthDialog();
   return false;
+}
+
+async function getAccessToken() {
+  if (!state.approved || !state.user) {
+    requireApproved("승인 회원 로그인 후 채용 세부정보를 이용할 수 있습니다.");
+    throw new Error("APPROVED_MEMBER_REQUIRED");
+  }
+  return state.user.getIdToken();
 }
 
 async function refreshMember() {

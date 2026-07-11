@@ -82,13 +82,14 @@ jobs:
 
       - name: Commit updated feed
         run: |
-          if [ -z "$(git status --short -- assets/job-feed.json assets/job-feed-health.json assets/job-attachment-files)" ]; then
+          if [ -z "$(git status --short -- assets/job-feed.json assets/job-detail-vault.json assets/job-feed-health.json assets/job-attachment-files)" ]; then
             echo "No job feed, health, or attachment changes."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add assets/job-feed.json
+          git add assets/job-detail-vault.json
           git add assets/job-feed-health.json
           if [ -d assets/job-attachment-files ]; then
             git add assets/job-attachment-files

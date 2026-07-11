@@ -2160,6 +2160,7 @@ function mobGoto(id) {
 }
 
 const JOB_FEED_URL = 'assets/job-feed.json?v=20260624-company-title-v1';
+const JOB_DETAIL_API = 'https://gyo6-law-info-ai.gyo6.workers.dev/api/jobs/';
 const JOB_SORT_STORAGE_KEY = 'gyo6.jobHub.sortMode.v1';
 var latestJobFeedItems = [];
 var latestJobFeedData = null;
@@ -2465,15 +2466,16 @@ var JOB_FIELD_DIRECT_EMPLOYMENT_PATTERN = /(기간제|비정규직|계약직|단
 var JOB_LIMITED_PUBLIC_RECRUIT_PATTERN = /(기간제|비정규직|계약직|한시적|대체인력|휴직자\s*대체|육아휴직|임시직|촉탁|위촉|단기|특수직|실무직|국립공원지킴이|소포직|행정지원직\s*\(휴직|휴직\s*대체|공고\s*취소|공고취소|채용\s*취소|채용취소)/;
 var JOB_CANCELED_RECRUIT_PATTERN = /(공고\s*취소|공고취소|채용\s*취소|채용취소|취소\s*공고)/;
 var JOB_FIELD_DIRECT_CONTEXT_PATTERN = /(현장|보수|환경|수익시설|경비|보안|시설|미화|청소|조리|운전|노무|대체인력|육아휴직|임시직)/;
-var JOB_STUDENT_UNSUITABLE_HEALTHCARE_ROLE_PATTERN = /(요양보호(?:사|직)|간호조무(?:사|직)?|병동\s*간호조무|치과위생사|임상병리사|물리치료사|작업치료사|방사선사|청능사|보건의료정보관리사|사회복지사\s*1급|영양사)/;
+var JOB_STUDENT_UNSUITABLE_HEALTHCARE_ROLE_PATTERN = /(요양보호(?:사|직)|간호조무(?:사|직)?|병동\s*간호조무|치과위생사|임상병리사|임상심리사|정신건강전문요원|사회복지사|물리치료사|작업치료사|방사선사|청능사|보건의료정보관리사|영양사|장례지도사|완화의료|호스피스)/;
 var JOB_WEAK_EXAM_INFERENCE_PATTERN = /(필기\s*또는\s*공식\s*선발절차\s*가능성\s*높음|필기\/NCS\s*대비\s*일정\s*안내:\s*필기\s*또는\s*공식\s*선발절차\s*가능성\s*높음)/;
 var JOB_COLLEGE_APPLICANT_PATTERN = /(대학생|대학\s*(?:재학생|휴학생|졸업\s*예정|졸업예정)|대학교\s*(?:재학생|휴학생|졸업\s*예정|졸업예정)|재학생\s*(?:및|·|,|또는)\s*휴학생|휴학생\s*(?:및|·|,|또는)\s*재학생)/;
 var JOB_COLLEGE_APPLICANT_DISQUALIFIED_PATTERN = /(대학(?:교)?\s*(?:재학생|휴학생|졸업생)|대학생|재학생\s*(?:및|·|,|또는)\s*휴학생|휴학생\s*(?:및|·|,|또는)\s*재학생).{0,40}(지원\s*불가|지원불가|지원\s*제외|제외|불인정)/;
 var JOB_HIGH_SCHOOL_ELIGIBLE_PATTERN = /(학력\s*[:：]?\s*(?:무관|제한\s*없음)|학력\s*제한\s*없음|고졸\s*이상|고등학교\s*졸업|고졸|특성화고(?:등학교)?|직업계고|마이스터고(?:등학교)?)/;
 var JOB_DEGREE_ONLY_APPLICANT_PATTERN = /(전문학사|대졸|학사\s*(?:이상|학위|졸업)|석사|박사)/;
 var JOB_DEGREE_PREFERENCE_PATTERN = /(우대|가점|우대조건|우대사항|우대함).{0,32}(전문학사|대졸|학사|석사|박사)|(전문학사|대졸|학사|석사|박사).{0,32}(우대|가점|우대조건|우대사항|우대함)/;
-var JOB_MILITARY_SERVICE_RESTRICTION_PATTERN = /(남성|남자|병역|현역).{0,36}(병역\s*(?:필|필한|필하였|마친|면제|이행|완료)|병역필|군필|면제자|전역\s*가능|입사(?:예정)?일.{0,18}전역)|(병역\s*(?:필|필한|필하였|마친|면제|이행|완료)|병역필|군필|면제자|전역\s*가능).{0,36}(남성|남자|현역|지원자|응시자)/;
-var JOB_MILITARY_SERVICE_NO_LIMIT_EXCEPTION_PATTERN = /(고졸자(?:의)?\s*경우\s*제한\s*없음|고졸(?:자|예정자)?.{0,30}병역.{0,20}제한\s*없음|병역.{0,30}고졸(?:자|예정자)?.{0,20}제한\s*없음)/;
+var JOB_MIXED_HIGH_SCHOOL_RECRUIT_PATTERN = /(대졸\s*수준\s*(?:및|·|,|\/|와|과)\s*고졸\s*수준|고졸\s*수준\s*(?:및|·|,|\/|와|과)\s*대졸\s*수준|고졸\s*(?:전형|채용|구분|직군|직렬)|고등학교\s*졸업(?:예정)?자?\s*(?:지원|응시)\s*가능)/;
+var JOB_MILITARY_SERVICE_RESTRICTION_PATTERN = /(남성|남자|지원자|응시자).{0,40}(병역\s*(?:필|필한|필하였|마친|완료)|병역필|군필|전역자|면제자)|(병역\s*(?:필|필한|필하였|마친|완료)|병역필|군필|전역자|면제자).{0,40}(남성|남자|지원자|응시자)|병역필\s*또는\s*면제|병역을\s*마쳤거나\s*면제/;
+var JOB_MILITARY_SERVICE_NO_LIMIT_EXCEPTION_PATTERN = /(병역(?:법)?.{0,34}(?:기피|불이행)\s*사실(?:이)?\s*없는\s*자|병역의무를\s*기피한\s*사실이\s*없는\s*자|현역(?:은|의\s*경우)?.{0,36}입사(?:예정)?일.{0,24}(?:전역|제대)\s*가능|고졸(?:자|예정자)?.{0,30}병역.{0,20}제한\s*없음)/;
 var JOB_STUDENT_UNSUITABLE_RECRUIT_PATTERN = /(급식|취사|조리\s*실무사|조리\s*종사원|조리원|조리사|배식|요양보호(?:사|직)?|병동\s*간호조무|간호조무사|응급구조사|미화|청소|경비원|경비|주차|보안직|환경관리|수익시설)/;
 var JOB_VOCATIONAL_MAJOR_FIT_PATTERN = /((조리|식품|외식|제과|제빵|호텔|관광|보건|간호|복지|보안|경비|시설|전기|기계|환경|안전|위생).{0,36}(전공|학과|계열|기능사|산업기사|자격|우대|관련|실무))|((전공|학과|계열|기능사|산업기사|자격|우대|관련|실무).{0,36}(조리|식품|외식|제과|제빵|호텔|관광|보건|간호|복지|보안|시설|전기|기계|환경|안전|위생))/;
 
@@ -2528,7 +2530,6 @@ function hasStudentRecommendationExcludedJob(item) {
 
 function hasStudentUnsuitableProfessionalJob(item) {
   var text = jobClassificationText(item);
-  if (hasExplicitHighSchoolRecruitJob(item) || hasRecommendedInternshipJob(item)) return false;
   return JOB_STUDENT_UNSUITABLE_HEALTHCARE_ROLE_PATTERN.test(text)
     || (/자격증\s*소지자|면허(?:증)?\s*소지자|면허\s*소지|전문자격|전문\s*자격/.test(text)
       && /(의료|병원|병동|요양|간호|보건|치과|진료|치료|재활|환자)/.test(text));
@@ -2544,8 +2545,9 @@ function hasPositiveWrittenExamJob(item) {
 
 function hasCollegeOnlyApplicantJob(item) {
   var text = jobClassificationText(item);
-  return (JOB_COLLEGE_APPLICANT_PATTERN.test(text) && !JOB_COLLEGE_APPLICANT_DISQUALIFIED_PATTERN.test(text))
-    || (JOB_DEGREE_ONLY_APPLICANT_PATTERN.test(text) && !JOB_DEGREE_PREFERENCE_PATTERN.test(text));
+  if (JOB_COLLEGE_APPLICANT_PATTERN.test(text) && !JOB_COLLEGE_APPLICANT_DISQUALIFIED_PATTERN.test(text)) return true;
+  if (!JOB_DEGREE_ONLY_APPLICANT_PATTERN.test(text) || JOB_DEGREE_PREFERENCE_PATTERN.test(text)) return false;
+  return !JOB_MIXED_HIGH_SCHOOL_RECRUIT_PATTERN.test(text);
 }
 
 function hasVerifiedStudentEligibilityJob(item) {
@@ -2554,9 +2556,10 @@ function hasVerifiedStudentEligibilityJob(item) {
 }
 
 function hasMilitaryServiceRestrictionJob(item) {
-  var text = jobClassificationText(item)
-    .replace(/병역(?:법)?.{0,34}(?:기피|불이행)\s*사실(?:이)?\s*없는\s*자/g, ' ')
-    .replace(/병역의무를\s*기피한\s*사실이\s*없는\s*자/g, ' ');
+  if (item && item.studentChannelAssessment && typeof item.studentChannelAssessment.militaryCompletionRequired === 'boolean') {
+    return item.studentChannelAssessment.militaryCompletionRequired;
+  }
+  var text = jobClassificationText(item).replace(JOB_MILITARY_SERVICE_NO_LIMIT_EXCEPTION_PATTERN, ' ');
   if (JOB_MILITARY_SERVICE_NO_LIMIT_EXCEPTION_PATTERN.test(text)) return false;
   return JOB_MILITARY_SERVICE_RESTRICTION_PATTERN.test(text);
 }
@@ -2616,7 +2619,6 @@ function hasUnverifiedPrivateLargeStudentEligibilityJob(item) {
 }
 
 function isJobDisplayBlocked(item) {
-  if (isCriticalProtectedRecruitJob(item)) return false;
   return hasCanceledRecruitJob(item)
     || hasCollegeOnlyApplicantJob(item)
     || hasStudentUnsuitableRecruitJob(item)
@@ -2671,6 +2673,7 @@ function hasFieldDirectRecruitJob(item) {
 
 function displayProcessTrack(item) {
   if (!item) return 'direct-interview';
+  if (isJobDisplayBlocked(item)) return 'direct-interview';
   if (isCriticalProtectedRecruitJob(item)) return 'exam-formal';
   if (hasFieldDirectRecruitJob(item)) return 'direct-interview';
   var writtenExamTrack = hasPositiveWrittenExamJob(item) ? 'exam-formal' : 'direct-interview';
@@ -2697,7 +2700,9 @@ function currentJobDirectPracticalPriority(item) {
   if (!item || displayProcessTrack(item) === 'exam-formal') return 0;
   var text = jobClassificationText(item);
   if (hasCollegeOnlyApplicantJob(item) || hasStudentUnsuitableProfessionalJob(item)) return 9;
+  if (item.studentChannelAssessment && item.studentChannelAssessment.hardBlocked) return 9;
   if (hasRecommendedInternshipJob(item) || hasCareerLadderInternshipJob(item)) return 0;
+  if (item.studentChannelAssessment && item.studentChannelAssessment.directQuality && item.studentChannelAssessment.militaryUnservedEligible) return 1;
   if (hasExplicitHighSchoolRecruitJob(item) && /(정규직|무기계약직|신입|청년\s*인턴|체험형\s*인턴|공무직|업무지원직|사무|행정|기술|생산|전산|IT|디지털|기계|전기|전자|품질|물류|호텔|관광|조리|식품)/i.test(text)) return 1;
   if (hasVerifiedStudentEligibilityJob(item) && /(정규직|무기계약직|신입|공무직|업무지원직|사무직|행정직|기술직|생산직|전산직|IT|디지털|기계|전기|전자|품질|물류|호텔|관광|식품)/i.test(text)) return 2;
   if (hasVerifiedStudentEligibilityJob(item) && /(기간제|계약직|체험형|청년\s*인턴|현장|시설|안전|보안|조리|식품|사무|행정|기술)/.test(text)) return 3;
@@ -2991,7 +2996,7 @@ function renderJobDetailSections(item) {
   ].join('');
 }
 
-function openJobDetailByKey(key) {
+async function openJobDetailByKey(key) {
   var item = latestJobFeedItems.find(function(candidate) {
     return jobItemKey(candidate) === key;
   });
@@ -3001,7 +3006,6 @@ function openJobDetailByKey(key) {
   var metaEl = document.getElementById('job-detail-meta');
   var bodyEl = document.getElementById('job-detail-body');
   if (!modal || !titleEl || !metaEl || !bodyEl) return;
-  var officialUrl = jobOfficialUrl(item);
   titleEl.textContent = item.title || '채용공고명 확인 필요';
   metaEl.textContent = [
     item.sourceName || '공식 원문',
@@ -3010,7 +3014,28 @@ function openJobDetailByKey(key) {
     sourceVerificationLabel(item),
     displayJobDeadlineText(item, '마감일 원문 확인')
   ].filter(Boolean).join(' · ');
-  bodyEl.innerHTML = [
+  bodyEl.innerHTML = '<p class="job-detail-loading">승인 회원 정보를 확인하고 채용 세부정보를 불러오는 중입니다.</p>';
+  modal.hidden = false;
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  try {
+    var token = await window.GYO6_PORTAL_AUTH.getAccessToken();
+    var response = await fetch(JOB_DETAIL_API + encodeURIComponent(item.id), {
+      headers: { accept: 'application/json', authorization: 'Bearer ' + token },
+      cache: 'no-store'
+    });
+    var data = await response.json().catch(function() { return {}; });
+    if (!response.ok || !data.item) throw new Error(data.error || data.message || '채용 세부정보를 불러오지 못했습니다.');
+    item = Object.assign({}, item, data.item);
+    var officialUrl = jobOfficialUrl(item);
+    metaEl.textContent = [
+      item.sourceName || '공식 원문',
+      item.company || '기업·기관명 확인 필요',
+      item.region || '지역 원문 확인',
+      sourceVerificationLabel(item),
+      displayJobDeadlineText(item, '마감일 원문 확인')
+    ].filter(Boolean).join(' · ');
+    bodyEl.innerHTML = [
     '<div class="job-detail-actions">',
       '<a class="job-official-link" href="' + escapeJobAttr(officialUrl) + '" target="_blank" rel="noopener noreferrer">공식 공고 원문 열기</a>',
     '</div>',
@@ -3018,10 +3043,10 @@ function openJobDetailByKey(key) {
     '<div class="job-detail-actions bottom">',
       '<a class="job-official-link" href="' + escapeJobAttr(officialUrl) + '" target="_blank" rel="noopener noreferrer">공식 공고 원문 다시 열기</a>',
     '</div>'
-  ].join('');
-  modal.hidden = false;
-  modal.setAttribute('aria-hidden', 'false');
-  document.body.style.overflow = 'hidden';
+    ].join('');
+  } catch (error) {
+    bodyEl.innerHTML = '<p class="job-detail-error">' + escapeJobHtml(error.message || '채용 세부정보를 불러오지 못했습니다.') + '</p>';
+  }
 }
 
 function closeJobDetail() {
