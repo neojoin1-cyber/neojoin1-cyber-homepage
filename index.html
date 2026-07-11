@@ -20,6 +20,7 @@
 <meta name="twitter:title" content="설탕과소금 특성화고 교사지원 플랫폼">
 <meta name="twitter:description" content="공채정보, 전자책, 상담자료실을 https://gyo6.kr/ 한 주소에서 연결하는 AI 직업교육 플랫폼">
 <meta name="twitter:image" content="https://gyo6.kr/assets/platform-hero-vocational.png?v=20260531">
+<link rel="stylesheet" href="assets/portal-auth.css?v=20260711-member-gate-v1">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;600&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
@@ -553,7 +554,7 @@ body.job-focus-mode .branch-board{display:none!important}
 @media(min-width:721px){.sidebar{display:none !important}}
 </style>
 </head>
-<body>
+<body class="portal-member-blocked">
 
 <!-- 라이트박스 팝업 -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
@@ -586,10 +587,11 @@ body.job-focus-mode .branch-board{display:none!important}
 
   <!-- 우측 보조 메뉴 -->
   <div class="tnav-actions">
-    <a class="tnav-login" href="https://gyo6-law-info.web.app/?login=law#legalTool">로그인</a>
+    <button class="tnav-login" id="portal-auth-trigger" type="button">로그인</button>
     <a class="tnav-owner-link" href="#" id="tnav-owner" onclick="showPage('owner');return false">특성화고 32년</a>
   </div>
 </nav>
+<div id="portal-auth-mount" aria-live="polite"></div>
 
 <!-- 모바일 전용 상단 헤더 -->
 <div class="mobile-header" style="display:none">
@@ -3566,6 +3568,7 @@ document.addEventListener('click', function(e) {
   var openButton = e.target.closest && e.target.closest('.job-detail-open');
   if (openButton) {
     e.preventDefault();
+    if (!window.GYO6_PORTAL_AUTH || !window.GYO6_PORTAL_AUTH.requireApproved('채용정보 상세와 첨부자료는 관리자 승인 후 이용할 수 있습니다.')) return;
     openJobDetailByKey(openButton.getAttribute('data-job-key'));
     return;
   }
@@ -3590,5 +3593,6 @@ window.addEventListener('hashchange', function() {
   handleHashRoute();
 });
 </script>
+<script type="module" src="assets/portal-auth.js?v=20260711-member-gate-v1"></script>
 </body>
 </html>

@@ -1,0 +1,161 @@
+.tnav-login {
+  font: inherit;
+  cursor: pointer;
+}
+
+body.portal-member-blocked #job-hub-home .job-detail-lines,
+body.portal-member-blocked #job-hub-home .job-briefing-card,
+body.portal-member-blocked #job-hub-home .job-brief-note,
+body.portal-member-blocked #job-hub-home .official-check,
+body.portal-member-blocked #job-hub-home .job-card-meta,
+body.portal-member-blocked #job-hub-home .job-deadline,
+body.portal-member-blocked #job-hub-home .feed-tags {
+  display: none !important;
+}
+
+.portal-auth-modal[hidden] {
+  display: none;
+}
+
+.portal-auth-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.portal-auth-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(14, 29, 43, .58);
+}
+
+.portal-auth-dialog {
+  position: relative;
+  width: min(460px, 100%);
+  max-height: calc(100vh - 36px);
+  overflow: auto;
+  border: 1px solid #cfe0dc;
+  border-radius: 8px;
+  padding: 22px;
+  background: #fff;
+  box-shadow: 0 24px 70px rgba(14, 29, 43, .28);
+}
+
+.portal-auth-head,
+.portal-auth-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.portal-auth-head span {
+  color: #2f766d;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.portal-auth-head h2 {
+  margin: 2px 0 0;
+  color: #172231;
+  font-size: 22px;
+}
+
+.portal-auth-head > button {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #d7e3e0;
+  border-radius: 50%;
+  background: #fff;
+  color: #172231;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.portal-auth-copy,
+.portal-auth-approved,
+.portal-auth-pending,
+.portal-auth-message {
+  margin: 16px 0;
+  color: #4f6269;
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.portal-auth-message {
+  border-left: 3px solid #2f766d;
+  padding: 10px 12px;
+  background: #eef7f5;
+  color: #234b46;
+}
+
+.portal-auth-form {
+  display: grid;
+  gap: 12px;
+}
+
+.portal-auth-form label {
+  display: grid;
+  gap: 5px;
+  color: #30454d;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.portal-auth-form input {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid #cddcd8;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font: inherit;
+}
+
+.portal-auth-form button,
+.portal-auth-logout,
+.portal-auth-row button,
+.portal-auth-row a,
+.portal-auth-signup {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  border: 1px solid #2f766d;
+  border-radius: 6px;
+  padding: 9px 14px;
+  background: #2f766d;
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.portal-auth-signup {
+  width: 100%;
+  margin-top: 10px;
+  border-color: #c8dcd7;
+  background: #fff;
+  color: #2f766d;
+}
+
+@media (max-width: 720px) {
+  .portal-auth-dialog {
+    padding: 18px;
+  }
+
+  .portal-auth-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .portal-auth-row a,
+  .portal-auth-row button,
+  .portal-auth-logout {
+    width: 100%;
+  }
+}
