@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-12T15:08:18.430Z",
-  "feedGeneratedAt": "2026-07-12T15:08:18.430Z",
+  "generatedAt": "2026-07-12T15:39:46.061Z",
+  "feedGeneratedAt": "2026-07-12T15:39:46.061Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
@@ -23,7 +23,7 @@
   "sourceFailures": [],
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-12T15:08:18.430Z",
+    "generatedAt": "2026-07-12T15:39:46.061Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
@@ -136,6 +136,28 @@
         "status": "deadline_soon",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EC%A0%84%EB%B6%81%EC%A7%80%EC%82%AC&page=1&rnm_idx=909"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국산업기술기획평가원",
+        "title": "한국산업기술기획평가원 2026년 체험형 청년인턴(일반, 자립준비청년) 채용공고",
+        "deadline": "2026-07-16",
+        "status": "deadline_soon",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://keit.re.kr/board.es?mid=a10307020000&bid=0046&act=view&list_no=128115"
       },
       {
         "list": "items",
@@ -427,28 +449,7 @@
         "deadline": "2026-07-06",
         "status": "application_closed",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EC%A0%84%EB%B6%81%EC%A7%80%EC%82%AC&page=1&rnm_idx=909"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "주택관리공단(주)",
-        "title": "채용형 인턴 채용공고(주택관리공단 충북지사)(원서 마감)",
-        "deadline": "2026-07-08",
-        "status": "application_closed",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EC%B6%A9%EB%B6%81%EC%A7%80%EC%82%AC&page=1&rnm_idx=899"
+        "primaryOfficialUrl": "https://www.kohom.or.kr/"
       }
     ]
   },
