@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-13T16:40:57.886Z",
-  "feedGeneratedAt": "2026-07-13T16:40:57.886Z",
+  "generatedAt": "2026-07-13T16:58:53.181Z",
+  "feedGeneratedAt": "2026-07-13T16:58:53.181Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "degraded",
@@ -27,12 +27,12 @@
       "isolatedFailure": false,
       "fallbackProtected": false,
       "fallbackItemCount": 0,
-      "message": "연결 실패: recent-page-1: recent-page-1 failed after 1 attempts: HTTP timeout after 12000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-2: recent-page-2 failed after 1 attempts: HTTP timeout after 12000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT"
+      "message": "연결 실패: recent-page-2: recent-page-2 failed after 1 attempts: HTTP timeout after 12000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-1: recent-page-1 failed after 1 attempts: HTTP timeout after 12000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT"
     }
   ],
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-13T16:40:57.886Z",
+    "generatedAt": "2026-07-13T16:58:53.181Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
