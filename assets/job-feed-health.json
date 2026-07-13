@@ -1,14 +1,14 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-13T04:20:28.879Z",
-  "feedGeneratedAt": "2026-07-13T04:20:28.879Z",
+  "generatedAt": "2026-07-13T08:25:08.859Z",
+  "feedGeneratedAt": "2026-07-13T08:25:08.859Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "degraded",
   "summary": {
-    "total": 2,
+    "total": 3,
     "active": 2,
-    "deadlineSoon": 0,
+    "deadlineSoon": 1,
     "applicationClosed": 0,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
@@ -18,7 +18,7 @@
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 2
+    "studentRecruitSafetyReview": 3
   },
   "sourceFailures": [
     {
@@ -27,16 +27,16 @@
       "isolatedFailure": false,
       "fallbackProtected": false,
       "fallbackItemCount": 0,
-      "message": "연결 실패: recent-page-4: recent-page-4 failed after 1 attempts: HTTP timeout after 12000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-3: recent-page-3 failed after 1 attempts: HTTP timeout after 12000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT"
+      "message": "연결 실패: recent-page-1: recent-page-1 failed after 1 attempts: HTTP timeout after 12000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-2: recent-page-2 failed after 1 attempts: HTTP timeout after 12000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT"
     }
   ],
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-13T04:20:28.879Z",
+    "generatedAt": "2026-07-13T08:25:08.859Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 2,
+    "studentRecruitReviewCount": 3,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -82,6 +82,25 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=302422"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "공채 신호"
+        ],
+        "source": "finance-large-company-recruit",
+        "sourceName": "금융권·상장기업 고졸 공채 공식 피드",
+        "sector": "finance-large-company",
+        "company": "현대제철",
+        "title": "현대제철(주) 재경 사무보조 계약직 채용(당진)",
+        "deadline": "2026-07-16",
+        "status": "deadline_soon",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://hyundai-steel.recruiter.co.kr/career/jobs/121933"
       }
     ]
   },
