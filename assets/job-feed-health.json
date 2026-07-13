@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-13T08:25:08.859Z",
-  "feedGeneratedAt": "2026-07-13T08:25:08.859Z",
+  "generatedAt": "2026-07-13T08:35:38.750Z",
+  "feedGeneratedAt": "2026-07-13T08:35:38.750Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "degraded",
@@ -32,7 +32,7 @@
   ],
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-13T08:25:08.859Z",
+    "generatedAt": "2026-07-13T08:35:38.750Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
