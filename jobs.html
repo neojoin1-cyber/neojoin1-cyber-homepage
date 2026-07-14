@@ -34,39 +34,45 @@
   </header>
 
   <main id="main">
-    <section class="hero page-hero">
+    <section class="hero page-hero compact-hero">
       <div class="wrap">
         <div class="domain">Jobs Feed</div>
-        <h1>채용정보는 설탕과소금 특성화고 플랫폼의 가장 중요한 실전 콘텐츠입니다.</h1>
-        <p class="lead">하루 3회 자동 수집으로 공공기관, 기업, 교육청, 지역 채널의 공고를 모으고 공식 공고문, 첨부서류, 취업부 브리핑, 학생 준비 항목을 한 화면에서 바로 확인할 수 있도록 정리합니다.</p>
-        <div class="actions">
-          <a class="btn primary" href="assets/job-feed.json">원본 JSON 보기</a>
+        <h1>특성화고 공채, 먼저 보이게.</h1>
+        <p class="lead">공기업·공공기관·공무원·금융권·대기업 공채를 최상단에 고정하고, 공식 공고문·첨부서류·취업부 브리핑을 바로 엽니다.</p>
+        <div class="job-hero-strip" id="feed-summary">
+          <span>전체 <b>95</b>건</span>
+          <span>진행 <b>56</b>건</span>
+          <span>마감임박 <b>23</b>건</span>
+          <span>하루 <b>3회</b> 자동수집</span>
+        </div>
+        <div class="actions compact-actions">
+          <a class="btn primary" href="#feed-list">공고 바로 보기</a>
           <a class="btn" href="vocational.html">플랫폼 페이지로 돌아가기</a>
           <a class="btn" href="resources.html">상담자료실 안내</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section-block">
-      <div class="wrap">
-        <div class="grid-3" id="feed-summary">
-          <article class="summary-card"><h3>전체 공고</h3><p><strong>95</strong>건</p></article>
-          <article class="summary-card"><h3>진행 중</h3><p><strong>56</strong>건</p></article>
-          <article class="summary-card"><h3>마감 임박</h3><p><strong>23</strong>건</p></article>
-        </div>
-        <div class="grid-3" style="margin-top:18px;" id="feed-health">
-          <article class="summary-card"><h3>수집 주기</h3><p><strong>하루 3회</strong> 자동 갱신</p></article>
-          <article class="summary-card"><h3>Ollama 보강</h3><p><strong>6건</strong> 취업부 브리핑 보강</p></article>
-          <article class="summary-card"><h3>현재 상태</h3><p><strong>게시 정상</strong> · 공식 공고 보존</p></article>
+          <a class="btn" href="assets/job-feed.json">원본 JSON</a>
         </div>
       </div>
     </section>
 
     <section>
-      <div class="wrap">
+      <div class="wrap jobs-wrap">
         <div class="eyebrow">Latest Items</div>
         <h2 id="feed-heading">전체 채용공고</h2>
         <p class="lead" id="feed-note">최신 피드를 불러오는 중입니다. 제목을 누르면 취업부 브리핑, 공식 공고문, 첨부서류를 한 번에 확인할 수 있습니다.</p>
+        <div class="job-toolbar" aria-label="채용공고 정렬과 검색">
+          <div class="job-sort-tabs" role="group" aria-label="정렬 방식">
+            <button class="sort-tab active" type="button" data-sort-mode="new">신규 공고순</button>
+            <button class="sort-tab" type="button" data-sort-mode="deadline">마감일자 순으로 보기</button>
+          </div>
+          <label class="job-search">
+            <span>지난 공고문 검색</span>
+            <span class="job-search-row">
+              <input id="job-search-input" type="search" placeholder="기관명, 공고명, 지역, 첨부자료 검색">
+              <button class="sort-tab" id="job-search-button" type="button">검색</button>
+            </span>
+          </label>
+        </div>
+        <div class="job-status-line" id="feed-health">핵심 공채를 최상단에 고정하고 있습니다.</div>
         <div class="feed-list" id="feed-list">
           <article class="feed-item">
             <h3>채용공고를 불러오고 있습니다.</h3>
@@ -100,11 +106,17 @@
 
   <script>
     const summaryEl = document.getElementById("feed-summary");
-    const healthEl = document.getElementById("feed-health");
     const listEl = document.getElementById("feed-list");
     const headingEl = document.getElementById("feed-heading");
     const noteEl = document.getElementById("feed-note");
+    const healthEl = document.getElementById("feed-health");
+    const searchInputEl = document.getElementById("job-search-input");
+    const searchButtonEl = document.getElementById("job-search-button");
+    const sortButtons = Array.from(document.querySelectorAll("[data-sort-mode]"));
+    let latestJobFeed = null;
     let latestJobFeedItems = [];
+    let currentSortMode = "new";
+    let currentSearchTerm = "";
 
     function escapeHtml(value) {
       return String(value ?? "")
@@ -120,6 +132,109 @@
       if (status === "application_closed") return "마감";
       if (status === "active") return "진행중";
       return status || "-";
+    }
+
+    function dateValue(...values) {
+      for (const value of values) {
+        if (!value) continue;
+        const date = new Date(value);
+        if (!Number.isNaN(date.getTime())) return date.getTime();
+      }
+      return 0;
+    }
+
+    function deadlineValue(item) {
+      const date = new Date(`${item.deadline || ""}T23:59:59+09:00`);
+      return Number.isNaN(date.getTime()) ? Number.MAX_SAFE_INTEGER : date.getTime();
+    }
+
+    function postedValue(item) {
+      return dateValue(
+        item.publishedAt,
+        item.collectionAudit?.publishedAt,
+        item.collectionAudit?.firstSeenAt,
+        item.verifiedAt
+      );
+    }
+
+    function isClosedJob(item) {
+      return item.status === "application_closed"
+        || item.status === "expired"
+        || /마감|종료|closed|expired/i.test(String(item.statusLabel || item.status || ""));
+    }
+
+    function activeRank(item) {
+      return isClosedJob(item) ? 1 : 0;
+    }
+
+    function itemSearchText(item) {
+      return [
+        item.title,
+        item.baseTitle,
+        item.company,
+        item.sourceName,
+        item.source,
+        item.sector,
+        item.region,
+        item.recruitField,
+        item.education,
+        item.employmentType,
+        item.detailText,
+        item.processTrackName,
+        item.teacherBriefing?.teacherShareText,
+        ...(Array.isArray(item.guideTags) ? item.guideTags : []),
+        ...collectAttachments(item).map((file) => `${file.kind} ${file.title}`)
+      ].filter(Boolean).join(" ").toLowerCase();
+    }
+
+    function isCorePublicRecruit(item) {
+      const text = [
+        item.title,
+        item.company,
+        item.sourceName,
+        item.source,
+        item.sector,
+        item.detailLevel,
+        item.recruitField,
+        item.employmentType,
+        item.publicRecruitDetails?.eligibility,
+        ...(Array.isArray(item.guideTags) ? item.guideTags : [])
+      ].filter(Boolean).join(" ");
+      const sourceSignal = /public-institution|finance|large-company|job-alio|공공기관|공기업|기타공공기관|금융권|대기업|상장기업|국가직|지방직|공무원/i.test(text);
+      const recruitSignal = /공채|신규직원|신입직원|정규직|무기계약직|채용형\s*인턴|고졸|특성화고|마이스터고|학력무관|NCS|필기|직업기초/i.test(text);
+      return item.processTrack === "exam-formal"
+        && (item.detailLevel === "detailed-public-recruit" || sourceSignal)
+        && recruitSignal;
+    }
+
+    function coreRecruitLabel(item) {
+      const text = [item.sector, item.sourceName, item.source, item.company, item.title, ...(Array.isArray(item.guideTags) ? item.guideTags : [])].join(" ");
+      if (/국가직|지방직|공무원|나라일터|군무원|부사관/.test(text)) return "공무원·공직";
+      if (/금융|은행|농협|신협|새마을|카드|보험|증권|finance/i.test(text)) return "금융권 공채";
+      if (/대기업|상장기업|삼성|현대|SK|LG|포스코|large-company/i.test(text)) return "대기업 공채";
+      if (/공공기관|공기업|기타공공기관|job-alio|public-institution/i.test(text)) return "공기업·공공기관";
+      return "핵심 공채";
+    }
+
+    function visibleItems(items) {
+      const term = currentSearchTerm.trim().toLowerCase();
+      const filtered = term
+        ? items.filter((item) => itemSearchText(item).includes(term))
+        : items.slice();
+      return filtered.sort((a, b) => {
+        const coreDiff = Number(isCorePublicRecruit(b)) - Number(isCorePublicRecruit(a));
+        if (coreDiff) return coreDiff;
+        const activeDiff = activeRank(a) - activeRank(b);
+        if (activeDiff) return activeDiff;
+        if (currentSortMode === "deadline") {
+          const deadlineDiff = deadlineValue(a) - deadlineValue(b);
+          if (deadlineDiff) return deadlineDiff;
+        } else {
+          const postedDiff = postedValue(b) - postedValue(a);
+          if (postedDiff) return postedDiff;
+        }
+        return String(a.title || "").localeCompare(String(b.title || ""), "ko-KR");
+      });
     }
 
     function isHttpUrl(value) {
@@ -308,35 +423,38 @@
     function renderSummary(feed) {
       const summary = feed.summary || {};
       summaryEl.innerHTML = `
-        <article class="summary-card"><h3>전체 공고</h3><p><strong>${summary.total ?? "-"}</strong>건</p></article>
-        <article class="summary-card"><h3>진행 중</h3><p><strong>${summary.active ?? "-"}</strong>건</p></article>
-        <article class="summary-card"><h3>마감 임박</h3><p><strong>${summary.deadlineSoon ?? "-"}</strong>건</p></article>
+        <span>전체 <b>${summary.total ?? "-"}</b>건</span>
+        <span>진행 <b>${summary.active ?? "-"}</b>건</span>
+        <span>마감임박 <b>${summary.deadlineSoon ?? "-"}</b>건</span>
+        <span>공채상세 <b>${summary.examFormal ?? "-"}</b>건</span>
       `;
 
       healthEl.innerHTML = `
-        <article class="summary-card"><h3>수집 주기</h3><p><strong>${escapeHtml(feed.schedule || "-")}</strong></p></article>
-        <article class="summary-card"><h3>운영 소스</h3><p><strong>${summary.sourcesReady ?? summary.sourcesConfigured ?? "-"}</strong>개 채널 정상 확인</p></article>
-        <article class="summary-card"><h3>현재 상태</h3><p><strong>${summary.criticalCoverageMissing === 0 && (summary.sourcesFailed ?? 0) === 0 ? "정상" : "점검 필요"}</strong> · 최근 수집 ${escapeHtml(feed.generatedAt || "-")}</p></article>
+        ${escapeHtml(feed.schedule || "하루 3회 자동 수집")} · 공식 소스 ${summary.sourcesReady ?? summary.sourcesConfigured ?? "-"}개 확인 · Ollama 브리핑 ${summary.ollamaBriefingReady ?? 0}건 · 최근 수집 ${escapeHtml(feed.generatedAt || "-")}
       `;
     }
 
     function renderItems(feed) {
       const items = Array.isArray(feed.items) ? feed.items : [];
-      latestJobFeedItems = items;
-      headingEl.textContent = `전체 채용공고 ${items.length}건`;
-      noteEl.textContent = "제목을 누르면 취업부 요약, 공식 공고문, 제출서류 링크가 팝업으로 열립니다.";
+      const displayItems = visibleItems(items);
+      latestJobFeedItems = displayItems;
+      const coreCount = displayItems.filter(isCorePublicRecruit).length;
+      headingEl.textContent = currentSearchTerm
+        ? `검색 결과 ${displayItems.length}건`
+        : `전체 채용공고 ${displayItems.length}건`;
+      noteEl.textContent = `핵심 공채 ${coreCount}건을 최상단에 고정했습니다. 제목을 누르면 취업부 요약, 공식 공고문, 제출서류 링크가 팝업으로 열립니다.`;
 
-      if (!items.length) {
+      if (!displayItems.length) {
         listEl.innerHTML = `
           <article class="feed-item">
-            <h3>표시할 채용공고가 없습니다.</h3>
-            <p>원본 JSON을 확인해 주세요.</p>
+            <h3>검색 조건에 맞는 채용공고가 없습니다.</h3>
+            <p>기관명, 공고명, 지역, 첨부자료 이름을 바꿔 다시 검색해 주세요.</p>
           </article>
         `;
         return;
       }
 
-      listEl.innerHTML = items.map((item, index) => {
+      listEl.innerHTML = displayItems.map((item, index) => {
         const title = escapeHtml(item.title || "제목 없음");
         const company = escapeHtml(item.company || "기관명 없음");
         const deadline = escapeHtml(item.deadline || "-");
@@ -346,11 +464,15 @@
         const processTrack = escapeHtml(item.processTrack || "-");
         const detailKey = itemKey(item, index);
         const attachmentCount = collectAttachments(item).length;
+        const coreRecruit = isCorePublicRecruit(item);
+        const posted = item.collectionAudit?.publishedDate || (item.publishedAt ? item.publishedAt.slice(0, 10) : "") || item.collectionAudit?.firstSeenDate || "";
         return `
-          <article class="feed-item">
+          <article class="feed-item ${coreRecruit ? "core-recruit" : ""}">
             <div class="feed-meta">
+              ${coreRecruit ? `<span class="label hot">${escapeHtml(coreRecruitLabel(item))}</span>` : ""}
               <span class="label teal">${status}</span>
               <span class="label gold">마감 ${deadline}</span>
+              ${posted ? `<span class="label">공고 ${escapeHtml(posted)}</span>` : ""}
             </div>
             <button class="job-title-button job-detail-open" type="button" data-job-key="${detailKey}" aria-haspopup="dialog">
               <span>${title}</span>
@@ -366,6 +488,11 @@
       }).join("");
     }
 
+    function rerenderFeed() {
+      if (!latestJobFeed) return;
+      renderItems(latestJobFeed);
+    }
+
     document.addEventListener("click", (event) => {
       const openButton = event.target.closest && event.target.closest(".job-detail-open");
       if (openButton) {
@@ -377,6 +504,25 @@
       if (closeButton || event.target.id === "job-detail-modal") {
         closeJobDetail();
       }
+    });
+
+    sortButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        currentSortMode = button.getAttribute("data-sort-mode") || "new";
+        sortButtons.forEach((candidate) => candidate.classList.toggle("active", candidate === button));
+        rerenderFeed();
+      });
+    });
+
+    searchInputEl.addEventListener("input", (event) => {
+      currentSearchTerm = event.target.value || "";
+      rerenderFeed();
+    });
+
+    searchButtonEl.addEventListener("click", () => {
+      currentSearchTerm = searchInputEl.value || "";
+      rerenderFeed();
+      searchInputEl.focus();
     });
 
     document.addEventListener("keydown", (event) => {
@@ -392,6 +538,7 @@
         return response.json();
       })
       .then((feed) => {
+        latestJobFeed = feed;
         renderSummary(feed);
         renderItems(feed);
       })

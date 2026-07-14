@@ -604,7 +604,8 @@ async function validateCoreContentPages() {
   const resources = await readText('resources.html');
 
   fail('core.vocational-content-weight', vocational.includes('가장 심혈을 기울이는 특성화고 핵심 콘텐츠') && vocational.includes('Ollama 보강 요약') && vocational.includes('공개 자료실과 승인 회원 상담실'), '특성화고 플랫폼 페이지가 채용정보와 상담자료실을 핵심 콘텐츠로 설명합니다.');
-  fail('core.jobs-content-weight', jobs.includes('가장 중요한 실전 콘텐츠') && jobs.includes('하루 3회 자동 수집') && jobs.includes('상담자료실 안내'), '채용정보 페이지가 자동 수집과 상담자료실 연결을 명확히 안내합니다.');
+  fail('core.jobs-content-weight', jobs.includes('특성화고 공채, 먼저 보이게.') && jobs.includes('공기업·공공기관·공무원·금융권·대기업 공채') && jobs.includes('상담자료실 안내'), '채용정보 페이지가 핵심 공채 우선 노출과 상담자료실 연결을 명확히 안내합니다.');
+  fail('core.jobs-sort-search', jobs.includes('data-sort-mode="new"') && jobs.includes('data-sort-mode="deadline"') && jobs.includes('job-search-input') && jobs.includes('job-search-button') && jobs.includes('isCorePublicRecruit') && jobs.includes('core-recruit'), '채용정보 페이지가 신규순·마감일자순·검색·핵심 공채 강조 UI를 제공합니다.');
   fail('core.resources-page', resources.includes('상담자료실은 학교 현장의 반복 검색을 줄이기 위한') && resources.includes('https://gyo6-law-info.web.app') && resources.includes('법률 자문이나 사건 판단을 대신하지 않습니다'), '상담자료실 안내 페이지가 공식자료 연결과 한계를 분명히 안내합니다.');
 }
 
