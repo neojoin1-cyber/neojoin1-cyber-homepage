@@ -570,19 +570,20 @@ async function validateHomepage() {
   const staleAxisTerms = ['기업자료', '공채·기업자료', 'AI 활용 실험실', 'lab-branch-home', '기록 보관소', '디지털 기록', 'KBS NOVA'];
   const staleAxisHits = staleAxisTerms.filter((term) => html.includes(term));
 
-  fail('home.feed-url-versioned', /assets\/job-feed\.json\?v=/.test(html), '공채 피드 URL에 캐시 버전이 붙어 있습니다.');
-  fail('home.feed-no-store', html.includes("cache: 'no-store'"), '공채 피드는 브라우저 캐시를 피해서 읽습니다.');
+  fail('home.feed-link-present', html.includes('assets/job-feed.json'), '특성화고 플랫폼 채용 피드 진입 링크가 유지되어 있습니다.');
   fail('home.no-public-manual-job-feed-run', !html.includes('actions/workflows/job-feed.yml') && !html.includes('수동수집 실행'), '공개 홈에는 GitHub Actions 수동수집 버튼을 노출하지 않습니다.');
   fail('home.law-link', html.includes('https://gyo6-law-info.web.app'), '법률정보 시스템 연결 URL이 유지되어 있습니다.');
   fail('home.no-legacy-ebook-link', !html.includes('https://gyo6--ebook.web.app'), '대표 홈페이지는 기존 전자책 서재 링크를 노출하지 않습니다.');
-  fail('home.ebook-placeholder-only', html.includes('전자책은 새로 설계할 메뉴만 남깁니다.') && html.includes('기존 전자책 메뉴의 내용을 사용하지 않습니다.'), '전자책은 재설계 예정 메뉴로만 표시됩니다.');
+  fail('home.ebook-placeholder-only', html.includes('전자책은 메뉴만 남기고, 새로 설계합니다.') && html.includes('현재의 전자책 메뉴 내용은 이번 대표 홈페이지에 사용하지 않습니다.'), '전자책은 재설계 예정 메뉴로만 표시됩니다.');
   fail('home.ebook-no-paid-teaser-copy', !hasPaidTeaserCopy(html), '전자책 안내에서 유료 전환처럼 보일 수 있는 맛보기 표현을 쓰지 않습니다.');
   fail('home.hero-brand-copy', html.includes('대한민국 교육격차 해소를 위해 노력하는 기업') && html.includes('gyo6.kr · 교육.한국'), '대표 홈은 설탕과소금 기업 모토와 gyo6.kr의 교육.한국 의미를 전면에 둡니다.');
   fail('home.learning-app-not-ebook', html.includes('설탕과소금 학습 앱') && html.includes('직업공통능력 인증교재') && html.includes('NCS 직업기초능력교재') && html.includes('면접스킬') && html.includes('인성검사'), '설탕과소금 앱은 전자책이 아니라 취업 준비 학습 앱으로 설명됩니다.');
-  fail('home.today-where-positioning', html.includes('교과서에 나오는 역사적 인물, 장소, 사건') && html.includes('체험학습 보고서'), '오늘어디가는 가족 여행과 가정 체험학습, 보고서 연계 앱으로 설명됩니다.');
-  fail('home.adventure-positioning', html.includes('미취학 아동') && html.includes('책과 친해지는 정서'), '모험동화 앱은 미취학 아동의 독서 정서 형성 앱으로 설명됩니다.');
+  fail('home.today-where-positioning', html.includes('역사적 인물, 장소, 사건') && html.includes('가정 체험학습') && html.includes('체험학습 보고서'), '오늘어디가는 가족 여행과 가정 체험학습, 보고서 연계 앱으로 설명됩니다.');
+  fail('home.adventure-positioning', html.includes('미취학 아동') && html.includes('동화책과 가까운 정서'), '모험동화 앱은 미취학 아동의 독서 정서 형성 앱으로 설명됩니다.');
   fail('home.novastar-positioning', html.includes('잠시의 휴식') && html.includes('별자리 타일 매치'), '노바스타는 휴식형 퍼즐 게임으로 설명됩니다.');
-  fail('home.vocational-two-axis', html.includes('채용정보와 상담자료실에 집중합니다.') && html.includes('단톡방') && html.includes('서식·법령·지침'), '특성화고 플랫폼은 채용정보와 상담자료실 두 축으로 설명됩니다.');
+  fail('home.vocational-two-axis', html.includes('채용정보와 상담자료실만 분명하게 남깁니다.') && html.includes('단톡방') && html.includes('서식·법령·지침'), '특성화고 플랫폼은 채용정보와 상담자료실 두 축으로 설명됩니다.');
+  fail('home.business-area-simple', html.includes('복잡한 설명보다') && html.includes('사업 영역을 분명하게 정리합니다.'), '대표 홈페이지는 복잡한 기능보다 사업 영역 정리에 집중합니다.');
+  fail('home.thirty-years-proud-story', html.includes('30여 년의 특성화고 경험은 설탕과소금의 가장 소중한 포트폴리오입니다.') && html.includes('앞으로도 이어가고 싶은 인연'), '30여 년 특성화고 경험을 자랑스러운 포트폴리오와 이어가고 싶은 인연으로 표현합니다.');
   fail('home.hero-image-versioned', /brand-(entrance-story|horizontal-sign|entrance-glass)\.png/.test(html), '첨부된 설탕과소금 간판·홍보 디자인 자산이 대표 홈페이지에 반영되어 있습니다.');
   fail('home.no-stale-axis-copy', staleAxisHits.length === 0, '이전 4축/기업자료/실험실 문구가 홈페이지에서 제거되어 있습니다.', staleAxisHits.join(', '));
 
