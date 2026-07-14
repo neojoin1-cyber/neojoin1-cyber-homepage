@@ -570,12 +570,12 @@ async function validateHomepage() {
   const staleAxisTerms = ['기업자료', '공채·기업자료', 'AI 활용 실험실', 'lab-branch-home', '기록 보관소', '디지털 기록', 'KBS NOVA'];
   const staleAxisHits = staleAxisTerms.filter((term) => html.includes(term));
 
-  fail('home.feed-link-present', html.includes('assets/job-feed.json'), '특성화고 플랫폼 채용 피드 진입 링크가 유지되어 있습니다.');
+  fail('home.feed-link-present', html.includes('href="jobs.html"') && html.includes('채용정보 보기'), '특성화고 플랫폼 채용정보 진입 링크가 유지되어 있습니다.');
   fail('home.core-content-links', html.includes('jobs.html') && html.includes('resources.html') && html.includes('채용정보와 상담자료실은 설탕과소금의 핵심 콘텐츠입니다'), '대표 홈에서 채용정보와 상담자료실 핵심 콘텐츠 진입이 유지됩니다.');
   fail('home.no-public-manual-job-feed-run', !html.includes('actions/workflows/job-feed.yml') && !html.includes('수동수집 실행'), '공개 홈에는 GitHub Actions 수동수집 버튼을 노출하지 않습니다.');
   fail('home.law-link', html.includes('https://gyo6-law-info.web.app'), '법률정보 시스템 연결 URL이 유지되어 있습니다.');
   fail('home.no-legacy-ebook-link', !html.includes('https://gyo6--ebook.web.app'), '대표 홈페이지는 기존 전자책 서재 링크를 노출하지 않습니다.');
-  fail('home.ebook-placeholder-only', html.includes('전자책은 메뉴만 남기고, 새로 설계합니다.') && html.includes('현재의 전자책 메뉴 내용은 이번 대표 홈페이지에 사용하지 않습니다.'), '전자책은 재설계 예정 메뉴로만 표시됩니다.');
+  fail('home.ebook-direction', html.includes('전자책은 학습 흐름에 맞는 별도 공간으로 이어갑니다.') && html.includes('학습자가 따라가기 쉬운 흐름을 중요하게 생각합니다'), '전자책은 방문자용 서비스 방향으로 안내됩니다.');
   fail('home.ebook-no-paid-teaser-copy', !hasPaidTeaserCopy(html), '전자책 안내에서 유료 전환처럼 보일 수 있는 맛보기 표현을 쓰지 않습니다.');
   fail('home.hero-brand-copy', html.includes('대한민국 교육격차 해소를 위해 노력하는 기업') && html.includes('gyo6.kr · 교육.한국'), '대표 홈은 설탕과소금 기업 모토와 gyo6.kr의 교육.한국 의미를 전면에 둡니다.');
   fail('home.learning-app-not-ebook', html.includes('설탕과소금 학습 앱') && html.includes('직업공통능력 인증교재') && html.includes('NCS 직업기초능력교재') && html.includes('면접스킬') && html.includes('인성검사'), '설탕과소금 앱은 전자책이 아니라 취업 준비 학습 앱으로 설명됩니다.');
@@ -583,7 +583,7 @@ async function validateHomepage() {
   fail('home.adventure-positioning', html.includes('미취학 아동') && html.includes('동화책과 가까운 정서'), '모험동화 앱은 미취학 아동의 독서 정서 형성 앱으로 설명됩니다.');
   fail('home.novastar-positioning', html.includes('잠시의 휴식') && html.includes('별자리 타일 매치'), '노바스타는 휴식형 퍼즐 게임으로 설명됩니다.');
   fail('home.vocational-two-axis', html.includes('채용정보와 상담자료실만 분명하게 남깁니다.') && html.includes('단톡방') && html.includes('서식·법령·지침'), '특성화고 플랫폼은 채용정보와 상담자료실 두 축으로 설명됩니다.');
-  fail('home.business-area-simple', html.includes('복잡한 설명보다') && html.includes('사업 영역을 분명하게 정리합니다.'), '대표 홈페이지는 복잡한 기능보다 사업 영역 정리에 집중합니다.');
+  fail('home.business-area-simple', html.includes('교육 현장의 필요를 사업으로 연결합니다') && html.includes('학습 앱, 특성화고 플랫폼, AI 교육교재'), '대표 홈페이지는 사업 영역 정리에 집중합니다.');
   fail('home.thirty-years-proud-story', html.includes('30여 년의 특성화고 경험은 설탕과소금의 가장 소중한 포트폴리오입니다.') && html.includes('앞으로도 이어가고 싶은 인연'), '30여 년 특성화고 경험을 자랑스러운 포트폴리오와 이어가고 싶은 인연으로 표현합니다.');
   fail('home.hero-image-versioned', /brand-(entrance-story|horizontal-sign|entrance-glass)\.png/.test(html), '첨부된 설탕과소금 간판·홍보 디자인 자산이 대표 홈페이지에 반영되어 있습니다.');
   fail('home.no-stale-axis-copy', staleAxisHits.length === 0, '이전 4축/기업자료/실험실 문구가 홈페이지에서 제거되어 있습니다.', staleAxisHits.join(', '));
@@ -603,8 +603,8 @@ async function validateCoreContentPages() {
   const jobs = await readText('jobs.html');
   const resources = await readText('resources.html');
 
-  fail('core.vocational-content-weight', vocational.includes('가장 심혈을 기울이는 특성화고 핵심 콘텐츠') && vocational.includes('Ollama 보강 요약') && vocational.includes('공개 자료실과 승인 회원 상담실'), '특성화고 플랫폼 페이지가 채용정보와 상담자료실을 핵심 콘텐츠로 설명합니다.');
-  fail('core.jobs-content-weight', jobs.includes('특성화고 공채, 먼저 보이게.') && jobs.includes('공기업·공공기관·공무원·금융권·대기업 공채') && jobs.includes('상담자료실 안내'), '채용정보 페이지가 핵심 공채 우선 노출과 상담자료실 연결을 명확히 안내합니다.');
+  fail('core.vocational-content-weight', vocational.includes('가장 심혈을 기울이는 특성화고 핵심 콘텐츠') && vocational.includes('학교 현장에서 바로 확인할 수 있는 형태') && vocational.includes('공개 자료실과 승인 회원 상담실'), '특성화고 플랫폼 페이지가 채용정보와 상담자료실을 핵심 콘텐츠로 설명합니다.');
+  fail('core.jobs-content-weight', jobs.includes('특성화고·마이스터고 채용정보') && jobs.includes('공공기관, 공무원, 금융권, 대기업 공채') && jobs.includes('상담자료실 안내'), '채용정보 페이지가 추천 공채와 상담자료실 연결을 명확히 안내합니다.');
   fail('core.jobs-sort-search', jobs.includes('data-sort-mode="new"') && jobs.includes('data-sort-mode="deadline"') && jobs.includes('job-search-input') && jobs.includes('job-search-button') && jobs.includes('isCorePublicRecruit') && jobs.includes('core-recruit'), '채용정보 페이지가 신규순·마감일자순·검색·핵심 공채 강조 UI를 제공합니다.');
   fail('core.resources-page', resources.includes('상담자료실은 학교 현장의 반복 검색을 줄이기 위한') && resources.includes('https://gyo6-law-info.web.app') && resources.includes('법률 자문이나 사건 판단을 대신하지 않습니다'), '상담자료실 안내 페이지가 공식자료 연결과 한계를 분명히 안내합니다.');
 }

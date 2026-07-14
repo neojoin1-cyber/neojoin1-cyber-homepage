@@ -36,9 +36,9 @@
   <main id="main">
     <section class="hero page-hero compact-hero">
       <div class="wrap">
-        <div class="domain">Jobs Feed</div>
-        <h1>특성화고 공채, 먼저 보이게.</h1>
-        <p class="lead">공기업·공공기관·공무원·금융권·대기업 공채를 최상단에 고정하고, 공식 공고문·첨부서류·취업부 브리핑을 바로 엽니다.</p>
+        <div class="domain">채용정보</div>
+        <h1>특성화고·마이스터고 채용정보</h1>
+        <p class="lead">공공기관, 공무원, 금융권, 대기업 공채와 학생에게 의미 있는 채용공고를 공식 공고문·첨부서류와 함께 확인합니다.</p>
         <div class="job-hero-strip" id="feed-summary">
           <span>전체 <b>95</b>건</span>
           <span>진행 <b>56</b>건</span>
@@ -49,14 +49,13 @@
           <a class="btn primary" href="#feed-list">공고 바로 보기</a>
           <a class="btn" href="vocational.html">플랫폼 페이지로 돌아가기</a>
           <a class="btn" href="resources.html">상담자료실 안내</a>
-          <a class="btn" href="assets/job-feed.json">원본 JSON</a>
         </div>
       </div>
     </section>
 
     <section>
       <div class="wrap jobs-wrap">
-        <div class="eyebrow">Latest Items</div>
+        <div class="eyebrow">채용공고 목록</div>
         <h2 id="feed-heading">전체 채용공고</h2>
         <p class="lead" id="feed-note">최신 피드를 불러오는 중입니다. 제목을 누르면 취업부 브리핑, 공식 공고문, 첨부서류를 한 번에 확인할 수 있습니다.</p>
         <div class="job-toolbar" aria-label="채용공고 정렬과 검색">
@@ -72,7 +71,7 @@
             </span>
           </label>
         </div>
-        <div class="job-status-line" id="feed-health">핵심 공채를 최상단에 고정하고 있습니다.</div>
+        <div class="job-status-line" id="feed-health">오늘 확인할 채용정보를 불러오고 있습니다.</div>
         <div class="feed-list" id="feed-list">
           <article class="feed-item">
             <h3>채용공고를 불러오고 있습니다.</h3>
@@ -430,7 +429,7 @@
       `;
 
       healthEl.innerHTML = `
-        ${escapeHtml(feed.schedule || "하루 3회 자동 수집")} · 공식 소스 ${summary.sourcesReady ?? summary.sourcesConfigured ?? "-"}개 확인 · Ollama 브리핑 ${summary.ollamaBriefingReady ?? 0}건 · 최근 수집 ${escapeHtml(feed.generatedAt || "-")}
+        하루 3회 업데이트 · 공식 소스 ${summary.sourcesReady ?? summary.sourcesConfigured ?? "-"}개 확인 · 최근 수집 ${escapeHtml(feed.generatedAt || "-")}
       `;
     }
 
@@ -442,7 +441,7 @@
       headingEl.textContent = currentSearchTerm
         ? `검색 결과 ${displayItems.length}건`
         : `전체 채용공고 ${displayItems.length}건`;
-      noteEl.textContent = `핵심 공채 ${coreCount}건을 최상단에 고정했습니다. 제목을 누르면 취업부 요약, 공식 공고문, 제출서류 링크가 팝업으로 열립니다.`;
+      noteEl.textContent = `추천 공채 ${coreCount}건을 먼저 보여드립니다. 제목을 누르면 요약, 공식 공고문, 제출서류 링크가 팝업으로 열립니다.`;
 
       if (!displayItems.length) {
         listEl.innerHTML = `
@@ -543,7 +542,7 @@
         renderItems(feed);
       })
       .catch(() => {
-        noteEl.textContent = "현재 전체 공고를 자동으로 불러오지 못했습니다. 아래 원본 JSON 보기로 최신 피드를 확인할 수 있습니다.";
+        noteEl.textContent = "현재 채용공고를 불러오지 못했습니다. 잠시 후 다시 확인해 주세요.";
       });
   </script>
 </body>

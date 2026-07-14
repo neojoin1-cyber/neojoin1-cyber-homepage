@@ -27,6 +27,8 @@ body {
     radial-gradient(circle at top right, rgba(31, 95, 191, 0.08), transparent 24%),
     linear-gradient(180deg, #f8fbff, #f3f7fb 35%, #f7fafc 100%);
   line-height: 1.72;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 a { color: inherit; }
 img { display: block; max-width: 100%; }
@@ -142,6 +144,8 @@ h3 {
   color: #40506c;
   font-size: clamp(17px, 2vw, 21px);
   line-height: 1.86;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 .muted { color: var(--muted); }
 
@@ -536,6 +540,8 @@ h3 {
 .feed-item h3 {
   margin-bottom: 6px;
   font-size: 18px;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 .job-title-button {
   display: block;
@@ -551,6 +557,8 @@ h3 {
   line-height: 1.45;
   text-align: left;
   cursor: pointer;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 .job-title-button:hover span,
 .job-title-button:focus-visible span {
@@ -683,7 +691,7 @@ h3 {
   font-size: 13px;
   line-height: 1.75;
   word-break: keep-all;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 .job-detail-section ul {
   display: grid;
@@ -804,7 +812,7 @@ h3 {
 @media (max-width: 520px) {
   .wrap { padding: 54px 16px; }
   .hero .wrap { padding-top: 62px; }
-  h1 { font-size: 34px; line-height: 1.28; word-break: keep-all; overflow-wrap: anywhere; }
+  h1 { font-size: 34px; line-height: 1.28; word-break: keep-all; overflow-wrap: break-word; }
   .nav { padding: 12px 16px; }
   .navlinks a { font-size: 12px; padding: 7px 8px; }
   .actions .btn { width: 100%; }
