@@ -4462,7 +4462,7 @@ function buildOllamaPrompt(items) {
 }
 
 async function generateOllamaBatch(items) {
-  const response = await fetchWithTimeout(`${OLLAMA_BASE_URL}/api/generate`, {
+  const body = await fetchWithTimeout(`${OLLAMA_BASE_URL}/api/generate`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     timeoutMs: OLLAMA_TIMEOUT_MS,
@@ -4478,8 +4478,7 @@ async function generateOllamaBatch(items) {
       }
     })
   });
-  if (!response.ok) throw new Error(`Ollama HTTP ${response.status}`);
-  const payload = await response.json();
+  const payload = JSON.parse(body);
   const raw = normalizeSpace(payload.response || '');
   const parsed = JSON.parse(raw);
   const list = Array.isArray(parsed.items) ? parsed.items : [];
