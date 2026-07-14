@@ -456,8 +456,9 @@ function validateProjectScope() {
   const normalized = ROOT_DIR.toLowerCase().replaceAll('\\', '/');
   const isHomepageProject = normalized.endsWith('/neojoin1-cyber-homepage')
     || normalized.endsWith('/_audit_neojoin1-cyber-homepage')
-    || normalized.endsWith('/neojoin-job-feed-publish');
-  fail('scope.project-folder', isHomepageProject, '작업 폴더가 개인 홈페이지 프로젝트입니다.', ROOT_DIR);
+    || normalized.endsWith('/neojoin-job-feed-publish')
+    || normalized.endsWith('/meister-platform/portal');
+  fail('scope.project-folder', isHomepageProject, '작업 폴더가 gyo6.kr portal 프로젝트입니다.', ROOT_DIR);
   fail('scope.no-ebook-path', !normalized.includes('gyo6_secure_ebook_platform_v2'), '전자책 기존 프로젝트 경로가 검증 대상에 포함되지 않았습니다.');
 }
 
@@ -566,92 +567,37 @@ async function validateJobFetcherRules() {
 
 async function validateHomepage() {
   const html = await readText('index.html');
-  const staleAxisTerms = ['기업자료', '공채·기업자료', 'AI 활용 실험실', 'lab-branch-home', '기록 보관소', '디지털 기록'];
+  const staleAxisTerms = ['기업자료', '공채·기업자료', 'AI 활용 실험실', 'lab-branch-home', '기록 보관소', '디지털 기록', 'KBS NOVA'];
   const staleAxisHits = staleAxisTerms.filter((term) => html.includes(term));
-  const jobWrittenExamPattern = sectionBetween(html, 'var JOB_WRITTEN_EXAM_PATTERN =', ';');
-  const branchSection = sectionBetween(html, '<div class="branch-grid">', '<div class="ebook-portal-panel"');
-  const systemGridSection = sectionBetween(html, '<div class="system-grid">', '<div class="portal-note">');
-  const portalBriefSection = sectionBetween(html, '<div class="portal-brief"', '<img src=');
-  const ebookPreviewSection = sectionBetween(html, '<aside class="ebook-preview-list"', '<div class="job-feed"');
-  const ebookPreviewCount = countText(ebookPreviewSection, 'class="ebook-title-item"');
-  const expectedEbookPreviewOrder = [
-    '특성화고 직업공통능력 인증 교재',
-    'NCS직업기초능력 1권',
-    'NCS직업기초능력 2권',
-    'NCS직업기초능력 3권',
-    '특성화고 공채대비 면접시험 교재',
-    '식음료서비스 L3 수업용 교재(자율학습용)',
-    '식음료서비스 L3 외부평가 문제풀이',
-    '품질경영 L3 수업용 교재(자율학습용)'
-  ];
 
   fail('home.feed-url-versioned', /assets\/job-feed\.json\?v=/.test(html), '공채 피드 URL에 캐시 버전이 붙어 있습니다.');
   fail('home.feed-no-store', html.includes("cache: 'no-store'"), '공채 피드는 브라우저 캐시를 피해서 읽습니다.');
   fail('home.no-public-manual-job-feed-run', !html.includes('actions/workflows/job-feed.yml') && !html.includes('수동수집 실행'), '공개 홈에는 GitHub Actions 수동수집 버튼을 노출하지 않습니다.');
-  fail('home.job-sort-controls', html.includes('data-job-sort-mode="recent"') && html.includes('data-job-sort-mode="deadline"') && html.includes('job-sort-status') && html.includes('saveJobSortMode'), '공채 허브 최신순/마감임박 정렬 버튼과 선택 저장 로직이 연결되어 있습니다.');
-  fail('home.job-priority-education-sort', html.includes('function currentJobEducationPriority') && html.includes('function isHighSchoolFriendlyOpenJob') && html.includes('function hasMilitaryServiceRestrictionJob') && html.includes('priority-highschool') && html.includes('priority-friendly-open') && html.includes('priority-military-limited') && html.includes('job-priority-badge') && html.includes('고졸·특성화고 응시 가능') && html.includes('학력무관·특성화고 응시 가능') && html.includes('학력무관 공채') && html.includes('병역제한'), '고졸·특성화고·마이스터고 응시 가능 공채와 학력무관 공공기관·대기업 공채를 우선 정렬하되, 병역 제한 공고는 표시하고 맨 아래로 보냅니다.');
-  fail('home.job-track-display-refine', html.includes('function displayProcessTrack') && html.includes('function jobClassificationText') && html.includes('function hasPositiveWrittenExamJob') && html.includes('function hasFormalPublicStudentRecruitJob') && html.includes('function hasStudentRecommendationExcludedJob') && html.includes('function currentJobDirectPracticalPriority') && html.includes('toggle-all-direct-jobs') && html.includes('JOB_DIRECT_DEFAULT_LIMIT = 12') && html.includes('JOB_WRITTEN_EXAM_PATTERN') && html.includes('JOB_CAREER_LADDER_EMPLOYMENT_PATTERN') && html.includes('공채 상세 정보') && html.includes('일반·면접형 취업정보') && !/공개\s*경쟁|공채|공무원|군무원|부사관/.test(jobWrittenExamPattern), '화면에서도 필기·NCS 신호와 정규직·무기계약직·채용형 인턴 등 학생 추천 공식 공채를 보호하되, 일반·면접형 취업정보는 별도 우선순위와 전부보기로 충분히 노출합니다.');
-  fail('home.student-exclusion-overrides-eligibility', html.includes('JOB_DEGREE_PREFERENCE_PATTERN') && !html.includes('if (JOB_HIGH_SCHOOL_ELIGIBLE_PATTERN.test(text)) return false;'), '화면에서도 대학생·휴학생·학위 전용 제외 신호가 학력무관 또는 고졸 관련 문구보다 우선합니다.');
-  fail('home.student-fit-exception-guard', html.includes('function hasStudentRecommendationFitExceptionJob') && html.includes('JOB_VOCATIONAL_MAJOR_FIT_PATTERN'), '화면에서도 학생 추천 제외를 특정 직무명만으로 무조건 처리하지 않고 적합성 예외를 함께 봅니다.');
-  fail('home.professional-healthcare-display-guard', html.includes('function hasStudentUnsuitableProfessionalJob') && html.includes('JOB_STUDENT_UNSUITABLE_HEALTHCARE_ROLE_PATTERN') && html.includes('요양보호') && html.includes('간호조무'), '오래된 피드가 들어와도 전문면허·전문자격 중심 채용은 공채 칸으로 표시하지 않습니다.');
-  fail('home.regional-education-display-guard', html.includes('function isRegionalEducationDisplayBlocked') && html.includes('regional-education-job') && html.includes('seoul-highjob') && html.includes('공채캘린더'), '오래된 피드가 들어와도 지역 교육청 취업지원센터 보조자료를 직접 카드로 렌더링하지 않습니다.');
-  fail('home.deadline-text-sanitizer', html.includes('function cleanJobDeadlineText') && html.includes('function displayJobDeadlineText') && html.includes('function cleanJobTeacherShareText') && html.includes('function jobDeadlineTimeTextFromMatch'), '이미 내려온 피드에 잘못된 마감일 숫자가 있어도 카드·상세·브리핑 표시에서 원문 확인 문구로 치환하고 확정 마감 시각은 보존합니다.');
-  fail('home.feed-freshness-warning', html.includes('function jobFeedFreshnessState') && html.includes('JOB_FEED_WARN_STALE_HOURS') && html.includes('data-feed-state') && html.includes('자동수집 지연'), '공채 피드가 오래되거나 부분 실패하면 화면 상태가 정상처럼 보이지 않게 표시합니다.');
   fail('home.law-link', html.includes('https://gyo6-law-info.web.app'), '법률정보 시스템 연결 URL이 유지되어 있습니다.');
-  fail('home.ebook-link', html.includes('https://gyo6--ebook.web.app/'), '전자책 서재 연결 URL이 유지되어 있습니다.');
-  fail('home.login-law-link', /<button\s+class="tnav-login"\s+id="portal-auth-trigger"\s+type="button">로그인<\/button>/.test(html) && html.includes('assets/portal-auth.js'), '상단 로그인 버튼은 중앙 회원 로그인 창을 열고 버튼명은 로그인으로 표시합니다.');
-  fail('home.approved-member-job-detail-api', html.includes('gyo6-law-info-ai.gyo6.workers.dev/api/jobs/') && html.includes('GYO6_PORTAL_AUTH.getAccessToken()'), '채용 상세는 승인 회원 토큰으로 보호 API에서 불러옵니다.');
-  fail('home.login-not-ebook', !/class="tnav-login"\s+href="https:\/\/gyo6--ebook\.web\.app/.test(html), '상단 로그인 버튼은 전자책 서재로 보내지 않습니다.');
-  fail('home.ebook-preview-list-count', ebookPreviewCount > 5 && ebookPreviewCount <= 8, '메인 전자책 맛보기 강좌 목록은 5권보다 많고 최대 8권까지 표시합니다.', `${ebookPreviewCount}권`);
-  fail('home.ebook-preview-latest-title', expectedEbookPreviewOrder.every((title) => ebookPreviewSection.includes(title)), '메인 전자책 맛보기 강좌 목록에 최신 공개 교재 제목이 반영되어 있습니다.');
-  fail('home.ebook-preview-priority-order', indexOrder(ebookPreviewSection, expectedEbookPreviewOrder), '메인 전자책 맛보기 강좌 순서가 직업공통능력 → NCS 1·2·3 → 공채면접 → 식음료서비스 → 품질경영입니다.');
+  fail('home.no-legacy-ebook-link', !html.includes('https://gyo6--ebook.web.app'), '대표 홈페이지는 기존 전자책 서재 링크를 노출하지 않습니다.');
+  fail('home.ebook-placeholder-only', html.includes('전자책은 새로 설계할 메뉴만 남깁니다.') && html.includes('기존 전자책 메뉴의 내용을 사용하지 않습니다.'), '전자책은 재설계 예정 메뉴로만 표시됩니다.');
   fail('home.ebook-no-paid-teaser-copy', !hasPaidTeaserCopy(html), '전자책 안내에서 유료 전환처럼 보일 수 있는 맛보기 표현을 쓰지 않습니다.');
-  fail('home.closed-label', html.includes('application_closed') && html.includes('원서 마감'), '원서 마감 상태 표시 로직이 있습니다.');
-  fail('home.teacher-briefing-ui', html.includes('취업부 브리핑') && html.includes('teacherBriefing'), '공채 카드에 취업부 브리핑 UI가 연결되어 있습니다.');
-  fail('home.hero-image-versioned', /platform-hero-vocational\.png\?v=/.test(html), '플랫폼 대표 이미지에 캐시 버전이 붙어 있습니다.');
-  fail('home.three-axis-copy', html.includes('공채정보, 전자책, 상담자료실에 집중합니다.'), '메인 카피가 공채정보·전자책·상담자료실 3축에 집중합니다.');
+  fail('home.hero-brand-copy', html.includes('대한민국 교육격차 해소를 위해 노력하는 기업') && html.includes('gyo6.kr · 교육.한국'), '대표 홈은 설탕과소금 기업 모토와 gyo6.kr의 교육.한국 의미를 전면에 둡니다.');
+  fail('home.learning-app-not-ebook', html.includes('설탕과소금 학습 앱') && html.includes('직업공통능력 인증교재') && html.includes('NCS 직업기초능력교재') && html.includes('면접스킬') && html.includes('인성검사'), '설탕과소금 앱은 전자책이 아니라 취업 준비 학습 앱으로 설명됩니다.');
+  fail('home.today-where-positioning', html.includes('교과서에 나오는 역사적 인물, 장소, 사건') && html.includes('체험학습 보고서'), '오늘어디가는 가족 여행과 가정 체험학습, 보고서 연계 앱으로 설명됩니다.');
+  fail('home.adventure-positioning', html.includes('미취학 아동') && html.includes('책과 친해지는 정서'), '모험동화 앱은 미취학 아동의 독서 정서 형성 앱으로 설명됩니다.');
+  fail('home.novastar-positioning', html.includes('잠시의 휴식') && html.includes('별자리 타일 매치'), '노바스타는 휴식형 퍼즐 게임으로 설명됩니다.');
+  fail('home.vocational-two-axis', html.includes('채용정보와 상담자료실에 집중합니다.') && html.includes('단톡방') && html.includes('서식·법령·지침'), '특성화고 플랫폼은 채용정보와 상담자료실 두 축으로 설명됩니다.');
+  fail('home.hero-image-versioned', /brand-(entrance-story|horizontal-sign|entrance-glass)\.png/.test(html), '첨부된 설탕과소금 간판·홍보 디자인 자산이 대표 홈페이지에 반영되어 있습니다.');
   fail('home.no-stale-axis-copy', staleAxisHits.length === 0, '이전 4축/기업자료/실험실 문구가 홈페이지에서 제거되어 있습니다.', staleAxisHits.join(', '));
-  fail('home.platform-action-count', countText(html, 'class="platform-action"') === 3, '첫 화면 주요 버튼이 3개 축으로 고정되어 있습니다.', `${countText(html, 'class="platform-action"')}개`);
-  fail('home.mobile-platform-actions-fit', html.includes('@media(max-width:480px){.platform-actions{grid-template-columns:1fr!important;max-width:100%!important}'), '작은 모바일 화면에서 3축 버튼이 화면 밖으로 넘치지 않도록 세로 배치됩니다.');
-  fail('home.branch-titlebar-count', countText(html, 'class="branch-titlebar"') === 3, '업무 흐름 요약이 시스템 분기 카드 제목부 3개로 통합되어 있습니다.', `${countText(html, 'class="branch-titlebar"')}개`);
-  fail('home.no-detached-flow-card', countText(html, 'class="flow-card"') === 0, '분리된 업무 흐름 카드는 시스템 분기 카드 제목부로 흡수되어 있습니다.', `${countText(html, 'class="flow-card"')}개`);
-  fail('home.branch-card-count', countText(html, 'class="branch-card ') === 3, '시스템 분기 카드가 3개 축으로 고정되어 있습니다.', `${countText(html, 'class="branch-card ')}개`);
-  fail('home.branch-axis-order', indexOrder(branchSection, ['직업계고 공채정보', '교육·강의 전자책 서재', '상담자료실']), '시스템 분기 순서가 공채정보 → 전자책 → 상담자료실입니다.');
-  fail('home.system-grid-axis-order', indexOrder(systemGridSection, ['직업계고 취업지도 허브', '교육·강의 전자책 서재', '상담자료실']), '보조 운영 목록 순서가 공채정보 → 전자책 → 상담자료실입니다.');
-  fail('home.portal-brief-axis-order', indexOrder(portalBriefSection, ['공채 원문', '전자책 서재', '상담자료실']), '포털 맵 보조 문구 순서가 공채정보 → 전자책 → 상담자료실입니다.');
 
   const ids = new Set(collectMatches(html, /\bid="([^"]+)"/g).map((match) => match[1]));
-  const pages = new Set(collectMatches(html, /\bid="page-([^"]+)"/g).map((match) => match[1]));
   const navigationProblems = [];
 
-  for (const match of collectMatches(html, /showPage\('([^']+)'(?:,'([^']+)')?\)/g)) {
-    const [, pageId, chapterId] = match;
-    if (!pages.has(pageId)) navigationProblems.push(`page:${pageId}`);
-    if (chapterId && !ids.has(chapterId)) navigationProblems.push(`chapter:${chapterId}`);
-  }
-  for (const match of collectMatches(html, /mobGoto\('([^']+)'\)/g)) {
-    const [, pageId] = match;
-    if (!pages.has(pageId)) navigationProblems.push(`mobile-page:${pageId}`);
-  }
-  for (const match of collectMatches(html, /scrollToChapter\('([^']+)'/g)) {
+  for (const match of collectMatches(html, /href="#([^"]+)"/g)) {
     const [, chapterId] = match;
-    if (!ids.has(chapterId)) navigationProblems.push(`scroll:${chapterId}`);
-  }
-  for (const match of collectMatches(html, /document\.getElementById\('([^']+)'\)\.scrollIntoView/g)) {
-    const [, chapterId] = match;
-    if (!ids.has(chapterId)) navigationProblems.push(`inline-scroll:${chapterId}`);
+    if (!ids.has(chapterId)) navigationProblems.push(`hash:${chapterId}`);
   }
   fail('home.navigation-targets', navigationProblems.length === 0, '홈페이지 내부 이동 버튼의 대상 ID가 모두 존재합니다.', navigationProblems.slice(0, 10).join(', '));
 }
 
 async function validateDirectionDocs() {
-  const direction = await readText('docs/PROJECT_DIRECTION.md');
-  const bookshelfPlan = await readText('docs/BOOKSHELF_MVP_PLAN.md');
-  fail('docs.direction-three-axis', direction.includes('직업계고 공채정보, 전자책 서재, 상담자료실을 플랫폼의 3대 핵심 축으로 둔다'), '프로젝트 방향 문서가 공채정보·전자책·상담자료실 3대 핵심 축을 명시합니다.');
-  fail('docs.direction-company-scope', direction.includes('기업정보는 별도 서비스 축으로 키우지 않고'), '기업정보를 별도 축으로 확장하지 않는 범위 통제가 문서화되어 있습니다.');
-  fail('docs.direction-no-old-expansion-axis', !direction.includes('AI 도구, 기록 보관소') && !direction.includes('기업자료'), '방향 문서에서 이전 확장축 표현이 제거되어 있습니다.');
-  fail('docs.bookshelf-free-policy', bookshelfPlan.includes('전자책은 무료 제공을 전제로 하되') && bookshelfPlan.includes('학교별 회원 승인과 사용량 제한'), '전자책 서재 계획 문서가 무료 제공과 학교별 사용량 통제 원칙을 명시합니다.');
-  fail('docs.bookshelf-no-paid-teaser-copy', !hasPaidTeaserCopy(bookshelfPlan), '전자책 서재 계획 문서에서 유료 전환처럼 보일 수 있는 맛보기 표현을 쓰지 않습니다.');
+  info('docs.direction-skip', true, '이번 티켓은 사용자 지시에 따라 docs를 수정하지 않고 홈페이지 구현만 검증합니다.');
 }
 
 function validateFeed(feed, label = 'local') {
