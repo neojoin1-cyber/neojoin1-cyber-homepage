@@ -56,7 +56,7 @@ const OLLAMA_BASE_URL = (process.env.OLLAMA_BASE_URL || 'http://127.0.0.1:11434'
 const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'qwen2.5:0.5b';
 const OLLAMA_TIMEOUT_MS = Number(process.env.OLLAMA_TIMEOUT_MS || 60000);
 const OLLAMA_BATCH_SIZE = Math.max(1, Number(process.env.OLLAMA_BATCH_SIZE || 1));
-const OLLAMA_MAX_ITEMS = Math.max(0, Number(process.env.OLLAMA_MAX_ITEMS || 24));
+const OLLAMA_MAX_ITEMS = Math.max(0, Number(process.env.OLLAMA_MAX_ITEMS || 6));
 const DEFAULT_FETCH_HEADERS = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125 Safari/537.36',
   Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,application/json;q=0.8,*/*;q=0.7',
