@@ -240,16 +240,23 @@
       return /^https?:\/\//i.test(String(value || "").trim());
     }
 
+    function isLikelyFileUrl(value) {
+      const url = String(value || "").trim();
+      return /(\.(pdf|hwp|hwpx|doc|docx|xls|xlsx|zip)(\?|#|$)|\/file\/|fileDown\.do|cdown\.do|download\.json|download\.do|ND_fileDownload\.do|fileDownload\.do)/i.test(url);
+    }
+
     function bestOfficialUrl(item) {
-      return [
-        item.primaryOfficialUrl,
-        item.officialUrl,
-        item.sourceOfficialUrl,
+      const pageCandidates = [
         item.companyNoticeUrl,
         item.sourceDetailUrl,
         item.originalUrl,
+        item.sourceOfficialUrl,
+        item.primaryOfficialUrl,
+        item.officialUrl,
         item.url
-      ].find(isHttpUrl) || "";
+      ].filter((url) => isHttpUrl(url) && !isLikelyFileUrl(url));
+      if (pageCandidates.length) return pageCandidates[0];
+      return [item.originalUrl, item.sourceDetailUrl, item.sourceOfficialUrl, item.companyNoticeUrl].find(isHttpUrl) || "";
     }
 
     function itemKey(item, index) {

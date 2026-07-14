@@ -3304,6 +3304,18 @@ function cleanUrl(value) {
   }
 }
 
+function isLikelyFileUrl(value) {
+  return /(\.(pdf|hwp|hwpx|doc|docx|xls|xlsx|zip)(\?|#|$)|\/file\/|fileDown\.do|cdown\.do|download\.json|download\.do|ND_fileDownload\.do|fileDownload\.do)/i.test(String(value || ''));
+}
+
+function firstNonFileUrl(...values) {
+  for (const value of values) {
+    const url = cleanUrl(value);
+    if (url && !isLikelyFileUrl(url)) return url;
+  }
+  return '';
+}
+
 function safePublicFeedUrl(value) {
   const raw = normalizeSpace(value);
   if (!raw) return '';
@@ -3741,6 +3753,15 @@ function buildSourceVerification(raw, process, displayUrl) {
   let doubleCheckStatus = 'official_source_summarized';
   let doubleCheckLabel = '공식 소스 자동요약';
   let verificationNote = '공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다.';
+  const primaryPageUrl = firstNonFileUrl(
+    hasSpecificCompanyNotice ? companyNoticeUrl : '',
+    sourceOfficialUrl,
+    raw.originalUrl,
+    raw.sourceDetailUrl,
+    raw.portalUrl,
+    source?.sourceUrl,
+    displayOfficialUrl
+  );
 
   if (isRegionalEducationRecruit && hasSpecificCompanyNotice) {
     doubleCheckStatus = check.status === 'content_matched' ? 'regional_education_confirmed' : 'regional_education_linked';
@@ -3769,9 +3790,9 @@ function buildSourceVerification(raw, process, displayUrl) {
   }
 
   return {
-    sourceOfficialUrl: sourceOfficialUrl || displayOfficialUrl,
+    sourceOfficialUrl: firstNonFileUrl(sourceOfficialUrl, raw.originalUrl, raw.sourceDetailUrl, source?.sourceUrl) || sourceOfficialUrl || displayOfficialUrl,
     companyNoticeUrl,
-    primaryOfficialUrl: hasSpecificCompanyNotice ? companyNoticeUrl : (sourceOfficialUrl || displayOfficialUrl),
+    primaryOfficialUrl: primaryPageUrl || (sourceOfficialUrl || displayOfficialUrl),
     officialNoticePriority: isRegionalEducationRecruit
       ? 'regional-education-verification-only-source'
       : hasSpecificCompanyNotice

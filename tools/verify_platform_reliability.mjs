@@ -136,6 +136,10 @@ function isHttpUrl(value) {
   }
 }
 
+function isLikelyFileUrl(value) {
+  return /(\.(pdf|hwp|hwpx|doc|docx|xls|xlsx|zip)(\?|#|$)|\/file\/|fileDown\.do|cdown\.do|download\.json|download\.do|ND_fileDownload\.do|fileDownload\.do)/i.test(String(value || ''));
+}
+
 function safeUrl(value) {
   try {
     const url = new URL(value);
@@ -562,6 +566,7 @@ async function validateJobFetcherRules() {
   fail('fetcher.encrypted-member-detail', fetcher.includes('buildProtectedJobArtifacts') && fetcher.includes('RSA-OAEP-256+A256GCM') && fetcher.includes('publicJobListItem'), '공개 목록과 승인 회원 전용 암호화 상세를 자동으로 분리합니다.');
   fail('fetcher.internship-not-direct-term', !directTerms.includes('채용연계'), '채용연계·채용형 인턴은 직접 분리 키워드에서 제외되어 학생 추천 채용으로 검토됩니다.');
   fail('fetcher.deadline-text-sanitizer', fetcher.includes('function safeDeadlineDisplayText') && fetcher.includes('function kstDateFromParts') && fetcher.includes('containsStructuredDatePattern'), '자동 수집 단계에서 불가능한 마감일 숫자를 원문 확인 문구로 정제합니다.');
+  fail('fetcher.official-url-not-file-download', fetcher.includes('function isLikelyFileUrl') && fetcher.includes('function firstNonFileUrl') && fetcher.includes('primaryPageUrl'), '자동 수집 단계에서 공고문 파일 다운로드 URL을 공식 공고 버튼 URL로 승격하지 않습니다.');
   fail('fetcher.job-alio-dynamic-current-scan', fetcher.includes('JOB_ALIO_RECENT_DETAIL_DAYS') && fetcher.includes('function selectJobAlioRowsForDetail') && fetcher.includes('function buildJobAlioDynamicDiscovery') && fetcher.includes('dynamic-current-job-alio-detail-scan'), '잡알리오 최근 등록 공고는 기관 화이트리스트나 제목 키워드와 무관하게 상세 원문을 열어 오늘 기준 후보 누락을 점검합니다.');
 }
 
@@ -606,6 +611,7 @@ async function validateCoreContentPages() {
   fail('core.vocational-content-weight', vocational.includes('가장 심혈을 기울이는 특성화고 핵심 콘텐츠') && vocational.includes('학교 현장에서 바로 확인할 수 있는 형태') && vocational.includes('공개 자료실과 승인 회원 상담실'), '특성화고 플랫폼 페이지가 채용정보와 상담자료실을 핵심 콘텐츠로 설명합니다.');
   fail('core.jobs-content-weight', jobs.includes('특성화고·마이스터고 채용정보') && jobs.includes('공공기관, 공무원, 금융권, 대기업 공채') && jobs.includes('상담자료실 안내'), '채용정보 페이지가 추천 공채와 상담자료실 연결을 명확히 안내합니다.');
   fail('core.jobs-sort-search', jobs.includes('data-sort-mode="new"') && jobs.includes('data-sort-mode="deadline"') && jobs.includes('job-search-input') && jobs.includes('job-search-button') && jobs.includes('isCorePublicRecruit') && jobs.includes('core-recruit'), '채용정보 페이지가 신규순·마감일자순·검색·핵심 공채 강조 UI를 제공합니다.');
+  fail('core.jobs-official-page-link', jobs.includes('function isLikelyFileUrl') && jobs.includes('pageCandidates') && jobs.includes('!isLikelyFileUrl(url)'), '채용정보 공식 공고 버튼은 첨부파일 다운로드가 아니라 공고 상세 페이지를 우선 연결합니다.');
   fail('core.resources-page', resources.includes('상담자료실은 학교 현장의 반복 검색을 줄이기 위한') && resources.includes('https://gyo6-law-info.web.app') && resources.includes('법률 자문이나 사건 판단을 대신하지 않습니다'), '상담자료실 안내 페이지가 공식자료 연결과 한계를 분명히 안내합니다.');
 }
 
