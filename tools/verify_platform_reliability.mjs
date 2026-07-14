@@ -609,10 +609,14 @@ function validateFeed(feed, label = 'local') {
   const collectionReview = feed.collectionReview || {};
   const protectedDetailFeed = feed.detailAccess?.policy === 'approved-member-api';
   const publicBriefingFeed = feed.detailAccess?.policy === 'public-feed-briefing';
+  const aiBriefing = feed.aiBriefing || {};
+  const ollamaRequired = process.env.OLLAMA_REQUIRED === '1';
 
   fail(`${label}.feed.version`, feed.version === 4, `${label} 피드 버전이 4입니다.`);
   fail(`${label}.feed.items-array`, Array.isArray(feed.items), `${label} 피드 items 배열이 존재합니다.`);
   fail(`${label}.feed.member-detail-policy`, protectedDetailFeed || publicBriefingFeed, `${label} 공개 피드는 승인 회원 API 또는 공개 브리핑 정책을 명시합니다.`);
+  fail(`${label}.feed.ollama-policy`, /Ollama/.test(String(feed.collectionPolicy?.ollamaBriefingRule || '')), `${label} 하루 3회 자동 수집의 Ollama 브리핑 정책이 기록됩니다.`);
+  fail(`${label}.feed.ollama-required`, !ollamaRequired || (aiBriefing.engine === 'ollama' && aiBriefing.status === 'ok' && Number(aiBriefing.succeeded || 0) > 0), `${label} OLLAMA_REQUIRED=1이면 Ollama 브리핑 보강이 성공해야 합니다.`, JSON.stringify(aiBriefing));
   fail(`${label}.feed.non-empty`, items.length > 0, `${label} 피드에 자동 등록 후보가 있습니다.`, `${items.length}건`);
   fail(`${label}.feed.total-count`, summary.total === items.length, `${label} summary.total이 items 수와 일치합니다.`, `${summary.total} / ${items.length}`);
   fail(`${label}.feed.sources-count`, sourceStatus.length === summary.sourcesChecked, `${label} sourceStatus 수와 sourcesChecked가 일치합니다.`, `${sourceStatus.length} / ${summary.sourcesChecked}`);
@@ -687,6 +691,7 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.summary.stale-count`, summary.staleFallbackItems === staleCount, `${label} 임시 보존 공고 카운터가 실제 항목과 일치합니다.`, `${summary.staleFallbackItems} / ${staleCount}`);
   fail(`${label}.summary.source-fallback-count`, (summary.sourceFallbackProtected || 0) === sourceFallbackCount, `${label} 실패 소스 보존 공고 카운터가 실제 항목과 일치합니다.`, `${summary.sourceFallbackProtected || 0} / ${sourceFallbackCount}`);
   fail(`${label}.summary.briefing-count`, protectedDetailFeed || summary.briefingReady === briefingCount, `${label} 취업부 브리핑 카운터가 일치하거나 회원 전용 상세로 보호됩니다.`, `${summary.briefingReady} / ${briefingCount}`);
+  fail(`${label}.summary.ollama-count`, !aiBriefing.enabled || Number(summary.ollamaBriefingReady || 0) === Number(aiBriefing.succeeded || 0), `${label} Ollama 브리핑 카운터가 실행 결과와 일치합니다.`, `${summary.ollamaBriefingReady || 0} / ${aiBriefing.succeeded || 0}`);
 
   const itemProblems = [];
   const negativeLag = [];

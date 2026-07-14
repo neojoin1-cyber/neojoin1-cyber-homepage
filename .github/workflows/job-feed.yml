@@ -28,7 +28,15 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 45
+    env:
+      OLLAMA_ENABLED: "1"
+      OLLAMA_REQUIRED: "1"
+      OLLAMA_MODEL: ${{ secrets.OLLAMA_MODEL || 'qwen2.5:1.5b' }}
+      OLLAMA_BASE_URL: ${{ secrets.OLLAMA_BASE_URL }}
+      OLLAMA_BATCH_SIZE: "6"
+      OLLAMA_MAX_ITEMS: "120"
+      OLLAMA_TIMEOUT_MS: "45000"
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -41,6 +49,23 @@ jobs:
 
       - name: Check job feed script syntax
         run: node --check tools/fetch_vocational_jobs.mjs
+
+      - name: Start local Ollama fallback
+        run: |
+          if [ -n "${OLLAMA_BASE_URL}" ]; then
+            echo "Using configured Ollama endpoint."
+            exit 0
+          fi
+          curl -fsSL https://ollama.com/install.sh | sh
+          ollama serve > /tmp/ollama.log 2>&1 &
+          for attempt in 1 2 3 4 5 6 7 8 9 10; do
+            if curl -fsS http://127.0.0.1:11434/api/tags >/dev/null; then
+              break
+            fi
+            sleep 2
+          done
+          ollama pull "${OLLAMA_MODEL}"
+          echo "OLLAMA_BASE_URL=http://127.0.0.1:11434" >> "$GITHUB_ENV"
 
       - name: Build official API job feed
         run: node tools/fetch_vocational_jobs.mjs
