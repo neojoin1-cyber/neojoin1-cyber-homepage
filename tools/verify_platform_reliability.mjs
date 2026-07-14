@@ -571,6 +571,7 @@ async function validateHomepage() {
   const staleAxisHits = staleAxisTerms.filter((term) => html.includes(term));
 
   fail('home.feed-link-present', html.includes('assets/job-feed.json'), '특성화고 플랫폼 채용 피드 진입 링크가 유지되어 있습니다.');
+  fail('home.core-content-links', html.includes('jobs.html') && html.includes('resources.html') && html.includes('채용정보와 상담자료실은 설탕과소금의 핵심 콘텐츠입니다'), '대표 홈에서 채용정보와 상담자료실 핵심 콘텐츠 진입이 유지됩니다.');
   fail('home.no-public-manual-job-feed-run', !html.includes('actions/workflows/job-feed.yml') && !html.includes('수동수집 실행'), '공개 홈에는 GitHub Actions 수동수집 버튼을 노출하지 않습니다.');
   fail('home.law-link', html.includes('https://gyo6-law-info.web.app'), '법률정보 시스템 연결 URL이 유지되어 있습니다.');
   fail('home.no-legacy-ebook-link', !html.includes('https://gyo6--ebook.web.app'), '대표 홈페이지는 기존 전자책 서재 링크를 노출하지 않습니다.');
@@ -595,6 +596,16 @@ async function validateHomepage() {
     if (!ids.has(chapterId)) navigationProblems.push(`hash:${chapterId}`);
   }
   fail('home.navigation-targets', navigationProblems.length === 0, '홈페이지 내부 이동 버튼의 대상 ID가 모두 존재합니다.', navigationProblems.slice(0, 10).join(', '));
+}
+
+async function validateCoreContentPages() {
+  const vocational = await readText('vocational.html');
+  const jobs = await readText('jobs.html');
+  const resources = await readText('resources.html');
+
+  fail('core.vocational-content-weight', vocational.includes('가장 심혈을 기울이는 특성화고 핵심 콘텐츠') && vocational.includes('Ollama 보강 요약') && vocational.includes('공개 자료실과 승인 회원 상담실'), '특성화고 플랫폼 페이지가 채용정보와 상담자료실을 핵심 콘텐츠로 설명합니다.');
+  fail('core.jobs-content-weight', jobs.includes('가장 중요한 실전 콘텐츠') && jobs.includes('하루 3회 자동 수집') && jobs.includes('상담자료실 안내'), '채용정보 페이지가 자동 수집과 상담자료실 연결을 명확히 안내합니다.');
+  fail('core.resources-page', resources.includes('상담자료실은 학교 현장의 반복 검색을 줄이기 위한') && resources.includes('https://gyo6-law-info.web.app') && resources.includes('법률 자문이나 사건 판단을 대신하지 않습니다'), '상담자료실 안내 페이지가 공식자료 연결과 한계를 분명히 안내합니다.');
 }
 
 async function validateDirectionDocs() {
@@ -979,6 +990,7 @@ async function main() {
   await validateWorkflow();
   await validateJobFetcherRules();
   await validateHomepage();
+  await validateCoreContentPages();
   await validateDirectionDocs();
   const localFeed = await readJson('assets/job-feed.json');
   const localHealth = await readJson('assets/job-feed-health.json');
