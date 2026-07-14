@@ -53,10 +53,10 @@ const ZIP_ATTACHMENT_MAX_ENTRIES = 160;
 const OLLAMA_ENABLED = process.env.OLLAMA_ENABLED !== '0' && (process.env.OLLAMA_ENABLED === '1' || process.env.OLLAMA_REQUIRED === '1' || Boolean(process.env.OLLAMA_BASE_URL));
 const OLLAMA_REQUIRED = process.env.OLLAMA_REQUIRED === '1';
 const OLLAMA_BASE_URL = (process.env.OLLAMA_BASE_URL || 'http://127.0.0.1:11434').replace(/\/+$/, '');
-const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'qwen2.5:1.5b';
-const OLLAMA_TIMEOUT_MS = Number(process.env.OLLAMA_TIMEOUT_MS || 45000);
-const OLLAMA_BATCH_SIZE = Math.max(1, Number(process.env.OLLAMA_BATCH_SIZE || 6));
-const OLLAMA_MAX_ITEMS = Math.max(0, Number(process.env.OLLAMA_MAX_ITEMS || MAX_ITEMS));
+const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'qwen2.5:0.5b';
+const OLLAMA_TIMEOUT_MS = Number(process.env.OLLAMA_TIMEOUT_MS || 60000);
+const OLLAMA_BATCH_SIZE = Math.max(1, Number(process.env.OLLAMA_BATCH_SIZE || 1));
+const OLLAMA_MAX_ITEMS = Math.max(0, Number(process.env.OLLAMA_MAX_ITEMS || 24));
 const DEFAULT_FETCH_HEADERS = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125 Safari/537.36',
   Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,application/json;q=0.8,*/*;q=0.7',
@@ -4446,14 +4446,14 @@ function buildOllamaPrompt(items) {
     education: item.education,
     employmentType: item.employmentType,
     field: item.recruitField,
-    process: item.publicRecruitDetails?.process || item.processNote,
-    detail: item.detailText,
-    attachments: Array.isArray(item.attachments) ? item.attachments.map((file) => file.title).slice(0, 5) : []
+    process: shortText(item.publicRecruitDetails?.process || item.processNote || '', '', 180),
+    detail: shortText(item.detailText || item.summary || '', '', 500),
+    attachments: Array.isArray(item.attachments) ? item.attachments.map((file) => file.title).slice(0, 3) : []
   }));
   return [
     '너는 특성화고 취업담당교사를 돕는 채용공고 요약 엔진이다.',
     '아래 공식 채용공고 데이터만 근거로 사용하고, 없는 내용은 추측하지 말고 "원문 확인"이라고 써라.',
-    '각 항목별로 교사가 바로 볼 수 있는 짧은 한국어 JSON만 반환하라.',
+    '각 값은 60자 안팎의 짧은 한국어로 작성하고 JSON만 반환하라.',
     '반드시 다음 스키마의 JSON 객체만 출력한다:',
     '{"items":[{"id":"...","summary":"한 문장 요약","schoolCheck":"학교에서 확인할 핵심","studentPrep":"학생 준비 핵심","risk":"주의할 점 또는 원문 확인"}]}',
     '',
@@ -4474,7 +4474,7 @@ async function generateOllamaBatch(items) {
       options: {
         temperature: 0.1,
         top_p: 0.8,
-        num_predict: 1800
+        num_predict: 420
       }
     })
   });
