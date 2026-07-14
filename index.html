@@ -12,7 +12,7 @@
   <meta property="og:title" content="설탕과소금 | gyo6.kr">
   <meta property="og:description" content="30여 년 특성화고 현장 경험을 교육 콘텐츠와 플랫폼으로 이어가는 설탕과소금의 대표 홈페이지입니다.">
   <meta property="og:url" content="https://gyo6.kr/">
-  <meta property="og:image" content="https://gyo6.kr/assets/brand-horizontal-sign.png">
+  <meta property="og:image" content="https://gyo6.kr/assets/platform-hero-vocational.png">
   <meta property="og:locale" content="ko_KR">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=Noto+Serif+KR:wght@600;700&display=swap');
@@ -163,8 +163,9 @@
       align-items: center;
       border-bottom: 1px solid var(--line);
       background:
-        linear-gradient(90deg, rgba(246,249,252,.97), rgba(246,249,252,.88) 50%, rgba(246,249,252,.58)),
-        url('assets/brand-entrance-story.png') center / cover no-repeat;
+        radial-gradient(circle at top right, rgba(54, 117, 214, .20), transparent 28%),
+        radial-gradient(circle at 18% 18%, rgba(227, 164, 60, .18), transparent 20%),
+        linear-gradient(135deg, #f7fafc 0%, #edf4fb 48%, #f8fbff 100%);
     }
     .hero .wrap {
       width: 100%;
@@ -283,8 +284,8 @@
       grid-column: span 2;
       color: #fff;
       background:
-        linear-gradient(135deg, rgba(20,38,75,.96), rgba(31,95,191,.86)),
-        url('assets/brand-horizontal-sign.png') center / cover no-repeat;
+        radial-gradient(circle at top right, rgba(255,255,255,.16), transparent 24%),
+        linear-gradient(135deg, rgba(20,38,75,.98), rgba(31,95,191,.90));
     }
     .area.primary h3,
     .area.primary .label { color: #fff; }
@@ -346,6 +347,38 @@
       border-radius: var(--radius);
       background: #fff;
       box-shadow: var(--shadow);
+    }
+    .visual.placeholder {
+      padding: 32px;
+      background:
+        radial-gradient(circle at top right, rgba(31,95,191,.12), transparent 24%),
+        linear-gradient(180deg, #f8fbff, #eef5fb);
+    }
+    .visual-copy {
+      display: grid;
+      gap: 14px;
+    }
+    .visual-copy strong {
+      color: var(--navy);
+      font-size: 22px;
+      line-height: 1.45;
+    }
+    .visual-copy p {
+      margin: 0;
+      color: var(--muted);
+    }
+    .visual-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .visual-tags span {
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(20,38,75,.08);
+      color: var(--navy);
+      font-size: 14px;
+      font-weight: 700;
     }
     .note {
       margin-top: 22px;
@@ -572,8 +605,16 @@
           </p>
           <div class="note">전자책 영역은 준비 중입니다. 기존 전자책 서재 링크와 목록은 노출하지 않습니다.</div>
         </div>
-        <div class="visual">
-          <img src="assets/brand-entrance-glass.png" alt="설탕과소금 AI 디지털 콘텐츠 연구실 홍보 이미지">
+        <div class="visual placeholder" aria-label="전자책 재설계 안내" data-brand-archive="assets/brand-entrance-glass.png">
+          <div class="visual-copy">
+            <strong>전자책은 지금 비워 두고, 설탕과소금의 다음 학습 경험에 맞춰 새로 설계하겠습니다.</strong>
+            <p>기존 서재형 화면 대신 서비스 방향과 운영 범위를 다시 정리한 뒤 공개합니다.</p>
+            <div class="visual-tags" aria-hidden="true">
+              <span>메뉴 유지</span>
+              <span>콘텐츠 재설계 예정</span>
+              <span>추후 별도 공개</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
