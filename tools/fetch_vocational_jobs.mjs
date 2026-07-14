@@ -4480,7 +4480,22 @@ async function generateOllamaBatch(items) {
   });
   const payload = JSON.parse(body);
   const raw = normalizeSpace(payload.response || '');
-  const parsed = JSON.parse(raw);
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    if (items.length !== 1 || !raw) throw new Error('Ollama returned malformed JSON');
+    return new Map([[
+      items[0].id,
+      {
+        id: items[0].id,
+        summary: shortText(raw, 'Ollama 보강 응답 형식 오류로 원문 확인이 필요합니다.', 140),
+        schoolCheck: '공식 공고 원문과 첨부서류를 우선 확인',
+        studentPrep: '지원자격, 마감, 제출서류를 원문 기준으로 확인',
+        risk: 'Ollama 응답 형식 오류로 세부사항은 원문 확인'
+      }
+    ]]);
+  }
   const list = Array.isArray(parsed.items) ? parsed.items : [];
   return new Map(list.map((item) => [normalizeSpace(item.id), item]));
 }
@@ -5694,9 +5709,11 @@ function publicFeedHoldReason(payload, previousItems) {
     && !source.ok
   );
   if (!failedCoreSources.length) return '';
-  const protectedCount = failedCoreSources.reduce((sum, source) => sum + Number(source.fallbackItemCount || 0), 0);
-  if (protectedCount <= 0) return '';
-  return `핵심 수집원 ${failedCoreSources.map((source) => source.name || source.id).join(', ')} 실패로 공개 피드는 직전 정상본을 유지합니다.`;
+  const unprotectedCoreSources = failedCoreSources.filter((source) =>
+    !source.fallbackProtected && Number(source.fallbackItemCount || 0) <= 0
+  );
+  if (!unprotectedCoreSources.length) return '';
+  return `핵심 수집원 ${unprotectedCoreSources.map((source) => source.name || source.id).join(', ')} 실패로 공개 피드는 직전 정상본을 유지합니다.`;
 }
 
 function withPublicationHold(health, reason) {
