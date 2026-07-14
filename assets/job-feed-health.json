@@ -1,7 +1,12 @@
 {
   "version": 1,
+<<<<<<< HEAD
   "generatedAt": "2026-07-14T10:43:55.278Z",
   "feedGeneratedAt": "2026-07-14T10:43:55.278Z",
+=======
+  "generatedAt": "2026-07-14T10:57:12.933Z",
+  "feedGeneratedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
@@ -11,7 +16,11 @@
     "deadlineSoon": 24,
     "applicationClosed": 16,
     "sourcesChecked": 15,
+<<<<<<< HEAD
     "sourcesConfigured": 6,
+=======
+    "sourcesConfigured": 4,
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
     "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
     "staleFallbackItems": 0,
@@ -23,7 +32,11 @@
   "sourceFailures": [],
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
+<<<<<<< HEAD
     "generatedAt": "2026-07-14T10:43:55.278Z",
+=======
+    "generatedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",

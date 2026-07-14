@@ -14,412 +14,8 @@
   <meta property="og:url" content="https://gyo6.kr/">
   <meta property="og:image" content="https://gyo6.kr/assets/platform-hero-vocational.png">
   <meta property="og:locale" content="ko_KR">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=Noto+Serif+KR:wght@600;700&display=swap');
-
-    :root {
-      --navy: #14264b;
-      --ink: #172033;
-      --muted: #667085;
-      --line: #dce5ef;
-      --paper: #f6f9fc;
-      --blue: #1f5fbf;
-      --teal: #217a75;
-      --gold: #ad7a22;
-      --white: #fff;
-      --shadow: 0 18px 44px rgba(20, 38, 75, .12);
-      --radius: 18px;
-      --max: 1120px;
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: 'Noto Sans KR', system-ui, sans-serif;
-      color: var(--ink);
-      background: var(--paper);
-      line-height: 1.72;
-      letter-spacing: 0;
-    }
-    a { color: inherit; }
-    img { display: block; max-width: 100%; }
-    .skip {
-      position: absolute;
-      left: 14px;
-      top: -50px;
-      z-index: 20;
-      padding: 10px 14px;
-      border-radius: 10px;
-      background: var(--navy);
-      color: #fff;
-    }
-    .skip:focus { top: 14px; }
-
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(255, 255, 255, .95);
-      border-bottom: 1px solid var(--line);
-      backdrop-filter: blur(14px);
-    }
-    .nav {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 14px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-    }
-    .brand {
-      text-decoration: none;
-      display: grid;
-      gap: 1px;
-      min-width: 170px;
-    }
-    .brand strong {
-      font-family: 'Noto Serif KR', serif;
-      font-size: 23px;
-      color: var(--navy);
-      line-height: 1.12;
-    }
-    .brand span {
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 800;
-    }
-    .navlinks {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      gap: 6px;
-    }
-    .navlinks a {
-      padding: 8px 10px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 800;
-      color: #33425e;
-    }
-    .navlinks a:hover,
-    .navlinks a:focus-visible {
-      outline: none;
-      background: #eaf4ff;
-      color: var(--blue);
-    }
-
-    main { overflow: hidden; }
-    section { scroll-margin-top: 82px; }
-    .wrap {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 70px 20px;
-    }
-    .eyebrow {
-      color: var(--teal);
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
-    h1, h2, h3, p { margin-top: 0; }
-    h1, h2 {
-      font-family: 'Noto Serif KR', serif;
-      color: var(--navy);
-      letter-spacing: 0;
-      line-height: 1.22;
-    }
-    h1 {
-      max-width: 830px;
-      margin-bottom: 18px;
-      font-size: clamp(38px, 6vw, 72px);
-    }
-    h2 {
-      max-width: 780px;
-      margin-bottom: 16px;
-      font-size: clamp(28px, 4vw, 44px);
-    }
-    h3 {
-      margin-bottom: 10px;
-      color: var(--navy);
-      font-size: 20px;
-      line-height: 1.35;
-    }
-    .lead {
-      max-width: 820px;
-      color: #40506c;
-      font-size: clamp(17px, 2vw, 21px);
-      line-height: 1.86;
-    }
-    .muted { color: var(--muted); }
-
-    .hero {
-      min-height: calc(100vh - 73px);
-      display: flex;
-      align-items: center;
-      border-bottom: 1px solid var(--line);
-      background:
-        radial-gradient(circle at top right, rgba(54, 117, 214, .20), transparent 28%),
-        radial-gradient(circle at 18% 18%, rgba(227, 164, 60, .18), transparent 20%),
-        linear-gradient(135deg, #f7fafc 0%, #edf4fb 48%, #f8fbff 100%);
-    }
-    .hero .wrap {
-      width: 100%;
-      padding-top: 86px;
-      padding-bottom: 76px;
-    }
-    .domain {
-      display: inline-flex;
-      margin-bottom: 20px;
-      padding: 8px 14px;
-      border: 1px solid rgba(31, 95, 191, .22);
-      border-radius: 999px;
-      background: rgba(255,255,255,.86);
-      color: var(--blue);
-      font-weight: 900;
-    }
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 28px;
-    }
-    .btn {
-      min-height: 46px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 17px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.9);
-      color: var(--navy);
-      text-decoration: none;
-      font-weight: 900;
-    }
-    .btn.primary {
-      border-color: var(--navy);
-      background: var(--navy);
-      color: #fff;
-      box-shadow: 0 12px 28px rgba(20,38,75,.22);
-    }
-    .proof {
-      max-width: 840px;
-      margin-top: 34px;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-    }
-    .proof div {
-      min-height: 106px;
-      padding: 15px;
-      border: 1px solid rgba(220,229,239,.94);
-      border-radius: 15px;
-      background: rgba(255,255,255,.86);
-    }
-    .proof b {
-      display: block;
-      margin-bottom: 5px;
-      color: var(--navy);
-    }
-    .proof span {
-      display: block;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .white { background: #fff; }
-    .story {
-      display: grid;
-      grid-template-columns: minmax(0, .9fr) minmax(320px, .7fr);
-      gap: 34px;
-      align-items: center;
-    }
-    .story-box {
-      padding: 28px;
-      border-radius: var(--radius);
-      background: var(--navy);
-      color: #fff;
-      box-shadow: var(--shadow);
-    }
-    .story-box h3 { color: #fff; font-size: 25px; }
-    .story-box p { color: rgba(255,255,255,.8); }
-    .story-list {
-      margin: 18px 0 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 10px;
-    }
-    .story-list li {
-      padding-top: 10px;
-      border-top: 1px solid rgba(255,255,255,.15);
-      color: rgba(255,255,255,.88);
-      font-size: 14px;
-    }
-
-    .areas {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-      margin-top: 30px;
-    }
-    .area {
-      min-height: 260px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      padding: 22px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: #fff;
-      box-shadow: 0 10px 30px rgba(20,38,75,.06);
-    }
-    .area.primary {
-      grid-column: span 2;
-      color: #fff;
-      background:
-        radial-gradient(circle at top right, rgba(255,255,255,.16), transparent 24%),
-        linear-gradient(135deg, rgba(20,38,75,.98), rgba(31,95,191,.90));
-    }
-    .area.primary h3,
-    .area.primary .label { color: #fff; }
-    .area.primary p,
-    .area.primary li { color: rgba(255,255,255,.84); }
-    .label {
-      width: fit-content;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: #eaf4ff;
-      color: var(--blue);
-      font-size: 12px;
-      font-weight: 900;
-    }
-    .label.teal { background: #e9f7f4; color: var(--teal); }
-    .label.gold { background: #fff3dc; color: var(--gold); }
-    .area p {
-      color: var(--muted);
-      font-size: 14px;
-      margin-bottom: 0;
-    }
-    .area ul {
-      margin: 0;
-      padding-left: 18px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-    .area a {
-      margin-top: auto;
-      color: var(--blue);
-      text-decoration: none;
-      font-weight: 900;
-      font-size: 14px;
-    }
-    .area.primary a { color: #fff; }
-
-    .platform {
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      background: linear-gradient(180deg, #edf7f8, #fff);
-    }
-    .two {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-      margin-top: 28px;
-    }
-    .panel {
-      padding: 24px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: #fff;
-      box-shadow: var(--shadow);
-    }
-    .visual {
-      margin-top: 30px;
-      overflow: hidden;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: #fff;
-      box-shadow: var(--shadow);
-    }
-    .visual.placeholder {
-      padding: 32px;
-      background:
-        radial-gradient(circle at top right, rgba(31,95,191,.12), transparent 24%),
-        linear-gradient(180deg, #f8fbff, #eef5fb);
-    }
-    .visual-copy {
-      display: grid;
-      gap: 14px;
-    }
-    .visual-copy strong {
-      color: var(--navy);
-      font-size: 22px;
-      line-height: 1.45;
-    }
-    .visual-copy p {
-      margin: 0;
-      color: var(--muted);
-    }
-    .visual-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    .visual-tags span {
-      padding: 7px 12px;
-      border-radius: 999px;
-      background: rgba(20,38,75,.08);
-      color: var(--navy);
-      font-size: 14px;
-      font-weight: 700;
-    }
-    .note {
-      margin-top: 22px;
-      padding: 18px 20px;
-      border: 1px solid #f0d7a6;
-      border-radius: 14px;
-      background: #fff8e8;
-      color: #755019;
-      font-weight: 800;
-    }
-
-    .footer {
-      background: #0f1e3a;
-      color: rgba(255,255,255,.82);
-    }
-    .footer .wrap { padding: 38px 20px; }
-    .footer strong {
-      display: block;
-      margin-bottom: 6px;
-      color: #fff;
-      font-family: 'Noto Serif KR', serif;
-      font-size: 24px;
-    }
-
-    @media (max-width: 900px) {
-      .nav { align-items: flex-start; flex-direction: column; }
-      .navlinks { justify-content: flex-start; }
-      .hero { min-height: auto; }
-      .proof, .story, .areas, .two { grid-template-columns: 1fr; }
-      .area.primary { grid-column: auto; }
-    }
-    @media (max-width: 520px) {
-      .wrap { padding: 54px 16px; }
-      .hero .wrap { padding-top: 58px; }
-      h1 { font-size: 34px; line-height: 1.28; word-break: keep-all; overflow-wrap: anywhere; }
-      .nav { padding: 12px 16px; }
-      .navlinks a { font-size: 12px; padding: 7px 8px; }
-      .actions .btn { width: 100%; }
-      .area, .panel, .story-box { padding: 18px; }
-    }
-  </style>
+  <style>@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=Noto+Serif+KR:wght@600;700&display=swap');</style>
+  <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
   <a class="skip" href="#main">본문 바로가기</a>
@@ -430,11 +26,11 @@
         <span>gyo6.kr · 교육.한국</span>
       </a>
       <div class="navlinks">
-        <a href="#story">30년 특성화고</a>
-        <a href="#areas">사업 영역</a>
-        <a href="#vocational">특성화고 플랫폼</a>
-        <a href="#ebooks">전자책</a>
-        <a href="#contact">문의</a>
+        <a href="business.html">사업영역</a>
+        <a href="vocational.html">특성화고 플랫폼</a>
+        <a href="ebooks.html">전자책</a>
+        <a href="host.html">30년 특성화고</a>
+        <a href="contact.html">문의</a>
       </div>
     </nav>
   </header>
@@ -449,9 +45,9 @@
           취업 준비, 학습자료, 체험학습, AI 콘텐츠와 디지털 운영을 돕는 작은 교육 회사를 만들어 가고 있습니다.
         </p>
         <div class="actions">
-          <a class="btn primary" href="#areas">사업 영역 보기</a>
-          <a class="btn" href="#story">특성화고 이야기</a>
-          <a class="btn" href="#contact">협업 문의</a>
+          <a class="btn primary" href="business.html">사업영역 보기</a>
+          <a class="btn" href="host.html">특성화고 이야기</a>
+          <a class="btn" href="contact.html">협업 문의</a>
         </div>
         <div class="proof" aria-label="설탕과소금의 방향">
           <div>
@@ -470,11 +66,11 @@
       </div>
     </section>
 
-    <section class="white" id="story" aria-labelledby="story-title">
-      <div class="wrap story">
+    <section class="section-block" id="story">
+      <div class="wrap split">
         <div>
           <div class="eyebrow">30 Years With Vocational Schools</div>
-          <h2 id="story-title">30여 년의 특성화고 경험은 설탕과소금의 가장 소중한 포트폴리오입니다.</h2>
+          <h2>30여 년의 특성화고 경험은 설탕과소금의 가장 소중한 포트폴리오입니다.</h2>
           <p class="lead">
             특성화고 현장에서 학생의 취업을 돕고, 선생님의 고민을 듣고, 학교가 필요로 하는 자료를 함께 찾았습니다.
             그 시간은 단순한 경력이 아니라 앞으로도 이어가고 싶은 인연입니다.
@@ -485,10 +81,8 @@
           </p>
         </div>
         <aside class="story-box">
-          <h3>자랑스럽게 말하되, 현장에 도움이 되는 방식으로</h3>
-          <p>
-            특성화고 30여 년의 경험은 개인의 이력 자랑이 아니라 설탕과소금이 왜 이 일을 하는지 설명하는 근거입니다.
-          </p>
+          <h3>왜 이 경험을 설탕과소금의 출발점이라고 말하는가</h3>
+          <p>설탕과소금은 학교 현장에서 오래 보아 온 실제 필요를 바탕으로 서비스를 만듭니다.</p>
           <ul class="story-list">
             <li>취업정보가 흩어져 있어 선생님들이 직접 찾아야 했던 불편</li>
             <li>교과서 밖에 있지만 취업에는 결정적인 학습자료의 필요</li>
@@ -499,149 +93,107 @@
       </div>
     </section>
 
-    <section id="areas" aria-labelledby="areas-title">
+    <section id="areas">
       <div class="wrap">
         <div class="eyebrow">Business Areas</div>
-        <h2 id="areas-title">복잡한 설명보다, 설탕과소금의 사업 영역을 분명하게 정리합니다.</h2>
-        <p class="lead">
-          설탕과소금은 특성화고 교육지원에서 출발해 학습 앱, AI 교육교재, 체험학습 앱, 유아 동화, 휴식형 게임, 기관 홈페이지 운영 지원으로 사업 영역을 넓혀가고 있습니다.
-        </p>
-
-        <div class="areas">
-          <article class="area primary">
-            <span class="label">대표 사업</span>
-            <h3>설탕과소금 학습 앱</h3>
-            <p>
-              설탕 같은 취업 성공을 위해 소금 같은 준비 과정을 지원하는 특성화고 취업 학습 앱입니다.
-              공식 교과서가 없지만 취업에 결정적인 자료를 정리합니다.
-            </p>
-            <ul>
-              <li>직업공통능력 인증교재</li>
-              <li>기업공채 대비 NCS 직업기초능력교재</li>
-              <li>특성화고 면접스킬·인성검사 교재</li>
-              <li>도제학교 외부평가 식음료서비스·품질경영 교재</li>
+        <h2>복잡한 설명보다, 설탕과소금의 사업 영역을 분명하게 정리합니다.</h2>
+        <p class="lead">메인 화면은 대표 안내에 집중하고, 각 메뉴에 들어가면 비교적 자세한 설명을 볼 수 있도록 나누었습니다.</p>
+        <div class="grid-3">
+          <article class="summary-card">
+            <span class="label">사업영역</span>
+            <h3>학습 앱부터 기관 운영 지원까지</h3>
+            <p>무슨 사업을 하는지, 어디까지 준비되었는지, 어떤 대표 화면과 자산이 있는지 한 번에 볼 수 있도록 정리했습니다.</p>
+            <p>설탕과소금 학습 앱은 전자책이 아니라 특성화고 학생의 취업 준비를 돕는 학습 앱입니다.</p>
+            <p>직업공통능력 인증교재, NCS 직업기초능력교재, 면접스킬, 인성검사 자료까지 포함해 취업 준비 흐름을 지원합니다.</p>
+            <ul class="mini-links">
+              <li>학습 앱 · AI 교육교재</li>
+              <li>오늘어디가 · 미오베라 · 버블 노바 스타</li>
+              <li>기관 홈페이지 제작·운영 지원</li>
             </ul>
+            <div class="actions"><a class="btn primary" href="business.html">상세 보기</a></div>
           </article>
-
-          <article class="area">
-            <span class="label teal">취업지원</span>
-            <h3>특성화고 플랫폼</h3>
-            <p>채용정보와 상담자료실을 중심으로 특성화고·마이스터고 취업담당 선생님의 자료 탐색 부담을 줄입니다.</p>
-            <a href="#vocational">플랫폼 영역 보기</a>
+          <article class="summary-card">
+            <span class="label teal">특성화고 플랫폼</span>
+            <h3>채용정보와 상담자료실만 분명하게</h3>
+            <p>특성화고 플랫폼은 채용정보와 상담자료실만 분명하게 남깁니다. 컨설팅 업체 단톡방에 의존하던 자료를 줄이고 서식·법령·지침 자료실까지 연결합니다.</p>
+            <div class="actions"><a class="btn" href="vocational.html">상세 보기</a></div>
           </article>
-
-          <article class="area">
-            <span class="label gold">AI 교육</span>
-            <h3>AI 교육교재·고시외 과목 개발</h3>
-            <p>특성화고 학생이 AI를 전공과 직무 문제 해결에 활용하도록 교재, 지도안, 실습자료, 평가 루브릭을 개발합니다.</p>
+          <article class="summary-card">
+            <span class="label gold">전자책</span>
+            <h3>메뉴는 남기고 구조는 다시 설계</h3>
+            <p>현재의 전자책 메뉴 내용은 이번 대표 홈페이지에 사용하지 않습니다. 서비스 방향에 맞춰 별도 설계로 다시 진행합니다.</p>
+            <div class="actions"><a class="btn" href="ebooks.html">상세 보기</a></div>
           </article>
-
-          <article class="area">
+        </div>
+        <div class="grid-3" style="margin-top:18px;">
+          <article class="summary-card">
             <span class="label teal">가족 체험학습</span>
             <h3>오늘어디가</h3>
-            <p>교과서의 역사적 인물, 장소, 사건을 가정 체험학습과 가족 여행으로 연결하고 체험학습 보고서까지 이어주는 앱입니다.</p>
+            <p>오늘어디가는 교과서의 역사적 인물, 장소, 사건을 가족 여행과 가정 체험학습으로 연결하고 체험학습 보고서까지 이어주는 앱입니다.</p>
           </article>
-
-          <article class="area">
+          <article class="summary-card">
             <span class="label">유아 독서 정서</span>
             <h3>미오베라 모험동화</h3>
-            <p>미취학 아동이 동화책과 가까운 정서를 형성하도록 돕는 가족 동화책 앱입니다.</p>
+            <p>미오베라 모험동화는 미취학 아동이 동화책과 가까운 정서를 형성하도록 돕는 가족 동화책 앱입니다.</p>
           </article>
-
-          <article class="area">
+          <article class="summary-card">
             <span class="label gold">휴식 콘텐츠</span>
             <h3>버블 노바 스타</h3>
-            <p>공부만 하는 것이 아니라 잠시의 휴식도 맛볼 수 있도록 만드는 별자리 타일 매치 퍼즐 게임입니다.</p>
-          </article>
-
-          <article class="area">
-            <span class="label teal">기관 지원</span>
-            <h3>홈페이지 제작·운영 지원</h3>
-            <p>한국관광교육연구원, 경북직업교육연구회 등 교육 관련 기관의 홈페이지 제작과 운영을 지원합니다.</p>
-            <a href="https://ktedu.or.kr/" target="_blank" rel="noopener noreferrer">한국관광교육연구원 열기</a>
+            <p>버블 노바 스타는 공부만 하는 것이 아니라 잠시의 휴식도 맛볼 수 있도록 만드는 별자리 타일 매치 퍼즐 게임입니다.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="platform" id="vocational" aria-labelledby="vocational-title">
-      <div class="wrap">
-        <div class="eyebrow">Vocational Platform</div>
-        <h2 id="vocational-title">특성화고 플랫폼은 채용정보와 상담자료실만 분명하게 남깁니다.</h2>
-        <p class="lead">
-          인문계 학생을 위한 수능 지원에 비해 특성화고 학생의 취업지원 정보는 여전히 흩어져 있습니다.
-          설탕과소금은 컨설팅 업체 단톡방에 의존하던 취업정보와 각종 상담자료를 한곳에서 찾을 수 있도록 돕고자 합니다.
-        </p>
-
-        <div class="two">
-          <article class="panel">
-            <span class="label teal">채용정보</span>
-            <h3>특성화고·마이스터고 채용정보</h3>
-            <p class="muted">공공기관, 기업, 교육청, 지역 채용자료를 수집해 취업담당교사가 빠르게 검토할 수 있도록 정리합니다.</p>
-            <div class="actions">
-              <a class="btn primary" href="assets/job-feed.json">채용 피드 보기</a>
-            </div>
-          </article>
-          <article class="panel">
-            <span class="label gold">상담자료실</span>
-            <h3>서식·법령·지침 자료실</h3>
-            <p class="muted">특성화고 전체 학교와 관련된 각종 서식, 법령, 지침, 상담자료를 수집·분류해 제공합니다.</p>
-            <div class="actions">
-              <a class="btn" href="https://gyo6-law-info.web.app" target="_blank" rel="noopener noreferrer">상담자료실 열기</a>
-            </div>
-          </article>
-        </div>
+    <section class="section-block" id="vocational">
+      <div class="wrap grid-2">
+        <article class="panel">
+          <span class="label teal">채용정보</span>
+          <h3>특성화고·마이스터고 채용정보</h3>
+          <p class="muted">공공기관, 기업, 교육청, 지역 채용자료를 수집해 취업담당교사가 빠르게 검토할 수 있도록 정리합니다.</p>
+          <div class="actions">
+            <a class="btn primary" href="jobs.html">채용 피드 보기</a>
+            <a class="btn" href="assets/job-feed.json">원본 JSON</a>
+            <a class="btn" href="vocational.html">플랫폼 상세</a>
+          </div>
+        </article>
+        <article class="panel">
+          <span class="label gold">상담자료실</span>
+          <h3>서식·법령·지침 자료실</h3>
+          <p class="muted">특성화고 전체 학교와 관련된 각종 서식, 법령, 지침, 상담자료를 수집·분류해 제공합니다.</p>
+          <div class="actions">
+            <a class="btn" href="https://gyo6-law-info.web.app" target="_blank" rel="noopener noreferrer">상담자료실 열기</a>
+          </div>
+        </article>
       </div>
     </section>
 
-    <section class="white" id="ebooks" aria-labelledby="ebooks-title">
-      <div class="wrap story">
+    <section id="ebooks">
+      <div class="wrap split">
         <div>
           <div class="eyebrow">Ebooks</div>
-          <h2 id="ebooks-title">전자책은 메뉴만 남기고, 새로 설계합니다.</h2>
+          <h2>전자책은 메뉴만 남기고, 새로 설계합니다.</h2>
           <p class="lead">
             현재의 전자책 메뉴 내용은 이번 대표 홈페이지에 사용하지 않습니다.
-            홈페이지 개편이 끝난 뒤 별도 설계로 다시 진행합니다.
+            기존 전자책 서재 링크와 목록은 노출하지 않고, 새 학습 경험에 맞춰 다시 정리합니다.
           </p>
-          <div class="note">전자책 영역은 준비 중입니다. 기존 전자책 서재 링크와 목록은 노출하지 않습니다.</div>
         </div>
-        <div class="visual placeholder" aria-label="전자책 재설계 안내" data-brand-archive="assets/brand-entrance-glass.png">
-          <div class="visual-copy">
-            <strong>전자책은 지금 비워 두고, 설탕과소금의 다음 학습 경험에 맞춰 새로 설계하겠습니다.</strong>
-            <p>기존 서재형 화면 대신 서비스 방향과 운영 범위를 다시 정리한 뒤 공개합니다.</p>
-            <div class="visual-tags" aria-hidden="true">
-              <span>메뉴 유지</span>
-              <span>콘텐츠 재설계 예정</span>
-              <span>추후 별도 공개</span>
-            </div>
-          </div>
+        <div class="quote-card" data-brand-archive="assets/brand-entrance-glass.png">
+          <h3>현재 원칙</h3>
+          <p>대표 홈페이지는 안내와 방향 제시에 집중하고, 전자책은 전용 정보 구조로 다시 설계합니다.</p>
+          <div class="actions"><a class="btn" href="ebooks.html">상세 보기</a></div>
         </div>
       </div>
     </section>
 
-    <section id="contact" aria-labelledby="contact-title">
+    <section class="section-block" id="contact">
       <div class="wrap">
         <div class="eyebrow">Contact</div>
-        <h2 id="contact-title">특성화고와 이어진 인연을 앞으로의 교육사업으로 이어가겠습니다.</h2>
-        <p class="lead">
-          취업지원, 학습자료, AI 교육교재, 체험학습 앱, 기관 홈페이지 운영과 관련한 협업을 기다립니다.
-          공개 연락처와 사업자 정보는 확정 후 이곳에 정식 반영합니다.
-        </p>
+        <h2>취업지원, 학습자료, AI 교육교재, 기관 홈페이지 운영과 관련한 협업을 기다립니다.</h2>
         <div class="actions">
           <a class="btn primary" href="mailto:contact@gyo6.kr">contact@gyo6.kr</a>
-          <a class="btn" href="#home">맨 위로</a>
+          <a class="btn" href="contact.html">문의 페이지 보기</a>
         </div>
-      </div>
-    </section>
-
-    <section class="white" id="privacy" aria-labelledby="privacy-title">
-      <div class="wrap">
-        <div class="eyebrow">Privacy</div>
-        <h2 id="privacy-title">개인정보처리방침은 공개 정보 확정 후 정식 반영합니다.</h2>
-        <p class="lead">
-          현재 대표 홈페이지는 별도 문의 폼이나 회원가입을 제공하지 않습니다.
-          특성화고 채용정보, 상담자료실, 향후 전자책 서비스는 각 서비스의 실제 운영 범위에 맞춰 별도 개인정보 안내를 연결합니다.
-        </p>
       </div>
     </section>
   </main>

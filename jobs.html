@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>채용정보 | 설탕과소금 특성화고 플랫폼 | gyo6.kr</title>
+  <meta name="description" content="설탕과소금 특성화고 플랫폼의 채용정보 페이지입니다. 특성화고·마이스터고 학생과 선생님이 참고할 수 있도록 공고를 한눈에 정리합니다.">
+  <link rel="canonical" href="https://gyo6.kr/jobs.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="채용정보 | 설탕과소금 특성화고 플랫폼">
+  <meta property="og:description" content="특성화고·마이스터고 채용공고를 한곳에서 확인할 수 있도록 정리한 채용정보 페이지입니다.">
+  <meta property="og:url" content="https://gyo6.kr/jobs.html">
+  <meta property="og:image" content="https://gyo6.kr/assets/platform-hero-vocational.png">
+  <meta property="og:locale" content="ko_KR">
+  <style>@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=Noto+Serif+KR:wght@600;700&display=swap');</style>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">본문 바로가기</a>
+  <header class="topbar">
+    <nav class="nav" aria-label="주요 메뉴">
+      <a class="brand" href="index.html">
+        <strong>설탕과소금</strong>
+        <span>gyo6.kr · 교육.한국</span>
+      </a>
+      <div class="navlinks">
+        <a href="index.html">메인</a>
+        <a href="business.html">사업영역</a>
+        <a class="active" href="vocational.html">특성화고 플랫폼</a>
+        <a href="ebooks.html">전자책</a>
+        <a href="host.html">30년 특성화고</a>
+        <a href="contact.html">문의</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero page-hero">
+      <div class="wrap">
+        <div class="domain">Jobs Feed</div>
+        <h1>특성화고·마이스터고 채용공고를 한곳에서 바로 살펴볼 수 있도록 정리했습니다.</h1>
+        <p class="lead">공공기관, 기업, 교육청, 지역 채널의 공고를 모아 빠르게 검토할 수 있도록 구성했습니다. 상단에서는 현재 수집 현황을 보고, 아래에서는 전체 공고를 바로 확인할 수 있습니다.</p>
+        <div class="actions">
+          <a class="btn primary" href="assets/job-feed.json">원본 JSON 보기</a>
+          <a class="btn" href="vocational.html">플랫폼 페이지로 돌아가기</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-block">
+      <div class="wrap">
+        <div class="grid-3" id="feed-summary">
+          <article class="summary-card"><h3>전체 공고</h3><p><strong>95</strong>건</p></article>
+          <article class="summary-card"><h3>진행 중</h3><p><strong>55</strong>건</p></article>
+          <article class="summary-card"><h3>마감 임박</h3><p><strong>24</strong>건</p></article>
+        </div>
+        <div class="grid-3" style="margin-top:18px;" id="feed-health">
+          <article class="summary-card"><h3>수집 주기</h3><p><strong>하루 3회</strong> 자동 갱신</p></article>
+          <article class="summary-card"><h3>운영 소스</h3><p><strong>4개</strong> 채널 동시 점검</p></article>
+          <article class="summary-card"><h3>현재 상태</h3><p><strong>정상</strong> · 최신 수집 완료</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="eyebrow">Latest Items</div>
+        <h2 id="feed-heading">전체 채용공고</h2>
+        <p class="lead" id="feed-note">최신 피드를 불러오는 중입니다. 잠시 후 전체 공고 목록이 이 자리에서 바로 펼쳐집니다.</p>
+        <div class="feed-list" id="feed-list">
+          <article class="feed-item">
+            <h3>채용공고를 불러오고 있습니다.</h3>
+            <p>수집된 전체 공고를 화면에 정리하는 중입니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <strong>설탕과소금</strong>
+      <div>gyo6.kr · 교육.한국 · 대한민국 교육격차 해소를 위해 노력하는 기업</div>
+    </div>
+  </footer>
+
+  <script>
+    const summaryEl = document.getElementById("feed-summary");
+    const healthEl = document.getElementById("feed-health");
+    const listEl = document.getElementById("feed-list");
+    const headingEl = document.getElementById("feed-heading");
+    const noteEl = document.getElementById("feed-note");
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function labelForStatus(status) {
+      if (status === "deadline_soon") return "마감임박";
+      if (status === "application_closed") return "마감";
+      if (status === "active") return "진행중";
+      return status || "-";
+    }
+
+    function renderSummary(feed) {
+      const summary = feed.summary || {};
+      summaryEl.innerHTML = `
+        <article class="summary-card"><h3>전체 공고</h3><p><strong>${summary.total ?? "-"}</strong>건</p></article>
+        <article class="summary-card"><h3>진행 중</h3><p><strong>${summary.active ?? "-"}</strong>건</p></article>
+        <article class="summary-card"><h3>마감 임박</h3><p><strong>${summary.deadlineSoon ?? "-"}</strong>건</p></article>
+      `;
+
+      healthEl.innerHTML = `
+        <article class="summary-card"><h3>수집 주기</h3><p><strong>${escapeHtml(feed.schedule || "-")}</strong></p></article>
+        <article class="summary-card"><h3>운영 소스</h3><p><strong>${summary.sourcesReady ?? summary.sourcesConfigured ?? "-"}</strong>개 채널 정상 확인</p></article>
+        <article class="summary-card"><h3>현재 상태</h3><p><strong>${summary.criticalCoverageMissing === 0 && (summary.sourcesFailed ?? 0) === 0 ? "정상" : "점검 필요"}</strong> · 최근 수집 ${escapeHtml(feed.generatedAt || "-")}</p></article>
+      `;
+    }
+
+    function renderItems(feed) {
+      const items = Array.isArray(feed.items) ? feed.items : [];
+      headingEl.textContent = `전체 채용공고 ${items.length}건`;
+      noteEl.textContent = "최신 수집 결과를 기준으로 전체 공고를 바로 확인할 수 있도록 정리했습니다.";
+
+      if (!items.length) {
+        listEl.innerHTML = `
+          <article class="feed-item">
+            <h3>표시할 채용공고가 없습니다.</h3>
+            <p>원본 JSON을 확인해 주세요.</p>
+          </article>
+        `;
+        return;
+      }
+
+      listEl.innerHTML = items.map((item) => {
+        const title = escapeHtml(item.title || "제목 없음");
+        const company = escapeHtml(item.company || "기관명 없음");
+        const deadline = escapeHtml(item.deadline || "-");
+        const status = escapeHtml(labelForStatus(item.status));
+        const sourceName = escapeHtml(item.sourceName || item.source || "출처 미상");
+        const url = escapeHtml(item.primaryOfficialUrl || item.url || "assets/job-feed.json");
+        const processTrack = escapeHtml(item.processTrack || "-");
+        return `
+          <article class="feed-item">
+            <div class="feed-meta">
+              <span class="label teal">${status}</span>
+              <span class="label gold">마감 ${deadline}</span>
+            </div>
+            <h3>${title}</h3>
+            <p>${company}</p>
+            <p class="muted">출처: ${sourceName}${processTrack !== "-" ? ` · 분류: ${processTrack}` : ""}</p>
+            <div class="actions">
+              <a class="btn" href="${url}" target="_blank" rel="noopener noreferrer">공식 공고 열기</a>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    fetch(`assets/job-feed.json?v=${Date.now()}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((feed) => {
+        renderSummary(feed);
+        renderItems(feed);
+      })
+      .catch(() => {
+        noteEl.textContent = "현재 전체 공고를 자동으로 불러오지 못했습니다. 아래 원본 JSON 보기로 최신 피드를 확인할 수 있습니다.";
+      });
+  </script>
+</body>
+</html>

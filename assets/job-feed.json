@@ -1,6 +1,10 @@
 {
   "version": 4,
+<<<<<<< HEAD
   "generatedAt": "2026-07-14T10:43:55.278Z",
+=======
+  "generatedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "mode": "official-public-recruit-auto-registration",
@@ -11,7 +15,11 @@
     "applicationClosed": 16,
     "examFormal": 45,
     "directInterview": 50,
+<<<<<<< HEAD
     "companyNoticeChecked": 82,
+=======
+    "companyNoticeChecked": 86,
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
     "detailedPublicRecruit": 45,
     "archivedPublicRecruit": 16,
     "regionalEducationVerified": 1,
@@ -35,14 +43,18 @@
     "zipAttachmentScanFailures": 0,
     "zipAttachmentCachedScans": 0,
     "sourcesChecked": 15,
-    "sourcesConfigured": 6,
-    "sourcesReady": 6,
-    "sourcesMissingSetup": 9,
+    "sourcesConfigured": 4,
+    "sourcesReady": 4,
+    "sourcesMissingSetup": 11,
     "note": "공채 첫날 수집을 최우선으로 점검하고, 공식 공고 2중 확인 중심으로 취업부 브리핑을 자동 생성했습니다."
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
+<<<<<<< HEAD
     "generatedAt": "2026-07-14T10:43:55.278Z",
+=======
+    "generatedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
@@ -451,7 +463,11 @@
   },
   "collectionReview": {
     "status": "review_needed",
+<<<<<<< HEAD
     "generatedAt": "2026-07-14T10:43:55.278Z",
+=======
+    "generatedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
     "firstDayGoal": "공채는 게시 첫날 수집을 목표로 하며, 늦게 발견된 공고는 누락 점검 대상으로 기록한다.",
     "dynamicJobAlioGoal": "잡알리오 최근 등록 공고는 기관 화이트리스트나 제목 키워드와 무관하게 상세 원문을 열어 고졸·학력무관 후보를 판정한다.",
     "studentRecruitSafetyGoal": "학생에게 잘못 추천하지 않도록 제외하되, 공공·금융·대기업·필기/NCS·고졸·정규직 신호가 있는 중요 공채 후보는 안전검토 큐에 반드시 남긴다.",
@@ -459,7 +475,7 @@
     "officialNoticePendingCount": 0,
     "regionalEducationOfficialCount": 1,
     "regionalEducationDirectDisplayCount": 0,
-    "sourceGapCount": 9,
+    "sourceGapCount": 11,
     "criticalGapCount": 0,
     "dynamicJobAlioGapCount": 0,
     "studentRecruitSafetyReviewCount": 20,
@@ -1012,6 +1028,24 @@
     ],
     "sourceGaps": [
       {
+        "id": "mpm-public-job",
+        "name": "인사혁신처 공공취업정보",
+        "readiness": "active",
+        "configured": false,
+        "fallbackProtected": false,
+        "fallbackItemCount": 0,
+        "message": "GitHub Secret MPM_PUBLIC_JOB_SERVICE_KEY 또는 DATA_GO_KR_SERVICE_KEY 미설정"
+      },
+      {
+        "id": "moef-public-recruit",
+        "name": "기재부 공공기관 채용정보",
+        "readiness": "active",
+        "configured": false,
+        "fallbackProtected": false,
+        "fallbackItemCount": 0,
+        "message": "GitHub Secret MOEF_PUBLIC_RECRUIT_SERVICE_KEY 또는 DATA_GO_KR_SERVICE_KEY 미설정"
+      },
+      {
         "id": "work24-open-recruit",
         "name": "고용24 공채속보",
         "readiness": "active",
@@ -1094,7 +1128,11 @@
       }
     ],
     "criticalCoverage": {
+<<<<<<< HEAD
       "checkedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "checkedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "watchInstitutionCount": 94,
       "currentRequiredCount": 2,
       "coveredCurrent": [
@@ -1129,11 +1167,15 @@
   },
   "secretReadiness": {
     "status": "needs_secrets_or_official_feeds",
+<<<<<<< HEAD
     "generatedAt": "2026-07-14T10:43:55.278Z",
+=======
+    "generatedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
     "totalSources": 15,
-    "readySources": 6,
+    "readySources": 4,
     "partialSources": 0,
-    "missingSources": 9,
+    "missingSources": 11,
     "sources": [
       {
         "id": "mpm-public-job",
@@ -1147,18 +1189,17 @@
           "NARAILTER_API_KEY"
         ],
         "optionalSecretNames": [],
-        "configuredSecretNames": [
-          "MPM_PUBLIC_JOB_SERVICE_KEY"
-        ],
+        "configuredSecretNames": [],
         "configuredOptionalSecretNames": [],
         "missingSecretNames": [
+          "MPM_PUBLIC_JOB_SERVICE_KEY",
           "DATA_GO_KR_SERVICE_KEY",
           "NARAILTER_API_KEY"
         ],
         "configuredFeedCount": 0,
         "builtInFeedCount": 0,
-        "setupStatus": "ready",
-        "canAttemptImmediately": true,
+        "setupStatus": "missing",
+        "canAttemptImmediately": false,
         "adapter": "native",
         "actionLabel": "인사혁신처 공공취업 API 키 등록",
         "impact": "나라일터 계열 국가기관·지방자치단체·교육청·공공기관 채용 후보를 확보한다.",
@@ -1180,17 +1221,16 @@
           "DATA_GO_KR_SERVICE_KEY"
         ],
         "optionalSecretNames": [],
-        "configuredSecretNames": [
-          "MOEF_PUBLIC_RECRUIT_SERVICE_KEY"
-        ],
+        "configuredSecretNames": [],
         "configuredOptionalSecretNames": [],
         "missingSecretNames": [
+          "MOEF_PUBLIC_RECRUIT_SERVICE_KEY",
           "DATA_GO_KR_SERVICE_KEY"
         ],
         "configuredFeedCount": 0,
         "builtInFeedCount": 0,
-        "setupStatus": "ready",
-        "canAttemptImmediately": true,
+        "setupStatus": "missing",
+        "canAttemptImmediately": false,
         "adapter": "native",
         "actionLabel": "기재부 공공기관 채용 API 키 등록",
         "impact": "공공기관 채용공시 목록·상세를 구조화해 잡알리오 축을 보강한다.",
@@ -1586,6 +1626,39 @@
     ],
     "priorityQueue": [
       {
+        "id": "mpm-public-job",
+        "name": "인사혁신처 공공취업정보",
+        "priority": "P0",
+        "actionLabel": "인사혁신처 공공취업 API 키 등록",
+        "missingSecretNames": [
+          "MPM_PUBLIC_JOB_SERVICE_KEY",
+          "DATA_GO_KR_SERVICE_KEY",
+          "NARAILTER_API_KEY"
+        ],
+        "setupHint": "공공데이터포털 인사혁신처 공공취업정보 조회 서비스 확인",
+        "easySteps": [
+          "공공데이터포털에서 발급받은 인증키를 MPM_PUBLIC_JOB_SERVICE_KEY Secret에 저장한다.",
+          "같은 공공데이터포털 키를 공통으로 쓰는 경우 DATA_GO_KR_SERVICE_KEY에도 저장할 수 있다.",
+          "API 명세 경로가 바뀌면 NARAILTER_API_URL에 공식 URL을 저장해 우선 점검한다."
+        ]
+      },
+      {
+        "id": "moef-public-recruit",
+        "name": "기재부 공공기관 채용정보",
+        "priority": "P0",
+        "actionLabel": "기재부 공공기관 채용 API 키 등록",
+        "missingSecretNames": [
+          "MOEF_PUBLIC_RECRUIT_SERVICE_KEY",
+          "DATA_GO_KR_SERVICE_KEY"
+        ],
+        "setupHint": "공공데이터포털 기재부 공공기관 채용정보 조회서비스 확인",
+        "easySteps": [
+          "공공데이터포털에서 발급받은 인증키를 MOEF_PUBLIC_RECRUIT_SERVICE_KEY Secret에 저장한다.",
+          "같은 공공데이터포털 키를 공통으로 쓰는 경우 DATA_GO_KR_SERVICE_KEY에도 저장할 수 있다.",
+          "자동 수집 후 회사·기관 또는 채용대행 공식 공고 URL을 2중 확인한다."
+        ]
+      },
+      {
         "id": "work24-open-recruit",
         "name": "고용24 공채속보",
         "priority": "P0",
@@ -1730,26 +1803,30 @@
       }
     ],
     "easiestNextAction": {
-      "id": "work24-open-recruit",
-      "name": "고용24 공채속보",
+      "id": "mpm-public-job",
+      "name": "인사혁신처 공공취업정보",
       "priority": "P0",
-      "actionLabel": "고용24 인증키 등록",
+      "actionLabel": "인사혁신처 공공취업 API 키 등록",
       "missingSecretNames": [
-        "WORK24_AUTH_KEY",
-        "WORKNET_AUTH_KEY"
+        "MPM_PUBLIC_JOB_SERVICE_KEY",
+        "DATA_GO_KR_SERVICE_KEY",
+        "NARAILTER_API_KEY"
       ],
-      "setupHint": "공식 API 또는 허용된 피드 경로 확인 필요",
+      "setupHint": "공공데이터포털 인사혁신처 공공취업정보 조회 서비스 확인",
       "easySteps": [
-        "공공데이터 또는 고용24 OPEN-API 인증키를 확보한다.",
-        "GitHub 저장소 Settings > Secrets and variables > Actions로 이동한다.",
-        "New repository secret에서 WORK24_AUTH_KEY 또는 WORKNET_AUTH_KEY 이름으로 저장한다."
+        "공공데이터포털에서 발급받은 인증키를 MPM_PUBLIC_JOB_SERVICE_KEY Secret에 저장한다.",
+        "같은 공공데이터포털 키를 공통으로 쓰는 경우 DATA_GO_KR_SERVICE_KEY에도 저장할 수 있다.",
+        "API 명세 경로가 바뀌면 NARAILTER_API_URL에 공식 URL을 저장해 우선 점검한다."
       ]
     },
     "nextSecretNames": [
+      "MPM_PUBLIC_JOB_SERVICE_KEY",
+      "DATA_GO_KR_SERVICE_KEY",
+      "NARAILTER_API_KEY",
+      "MOEF_PUBLIC_RECRUIT_SERVICE_KEY",
       "WORK24_AUTH_KEY",
       "WORKNET_AUTH_KEY",
       "SARAMIN_ACCESS_KEY",
-      "NARAILTER_API_KEY",
       "NARAILTER_API_URL",
       "MILITARY_RECRUIT_API_KEY",
       "MILITARY_RECRUIT_API_URL",
@@ -2126,16 +2203,17 @@
         "NARAILTER_API_KEY"
       ],
       "readiness": "active",
+<<<<<<< HEAD
       "configured": true,
       "ok": true,
       "checkedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "configured": false,
+      "ok": false,
+      "checkedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "itemCount": 0,
-      "message": "인사혁신처 공공취업 API 648건 점검, 후보 0건, 공식분류 조회 56회",
-      "scannedCount": 648,
-      "rawItemCount": 648,
-      "firstDayCandidates": 0,
-      "missedReviewNeeded": 0,
-      "resolvedEndpoint": "https://apis.data.go.kr/1760000/PblJobService/getList"
+      "message": "GitHub Secret MPM_PUBLIC_JOB_SERVICE_KEY 또는 DATA_GO_KR_SERVICE_KEY 미설정"
     },
     {
       "id": "moef-public-recruit",
@@ -2149,6 +2227,7 @@
         "DATA_GO_KR_SERVICE_KEY"
       ],
       "readiness": "active",
+<<<<<<< HEAD
       "configured": true,
       "ok": true,
       "checkedAt": "2026-07-14T10:43:55.278Z",
@@ -2158,6 +2237,13 @@
       "rawItemCount": 10,
       "firstDayCandidates": 3,
       "missedReviewNeeded": 0
+=======
+      "configured": false,
+      "ok": false,
+      "checkedAt": "2026-07-14T10:57:12.933Z",
+      "itemCount": 0,
+      "message": "GitHub Secret MOEF_PUBLIC_RECRUIT_SERVICE_KEY 또는 DATA_GO_KR_SERVICE_KEY 미설정"
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
     },
     {
       "id": "work24-open-recruit",
@@ -2173,7 +2259,11 @@
       "readiness": "active",
       "configured": false,
       "ok": false,
+<<<<<<< HEAD
       "checkedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "checkedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "itemCount": 0,
       "message": "GitHub Secret WORK24_AUTH_KEY 또는 WORKNET_AUTH_KEY 미설정"
     },
@@ -2188,9 +2278,15 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
+<<<<<<< HEAD
       "checkedAt": "2026-07-14T10:43:55.278Z",
       "itemCount": 151,
       "message": "공식 공개 원문 502건/417후보 점검, 최근 21일 상세 310/310건, 표시누락 0건, 공식 공고 확인 94건",
+=======
+      "checkedAt": "2026-07-14T10:57:12.933Z",
+      "itemCount": 151,
+      "message": "공식 공개 원문 502건/417후보 점검, 최근 21일 상세 310/310건, 표시누락 0건, 공식 공고 확인 99건",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "scannedCount": 502,
       "scanTargetCount": 143,
       "candidateRowCount": 417,
@@ -2212,7 +2308,11 @@
         "missingCandidates": []
       },
       "criticalCoverage": {
+<<<<<<< HEAD
         "checkedAt": "2026-07-14T10:43:55.278Z",
+=======
+        "checkedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
         "watchInstitutionCount": 94,
         "currentRequiredCount": 2,
         "coveredCurrent": [
@@ -2249,7 +2349,11 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
+<<<<<<< HEAD
       "checkedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "checkedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "itemCount": 0,
       "message": "서울 하이잡 공식 목록 20건 점검, 보조검증 후보 2건, 공식 공고 확인 0건, 첫날 수집 0건, 누락점검 2건",
       "verificationItemCount": 2,
@@ -2271,7 +2375,11 @@
       "readiness": "active",
       "configured": false,
       "ok": false,
+<<<<<<< HEAD
       "checkedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "checkedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "itemCount": 0,
       "message": "GitHub Secret SARAMIN_ACCESS_KEY 미설정"
     },
@@ -2291,9 +2399,13 @@
       "readiness": "pending",
       "configured": true,
       "ok": true,
+<<<<<<< HEAD
       "checkedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "checkedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "itemCount": 2,
-      "message": "공식 채용 페이지 93/94개 감시, 채용대행 API 55개 추가확인, 표시후보 2건, 보조검증 후보 0건, 접속확인전용 1개, 실패 1개",
+      "message": "공식 채용 페이지 94/94개 감시, 채용대행 API 55개 추가확인, 표시후보 2건, 보조검증 후보 0건, 접속확인전용 2개, 실패 0개",
       "verificationItemCount": 0,
       "scannedCount": 14,
       "configuredFeedCount": 0,
@@ -2394,9 +2506,10 @@
         "OK금융그룹",
         "SBI저축은행"
       ],
-      "checkedUrlCount": 93,
-      "reachabilityOnlyCount": 1,
+      "checkedUrlCount": 94,
+      "reachabilityOnlyCount": 2,
       "reachabilityOnlyEmployers": [
+        "NH농협은행",
         "IBK기업은행"
       ],
       "recruiterApiCheckedCount": 55,
@@ -2404,10 +2517,15 @@
       "recruiterApiCurrentCount": 58,
       "recruiterApiRecordCount": 11,
       "recruiterApiFailures": [],
+<<<<<<< HEAD
       "failedUrlCount": 1,
       "watchFailures": [
         "NH농협은행: external client failed: Command failed: curl -L --silent --show-error --max-time 12 -X GET -H User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125 Sa"
       ]
+=======
+      "failedUrlCount": 0,
+      "watchFailures": []
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
     },
     {
       "id": "gojobs-narailter",
@@ -2423,7 +2541,11 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
+<<<<<<< HEAD
       "checkedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "checkedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "itemCount": 0,
       "message": "인사혁신처 나라일터 공식 API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -2441,7 +2563,11 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
+<<<<<<< HEAD
       "checkedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "checkedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "itemCount": 0,
       "message": "국방부·각 군 공식 모집/채용 공고 데이터 경로 확인 후 연결"
     },
@@ -2459,7 +2585,11 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
+<<<<<<< HEAD
       "checkedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "checkedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "itemCount": 0,
       "message": "잡코리아 공식 제휴 또는 이용 허가된 API 확인 후 연결"
     },
@@ -2477,7 +2607,11 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
+<<<<<<< HEAD
       "checkedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "checkedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -2495,7 +2629,11 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
+<<<<<<< HEAD
       "checkedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "checkedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -2513,7 +2651,11 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
+<<<<<<< HEAD
       "checkedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "checkedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -2530,11 +2672,15 @@
       "readiness": "pending",
       "configured": true,
       "ok": true,
+<<<<<<< HEAD
       "checkedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "checkedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "itemCount": 0,
-      "message": "공식 채용 페이지 8/9개 감시, 채용대행 API 0개 추가확인, 표시후보 0건, 보조검증 후보 2건, 접속확인전용 0개, 실패 1개",
+      "message": "공식 채용 페이지 9/9개 감시, 채용대행 API 0개 추가확인, 표시후보 0건, 보조검증 후보 2건, 접속확인전용 0개, 실패 0개",
       "verificationItemCount": 2,
-      "scannedCount": 21,
+      "scannedCount": 30,
       "configuredFeedCount": 0,
       "builtInFeedCount": 9,
       "watchEmployerCount": 9,
@@ -2549,7 +2695,7 @@
         "경상남도교육청 취업지원센터",
         "부산광역시교육청 취업지원센터"
       ],
-      "checkedUrlCount": 8,
+      "checkedUrlCount": 9,
       "reachabilityOnlyCount": 0,
       "reachabilityOnlyEmployers": [],
       "recruiterApiCheckedCount": 0,
@@ -2557,10 +2703,8 @@
       "recruiterApiCurrentCount": 0,
       "recruiterApiRecordCount": 0,
       "recruiterApiFailures": [],
-      "failedUrlCount": 1,
-      "watchFailures": [
-        "울산광역시교육청 취업지원센터: external client failed: Command failed: curl -L --silent --show-error --max-time 11 -X GET -H User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125 Sa"
-      ]
+      "failedUrlCount": 0,
+      "watchFailures": []
     },
     {
       "id": "nonprofit-recruit",
@@ -2576,7 +2720,11 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
+<<<<<<< HEAD
       "checkedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "checkedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "itemCount": 0,
       "message": "비영리기관 공식 채용 공고 경로와 이용 조건 확인 후 연결"
     }
@@ -2598,7 +2746,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-13",
       "deadlineText": "2026-07-13 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-06-29T14:59:59.000Z",
       "publishedDate": "2026-06-29",
       "firstSeenAt": "2026-06-29T17:19:09.560Z",
@@ -2692,7 +2844,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-13",
       "deadlineText": "2026-07-13 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-06-29T14:59:59.000Z",
       "publishedDate": "2026-06-29",
       "firstSeenAt": "2026-07-08T08:33:25.389Z",
@@ -2783,7 +2939,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-10",
       "deadlineText": "2026-07-10 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-03T14:59:59.000Z",
       "publishedDate": "2026-07-03",
       "firstSeenAt": "2026-07-03T04:29:39.182Z",
@@ -2876,7 +3036,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-10",
       "deadlineText": "2026-07-10 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-03T14:59:59.000Z",
       "publishedDate": "2026-07-03",
       "firstSeenAt": "2026-07-03T04:29:39.182Z",
@@ -2969,7 +3133,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-09",
       "deadlineText": "2026-07-09 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-02T14:59:59.000Z",
       "publishedDate": "2026-07-02",
       "firstSeenAt": "2026-07-07T06:30:29.513Z",
@@ -3062,7 +3230,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-08",
       "deadlineText": "2026-07-08 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-01T14:59:59.000Z",
       "publishedDate": "2026-07-01",
       "firstSeenAt": "2026-07-07T08:09:36.626Z",
@@ -3155,7 +3327,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-07",
       "deadlineText": "2026-07-07 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-06-23T14:59:59.000Z",
       "publishedDate": "2026-06-23",
       "firstSeenAt": "2026-06-24T01:44:48.546Z",
@@ -3245,7 +3421,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-03",
       "deadlineText": "2026-07-03 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-06-19T14:59:59.000Z",
       "publishedDate": "2026-06-19",
       "firstSeenAt": "2026-06-24T01:44:48.546Z",
@@ -3335,7 +3515,11 @@
       "recruitNumber": "",
       "deadline": "2026-06-29",
       "deadlineText": "2026-06-29 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-06-15T14:59:59.000Z",
       "publishedDate": "2026-06-15",
       "firstSeenAt": "2026-06-24T01:44:48.546Z",
@@ -3425,7 +3609,11 @@
       "recruitNumber": "",
       "deadline": "2026-06-25",
       "deadlineText": "2026-06-25 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-06-11T14:59:59.000Z",
       "publishedDate": "2026-06-11",
       "firstSeenAt": "2026-06-24T01:44:48.546Z",
@@ -3515,7 +3703,11 @@
       "recruitNumber": "",
       "deadline": "2026-06-20",
       "deadlineText": "2026-06-20 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-06-05T14:59:59.000Z",
       "publishedDate": "2026-06-05",
       "firstSeenAt": "2026-06-24T01:42:11.462Z",
@@ -3608,7 +3800,11 @@
       "recruitNumber": "",
       "deadline": "2026-06-16",
       "deadlineText": "2026-06-16 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-06-24T12:30:55.840Z",
@@ -3699,7 +3895,11 @@
       "recruitNumber": "",
       "deadline": "2026-06-15",
       "deadlineText": "2026-06-15 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-06-01T14:59:59.000Z",
       "publishedDate": "2026-06-01",
       "firstSeenAt": "2026-06-24T01:42:11.462Z",
@@ -3790,7 +3990,11 @@
       "recruitNumber": "",
       "deadline": "2026-06-12",
       "deadlineText": "2026-06-12 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-05-29T14:59:59.000Z",
       "publishedDate": "2026-05-29",
       "firstSeenAt": "2026-06-24T01:42:11.462Z",
@@ -3883,7 +4087,11 @@
       "recruitNumber": "",
       "deadline": "2026-06-05",
       "deadlineText": "2026-06-05 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-05-22T14:59:59.000Z",
       "publishedDate": "2026-05-22",
       "firstSeenAt": "2026-06-24T12:30:55.840Z",
@@ -3973,7 +4181,11 @@
       "recruitNumber": "",
       "deadline": "2026-06-04",
       "deadlineText": "2026-06-04 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-05-21T14:59:59.000Z",
       "publishedDate": "2026-05-21",
       "firstSeenAt": "2026-06-24T12:30:55.840Z",
@@ -4065,7 +4277,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-22",
       "deadlineText": "2026-07-22 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-07T14:59:59.000Z",
       "publishedDate": "2026-07-07",
       "firstSeenAt": "2026-07-08T08:23:46.165Z",
@@ -4157,7 +4373,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-20",
       "deadlineText": "2026-07-20 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-06T14:59:59.000Z",
       "publishedDate": "2026-07-06",
       "firstSeenAt": "2026-07-07T16:58:55.690Z",
@@ -4248,7 +4468,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-14",
       "deadlineText": "2026-07-14 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-07T14:59:59.000Z",
       "publishedDate": "2026-07-07",
       "firstSeenAt": "2026-07-07T07:00:35.387Z",
@@ -4341,7 +4565,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-15",
       "deadlineText": "2026-07-15 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-08T14:59:59.000Z",
       "publishedDate": "2026-07-08",
       "firstSeenAt": "2026-07-08T08:02:29.969Z",
@@ -4434,7 +4662,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-16",
       "deadlineText": "2026-07-16 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-02T14:59:59.000Z",
       "publishedDate": "2026-07-02",
       "firstSeenAt": "2026-07-08T08:14:26.081Z",
@@ -4527,7 +4759,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-16",
       "deadlineText": "2026-07-16 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
       "firstSeenAt": "2026-07-14T03:24:51.624Z",
@@ -4618,7 +4854,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-14",
       "deadlineText": "2026-07-14 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-06T14:59:59.000Z",
       "publishedDate": "2026-07-06",
       "firstSeenAt": "2026-07-08T08:14:26.081Z",
@@ -4709,7 +4949,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-19",
       "deadlineText": "2026-07-19 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
       "firstSeenAt": "2026-07-10T16:46:56.033Z",
@@ -4800,7 +5044,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-20",
       "deadlineText": "2026-07-20 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
       "firstSeenAt": "2026-07-14T03:24:51.624Z",
@@ -4893,7 +5141,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-21",
       "deadlineText": "2026-07-21 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
       "firstSeenAt": "2026-07-14T07:17:53.501Z",
@@ -4986,7 +5238,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-20",
       "deadlineText": "2026-07-20 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
       "firstSeenAt": "2026-07-12T15:08:18.430Z",
@@ -5077,7 +5333,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-20",
       "deadlineText": "2026-07-20 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
       "firstSeenAt": "2026-07-09T17:04:53.340Z",
@@ -5167,7 +5427,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-20",
       "deadlineText": "2026-07-20 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
       "firstSeenAt": "2026-07-09T17:04:53.340Z",
@@ -5258,7 +5522,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-21",
       "deadlineText": "2026-07-21 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
       "firstSeenAt": "2026-07-09T17:04:53.340Z",
@@ -5350,7 +5618,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-21",
       "deadlineText": "2026-07-21 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-07T14:59:59.000Z",
       "publishedDate": "2026-07-07",
       "firstSeenAt": "2026-07-08T08:14:26.081Z",
@@ -5440,7 +5712,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-22",
       "deadlineText": "2026-07-22 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-08T14:59:59.000Z",
       "publishedDate": "2026-07-08",
       "firstSeenAt": "2026-07-08T08:02:29.969Z",
@@ -5531,7 +5807,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-23",
       "deadlineText": "2026-07-23 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-09T14:59:59.000Z",
       "publishedDate": "2026-07-09",
       "firstSeenAt": "2026-07-09T17:04:53.340Z",
@@ -5622,7 +5902,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-23",
       "deadlineText": "2026-07-23 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-08T14:59:59.000Z",
       "publishedDate": "2026-07-08",
       "firstSeenAt": "2026-07-09T17:04:53.340Z",
@@ -5713,7 +5997,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-27",
       "deadlineText": "2026-07-27 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
       "firstSeenAt": "2026-07-14T03:24:51.624Z",
@@ -5803,7 +6091,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-08",
       "deadlineText": "2026-07-08 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-01T14:59:59.000Z",
       "publishedDate": "2026-07-01",
       "firstSeenAt": "2026-07-07T08:09:36.626Z",
@@ -5896,7 +6188,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-09",
       "deadlineText": "2026-07-09 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-02T14:59:59.000Z",
       "publishedDate": "2026-07-02",
       "firstSeenAt": "2026-07-07T06:30:29.513Z",
@@ -5989,7 +6285,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-10",
       "deadlineText": "2026-07-10 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-03T14:59:59.000Z",
       "publishedDate": "2026-07-03",
       "firstSeenAt": "2026-07-03T04:29:39.182Z",
@@ -6082,7 +6382,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-10",
       "deadlineText": "2026-07-10 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-03T14:59:59.000Z",
       "publishedDate": "2026-07-03",
       "firstSeenAt": "2026-07-03T04:29:39.182Z",
@@ -6175,7 +6479,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-13",
       "deadlineText": "2026-07-13 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-06-29T14:59:59.000Z",
       "publishedDate": "2026-06-29",
       "firstSeenAt": "2026-06-29T17:19:09.560Z",
@@ -6254,6 +6562,99 @@
       "trackName": "공채 상세 정보"
     },
     {
+<<<<<<< HEAD
+=======
+      "id": "16306162a7cfcc4f19",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "sourceId": "300932",
+      "title": "한국가스공사 2026년 체험형 인턴 모집 공고(원서 마감)",
+      "baseTitle": "한국가스공사 2026년 체험형 인턴 모집 공고",
+      "company": "한국가스공사",
+      "region": "서울,인천,대전,대구,광주,경기,강원,경북,경남,전북,제주",
+      "education": "학력무관",
+      "career": "신입",
+      "employmentType": "청년인턴(체험형)",
+      "recruitField": "일반직,연구직,기술직",
+      "recruitNumber": "",
+      "deadline": "2026-06-05",
+      "deadlineText": "2026-06-05 원서 마감",
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+      "publishedAt": "2026-05-22T14:59:59.000Z",
+      "publishedDate": "2026-05-22",
+      "firstSeenAt": "2026-06-24T12:30:55.840Z",
+      "firstSeenDate": "2026-06-24",
+      "collectionAudit": {
+        "policy": "public-recruit-first-day-collection",
+        "publishedAt": "2026-05-22T14:59:59.000Z",
+        "publishedDate": "2026-05-22",
+        "firstSeenAt": "2026-06-24T12:30:55.840Z",
+        "firstSeenDate": "2026-06-24",
+        "detectionLagDays": 33,
+        "firstDayCollected": false,
+        "missedReviewNeeded": true,
+        "firstDayStatus": "late_detected",
+        "note": "공고 게시 후 33일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      },
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "exam-formal",
+      "processTrackName": "공채 상세 정보",
+      "writtenExam": "not_found",
+      "processConfidence": "medium",
+      "processLabels": [
+        "공공기관",
+        "학생추천 채용"
+      ],
+      "processNote": "특성화고 학생에게 안내할 가치가 있는 공식 공채 후보로 판단되어 공채 상세 정보에 보존했습니다. 필기시험 신호는 추가 수집 때 계속 대조합니다.",
+      "studentChannelAssessment": {
+        "version": 1,
+        "highSchoolEligible": true,
+        "militaryUnservedEligible": true,
+        "militaryCompletionRequired": false,
+        "collegeOnly": false,
+        "professionalOnly": false,
+        "advancedRoleMismatch": false,
+        "careerLadder": false,
+        "majorFit": false,
+        "directQuality": true,
+        "hardBlocked": false,
+        "recommendedChannel": "exam-formal",
+        "reasons": [
+          "고졸·학력무관 지원신호 확인",
+          "일반취업 품질신호"
+        ]
+      },
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "servicePriority": "primary-public-recruit",
+      "servicePolicyLabel": "공채 상세",
+      "detailLevel": "detailed-public-recruit",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다.",
+      "schoolRecommendation": "unknown",
+      "status": "application_closed",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "공채 상세 정보",
+        "공공기관",
+        "청년인턴(체험형)",
+        "학력무관",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ],
+      "trackName": "공채 상세 정보"
+    },
+    {
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "id": "a00dbaacb194d21a38",
       "source": "job-alio-openapi",
       "sourceName": "잡알리오 공공기관 채용",
@@ -6269,7 +6670,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-15",
       "deadlineText": "2026-07-15 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-06-30T14:59:59.000Z",
       "publishedDate": "2026-06-30",
       "firstSeenAt": "2026-07-08T04:15:01.575Z",
@@ -6360,7 +6765,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-14",
       "deadlineText": "2026-07-14 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-06-29T14:59:59.000Z",
       "publishedDate": "2026-06-29",
       "firstSeenAt": "2026-07-08T04:15:01.575Z",
@@ -6450,7 +6859,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-28",
       "deadlineText": "2026-07-28 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
       "firstSeenAt": "2026-07-14T07:17:53.501Z",
@@ -6542,7 +6955,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-21",
       "deadlineText": "2026-07-21 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-06T14:59:59.000Z",
       "publishedDate": "2026-07-06",
       "firstSeenAt": "2026-07-08T08:14:26.081Z",
@@ -6633,7 +7050,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-22",
       "deadlineText": "2026-07-22 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-08T14:59:59.000Z",
       "publishedDate": "2026-07-08",
       "firstSeenAt": "2026-07-08T08:33:25.389Z",
@@ -6723,7 +7144,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-23",
       "deadlineText": "2026-07-23 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-09T14:59:59.000Z",
       "publishedDate": "2026-07-09",
       "firstSeenAt": "2026-07-09T17:04:53.340Z",
@@ -6813,7 +7238,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-23",
       "deadlineText": "2026-07-23 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-08T14:59:59.000Z",
       "publishedDate": "2026-07-08",
       "firstSeenAt": "2026-06-24T01:44:48.546Z",
@@ -6903,7 +7332,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-28",
       "deadlineText": "2026-07-28 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
       "firstSeenAt": "2026-07-14T07:17:53.501Z",
@@ -6994,16 +7427,27 @@
       "recruitNumber": "",
       "deadline": "2026-07-29",
       "deadlineText": "2026-07-29 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
       "firstSeenAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+      "publishedAt": "2026-07-14T14:59:59.000Z",
+      "publishedDate": "2026-07-14",
+      "firstSeenAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "firstSeenDate": "2026-07-14",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-14T14:59:59.000Z",
         "publishedDate": "2026-07-14",
+<<<<<<< HEAD
         "firstSeenAt": "2026-07-14T10:43:55.278Z",
+=======
+        "firstSeenAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
         "firstSeenDate": "2026-07-14",
         "detectionLagDays": 0,
         "firstDayCollected": true,
@@ -7084,7 +7528,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-30",
       "deadlineText": "2026-07-30 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-08T14:59:59.000Z",
       "publishedDate": "2026-07-08",
       "firstSeenAt": "2026-06-24T01:44:48.546Z",
@@ -7174,7 +7622,11 @@
       "recruitNumber": "",
       "deadline": "2026-06-20",
       "deadlineText": "2026-06-20 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-06-05T14:59:59.000Z",
       "publishedDate": "2026-06-05",
       "firstSeenAt": "2026-06-24T01:42:11.462Z",
@@ -7267,7 +7719,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-13",
       "deadlineText": "2026-07-13 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-06-29T14:59:59.000Z",
       "publishedDate": "2026-06-29",
       "firstSeenAt": "2026-07-08T08:33:25.389Z",
@@ -7358,7 +7814,11 @@
       "recruitNumber": "",
       "deadline": "2026-06-12",
       "deadlineText": "2026-06-12 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-05-29T14:59:59.000Z",
       "publishedDate": "2026-05-29",
       "firstSeenAt": "2026-06-24T01:42:11.462Z",
@@ -7451,7 +7911,11 @@
       "recruitNumber": "",
       "deadline": "2026-06-15",
       "deadlineText": "2026-06-15 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-06-01T14:59:59.000Z",
       "publishedDate": "2026-06-01",
       "firstSeenAt": "2026-06-24T01:42:11.462Z",
@@ -7542,7 +8006,11 @@
       "recruitNumber": "",
       "deadline": "2026-06-04",
       "deadlineText": "2026-06-04 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-05-21T14:59:59.000Z",
       "publishedDate": "2026-05-21",
       "firstSeenAt": "2026-06-24T12:30:55.840Z",
@@ -7722,7 +8190,11 @@
       "recruitNumber": "",
       "deadline": "2026-06-16",
       "deadlineText": "2026-06-16 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-06-24T12:30:55.840Z",
@@ -7813,7 +8285,11 @@
       "recruitNumber": "",
       "deadline": "2026-06-25",
       "deadlineText": "2026-06-25 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-06-11T14:59:59.000Z",
       "publishedDate": "2026-06-11",
       "firstSeenAt": "2026-06-24T01:44:48.546Z",
@@ -7903,7 +8379,11 @@
       "recruitNumber": "",
       "deadline": "2026-06-29",
       "deadlineText": "2026-06-29 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-06-15T14:59:59.000Z",
       "publishedDate": "2026-06-15",
       "firstSeenAt": "2026-06-24T01:44:48.546Z",
@@ -7993,7 +8473,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-03",
       "deadlineText": "2026-07-03 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-06-19T14:59:59.000Z",
       "publishedDate": "2026-06-19",
       "firstSeenAt": "2026-06-24T01:44:48.546Z",
@@ -8083,7 +8567,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-07",
       "deadlineText": "2026-07-07 원서 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-06-23T14:59:59.000Z",
       "publishedDate": "2026-06-23",
       "firstSeenAt": "2026-06-24T01:44:48.546Z",
@@ -8158,6 +8646,99 @@
       "trackName": "공채 상세 정보"
     },
     {
+<<<<<<< HEAD
+=======
+      "id": "df1b3c8415dd9acf1b",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "sourceId": "302570",
+      "title": "한국도로공사 군위지사 기간제근로자(안전순찰원) 채용공고",
+      "baseTitle": "한국도로공사 군위지사 기간제근로자(안전순찰원) 채용공고",
+      "company": "한국도로공사",
+      "region": "대구",
+      "education": "학력무관",
+      "career": "신입+경력",
+      "employmentType": "비정규직",
+      "recruitField": "기타(안전순찰원)",
+      "recruitNumber": "",
+      "deadline": "2026-07-15",
+      "deadlineText": "2026-07-15 마감",
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+      "publishedAt": "2026-07-09T14:59:59.000Z",
+      "publishedDate": "2026-07-09",
+      "firstSeenAt": "2026-06-24T01:42:11.462Z",
+      "firstSeenDate": "2026-06-24",
+      "collectionAudit": {
+        "policy": "public-recruit-first-day-collection",
+        "publishedAt": "2026-07-09T14:59:59.000Z",
+        "publishedDate": "2026-07-09",
+        "firstSeenAt": "2026-06-24T01:42:11.462Z",
+        "firstSeenDate": "2026-06-24",
+        "detectionLagDays": 0,
+        "firstDayCollected": true,
+        "missedReviewNeeded": true,
+        "firstDayStatus": "first_day",
+        "note": "공고 게시 첫날 자동 수집 대상입니다."
+      },
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "direct-interview",
+      "processTrackName": "면접중심·현장형 채용",
+      "writtenExam": "not_found",
+      "processConfidence": "high",
+      "processLabels": [
+        "공공기관",
+        "현장형 분리"
+      ],
+      "processNote": "공공·금융·대기업 소스라도 학생 진로 추천에 필요한 경력 사다리·공식 전형 신호보다 현장형·한시성 신호가 우세해 면접중심·현장형 채용으로 분리했습니다.",
+      "studentChannelAssessment": {
+        "version": 1,
+        "highSchoolEligible": true,
+        "militaryUnservedEligible": true,
+        "militaryCompletionRequired": false,
+        "collegeOnly": false,
+        "professionalOnly": false,
+        "advancedRoleMismatch": false,
+        "careerLadder": false,
+        "majorFit": false,
+        "directQuality": true,
+        "hardBlocked": false,
+        "recommendedChannel": "direct-interview",
+        "reasons": [
+          "고졸·학력무관 지원신호 확인",
+          "일반취업 품질신호"
+        ]
+      },
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "servicePriority": "support-brief-direct",
+      "servicePolicyLabel": "간단 안내",
+      "detailLevel": "brief-company-contact",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다.",
+      "schoolRecommendation": "unknown",
+      "status": "deadline_soon",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "면접중심·현장형 채용",
+        "공공기관",
+        "비정규직",
+        "학력무관",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ],
+      "trackName": "면접중심·현장형 채용"
+    },
+    {
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "id": "eb7fe73138d4312243",
       "source": "job-alio-openapi",
       "sourceName": "잡알리오 공공기관 채용",
@@ -8173,7 +8754,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-15",
       "deadlineText": "2026-07-15 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-09T14:59:59.000Z",
       "publishedDate": "2026-07-09",
       "firstSeenAt": "2026-07-09T17:04:53.340Z",
@@ -8248,6 +8833,96 @@
       "trackName": "면접중심·현장형 채용"
     },
     {
+      "id": "b30a64bb7524370d51",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "sourceId": "302473",
+      "title": "근로복지공단 [서울관악지사] 청년(체험형)인턴 채용 공고",
+      "baseTitle": "근로복지공단 [서울관악지사] 청년(체험형)인턴 채용 공고",
+      "company": "근로복지공단",
+      "region": "서울",
+      "education": "학력무관",
+      "career": "신입",
+      "employmentType": "청년인턴(체험형)",
+      "recruitField": "계약직",
+      "recruitNumber": "",
+      "deadline": "2026-07-15",
+      "deadlineText": "2026-07-15 마감",
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+      "publishedAt": "2026-07-08T14:59:59.000Z",
+      "publishedDate": "2026-07-08",
+      "firstSeenAt": "2026-07-10T08:31:58.351Z",
+      "firstSeenDate": "2026-07-10",
+      "collectionAudit": {
+        "policy": "public-recruit-first-day-collection",
+        "publishedAt": "2026-07-08T14:59:59.000Z",
+        "publishedDate": "2026-07-08",
+        "firstSeenAt": "2026-07-10T08:31:58.351Z",
+        "firstSeenDate": "2026-07-10",
+        "detectionLagDays": 2,
+        "firstDayCollected": false,
+        "missedReviewNeeded": true,
+        "firstDayStatus": "late_detected",
+        "note": "공고 게시 후 2일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      },
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "direct-interview",
+      "processTrackName": "면접중심·현장형 채용",
+      "writtenExam": "not_found",
+      "processConfidence": "high",
+      "processLabels": [
+        "공공기관",
+        "현장형 분리"
+      ],
+      "processNote": "공공·금융·대기업 소스라도 학생 진로 추천에 필요한 경력 사다리·공식 전형 신호보다 현장형·한시성 신호가 우세해 면접중심·현장형 채용으로 분리했습니다.",
+      "studentChannelAssessment": {
+        "version": 1,
+        "highSchoolEligible": true,
+        "militaryUnservedEligible": true,
+        "militaryCompletionRequired": false,
+        "collegeOnly": false,
+        "professionalOnly": false,
+        "advancedRoleMismatch": false,
+        "careerLadder": false,
+        "majorFit": false,
+        "directQuality": true,
+        "hardBlocked": false,
+        "recommendedChannel": "direct-interview",
+        "reasons": [
+          "고졸·학력무관 지원신호 확인",
+          "일반취업 품질신호"
+        ]
+      },
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "servicePriority": "support-brief-direct",
+      "servicePolicyLabel": "간단 안내",
+      "detailLevel": "brief-company-contact",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다.",
+      "schoolRecommendation": "unknown",
+      "status": "deadline_soon",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "면접중심·현장형 채용",
+        "공공기관",
+        "청년인턴(체험형)",
+        "학력무관",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ],
+      "trackName": "면접중심·현장형 채용"
+    },
+    {
       "id": "18bd1c2b0d222719ae",
       "source": "job-alio-openapi",
       "sourceName": "잡알리오 공공기관 채용",
@@ -8263,7 +8938,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-15",
       "deadlineText": "2026-07-15 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-08T14:59:59.000Z",
       "publishedDate": "2026-07-08",
       "firstSeenAt": "2026-07-08T08:02:29.969Z",
@@ -8338,6 +9017,187 @@
       "trackName": "면접중심·현장형 채용"
     },
     {
+      "id": "16608f25a8d2d81175",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "sourceId": "302586",
+      "title": "한국도로공사 고령지사 기간제근로자(안전순찰원) 채용공고",
+      "baseTitle": "한국도로공사 고령지사 기간제근로자(안전순찰원) 채용공고",
+      "company": "한국도로공사",
+      "region": "경북",
+      "education": "학력무관",
+      "career": "신입+경력",
+      "employmentType": "비정규직",
+      "recruitField": "기타(안전순찰원)",
+      "recruitNumber": "",
+      "deadline": "2026-07-16",
+      "deadlineText": "2026-07-16 마감",
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+      "publishedAt": "2026-07-10T14:59:59.000Z",
+      "publishedDate": "2026-07-10",
+      "firstSeenAt": "2026-06-24T01:42:11.462Z",
+      "firstSeenDate": "2026-06-24",
+      "collectionAudit": {
+        "policy": "public-recruit-first-day-collection",
+        "publishedAt": "2026-07-10T14:59:59.000Z",
+        "publishedDate": "2026-07-10",
+        "firstSeenAt": "2026-06-24T01:42:11.462Z",
+        "firstSeenDate": "2026-06-24",
+        "detectionLagDays": 0,
+        "firstDayCollected": true,
+        "missedReviewNeeded": true,
+        "firstDayStatus": "first_day",
+        "note": "공고 게시 첫날 자동 수집 대상입니다."
+      },
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "direct-interview",
+      "processTrackName": "면접중심·현장형 채용",
+      "writtenExam": "not_found",
+      "processConfidence": "high",
+      "processLabels": [
+        "공공기관",
+        "현장형 분리"
+      ],
+      "processNote": "공공·금융·대기업 소스라도 학생 진로 추천에 필요한 경력 사다리·공식 전형 신호보다 현장형·한시성 신호가 우세해 면접중심·현장형 채용으로 분리했습니다.",
+      "studentChannelAssessment": {
+        "version": 1,
+        "highSchoolEligible": true,
+        "militaryUnservedEligible": true,
+        "militaryCompletionRequired": false,
+        "collegeOnly": false,
+        "professionalOnly": false,
+        "advancedRoleMismatch": false,
+        "careerLadder": false,
+        "majorFit": false,
+        "directQuality": true,
+        "hardBlocked": false,
+        "recommendedChannel": "direct-interview",
+        "reasons": [
+          "고졸·학력무관 지원신호 확인",
+          "일반취업 품질신호"
+        ]
+      },
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "servicePriority": "support-brief-direct",
+      "servicePolicyLabel": "간단 안내",
+      "detailLevel": "brief-company-contact",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다.",
+      "schoolRecommendation": "unknown",
+      "status": "deadline_soon",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "면접중심·현장형 채용",
+        "공공기관",
+        "비정규직",
+        "학력무관",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ],
+      "trackName": "면접중심·현장형 채용"
+    },
+    {
+      "id": "ad86b3ca67ae772bf9",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "sourceId": "302550",
+      "title": "근로복지공단 [안산병원] 기간제(사무원) 채용 공고",
+      "baseTitle": "근로복지공단 [안산병원] 기간제(사무원) 채용 공고",
+      "company": "근로복지공단",
+      "region": "경기",
+      "education": "학력무관",
+      "career": "신입",
+      "employmentType": "비정규직",
+      "recruitField": "계약직",
+      "recruitNumber": "",
+      "deadline": "2026-07-16",
+      "deadlineText": "2026-07-16 마감",
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+      "publishedAt": "2026-07-09T14:59:59.000Z",
+      "publishedDate": "2026-07-09",
+      "firstSeenAt": "2026-07-10T08:31:58.351Z",
+      "firstSeenDate": "2026-07-10",
+      "collectionAudit": {
+        "policy": "public-recruit-first-day-collection",
+        "publishedAt": "2026-07-09T14:59:59.000Z",
+        "publishedDate": "2026-07-09",
+        "firstSeenAt": "2026-07-10T08:31:58.351Z",
+        "firstSeenDate": "2026-07-10",
+        "detectionLagDays": 1,
+        "firstDayCollected": false,
+        "missedReviewNeeded": true,
+        "firstDayStatus": "next_day",
+        "note": "공고 게시 후 1일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      },
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "direct-interview",
+      "processTrackName": "면접중심·현장형 채용",
+      "writtenExam": "not_found",
+      "processConfidence": "high",
+      "processLabels": [
+        "공공기관",
+        "현장형 분리"
+      ],
+      "processNote": "공공·금융·대기업 소스라도 학생 진로 추천에 필요한 경력 사다리·공식 전형 신호보다 현장형·한시성 신호가 우세해 면접중심·현장형 채용으로 분리했습니다.",
+      "studentChannelAssessment": {
+        "version": 1,
+        "highSchoolEligible": true,
+        "militaryUnservedEligible": true,
+        "militaryCompletionRequired": false,
+        "collegeOnly": false,
+        "professionalOnly": false,
+        "advancedRoleMismatch": false,
+        "careerLadder": false,
+        "majorFit": true,
+        "directQuality": true,
+        "hardBlocked": false,
+        "recommendedChannel": "direct-interview",
+        "reasons": [
+          "고졸·학력무관 지원신호 확인",
+          "직업계고 전공연계 신호",
+          "일반취업 품질신호"
+        ]
+      },
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "servicePriority": "support-brief-direct",
+      "servicePolicyLabel": "간단 안내",
+      "detailLevel": "brief-company-contact",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다.",
+      "schoolRecommendation": "unknown",
+      "status": "deadline_soon",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "면접중심·현장형 채용",
+        "공공기관",
+        "비정규직",
+        "학력무관",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ],
+      "trackName": "면접중심·현장형 채용"
+    },
+    {
       "id": "9454ce364407e40af3",
       "source": "job-alio-openapi",
       "sourceName": "잡알리오 공공기관 채용",
@@ -8353,7 +9213,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-17",
       "deadlineText": "2026-07-17 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
       "firstSeenAt": "2026-07-10T08:31:58.351Z",
@@ -8445,7 +9309,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-17",
       "deadlineText": "2026-07-17 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-07T14:59:59.000Z",
       "publishedDate": "2026-07-07",
       "firstSeenAt": "2026-07-09T17:04:53.340Z",
@@ -8535,7 +9403,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-19",
       "deadlineText": "2026-07-19 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
       "firstSeenAt": "2026-07-10T16:46:56.033Z",
@@ -8625,7 +9497,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-19",
       "deadlineText": "2026-07-19 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
       "firstSeenAt": "2026-07-10T16:46:56.033Z",
@@ -8716,7 +9592,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-20",
       "deadlineText": "2026-07-20 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
       "firstSeenAt": "2026-07-14T03:24:51.624Z",
@@ -8807,7 +9687,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-20",
       "deadlineText": "2026-07-20 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
       "firstSeenAt": "2026-07-14T03:24:51.624Z",
@@ -8897,7 +9781,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-20",
       "deadlineText": "2026-07-20 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
       "firstSeenAt": "2026-07-14T03:24:51.624Z",
@@ -8988,7 +9876,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-20",
       "deadlineText": "2026-07-20 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
       "firstSeenAt": "2026-07-14T03:24:51.624Z",
@@ -9078,7 +9970,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-21",
       "deadlineText": "2026-07-21 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-07T14:59:59.000Z",
       "publishedDate": "2026-07-07",
       "firstSeenAt": "2026-07-09T17:04:53.340Z",
@@ -9168,7 +10064,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-21",
       "deadlineText": "2026-07-21 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-07T14:59:59.000Z",
       "publishedDate": "2026-07-07",
       "firstSeenAt": "2026-07-09T17:04:53.340Z",
@@ -9258,7 +10158,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-22",
       "deadlineText": "2026-07-22 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-08T14:59:59.000Z",
       "publishedDate": "2026-07-08",
       "firstSeenAt": "2026-07-09T17:04:53.340Z",
@@ -9333,6 +10237,189 @@
       "trackName": "면접중심·현장형 채용"
     },
     {
+<<<<<<< HEAD
+=======
+      "id": "ea64027fc7eb65f2b0",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "sourceId": "302444",
+      "title": "한국소비자원 2026년 8월 일용직 채용 공고",
+      "baseTitle": "한국소비자원 2026년 8월 일용직 채용 공고",
+      "company": "한국소비자원",
+      "region": "충북",
+      "education": "학력무관",
+      "career": "신입",
+      "employmentType": "비정규직",
+      "recruitField": "사무직",
+      "recruitNumber": "",
+      "deadline": "2026-07-22",
+      "deadlineText": "2026-07-22 마감",
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+      "publishedAt": "2026-07-07T14:59:59.000Z",
+      "publishedDate": "2026-07-07",
+      "firstSeenAt": "2026-07-10T08:31:58.351Z",
+      "firstSeenDate": "2026-07-10",
+      "collectionAudit": {
+        "policy": "public-recruit-first-day-collection",
+        "publishedAt": "2026-07-07T14:59:59.000Z",
+        "publishedDate": "2026-07-07",
+        "firstSeenAt": "2026-07-10T08:31:58.351Z",
+        "firstSeenDate": "2026-07-10",
+        "detectionLagDays": 3,
+        "firstDayCollected": false,
+        "missedReviewNeeded": true,
+        "firstDayStatus": "late_detected",
+        "note": "공고 게시 후 3일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      },
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "direct-interview",
+      "processTrackName": "면접중심·현장형 채용",
+      "writtenExam": "not_found",
+      "processConfidence": "high",
+      "processLabels": [
+        "공공기관",
+        "현장형 분리"
+      ],
+      "processNote": "공공·금융·대기업 소스라도 학생 진로 추천에 필요한 경력 사다리·공식 전형 신호보다 현장형·한시성 신호가 우세해 면접중심·현장형 채용으로 분리했습니다.",
+      "studentChannelAssessment": {
+        "version": 1,
+        "highSchoolEligible": true,
+        "militaryUnservedEligible": true,
+        "militaryCompletionRequired": false,
+        "collegeOnly": false,
+        "professionalOnly": false,
+        "advancedRoleMismatch": false,
+        "careerLadder": false,
+        "majorFit": false,
+        "directQuality": true,
+        "hardBlocked": false,
+        "recommendedChannel": "direct-interview",
+        "reasons": [
+          "고졸·학력무관 지원신호 확인",
+          "일반취업 품질신호"
+        ]
+      },
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "servicePriority": "support-brief-direct",
+      "servicePolicyLabel": "간단 안내",
+      "detailLevel": "brief-company-contact",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다.",
+      "schoolRecommendation": "unknown",
+      "status": "active",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "면접중심·현장형 채용",
+        "공공기관",
+        "비정규직",
+        "학력무관",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ],
+      "trackName": "면접중심·현장형 채용"
+    },
+    {
+      "id": "01509788e8c585c097",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "sourceId": "302645",
+      "title": "한국보훈복지의료공단 [중앙보훈병원] 2026년 하반기 체험형 청년인턴(장애예술인, 든든동행파트너) 채용 공고",
+      "baseTitle": "한국보훈복지의료공단 [중앙보훈병원] 2026년 하반기 체험형 청년인턴(장애예술인, 든든동행파트너) 채용 공고",
+      "company": "한국보훈복지의료공단",
+      "region": "서울",
+      "education": "학력무관",
+      "career": "신입+경력",
+      "employmentType": "청년인턴(체험형)",
+      "recruitField": "계약직",
+      "recruitNumber": "",
+      "deadline": "2026-07-23",
+      "deadlineText": "2026-07-23 마감",
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+      "publishedAt": "2026-07-13T14:59:59.000Z",
+      "publishedDate": "2026-07-13",
+      "firstSeenAt": "2026-07-14T03:24:51.624Z",
+      "firstSeenDate": "2026-07-14",
+      "collectionAudit": {
+        "policy": "public-recruit-first-day-collection",
+        "publishedAt": "2026-07-13T14:59:59.000Z",
+        "publishedDate": "2026-07-13",
+        "firstSeenAt": "2026-07-14T03:24:51.624Z",
+        "firstSeenDate": "2026-07-14",
+        "detectionLagDays": 1,
+        "firstDayCollected": false,
+        "missedReviewNeeded": true,
+        "firstDayStatus": "next_day",
+        "note": "공고 게시 후 1일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+      },
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "direct-interview",
+      "processTrackName": "면접중심·현장형 채용",
+      "writtenExam": "not_found",
+      "processConfidence": "high",
+      "processLabels": [
+        "공공기관",
+        "현장형 분리"
+      ],
+      "processNote": "공공·금융·대기업 소스라도 학생 진로 추천에 필요한 경력 사다리·공식 전형 신호보다 현장형·한시성 신호가 우세해 면접중심·현장형 채용으로 분리했습니다.",
+      "studentChannelAssessment": {
+        "version": 1,
+        "highSchoolEligible": true,
+        "militaryUnservedEligible": true,
+        "militaryCompletionRequired": false,
+        "collegeOnly": false,
+        "professionalOnly": false,
+        "advancedRoleMismatch": false,
+        "careerLadder": false,
+        "majorFit": false,
+        "directQuality": true,
+        "hardBlocked": false,
+        "recommendedChannel": "direct-interview",
+        "reasons": [
+          "고졸·학력무관 지원신호 확인",
+          "일반취업 품질신호"
+        ]
+      },
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "servicePriority": "support-brief-direct",
+      "servicePolicyLabel": "간단 안내",
+      "detailLevel": "brief-company-contact",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다.",
+      "schoolRecommendation": "unknown",
+      "status": "active",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "면접중심·현장형 채용",
+        "공공기관",
+        "청년인턴(체험형)",
+        "학력무관",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ],
+      "trackName": "면접중심·현장형 채용"
+    },
+    {
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "id": "913e568698a5985c48",
       "source": "job-alio-openapi",
       "sourceName": "잡알리오 공공기관 채용",
@@ -9348,7 +10435,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-23",
       "deadlineText": "2026-07-23 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-09T14:59:59.000Z",
       "publishedDate": "2026-07-09",
       "firstSeenAt": "2026-07-09T17:04:53.340Z",
@@ -9438,7 +10529,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-23",
       "deadlineText": "2026-07-23 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-08T14:59:59.000Z",
       "publishedDate": "2026-07-08",
       "firstSeenAt": "2026-07-09T17:04:53.340Z",
@@ -9528,7 +10623,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-23",
       "deadlineText": "2026-07-23 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-08T14:59:59.000Z",
       "publishedDate": "2026-07-08",
       "firstSeenAt": "2026-07-09T17:04:53.340Z",
@@ -9618,7 +10717,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-25",
       "deadlineText": "2026-07-25 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
       "firstSeenAt": "2026-07-10T05:27:32.836Z",
@@ -9708,7 +10811,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-26",
       "deadlineText": "2026-07-26 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
       "firstSeenAt": "2026-07-10T05:27:32.836Z",
@@ -9798,7 +10905,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-27",
       "deadlineText": "2026-07-27 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
       "firstSeenAt": "2026-07-14T03:24:51.624Z",
@@ -9888,7 +10999,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-28",
       "deadlineText": "2026-07-28 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
       "firstSeenAt": "2026-07-14T03:24:51.624Z",
@@ -9979,7 +11094,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-29",
       "deadlineText": "2026-07-29 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
       "firstSeenAt": "2026-07-14T03:24:51.624Z",
@@ -10069,7 +11188,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-29",
       "deadlineText": "2026-07-29 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
       "firstSeenAt": "2026-07-14T03:24:51.624Z",
@@ -10160,7 +11283,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-23",
       "deadlineText": "2026-07-23 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-08T14:59:59.000Z",
       "publishedDate": "2026-07-08",
       "firstSeenAt": "2026-06-26T04:35:46.614Z",
@@ -10234,6 +11361,7 @@
       "trackName": "면접중심·현장형 채용"
     },
     {
+<<<<<<< HEAD
       "id": "b30a64bb7524370d51",
       "source": "job-alio-openapi",
       "sourceName": "잡알리오 공공기관 채용",
@@ -10324,6 +11452,8 @@
       "trackName": "면접중심·현장형 채용"
     },
     {
+=======
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "id": "341caab391f9441300",
       "source": "job-alio-openapi",
       "sourceName": "잡알리오 공공기관 채용",
@@ -10339,7 +11469,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-15",
       "deadlineText": "2026-07-15 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-01T14:59:59.000Z",
       "publishedDate": "2026-07-01",
       "firstSeenAt": "2026-07-12T07:47:58.991Z",
@@ -10414,6 +11548,7 @@
       "trackName": "면접중심·현장형 채용"
     },
     {
+<<<<<<< HEAD
       "id": "ad86b3ca67ae772bf9",
       "source": "job-alio-openapi",
       "sourceName": "잡알리오 공공기관 채용",
@@ -10505,6 +11640,8 @@
       "trackName": "면접중심·현장형 채용"
     },
     {
+=======
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "id": "24b662ae56800666d2",
       "source": "job-alio-openapi",
       "sourceName": "잡알리오 공공기관 채용",
@@ -10520,7 +11657,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-19",
       "deadlineText": "2026-07-19 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-09T14:59:59.000Z",
       "publishedDate": "2026-07-09",
       "firstSeenAt": "2026-07-10T08:31:58.351Z",
@@ -10610,7 +11751,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-20",
       "deadlineText": "2026-07-20 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
       "firstSeenAt": "2026-07-14T03:24:51.624Z",
@@ -10700,7 +11845,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-20",
       "deadlineText": "2026-07-20 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
       "firstSeenAt": "2026-07-10T08:31:58.351Z",
@@ -10792,7 +11941,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-20",
       "deadlineText": "2026-07-20 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-08T14:59:59.000Z",
       "publishedDate": "2026-07-08",
       "firstSeenAt": "2026-07-10T08:31:58.351Z",
@@ -10882,7 +12035,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-21",
       "deadlineText": "2026-07-21 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-07T14:59:59.000Z",
       "publishedDate": "2026-07-07",
       "firstSeenAt": "2026-07-10T08:31:58.351Z",
@@ -10972,7 +12129,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-22",
       "deadlineText": "2026-07-22 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-08T14:59:59.000Z",
       "publishedDate": "2026-07-08",
       "firstSeenAt": "2026-06-24T01:44:48.546Z",
@@ -11063,7 +12224,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-22",
       "deadlineText": "2026-07-22 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-08T14:59:59.000Z",
       "publishedDate": "2026-07-08",
       "firstSeenAt": "2026-07-10T08:31:58.351Z",
@@ -11139,6 +12304,7 @@
       "trackName": "면접중심·현장형 채용"
     },
     {
+<<<<<<< HEAD
       "id": "c6f6e6f491cd1f3fe1",
       "source": "job-alio-openapi",
       "sourceName": "잡알리오 공공기관 채용",
@@ -11229,6 +12395,8 @@
       "trackName": "면접중심·현장형 채용"
     },
     {
+=======
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "id": "c60fb52a192dc60db8",
       "source": "job-alio-openapi",
       "sourceName": "잡알리오 공공기관 채용",
@@ -11244,16 +12412,117 @@
       "recruitNumber": "",
       "deadline": "2026-07-28",
       "deadlineText": "2026-07-28 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
       "firstSeenAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+      "publishedAt": "2026-07-14T14:59:59.000Z",
+      "publishedDate": "2026-07-14",
+      "firstSeenAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "firstSeenDate": "2026-07-14",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-14T14:59:59.000Z",
         "publishedDate": "2026-07-14",
+<<<<<<< HEAD
         "firstSeenAt": "2026-07-14T10:43:55.278Z",
+=======
+        "firstSeenAt": "2026-07-14T10:57:12.933Z",
+        "firstSeenDate": "2026-07-14",
+        "detectionLagDays": 0,
+        "firstDayCollected": true,
+        "missedReviewNeeded": false,
+        "firstDayStatus": "first_day",
+        "note": "공고 게시 첫날 자동 수집 대상입니다."
+      },
+      "fitScore": 38,
+      "fitLabels": [
+        "학력무관",
+        "신입·경력무관",
+        "공식전형"
+      ],
+      "processTrack": "direct-interview",
+      "processTrackName": "면접중심·현장형 채용",
+      "writtenExam": "not_found",
+      "processConfidence": "high",
+      "processLabels": [
+        "공공기관",
+        "현장형 분리"
+      ],
+      "processNote": "공공·금융·대기업 소스라도 학생 진로 추천에 필요한 경력 사다리·공식 전형 신호보다 현장형·한시성 신호가 우세해 면접중심·현장형 채용으로 분리했습니다.",
+      "studentChannelAssessment": {
+        "version": 1,
+        "highSchoolEligible": true,
+        "militaryUnservedEligible": true,
+        "militaryCompletionRequired": false,
+        "collegeOnly": false,
+        "professionalOnly": false,
+        "advancedRoleMismatch": false,
+        "careerLadder": false,
+        "majorFit": false,
+        "directQuality": true,
+        "hardBlocked": false,
+        "recommendedChannel": "direct-interview",
+        "reasons": [
+          "고졸·학력무관 지원신호 확인",
+          "일반취업 품질신호"
+        ]
+      },
+      "sector": "public-institution",
+      "sectorName": "공공기관",
+      "servicePriority": "support-brief-direct",
+      "servicePolicyLabel": "간단 안내",
+      "detailLevel": "brief-company-contact",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다.",
+      "schoolRecommendation": "unknown",
+      "status": "active",
+      "legalCheckFlags": [
+        "원문확인",
+        "마감확인",
+        "학력조건확인",
+        "추천여부확인"
+      ],
+      "guideTags": [
+        "면접중심·현장형 채용",
+        "공공기관",
+        "비정규직",
+        "학력무관",
+        "추천여부 확인",
+        "직무기술서 확인"
+      ],
+      "trackName": "면접중심·현장형 채용"
+    },
+    {
+      "id": "c6f6e6f491cd1f3fe1",
+      "source": "job-alio-openapi",
+      "sourceName": "잡알리오 공공기관 채용",
+      "sourceId": "302724",
+      "title": "한국수목원정원관리원 국립백두대간수목원 2026년 제6차 기간제근로자 채용(제한경쟁) 공고",
+      "baseTitle": "한국수목원정원관리원 국립백두대간수목원 2026년 제6차 기간제근로자 채용(제한경쟁) 공고",
+      "company": "한국수목원정원관리원",
+      "region": "경북",
+      "education": "학력무관",
+      "career": "신입",
+      "employmentType": "비정규직",
+      "recruitField": "계약직",
+      "recruitNumber": "",
+      "deadline": "2026-07-28",
+      "deadlineText": "2026-07-28 마감",
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+      "publishedAt": "2026-07-14T14:59:59.000Z",
+      "publishedDate": "2026-07-14",
+      "firstSeenAt": "2026-07-14T10:57:12.933Z",
+      "firstSeenDate": "2026-07-14",
+      "collectionAudit": {
+        "policy": "public-recruit-first-day-collection",
+        "publishedAt": "2026-07-14T14:59:59.000Z",
+        "publishedDate": "2026-07-14",
+        "firstSeenAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
         "firstSeenDate": "2026-07-14",
         "detectionLagDays": 0,
         "firstDayCollected": true,
@@ -11334,7 +12603,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-29",
       "deadlineText": "2026-07-29 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
       "firstSeenAt": "2026-07-14T07:17:53.501Z",
@@ -11424,7 +12697,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-24",
       "deadlineText": "2026-07-24 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-08T14:59:59.000Z",
       "publishedDate": "2026-07-08",
       "firstSeenAt": "2026-07-11T10:21:26.173Z",
@@ -11498,28 +12775,37 @@
       "trackName": "면접중심·현장형 채용"
     },
     {
-      "id": "ea64027fc7eb65f2b0",
+      "id": "57df436db858d3a48b",
       "source": "job-alio-openapi",
       "sourceName": "잡알리오 공공기관 채용",
-      "sourceId": "302444",
-      "title": "한국소비자원 2026년 8월 일용직 채용 공고",
-      "baseTitle": "한국소비자원 2026년 8월 일용직 채용 공고",
-      "company": "한국소비자원",
-      "region": "충북",
+      "sourceId": "302614",
+      "title": "(재)우체국물류지원단 우체국물류지원단 경인지사 안양,부평물류사업소 기간제(우편물구분) 채용 공고",
+      "baseTitle": "(재)우체국물류지원단 우체국물류지원단 경인지사 안양,부평물류사업소 기간제(우편물구분) 채용 공고",
+      "company": "(재)우체국물류지원단",
+      "region": "경기",
       "education": "학력무관",
-      "career": "신입",
+      "career": "신입+경력",
       "employmentType": "비정규직",
-      "recruitField": "사무직",
+      "recruitField": "기타(발착직)",
       "recruitNumber": "",
+<<<<<<< HEAD
       "deadline": "2026-07-22",
       "deadlineText": "2026-07-22 마감",
       "verifiedAt": "2026-07-14T10:43:55.278Z",
       "publishedAt": "2026-07-07T14:59:59.000Z",
       "publishedDate": "2026-07-07",
+=======
+      "deadline": "2026-07-16",
+      "deadlineText": "2026-07-16 마감",
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+      "publishedAt": "2026-07-10T14:59:59.000Z",
+      "publishedDate": "2026-07-10",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "firstSeenAt": "2026-07-10T08:31:58.351Z",
       "firstSeenDate": "2026-07-10",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
+<<<<<<< HEAD
         "publishedAt": "2026-07-07T14:59:59.000Z",
         "publishedDate": "2026-07-07",
         "firstSeenAt": "2026-07-10T08:31:58.351Z",
@@ -11790,10 +13076,12 @@
       "firstSeenDate": "2026-06-24",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
+=======
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
         "publishedAt": "2026-07-10T14:59:59.000Z",
         "publishedDate": "2026-07-10",
-        "firstSeenAt": "2026-06-24T01:42:11.462Z",
-        "firstSeenDate": "2026-06-24",
+        "firstSeenAt": "2026-07-10T08:31:58.351Z",
+        "firstSeenDate": "2026-07-10",
         "detectionLagDays": 0,
         "firstDayCollected": true,
         "missedReviewNeeded": true,
@@ -11858,6 +13146,7 @@
       "trackName": "면접중심·현장형 채용"
     },
     {
+<<<<<<< HEAD
       "id": "57df436db858d3a48b",
       "source": "job-alio-openapi",
       "sourceName": "잡알리오 공공기관 채용",
@@ -11948,6 +13237,8 @@
       "trackName": "면접중심·현장형 채용"
     },
     {
+=======
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "id": "687a962541db3f812a",
       "source": "job-alio-openapi",
       "sourceName": "잡알리오 공공기관 채용",
@@ -11963,7 +13254,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-16",
       "deadlineText": "2026-07-16 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
       "firstSeenAt": "2026-07-10T08:31:58.351Z",
@@ -12053,7 +13348,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-17",
       "deadlineText": "2026-07-17 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-03T14:59:59.000Z",
       "publishedDate": "2026-07-03",
       "firstSeenAt": "2026-07-10T08:31:58.351Z",
@@ -12144,7 +13443,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-18",
       "deadlineText": "2026-07-18 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-04T14:59:59.000Z",
       "publishedDate": "2026-07-04",
       "firstSeenAt": "2026-07-10T08:31:58.351Z",
@@ -12234,7 +13537,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-20",
       "deadlineText": "2026-07-20 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-06T14:59:59.000Z",
       "publishedDate": "2026-07-06",
       "firstSeenAt": "2026-07-10T08:31:58.351Z",
@@ -12324,7 +13631,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-22",
       "deadlineText": "2026-07-22 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-08T14:59:59.000Z",
       "publishedDate": "2026-07-08",
       "firstSeenAt": "2026-07-11T10:46:25.583Z",
@@ -12414,7 +13725,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-24",
       "deadlineText": "2026-07-24 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
       "firstSeenAt": "2026-07-11T10:46:25.583Z",
@@ -12504,7 +13819,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-28",
       "deadlineText": "2026-07-28 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
       "firstSeenAt": "2026-07-14T03:24:51.624Z",
@@ -12595,7 +13914,11 @@
       "recruitNumber": "",
       "deadline": "2026-07-22",
       "deadlineText": "2026-07-22 마감",
+<<<<<<< HEAD
       "verifiedAt": "2026-07-14T10:43:55.278Z",
+=======
+      "verifiedAt": "2026-07-14T10:57:12.933Z",
+>>>>>>> eb55ad9 (Refine gyo6 portal pages and jobs view)
       "publishedAt": "2026-07-08T14:59:59.000Z",
       "publishedDate": "2026-07-08",
       "firstSeenAt": "2026-07-11T10:46:25.583Z",
