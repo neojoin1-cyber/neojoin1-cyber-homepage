@@ -5151,7 +5151,10 @@ const PUBLIC_JOB_ITEM_FIELDS = new Set([
   'processConfidence', 'processLabels', 'processNote', 'studentChannelAssessment', 'sector',
   'sectorName', 'servicePriority', 'servicePolicyLabel', 'detailLevel', 'displayNote',
   'schoolRecommendation', 'status', 'legalCheckFlags', 'guideTags', 'trackName',
-  'staleSourceFallback'
+  'staleSourceFallback', 'url', 'originalUrl', 'sourceDetailUrl', 'detailText', 'contactAdvice',
+  'sourceVerification', 'regionalEducationVerification', 'publicRecruitDetails', 'teacherBriefing', 'attachments',
+  'primaryOfficialUrl', 'companyNoticeUrl', 'sourceOfficialUrl', 'officialUrl',
+  'attachmentLines', 'supplementarySourceUrls'
 ]);
 
 function publicJobListItem(item = {}) {
@@ -5161,10 +5164,7 @@ function publicJobListItem(item = {}) {
 function scrubProtectedMetadata(value) {
   if (Array.isArray(value)) return value.map(scrubProtectedMetadata);
   if (!value || typeof value !== 'object') return value;
-  const protectedKeys = new Set([
-    'primaryOfficialUrl', 'companyNoticeUrl', 'sourceOfficialUrl', 'officialUrl',
-    'attachmentLines', 'supplementarySourceUrls'
-  ]);
+  const protectedKeys = new Set([]);
   return Object.fromEntries(Object.entries(value)
     .filter(([key]) => !protectedKeys.has(key))
     .map(([key, child]) => [key, scrubProtectedMetadata(child)]));
@@ -5205,9 +5205,10 @@ function buildProtectedJobArtifacts(payload) {
   const publicPayload = scrubProtectedMetadata({
     ...payload,
     detailAccess: {
-      policy: 'approved-member-api',
+      policy: 'public-feed-briefing',
       endpoint: 'https://gyo6-law-info-ai.gyo6.workers.dev/api/jobs/{id}',
-      protectedFields: ['원문 URL', '첨부자료', '자격 상세', '전형 상세', '취업부 브리핑']
+      protectedFields: [],
+      note: '공개 채용공고 원문 URL, 첨부자료, 취업부 브리핑은 jobs.html에서 바로 확인할 수 있도록 공개 피드에 포함합니다.'
     },
     archiveItems: (payload.archiveItems || []).map(publicJobListItem),
     items: (payload.items || []).map(publicJobListItem)

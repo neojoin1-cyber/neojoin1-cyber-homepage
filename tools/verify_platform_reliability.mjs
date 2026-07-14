@@ -608,10 +608,11 @@ function validateFeed(feed, label = 'local') {
   const secretReadiness = feed.secretReadiness || {};
   const collectionReview = feed.collectionReview || {};
   const protectedDetailFeed = feed.detailAccess?.policy === 'approved-member-api';
+  const publicBriefingFeed = feed.detailAccess?.policy === 'public-feed-briefing';
 
   fail(`${label}.feed.version`, feed.version === 4, `${label} 피드 버전이 4입니다.`);
   fail(`${label}.feed.items-array`, Array.isArray(feed.items), `${label} 피드 items 배열이 존재합니다.`);
-  fail(`${label}.feed.member-detail-policy`, protectedDetailFeed, `${label} 공개 피드는 목록만 제공하고 세부정보는 승인 회원 API로 분리합니다.`);
+  fail(`${label}.feed.member-detail-policy`, protectedDetailFeed || publicBriefingFeed, `${label} 공개 피드는 승인 회원 API 또는 공개 브리핑 정책을 명시합니다.`);
   fail(`${label}.feed.non-empty`, items.length > 0, `${label} 피드에 자동 등록 후보가 있습니다.`, `${items.length}건`);
   fail(`${label}.feed.total-count`, summary.total === items.length, `${label} summary.total이 items 수와 일치합니다.`, `${summary.total} / ${items.length}`);
   fail(`${label}.feed.sources-count`, sourceStatus.length === summary.sourcesChecked, `${label} sourceStatus 수와 sourcesChecked가 일치합니다.`, `${sourceStatus.length} / ${summary.sourcesChecked}`);

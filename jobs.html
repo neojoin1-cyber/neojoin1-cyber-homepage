@@ -65,7 +65,7 @@
       <div class="wrap">
         <div class="eyebrow">Latest Items</div>
         <h2 id="feed-heading">전체 채용공고</h2>
-        <p class="lead" id="feed-note">최신 피드를 불러오는 중입니다. 잠시 후 전체 공고 목록이 이 자리에서 바로 펼쳐집니다.</p>
+        <p class="lead" id="feed-note">최신 피드를 불러오는 중입니다. 제목을 누르면 취업부 브리핑, 공식 공고문, 첨부서류를 한 번에 확인할 수 있습니다.</p>
         <div class="feed-list" id="feed-list">
           <article class="feed-item">
             <h3>채용공고를 불러오고 있습니다.</h3>
@@ -74,6 +74,20 @@
         </div>
       </div>
     </section>
+
+    <div class="job-detail-modal" id="job-detail-modal" hidden aria-hidden="true">
+      <article class="job-detail-dialog" role="dialog" aria-modal="true" aria-labelledby="job-detail-title">
+        <div class="job-detail-head">
+          <div>
+            <div class="job-detail-kicker">Recruit Briefing</div>
+            <h2 class="job-detail-title" id="job-detail-title">채용정보 확인</h2>
+            <p class="job-detail-meta" id="job-detail-meta">공식 원문과 첨부자료를 확인합니다.</p>
+          </div>
+          <button class="job-detail-close" type="button" aria-label="채용정보 상세 닫기" data-job-detail-close>&times;</button>
+        </div>
+        <div class="job-detail-body" id="job-detail-body"></div>
+      </article>
+    </div>
   </main>
 
   <footer class="footer">
@@ -89,6 +103,7 @@
     const listEl = document.getElementById("feed-list");
     const headingEl = document.getElementById("feed-heading");
     const noteEl = document.getElementById("feed-note");
+    let latestJobFeedItems = [];
 
     function escapeHtml(value) {
       return String(value ?? "")
@@ -104,6 +119,189 @@
       if (status === "application_closed") return "마감";
       if (status === "active") return "진행중";
       return status || "-";
+    }
+
+    function isHttpUrl(value) {
+      return /^https?:\/\//i.test(String(value || "").trim());
+    }
+
+    function bestOfficialUrl(item) {
+      return [
+        item.primaryOfficialUrl,
+        item.officialUrl,
+        item.sourceOfficialUrl,
+        item.companyNoticeUrl,
+        item.sourceDetailUrl,
+        item.originalUrl,
+        item.url
+      ].find(isHttpUrl) || "";
+    }
+
+    function itemKey(item, index) {
+      return encodeURIComponent(item.id || `${item.source || "job"}-${item.sourceId || index}`);
+    }
+
+    function compactLines(lines, fallback) {
+      const safeLines = Array.isArray(lines) ? lines.filter(Boolean).slice(0, 8) : [];
+      if (!safeLines.length && fallback) safeLines.push(fallback);
+      return safeLines.map((line) => `<li>${escapeHtml(line)}</li>`).join("");
+    }
+
+    function sourceVerificationLabel(item) {
+      const verification = item.sourceVerification || {};
+      return verification.doubleCheckLabel || item.displayNote || (item.processTrack === "exam-formal" ? "공식 공고 확인" : "공식 소스 요약");
+    }
+
+    function parseAttachmentLine(line) {
+      const value = String(line || "").trim();
+      const urlMatch = value.match(/https?:\/\/\S+/i);
+      if (!urlMatch) return { title: value, url: "" };
+      const url = urlMatch[0].replace(/[),.;]+$/, "");
+      const title = value.slice(0, urlMatch.index).replace(/[:：\s]+$/, "") || "공식 첨부자료";
+      return { title, url };
+    }
+
+    function attachmentTitle(file) {
+      if (typeof file === "string") return parseAttachmentLine(file).title;
+      return file?.title || file?.name || file?.fileName || file?.label || "공식 첨부자료";
+    }
+
+    function attachmentUrl(file) {
+      if (typeof file === "string") return parseAttachmentLine(file).url;
+      return file?.url || file?.href || file?.downloadUrl || file?.publicUrl || file?.localUrl || "";
+    }
+
+    function attachmentKind(title) {
+      const text = String(title || "");
+      if (/지원서|입사지원|응시원서|자기소개|이력서|동의서|서류|양식/.test(text)) return "서류양식";
+      if (/공고|모집|채용|요강/.test(text)) return "공고문";
+      if (/직무|NCS|기술서/.test(text)) return "직무자료";
+      return "첨부자료";
+    }
+
+    function collectAttachments(item) {
+      const detailAttachments = Array.isArray(item.publicRecruitDetails?.attachments)
+        ? item.publicRecruitDetails.attachments
+        : [];
+      const raw = []
+        .concat(Array.isArray(item.attachments) ? item.attachments : [])
+        .concat(detailAttachments)
+        .concat(Array.isArray(item.attachmentLines) ? item.attachmentLines.map(parseAttachmentLine) : []);
+      const byTitle = new Map();
+      raw.forEach((file) => {
+        const title = attachmentTitle(file);
+        const url = attachmentUrl(file);
+        if (!title) return;
+        const key = title.replace(/^공고문:\s*/, "").trim();
+        const current = byTitle.get(key);
+        if (!current || (!current.url && url)) {
+          byTitle.set(key, { title, url, kind: attachmentKind(title) });
+        }
+      });
+      return Array.from(byTitle.values()).slice(0, 12);
+    }
+
+    function renderAttachments(item) {
+      const files = collectAttachments(item);
+      if (!files.length) {
+        return `
+          <div class="job-attachment-grid">
+            <div class="job-file-missing">첨부자료 자동 탐색 대기</div>
+          </div>
+          <p class="job-detail-note">공식 공고에 첨부가 있는 경우 다음 자동 수집 때 다시 탐색합니다.</p>
+        `;
+      }
+      return `
+        <div class="job-attachment-grid">
+          ${files.map((file) => file.url && isHttpUrl(file.url)
+            ? `<a class="job-file-link" href="${escapeHtml(file.url)}" target="_blank" rel="noopener noreferrer"><span>${escapeHtml(file.kind)}</span>${escapeHtml(file.title)}</a>`
+            : `<div class="job-file-missing"><span>${escapeHtml(file.kind)}</span>${escapeHtml(file.title)}</div>`
+          ).join("")}
+        </div>
+        <p class="job-detail-note">첨부파일은 수집된 공식 공고 링크를 우선 표시합니다. ZIP 안에서 추출된 서류도 자동 수집 결과에 포함됩니다.</p>
+      `;
+    }
+
+    function renderSchoolCheckSections(briefing) {
+      const sections = Array.isArray(briefing.schoolCheckSections)
+        ? briefing.schoolCheckSections.filter((section) => section && (section.title || section.text))
+        : [];
+      const fallback = [
+        { title: "원문 확인", text: "공식 공고문과 접수 링크를 먼저 확인합니다." },
+        { title: "서류 확인", text: "입사지원서, 자기소개서, 개인정보 동의서 등 제출 양식을 확인합니다." },
+        { title: "일정 확인", text: "접수 마감, 필기, 면접, 합격자 발표 일정을 학생에게 안내합니다." },
+        { title: "추천 확인", text: "학교장 추천이나 별도 추천 절차가 필요한지 확인합니다." }
+      ];
+      return `<div class="job-school-check-grid">${(sections.length ? sections : fallback).slice(0, 4).map((section) => `
+        <div class="job-school-check"><b>${escapeHtml(section.title || "학교 체크")}</b><p>${escapeHtml(section.text || "자동 정리 대기")}</p></div>
+      `).join("")}</div>`;
+    }
+
+    function renderDetailSections(item) {
+      const briefing = item.teacherBriefing || {};
+      const details = item.publicRecruitDetails || {};
+      const summaryFallback = [
+        `채용부문: ${details.hiring || item.recruitField || "자동 추출 대기"}`,
+        `응시자격: ${details.eligibility || [item.education, item.career].filter(Boolean).join(" · ") || "자동 추출 대기"}`,
+        `마감: ${details.application || item.deadlineText || item.deadline || "자동 추출 대기"}`
+      ];
+      const scheduleFallback = [
+        details.process || item.processNote || item.processTrackName || "전형절차 자동 추출 대기",
+        item.deadlineText || item.deadline || "마감일 자동 추출 대기"
+      ];
+      return `
+        <div class="job-detail-grid">
+          <section class="job-detail-section"><h4>채용 요약</h4><ul>${compactLines(briefing.summaryLines, summaryFallback.join(" / ")) || compactLines(summaryFallback)}</ul></section>
+          <section class="job-detail-section"><h4>전형 일정</h4><ul>${compactLines(briefing.scheduleLines, scheduleFallback.join(" / ")) || compactLines(scheduleFallback)}</ul></section>
+          <section class="job-detail-section wide"><h4>첨부자료 바로 확인</h4>${renderAttachments(item)}</section>
+          <section class="job-detail-section wide"><h4>학교 체크</h4>${renderSchoolCheckSections(briefing)}</section>
+          <section class="job-detail-section"><h4>학생 준비</h4><ul>${compactLines(briefing.studentActionItems, "지원 자격, 제출서류, 필기·면접 일정, 자기소개서 준비 항목을 확인합니다.")}</ul></section>
+          <section class="job-detail-section"><h4>수집 근거</h4><ul>${compactLines([
+            sourceVerificationLabel(item),
+            item.displayNote,
+            item.collectionAudit?.note
+          ].filter(Boolean), "공식 채용 소스 기준으로 자동 수집했습니다.")}</ul></section>
+          ${briefing.teacherShareText ? `<section class="job-detail-section wide"><h4>취업부 공유 문안</h4><pre class="job-briefing-share">${escapeHtml(briefing.teacherShareText)}</pre></section>` : ""}
+        </div>
+      `;
+    }
+
+    function openJobDetailByKey(key) {
+      const item = latestJobFeedItems.find((candidate, index) => itemKey(candidate, index) === key);
+      if (!item) return;
+      const modal = document.getElementById("job-detail-modal");
+      const titleEl = document.getElementById("job-detail-title");
+      const metaEl = document.getElementById("job-detail-meta");
+      const bodyEl = document.getElementById("job-detail-body");
+      const officialUrl = bestOfficialUrl(item);
+      titleEl.textContent = item.title || "채용공고명 확인 필요";
+      metaEl.textContent = [
+        item.sourceName || "공식 원문",
+        item.company || "기업·기관명 확인 필요",
+        item.region || "지역 원문 확인",
+        sourceVerificationLabel(item),
+        item.deadlineText || item.deadline || "마감일 원문 확인"
+      ].filter(Boolean).join(" · ");
+      bodyEl.innerHTML = `
+        <div class="job-detail-actions">
+          ${officialUrl ? `<a class="job-official-link" href="${escapeHtml(officialUrl)}" target="_blank" rel="noopener noreferrer">공식 공고 원문 열기</a>` : `<span class="job-file-missing">공식 공고 URL 자동 탐색 대기</span>`}
+        </div>
+        ${renderDetailSections(item)}
+        <div class="job-detail-actions bottom">
+          ${officialUrl ? `<a class="job-official-link" href="${escapeHtml(officialUrl)}" target="_blank" rel="noopener noreferrer">공식 공고 원문 다시 열기</a>` : ""}
+        </div>
+      `;
+      modal.hidden = false;
+      modal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeJobDetail() {
+      const modal = document.getElementById("job-detail-modal");
+      if (!modal) return;
+      modal.hidden = true;
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
     }
 
     function renderSummary(feed) {
@@ -123,8 +321,9 @@
 
     function renderItems(feed) {
       const items = Array.isArray(feed.items) ? feed.items : [];
+      latestJobFeedItems = items;
       headingEl.textContent = `전체 채용공고 ${items.length}건`;
-      noteEl.textContent = "최신 수집 결과를 기준으로 전체 공고를 바로 확인할 수 있도록 정리했습니다.";
+      noteEl.textContent = "제목을 누르면 취업부 요약, 공식 공고문, 제출서류 링크가 팝업으로 열립니다.";
 
       if (!items.length) {
         listEl.innerHTML = `
@@ -136,30 +335,53 @@
         return;
       }
 
-      listEl.innerHTML = items.map((item) => {
+      listEl.innerHTML = items.map((item, index) => {
         const title = escapeHtml(item.title || "제목 없음");
         const company = escapeHtml(item.company || "기관명 없음");
         const deadline = escapeHtml(item.deadline || "-");
         const status = escapeHtml(labelForStatus(item.status));
         const sourceName = escapeHtml(item.sourceName || item.source || "출처 미상");
-        const url = escapeHtml(item.primaryOfficialUrl || item.url || "assets/job-feed.json");
+        const url = bestOfficialUrl(item);
         const processTrack = escapeHtml(item.processTrack || "-");
+        const detailKey = itemKey(item, index);
+        const attachmentCount = collectAttachments(item).length;
         return `
           <article class="feed-item">
             <div class="feed-meta">
               <span class="label teal">${status}</span>
               <span class="label gold">마감 ${deadline}</span>
             </div>
-            <h3>${title}</h3>
+            <button class="job-title-button job-detail-open" type="button" data-job-key="${detailKey}" aria-haspopup="dialog">
+              <span>${title}</span>
+            </button>
             <p>${company}</p>
-            <p class="muted">출처: ${sourceName}${processTrack !== "-" ? ` · 분류: ${processTrack}` : ""}</p>
+            <p class="muted">출처: ${sourceName}${processTrack !== "-" ? ` · 분류: ${processTrack}` : ""}${attachmentCount ? ` · 첨부 ${attachmentCount}건` : ""}</p>
             <div class="actions">
-              <a class="btn" href="${url}" target="_blank" rel="noopener noreferrer">공식 공고 열기</a>
+              <button class="btn job-detail-open" type="button" data-job-key="${detailKey}" aria-haspopup="dialog">요약본 보기</button>
+              ${url ? `<a class="btn" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">공식 공고 열기</a>` : `<span class="btn disabled" aria-disabled="true">공식 공고 탐색중</span>`}
             </div>
           </article>
         `;
       }).join("");
     }
+
+    document.addEventListener("click", (event) => {
+      const openButton = event.target.closest && event.target.closest(".job-detail-open");
+      if (openButton) {
+        event.preventDefault();
+        openJobDetailByKey(openButton.getAttribute("data-job-key"));
+        return;
+      }
+      const closeButton = event.target.closest && event.target.closest("[data-job-detail-close]");
+      if (closeButton || event.target.id === "job-detail-modal") {
+        closeJobDetail();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      const modal = document.getElementById("job-detail-modal");
+      if (event.key === "Escape" && modal && !modal.hidden) closeJobDetail();
+    });
 
     fetch(`assets/job-feed.json?v=${Date.now()}`)
       .then((response) => {
