@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-14T12:59:11.510Z",
-  "feedGeneratedAt": "2026-07-14T12:59:11.510Z",
+  "generatedAt": "2026-07-14T13:14:17.947Z",
+  "feedGeneratedAt": "2026-07-14T13:14:17.947Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "degraded-held",
@@ -30,13 +30,13 @@
       "isolatedFailure": false,
       "fallbackProtected": false,
       "fallbackItemCount": 0,
-      "message": "Ollama briefing required but failed: HTTP timeout after 45000ms"
+      "message": "Ollama briefing required but failed: Ollama HTTP undefined"
     }
   ],
   "aiBriefing": null,
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-14T12:59:11.510Z",
+    "generatedAt": "2026-07-14T13:14:17.947Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
@@ -54,7 +54,7 @@
     "sourceFailures의 isolatedFailure가 true인 수집원은 다음 예약 실행에서도 반복되는지 확인한다."
   ],
   "publicationHold": {
-    "heldAt": "2026-07-14T12:59:11.510Z",
+    "heldAt": "2026-07-14T13:14:17.947Z",
     "previousFeedPreserved": true,
     "reason": "자동 수집 실행 오류로 공개 피드는 직전 정상본을 유지합니다."
   }
