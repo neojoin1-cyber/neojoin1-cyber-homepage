@@ -1,14 +1,14 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-15T03:19:27.391Z",
-  "feedGeneratedAt": "2026-07-15T03:19:27.391Z",
+  "generatedAt": "2026-07-15T07:22:17.927Z",
+  "feedGeneratedAt": "2026-07-15T07:22:17.927Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "degraded",
   "summary": {
-    "total": 95,
+    "total": 96,
     "active": 45,
-    "deadlineSoon": 32,
+    "deadlineSoon": 33,
     "applicationClosed": 18,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
@@ -18,7 +18,7 @@
     "sourceFallbackProtected": 93,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 95,
+    "studentRecruitSafetyReview": 96,
     "ollamaBriefingReady": 6,
     "ollamaBriefingAttempted": 6,
     "ollamaBriefingFailed": 0
@@ -30,7 +30,7 @@
       "isolatedFailure": false,
       "fallbackProtected": true,
       "fallbackItemCount": 93,
-      "message": "연결 실패: recent-page-2: recent-page-2 failed after 3 attempts: HTTP timeout after 26000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-4: recent-page-4 failed after 3 attempts: HTTP timeout after 26000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT · 직전 정상 공고 93건 보존"
+      "message": "연결 실패: recent-page-8: recent-page-8 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-7: recent-page-7 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT · 직전 정상 공고 93건 보존"
     }
   ],
   "aiBriefing": {
@@ -39,7 +39,7 @@
     "engine": "ollama",
     "model": "qwen2.5:0.5b",
     "baseUrl": "http://127.0.0.1:11434",
-    "generatedAt": "2026-07-15T03:19:27.391Z",
+    "generatedAt": "2026-07-15T07:22:17.927Z",
     "attempted": 6,
     "succeeded": 6,
     "failed": 0,
@@ -49,11 +49,11 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-15T03:19:27.391Z",
+    "generatedAt": "2026-07-15T07:22:17.927Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 95,
+    "studentRecruitReviewCount": 96,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -162,6 +162,25 @@
         "status": "deadline_soon",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B2%BD%EA%B8%B0%EB%82%A8%EB%B6%80%EC%A7%80%EC%82%AC&page=1&rnm_idx=910"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "공채 신호"
+        ],
+        "source": "finance-large-company-recruit",
+        "sourceName": "금융권·상장기업 고졸 공채 공식 피드",
+        "sector": "finance-large-company",
+        "company": "현대제철",
+        "title": "현대제철(주) 재경 사무보조 계약직 채용(당진)",
+        "deadline": "2026-07-16",
+        "status": "deadline_soon",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://hyundai-steel.recruiter.co.kr/career/jobs/121933"
       },
       {
         "list": "items",
@@ -454,27 +473,6 @@
         "status": "application_closed",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EB%8C%80%EC%A0%84%EC%B6%A9%EB%82%A8%EC%A7%80%EC%82%AC&page=1&rnm_idx=904"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "인천국제공항공사",
-        "title": "인천국제공항공사 2026년 방재직(소방직 및 야생동물통제직) 채용 공고(원서 마감)",
-        "deadline": "2026-07-13",
-        "status": "application_closed",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.airport.kr/bbs/co_ko/113/139444/artclView.do"
       }
     ]
   },
