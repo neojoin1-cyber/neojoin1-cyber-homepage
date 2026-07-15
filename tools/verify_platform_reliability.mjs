@@ -566,7 +566,7 @@ async function validateJobFetcherRules() {
   fail('fetcher.encrypted-member-detail', fetcher.includes('buildProtectedJobArtifacts') && fetcher.includes('RSA-OAEP-256+A256GCM') && fetcher.includes('publicJobListItem'), '공개 목록과 승인 회원 전용 암호화 상세를 자동으로 분리합니다.');
   fail('fetcher.internship-not-direct-term', !directTerms.includes('채용연계'), '채용연계·채용형 인턴은 직접 분리 키워드에서 제외되어 학생 추천 채용으로 검토됩니다.');
   fail('fetcher.deadline-text-sanitizer', fetcher.includes('function safeDeadlineDisplayText') && fetcher.includes('function kstDateFromParts') && fetcher.includes('containsStructuredDatePattern'), '자동 수집 단계에서 불가능한 마감일 숫자를 원문 확인 문구로 정제합니다.');
-  fail('fetcher.official-url-not-file-download', fetcher.includes('function isLikelyFileUrl') && fetcher.includes('function firstNonFileUrl') && fetcher.includes('primaryPageUrl'), '자동 수집 단계에서 공고문 파일 다운로드 URL을 공식 공고 버튼 URL로 승격하지 않습니다.');
+  fail('fetcher.official-url-not-file-download', fetcher.includes('function isLikelyFileUrl') && fetcher.includes('function firstNonFileUrl') && fetcher.includes('function isLikelyNoticeDetailUrl') && fetcher.includes('primaryPageUrl'), '자동 수집 단계에서 공고문 파일 다운로드 URL을 공식 공고 버튼 URL로 승격하지 않고 기관 상세 공고 URL을 보존합니다.');
   fail('fetcher.job-alio-dynamic-current-scan', fetcher.includes('JOB_ALIO_RECENT_DETAIL_DAYS') && fetcher.includes('function selectJobAlioRowsForDetail') && fetcher.includes('function buildJobAlioDynamicDiscovery') && fetcher.includes('dynamic-current-job-alio-detail-scan'), '잡알리오 최근 등록 공고는 기관 화이트리스트나 제목 키워드와 무관하게 상세 원문을 열어 오늘 기준 후보 누락을 점검합니다.');
 }
 
@@ -730,6 +730,7 @@ function validateFeed(feed, label = 'local') {
   const militaryLimitedExamItems = [];
   const qualityDirectItems = [];
   const publicDetailLeaks = [];
+  const officialFileUrlProblems = [];
 
   for (const item of items) {
     const prefix = `${item.source || 'source'}:${item.title || item.id || 'untitled'}`;
@@ -743,6 +744,7 @@ function validateFeed(feed, label = 'local') {
     const unresolvedQualification = unresolvedQualificationFields(item);
     if (!item.id || !item.title || !item.company || !item.sourceName || (!protectedDetailFeed && !item.url) || !item.verifiedAt) itemProblems.push(prefix);
     if (!protectedDetailFeed && (!isHttpUrl(item.url) || !isHttpUrl(item.primaryOfficialUrl || item.url))) itemProblems.push(`${prefix} URL`);
+    if (!protectedDetailFeed && (isLikelyFileUrl(item.primaryOfficialUrl) || isLikelyFileUrl(item.companyNoticeUrl))) officialFileUrlProblems.push(prefix);
     if (!['active', 'deadline_soon', 'application_closed', 'needs_review'].includes(item.status)) itemProblems.push(`${prefix} status=${item.status}`);
     if (suitabilityProblem) suitabilityProblems.push(`${prefix} ${suitabilityProblem}`);
     if (deadlineProblems.length) malformedDeadlineProblems.push(`${prefix} ${deadlineProblems.slice(0, 3).join(', ')}`);
@@ -792,6 +794,7 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.items.no-unresolved-current-deadline`, unresolvedDeadlineProblems.length === 0, `${label} 진행중 공채 상세는 공식 원문 재확인 후 확정 마감일을 표시합니다.`, unresolvedDeadlineProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-unresolved-current-qualification`, unresolvedQualificationProblems.length === 0, `${label} 진행중 공채 상세는 공식 원문 재확인 후 자격요건을 구체적으로 표시합니다.`, unresolvedQualificationProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-kb-main-page-recruit-link`, mainPageRecruitLinkProblems.length === 0, `${label} KB국민은행 공고는 채용 메인페이지가 아니라 상세 공고 URL로 연결합니다.`, mainPageRecruitLinkProblems.slice(0, 5).join(' | '));
+  fail(`${label}.items.official-url-not-file-download`, officialFileUrlProblems.length === 0, `${label} 공식 공고 원문 URL은 공고문 파일 다운로드가 아니라 기관·기업 공고 상세 페이지입니다.`, officialFileUrlProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.title-includes-company`, titleCompanyProblems.length === 0, `${label} 채용 공고 제목에는 기관명·기업명이 포함됩니다.`, titleCompanyProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.student-channel-assessment`, assessmentProblems.length === 0, `${label} 모든 공고가 고졸 지원·병역 미필·채널 품질 판정 결과를 갖습니다.`, assessmentProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-hard-blocked-publication`, blockedPublicationProblems.length === 0, `${label} 대학생·학위 전용, 전문자격 전용 등 고졸 학생이 지원할 수 없는 공고는 게시하지 않습니다.`, blockedPublicationProblems.slice(0, 5).join(' | '));

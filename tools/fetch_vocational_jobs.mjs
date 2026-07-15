@@ -3102,6 +3102,9 @@ function findOfficialNoticeDetailUrl(html, baseUrl, title, company = '') {
 
 async function resolveOfficialNoticeUrl(candidateUrl, title, company = '') {
   const cleanCandidateUrl = cleanUrl(candidateUrl);
+  if (cleanCandidateUrl && !isLikelyFileUrl(cleanCandidateUrl) && isLikelyNoticeDetailUrl(cleanCandidateUrl)) {
+    return cleanCandidateUrl;
+  }
   const searchUrls = officialNoticeSearchUrls(cleanCandidateUrl, title, company);
   if (!searchUrls.length) return '';
   for (const searchUrl of searchUrls) {
@@ -3314,6 +3317,10 @@ function firstNonFileUrl(...values) {
     if (url && !isLikelyFileUrl(url)) return url;
   }
   return '';
+}
+
+function isLikelyNoticeDetailUrl(value) {
+  return /(\/view\.do|\/recruitview\.do|\/recruitDtl\.do|mode=view|act=view|rnm_idx=|empmnId=|articleNo=|nttSn=|list_no=|post=|idx=)/i.test(String(value || ''));
 }
 
 function safePublicFeedUrl(value) {
