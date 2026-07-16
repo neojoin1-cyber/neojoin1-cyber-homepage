@@ -69,7 +69,7 @@ function requireApproved(message = "") {
 
 async function getAccessToken() {
   if (!state.approved || !state.user) {
-    requireApproved("승인 회원 로그인 후 채용 세부정보를 이용할 수 있습니다.");
+    requireApproved("승인 회원 로그인 후 회원 전용 서비스를 이용할 수 있습니다.");
     throw new Error("APPROVED_MEMBER_REQUIRED");
   }
   return state.user.getIdToken();
@@ -165,7 +165,7 @@ function renderAuthDialog(open = false) {
 
 function renderLoginForm() {
   return `
-    <p class="portal-auth-copy">목록은 누구나 볼 수 있습니다. 채용 상세·첨부자료는 승인 회원에게만 열립니다.</p>
+    <p class="portal-auth-copy">일반 안내와 목록은 누구나 볼 수 있습니다. 상세 내용과 회원 전용 자료는 승인 회원에게만 열립니다.</p>
     <form class="portal-auth-form" data-portal-login-form>
       <label>이메일<input name="email" type="email" autocomplete="email" required></label>
       <label>비밀번호<input name="password" type="password" autocomplete="current-password" required></label>
@@ -177,7 +177,7 @@ function renderLoginForm() {
 function renderSignedIn() {
   if (state.approved) {
     return `
-      <p class="portal-auth-approved"><strong>${escapeHtml(state.user.displayName || state.user.email || "회원")}</strong>님은 승인 회원입니다. 채용정보 상세를 이용할 수 있습니다.</p>
+      <p class="portal-auth-approved"><strong>${escapeHtml(state.user.displayName || state.user.email || "회원")}</strong>님은 승인 회원입니다. 회원 전용 서비스를 이용할 수 있습니다.</p>
       <button class="portal-auth-logout" type="button" data-portal-auth-action="logout">로그아웃</button>`;
   }
   return `

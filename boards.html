@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>게시판 | 설탕과소금 | gyo6.kr</title>
+  <meta name="description" content="설탕과소금의 홍보, 협업문의, 질의응답 게시판입니다. 목록은 공개하고 상세 내용은 작성자와 관리자에게만 보호됩니다.">
+  <link rel="canonical" href="https://gyo6.kr/boards.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="게시판 | 설탕과소금">
+  <meta property="og:description" content="홍보, 협업문의, 질의응답을 한 곳에서 확인하고 작성할 수 있습니다.">
+  <meta property="og:url" content="https://gyo6.kr/boards.html">
+  <meta property="og:image" content="https://gyo6.kr/assets/platform-hero-vocational.png">
+  <meta property="og:locale" content="ko_KR">
+  <style>@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=Noto+Serif+KR:wght@600;700&display=swap');</style>
+  <link rel="stylesheet" href="assets/site.css">
+  <link rel="stylesheet" href="assets/portal-auth.css">
+</head>
+<body>
+  <a class="skip" href="#main">본문 바로가기</a>
+  <header class="topbar">
+    <nav class="nav" aria-label="주요 메뉴">
+      <a class="brand" href="index.html">
+        <strong>설탕과소금</strong>
+        <span>gyo6.kr · 교육.한국</span>
+      </a>
+      <div class="navlinks">
+        <a href="business.html">사업영역</a>
+        <a href="vocational.html">특성화고 플랫폼</a>
+        <a href="ebooks.html">전자책</a>
+        <a href="host.html">30년 특성화고</a>
+        <a class="active" href="boards.html">게시판</a>
+        <a href="contact.html">문의</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero compact-hero board-hero">
+      <div class="wrap">
+        <div class="domain">Sugar & Salt Board</div>
+        <h1>홍보, 협업문의, 질의응답을 한 곳에서 정리합니다.</h1>
+        <p class="lead">목록은 누구나 볼 수 있고, 협업문의와 질문의 상세 내용은 작성자와 관리자만 확인합니다.</p>
+        <div class="actions">
+          <button class="btn primary" type="button" id="portal-auth-trigger">로그인</button>
+          <a class="btn" href="#write">글쓰기</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-block">
+      <div class="wrap board-shell" data-board-app>
+        <div class="board-tabs" aria-label="게시판 선택">
+          <button type="button" class="active" data-board-room="all">전체</button>
+          <button type="button" data-board-room="promotion">설탕과소금 소식</button>
+          <button type="button" data-board-room="collaboration">협업문의</button>
+          <button type="button" data-board-room="qna">질의응답</button>
+        </div>
+
+        <form class="board-search" data-board-search>
+          <label>
+            <span>게시글 검색</span>
+            <input name="q" type="search" placeholder="예: 전자책, 특성화고, 기관 홈페이지">
+          </label>
+          <button class="btn primary" type="submit">검색</button>
+          <button class="btn" type="button" data-board-reset>초기화</button>
+        </form>
+
+        <div class="board-status" data-board-status>게시글을 불러오는 중입니다.</div>
+        <div class="board-list" data-board-list></div>
+
+        <article class="board-write-card" id="write">
+          <div>
+            <div class="eyebrow">Write</div>
+            <h2>협업문의 또는 질문 남기기</h2>
+            <p class="muted">승인 회원 로그인 후 작성할 수 있습니다. 협업문의와 질문 본문은 작성자와 관리자에게만 공개됩니다.</p>
+          </div>
+          <form class="board-form" data-board-form>
+            <label>게시판
+              <select name="room" required>
+                <option value="collaboration">협업문의</option>
+                <option value="qna">질의응답</option>
+                <option value="promotion">설탕과소금 소식(관리자)</option>
+              </select>
+            </label>
+            <label>표시 이름
+              <input name="anonymousName" type="text" maxlength="40" placeholder="예: ○○고 교사, 협업 담당자">
+            </label>
+            <label>제목
+              <input name="title" type="text" maxlength="120" required placeholder="문의 제목을 입력해 주세요">
+            </label>
+            <label>내용
+              <textarea name="body" rows="8" required placeholder="협업 배경, 필요한 지원, 연락 가능한 방법 등을 적어 주세요"></textarea>
+            </label>
+            <button class="btn primary" type="submit">게시글 등록</button>
+            <p class="board-form-note" data-board-form-note></p>
+          </form>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <strong>설탕과소금</strong>
+      <div>gyo6.kr · 교육.한국 · 대한민국 교육격차 해소를 위해 노력하는 기업</div>
+    </div>
+  </footer>
+  <div id="portal-auth-mount"></div>
+  <script type="module" src="assets/portal-auth.js"></script>
+  <script type="module" src="assets/portal-boards.js"></script>
+</body>
+</html>
