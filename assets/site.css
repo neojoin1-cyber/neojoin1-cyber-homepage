@@ -697,6 +697,165 @@ h3 {
   color: var(--teal);
   font-weight: 800;
 }
+
+.ebook-reader-shell {
+  display: grid;
+  gap: 22px;
+}
+
+.ebook-reader-status {
+  border: 1px solid #d7e6ef;
+  border-radius: 16px;
+  padding: 14px 16px;
+  background: #f8fbff;
+  color: #40506c;
+  font-weight: 800;
+}
+
+.ebook-live-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+.ebook-live-head {
+  padding: 24px;
+  background:
+    radial-gradient(circle at top right, rgba(33, 122, 117, .16), transparent 30%),
+    linear-gradient(135deg, #f8fbff, #eef7f7);
+}
+
+.ebook-live-head span {
+  display: inline-flex;
+  margin-bottom: 8px;
+  border-radius: 999px;
+  padding: 5px 10px;
+  background: var(--navy);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.ebook-live-head p {
+  margin-bottom: 0;
+  color: #5a6a80;
+  font-weight: 800;
+}
+
+.ebook-live-steps {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+}
+
+.ebook-live-step {
+  border: 1px solid #e2ebf4;
+  border-radius: 20px;
+  padding: 18px;
+  background: #fbfdff;
+}
+
+.ebook-live-step-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.ebook-live-step-title b {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 19px;
+}
+
+.ebook-live-step-title span {
+  color: var(--teal);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.ebook-live-step-title h4 {
+  margin: 0;
+  color: var(--navy);
+  font-size: 21px;
+}
+
+.ebook-live-block,
+.ebook-live-question,
+.ebook-live-locked,
+.ebook-live-teacher,
+.ebook-live-guide {
+  margin-top: 10px;
+  border-radius: 16px;
+  padding: 14px 16px;
+  color: #33425e;
+  line-height: 1.75;
+}
+
+.ebook-live-block {
+  border: 1px solid #dfeaf4;
+  background: #fff;
+}
+
+.ebook-live-question {
+  border: 1px solid #d4e3f3;
+  background: #f2f7ff;
+}
+
+.ebook-live-question p,
+.ebook-live-question ol,
+.ebook-live-locked p,
+.ebook-live-teacher p,
+.ebook-live-guide p {
+  margin-bottom: 0;
+}
+
+.ebook-live-question ol {
+  margin-top: 8px;
+  padding-left: 22px;
+}
+
+.ebook-live-question span {
+  display: inline-flex;
+  margin-top: 10px;
+  border-radius: 999px;
+  padding: 5px 9px;
+  background: #fff;
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.ebook-live-locked {
+  border: 1px dashed #d4e3f3;
+  background: #f8fbff;
+}
+
+.ebook-live-teacher {
+  border: 1px solid #f0d9a4;
+  background: #fff8eb;
+}
+
+.ebook-live-guide {
+  border: 1px solid #cfe7e5;
+  background: #eef8f7;
+}
+
+.ebook-live-guide em {
+  color: var(--teal);
+  font-style: normal;
+  font-weight: 900;
+}
 .feed-list {
   display: grid;
   gap: 14px;

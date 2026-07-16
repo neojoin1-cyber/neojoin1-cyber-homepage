@@ -26,6 +26,7 @@ const state = {
   ready: false,
   user: null,
   member: null,
+  capabilities: {},
   approved: false,
   message: ""
 };
@@ -45,6 +46,7 @@ mount?.addEventListener("submit", handleAuthSubmit);
 onAuthStateChanged(auth, async (user) => {
   state.user = user;
   state.member = null;
+  state.capabilities = {};
   state.approved = false;
   state.ready = true;
 
@@ -90,6 +92,7 @@ async function refreshMember() {
       throw new Error(data.error || `회원 승인 확인 오류 (${response.status})`);
     }
     state.member = data.member || null;
+    state.capabilities = data.capabilities || {};
     state.approved = state.member?.status === "approved";
     if (state.user && !state.approved) {
       state.message = "로그인은 되었지만 관리자 승인 대기 상태입니다.";
