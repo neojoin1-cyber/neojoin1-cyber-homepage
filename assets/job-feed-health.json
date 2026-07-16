@@ -1,36 +1,45 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-16T03:30:58.717Z",
-  "feedGeneratedAt": "2026-07-16T03:30:58.717Z",
+  "generatedAt": "2026-07-16T03:52:06.429Z",
+  "feedGeneratedAt": "2026-07-16T03:52:06.429Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "ok",
+  "status": "degraded",
   "summary": {
-    "total": 102,
-    "active": 52,
-    "deadlineSoon": 31,
-    "applicationClosed": 19,
+    "total": 96,
+    "active": 45,
+    "deadlineSoon": 33,
+    "applicationClosed": 18,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
-    "sourcesFailed": 0,
+    "sourcesFailed": 1,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 0,
-    "sourceFallbackProtected": 0,
+    "staleFallbackItems": 93,
+    "sourceFallbackProtected": 93,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 103,
+    "studentRecruitSafetyReview": 96,
     "ollamaBriefingReady": 6,
     "ollamaBriefingAttempted": 6,
     "ollamaBriefingFailed": 0
   },
-  "sourceFailures": [],
+  "sourceFailures": [
+    {
+      "id": "job-alio-openapi",
+      "name": "잡알리오 공공기관 채용",
+      "isolatedFailure": false,
+      "fallbackProtected": true,
+      "fallbackItemCount": 93,
+      "message": "연결 실패: recent-page-1: recent-page-1 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-4: recent-page-4 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT · 직전 정상 공고 93건 보존"
+    }
+  ],
   "aiBriefing": {
     "enabled": true,
     "required": true,
     "engine": "ollama",
     "model": "qwen2.5:0.5b",
     "baseUrl": "http://127.0.0.1:11434",
-    "generatedAt": "2026-07-16T03:30:58.717Z",
+    "generatedAt": "2026-07-16T03:52:06.429Z",
     "attempted": 6,
     "succeeded": 6,
     "failed": 0,
@@ -40,11 +49,11 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-16T03:30:58.717Z",
+    "generatedAt": "2026-07-16T03:52:06.429Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 103,
+    "studentRecruitReviewCount": 96,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -76,6 +85,27 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국중부발전",
+        "title": "한국중부발전 2026년도 제2차 4직급 신입직원 채용공고",
+        "deadline": "2026-07-22",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=302314"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
           "학력무관",
           "필기·NCS 신호",
           "공채 신호",
@@ -89,29 +119,7 @@
         "deadline": "2026-07-20",
         "status": "deadline_soon",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kised.or.kr/board.es?mid=a10304000000&bid=0014&act=view&list_no=4548&tag=&nPage=1"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국산업기술기획평가원",
-        "title": "한국산업기술기획평가원 2026년 체험형 청년인턴(일반, 자립준비청년) 채용공고",
-        "deadline": "2026-07-16",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://keit.re.kr/board.es?mid=a10307020000&bid=0046&act=view&list_no=128115"
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=302422"
       },
       {
         "list": "items",
@@ -128,11 +136,32 @@
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "주택관리공단(주)",
-        "title": "채용형 인턴 채용공고(주택관리공단 강원지사)",
-        "deadline": "2026-07-21",
+        "title": "채용형 인턴 채용공고(주택관리공단 전북지사)",
+        "deadline": "2026-07-15",
         "status": "deadline_soon",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B0%95%EC%9B%90%EC%A7%80%EC%82%AC&page=1&rnm_idx=911"
+        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EC%A0%84%EB%B6%81%EC%A7%80%EC%82%AC&page=1&rnm_idx=909"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "주택관리공단(주)",
+        "title": "채용형 인턴 채용공고(주택관리공단 경기남부지사)",
+        "deadline": "2026-07-20",
+        "status": "deadline_soon",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B2%BD%EA%B8%B0%EB%82%A8%EB%B6%80%EC%A7%80%EC%82%AC&page=1&rnm_idx=910"
       },
       {
         "list": "items",
@@ -193,7 +222,7 @@
         "deadline": "2026-07-20",
         "status": "deadline_soon",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kopo.ac.kr/chungnam/board.do?menu=10539&mode=view&post=779964"
+        "primaryOfficialUrl": "https://www.kopo.ac.kr/chungnam/down"
       },
       {
         "list": "items",
@@ -251,10 +280,31 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
+        "company": "주택관리공단(주)",
+        "title": "채용형 인턴 채용공고(주택관리공단 강원지사)",
+        "deadline": "2026-07-21",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B0%95%EC%9B%90%EC%A7%80%EC%82%AC&page=1&rnm_idx=911"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
         "company": "학교법인한국폴리텍",
         "title": "학교법인한국폴리텍 한국폴리텍대학 성남캠퍼스 2026년도 업무직(사감) 채용 공고",
         "deadline": "2026-07-21",
-        "status": "deadline_soon",
+        "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.kopo.ac.kr/seongnam/board.do?menu=10526&mode=view&post=779918"
       },
@@ -264,106 +314,19 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국발명진흥회",
-        "title": "2026년 한국발명진흥회 정규직(6급 채용형 인턴) 채용",
-        "deadline": "2026-07-21",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kipa.org/kipa/notice/recruit_notice.jsp?mode=view&article_no=126358&board_wrapper=%2Fkipa%2Fnotice%2Frecruit_notice.jsp&pager.offset=0&board_no=1345"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "서울올림픽기념국민체육진흥공단",
-        "title": "2026년 서울올림픽기념국민체육진흥공단 채용형 청년인턴(8급 전환형) 채용공고",
-        "deadline": "2026-07-28",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://kspo.or.kr/kspo/singl/empmn/view.do?empmnId=763&menuNo=200186"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
           "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "주택관리공단(주)",
-        "title": "채용형 인턴 채용공고(주택관리공단 경기북부지사)(보훈채용)",
-        "deadline": "2026-07-30",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B2%BD%EA%B8%B0%EB%B6%81%EB%B6%80%EC%A7%80%EC%82%AC&page=1&rnm_idx=912"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
           "인턴·채용연계",
           "공채 신호"
         ],
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "한국여성과학기술인육성재단",
-        "title": "한국여성과학기술인육성재단 2026년도 제4차 하반기 체험형 청년인턴(일반,보훈제한경쟁) 채용 공고",
-        "deadline": "2026-07-30",
+        "company": "주택관리공단(주)",
+        "title": "체험형 인턴 채용공고(주택관리공단 본사, 장애인)",
+        "deadline": "2026-07-21",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://wiset.or.kr/bbs/BBSMSTR_000000000305/view.do"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "동남권원자력의학원",
-        "title": "동남권원자력의학원 [직원채용] (신규) 무기계약직 일반업무직(병동·외래특수) 공개 채용",
-        "deadline": "2026-07-29",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://diramsjob.recruiter.co.kr/career/home"
+        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EC%B2%B4%ED%97%98%ED%98%95&page=1&rnm_idx=907"
       },
       {
         "list": "items",
@@ -441,12 +404,12 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "학교법인한국폴리텍",
-        "title": "학교법인한국폴리텍 한국폴리텍대학 서울정수캠퍼스 체험형 청년인턴(일반) 채용 공고",
-        "deadline": "2026-07-24",
+        "company": "한전MCS(주)",
+        "title": "한전MCS 2026년 하반기 장애인 체육선수 신규채용 공고",
+        "deadline": "2026-07-27",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kopo.ac.kr/jungsu/board.do?menu=254&mode=view&post=780339"
+        "primaryOfficialUrl": "https://www.kepcomcs.co.kr/mber/open-manage/recruit-list"
       },
       {
         "list": "items",
@@ -462,12 +425,54 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "학교법인한국폴리텍",
-        "title": "학교법인한국폴리텍 한국폴리텍대학 서울정수캠퍼스 학사지원직(무기계약) 직원 채용 공고",
-        "deadline": "2026-07-24",
-        "status": "active",
+        "company": "주택관리공단(주)",
+        "title": "채용형 인턴 채용공고(주택관리공단 충북지사)(원서 마감)",
+        "deadline": "2026-07-08",
+        "status": "application_closed",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kopo.ac.kr/jungsu/board.do?menu=254&mode=view&post=780336"
+        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EC%B6%A9%EB%B6%81%EC%A7%80%EC%82%AC&page=1&rnm_idx=899"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "주택관리공단(주)",
+        "title": "채용형 인턴 채용공고(주택관리공단 경기북부지사)(원서 마감)",
+        "deadline": "2026-07-10",
+        "status": "application_closed",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B2%BD%EA%B8%B0%EB%B6%81%EB%B6%80%EC%A7%80%EC%82%AC&page=1&rnm_idx=906"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "주택관리공단(주)",
+        "title": "채용형 인턴 채용공고(주택관리공단 대전충남지사)(원서 마감)",
+        "deadline": "2026-07-10",
+        "status": "application_closed",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EB%8C%80%EC%A0%84%EC%B6%A9%EB%82%A8%EC%A7%80%EC%82%AC&page=1&rnm_idx=904"
       }
     ]
   },
