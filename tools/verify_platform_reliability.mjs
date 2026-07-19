@@ -591,7 +591,7 @@ async function validateHomepage() {
   fail('home.vocational-two-axis', html.includes('href="vocational.html"') && html.includes('특성화고 플랫폼'), '채용정보·상담자료실·전자책을 묶은 특성화고 플랫폼 분기가 유지됩니다.');
   fail('home.business-area-simple', html.includes('href="exams.html"') && html.includes('href="vocational.html"') && html.includes('href="apps.html"'), '대표 홈페이지는 세 가지 핵심 사업 분기로 정리되어 있습니다.');
   fail('home.thirty-years-proud-story', html.includes('href="host.html"') && html.includes('30년'), '30년 특성화고 경험을 신뢰 아카이브로 안내합니다.');
-  fail('home.hero-image-versioned', html.includes('pillar-exams.jpg') && html.includes('pillar-vocational.jpg') && html.includes('pillar-apps.jpg'), '세 가지 핵심 사업을 설명하는 최적화 인포그래픽 자산이 반영되어 있습니다.');
+  fail('home.hero-image-versioned', html.includes('map-portal-four-pillars.jpg'), '세 가지 핵심 사업과 교육현장 기록을 한 장에 연결한 최적화 인포그래픽 자산이 반영되어 있습니다.');
   fail('home.no-stale-axis-copy', staleAxisHits.length === 0, '이전 4축/기업자료/실험실 문구가 홈페이지에서 제거되어 있습니다.', staleAxisHits.join(', '));
 
   const ids = new Set(collectMatches(html, /\bid="([^"]+)"/g).map((match) => match[1]));
