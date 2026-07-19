@@ -447,7 +447,7 @@ function highSchoolSuitabilityProblem(item) {
   if (hasStudentRecommendationMismatchSignal(item)) return 'student-recommendation-mismatch';
   if (STUDENT_UNSUITABLE_HEALTHCARE_ROLE_PATTERN.test(text) && !hasEligibleMixedRole) return 'student-unsuitable-professional-healthcare';
   if (SENIOR_ROLE_PATTERN.test(text)) return 'senior-role';
-  if (!strongHighSchool && PROFESSIONAL_ONLY_PATTERN.test(text)) return 'professional-only';
+  if (!strongHighSchool && PROFESSIONAL_ONLY_PATTERN.test(text) && !hasEligibleMixedRole) return 'professional-only';
   if (!strongHighSchool && !educationOpen && ADVANCED_EDU_PATTERN.test(text)) return 'advanced-education-only';
   if (!strongHighSchool && !entryLevel && !educationOpen && RESTRICTED_ROLE_PATTERN.test(text)) return 'restricted-role';
   if (isCareerOnlyWithoutStudentSignal(item)) return 'career-only';
