@@ -550,6 +550,7 @@ async function validateJobFetcherRules() {
   const fetcher = await readText('tools/fetch_vocational_jobs.mjs');
   const localRunner = await readText('tools/run_local_job_feed.ps1');
   const localTaskInstaller = await readText('tools/install_local_job_feed_task.ps1');
+  const workflow = await readText('.github/workflows/job-feed.yml');
   const directTerms = sectionBetween(fetcher, 'const DIRECT_TERMS = [', '];');
   const examTerms = sectionBetween(fetcher, 'const EXAM_TERMS = [', '];');
   const writtenExamTerms = sectionBetween(fetcher, 'const WRITTEN_EXAM_TERMS = [', '];');
@@ -577,6 +578,8 @@ async function validateJobFetcherRules() {
   fail('fetcher.student-priority-ranking', fetcher.includes('function studentRecruitPriority') && fetcher.includes('특성화고·고교 졸업예정자 특별추천') && fetcher.includes('병역 미필 지원 가능 · 우선추천') && fetcher.includes('병역필·면제 조건 · 졸업예정자 제한') && fetcher.includes('studentPriority?.tier'), '졸업예정자 명시 공고와 병역 미필 지원 가능 공고를 먼저, 병역필·면제 제한 공고를 뒤에 정렬합니다.');
   fail('fetcher.local-official-runner', localRunner.includes('JOB_FEED_AI_DISABLED = "1"') && localRunner.includes('official-source-rules') && localRunner.includes('JOB_FEED_ZIP_CACHE_ENABLED = "0"') && localRunner.includes('tools\\verify_platform_reliability.mjs') && localRunner.includes('git push origin HEAD:main'), 'PC 수집기는 AI 없이 공식 원문 규칙으로 수집·검증·운영 반영하고 Windows에서는 공식 ZIP 링크와 기존 캐시를 안전하게 유지합니다.');
   fail('fetcher.local-official-schedule', localTaskInstaller.includes('GYO6-Job-Feed') && localTaskInstaller.includes('GYO6-Local-Ollama-Job-Feed') && localTaskInstaller.includes('Unregister-ScheduledTask') && localTaskInstaller.includes('09:10') && localTaskInstaller.includes('14:10') && localTaskInstaller.includes('23:10') && localTaskInstaller.includes('StartWhenAvailable'), '기존 AI 예약 작업을 제거하고 공식 원문 채용 수집을 하루 3회 실행하며 놓친 실행을 PC 가동 후 보완합니다.');
+  const buildStep = workflow.match(/- name: Build official API job feed[\s\S]*?(?=\n\s*- name:|$)/)?.[0] || '';
+  fail('fetcher.cloud-official-runner', buildStep.includes('JOB_FEED_AI_DISABLED: "1"') && (buildStep.match(/^\s*env:\s*$/gm) || []).length === 1 && !/Ollama|ollama\.com|ollama\s+(?:serve|pull)/i.test(workflow), 'GitHub Actions가 중복 YAML 키나 Ollama 의존 없이 공식 원문 수집을 실행합니다.');
 }
 
 async function validateHomepage() {

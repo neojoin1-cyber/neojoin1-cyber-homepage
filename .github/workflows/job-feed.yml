@@ -46,7 +46,6 @@ jobs:
         run: node tools/fetch_vocational_jobs.mjs
         env:
           JOB_FEED_AI_DISABLED: "1"
-        env:
           WORK24_AUTH_KEY: ${{ secrets.WORK24_AUTH_KEY }}
           WORKNET_AUTH_KEY: ${{ secrets.WORKNET_AUTH_KEY }}
           DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
