@@ -493,12 +493,12 @@ async function validateStaticFiles() {
 async function validateProtectedJobVault(feed) {
   const vault = await readJson('assets/job-detail-vault.json');
   const encryptedItems = vault?.items && typeof vault.items === 'object' ? vault.items : {};
-  const requiredIds = new Set([...(feed.items || []), ...(feed.archiveItems || [])].map((item) => item.id).filter(Boolean));
+  const requiredIds = new Set([...(feed.items || []), ...(feed.supplementalItems || []), ...(feed.archiveItems || [])].map((item) => item.id).filter(Boolean));
   const missing = [...requiredIds].filter((id) => !encryptedItems[id]);
   const malformed = Object.entries(encryptedItems).filter(([, item]) => !item?.wrappedKey || !item?.iv || !item?.authTag || !item?.ciphertext);
   const firstTitle = feed.items?.[0]?.title || '';
   fail('jobs.vault.version', vault.version === 1 && vault.algorithm === 'RSA-OAEP-256+A256GCM', '채용 상세 저장소가 RSA-OAEP와 AES-GCM 이중 암호화를 사용합니다.');
-  fail('jobs.vault.coverage', missing.length === 0 && Number(vault.itemCount || 0) === Object.keys(encryptedItems).length, '공개 목록과 마감 보관함의 모든 공고 상세가 암호화 저장소에 존재합니다.', missing.slice(0, 5).join(', '));
+  fail('jobs.vault.coverage', missing.length === 0 && Number(vault.itemCount || 0) === Object.keys(encryptedItems).length, '기본·검색 보조·마감 보관함의 모든 공고 상세가 암호화 저장소에 존재합니다.', missing.slice(0, 5).join(', '));
   fail('jobs.vault.shape', malformed.length === 0, '모든 암호화 공고가 래핑키·IV·인증태그·암호문을 갖습니다.', malformed.slice(0, 5).map(([id]) => id).join(', '));
   fail('jobs.vault.no-plaintext-title', !firstTitle || !JSON.stringify(vault).includes(firstTitle), '암호화 저장소에 채용 제목이나 상세정보 평문이 남지 않습니다.');
 }
@@ -558,7 +558,7 @@ async function validateJobFetcherRules() {
   fail('fetcher.health-report', fetcher.includes('job-feed-health.json') && fetcher.includes('function buildFeedHealth') && fetcher.includes('writeJsonAtomic(HEALTH_FILE'), '자동 수집 건강 상태 파일을 매 실행마다 생성합니다.');
   fail('fetcher.core-source-publication-hold', fetcher.includes('function publicFeedHoldReason') && fetcher.includes('CORE_PUBLICATION_SOURCE_IDS') && fetcher.includes('degraded-held'), '잡알리오 같은 핵심 수집원이 실패한 실행은 정상 공개 피드를 덮어쓰지 않고 건강 진단만 남깁니다.');
   fail('fetcher.source-fallback-diagnostics', fetcher.includes('function annotateSourceFallbackProtection') && fetcher.includes('fallbackProtected') && fetcher.includes('sourceFallbackProtected'), '일시 실패한 공식 수집원은 직전 정상 공고 보존 건수를 피드와 건강 상태에 남깁니다.');
-  fail('fetcher.job-track-refine', fetcher.includes('function shouldForceFieldDirectRecruit') && fetcher.includes('function hasWrittenExamSignal') && fetcher.includes('function hasFormalPublicStudentRecruitSignal') && fetcher.includes('CAREER_LADDER_EMPLOYMENT_PATTERN') && fetcher.includes('공채 상세 정보') && fetcher.includes('면접중심·현장형 채용') && fetcher.includes('일반·면접형 취업정보') && fetcher.includes('Math.max(36, Math.floor(MAX_ITEMS * 0.4))') && !/공개\s*경쟁|공채|공무원|군무원|부사관/.test(writtenExamTerms) && !/공개\s*경쟁|공채|공무원|군무원|부사관/.test(examTerms), '자동 수집 단계에서 필기·NCS 신호뿐 아니라 정규직·무기계약직·채용형 인턴 등 학생 추천 공식 공채를 공채 상세 정보로 보호하고, 일반·면접형 취업정보의 피드 몫을 확보합니다.');
+  fail('fetcher.job-track-refine', fetcher.includes('function shouldForceFieldDirectRecruit') && fetcher.includes('function hasWrittenExamSignal') && fetcher.includes('function hasFormalPublicStudentRecruitSignal') && fetcher.includes('CAREER_LADDER_EMPLOYMENT_PATTERN') && fetcher.includes('공채 상세 정보') && fetcher.includes('면접중심·현장형 채용') && fetcher.includes('일반·면접형 취업정보') && fetcher.includes('Math.max(18, Math.floor(MAX_ITEMS * 0.2))') && !/공개\s*경쟁|공채|공무원|군무원|부사관/.test(writtenExamTerms) && !/공개\s*경쟁|공채|공무원|군무원|부사관/.test(examTerms), '자동 수집 단계에서 정규직·채용형 인턴 등 필수 공식 공채를 먼저 보호하고, 일반·면접형 취업정보는 최대 20% 보조 영역으로 제한합니다.');
   fail('fetcher.student-exclusion-overrides-eligibility', fetcher.includes('DEGREE_PREFERENCE_PATTERN') && !fetcher.includes('if (HIGH_SCHOOL_ELIGIBLE_PATTERN.test(text)) return false;'), '대학생·휴학생·학위 전용 제외 신호는 학력무관 또는 고졸 관련 문구보다 우선합니다.');
   fail('fetcher.important-recruit-review-safety-net', fetcher.includes('function importantRecruitSafetySignals') && fetcher.includes('function studentRecruitReviewSample') && fetcher.includes('studentRecruitReviewSamples') && fetcher.includes('중요 공채 후보 안전검토') && fetcher.includes('studentRecruitSafetyReviewRule'), '좌측 추천에서 제외된 중요 공채 후보는 안전검토 큐에 남겨 조용히 누락되지 않게 합니다.');
   fail('fetcher.student-fit-exception-guard', fetcher.includes('function hasStudentRecommendationFitException') && fetcher.includes('VOCATIONAL_MAJOR_FIT_PATTERN') && fetcher.includes('전공 적합성') && fetcher.includes('경력 사다리'), '학생 추천 제외는 특정 직무명만으로 무조건 처리하지 않고 전공 적합성, 학생 접근 가능성, 경력 사다리, 공식 전형을 함께 봅니다.');
@@ -572,6 +572,8 @@ async function validateJobFetcherRules() {
   fail('fetcher.job-alio-paced-list-scan', fetcher.includes('const JOB_ALIO_LIST_FETCH_CONCURRENCY = 2') && fetcher.includes('function fetchJobAlioListTarget') && fetcher.includes('await sleep(250'), '잡알리오 목록은 호스팅 실행기의 순간 요청 폭주를 피하도록 저속 병렬로 수집합니다.');
   fail('fetcher.job-alio-mobile-list-fallback', fetcher.includes('function jobAlioMobileListUrl') && fetcher.includes('mobile fallback after'), '잡알리오 PC 목록 접속 실패 시 공식 모바일 목록으로 한 번 더 수집합니다.');
   fail('fetcher.isolated-audit-output', fetcher.includes('JOB_FEED_OUTPUT_DIR') && fetcher.includes('const OUTPUT_DIR'), '운영 피드를 덮어쓰지 않는 분리 출력 경로에서 수집기를 실운전 검증할 수 있습니다.');
+  fail('fetcher.role-level-eligibility', fetcher.includes('function assessRecruitRoles') && fetcher.includes('eligibleRoles') && fetcher.includes('reviewRoles') && fetcher.includes('excludedRoles') && fetcher.includes('validateRecruitRoleFixtures'), '혼합 채용공고를 직렬별로 나눠 학생 지원 가능·확인 필요·제외 직렬을 판정하고 고정 사례로 검증합니다.');
+  fail('fetcher.student-priority-ranking', fetcher.includes('function studentRecruitPriority') && fetcher.includes('핵심 특성화고 공채') && fetcher.includes('학력무관 주요 공채') && fetcher.includes('studentPriority?.tier'), '필수 특성화고 공채와 학력무관 주요 공채가 일반 채용보다 먼저 정렬됩니다.');
 }
 
 async function validateHomepage() {
@@ -623,6 +625,8 @@ async function validateCoreContentPages() {
   fail('core.civil-service-parking', civilServiceParking.includes('공무원시험') && civilServiceParking.includes('전용 서비스 개발 중') && civilServiceParking.includes('href="https://gyo6.kr/exams.html"'), '공무원시험 전용 파킹 페이지가 개발 상태와 포털 복귀 경로를 안내합니다.');
   fail('core.jobs-content-weight', jobs.includes('특성화고 공채') && jobs.includes('공기업') && jobs.includes('공무원') && jobs.includes('대기업') && jobs.includes('공식 첨부서류'), '채용정보 페이지가 핵심 공채와 공식 첨부서류 기능을 명확히 안내합니다.');
   fail('core.jobs-sort-search', jobs.includes('data-sort-mode="new"') && jobs.includes('data-sort-mode="deadline"') && jobs.includes('job-search-input') && jobs.includes('job-search-button') && jobs.includes('isCorePublicRecruit') && jobs.includes('core-recruit'), '채용정보 페이지가 신규순·마감일자순·검색·핵심 공채 강조 UI를 제공합니다.');
+  fail('core.jobs-role-priority-ui', jobs.includes('studentPriority?.tier') && jobs.includes('학생 지원 가능 직렬') && jobs.includes('직렬별 자격 판정') && jobs.includes('학생 채널 제외'), '채용정보 화면이 중요도순으로 정리되고 직렬별 학생 지원 가능 여부를 카드와 상세 팝업에 구분해 표시합니다.');
+  fail('core.jobs-supplemental-search', jobs.includes('feed.supplementalItems') && jobs.includes('기본 추천 목록과 검색 전용 보조 목록을 함께 검색'), '기본 화면에서 덜 중요한 공고를 줄이되 검색하면 보조 목록까지 빠짐없이 찾습니다.');
   fail('core.jobs-official-page-link', jobs.includes('function isLikelyFileUrl') && jobs.includes('pageCandidates') && jobs.includes('!isLikelyFileUrl(url)'), '채용정보 공식 공고 버튼은 첨부파일 다운로드가 아니라 공고 상세 페이지를 우선 연결합니다.');
   fail('core.resources-page', resources.includes('https://gyo6-law-info.web.app') && resources.includes('법률 자문을 대신하지 않습니다') && /승인\s*회원/.test(resources), '상담자료실 안내 페이지가 공식자료 연결·회원 권한·서비스 한계를 분명히 안내합니다.');
 }

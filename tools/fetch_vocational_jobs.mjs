@@ -1079,6 +1079,9 @@ const STUDENT_LOW_VALUE_ROLE_PATTERN = /(미화|청소원|청소\s*근로자|급
 const VOCATIONAL_MAJOR_FIT_PATTERN = /((조리|식품|외식|제과|제빵|호텔|관광|보건|간호|복지|보안|경비|시설|전기|기계|환경|안전|위생).{0,36}(전공|학과|계열|기능사|산업기사|자격|우대|관련|실무))|((전공|학과|계열|기능사|산업기사|자격|우대|관련|실무).{0,36}(조리|식품|외식|제과|제빵|호텔|관광|보건|간호|복지|보안|시설|전기|기계|환경|안전|위생))/;
 const DIRECT_JOB_QUALITY_PATTERN = /(정규직|무기계약직|공무직|신입|채용형\s*인턴|채용\s*연계|전환형\s*인턴|4대\s*보험|복리후생|기숙사|통근버스|성과급|상여금|교육\s*지원|자격증\s*지원|일학습병행|도제|기업현장교사)/;
 const DIRECT_JOB_GROWTH_ROLE_PATTERN = /(생산|품질|물류|설비|정비|기계|전기|전자|전산|IT|디지털|사무|행정|회계|총무|호텔|관광|조리|식품|제과|제빵|디자인|CAD|용접|자동차|반도체)/i;
+const STUDENT_ACCESSIBLE_ROLE_PATTERN = /(업무보조|업무지원|사무보조|사무행정|일반행정|행정지원|연구지원|사업지원|고객지원|학사지원|운영지원|조경관리|시설기술|시설관리|기계|전기|전자|전산|정보통신|IT|디지털|데이터|생산|품질|물류|설비|정비|기능직|기술직|사무직|행정직|전산직|청년인턴|채용형\s*인턴)/i;
+const ROLE_LEVEL_EXCLUSION_PATTERN = /(전문의|의사|약사|간호사|간호조무|요양보호|치과위생|임상병리|물리치료|작업치료|방사선사|영양사|변호사|회계사|세무사|노무사|법무사|정교사|교원자격|교수|박사|석사|청소|미화|경비|주차|배식|급식|취사|만\s*60세\s*이상|고령자)/;
+const ROLE_LIST_SIGNAL_PATTERN = /[,/·ㆍ;]|\s외\s*\d*\s*(?:개|명|직렬|분야)?|(?:모집|채용)\s*분야/i;
 const ADVANCED_ROLE_WITHOUT_HIGH_SCHOOL_PATTERN = /(연구직군|연구개발|R&D|연구원|박사후|포닥)/i;
 const IMPORTANT_PUBLIC_RECRUIT_REVIEW_PATTERN = /(고졸|고등학교|특성화고|직업계고|마이스터고|학력\s*무관|신입직|신입사원|신입행원|정규직|무기계약직|일반직|행정직|사무직|전산직|기술직|생산직|채용형\s*인턴|청년\s*인턴|체험형\s*인턴|NCS|필기|인적성|전공\s*(?:시험|평가|필기)|공채|공개채용|공개\s*경쟁|블라인드\s*채용|지역인재|기능인재|고졸인재)/i;
 
@@ -3450,6 +3453,118 @@ function hasMilitaryServiceCompletionRequirement(value) {
   return MILITARY_SERVICE_COMPLETION_PATTERN.test(text);
 }
 
+function recruitRoleSourceText(raw = {}) {
+  const title = normalizeSpace(raw.title || raw.baseTitle);
+  const firstParen = title.indexOf('(');
+  const lastParen = title.lastIndexOf(')');
+  const parenthetical = firstParen >= 0 && lastParen > firstParen
+    ? title.slice(firstParen + 1, lastParen).replace(/[()]/g, ' ')
+    : '';
+  return compactTags([
+    raw.recruitField,
+    raw.jobField,
+    raw.workField,
+    raw.position,
+    parenthetical
+  ]).join(' · ');
+}
+
+function cleanRecruitRole(value) {
+  return normalizeSpace(value)
+    .replace(/^(?:모집|채용)\s*(?:분야|부문|직렬|직무)?\s*[:：-]?\s*/i, '')
+    .replace(/^(?:및|또는)\s+/, '')
+    .replace(/\s*(?:채용|모집)\s*(?:공고)?$/i, '')
+    .replace(/^\d+[.)]\s*/, '')
+    .trim();
+}
+
+function extractRecruitRoles(raw = {}) {
+  const sourceText = recruitRoleSourceText(raw);
+  if (!sourceText || !ROLE_LIST_SIGNAL_PATTERN.test(sourceText)) return [];
+  return compactTags(sourceText
+    .split(/\s*(?:,|\/|·|ㆍ|;|\||\n|\r|\s외\s*\d*\s*(?:개|명|직렬|분야)?)\s*/)
+    .map(cleanRecruitRole)
+    .filter((role) => role.length >= 2 && role.length <= 72));
+}
+
+function hasRoleSpecificQualificationBarrier(role, verifiedText = '') {
+  const roleTokens = compactTags(normalizeSpace(role)
+    .replace(/[()]/g, ' ')
+    .split(/\s+/)
+    .filter((token) => token.length >= 2 && !/^(?:일반|신입|경력|계약직|정규직)$/.test(token)));
+  const qualificationPattern = /(기사|산업기사|기능장|면허|자격증)\s*(?:소지|보유|필수|이상)|(?:소지|보유)자/;
+  if (!roleTokens.length) return false;
+  const rolePattern = roleTokens
+    .map((token) => token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+    .join('[^가-힣A-Za-z0-9]{0,8}');
+  const segmentMatch = verifiedText.match(new RegExp(`${rolePattern}[^가-힣A-Za-z0-9]{0,8}[:：]\\s*(.{0,120}?)(?=\\s+\\d+[.)]|$)`));
+  return Boolean(segmentMatch && qualificationPattern.test(segmentMatch[1]));
+}
+
+function assessRecruitRoles(raw = {}, verifiedText = '') {
+  const sourceText = recruitRoleSourceText(raw);
+  const roles = extractRecruitRoles(raw);
+  const mixed = roles.length >= 2;
+  const overallStudentAccess = hasVerifiedStudentEligibilitySignal(verifiedText);
+  const eligibleRoles = [];
+  const reviewRoles = [];
+  const excludedRoles = [];
+
+  for (const role of roles) {
+    if (ROLE_LEVEL_EXCLUSION_PATTERN.test(role) || hasStudentUnsuitableProfessionalRole(role)) {
+      excludedRoles.push(role);
+    } else if (hasRoleSpecificQualificationBarrier(role, verifiedText)) {
+      reviewRoles.push(role);
+    } else if (overallStudentAccess && STUDENT_ACCESSIBLE_ROLE_PATTERN.test(role)) {
+      eligibleRoles.push(role);
+    } else {
+      reviewRoles.push(role);
+    }
+  }
+
+  return {
+    version: 1,
+    mixed,
+    sourceText,
+    eligibleRoles,
+    reviewRoles,
+    excludedRoles,
+    hasEligibleRole: eligibleRoles.length > 0,
+    needsRoleReview: mixed && !eligibleRoles.length && reviewRoles.length > 0
+  };
+}
+
+function hasRoleLevelEligibilityException(item = {}) {
+  return Boolean(item.roleEligibility?.mixed && item.roleEligibility?.hasEligibleRole);
+}
+
+function validateRecruitRoleFixtures() {
+  const mixedHospital = assessRecruitRoles({
+    title: '임시직원 채용공고(시설기술(전기), 간호사, 조경관리, 청소)',
+    education: '학력무관',
+    career: '신입+경력'
+  }, '학력무관 신입+경력 시설기술(전기): 전기기사 또는 전기공사기사 자격증 소지자 조경관리: 자격무관');
+  const professionalOnly = assessRecruitRoles({
+    title: '의료직 채용공고(간호사, 약사)',
+    education: '학력무관'
+  }, '학력무관');
+  const highSchoolTechnical = assessRecruitRoles({
+    title: '고졸 신입 공개채용(사무직, 전기 기술직)',
+    education: '고졸'
+  }, '고졸 신입 공개채용');
+
+  const fixtureOk = mixedHospital.eligibleRoles.some((role) => /조경관리/.test(role))
+    && mixedHospital.reviewRoles.some((role) => /시설기술/.test(role))
+    && mixedHospital.excludedRoles.some((role) => /간호사/.test(role))
+    && mixedHospital.excludedRoles.some((role) => /청소/.test(role))
+    && professionalOnly.eligibleRoles.length === 0
+    && professionalOnly.excludedRoles.length === 2
+    && highSchoolTechnical.eligibleRoles.length === 2;
+  if (!fixtureOk) {
+    throw new Error(`Recruit role eligibility fixture failed: ${JSON.stringify({ mixedHospital, professionalOnly, highSchoolTechnical })}`);
+  }
+}
+
 function buildStudentChannelAssessment(raw, process) {
   const text = normalizeSpace([
     raw.title,
@@ -3465,10 +3580,12 @@ function buildStudentChannelAssessment(raw, process) {
   ].filter(Boolean).join(' '));
   const verifiedText = text.replace(/고졸·특성화고\s*관련\s*원문\s*확인/g, ' ');
   const roleText = normalizeSpace([raw.title, raw.recruitField, raw.jobField, raw.workField, raw.position].filter(Boolean).join(' '));
+  const roleEligibility = assessRecruitRoles(raw, verifiedText);
+  const roleLevelException = roleEligibility.mixed && roleEligibility.hasEligibleRole;
   const highSchoolEligible = hasVerifiedStudentEligibilitySignal(verifiedText);
-  const collegeOnly = hasCollegeOnlyApplicantSignal(text);
-  const professionalOnly = hasStudentUnsuitableProfessionalRole(text);
-  const recommendationMismatch = hasStudentUnsuitableRecruitSignal(text);
+  const collegeOnly = hasCollegeOnlyApplicantSignal(text) && !roleLevelException;
+  const professionalOnly = hasStudentUnsuitableProfessionalRole(text) && !roleLevelException;
+  const recommendationMismatch = hasStudentUnsuitableRecruitSignal(text) && !roleLevelException;
   const militaryCompletionRequired = hasMilitaryServiceCompletionRequirement(text);
   const advancedRoleMismatch = ADVANCED_ROLE_WITHOUT_HIGH_SCHOOL_PATTERN.test(roleText)
     && !/(고졸|고등학교|특성화고|직업계고|마이스터고)/.test(roleText)
@@ -3494,6 +3611,8 @@ function buildStudentChannelAssessment(raw, process) {
   if (professionalOnly) reasons.push('전문면허·전문자격 중심');
   if (recommendationMismatch) reasons.push('학생 추천 적합성 재검토');
   if (advancedRoleMismatch) reasons.push('연구·고학력 직무의 고졸 전형 불명확');
+  if (roleEligibility.eligibleRoles.length) reasons.push(`학생 지원 가능 직렬: ${roleEligibility.eligibleRoles.join(' · ')}`);
+  if (roleEligibility.excludedRoles.length) reasons.push(`학생 채널 제외 직렬: ${roleEligibility.excludedRoles.join(' · ')}`);
 
   return {
     version: 1,
@@ -3506,6 +3625,7 @@ function buildStudentChannelAssessment(raw, process) {
     careerLadder,
     majorFit,
     directQuality,
+    roleEligibility,
     hardBlocked,
     recommendedChannel: hardBlocked ? 'blocked' : process.processTrack,
     reasons
@@ -4785,15 +4905,16 @@ function hasAdvancedEducationOnly(item) {
 
 function isUnsuitableForHighSchoolChannel(item) {
   const text = eligibilityText(item);
+  const roleLevelException = hasRoleLevelEligibilityException(item);
   const strongHighSchool = hasStrongHighSchoolSignal(item);
   const entryLevel = hasEntryLevelSignal(item);
   const educationOpen = hasEducationOpenSignal(item);
-  if (hasCollegeOnlyApplicantSignal(text)) return true;
-  if (hasStudentUnsuitableRecruitSignal(text)) return true;
-  if (hasStudentUnsuitableProfessionalRole(text)) return true;
+  if (hasCollegeOnlyApplicantSignal(text) && !roleLevelException) return true;
+  if (hasStudentUnsuitableRecruitSignal(text) && !roleLevelException) return true;
+  if (hasStudentUnsuitableProfessionalRole(text) && !roleLevelException) return true;
   if (SENIOR_ROLE_PATTERN.test(text)) return true;
   if (!strongHighSchool && !entryLevel && !educationOpen && RESTRICTED_ROLE_PATTERN.test(text)) return true;
-  if (!strongHighSchool && PROFESSIONAL_ONLY_TERMS.some((term) => text.includes(term))) return true;
+  if (!strongHighSchool && !roleLevelException && PROFESSIONAL_ONLY_TERMS.some((term) => text.includes(term))) return true;
   if (hasAdvancedEducationOnly(item)) return true;
   if (!strongHighSchool && !entryLevel && !educationOpen && isCareerOnlyRole(item)) return true;
   return false;
@@ -4938,6 +5059,7 @@ function normalizeItem(raw) {
     processLabels: process.processLabels,
     processNote: process.processNote,
     studentChannelAssessment,
+    roleEligibility: studentChannelAssessment.roleEligibility,
     sector: process.sector,
     sectorName: process.sectorName,
     sourceVerification,
@@ -4969,6 +5091,7 @@ function normalizeItem(raw) {
     guideTags
   };
 
+  item.studentPriority = studentRecruitPriority(item);
   return item;
 }
 
@@ -5014,7 +5137,7 @@ function shouldKeep(item) {
   if (isUnresolvedDetailedPublicRecruit(item)) return false;
   const text = [item.title, item.company, item.education, item.career, item.employmentType, item.detailText].join(' ');
   const hasStrongHighSchool = STRONG_TERMS.some((term) => text.includes(term));
-  if (!hasStrongHighSchool && PROFESSIONAL_ONLY_TERMS.some((term) => text.includes(term))) return false;
+  if (!hasStrongHighSchool && !hasRoleLevelEligibilityException(item) && PROFESSIONAL_ONLY_TERMS.some((term) => text.includes(term))) return false;
   if (item.fitScore >= 24) return true;
   return item.education.includes('고졸')
     || item.education.includes('학력무관')
@@ -5028,12 +5151,62 @@ function shouldKeepRegionalEducationVerificationItem(item) {
   if (isUnsuitableForHighSchoolChannel(item)) return false;
   const text = [item.title, item.company, item.education, item.career, item.employmentType, item.detailText].join(' ');
   const hasStrongHighSchool = STRONG_TERMS.some((term) => text.includes(term));
-  if (!hasStrongHighSchool && PROFESSIONAL_ONLY_TERMS.some((term) => text.includes(term))) return false;
+  if (!hasStrongHighSchool && !hasRoleLevelEligibilityException(item) && PROFESSIONAL_ONLY_TERMS.some((term) => text.includes(term))) return false;
   return item.fitScore >= 24
     || hasStrongHighSchool
     || item.education.includes('고졸')
     || item.education.includes('학력무관')
     || hasEntryLevelSignal(item);
+}
+
+function studentRecruitPriority(item = {}) {
+  const text = studentRecruitReviewText(item);
+  const headlineText = normalizeSpace([
+    item.title,
+    item.education,
+    item.employmentType,
+    item.recruitField
+  ].join(' '));
+  const source = catalogSource(item.source);
+  const formalSource = isFormalPublicRecruitSource(item.sector, source, text);
+  const explicitHighSchool = /고졸|고등학교|특성화고|직업계고|마이스터고/.test(normalizeSpace(item.education))
+    || hasExplicitHighSchoolRecruitSignal(headlineText);
+  const educationOpen = /학력\s*무관/.test(headlineText);
+  const careerLadder = hasCareerLadderEmploymentSignal(headlineText) || hasCareerLadderInternshipSignal(headlineText);
+  const writtenSelection = hasWrittenExamSignal(text);
+  const recommendedRole = STUDENT_RECOMMENDED_ROLE_PATTERN.test(headlineText) || RECOMMENDED_PUBLIC_ROLE_PATTERN.test(headlineText);
+  const roleLevelEligible = hasRoleLevelEligibilityException(item);
+  const fieldDirect = hasHardFieldDirectRecruitSignal(headlineText);
+  let tier = 7;
+  let label = '일반 채용정보';
+
+  if (item.status === 'application_closed') {
+    tier = 9;
+    label = '마감 공고';
+  } else if (formalSource && explicitHighSchool && (careerLadder || writtenSelection) && recommendedRole && !fieldDirect) {
+    tier = 0;
+    label = '핵심 특성화고 공채';
+  } else if (formalSource && explicitHighSchool && recommendedRole && !fieldDirect) {
+    tier = 1;
+    label = '고졸 지원 공식 공고';
+  } else if (formalSource && educationOpen && recommendedRole && (careerLadder || writtenSelection) && !fieldDirect) {
+    tier = 2;
+    label = '학력무관 주요 공채';
+  } else if (formalSource && educationOpen && recommendedRole) {
+    tier = 3;
+    label = '공공·주요기관 지원 가능';
+  } else if (roleLevelEligible || (item.studentChannelAssessment?.majorFit && item.studentChannelAssessment?.directQuality)) {
+    tier = 4;
+    label = roleLevelEligible ? '지원 가능 직렬 포함' : '전공연계 현장형 채용';
+  } else if (item.studentChannelAssessment?.directQuality) {
+    tier = 5;
+    label = '학생 추천 일반 채용';
+  } else if (item.roleEligibility?.needsRoleReview) {
+    tier = 8;
+    label = '직렬 자격 확인 필요';
+  }
+
+  return { version: 1, tier, label };
 }
 
 function dedupeAndSortAll(items) {
@@ -5054,6 +5227,8 @@ function dedupeAndSortAll(items) {
     .sort((a, b) => {
       const criticalDiff = criticalCurrentPriority(a) - criticalCurrentPriority(b);
       if (criticalDiff !== 0) return criticalDiff;
+      const priorityDiff = (a.studentPriority?.tier ?? 8) - (b.studentPriority?.tier ?? 8);
+      if (priorityDiff !== 0) return priorityDiff;
       const trackWeight = { 'exam-formal': 0, 'direct-interview': 1 };
       const trackDiff = (trackWeight[a.processTrack] ?? 9) - (trackWeight[b.processTrack] ?? 9);
       if (trackDiff !== 0) return trackDiff;
@@ -5072,6 +5247,8 @@ function dedupeAndSortAll(items) {
       const statusWeight = { deadline_soon: 0, active: 1, application_closed: 2, needs_review: 3 };
       const statusDiff = (statusWeight[a.status] ?? 9) - (statusWeight[b.status] ?? 9);
       if (statusDiff !== 0) return statusDiff;
+      const publishedDiff = String(b.publishedAt || '').localeCompare(String(a.publishedAt || ''));
+      if (publishedDiff !== 0) return publishedDiff;
       if (b.fitScore !== a.fitScore) return b.fitScore - a.fitScore;
       if (a.deadline && b.deadline) return a.deadline.localeCompare(b.deadline);
       if (a.deadline) return -1;
@@ -5095,7 +5272,6 @@ function isProtectedFormalPublicRecruitItem(item = {}) {
 }
 
 function balanceTrackItems(sortedItems) {
-  if (sortedItems.length <= MAX_ITEMS) return sortedItems;
   const selected = [];
   const selectedIds = new Set();
   const add = (item) => {
@@ -5105,14 +5281,20 @@ function balanceTrackItems(sortedItems) {
   };
   const criticalItems = sortedItems.filter((item) => criticalCurrentPriority(item) < 99);
   const regularItems = sortedItems.filter((item) => criticalCurrentPriority(item) >= 99);
-  const protectedFormalItems = regularItems.filter(isProtectedFormalPublicRecruitItem);
-  const directItems = regularItems.filter((item) => item.processTrack === 'direct-interview' && !isProtectedFormalPublicRecruitItem(item));
-  const directTarget = Math.min(directItems.length, Math.max(36, Math.floor(MAX_ITEMS * 0.4)));
+  const protectedFormalItems = regularItems.filter((item) => (item.studentPriority?.tier ?? 8) <= 2);
+  const recommendedSupplementItems = regularItems.filter((item) => {
+    const tier = item.studentPriority?.tier ?? 8;
+    return tier >= 3 && tier <= 4;
+  });
+  const directItems = regularItems.filter((item) => item.processTrack === 'direct-interview'
+    && !isProtectedFormalPublicRecruitItem(item)
+    && (item.studentPriority?.tier ?? 8) === 5);
+  const directTarget = Math.min(directItems.length, Math.max(18, Math.floor(MAX_ITEMS * 0.2)));
 
   criticalItems.forEach(add);
   protectedFormalItems.forEach(add);
+  recommendedSupplementItems.slice(0, 18).forEach(add);
   directItems.slice(0, directTarget).forEach(add);
-  regularItems.forEach(add);
   return selected.slice(0, MAX_ITEMS);
 }
 
@@ -5361,7 +5543,7 @@ const PUBLIC_JOB_ITEM_FIELDS = new Set([
   'education', 'career', 'employmentType', 'recruitField', 'recruitNumber', 'deadline',
   'deadlineText', 'verifiedAt', 'publishedAt', 'publishedDate', 'firstSeenAt', 'firstSeenDate',
   'collectionAudit', 'fitScore', 'fitLabels', 'processTrack', 'processTrackName', 'writtenExam',
-  'processConfidence', 'processLabels', 'processNote', 'studentChannelAssessment', 'sector',
+  'processConfidence', 'processLabels', 'processNote', 'studentChannelAssessment', 'roleEligibility', 'studentPriority', 'sector',
   'sectorName', 'servicePriority', 'servicePolicyLabel', 'detailLevel', 'displayNote',
   'schoolRecommendation', 'status', 'legalCheckFlags', 'guideTags', 'trackName',
   'staleSourceFallback', 'url', 'originalUrl', 'sourceDetailUrl', 'detailText', 'contactAdvice',
@@ -5409,7 +5591,7 @@ function buildProtectedJobArtifacts(payload) {
     format: 'der',
     type: 'spki'
   });
-  const allItems = [...(payload.items || []), ...(payload.archiveItems || [])];
+  const allItems = [...(payload.items || []), ...(payload.supplementalItems || []), ...(payload.archiveItems || [])];
   const vaultItems = {};
   for (const item of allItems) {
     if (!item?.id || vaultItems[item.id]) continue;
@@ -5423,6 +5605,7 @@ function buildProtectedJobArtifacts(payload) {
       protectedFields: [],
       note: '공개 채용공고 원문 URL, 첨부자료, 취업부 브리핑은 jobs.html에서 바로 확인할 수 있도록 공개 피드에 포함합니다.'
     },
+    supplementalItems: (payload.supplementalItems || []).map(publicJobListItem),
     archiveItems: (payload.archiveItems || []).map(publicJobListItem),
     items: (payload.items || []).map(publicJobListItem)
   });
@@ -5604,7 +5787,7 @@ function normalizePublicationItem(item = {}) {
   return { item: next, repairs };
 }
 
-function applyPublicationSafetyGuards(items = [], archiveItems = []) {
+function applyPublicationSafetyGuards(items = [], archiveItems = [], supplementalItems = []) {
   const report = {
     policy: 'pre-publication-safety-guard-v1',
     generatedAt: CHECKED_AT,
@@ -5665,6 +5848,7 @@ function applyPublicationSafetyGuards(items = [], archiveItems = []) {
   return {
     items: guardList(items, 'items'),
     archiveItems: guardList(archiveItems, 'archiveItems'),
+    supplementalItems: guardList(supplementalItems, 'supplementalItems'),
     report
   };
 }
@@ -6041,7 +6225,7 @@ function publicJobKeep(item) {
   const hasStrongHighSchool = hasStrongHighSchoolSignal(item);
   const hasEntrySignal = hasEntryLevelSignal(item);
   const hasEducationOpen = hasEducationOpenSignal(item);
-  if (!hasStrongHighSchool && PROFESSIONAL_ONLY_TERMS.some((term) => text.includes(term))) return false;
+  if (!hasStrongHighSchool && !hasRoleLevelEligibilityException(item) && PROFESSIONAL_ONLY_TERMS.some((term) => text.includes(term))) return false;
   return hasPublicYouthTerm || hasEntrySignal || hasEducationOpen || (item.fitScore >= 28 && hasStrongHighSchool);
 }
 
@@ -7558,6 +7742,7 @@ function buildCollectionReview(items, sourceStatusList, criticalCoverage = build
 }
 
 async function main() {
+  validateRecruitRoleFixtures();
   const previousItems = await readPreviousItems();
   const results = await Promise.all([
     runSource('mpm-public-job', fetchMpmPublicJob),
@@ -7577,19 +7762,27 @@ async function main() {
   const allCurrentItems = dedupeAndSortAll([...freshItems, ...sourceFallbackItems]);
   const publishableCurrentItems = allCurrentItems.filter((item) => !item.studentChannelAssessment?.hardBlocked && shouldKeep(item));
   const currentItems = balanceTrackItems(publishableCurrentItems);
+  const currentItemIds = new Set(currentItems.map((item) => item.id));
+  const supplementalCurrentItems = publishableCurrentItems.filter((item) =>
+    !currentItemIds.has(item.id) && item.status !== 'application_closed');
   const displayItems = currentItems.length
     ? mergePreviousAudit(currentItems, previousItems)
     : fallbackPreviousItems(previousItems);
   const attachedItems = attachRegionalEducationVerificationSources(displayItems, regionalEducationVerificationItems);
+  const attachedSupplementalItems = attachRegionalEducationVerificationSources(
+    mergePreviousAudit(supplementalCurrentItems, previousItems),
+    regionalEducationVerificationItems
+  );
   const attachedArchiveItems = attachRegionalEducationVerificationSources(
     buildArchiveItems(mergePreviousAudit(allCurrentItems, previousItems), previousItems),
     regionalEducationVerificationItems
   );
-  const publicationSafety = applyPublicationSafetyGuards(attachedItems, attachedArchiveItems);
+  const publicationSafety = applyPublicationSafetyGuards(attachedItems, attachedArchiveItems, attachedSupplementalItems);
   const items = publicationSafety.items.map(normalizeLegacyProcessTrackCopy);
+  const supplementalItems = publicationSafety.supplementalItems.map(normalizeLegacyProcessTrackCopy);
   const archiveItems = publicationSafety.archiveItems.map(normalizeLegacyProcessTrackCopy);
   const previousZipDetailsByUrl = buildPreviousZipDetailsByUrl(previousItems);
-  const zipAttachmentSummary = await enhanceZipAttachmentsForItems([...items, ...archiveItems], previousZipDetailsByUrl);
+  const zipAttachmentSummary = await enhanceZipAttachmentsForItems([...items, ...supplementalItems, ...archiveItems], previousZipDetailsByUrl);
   const ollamaBriefing = await enhanceBriefingsWithOllama(items);
   const active = items.filter((item) => item.status === 'active').length;
   const deadlineSoon = items.filter((item) => item.status === 'deadline_soon').length;
@@ -7626,6 +7819,7 @@ async function main() {
     mode: 'official-public-recruit-auto-registration',
     summary: {
       total: items.length,
+      supplemental: supplementalItems.length,
       active,
       deadlineSoon,
       applicationClosed,
@@ -7722,6 +7916,7 @@ async function main() {
       }
     ],
     sourceStatus: sourceStatusList,
+    supplementalItems,
     archiveItems,
     items
   };

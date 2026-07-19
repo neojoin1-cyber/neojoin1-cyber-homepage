@@ -1582,6 +1582,16 @@ h3 {
   gap: 8px;
   margin-bottom: 10px;
 }
+.job-role-summary {
+  margin: 10px 0 0;
+  padding: 9px 12px;
+  border-left: 3px solid #2f7d71;
+  background: #f3faf8;
+  color: #294f49;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.job-role-summary b { margin-right: 6px; color: #155f54; }
 .btn.disabled {
   border-color: #d9e2ea;
   background: #f4f7fa;
