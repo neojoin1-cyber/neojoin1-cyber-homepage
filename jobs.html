@@ -12,12 +12,13 @@
   <meta property="og:url" content="https://gyo6.kr/jobs.html">
   <meta property="og:image" content="https://gyo6.kr/assets/platform-hero-vocational.png">
   <meta property="og:locale" content="ko_KR">
-  <style>@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=Noto+Serif+KR:wght@600;700&display=swap');</style>
+  <link rel="icon" type="image/jpeg" href="assets/thumb-brand-horizontal-sign.jpg">
+  <style>@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap');</style>
   <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
   <a class="skip" href="#main">본문 바로가기</a>
-  <header class="topbar">
+  <header class="site-header">
     <nav class="nav" aria-label="주요 메뉴">
       <a class="brand" href="index.html">
         <strong>설탕과소금</strong>
@@ -25,40 +26,39 @@
       </a>
       <div class="navlinks">
         <a href="business.html">사업영역</a>
+        <a href="exams.html">핵심노트·모의고사</a>
         <a class="active" href="vocational.html">특성화고 플랫폼</a>
-        <a href="ebooks.html">전자책</a>
+        <a href="apps.html">앱·서비스</a>
         <a href="host.html">30년 특성화고</a>
-        <a href="boards.html">게시판</a>
-        <a href="contact.html">문의</a>
+        <a href="boards.html">소식·문의</a>
       </div>
     </nav>
   </header>
 
   <main id="main">
-    <section class="hero page-hero compact-hero">
+    <section class="lean-hero">
       <div class="wrap">
-        <div class="domain">채용정보</div>
-        <h1>특성화고·마이스터고 채용정보</h1>
-        <p class="lead">공공기관, 공무원, 금융권, 대기업 공채와 학생에게 의미 있는 채용공고를 공식 공고문·첨부서류와 함께 확인합니다.</p>
+        <div class="eyebrow">Vocational Platform · Jobs</div>
+        <h1 class="page-title">채용정보</h1>
+        <p class="page-summary">특성화고 공채와 공식 첨부서류를 한 번에.</p>
         <div class="job-hero-strip" id="feed-summary">
           <span>전체 <b>95</b>건</span>
           <span>진행 <b>56</b>건</span>
           <span>마감임박 <b>23</b>건</span>
           <span>하루 <b>3회</b> 자동수집</span>
         </div>
-        <div class="actions compact-actions">
+        <div class="actions">
           <a class="btn primary" href="#feed-list">공고 바로 보기</a>
-          <a class="btn" href="vocational.html">플랫폼 페이지로 돌아가기</a>
-          <a class="btn" href="resources.html">상담자료실 안내</a>
+          <a class="btn" href="vocational.html">플랫폼 홈</a>
         </div>
       </div>
     </section>
 
-    <section>
+    <section class="lean-section">
       <div class="wrap jobs-wrap">
-        <div class="eyebrow">채용공고 목록</div>
+        <div class="eyebrow">Recruit List</div>
         <h2 id="feed-heading">전체 채용공고</h2>
-        <p class="lead" id="feed-note">최신 피드를 불러오는 중입니다. 제목을 누르면 취업부 브리핑, 공식 공고문, 첨부서류를 한 번에 확인할 수 있습니다.</p>
+        <p class="muted" id="feed-note">제목을 누르면 요약, 공식 공고, 첨부서류가 열립니다.</p>
         <div class="job-toolbar" aria-label="채용공고 정렬과 검색">
           <div class="job-sort-tabs" role="group" aria-label="정렬 방식">
             <button class="sort-tab active" type="button" data-sort-mode="new">신규 공고순</button>
@@ -97,12 +97,7 @@
     </div>
   </main>
 
-  <footer class="footer">
-    <div class="wrap">
-      <strong>설탕과소금</strong>
-      <div>gyo6.kr · 교육.한국 · 대한민국 교육격차 해소를 위해 노력하는 기업</div>
-    </div>
-  </footer>
+  <footer class="lean-footer"><div class="wrap lean-footer-grid"><div><strong>설탕과소금</strong><div>특성화고 플랫폼 · 채용정보</div></div><div class="footer-links"><a href="vocational.html">플랫폼 홈</a><a href="resources.html">상담자료실</a><a href="ebooks.html">전자책</a><a href="boards.html">소식·문의</a></div></div></footer>
 
   <script>
     const summaryEl = document.getElementById("feed-summary");
