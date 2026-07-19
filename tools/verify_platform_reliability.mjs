@@ -575,8 +575,8 @@ async function validateJobFetcherRules() {
   fail('fetcher.isolated-audit-output', fetcher.includes('JOB_FEED_OUTPUT_DIR') && fetcher.includes('const OUTPUT_DIR'), '운영 피드를 덮어쓰지 않는 분리 출력 경로에서 수집기를 실운전 검증할 수 있습니다.');
   fail('fetcher.role-level-eligibility', fetcher.includes('function assessRecruitRoles') && fetcher.includes('eligibleRoles') && fetcher.includes('reviewRoles') && fetcher.includes('excludedRoles') && fetcher.includes('validateRecruitRoleFixtures'), '혼합 채용공고를 직렬별로 나눠 학생 지원 가능·확인 필요·제외 직렬을 판정하고 고정 사례로 검증합니다.');
   fail('fetcher.student-priority-ranking', fetcher.includes('function studentRecruitPriority') && fetcher.includes('특성화고·고교 졸업예정자 특별추천') && fetcher.includes('병역 미필 지원 가능 · 우선추천') && fetcher.includes('병역필·면제 조건 · 졸업예정자 제한') && fetcher.includes('studentPriority?.tier'), '졸업예정자 명시 공고와 병역 미필 지원 가능 공고를 먼저, 병역필·면제 제한 공고를 뒤에 정렬합니다.');
-  fail('fetcher.local-ollama-runner', localRunner.includes('OLLAMA_REQUIRED = "1"') && localRunner.includes('qwen3:4b-instruct') && localRunner.includes('JOB_FEED_ZIP_CACHE_ENABLED = "0"') && localRunner.includes('tools\\verify_platform_reliability.mjs') && localRunner.includes('git push origin HEAD:main'), 'PC가 켜져 있으면 로컬 Ollama로 수집·검증·운영 반영하고 Windows에서는 공식 ZIP 링크와 기존 캐시를 안전하게 유지합니다.');
-  fail('fetcher.local-ollama-schedule', localTaskInstaller.includes('09:10') && localTaskInstaller.includes('14:10') && localTaskInstaller.includes('23:10') && localTaskInstaller.includes('StartWhenAvailable'), '로컬 Ollama 채용 수집을 하루 3회 실행하고 놓친 실행을 PC 가동 후 보완합니다.');
+  fail('fetcher.local-official-runner', localRunner.includes('JOB_FEED_AI_DISABLED = "1"') && localRunner.includes('official-source-rules') && localRunner.includes('JOB_FEED_ZIP_CACHE_ENABLED = "0"') && localRunner.includes('tools\\verify_platform_reliability.mjs') && localRunner.includes('git push origin HEAD:main'), 'PC 수집기는 AI 없이 공식 원문 규칙으로 수집·검증·운영 반영하고 Windows에서는 공식 ZIP 링크와 기존 캐시를 안전하게 유지합니다.');
+  fail('fetcher.local-official-schedule', localTaskInstaller.includes('GYO6-Job-Feed') && localTaskInstaller.includes('09:10') && localTaskInstaller.includes('14:10') && localTaskInstaller.includes('23:10') && localTaskInstaller.includes('StartWhenAvailable'), '공식 원문 채용 수집을 하루 3회 실행하고 놓친 실행을 PC 가동 후 보완합니다.');
 }
 
 async function validateHomepage() {
@@ -647,16 +647,12 @@ function validateFeed(feed, label = 'local') {
   const protectedDetailFeed = feed.detailAccess?.policy === 'approved-member-api';
   const publicBriefingFeed = feed.detailAccess?.policy === 'public-feed-briefing';
   const aiBriefing = feed.aiBriefing || {};
-  const ollamaRequired = process.env.OLLAMA_REQUIRED === '1';
 
   fail(`${label}.feed.version`, feed.version === 4, `${label} 피드 버전이 4입니다.`);
   fail(`${label}.feed.items-array`, Array.isArray(feed.items), `${label} 피드 items 배열이 존재합니다.`);
   fail(`${label}.feed.member-detail-policy`, protectedDetailFeed || publicBriefingFeed, `${label} 공개 피드는 승인 회원 API 또는 공개 브리핑 정책을 명시합니다.`);
-  fail(`${label}.feed.ollama-policy`, !ollamaRequired || /Ollama/.test(String(feed.collectionPolicy?.ollamaBriefingRule || '')), `${label} 하루 3회 자동 수집의 Ollama 브리핑 정책이 기록됩니다.`);
-  const ollamaAttempted = Number(aiBriefing.attempted || 0);
-  const ollamaSucceeded = Number(aiBriefing.succeeded || 0);
-  const ollamaMinimumSuccess = Math.max(1, Math.ceil(ollamaAttempted / 2));
-  fail(`${label}.feed.ollama-required`, !ollamaRequired || (aiBriefing.engine === 'ollama' && ollamaSucceeded >= ollamaMinimumSuccess), `${label} OLLAMA_REQUIRED=1이면 Ollama 브리핑의 과반이 성공해야 합니다.`, JSON.stringify(aiBriefing));
+  fail(`${label}.feed.official-briefing-policy`, /공식 원문/.test(String(feed.collectionPolicy?.briefingRule || '')), `${label} 하루 3회 공식 원문 규칙 브리핑 정책이 기록됩니다.`);
+  fail(`${label}.feed.official-briefing-engine`, aiBriefing.engine === 'official-source-rules', `${label} 브리핑 엔진이 외부 AI 없이 공식 원문 규칙으로 동작합니다.`, JSON.stringify(aiBriefing));
   fail(`${label}.feed.non-empty`, items.length > 0, `${label} 피드에 자동 등록 후보가 있습니다.`, `${items.length}건`);
   fail(`${label}.feed.total-count`, summary.total === items.length, `${label} summary.total이 items 수와 일치합니다.`, `${summary.total} / ${items.length}`);
   fail(`${label}.feed.sources-count`, sourceStatus.length === summary.sourcesChecked, `${label} sourceStatus 수와 sourcesChecked가 일치합니다.`, `${sourceStatus.length} / ${summary.sourcesChecked}`);
@@ -731,7 +727,7 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.summary.stale-count`, summary.staleFallbackItems === staleCount, `${label} 임시 보존 공고 카운터가 실제 항목과 일치합니다.`, `${summary.staleFallbackItems} / ${staleCount}`);
   fail(`${label}.summary.source-fallback-count`, (summary.sourceFallbackProtected || 0) === sourceFallbackCount, `${label} 실패 소스 보존 공고 카운터가 실제 항목과 일치합니다.`, `${summary.sourceFallbackProtected || 0} / ${sourceFallbackCount}`);
   fail(`${label}.summary.briefing-count`, protectedDetailFeed || summary.briefingReady === briefingCount, `${label} 취업부 브리핑 카운터가 일치하거나 회원 전용 상세로 보호됩니다.`, `${summary.briefingReady} / ${briefingCount}`);
-  fail(`${label}.summary.ollama-count`, !aiBriefing.enabled || Number(summary.ollamaBriefingReady || 0) === Number(aiBriefing.succeeded || 0), `${label} Ollama 브리핑 카운터가 실행 결과와 일치합니다.`, `${summary.ollamaBriefingReady || 0} / ${aiBriefing.succeeded || 0}`);
+  fail(`${label}.summary.automated-briefing-count`, Number(summary.automatedBriefingReady || 0) === Number(aiBriefing.succeeded || 0), `${label} 공식 원문 자동 브리핑 카운터가 실행 결과와 일치합니다.`, `${summary.automatedBriefingReady || 0} / ${aiBriefing.succeeded || 0}`);
 
   const itemProblems = [];
   const negativeLag = [];

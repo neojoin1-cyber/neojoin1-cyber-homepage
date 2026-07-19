@@ -54,13 +54,6 @@ const ZIP_ATTACHMENT_CONCURRENCY = 3;
 const ZIP_ATTACHMENT_MAX_BYTES = 16 * 1024 * 1024;
 const ZIP_ATTACHMENT_EXTRACT_MAX_BYTES = 16 * 1024 * 1024;
 const ZIP_ATTACHMENT_MAX_ENTRIES = 160;
-const OLLAMA_ENABLED = process.env.OLLAMA_ENABLED !== '0' && (process.env.OLLAMA_ENABLED === '1' || process.env.OLLAMA_REQUIRED === '1' || Boolean(process.env.OLLAMA_BASE_URL));
-const OLLAMA_REQUIRED = process.env.OLLAMA_REQUIRED === '1';
-const OLLAMA_BASE_URL = (process.env.OLLAMA_BASE_URL || 'http://127.0.0.1:11434').replace(/\/+$/, '');
-const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'qwen2.5:0.5b';
-const OLLAMA_TIMEOUT_MS = Number(process.env.OLLAMA_TIMEOUT_MS || 60000);
-const OLLAMA_BATCH_SIZE = Math.max(1, Number(process.env.OLLAMA_BATCH_SIZE || 1));
-const OLLAMA_MAX_ITEMS = Math.max(0, Number(process.env.OLLAMA_MAX_ITEMS || 6));
 const DEFAULT_FETCH_HEADERS = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125 Safari/537.36',
   Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,application/json;q=0.8,*/*;q=0.7',
@@ -4604,179 +4597,38 @@ function buildRecruitBriefing(context) {
   };
 }
 
-function buildOllamaPrompt(items) {
-  const rows = items.map((item) => ({
-    id: item.id,
-    company: item.company,
-    title: item.title,
-    deadline: item.deadlineText || item.deadline,
-    education: item.education,
-    employmentType: item.employmentType,
-    field: item.recruitField,
-    process: shortText(item.publicRecruitDetails?.process || item.processNote || '', '', 180),
-    detail: shortText(item.detailText || item.summary || '', '', 500),
-    attachments: Array.isArray(item.attachments) ? item.attachments.map((file) => file.title).slice(0, 3) : []
-  }));
-  return [
-    '너는 특성화고 취업담당교사를 돕는 채용공고 요약 엔진이다.',
-    '아래 공식 채용공고 데이터만 근거로 사용하고, 없는 내용은 추측하지 말고 "원문 확인"이라고 써라.',
-    '각 값은 60자 안팎의 짧은 한국어로 작성하고 JSON만 반환하라.',
-    '반드시 다음 스키마의 JSON 객체만 출력한다:',
-    '{"items":[{"id":"...","summary":"한 문장 요약","schoolCheck":"학교에서 확인할 핵심","studentPrep":"학생 준비 핵심","risk":"주의할 점 또는 원문 확인"}]}',
-    '',
-    JSON.stringify(rows)
-  ].join('\n');
-}
-
-async function generateOllamaBatch(items) {
-  const body = await fetchWithTimeout(`${OLLAMA_BASE_URL}/api/generate`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    timeoutMs: OLLAMA_TIMEOUT_MS,
-    body: JSON.stringify({
-      model: OLLAMA_MODEL,
-      stream: false,
-      format: 'json',
-      prompt: buildOllamaPrompt(items),
-      options: {
-        temperature: 0.1,
-        top_p: 0.8,
-        num_predict: 420
-      }
-    })
-  });
-  const payload = JSON.parse(body);
-  const raw = normalizeSpace(payload.response || '');
-  let parsed;
-  try {
-    parsed = JSON.parse(raw);
-  } catch {
-    if (items.length !== 1 || !raw) throw new Error('Ollama returned malformed JSON');
-    return new Map([[
-      items[0].id,
-      {
-        id: items[0].id,
-        summary: shortText(raw, 'Ollama 보강 응답 형식 오류로 원문 확인이 필요합니다.', 140),
-        schoolCheck: '공식 공고 원문과 첨부서류를 우선 확인',
-        studentPrep: '지원자격, 마감, 제출서류를 원문 기준으로 확인',
-        risk: 'Ollama 응답 형식 오류로 세부사항은 원문 확인'
-      }
-    ]]);
-  }
-  const list = Array.isArray(parsed.items) ? parsed.items : [];
-  return new Map(list.map((item) => [normalizeSpace(item.id), item]));
-}
-
-function applyOllamaBriefing(item, assist) {
-  const summary = shortText(assist.summary, '', 180);
-  const schoolCheck = shortText(assist.schoolCheck, '', 180);
-  const studentPrep = shortText(assist.studentPrep, '', 180);
-  const risk = shortText(assist.risk, '', 180);
-  if (!summary && !schoolCheck && !studentPrep && !risk) return false;
-
-  const briefing = item.teacherBriefing || {};
-  const sourceLines = compactTags([
-    ...(Array.isArray(briefing.sourceLines) ? briefing.sourceLines : []),
-    `Ollama 보강: ${OLLAMA_MODEL}`
-  ]);
-  const summaryLines = compactTags([
-    ...(Array.isArray(briefing.summaryLines) ? briefing.summaryLines : []),
-    summary ? `Ollama 요약: ${summary}` : ''
-  ]);
-  const schoolActionItems = compactTags([
-    ...(Array.isArray(briefing.schoolActionItems) ? briefing.schoolActionItems : []),
-    schoolCheck ? `Ollama 학교 체크: ${schoolCheck}` : '',
-    risk ? `Ollama 주의: ${risk}` : ''
-  ]);
-  const studentActionItems = compactTags([
-    ...(Array.isArray(briefing.studentActionItems) ? briefing.studentActionItems : []),
-    studentPrep ? `Ollama 학생 준비: ${studentPrep}` : ''
-  ]);
-  const schoolCheckSections = [
-    ...(Array.isArray(briefing.schoolCheckSections) ? briefing.schoolCheckSections : []),
-    ...(schoolCheck ? [{ title: 'Ollama 보강 체크', text: schoolCheck }] : []),
-    ...(risk ? [{ title: 'Ollama 원문 확인', text: risk }] : [])
-  ].slice(0, 6);
-
-  item.teacherBriefing = {
-    ...briefing,
-    generator: 'official-source-briefing-v1+ollama',
-    sourceLines,
-    summaryLines,
-    schoolActionItems,
-    studentActionItems,
-    schoolCheckSections,
-    teacherShareText: compactTags([
-      briefing.teacherShareText || '',
-      '',
-      '[Ollama 보강]',
-      summary ? `- 요약: ${summary}` : '',
-      schoolCheck ? `- 학교 체크: ${schoolCheck}` : '',
-      studentPrep ? `- 학생 준비: ${studentPrep}` : '',
-      risk ? `- 원문 확인: ${risk}` : ''
-    ]).join('\n'),
-    ollamaAssist: {
-      engine: 'ollama',
-      model: OLLAMA_MODEL,
-      generatedAt: CHECKED_AT,
-      summary,
-      schoolCheck,
-      studentPrep,
-      risk
-    }
-  };
-  return true;
-}
-
-async function enhanceBriefingsWithOllama(items) {
-  const base = {
-    enabled: OLLAMA_ENABLED,
-    required: OLLAMA_REQUIRED,
-    engine: 'ollama',
-    model: OLLAMA_MODEL,
-    baseUrl: OLLAMA_BASE_URL,
-    generatedAt: CHECKED_AT,
-    attempted: 0,
-    succeeded: 0,
-    failed: 0,
-    batches: 0,
-    errors: []
-  };
-  if (!OLLAMA_ENABLED) return { ...base, status: 'disabled' };
-
-  const targets = items
-    .filter((item) => item?.id && item.teacherBriefing?.teacherShareText)
-    .slice(0, OLLAMA_MAX_ITEMS || items.length);
-  base.attempted = targets.length;
-
-  for (let index = 0; index < targets.length; index += OLLAMA_BATCH_SIZE) {
-    const batch = targets.slice(index, index + OLLAMA_BATCH_SIZE);
-    base.batches += 1;
-    try {
-      const generated = await generateOllamaBatch(batch);
-      for (const item of batch) {
-        const assist = generated.get(item.id);
-        if (assist && applyOllamaBriefing(item, assist)) base.succeeded += 1;
-        else base.failed += 1;
-      }
-    } catch (error) {
-      base.failed += batch.length;
-      base.errors.push(sanitizedErrorMessage(error));
-      if (OLLAMA_REQUIRED) break;
-    }
-  }
-
-  const status = base.succeeded > 0 && base.failed === 0
-    ? 'ok'
-    : base.succeeded > 0 ? 'degraded' : 'failed';
-  if (OLLAMA_REQUIRED && status === 'failed') {
-    throw new Error(`Ollama briefing required but failed: ${base.errors.slice(0, 3).join(' | ') || 'unknown error'}`);
-  }
+function officialSourceBriefingStatus(items) {
   return {
-    ...base,
-    status,
-    errors: base.errors.slice(0, 8)
+    enabled: true,
+    required: true,
+    engine: 'official-source-rules',
+    generatedAt: CHECKED_AT,
+    attempted: items.length,
+    succeeded: items.filter((item) => item.teacherBriefing?.teacherShareText).length,
+    failed: items.filter((item) => !item.teacherBriefing?.teacherShareText).length,
+    status: 'ok'
   };
+}
+
+function removeLegacyAiBriefing(item = {}) {
+  const briefing = item.teacherBriefing;
+  if (!briefing) return item;
+  const cleanLines = (values) => (Array.isArray(values) ? values.filter((value) => !/Ollama/i.test(String(value))) : values);
+  const cleaned = {
+    ...briefing,
+    generator: 'official-source-briefing-v1',
+    sourceLines: cleanLines(briefing.sourceLines),
+    summaryLines: cleanLines(briefing.summaryLines),
+    schoolActionItems: cleanLines(briefing.schoolActionItems),
+    studentActionItems: cleanLines(briefing.studentActionItems),
+    schoolCheckSections: Array.isArray(briefing.schoolCheckSections)
+      ? briefing.schoolCheckSections.filter((section) => !/Ollama/i.test(`${section?.title || ''} ${section?.text || ''}`))
+      : briefing.schoolCheckSections,
+    teacherShareText: String(briefing.teacherShareText || '').split(/\n\[Ollama 보강\]\n?/i)[0].trim()
+  };
+  delete cleaned.ollamaAssist;
+  item.teacherBriefing = cleaned;
+  return item;
 }
 
 function buildCollectionAudit(raw, publishedDate, firstSeenAt = CHECKED_AT) {
@@ -5964,9 +5816,9 @@ function buildFeedHealth(payload, safetyReport = null, statusOverride = '') {
       publicationBlocked: safetyReport?.blockedCount || 0,
       publicationRepaired: safetyReport?.repairedCount || 0,
       studentRecruitSafetyReview: safetyReport?.studentRecruitReviewCount || 0,
-      ollamaBriefingReady: summary.ollamaBriefingReady || 0,
-      ollamaBriefingAttempted: summary.ollamaBriefingAttempted || 0,
-      ollamaBriefingFailed: summary.ollamaBriefingFailed || 0
+      automatedBriefingReady: summary.automatedBriefingReady || 0,
+      automatedBriefingAttempted: summary.automatedBriefingAttempted || 0,
+      automatedBriefingFailed: summary.automatedBriefingFailed || 0
     },
     sourceFailures: failedConfiguredSources.map((source) => ({
       id: source.id,
@@ -7860,12 +7712,12 @@ async function main() {
     regionalEducationVerificationItems
   );
   const publicationSafety = applyPublicationSafetyGuards(attachedItems, attachedArchiveItems, attachedSupplementalItems);
-  const items = publicationSafety.items.map(normalizeLegacyProcessTrackCopy);
-  const supplementalItems = publicationSafety.supplementalItems.map(normalizeLegacyProcessTrackCopy);
-  const archiveItems = publicationSafety.archiveItems.map(normalizeLegacyProcessTrackCopy);
+  const items = publicationSafety.items.map(normalizeLegacyProcessTrackCopy).map(removeLegacyAiBriefing);
+  const supplementalItems = publicationSafety.supplementalItems.map(normalizeLegacyProcessTrackCopy).map(removeLegacyAiBriefing);
+  const archiveItems = publicationSafety.archiveItems.map(normalizeLegacyProcessTrackCopy).map(removeLegacyAiBriefing);
   const previousZipDetailsByUrl = buildPreviousZipDetailsByUrl(previousItems);
   const zipAttachmentSummary = await enhanceZipAttachmentsForItems([...items, ...supplementalItems, ...archiveItems], previousZipDetailsByUrl);
-  const ollamaBriefing = await enhanceBriefingsWithOllama(items);
+  const briefingAutomation = officialSourceBriefingStatus(items);
   const active = items.filter((item) => item.status === 'active').length;
   const deadlineSoon = items.filter((item) => item.status === 'deadline_soon').length;
   const applicationClosed = items.filter((item) => item.status === 'application_closed').length;
@@ -7916,9 +7768,9 @@ async function main() {
       regionalEducationDirectDisplayed: 0,
       briefDirect,
       briefingReady,
-      ollamaBriefingReady: ollamaBriefing.succeeded,
-      ollamaBriefingAttempted: ollamaBriefing.attempted,
-      ollamaBriefingFailed: ollamaBriefing.failed,
+      automatedBriefingReady: briefingAutomation.succeeded,
+      automatedBriefingAttempted: briefingAutomation.attempted,
+      automatedBriefingFailed: briefingAutomation.failed,
       firstDayCollected,
       lateDetected,
       missedReviewNeeded,
@@ -7946,7 +7798,7 @@ async function main() {
         : '공식 API 키가 아직 연결되지 않아 자동 수집 대기 상태입니다.'
     },
     publicationSafety: publicationSafety.report,
-    aiBriefing: ollamaBriefing,
+    aiBriefing: briefingAutomation,
     collectionReview,
     secretReadiness,
     collectionPolicy: {
@@ -7983,7 +7835,7 @@ async function main() {
       zipAttachmentRule: 'ZIP 첨부는 자동 수집 단계에서 내부 파일을 정적 첨부 사본으로 추출해 archiveEntries[].url로 보관하고, 추출 링크가 이미 있으면 직전 정상 링크를 우선 재사용해 화면에서는 원본 ZIP 아래에 파일별 열기 링크를 표시한다.',
       seoulHighJobScanPages: SEOUL_HIGHJOB_SCAN_PAGES,
       primarySourceRule: '회사·기관 자체 홈페이지 또는 채용대행 공식 공고를 최우선 원문으로 사용하고, 잡알리오·고용24·사람인 등은 보완 출처로 사용한다.',
-      ollamaBriefingRule: '하루 3회 자동 수집 실행에서 Ollama가 공식 원문 기반 취업부 브리핑을 보강한다. OLLAMA_REQUIRED=1이면 Ollama 연결 실패 시 공개 피드 게시를 중단한다.'
+      briefingRule: '하루 3회 공식 원문과 구조화 규칙만으로 취업부 브리핑을 생성하며 외부 AI 실행 여부가 수집·게시를 차단하지 않는다.'
     },
     tracks: [
       {

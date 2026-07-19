@@ -1,7 +1,6 @@
 param(
   [string]$RunnerRoot = "D:\apps\meister-platform\.job-feed-local-runner",
-  [string]$RemoteUrl = "https://github.com/neojoin1-cyber/neojoin1-cyber-homepage.git",
-  [string]$OllamaModel = "qwen3:4b-instruct"
+  [string]$RemoteUrl = "https://github.com/neojoin1-cyber/neojoin1-cyber-homepage.git"
 )
 
 $ErrorActionPreference = "Stop"
@@ -70,38 +69,23 @@ try {
 }
 
 try {
-  Write-RunnerStatus -State "running" -Message "Local Ollama job-feed collection started."
-  $tags = Invoke-RestMethod -UseBasicParsing -Uri "http://127.0.0.1:11434/api/tags" -TimeoutSec 10
-  $availableModels = @($tags.models | ForEach-Object { $_.name })
-  if ($availableModels -notcontains $OllamaModel) {
-    throw "Required Ollama model is unavailable: $OllamaModel"
-  }
-  Write-RunnerLog "Ollama ready: $OllamaModel"
+  Write-RunnerStatus -State "running" -Message "Official-source job-feed collection started."
 
   Invoke-Checked -Command "git" -Arguments @("clone", "--depth", "1", "--branch", "main", $RemoteUrl, $runDir)
   Push-Location $runDir
   try {
-    $env:OLLAMA_ENABLED = "1"
-    $env:OLLAMA_REQUIRED = "1"
-    $env:OLLAMA_MODEL = $OllamaModel
-    $env:OLLAMA_BASE_URL = "http://127.0.0.1:11434"
-    $env:OLLAMA_BATCH_SIZE = "1"
-    $env:OLLAMA_MAX_ITEMS = "6"
-    $env:OLLAMA_TIMEOUT_MS = "120000"
+    $env:JOB_FEED_AI_DISABLED = "1"
     $env:JOB_FEED_ZIP_CACHE_ENABLED = "0"
 
     Invoke-Checked -Command "node" -Arguments @("--check", "tools\fetch_vocational_jobs.mjs")
     Invoke-Checked -Command "node" -Arguments @("tools\fetch_vocational_jobs.mjs")
     Invoke-Checked -Command "node" -Arguments @("tools\verify_platform_reliability.mjs")
 
-    $feedSummaryJson = & node -e "const fs=require('fs');const f=JSON.parse(fs.readFileSync('assets/job-feed.json','utf8'));process.stdout.write(JSON.stringify({generatedAt:f.generatedAt,defaultItems:(f.items||[]).length,supplementalItems:(f.supplementalItems||[]).length,aiEngine:f.aiBriefing?.engine||'',ollamaAttempted:Number(f.aiBriefing?.attempted||0),ollamaSucceeded:Number(f.aiBriefing?.succeeded||0)}));"
+    $feedSummaryJson = & node -e "const fs=require('fs');const f=JSON.parse(fs.readFileSync('assets/job-feed.json','utf8'));process.stdout.write(JSON.stringify({generatedAt:f.generatedAt,defaultItems:(f.items||[]).length,supplementalItems:(f.supplementalItems||[]).length,briefingEngine:f.aiBriefing?.engine||''}));"
     if ($LASTEXITCODE -ne 0) { throw "Unable to read generated job-feed summary." }
     $feedSummary = $feedSummaryJson | ConvertFrom-Json
-    $ollamaAttempted = [int]$feedSummary.ollamaAttempted
-    $ollamaSucceeded = [int]$feedSummary.ollamaSucceeded
-    $ollamaMinimumSuccess = [Math]::Max(1, [Math]::Ceiling($ollamaAttempted / 2))
-    if ($feedSummary.aiEngine -ne "ollama" -or $ollamaSucceeded -lt $ollamaMinimumSuccess) {
-      throw "Ollama briefing gate failed."
+    if ($feedSummary.briefingEngine -ne "official-source-rules") {
+      throw "Official-source briefing gate failed."
     }
 
     Invoke-Checked -Command "git" -Arguments @("add", "assets/job-feed.json", "assets/job-detail-vault.json", "assets/job-feed-health.json")
@@ -115,7 +99,7 @@ try {
     if ($pending.Trim()) {
       Invoke-Checked -Command "git" -Arguments @("config", "user.name", "gyo6-local-job-feed")
       Invoke-Checked -Command "git" -Arguments @("config", "user.email", "admin@gyo6.kr")
-      Invoke-Checked -Command "git" -Arguments @("commit", "-m", "Update vocational job feed (local Ollama)")
+      Invoke-Checked -Command "git" -Arguments @("commit", "-m", "Update vocational job feed")
       $pushed = $false
       for ($attempt = 1; $attempt -le 3; $attempt++) {
         $previousErrorAction = $ErrorActionPreference
@@ -137,12 +121,12 @@ try {
     }
 
     $commit = (& git rev-parse HEAD).Trim()
-    Write-RunnerStatus -State "success" -Message "Local Ollama job feed published." -Extra @{
+    Write-RunnerStatus -State "success" -Message "Official-source job feed published." -Extra @{
       commit = $commit
       generatedAt = $feedSummary.generatedAt
       defaultItems = [int]$feedSummary.defaultItems
       supplementalItems = [int]$feedSummary.supplementalItems
-      ollamaSucceeded = $ollamaSucceeded
+      briefingEngine = $feedSummary.briefingEngine
     }
     Write-RunnerLog "SUCCESS commit=$commit default=$($feedSummary.defaultItems) supplemental=$($feedSummary.supplementalItems)"
   } finally {

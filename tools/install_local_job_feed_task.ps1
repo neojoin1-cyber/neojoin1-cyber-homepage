@@ -1,5 +1,5 @@
 param(
-  [string]$TaskName = "GYO6-Local-Ollama-Job-Feed",
+  [string]$TaskName = "GYO6-Job-Feed",
   [string]$RunnerRoot = "D:\apps\meister-platform\.job-feed-local-runner"
 )
 
@@ -26,7 +26,7 @@ $triggers = @(
 $settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -ExecutionTimeLimit (New-TimeSpan -Minutes 45)
 $userId = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
 $principal = New-ScheduledTaskPrincipal -UserId $userId -LogonType Interactive -RunLevel Limited
-$task = New-ScheduledTask -Action $action -Trigger $triggers -Settings $settings -Principal $principal -Description "GYO6 vocational job feed collection with the PC's local Ollama at 09:10, 14:10, and 23:10 KST."
+$task = New-ScheduledTask -Action $action -Trigger $triggers -Settings $settings -Principal $principal -Description "GYO6 official-source vocational job feed collection at 09:10, 14:10, and 23:10 KST."
 
 Register-ScheduledTask -TaskName $TaskName -InputObject $task -Force | Out-Null
 Get-ScheduledTask -TaskName $TaskName | Select-Object TaskName,State,@{N="Triggers";E={$_.Triggers.StartBoundary -join " | "}}
