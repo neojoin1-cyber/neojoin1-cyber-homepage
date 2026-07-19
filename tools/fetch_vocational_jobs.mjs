@@ -1073,6 +1073,7 @@ const HIGH_SCHOOL_ELIGIBLE_PATTERN = /(학력\s*[:：]?\s*(?:무관|제한\s*없
 const DEGREE_ONLY_APPLICANT_PATTERN = /(전문학사|대졸|학사\s*(?:이상|학위|졸업)|석사|박사)/;
 const DEGREE_PREFERENCE_PATTERN = /(우대|가점|우대조건|우대사항|우대함).{0,32}(전문학사|대졸|학사|석사|박사)|(전문학사|대졸|학사|석사|박사).{0,32}(우대|가점|우대조건|우대사항|우대함)/;
 const MIXED_HIGH_SCHOOL_RECRUIT_PATTERN = /(대졸\s*수준\s*(?:및|·|,|\/|와|과)\s*고졸\s*수준|고졸\s*수준\s*(?:및|·|,|\/|와|과)\s*대졸\s*수준|고졸\s*(?:전형|채용|구분|직군|직렬)|고등학교\s*졸업(?:예정)?자?\s*(?:지원|응시)\s*가능)/;
+const EXPLICIT_HIGH_SCHOOL_GRADUATE_CANDIDATE_PATTERN = /(?:(?:특성화고|직업계고|마이스터고|고등학교|고교)(?:등학교)?\s*(?:재학생|졸업\s*예정(?:자)?|졸업예정(?:자)?|졸업자\s*및\s*졸업\s*예정자)|고졸\s*(?:예정자|졸업\s*예정자)).{0,40}(?:채용|모집|지원|응시|전형|추천)|(?:채용|모집|지원|응시|전형|추천).{0,40}(?:(?:특성화고|직업계고|마이스터고|고등학교|고교)(?:등학교)?\s*(?:재학생|졸업\s*예정(?:자)?|졸업예정(?:자)?)|고졸\s*(?:예정자|졸업\s*예정자))/;
 const MILITARY_SERVICE_COMPLETION_PATTERN = /(남성|남자|지원자|응시자).{0,40}(병역\s*(?:필|필한|필하였|마친|완료)|병역필|군필|전역자|면제자)|(병역\s*(?:필|필한|필하였|마친|완료)|병역필|군필|전역자|면제자).{0,40}(남성|남자|지원자|응시자)|병역필\s*또는\s*면제|병역을\s*마쳤거나\s*면제/;
 const MILITARY_NO_LIMIT_PATTERN = /(병역(?:법)?.{0,34}(?:기피|불이행)\s*사실(?:이)?\s*없는\s*자|병역의무를\s*기피한\s*사실이\s*없는\s*자|현역(?:은|의\s*경우)?.{0,36}입사(?:예정)?일.{0,24}(?:전역|제대)\s*가능|고졸(?:자|예정자)?.{0,30}병역.{0,20}제한\s*없음)/;
 const STUDENT_UNSUITABLE_RECRUIT_PATTERN = /(급식|취사|조리\s*실무사|조리\s*종사원|조리원|조리사|배식|요양보호(?:사|직)?|병동\s*간호조무|간호조무사|응급구조사|미화|청소|경비원|경비|주차|보안직|환경관리|수익시설)/;
@@ -3454,6 +3455,14 @@ function hasMilitaryServiceCompletionRequirement(value) {
   return MILITARY_SERVICE_COMPLETION_PATTERN.test(text);
 }
 
+function hasMilitaryNoLimitSignal(value) {
+  return MILITARY_NO_LIMIT_PATTERN.test(normalizeSpace(value));
+}
+
+function hasExplicitHighSchoolGraduateCandidateSignal(value) {
+  return EXPLICIT_HIGH_SCHOOL_GRADUATE_CANDIDATE_PATTERN.test(normalizeSpace(value));
+}
+
 function recruitRoleSourceText(raw = {}) {
   const title = normalizeSpace(raw.title || raw.baseTitle);
   const firstParen = title.indexOf('(');
@@ -3587,7 +3596,9 @@ function buildStudentChannelAssessment(raw, process) {
   const collegeOnly = hasCollegeOnlyApplicantSignal(text) && !roleLevelException;
   const professionalOnly = hasStudentUnsuitableProfessionalRole(text) && !roleLevelException;
   const recommendationMismatch = hasStudentUnsuitableRecruitSignal(text) && !roleLevelException;
-  const militaryCompletionRequired = hasMilitaryServiceCompletionRequirement(text);
+  const militaryNoLimit = hasMilitaryNoLimitSignal(verifiedText);
+  const militaryCompletionRequired = !militaryNoLimit && hasMilitaryServiceCompletionRequirement(text);
+  const explicitHighSchoolGraduateCandidate = hasExplicitHighSchoolGraduateCandidateSignal(verifiedText);
   const advancedRoleMismatch = ADVANCED_ROLE_WITHOUT_HIGH_SCHOOL_PATTERN.test(roleText)
     && !/(고졸|고등학교|특성화고|직업계고|마이스터고)/.test(roleText)
     && !/(고졸|고등학교|특성화고|직업계고|마이스터고).{0,40}(연구직군|연구개발|R&D|연구원)|(연구직군|연구개발|R&D|연구원).{0,40}(고졸|고등학교|특성화고|직업계고|마이스터고)/i.test(verifiedText);
@@ -3600,13 +3611,14 @@ function buildStudentChannelAssessment(raw, process) {
     || professionalOnly
     || recommendationMismatch
     || !highSchoolEligible
-    || advancedRoleMismatch
-    || (process.processTrack === 'direct-interview' && militaryCompletionRequired);
+    || advancedRoleMismatch;
   const reasons = [];
   if (highSchoolEligible) reasons.push('고졸·학력무관 지원신호 확인');
   if (careerLadder) reasons.push('고용안정·경력사다리 신호');
   if (majorFit) reasons.push('직업계고 전공연계 신호');
   if (directQuality) reasons.push('일반취업 품질신호');
+  if (explicitHighSchoolGraduateCandidate) reasons.push('특성화고·고교 졸업예정자 채용 명시');
+  if (militaryNoLimit) reasons.push('병역의무 불이행 사실 없음: 병역 미필 지원 가능');
   if (militaryCompletionRequired) reasons.push('병역필·면제 요구');
   if (collegeOnly) reasons.push('대학생·학위 전용');
   if (professionalOnly) reasons.push('전문면허·전문자격 중심');
@@ -3620,6 +3632,8 @@ function buildStudentChannelAssessment(raw, process) {
     highSchoolEligible,
     militaryUnservedEligible: highSchoolEligible && !militaryCompletionRequired,
     militaryCompletionRequired,
+    militaryNoLimit,
+    explicitHighSchoolGraduateCandidate,
     collegeOnly,
     professionalOnly,
     advancedRoleMismatch,
@@ -3628,7 +3642,7 @@ function buildStudentChannelAssessment(raw, process) {
     directQuality,
     roleEligibility,
     hardBlocked,
-    recommendedChannel: hardBlocked ? 'blocked' : process.processTrack,
+    recommendedChannel: hardBlocked ? 'blocked' : militaryCompletionRequired ? 'student-limited' : process.processTrack,
     reasons
   };
 }
@@ -5179,12 +5193,26 @@ function studentRecruitPriority(item = {}) {
   const recommendedRole = STUDENT_RECOMMENDED_ROLE_PATTERN.test(headlineText) || RECOMMENDED_PUBLIC_ROLE_PATTERN.test(headlineText);
   const roleLevelEligible = hasRoleLevelEligibilityException(item);
   const fieldDirect = hasHardFieldDirectRecruitSignal(headlineText);
+  const assessment = item.studentChannelAssessment || {};
+  const explicitGraduateCandidate = assessment.explicitHighSchoolGraduateCandidate
+    || hasExplicitHighSchoolGraduateCandidateSignal(text);
+  const militaryRestricted = assessment.militaryCompletionRequired === true;
+  const militaryOpen = assessment.militaryNoLimit === true;
   let tier = 7;
   let label = '일반 채용정보';
 
   if (item.status === 'application_closed') {
     tier = 9;
     label = '마감 공고';
+  } else if (militaryRestricted) {
+    tier = 8;
+    label = '병역필·면제 조건 · 졸업예정자 제한';
+  } else if (explicitGraduateCandidate) {
+    tier = -2;
+    label = '특성화고·고교 졸업예정자 특별추천';
+  } else if (formalSource && militaryOpen && explicitHighSchool && recommendedRole && !fieldDirect) {
+    tier = -1;
+    label = '병역 미필 지원 가능 · 우선추천';
   } else if (formalSource && explicitHighSchool && (careerLadder || writtenSelection) && recommendedRole && !fieldDirect) {
     tier = 0;
     label = '핵심 특성화고 공채';
@@ -5208,7 +5236,58 @@ function studentRecruitPriority(item = {}) {
     label = '직렬 자격 확인 필요';
   }
 
-  return { version: 1, tier, label };
+  return {
+    version: 2,
+    tier,
+    label,
+    specialRecommendation: tier === -2,
+    militaryOpenRecommendation: tier === -1,
+    militaryRestricted
+  };
+}
+
+function validateStudentPriorityFixtures() {
+  const base = {
+    status: 'active',
+    source: 'job-alio-openapi',
+    sector: 'public-institution',
+    employmentType: '정규직',
+    recruitField: '일반직',
+    processTrack: 'exam-formal'
+  };
+  const graduateCandidate = studentRecruitPriority({
+    ...base,
+    title: '특성화고 졸업예정자 신입직원 채용',
+    education: '특성화고 졸업예정자 지원 가능',
+    studentChannelAssessment: {
+      explicitHighSchoolGraduateCandidate: true,
+      militaryCompletionRequired: false,
+      militaryNoLimit: true
+    }
+  });
+  const militaryOpen = studentRecruitPriority({
+    ...base,
+    title: '고졸 이상 일반직 공개채용',
+    education: '고졸 이상 · 병역의무 불이행 사실이 없는 자',
+    studentChannelAssessment: {
+      explicitHighSchoolGraduateCandidate: false,
+      militaryCompletionRequired: false,
+      militaryNoLimit: true
+    }
+  });
+  const militaryRestricted = studentRecruitPriority({
+    ...base,
+    title: '고졸 신입직원 공개채용',
+    education: '남성은 병역필 또는 면제자',
+    studentChannelAssessment: {
+      explicitHighSchoolGraduateCandidate: false,
+      militaryCompletionRequired: true,
+      militaryNoLimit: false
+    }
+  });
+  if (graduateCandidate.tier !== -2 || militaryOpen.tier !== -1 || militaryRestricted.tier !== 8) {
+    throw new Error(`Student priority fixture failed: ${JSON.stringify({ graduateCandidate, militaryOpen, militaryRestricted })}`);
+  }
 }
 
 function dedupeAndSortAll(items) {
@@ -5227,10 +5306,10 @@ function dedupeAndSortAll(items) {
 
   const sorted = Array.from(seen.values())
     .sort((a, b) => {
-      const criticalDiff = criticalCurrentPriority(a) - criticalCurrentPriority(b);
-      if (criticalDiff !== 0) return criticalDiff;
       const priorityDiff = (a.studentPriority?.tier ?? 8) - (b.studentPriority?.tier ?? 8);
       if (priorityDiff !== 0) return priorityDiff;
+      const criticalDiff = criticalCurrentPriority(a) - criticalCurrentPriority(b);
+      if (criticalDiff !== 0) return criticalDiff;
       const trackWeight = { 'exam-formal': 0, 'direct-interview': 1 };
       const trackDiff = (trackWeight[a.processTrack] ?? 9) - (trackWeight[b.processTrack] ?? 9);
       if (trackDiff !== 0) return trackDiff;
@@ -5293,8 +5372,8 @@ function balanceTrackItems(sortedItems) {
     && (item.studentPriority?.tier ?? 8) === 5);
   const directTarget = Math.min(directItems.length, Math.max(18, Math.floor(MAX_ITEMS * 0.2)));
 
-  criticalItems.forEach(add);
   protectedFormalItems.forEach(add);
+  criticalItems.forEach(add);
   recommendedSupplementItems.slice(0, 18).forEach(add);
   directItems.slice(0, directTarget).forEach(add);
   return selected.slice(0, MAX_ITEMS);
@@ -7745,6 +7824,7 @@ function buildCollectionReview(items, sourceStatusList, criticalCoverage = build
 
 async function main() {
   validateRecruitRoleFixtures();
+  validateStudentPriorityFixtures();
   const previousItems = await readPreviousItems();
   const results = await Promise.all([
     runSource('mpm-public-job', fetchMpmPublicJob),

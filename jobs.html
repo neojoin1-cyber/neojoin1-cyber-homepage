@@ -485,12 +485,15 @@
         const attachmentCount = collectAttachments(item).length;
         const coreRecruit = isCorePublicRecruit(item);
         const priorityLabel = item.studentPriority?.label || (coreRecruit ? coreRecruitLabel(item) : "");
+        const specialRecommendation = item.studentPriority?.specialRecommendation === true;
+        const militaryOpenRecommendation = item.studentPriority?.militaryOpenRecommendation === true;
+        const militaryRestricted = item.studentPriority?.militaryRestricted === true;
         const eligibleRoles = item.roleEligibility?.eligibleRoles || item.studentChannelAssessment?.roleEligibility?.eligibleRoles || [];
         const posted = item.collectionAudit?.publishedDate || (item.publishedAt ? item.publishedAt.slice(0, 10) : "") || item.collectionAudit?.firstSeenDate || "";
         return `
-          <article class="feed-item ${coreRecruit ? "core-recruit" : ""}">
+          <article class="feed-item ${coreRecruit ? "core-recruit" : ""} ${specialRecommendation ? "special-student-recruit" : ""} ${militaryRestricted ? "military-restricted" : ""}">
             <div class="feed-meta">
-              ${priorityLabel ? `<span class="label hot">${escapeHtml(priorityLabel)}</span>` : ""}
+              ${priorityLabel ? `<span class="label ${specialRecommendation ? "special" : militaryOpenRecommendation ? "military-open" : militaryRestricted ? "military-limit" : "hot"}">${escapeHtml(priorityLabel)}</span>` : ""}
               <span class="label teal">${status}</span>
               <span class="label gold">마감 ${deadline}</span>
               ${posted ? `<span class="label">공고 ${escapeHtml(posted)}</span>` : ""}
