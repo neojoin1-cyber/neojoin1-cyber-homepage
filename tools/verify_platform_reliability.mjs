@@ -569,6 +569,9 @@ async function validateJobFetcherRules() {
   fail('fetcher.deadline-text-sanitizer', fetcher.includes('function safeDeadlineDisplayText') && fetcher.includes('function kstDateFromParts') && fetcher.includes('containsStructuredDatePattern'), '자동 수집 단계에서 불가능한 마감일 숫자를 원문 확인 문구로 정제합니다.');
   fail('fetcher.official-url-not-file-download', fetcher.includes('function isLikelyFileUrl') && fetcher.includes('function firstNonFileUrl') && fetcher.includes('function isLikelyNoticeDetailUrl') && fetcher.includes('primaryPageUrl'), '자동 수집 단계에서 공고문 파일 다운로드 URL을 공식 공고 버튼 URL로 승격하지 않고 기관 상세 공고 URL을 보존합니다.');
   fail('fetcher.job-alio-dynamic-current-scan', fetcher.includes('JOB_ALIO_RECENT_DETAIL_DAYS') && fetcher.includes('function selectJobAlioRowsForDetail') && fetcher.includes('function buildJobAlioDynamicDiscovery') && fetcher.includes('dynamic-current-job-alio-detail-scan'), '잡알리오 최근 등록 공고는 기관 화이트리스트나 제목 키워드와 무관하게 상세 원문을 열어 오늘 기준 후보 누락을 점검합니다.');
+  fail('fetcher.job-alio-paced-list-scan', fetcher.includes('const JOB_ALIO_LIST_FETCH_CONCURRENCY = 2') && fetcher.includes('function fetchJobAlioListTarget') && fetcher.includes('await sleep(250'), '잡알리오 목록은 호스팅 실행기의 순간 요청 폭주를 피하도록 저속 병렬로 수집합니다.');
+  fail('fetcher.job-alio-mobile-list-fallback', fetcher.includes('function jobAlioMobileListUrl') && fetcher.includes('mobile fallback after'), '잡알리오 PC 목록 접속 실패 시 공식 모바일 목록으로 한 번 더 수집합니다.');
+  fail('fetcher.isolated-audit-output', fetcher.includes('JOB_FEED_OUTPUT_DIR') && fetcher.includes('const OUTPUT_DIR'), '운영 피드를 덮어쓰지 않는 분리 출력 경로에서 수집기를 실운전 검증할 수 있습니다.');
 }
 
 async function validateHomepage() {

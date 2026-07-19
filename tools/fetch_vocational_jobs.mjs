@@ -10,10 +10,13 @@ import { inflateRawSync } from 'node:zlib';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(__dirname, '..');
-const OUT_FILE = path.join(ROOT_DIR, 'assets', 'job-feed.json');
-const HEALTH_FILE = path.join(ROOT_DIR, 'assets', 'job-feed-health.json');
-const JOB_DETAIL_VAULT_FILE = path.join(ROOT_DIR, 'assets', 'job-detail-vault.json');
-const ZIP_ATTACHMENT_EXTRACT_DIR = path.join(ROOT_DIR, 'assets', 'job-attachment-files');
+const OUTPUT_DIR = process.env.JOB_FEED_OUTPUT_DIR
+  ? path.resolve(process.env.JOB_FEED_OUTPUT_DIR)
+  : path.join(ROOT_DIR, 'assets');
+const OUT_FILE = path.join(OUTPUT_DIR, 'job-feed.json');
+const HEALTH_FILE = path.join(OUTPUT_DIR, 'job-feed-health.json');
+const JOB_DETAIL_VAULT_FILE = path.join(OUTPUT_DIR, 'job-detail-vault.json');
+const ZIP_ATTACHMENT_EXTRACT_DIR = path.join(OUTPUT_DIR, 'job-attachment-files');
 const ZIP_ATTACHMENT_PUBLIC_BASE = 'assets/job-attachment-files';
 const execFileAsync = promisify(execFile);
 const JOB_DETAIL_PUBLIC_KEY_SPKI = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyGKYpyiaYpFN6BUhEuD4dGpRiTLW6kZ21GYg+v0sdbGvaZ+4/cxkoh8+8nXLDpimx/vgOebiUw6b/4rq2HO4TfpCJ/MJeeO5IQwDNgv9OmYqVSy9Nkuxmo8mWQAXlmArPs38Yaaml+mrDqcuztXMA4zOKA6HDaX7trAZk3uGihOPbqUJJmEhJJ5/zlDubf4tyzfwHUYxkiQBv4BFtvbmnqV0AdW8NZhiuPrWySejAR/qruWkhD92FOoKW2RDTvUEfk/bkQEOcnyyXEcktfHivyGuwZSC5nDo6rKiDPMzEswUnSfAVW4TO9E1K5q7hrNqss+u8Cmr7b8ht9BhzyXiCQIDAQAB';
@@ -29,8 +32,8 @@ const JOB_ALIO_CRITICAL_LIST_RETRY_TIMEOUTS_MS = [12000, 18000, 24000];
 const JOB_ALIO_DETAIL_TIMEOUT_MS = 12000;
 const JOB_ALIO_CRITICAL_DETAIL_RETRY_TIMEOUTS_MS = [15000, 22000];
 const PUBLIC_API_TIMEOUT_MS = 9000;
-const DETAIL_FETCH_CONCURRENCY = 8;
-const JOB_ALIO_LIST_FETCH_CONCURRENCY = 8;
+const DETAIL_FETCH_CONCURRENCY = 3;
+const JOB_ALIO_LIST_FETCH_CONCURRENCY = 2;
 const PUBLIC_API_FETCH_CONCURRENCY = 8;
 const APPLICATION_CLOSED_RETAIN_DAYS = 365;
 const MAX_ARCHIVE_ITEMS = 160;
@@ -6347,33 +6350,33 @@ function makeJobAlioScanTargets() {
       priority: 40 + pageNo
     });
   }
-  for (const query of JOB_ALIO_KEYWORD_QUERIES) {
-    targets.push({
-      id: `keyword-${query.searchType}-${query.keyword}`,
-      url: jobAlioListUrl({
-        pageNo: 1,
-        search_type: query.searchType,
-        keyword: query.keyword
-      }),
-      reason: `keyword:${query.searchType}:${query.keyword}`,
-      priority: query.searchType === 'elig' ? 10 : 15
-    });
-  }
-  for (const org of allJobAlioWatchOrgs()) {
-    const searchValue = org.orgCode || org.orgName;
-    targets.push({
-      id: `critical-org-${org.orgCode || sha(org.orgName)}`,
-      url: jobAlioListUrl({
-        pageNo: 1,
-        org_name: searchValue
-      }),
-      reason: `critical-org:${org.orgName}`,
-      priority: 5,
-      orgName: org.orgName,
-      orgCode: org.orgCode
-    });
-  }
   return targets;
+}
+
+function jobAlioMobileListUrl(pageNo) {
+  return buildUrl('https://job.alio.go.kr/mobile2021/recruit/recruit.do', { pageNo }).toString();
+}
+
+async function fetchJobAlioListTarget(target, index) {
+  // JOB-ALIO throttles burst traffic from hosted runners. Keep requests paced and
+  // fall back to the official mobile list before treating a page as unavailable.
+  await sleep(250 + (index % JOB_ALIO_LIST_FETCH_CONCURRENCY) * 250);
+  const retryTimeouts = target.priority <= 5 ? JOB_ALIO_CRITICAL_LIST_RETRY_TIMEOUTS_MS : JOB_ALIO_LIST_RETRY_TIMEOUTS_MS;
+  try {
+    return await fetchTextWithRetries(target.url, {}, retryTimeouts, target.id);
+  } catch (desktopError) {
+    const pageNo = Number(new URL(target.url).searchParams.get('pageNo') || 1);
+    try {
+      return await fetchTextWithRetries(
+        jobAlioMobileListUrl(pageNo),
+        {},
+        JOB_ALIO_LIST_RETRY_TIMEOUTS_MS,
+        `${target.id}-mobile`
+      );
+    } catch (mobileError) {
+      throw new Error(`${sanitizeFetchErrorMessage(desktopError.message)}; mobile fallback after ${sanitizeFetchErrorMessage(mobileError.message)}`);
+    }
+  }
 }
 
 function upsertJobAlioRow(rowsByIdx, row) {
@@ -6671,10 +6674,9 @@ async function fetchJobAlioRecruit() {
   let scannedCount = 0;
   let scanTargetCount = 0;
 
-  await mapWithConcurrency(makeJobAlioScanTargets(), JOB_ALIO_LIST_FETCH_CONCURRENCY, async (target) => {
+  await mapWithConcurrency(makeJobAlioScanTargets(), JOB_ALIO_LIST_FETCH_CONCURRENCY, async (target, index) => {
     try {
-      const retryTimeouts = target.priority <= 5 ? JOB_ALIO_CRITICAL_LIST_RETRY_TIMEOUTS_MS : JOB_ALIO_LIST_RETRY_TIMEOUTS_MS;
-      const html = await fetchTextWithRetries(target.url, {}, retryTimeouts, target.id);
+      const html = await fetchJobAlioListTarget(target, index);
       const rows = parseJobAlioRows(html);
       scannedCount += rows.length;
       scanTargetCount += 1;
@@ -6724,7 +6726,7 @@ async function fetchJobAlioRecruit() {
   const normalizedAll = rawItems.map(normalizeItem);
   const normalized = normalizedAll.filter(shouldKeep);
   const dynamicDiscovery = buildJobAlioDynamicDiscovery(normalizedAll, normalized, rowsByIdx, rows);
-  const ok = rawItems.length > 0 && errors.length < Math.max(1, rawItems.length);
+  const ok = scanTargetCount > 0 && rawItems.length > 0;
   const companyChecked = normalized.filter((item) => [
     'company_notice_confirmed',
     'company_notice_reachable',
@@ -6749,7 +6751,7 @@ async function fetchJobAlioRecruit() {
       firstDayCandidates,
       missedReviewNeeded: missedReview,
       message: ok
-        ? `공식 공개 원문 ${scannedCount}건/${rowsByIdx.size}후보 점검, 최근 ${JOB_ALIO_RECENT_DETAIL_DAYS}일 상세 ${dynamicDiscovery.recentRowsDetailed}/${dynamicDiscovery.recentRowsScanned}건, 표시누락 ${dynamicDiscovery.missingCandidateCount}건, 공식 공고 확인 ${companyChecked}건`
+        ? `공식 공개 원문 ${scannedCount}건/${rowsByIdx.size}후보 점검, 목록 ${scanTargetCount}/${JOB_ALIO_SCAN_PAGES}페이지 확인, 최근 ${JOB_ALIO_RECENT_DETAIL_DAYS}일 상세 ${dynamicDiscovery.recentRowsDetailed}/${dynamicDiscovery.recentRowsScanned}건, 표시누락 ${dynamicDiscovery.missingCandidateCount}건, 공식 공고 확인 ${companyChecked}건${errors.length ? `, 부분 실패 ${errors.length}건` : ''}`
         : `연결 실패: ${errors.slice(0, 2).join('; ')}`
     })
   };
