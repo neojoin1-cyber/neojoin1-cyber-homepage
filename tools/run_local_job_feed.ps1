@@ -93,11 +93,13 @@ try {
     Invoke-Checked -Command "node" -Arguments @("tools\fetch_vocational_jobs.mjs")
     Invoke-Checked -Command "node" -Arguments @("tools\verify_platform_reliability.mjs")
 
-    $feed = Get-Content -LiteralPath "assets\job-feed.json" -Raw | ConvertFrom-Json
-    $ollamaAttempted = [int]$feed.aiBriefing.attempted
-    $ollamaSucceeded = [int]$feed.aiBriefing.succeeded
+    $feedSummaryJson = & node -e "const fs=require('fs');const f=JSON.parse(fs.readFileSync('assets/job-feed.json','utf8'));process.stdout.write(JSON.stringify({generatedAt:f.generatedAt,defaultItems:(f.items||[]).length,supplementalItems:(f.supplementalItems||[]).length,aiEngine:f.aiBriefing?.engine||'',ollamaAttempted:Number(f.aiBriefing?.attempted||0),ollamaSucceeded:Number(f.aiBriefing?.succeeded||0)}));"
+    if ($LASTEXITCODE -ne 0) { throw "Unable to read generated job-feed summary." }
+    $feedSummary = $feedSummaryJson | ConvertFrom-Json
+    $ollamaAttempted = [int]$feedSummary.ollamaAttempted
+    $ollamaSucceeded = [int]$feedSummary.ollamaSucceeded
     $ollamaMinimumSuccess = [Math]::Max(1, [Math]::Ceiling($ollamaAttempted / 2))
-    if ($feed.aiBriefing.engine -ne "ollama" -or $ollamaSucceeded -lt $ollamaMinimumSuccess) {
+    if ($feedSummary.aiEngine -ne "ollama" -or $ollamaSucceeded -lt $ollamaMinimumSuccess) {
       throw "Ollama briefing gate failed."
     }
 
@@ -136,12 +138,12 @@ try {
     $commit = (& git rev-parse HEAD).Trim()
     Write-RunnerStatus -State "success" -Message "Local Ollama job feed published." -Extra @{
       commit = $commit
-      generatedAt = $feed.generatedAt
-      defaultItems = @($feed.items).Count
-      supplementalItems = @($feed.supplementalItems).Count
-      ollamaSucceeded = [int]$feed.aiBriefing.succeeded
+      generatedAt = $feedSummary.generatedAt
+      defaultItems = [int]$feedSummary.defaultItems
+      supplementalItems = [int]$feedSummary.supplementalItems
+      ollamaSucceeded = $ollamaSucceeded
     }
-    Write-RunnerLog "SUCCESS commit=$commit default=$(@($feed.items).Count) supplemental=$(@($feed.supplementalItems).Count)"
+    Write-RunnerLog "SUCCESS commit=$commit default=$($feedSummary.defaultItems) supplemental=$($feedSummary.supplementalItems)"
   } finally {
     Pop-Location
   }
