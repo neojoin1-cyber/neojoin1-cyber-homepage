@@ -1,58 +1,77 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-19T14:13:44.370Z",
-  "feedGeneratedAt": "2026-07-19T14:13:44.370Z",
+  "generatedAt": "2026-07-19T15:09:12.173Z",
+  "feedGeneratedAt": "2026-07-19T15:09:12.173Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "ok",
+  "status": "degraded",
   "summary": {
-    "total": 51,
-    "active": 17,
-    "deadlineSoon": 34,
+    "total": 49,
+    "active": 16,
+    "deadlineSoon": 33,
     "applicationClosed": 0,
     "sourcesChecked": 15,
-    "sourcesConfigured": 4,
-    "sourcesFailed": 0,
-    "criticalCoverageMissing": 0,
-    "staleFallbackItems": 0,
-    "sourceFallbackProtected": 0,
-    "publicationBlocked": 0,
+    "sourcesConfigured": 6,
+    "sourcesFailed": 1,
+    "criticalCoverageMissing": 1,
+    "staleFallbackItems": 48,
+    "sourceFallbackProtected": 48,
+    "publicationBlocked": 1,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 117,
-    "ollamaBriefingReady": 4,
+    "studentRecruitSafetyReview": 68,
+    "ollamaBriefingReady": 6,
     "ollamaBriefingAttempted": 6,
-    "ollamaBriefingFailed": 2
+    "ollamaBriefingFailed": 0
   },
-  "sourceFailures": [],
+  "sourceFailures": [
+    {
+      "id": "job-alio-openapi",
+      "name": "잡알리오 공공기관 채용",
+      "isolatedFailure": false,
+      "fallbackProtected": true,
+      "fallbackItemCount": 68,
+      "message": "연결 실패: recent-page-2: recent-page-2 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page; recent-page-1: recent-page-1 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page · 직전 정상 공고 68건 보존"
+    }
+  ],
   "aiBriefing": {
     "enabled": true,
     "required": true,
     "engine": "ollama",
-    "model": "qwen3:4b-instruct",
+    "model": "qwen2.5:0.5b",
     "baseUrl": "http://127.0.0.1:11434",
-    "generatedAt": "2026-07-19T14:13:44.370Z",
+    "generatedAt": "2026-07-19T15:09:12.173Z",
     "attempted": 6,
-    "succeeded": 4,
-    "failed": 2,
+    "succeeded": 6,
+    "failed": 0,
     "batches": 6,
     "errors": [],
-    "status": "degraded"
+    "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-19T14:13:44.370Z",
-    "blockedCount": 0,
+    "generatedAt": "2026-07-19T15:09:12.173Z",
+    "blockedCount": 1,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 117,
-    "blockedByReason": {},
+    "studentRecruitReviewCount": 68,
+    "blockedByReason": {
+      "unresolved-detailed-public-recruit": 1
+    },
     "repairedByReason": {},
-    "blockedSamples": [],
+    "blockedSamples": [
+      {
+        "list": "items",
+        "reason": "unresolved-detailed-public-recruit",
+        "source": "job-alio-openapi",
+        "company": "한국중부발전",
+        "title": "한국중부발전 2026년도 제2차 4직급 신입직원 채용공고"
+      }
+    ],
     "studentRecruitReviewSamples": [
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
+        "reason": "게시차단:unresolved-detailed-public-recruit",
         "signals": [
           "공공·금융·대기업 소스",
           "고졸·특성화고 명시",
@@ -89,28 +108,7 @@
         "deadline": "2026-07-20",
         "status": "deadline_soon",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kised.or.kr/board.es?mid=a10304000000&bid=0014&act=view&list_no=4548&tag=&nPage=1"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국사회보장정보원",
-        "title": "한국사회보장정보원 2026년도 제3차 직원 채용공고",
-        "deadline": "2026-07-30",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.ssis.or.kr/lay1/bbs/S1T916C1391/O/130/view.do?article_seq=129491&cpage=1&rows=10&condition=&keyword="
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=302422"
       },
       {
         "list": "items",
@@ -463,6 +461,26 @@
         "company": "근로복지공단",
         "title": "근로복지공단 [태백병원] 공무직(전기기계통신기사-기계분야) 채용 공고",
         "deadline": "2026-07-23",
+        "status": "deadline_soon",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "근로복지공단",
+        "title": "근로복지공단 [강원지역본부] 공무직(보험가입조사원) 및 [강릉지사] 공무직(사무원) 채용 공고",
+        "deadline": "2026-07-22",
         "status": "deadline_soon",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
