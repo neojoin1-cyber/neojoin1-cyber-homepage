@@ -575,7 +575,7 @@ async function validateJobFetcherRules() {
   fail('fetcher.isolated-audit-output', fetcher.includes('JOB_FEED_OUTPUT_DIR') && fetcher.includes('const OUTPUT_DIR'), '운영 피드를 덮어쓰지 않는 분리 출력 경로에서 수집기를 실운전 검증할 수 있습니다.');
   fail('fetcher.role-level-eligibility', fetcher.includes('function assessRecruitRoles') && fetcher.includes('eligibleRoles') && fetcher.includes('reviewRoles') && fetcher.includes('excludedRoles') && fetcher.includes('validateRecruitRoleFixtures'), '혼합 채용공고를 직렬별로 나눠 학생 지원 가능·확인 필요·제외 직렬을 판정하고 고정 사례로 검증합니다.');
   fail('fetcher.student-priority-ranking', fetcher.includes('function studentRecruitPriority') && fetcher.includes('핵심 특성화고 공채') && fetcher.includes('학력무관 주요 공채') && fetcher.includes('studentPriority?.tier'), '필수 특성화고 공채와 학력무관 주요 공채가 일반 채용보다 먼저 정렬됩니다.');
-  fail('fetcher.local-ollama-runner', localRunner.includes('OLLAMA_REQUIRED = "1"') && localRunner.includes('qwen3:4b-instruct') && localRunner.includes('tools\\verify_platform_reliability.mjs') && localRunner.includes('git push origin HEAD:main'), 'PC가 켜져 있으면 로컬 Ollama로 수집·검증·운영 반영하는 격리 실행기가 준비됩니다.');
+  fail('fetcher.local-ollama-runner', localRunner.includes('OLLAMA_REQUIRED = "1"') && localRunner.includes('qwen3:4b-instruct') && localRunner.includes('JOB_FEED_ZIP_CACHE_ENABLED = "0"') && localRunner.includes('tools\\verify_platform_reliability.mjs') && localRunner.includes('git push origin HEAD:main'), 'PC가 켜져 있으면 로컬 Ollama로 수집·검증·운영 반영하고 Windows에서는 공식 ZIP 링크와 기존 캐시를 안전하게 유지합니다.');
   fail('fetcher.local-ollama-schedule', localTaskInstaller.includes('09:10') && localTaskInstaller.includes('14:10') && localTaskInstaller.includes('23:10') && localTaskInstaller.includes('StartWhenAvailable'), '로컬 Ollama 채용 수집을 하루 3회 실행하고 놓친 실행을 PC 가동 후 보완합니다.');
 }
 

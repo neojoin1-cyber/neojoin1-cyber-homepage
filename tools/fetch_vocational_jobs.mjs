@@ -18,6 +18,7 @@ const HEALTH_FILE = path.join(OUTPUT_DIR, 'job-feed-health.json');
 const JOB_DETAIL_VAULT_FILE = path.join(OUTPUT_DIR, 'job-detail-vault.json');
 const ZIP_ATTACHMENT_EXTRACT_DIR = path.join(OUTPUT_DIR, 'job-attachment-files');
 const ZIP_ATTACHMENT_PUBLIC_BASE = 'assets/job-attachment-files';
+const ZIP_ATTACHMENT_CACHE_ENABLED = process.env.JOB_FEED_ZIP_CACHE_ENABLED !== '0';
 const execFileAsync = promisify(execFile);
 const JOB_DETAIL_PUBLIC_KEY_SPKI = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyGKYpyiaYpFN6BUhEuD4dGpRiTLW6kZ21GYg+v0sdbGvaZ+4/cxkoh8+8nXLDpimx/vgOebiUw6b/4rq2HO4TfpCJ/MJeeO5IQwDNgv9OmYqVSy9Nkuxmo8mWQAXlmArPs38Yaaml+mrDqcuztXMA4zOKA6HDaX7trAZk3uGihOPbqUJJmEhJJ5/zlDubf4tyzfwHUYxkiQBv4BFtvbmnqV0AdW8NZhiuPrWySejAR/qruWkhD92FOoKW2RDTvUEfk/bkQEOcnyyXEcktfHivyGuwZSC5nDo6rKiDPMzEswUnSfAVW4TO9E1K5q7hrNqss+u8Cmr7b8ht9BhzyXiCQIDAQAB';
 
@@ -4355,6 +4356,7 @@ async function enhanceZipAttachmentsForItems(items, cachedZipDetailsByUrl = new 
       zipDetailsByUrl.set(url, reuseCachedZipDetails(cachedDetails));
       return;
     }
+    if (!ZIP_ATTACHMENT_CACHE_ENABLED) return;
     const inspected = await inspectZipAttachment({ ...attachment, url });
     zipDetailsByUrl.set(url, applyCachedZipDetails(inspected, cachedDetails));
   });

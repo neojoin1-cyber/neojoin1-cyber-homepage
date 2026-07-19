@@ -88,6 +88,7 @@ try {
     $env:OLLAMA_BATCH_SIZE = "1"
     $env:OLLAMA_MAX_ITEMS = "6"
     $env:OLLAMA_TIMEOUT_MS = "120000"
+    $env:JOB_FEED_ZIP_CACHE_ENABLED = "0"
 
     Invoke-Checked -Command "node" -Arguments @("--check", "tools\fetch_vocational_jobs.mjs")
     Invoke-Checked -Command "node" -Arguments @("tools\fetch_vocational_jobs.mjs")
