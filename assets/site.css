@@ -1034,6 +1034,132 @@ h3 {
   color: #4a5652;
 }
 
+.exam-notes-section {
+  background:
+    linear-gradient(180deg, rgba(18, 36, 63, .03), transparent 34%),
+    radial-gradient(circle at 86% 12%, rgba(165, 109, 55, .12), transparent 28%),
+    #f4efe2;
+}
+
+.exam-notes-grid {
+  display: grid;
+  grid-template-columns: minmax(0, .95fr) minmax(340px, 1.05fr);
+  gap: 28px;
+  align-items: center;
+}
+
+.exam-notes-copy {
+  max-width: 680px;
+}
+
+.exam-proof-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.exam-proof-list span {
+  border: 1px solid rgba(18, 36, 63, .14);
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, .62);
+  color: var(--deep-blue);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.exam-notes-visual {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(18, 36, 63, .2);
+  border-radius: 30px;
+  padding: 12px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.74), rgba(255,255,255,.24)),
+    #14263f;
+  box-shadow: var(--shadow);
+}
+
+.exam-notes-visual::before {
+  content: "";
+  position: absolute;
+  inset: 22px;
+  pointer-events: none;
+  border: 1px solid rgba(226, 187, 132, .58);
+  border-radius: 22px;
+}
+
+.exam-notes-visual img {
+  display: block;
+  width: 100%;
+  max-height: 680px;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 22px;
+}
+
+.exam-notes-visual figcaption {
+  padding: 12px 8px 2px;
+  color: rgba(247, 240, 223, .78);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.exam-branch-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  padding-top: 0;
+}
+
+.exam-branch-card {
+  min-height: 270px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  border: 1px solid rgba(18, 36, 63, .13);
+  border-radius: 28px;
+  padding: 24px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.78), rgba(251,248,240,.7)),
+    repeating-linear-gradient(0deg, rgba(18, 36, 63, .04) 0 1px, transparent 1px 18px);
+  box-shadow: var(--shadow-soft);
+}
+
+.exam-branch-card.featured {
+  background:
+    radial-gradient(circle at 92% 0%, rgba(165, 109, 55, .28), transparent 34%),
+    linear-gradient(145deg, #14263f, #1f324b);
+  color: #fff;
+}
+
+.exam-branch-card span {
+  color: var(--copper-600);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.exam-branch-card.featured span,
+.exam-branch-card.featured h3,
+.exam-branch-card.featured p,
+.exam-branch-card.featured .card-link {
+  color: #fff;
+}
+
+.exam-branch-card h3 {
+  margin: 0;
+  font-size: clamp(28px, 3vw, 42px);
+}
+
+.exam-branch-card p {
+  color: #4a5652;
+}
+
 .business-axis-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1678,6 +1804,7 @@ h3 {
   .hero-layout,
   .studio-hero-grid,
   .thesis-grid,
+  .exam-notes-grid,
   .evidence-grid,
   .cta-panel,
   .split,
@@ -1696,6 +1823,7 @@ h3 {
     flex-direction: column;
   }
   .portfolio-grid,
+  .exam-branch-grid,
   .business-axis-grid,
   .hub-grid,
   .evidence-list {
@@ -1708,6 +1836,9 @@ h3 {
   .compact-card {
     grid-column: auto;
     min-height: auto;
+  }
+  .exam-notes-visual img {
+    max-height: 520px;
   }
   .project-photo img {
     height: 210px;
@@ -1733,6 +1864,8 @@ h3 {
   .actions .btn { width: 100%; }
   .studio-index-card,
   .portfolio-card,
+  .exam-notes-visual,
+  .exam-branch-card,
   .business-axis-grid article,
   .evidence-list article,
   .hub-grid a { border-radius: 20px; padding: 18px; }
@@ -1743,6 +1876,10 @@ h3 {
   .project-photo { padding: 0; }
   .project-photo div { padding: 18px; }
   .project-photo img { height: 180px; }
+  .exam-notes-visual { padding: 8px; }
+  .exam-notes-visual::before { inset: 14px; border-radius: 16px; }
+  .exam-notes-visual img { max-height: 430px; border-radius: 16px; }
+  .exam-proof-list span { width: 100%; justify-content: center; }
   .job-toolbar { grid-template-columns: 1fr; }
   .job-search-row { grid-template-columns: 1fr; }
   .job-sort-tabs .sort-tab { flex: 1 1 100%; }
