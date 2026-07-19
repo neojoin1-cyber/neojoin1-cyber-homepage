@@ -2099,6 +2099,10 @@ body {
   gap: 16px;
 }
 
+.branch-grid.about-grid { grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr); }
+.about-grid .compact-card-new { display: grid; align-content: start; gap: 14px; }
+.about-grid .compact-card-new > strong { margin-top: 8px; font-family: var(--font-display); font-size: 18px; }
+
 .branch-card,
 .compact-card-new,
 .gateway-card,
@@ -2234,6 +2238,7 @@ body {
   .compact-grid,
   .service-gateway,
   .role-grid { grid-template-columns: 1fr; }
+  .branch-grid.about-grid { grid-template-columns: 1fr; }
   .lean-footer-grid { grid-template-columns: 1fr; }
   .footer-links { justify-content: flex-start; }
   .archive-chapter summary { grid-template-columns: 38px minmax(0, 1fr) 24px; }

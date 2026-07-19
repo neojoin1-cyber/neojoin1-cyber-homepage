@@ -605,10 +605,14 @@ async function validateHomepage() {
 }
 
 async function validateCoreContentPages() {
+  const about = await readText('about.html');
   const vocational = await readText('vocational.html');
   const jobs = await readText('jobs.html');
   const resources = await readText('resources.html');
+  const host = await readText('host.html');
 
+  fail('core.about-page', about.includes('경험은 은퇴하지 않습니다') && about.includes('시니어 교육전문가') && about.includes('교육격차') && about.includes('설탕과소금 대표'), '설탕과소금 소개 페이지가 시니어 교육전문가의 경험과 교육격차 해소 소신을 담고 있습니다.');
+  fail('core.education-field-thirty-years', host.includes('교육현장 30년') && !host.includes('30년 특성화고'), '30년 기록의 브랜드 명칭이 교육현장 30년으로 통일되어 있습니다.');
   fail('core.vocational-content-weight', vocational.includes('href="jobs.html"') && vocational.includes('href="resources.html"') && vocational.includes('href="ebooks.html"'), '특성화고 플랫폼 페이지가 채용정보·상담자료실·전자책을 핵심 서비스로 연결합니다.');
   fail('core.jobs-content-weight', jobs.includes('특성화고 공채') && jobs.includes('공기업') && jobs.includes('공무원') && jobs.includes('대기업') && jobs.includes('공식 첨부서류'), '채용정보 페이지가 핵심 공채와 공식 첨부서류 기능을 명확히 안내합니다.');
   fail('core.jobs-sort-search', jobs.includes('data-sort-mode="new"') && jobs.includes('data-sort-mode="deadline"') && jobs.includes('job-search-input') && jobs.includes('job-search-button') && jobs.includes('isCorePublicRecruit') && jobs.includes('core-recruit'), '채용정보 페이지가 신규순·마감일자순·검색·핵심 공채 강조 UI를 제공합니다.');
