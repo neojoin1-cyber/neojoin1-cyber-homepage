@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-19T08:42:36.250Z",
-  "feedGeneratedAt": "2026-07-19T08:42:36.250Z",
+  "generatedAt": "2026-07-19T10:05:04.220Z",
+  "feedGeneratedAt": "2026-07-19T10:05:04.220Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "degraded",
@@ -30,7 +30,7 @@
       "isolatedFailure": false,
       "fallbackProtected": true,
       "fallbackItemCount": 93,
-      "message": "연결 실패: recent-page-4: recent-page-4 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-8: recent-page-8 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT · 직전 정상 공고 93건 보존"
+      "message": "연결 실패: recent-page-1: recent-page-1 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; recent-page-4: recent-page-4 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT · 직전 정상 공고 93건 보존"
     }
   ],
   "aiBriefing": {
@@ -39,7 +39,7 @@
     "engine": "ollama",
     "model": "qwen2.5:0.5b",
     "baseUrl": "http://127.0.0.1:11434",
-    "generatedAt": "2026-07-19T08:42:36.250Z",
+    "generatedAt": "2026-07-19T10:05:04.220Z",
     "attempted": 6,
     "succeeded": 6,
     "failed": 0,
@@ -49,7 +49,7 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-19T08:42:36.250Z",
+    "generatedAt": "2026-07-19T10:05:04.220Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
