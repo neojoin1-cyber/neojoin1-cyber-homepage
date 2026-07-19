@@ -28,5 +28,11 @@ $userId = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
 $principal = New-ScheduledTaskPrincipal -UserId $userId -LogonType Interactive -RunLevel Limited
 $task = New-ScheduledTask -Action $action -Trigger $triggers -Settings $settings -Principal $principal -Description "GYO6 official-source vocational job feed collection at 09:10, 14:10, and 23:10 KST."
 
+foreach ($legacyTaskName in @("GYO6-Local-Ollama-Job-Feed")) {
+  if ($legacyTaskName -ne $TaskName -and (Get-ScheduledTask -TaskName $legacyTaskName -ErrorAction SilentlyContinue)) {
+    Unregister-ScheduledTask -TaskName $legacyTaskName -Confirm:$false
+  }
+}
+
 Register-ScheduledTask -TaskName $TaskName -InputObject $task -Force | Out-Null
 Get-ScheduledTask -TaskName $TaskName | Select-Object TaskName,State,@{N="Triggers";E={$_.Triggers.StartBoundary -join " | "}}
