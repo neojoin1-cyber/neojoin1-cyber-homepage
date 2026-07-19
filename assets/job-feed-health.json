@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-18T15:36:39.307Z",
-  "feedGeneratedAt": "2026-07-18T15:36:39.307Z",
+  "generatedAt": "2026-07-19T03:44:19.606Z",
+  "feedGeneratedAt": "2026-07-19T03:44:19.606Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "degraded",
@@ -39,7 +39,7 @@
     "engine": "ollama",
     "model": "qwen2.5:0.5b",
     "baseUrl": "http://127.0.0.1:11434",
-    "generatedAt": "2026-07-18T15:36:39.307Z",
+    "generatedAt": "2026-07-19T03:44:19.606Z",
     "attempted": 6,
     "succeeded": 6,
     "failed": 0,
@@ -49,7 +49,7 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-18T15:36:39.307Z",
+    "generatedAt": "2026-07-19T03:44:19.606Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
