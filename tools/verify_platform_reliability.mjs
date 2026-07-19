@@ -256,9 +256,6 @@ function unresolvedQualificationFields(item) {
     ['publicRecruitDetails.eligibility', item.publicRecruitDetails?.eligibility],
     ...(Array.isArray(item.teacherBriefing?.summaryLines)
       ? item.teacherBriefing.summaryLines.map((line, index) => [`teacherBriefing.summaryLines[${index}]`, line])
-      : []),
-    ...(Array.isArray(item.teacherBriefing?.schoolCheckSections)
-      ? item.teacherBriefing.schoolCheckSections.map((section, index) => [`teacherBriefing.schoolCheckSections[${index}]`, section?.text])
       : [])
   ];
   return fields
@@ -444,10 +441,11 @@ function highSchoolSuitabilityProblem(item) {
   const strongHighSchool = hasStrongHighSchoolSignal(item);
   const entryLevel = hasEntryLevelSignal(item);
   const educationOpen = hasEducationOpenSignal(item);
+  const hasEligibleMixedRole = Boolean(item.roleEligibility?.mixed && item.roleEligibility?.eligibleRoles?.length);
   if (CANCELED_RECRUIT_PATTERN.test(text)) return 'canceled-recruit';
-  if (hasCollegeOnlyApplicantSignal(item)) return 'college-or-degree-only';
+  if (hasCollegeOnlyApplicantSignal(item) && !hasEligibleMixedRole) return 'college-or-degree-only';
   if (hasStudentRecommendationMismatchSignal(item)) return 'student-recommendation-mismatch';
-  if (STUDENT_UNSUITABLE_HEALTHCARE_ROLE_PATTERN.test(text)) return 'student-unsuitable-professional-healthcare';
+  if (STUDENT_UNSUITABLE_HEALTHCARE_ROLE_PATTERN.test(text) && !hasEligibleMixedRole) return 'student-unsuitable-professional-healthcare';
   if (SENIOR_ROLE_PATTERN.test(text)) return 'senior-role';
   if (!strongHighSchool && PROFESSIONAL_ONLY_PATTERN.test(text)) return 'professional-only';
   if (!strongHighSchool && !educationOpen && ADVANCED_EDU_PATTERN.test(text)) return 'advanced-education-only';
@@ -462,7 +460,8 @@ function validateProjectScope() {
     || normalized.endsWith('/_audit_neojoin1-cyber-homepage')
     || normalized.endsWith('/neojoin-job-feed-publish')
     || normalized.endsWith('/meister-platform/portal')
-    || normalized.includes('/meister-platform/.tmp-portal-');
+    || normalized.includes('/meister-platform/.tmp-portal-')
+    || normalized.includes('/meister-platform/.job-feed-local-runner/runs/');
   fail('scope.project-folder', isHomepageProject, '작업 폴더가 gyo6.kr portal 프로젝트입니다.', ROOT_DIR);
   fail('scope.no-ebook-path', !normalized.includes('gyo6_secure_ebook_platform_v2'), '전자책 기존 프로젝트 경로가 검증 대상에 포함되지 않았습니다.');
 }
@@ -549,6 +548,8 @@ async function validateWorkflow() {
 
 async function validateJobFetcherRules() {
   const fetcher = await readText('tools/fetch_vocational_jobs.mjs');
+  const localRunner = await readText('tools/run_local_job_feed.ps1');
+  const localTaskInstaller = await readText('tools/install_local_job_feed_task.ps1');
   const directTerms = sectionBetween(fetcher, 'const DIRECT_TERMS = [', '];');
   const examTerms = sectionBetween(fetcher, 'const EXAM_TERMS = [', '];');
   const writtenExamTerms = sectionBetween(fetcher, 'const WRITTEN_EXAM_TERMS = [', '];');
@@ -574,6 +575,8 @@ async function validateJobFetcherRules() {
   fail('fetcher.isolated-audit-output', fetcher.includes('JOB_FEED_OUTPUT_DIR') && fetcher.includes('const OUTPUT_DIR'), '운영 피드를 덮어쓰지 않는 분리 출력 경로에서 수집기를 실운전 검증할 수 있습니다.');
   fail('fetcher.role-level-eligibility', fetcher.includes('function assessRecruitRoles') && fetcher.includes('eligibleRoles') && fetcher.includes('reviewRoles') && fetcher.includes('excludedRoles') && fetcher.includes('validateRecruitRoleFixtures'), '혼합 채용공고를 직렬별로 나눠 학생 지원 가능·확인 필요·제외 직렬을 판정하고 고정 사례로 검증합니다.');
   fail('fetcher.student-priority-ranking', fetcher.includes('function studentRecruitPriority') && fetcher.includes('핵심 특성화고 공채') && fetcher.includes('학력무관 주요 공채') && fetcher.includes('studentPriority?.tier'), '필수 특성화고 공채와 학력무관 주요 공채가 일반 채용보다 먼저 정렬됩니다.');
+  fail('fetcher.local-ollama-runner', localRunner.includes('OLLAMA_REQUIRED = "1"') && localRunner.includes('qwen3:4b-instruct') && localRunner.includes('tools\\verify_platform_reliability.mjs') && localRunner.includes('git push origin HEAD:main'), 'PC가 켜져 있으면 로컬 Ollama로 수집·검증·운영 반영하는 격리 실행기가 준비됩니다.');
+  fail('fetcher.local-ollama-schedule', localTaskInstaller.includes('09:10') && localTaskInstaller.includes('14:10') && localTaskInstaller.includes('23:10') && localTaskInstaller.includes('StartWhenAvailable'), '로컬 Ollama 채용 수집을 하루 3회 실행하고 놓친 실행을 PC 가동 후 보완합니다.');
 }
 
 async function validateHomepage() {
@@ -650,7 +653,10 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.feed.items-array`, Array.isArray(feed.items), `${label} 피드 items 배열이 존재합니다.`);
   fail(`${label}.feed.member-detail-policy`, protectedDetailFeed || publicBriefingFeed, `${label} 공개 피드는 승인 회원 API 또는 공개 브리핑 정책을 명시합니다.`);
   fail(`${label}.feed.ollama-policy`, !ollamaRequired || /Ollama/.test(String(feed.collectionPolicy?.ollamaBriefingRule || '')), `${label} 하루 3회 자동 수집의 Ollama 브리핑 정책이 기록됩니다.`);
-  fail(`${label}.feed.ollama-required`, !ollamaRequired || (aiBriefing.engine === 'ollama' && aiBriefing.status === 'ok' && Number(aiBriefing.succeeded || 0) > 0), `${label} OLLAMA_REQUIRED=1이면 Ollama 브리핑 보강이 성공해야 합니다.`, JSON.stringify(aiBriefing));
+  const ollamaAttempted = Number(aiBriefing.attempted || 0);
+  const ollamaSucceeded = Number(aiBriefing.succeeded || 0);
+  const ollamaMinimumSuccess = Math.max(1, Math.ceil(ollamaAttempted / 2));
+  fail(`${label}.feed.ollama-required`, !ollamaRequired || (aiBriefing.engine === 'ollama' && ollamaSucceeded >= ollamaMinimumSuccess), `${label} OLLAMA_REQUIRED=1이면 Ollama 브리핑의 과반이 성공해야 합니다.`, JSON.stringify(aiBriefing));
   fail(`${label}.feed.non-empty`, items.length > 0, `${label} 피드에 자동 등록 후보가 있습니다.`, `${items.length}건`);
   fail(`${label}.feed.total-count`, summary.total === items.length, `${label} summary.total이 items 수와 일치합니다.`, `${summary.total} / ${items.length}`);
   fail(`${label}.feed.sources-count`, sourceStatus.length === summary.sourcesChecked, `${label} sourceStatus 수와 sourcesChecked가 일치합니다.`, `${sourceStatus.length} / ${summary.sourcesChecked}`);

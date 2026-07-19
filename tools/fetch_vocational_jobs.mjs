@@ -3872,7 +3872,7 @@ function buildSourceVerification(raw, process, displayUrl) {
   const sourceOfficialUrl = cleanUrl(raw.sourceDetailUrl || raw.portalUrl || raw.originalUrl || source?.sourceUrl || '');
   const explicitCompanyNoticeUrl = cleanUrl(raw.companyNoticeUrl || raw.companyNotice || raw.companyUrl || '');
   const displayOfficialUrl = cleanUrl(displayUrl);
-  const companyNoticeUrl = explicitCompanyNoticeUrl;
+  const companyNoticeUrl = firstNonFileUrl(explicitCompanyNoticeUrl);
   const check = raw.companyNoticeCheck || {};
   const hasCompanyNotice = Boolean(companyNoticeUrl);
   const hasSpecificCompanyNotice = hasCompanyNotice && (check.status === 'content_matched' || !isHomepageUrl(companyNoticeUrl));
