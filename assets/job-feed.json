@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "generatedAt": "2026-07-19T15:27:42.683Z",
+  "generatedAt": "2026-07-19T15:36:47.727Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "mode": "official-public-recruit-auto-registration",
@@ -46,7 +46,7 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-19T15:27:42.683Z",
+    "generatedAt": "2026-07-19T15:36:47.727Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
@@ -473,7 +473,7 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-07-19T15:27:42.683Z",
+    "generatedAt": "2026-07-19T15:36:47.727Z",
     "attempted": 46,
     "succeeded": 46,
     "failed": 0,
@@ -481,7 +481,7 @@
   },
   "collectionReview": {
     "status": "review_needed",
-    "generatedAt": "2026-07-19T15:27:42.683Z",
+    "generatedAt": "2026-07-19T15:36:47.727Z",
     "firstDayGoal": "공채는 게시 첫날 수집을 목표로 하며, 늦게 발견된 공고는 누락 점검 대상으로 기록한다.",
     "dynamicJobAlioGoal": "잡알리오 최근 등록 공고는 기관 화이트리스트나 제목 키워드와 무관하게 상세 원문을 열어 고졸·학력무관 후보를 판정한다.",
     "studentRecruitSafetyGoal": "학생에게 잘못 추천하지 않도록 제외하되, 공공·금융·대기업·필기/NCS·고졸·정규직 신호가 있는 중요 공채 후보는 안전검토 큐에 반드시 남긴다.",
@@ -1159,7 +1159,7 @@
       }
     ],
     "criticalCoverage": {
-      "checkedAt": "2026-07-19T15:27:42.683Z",
+      "checkedAt": "2026-07-19T15:36:47.727Z",
       "watchInstitutionCount": 94,
       "currentRequiredCount": 2,
       "coveredCurrent": [
@@ -1196,7 +1196,7 @@
   },
   "secretReadiness": {
     "status": "needs_secrets_or_official_feeds",
-    "generatedAt": "2026-07-19T15:27:42.683Z",
+    "generatedAt": "2026-07-19T15:36:47.727Z",
     "totalSources": 15,
     "readySources": 4,
     "partialSources": 0,
@@ -2231,7 +2231,7 @@
       "readiness": "active",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-07-19T15:27:42.683Z",
+      "checkedAt": "2026-07-19T15:36:47.727Z",
       "itemCount": 0,
       "message": "GitHub Secret MPM_PUBLIC_JOB_SERVICE_KEY 또는 DATA_GO_KR_SERVICE_KEY 미설정"
     },
@@ -2249,7 +2249,7 @@
       "readiness": "active",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-07-19T15:27:42.683Z",
+      "checkedAt": "2026-07-19T15:36:47.727Z",
       "itemCount": 0,
       "message": "GitHub Secret MOEF_PUBLIC_RECRUIT_SERVICE_KEY 또는 DATA_GO_KR_SERVICE_KEY 미설정"
     },
@@ -2267,7 +2267,7 @@
       "readiness": "active",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-07-19T15:27:42.683Z",
+      "checkedAt": "2026-07-19T15:36:47.727Z",
       "itemCount": 0,
       "message": "GitHub Secret WORK24_AUTH_KEY 또는 WORKNET_AUTH_KEY 미설정"
     },
@@ -2282,7 +2282,7 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-07-19T15:27:42.683Z",
+      "checkedAt": "2026-07-19T15:36:47.727Z",
       "itemCount": 133,
       "message": "공식 공개 원문 300건/302후보 점검, 목록 30/30페이지 확인, 최근 21일 상세 283/283건, 표시누락 0건, 공식 공고 확인 105건",
       "scannedCount": 300,
@@ -2306,7 +2306,7 @@
         "missingCandidates": []
       },
       "criticalCoverage": {
-        "checkedAt": "2026-07-19T15:27:42.683Z",
+        "checkedAt": "2026-07-19T15:36:47.727Z",
         "watchInstitutionCount": 94,
         "currentRequiredCount": 2,
         "coveredCurrent": [
@@ -2345,7 +2345,7 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-07-19T15:27:42.683Z",
+      "checkedAt": "2026-07-19T15:36:47.727Z",
       "itemCount": 0,
       "message": "서울 하이잡 공식 목록 20건 점검, 보조검증 후보 2건, 공식 공고 확인 0건, 첫날 수집 0건, 누락점검 2건",
       "verificationItemCount": 2,
@@ -2367,7 +2367,7 @@
       "readiness": "active",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-07-19T15:27:42.683Z",
+      "checkedAt": "2026-07-19T15:36:47.727Z",
       "itemCount": 0,
       "message": "GitHub Secret SARAMIN_ACCESS_KEY 미설정"
     },
@@ -2387,7 +2387,7 @@
       "readiness": "pending",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-07-19T15:27:42.683Z",
+      "checkedAt": "2026-07-19T15:36:47.727Z",
       "itemCount": 1,
       "message": "공식 채용 페이지 94/94개 감시, 채용대행 API 55개 추가확인, 표시후보 1건, 보조검증 후보 0건, 접속확인전용 2개, 실패 0개",
       "verificationItemCount": 0,
@@ -2518,7 +2518,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-07-19T15:27:42.683Z",
+      "checkedAt": "2026-07-19T15:36:47.727Z",
       "itemCount": 0,
       "message": "인사혁신처 나라일터 공식 API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -2536,7 +2536,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-07-19T15:27:42.683Z",
+      "checkedAt": "2026-07-19T15:36:47.727Z",
       "itemCount": 0,
       "message": "국방부·각 군 공식 모집/채용 공고 데이터 경로 확인 후 연결"
     },
@@ -2554,7 +2554,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-07-19T15:27:42.683Z",
+      "checkedAt": "2026-07-19T15:36:47.727Z",
       "itemCount": 0,
       "message": "잡코리아 공식 제휴 또는 이용 허가된 API 확인 후 연결"
     },
@@ -2572,7 +2572,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-07-19T15:27:42.683Z",
+      "checkedAt": "2026-07-19T15:36:47.727Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -2590,7 +2590,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-07-19T15:27:42.683Z",
+      "checkedAt": "2026-07-19T15:36:47.727Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -2608,7 +2608,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-07-19T15:27:42.683Z",
+      "checkedAt": "2026-07-19T15:36:47.727Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -2625,7 +2625,7 @@
       "readiness": "pending",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-07-19T15:27:42.683Z",
+      "checkedAt": "2026-07-19T15:36:47.727Z",
       "itemCount": 0,
       "message": "공식 채용 페이지 9/9개 감시, 채용대행 API 0개 추가확인, 표시후보 0건, 보조검증 후보 2건, 접속확인전용 0개, 실패 0개",
       "verificationItemCount": 2,
@@ -2669,7 +2669,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-07-19T15:27:42.683Z",
+      "checkedAt": "2026-07-19T15:36:47.727Z",
       "itemCount": 0,
       "message": "비영리기관 공식 채용 공고 경로와 이용 조건 확인 후 연결"
     }
@@ -2714,7 +2714,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302756"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-15T14:59:59.000Z",
       "publishedDate": "2026-07-15",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -2802,7 +2802,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -2883,7 +2883,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.ex.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302756",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -2950,7 +2950,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302755"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-15T14:59:59.000Z",
       "publishedDate": "2026-07-15",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -3038,7 +3038,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -3119,7 +3119,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.ex.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302755",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -3186,7 +3186,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302753"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-15T14:59:59.000Z",
       "publishedDate": "2026-07-15",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -3274,7 +3274,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -3355,7 +3355,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.ex.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302753",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -3422,7 +3422,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302752"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-15T14:59:59.000Z",
       "publishedDate": "2026-07-15",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -3510,7 +3510,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -3591,7 +3591,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.ex.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302752",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -3658,16 +3658,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302727"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-15T14:59:59.000Z",
       "publishedDate": "2026-07-15",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-15T14:59:59.000Z",
         "publishedDate": "2026-07-15",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 4,
         "firstDayCollected": false,
@@ -3748,7 +3748,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -3829,7 +3829,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/daejeon/board.do?menu=10536&mode=view&post=780204",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302727",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -3900,16 +3900,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302685"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-14T14:59:59.000Z",
         "publishedDate": "2026-07-14",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 5,
         "firstDayCollected": false,
@@ -3989,7 +3989,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -4071,7 +4071,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019488",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302685",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -4146,16 +4146,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302680"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-14T14:59:59.000Z",
         "publishedDate": "2026-07-14",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 5,
         "firstDayCollected": false,
@@ -4239,7 +4239,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -4322,7 +4322,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.keci.or.kr/common/bbs/selectBbs.do?bbs_code=A1003&bbs_seq=8464&sch_sort_col=&sch_sort=&sch_type=&row_per_page=&sch_text=&currentPage=1",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302680",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -4397,16 +4397,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302646"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-13T14:59:59.000Z",
         "publishedDate": "2026-07-13",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 6,
         "firstDayCollected": false,
@@ -4486,7 +4486,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -4569,7 +4569,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019482",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302646",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -4644,16 +4644,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302660"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-13T14:59:59.000Z",
         "publishedDate": "2026-07-13",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 6,
         "firstDayCollected": false,
@@ -4732,7 +4732,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -4815,7 +4815,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019484",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302660",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -4882,16 +4882,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302649"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-13T14:59:59.000Z",
         "publishedDate": "2026-07-13",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 6,
         "firstDayCollected": false,
@@ -4975,7 +4975,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -5056,7 +5056,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.bohun.or.kr/town/na/ntt/selectNttList.do?mi=34327&bbsId=1158",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302649",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -5115,16 +5115,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302581"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-10T14:59:59.000Z",
         "publishedDate": "2026-07-10",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 9,
         "firstDayCollected": false,
@@ -5215,7 +5215,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -5294,7 +5294,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://kimft.recruiter.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302581",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -5361,16 +5361,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302565"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-10T14:59:59.000Z",
         "publishedDate": "2026-07-10",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 9,
         "firstDayCollected": false,
@@ -5450,7 +5450,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -5531,7 +5531,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.slc.or.kr/slc/ni/bbs/notice.do?tabNo=4&#/eyJwYWdlIjoxLCJ3ZWJQYWdlTm8iOiIzMDAiLCJ0YWJObyI6NH0=",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302565",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -5598,16 +5598,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302574"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-10T14:59:59.000Z",
         "publishedDate": "2026-07-10",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 9,
         "firstDayCollected": false,
@@ -5689,7 +5689,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -5770,7 +5770,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://tp.careerlink.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302574",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -5837,16 +5837,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302491"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-09T14:59:59.000Z",
       "publishedDate": "2026-07-09",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-09T14:59:59.000Z",
         "publishedDate": "2026-07-09",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 10,
         "firstDayCollected": false,
@@ -5931,7 +5931,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -6012,7 +6012,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://kodit2.saramin.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302491",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -6083,16 +6083,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302571"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-09T14:59:59.000Z",
       "publishedDate": "2026-07-09",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-09T14:59:59.000Z",
         "publishedDate": "2026-07-09",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 10,
         "firstDayCollected": false,
@@ -6177,7 +6177,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -6259,7 +6259,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://kmiti.or.kr/kr/board/kmi_notice/boardView.do?bbsIdx=45491&catIdx=5",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302571",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -6326,16 +6326,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302678"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-09T14:59:59.000Z",
       "publishedDate": "2026-07-09",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-09T14:59:59.000Z",
         "publishedDate": "2026-07-09",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 10,
         "firstDayCollected": false,
@@ -6420,7 +6420,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -6501,7 +6501,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://kiom.fairy.im/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302678",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -6572,16 +6572,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302858"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-19T14:59:59.000Z",
       "publishedDate": "2026-07-19",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-19T14:59:59.000Z",
         "publishedDate": "2026-07-19",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 0,
         "firstDayCollected": true,
@@ -6664,7 +6664,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -6746,7 +6746,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.redcross.or.kr/redrecruit",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302858",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -6813,16 +6813,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302816"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-16T14:59:59.000Z",
         "publishedDate": "2026-07-16",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 3,
         "firstDayCollected": false,
@@ -6903,7 +6903,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -6984,7 +6984,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/semi/board.do?menu=3303&mode=view&post=780375",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302816",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -7051,16 +7051,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302768"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-16T14:59:59.000Z",
         "publishedDate": "2026-07-16",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 3,
         "firstDayCollected": false,
@@ -7145,7 +7145,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -7226,7 +7226,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.lh.or.kr/board.es?mid=a10602050000&bid=0036&act=view&list_no=733143&tag=&nPage=1",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302768",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -7293,16 +7293,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302842"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-16T14:59:59.000Z",
         "publishedDate": "2026-07-16",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 3,
         "firstDayCollected": false,
@@ -7390,7 +7390,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -7471,7 +7471,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.koagi.or.kr/www/user/bbs/BD_selectBbs.do?q_bbsSn=1009&q_clsfNo=&q_bbsDocNo=20260716165036883&q_searchKeyTy=&q_searchVal=&q_currPage=1&q_sortName=&q_sortOrder=&q_rowPerPage=10",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302842",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -7542,16 +7542,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302843"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-16T14:59:59.000Z",
         "publishedDate": "2026-07-16",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 3,
         "firstDayCollected": false,
@@ -7624,7 +7624,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -7706,7 +7706,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.nrf.re.kr/page/54?ac=view&searchType=&searchText=&pageNum=1&menuNo=54&boardNo=7&menuTypeCd=MENU_TYPE_02&code=&postNo=277679",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302843",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -7769,16 +7769,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302740"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-16T14:59:59.000Z",
         "publishedDate": "2026-07-16",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 3,
         "firstDayCollected": false,
@@ -7850,7 +7850,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -7930,7 +7930,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://kopo.ac.kr/board.do?menu=10523&mode=view&post=780245",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302740",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -7997,16 +7997,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302840"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-16T14:59:59.000Z",
         "publishedDate": "2026-07-16",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 3,
         "firstDayCollected": false,
@@ -8087,7 +8087,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -8168,7 +8168,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://arko.or.kr/board/view/4054?bid=&cid=1810941&sf_icon_category=cw00000301",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302840",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -8235,16 +8235,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302767"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-15T14:59:59.000Z",
       "publishedDate": "2026-07-15",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-15T14:59:59.000Z",
         "publishedDate": "2026-07-15",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 4,
         "firstDayCollected": false,
@@ -8332,7 +8332,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -8413,7 +8413,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://matchingbank.career.co.kr/jobs/view.asp?id_num=19390187",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302767",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -8480,16 +8480,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302650"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-14T14:59:59.000Z",
         "publishedDate": "2026-07-14",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 5,
         "firstDayCollected": false,
@@ -8568,7 +8568,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -8649,7 +8649,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.koat.or.kr/board/recruit_info/list.do",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302650",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -8716,16 +8716,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302657"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-14T14:59:59.000Z",
         "publishedDate": "2026-07-14",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 5,
         "firstDayCollected": false,
@@ -8806,7 +8806,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -8887,7 +8887,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.bohun.or.kr/daejeon/na/ntt/selectNttInfo.do?mi=33414&bbsId=1158&bbsSysId=daejeon&nttSn=187409",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302657",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -8954,16 +8954,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302677"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-14T14:59:59.000Z",
         "publishedDate": "2026-07-14",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 5,
         "firstDayCollected": false,
@@ -9048,7 +9048,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -9129,7 +9129,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://kogastech.recruiter.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302677",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -9196,16 +9196,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302654"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-13T14:59:59.000Z",
         "publishedDate": "2026-07-13",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 6,
         "firstDayCollected": false,
@@ -9295,7 +9295,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -9376,7 +9376,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kead.or.kr/bbs/deptgongji/bbsView.do?pageIndex=1&menuId=MENU0895&bbsCode=deptgongji&bbsCnId=214720",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302654",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -9447,16 +9447,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302621"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-13T14:59:59.000Z",
         "publishedDate": "2026-07-13",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 6,
         "firstDayCollected": false,
@@ -9549,7 +9549,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -9631,7 +9631,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kicte.or.kr/portal/community/noticeViewAction.do?buSeqNo=10149",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302621",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -9698,16 +9698,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302672"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-13T14:59:59.000Z",
         "publishedDate": "2026-07-13",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 6,
         "firstDayCollected": false,
@@ -9789,7 +9789,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -9870,7 +9870,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "http://koenergy.saramin.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302672",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -9937,7 +9937,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302590"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -10028,7 +10028,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -10109,7 +10109,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.redcross.or.kr/redrecruit/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302590",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -10176,16 +10176,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302603"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-10T14:59:59.000Z",
         "publishedDate": "2026-07-10",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 9,
         "firstDayCollected": false,
@@ -10269,7 +10269,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -10350,7 +10350,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "https://kosha.or.kr/notification/jobncontract/job/jobdata?bbsId=B2025021400005&pstNo=20260710100008FLWM03",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302603",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -10421,16 +10421,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302823"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-16T14:59:59.000Z",
         "publishedDate": "2026-07-16",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 3,
         "firstDayCollected": false,
@@ -10512,7 +10512,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -10594,7 +10594,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "https://komount.or.kr/board/view.do?boardCode=B02&selectedId=2115&pageIndex=1",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302823",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -10663,16 +10663,16 @@
         "http://gemskorea.com/",
         "https://high-job.sen.go.kr/FUS/JO/EMList.do"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-14T14:59:59.000Z",
         "publishedDate": "2026-07-14",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 5,
         "firstDayCollected": false,
@@ -10751,7 +10751,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 변동 가능 항목은 다음 수집에서 다시 대조합니다. 지역 교육청·학교 취업지원 소식은 직접 결과 카드로 표시하지 않고, 같은 채용인지 확인하는 2차·3차 보조검증 출처로만 대조했습니다."
@@ -10833,7 +10833,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "https://kepco-enc-jobs.cairos.co.kr/kepco-enc-jobs",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302700",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -10870,7 +10870,7 @@
             "company": "주식회사 서호메디코",
             "url": "http://gemskorea.com/",
             "sourceOfficialUrl": "https://high-job.sen.go.kr/FUS/JO/EMList.do",
-            "checkedAt": "2026-07-19T15:27:42.683Z",
+            "checkedAt": "2026-07-19T15:36:47.727Z",
             "policy": "verification-only-no-direct-display"
           }
         ]
@@ -10920,16 +10920,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302796"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-16T14:59:59.000Z",
         "publishedDate": "2026-07-16",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 3,
         "firstDayCollected": false,
@@ -11006,7 +11006,7 @@
         "companyNoticeCheckStatus": "fetch_failed",
         "companyNoticeReachable": false,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "official_source_summarized",
         "doubleCheckLabel": "공식 소스 자동요약",
         "verificationNote": "공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -11087,7 +11087,7 @@
         "officialBasis": "공식 소스 자동요약",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302796",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302796",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -11152,16 +11152,16 @@
       "companyNoticeUrl": "",
       "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=302527",
       "supplementarySourceUrls": [],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-10T14:59:59.000Z",
         "publishedDate": "2026-07-10",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 9,
         "firstDayCollected": false,
@@ -11239,7 +11239,7 @@
         "companyNoticeCheckStatus": "not_found",
         "companyNoticeReachable": false,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "official_source_summarized",
         "doubleCheckLabel": "공식 소스 자동요약",
         "verificationNote": "공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -11319,7 +11319,7 @@
         "officialBasis": "공식 소스 자동요약",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302527",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302527",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -11394,16 +11394,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302797"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-16T14:59:59.000Z",
         "publishedDate": "2026-07-16",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 3,
         "firstDayCollected": false,
@@ -11490,7 +11490,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "official_source_summarized",
         "doubleCheckLabel": "공식 소스 자동요약",
         "verificationNote": "공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -11572,7 +11572,7 @@
         "officialBasis": "공식 소스 자동요약",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302797",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302797",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -11637,16 +11637,16 @@
       "companyNoticeUrl": "",
       "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=302780",
       "supplementarySourceUrls": [],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-16T14:59:59.000Z",
         "publishedDate": "2026-07-16",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 3,
         "firstDayCollected": false,
@@ -11729,7 +11729,7 @@
         "companyNoticeCheckStatus": "not_found",
         "companyNoticeReachable": false,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "official_source_summarized",
         "doubleCheckLabel": "공식 소스 자동요약",
         "verificationNote": "공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -11809,7 +11809,7 @@
         "officialBasis": "공식 소스 자동요약",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302780",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302780",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -11880,16 +11880,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302830"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-16T14:59:59.000Z",
         "publishedDate": "2026-07-16",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 3,
         "firstDayCollected": false,
@@ -11973,7 +11973,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "official_source_summarized",
         "doubleCheckLabel": "공식 소스 자동요약",
         "verificationNote": "공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -12054,7 +12054,7 @@
         "officialBasis": "공식 소스 자동요약",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302830",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302830",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -12119,16 +12119,16 @@
       "companyNoticeUrl": "",
       "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=302674",
       "supplementarySourceUrls": [],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-14T14:59:59.000Z",
         "publishedDate": "2026-07-14",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 5,
         "firstDayCollected": false,
@@ -12207,7 +12207,7 @@
         "companyNoticeCheckStatus": "not_found",
         "companyNoticeReachable": false,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "official_source_summarized",
         "doubleCheckLabel": "공식 소스 자동요약",
         "verificationNote": "공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -12287,7 +12287,7 @@
         "officialBasis": "공식 소스 자동요약",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302674",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302674",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -12352,16 +12352,16 @@
       "companyNoticeUrl": "",
       "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=302722",
       "supplementarySourceUrls": [],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-14T14:59:59.000Z",
         "publishedDate": "2026-07-14",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 5,
         "firstDayCollected": false,
@@ -12434,7 +12434,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "official_source_summarized",
         "doubleCheckLabel": "공식 소스 자동요약",
         "verificationNote": "공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -12514,7 +12514,7 @@
         "officialBasis": "공식 소스 자동요약",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302722",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302722",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -12579,16 +12579,16 @@
       "companyNoticeUrl": "",
       "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=302724",
       "supplementarySourceUrls": [],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-14T14:59:59.000Z",
         "publishedDate": "2026-07-14",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 5,
         "firstDayCollected": false,
@@ -12667,7 +12667,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "official_source_summarized",
         "doubleCheckLabel": "공식 소스 자동요약",
         "verificationNote": "공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -12747,7 +12747,7 @@
         "officialBasis": "공식 소스 자동요약",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302724",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302724",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -12814,16 +12814,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302600"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-10T14:59:59.000Z",
         "publishedDate": "2026-07-10",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 9,
         "firstDayCollected": false,
@@ -12915,7 +12915,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -12996,7 +12996,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "http://www.keiti.re.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302600",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -13055,16 +13055,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302635"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-13T14:59:59.000Z",
         "publishedDate": "2026-07-13",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 6,
         "firstDayCollected": false,
@@ -13155,7 +13155,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "official_source_summarized",
         "doubleCheckLabel": "공식 소스 자동요약",
         "verificationNote": "공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -13234,7 +13234,7 @@
         "officialBasis": "공식 소스 자동요약",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302635",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302635",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -13305,16 +13305,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302698"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-14T14:59:59.000Z",
         "publishedDate": "2026-07-14",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 5,
         "firstDayCollected": false,
@@ -13395,7 +13395,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -13490,7 +13490,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://kspo.or.kr/kspo/singl/empmn/view.do?empmnId=763&menuNo=200186",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302698",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -13561,16 +13561,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302694"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-14T14:59:59.000Z",
         "publishedDate": "2026-07-14",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 5,
         "firstDayCollected": false,
@@ -13650,7 +13650,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -13745,7 +13745,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://kspo.or.kr/kspo/singl/empmn/view.do?empmnId=762&menuNo=200186",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302694",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -13820,16 +13820,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302665"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-13T14:59:59.000Z",
         "publishedDate": "2026-07-13",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 6,
         "firstDayCollected": false,
@@ -13902,7 +13902,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -13999,7 +13999,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kepcomcs.co.kr/mber/open-manage/recruit-list",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302665",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -14066,16 +14066,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302791"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
-      "firstSeenAt": "2026-07-19T14:13:44.370Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-16T14:59:59.000Z",
         "publishedDate": "2026-07-16",
-        "firstSeenAt": "2026-07-19T14:13:44.370Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 3,
         "firstDayCollected": false,
@@ -14157,7 +14157,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -14250,7 +14250,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/jungsu/board.do?menu=254&mode=view&post=780336",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302791",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -14317,22 +14317,22 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302541"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
-      "firstSeenAt": "2026-07-14T12:37:21.516Z",
-      "firstSeenDate": "2026-07-14",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
+      "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-10T14:59:59.000Z",
         "publishedDate": "2026-07-10",
-        "firstSeenAt": "2026-07-14T12:37:21.516Z",
-        "firstSeenDate": "2026-07-14",
-        "detectionLagDays": 4,
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
+        "firstSeenDate": "2026-07-19",
+        "detectionLagDays": 9,
         "firstDayCollected": false,
         "missedReviewNeeded": true,
         "firstDayStatus": "late_detected",
-        "note": "공고 게시 후 4일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
+        "note": "공고 게시 후 9일 뒤 자동 수집되어 누락 여부 점검 대상입니다."
       },
       "fitScore": 38,
       "fitLabels": [
@@ -14407,7 +14407,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -14500,7 +14500,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/seongnam/board.do?menu=10526&mode=view&post=779918",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302541",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -14567,16 +14567,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302742"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-15T14:59:59.000Z",
       "publishedDate": "2026-07-15",
-      "firstSeenAt": "2026-07-19T14:13:44.370Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-15T14:59:59.000Z",
         "publishedDate": "2026-07-15",
-        "firstSeenAt": "2026-07-19T14:13:44.370Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 4,
         "firstDayCollected": false,
@@ -14657,7 +14657,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -14750,7 +14750,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.ex.co.kr/portal/biz/bbs/layout1/selectBoardArticle.do?bbsId=BBSMSTR_000000000182&nttId=30043",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302742",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -14817,16 +14817,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302717"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-15T14:59:59.000Z",
       "publishedDate": "2026-07-15",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-15T14:59:59.000Z",
         "publishedDate": "2026-07-15",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 4,
         "firstDayCollected": false,
@@ -14911,7 +14911,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -14992,7 +14992,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/daegu/board.do?menu=10546&mode=view&post=780165",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302717",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -15059,16 +15059,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302741"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-15T14:59:59.000Z",
       "publishedDate": "2026-07-15",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-15T14:59:59.000Z",
         "publishedDate": "2026-07-15",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 4,
         "firstDayCollected": false,
@@ -15149,7 +15149,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -15230,7 +15230,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.ex.co.kr/portal/biz/bbs/layout1/selectBoardArticle.do?bbsId=BBSMSTR_000000000182&nttId=30042",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302741",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -15297,16 +15297,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302743"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-15T14:59:59.000Z",
       "publishedDate": "2026-07-15",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-15T14:59:59.000Z",
         "publishedDate": "2026-07-15",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 4,
         "firstDayCollected": false,
@@ -15387,7 +15387,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -15468,7 +15468,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.ex.co.kr/portal/biz/bbs/layout1/selectBoardArticle.do?bbsId=BBSMSTR_000000000182&nttId=30044",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302743",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -15535,16 +15535,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302732"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-14T14:59:59.000Z",
         "publishedDate": "2026-07-14",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 5,
         "firstDayCollected": false,
@@ -15630,7 +15630,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -15711,7 +15711,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://myip.kr/AHmWz",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302732",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -15778,16 +15778,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302733"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-14T14:59:59.000Z",
         "publishedDate": "2026-07-14",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 5,
         "firstDayCollected": false,
@@ -15874,7 +15874,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -15955,7 +15955,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://myip.kr/FaDZM",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302733",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -16030,16 +16030,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302688"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-14T14:59:59.000Z",
         "publishedDate": "2026-07-14",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 5,
         "firstDayCollected": false,
@@ -16120,7 +16120,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -16203,7 +16203,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kotra.or.kr/subList/20000005817",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302688",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -16270,16 +16270,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302561"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-10T14:59:59.000Z",
         "publishedDate": "2026-07-10",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 9,
         "firstDayCollected": false,
@@ -16362,7 +16362,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "official_source_summarized",
         "doubleCheckLabel": "공식 소스 자동요약",
         "verificationNote": "공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -16442,7 +16442,7 @@
         "officialBasis": "공식 소스 자동요약",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302561",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302561",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -16509,16 +16509,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302539"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-09T14:59:59.000Z",
       "publishedDate": "2026-07-09",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-09T14:59:59.000Z",
         "publishedDate": "2026-07-09",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 10,
         "firstDayCollected": false,
@@ -16598,7 +16598,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "official_source_summarized",
         "doubleCheckLabel": "공식 소스 자동요약",
         "verificationNote": "공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -16678,7 +16678,7 @@
         "officialBasis": "공식 소스 자동요약",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302539",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302539",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -16745,16 +16745,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302543"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-09T14:59:59.000Z",
       "publishedDate": "2026-07-09",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-09T14:59:59.000Z",
         "publishedDate": "2026-07-09",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 10,
         "firstDayCollected": false,
@@ -16834,7 +16834,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "official_source_summarized",
         "doubleCheckLabel": "공식 소스 자동요약",
         "verificationNote": "공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -16914,7 +16914,7 @@
         "officialBasis": "공식 소스 자동요약",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302543",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302543",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -16981,16 +16981,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302528"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-09T14:59:59.000Z",
       "publishedDate": "2026-07-09",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-09T14:59:59.000Z",
         "publishedDate": "2026-07-09",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 10,
         "firstDayCollected": false,
@@ -17070,7 +17070,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "official_source_summarized",
         "doubleCheckLabel": "공식 소스 자동요약",
         "verificationNote": "공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -17150,7 +17150,7 @@
         "officialBasis": "공식 소스 자동요약",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302528",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302528",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -17217,16 +17217,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302529"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-09T14:59:59.000Z",
       "publishedDate": "2026-07-09",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-09T14:59:59.000Z",
         "publishedDate": "2026-07-09",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 10,
         "firstDayCollected": false,
@@ -17306,7 +17306,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "official_source_summarized",
         "doubleCheckLabel": "공식 소스 자동요약",
         "verificationNote": "공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -17386,7 +17386,7 @@
         "officialBasis": "공식 소스 자동요약",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302529",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302529",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -17453,16 +17453,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302530"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-09T14:59:59.000Z",
       "publishedDate": "2026-07-09",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-09T14:59:59.000Z",
         "publishedDate": "2026-07-09",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 10,
         "firstDayCollected": false,
@@ -17542,7 +17542,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "official_source_summarized",
         "doubleCheckLabel": "공식 소스 자동요약",
         "verificationNote": "공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -17622,7 +17622,7 @@
         "officialBasis": "공식 소스 자동요약",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302530",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302530",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -17689,16 +17689,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302566"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-09T14:59:59.000Z",
       "publishedDate": "2026-07-09",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-09T14:59:59.000Z",
         "publishedDate": "2026-07-09",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 10,
         "firstDayCollected": false,
@@ -17778,7 +17778,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "official_source_summarized",
         "doubleCheckLabel": "공식 소스 자동요약",
         "verificationNote": "공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -17858,7 +17858,7 @@
         "officialBasis": "공식 소스 자동요약",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302566",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302566",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -17925,16 +17925,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302560"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-09T14:59:59.000Z",
       "publishedDate": "2026-07-09",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-09T14:59:59.000Z",
         "publishedDate": "2026-07-09",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 10,
         "firstDayCollected": false,
@@ -18014,7 +18014,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "official_source_summarized",
         "doubleCheckLabel": "공식 소스 자동요약",
         "verificationNote": "공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -18094,7 +18094,7 @@
         "officialBasis": "공식 소스 자동요약",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302560",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302560",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -18161,16 +18161,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302562"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-09T14:59:59.000Z",
       "publishedDate": "2026-07-09",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-09T14:59:59.000Z",
         "publishedDate": "2026-07-09",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 10,
         "firstDayCollected": false,
@@ -18250,7 +18250,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "official_source_summarized",
         "doubleCheckLabel": "공식 소스 자동요약",
         "verificationNote": "공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -18330,7 +18330,7 @@
         "officialBasis": "공식 소스 자동요약",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302562",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302562",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -18397,16 +18397,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302567"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-09T14:59:59.000Z",
       "publishedDate": "2026-07-09",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-09T14:59:59.000Z",
         "publishedDate": "2026-07-09",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 10,
         "firstDayCollected": false,
@@ -18486,7 +18486,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "official_source_summarized",
         "doubleCheckLabel": "공식 소스 자동요약",
         "verificationNote": "공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -18566,7 +18566,7 @@
         "officialBasis": "공식 소스 자동요약",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302567",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302567",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -18633,16 +18633,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302545"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-09T14:59:59.000Z",
       "publishedDate": "2026-07-09",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-09T14:59:59.000Z",
         "publishedDate": "2026-07-09",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 10,
         "firstDayCollected": false,
@@ -18722,7 +18722,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "official_source_summarized",
         "doubleCheckLabel": "공식 소스 자동요약",
         "verificationNote": "공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -18802,7 +18802,7 @@
         "officialBasis": "공식 소스 자동요약",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302545",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302545",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -18869,16 +18869,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302825"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-16T14:59:59.000Z",
         "publishedDate": "2026-07-16",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 3,
         "firstDayCollected": false,
@@ -18958,7 +18958,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "official_source_summarized",
         "doubleCheckLabel": "공식 소스 자동요약",
         "verificationNote": "공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -19038,7 +19038,7 @@
         "officialBasis": "공식 소스 자동요약",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302825",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302825",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -19105,16 +19105,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302750"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-15T14:59:59.000Z",
       "publishedDate": "2026-07-15",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-15T14:59:59.000Z",
         "publishedDate": "2026-07-15",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 4,
         "firstDayCollected": false,
@@ -19197,7 +19197,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "official_source_summarized",
         "doubleCheckLabel": "공식 소스 자동요약",
         "verificationNote": "공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -19277,7 +19277,7 @@
         "officialBasis": "공식 소스 자동요약",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302750",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302750",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -19344,16 +19344,16 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302695"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
-      "firstSeenAt": "2026-07-19T15:27:42.683Z",
+      "firstSeenAt": "2026-07-19T15:36:47.727Z",
       "firstSeenDate": "2026-07-19",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-14T14:59:59.000Z",
         "publishedDate": "2026-07-14",
-        "firstSeenAt": "2026-07-19T15:27:42.683Z",
+        "firstSeenAt": "2026-07-19T15:36:47.727Z",
         "firstSeenDate": "2026-07-19",
         "detectionLagDays": 5,
         "firstDayCollected": false,
@@ -19433,7 +19433,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "official_source_summarized",
         "doubleCheckLabel": "공식 소스 자동요약",
         "verificationNote": "공식 채용 소스에서 마감·자격·전형·첨부 정보를 자동 추출했습니다. 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -19513,7 +19513,7 @@
         "officialBasis": "공식 소스 자동요약",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302695",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302695",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -19582,7 +19582,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302620"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -19671,7 +19671,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -19764,7 +19764,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/incheon/board.do?menu=6900&mode=view&post=780004",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302620",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "application_closed",
@@ -20272,9 +20272,9 @@
               "downloadName": "★공고문 최종.jpg"
             }
           ],
-          "archiveScannedAt": "2026-07-19T15:27:42.683Z",
+          "archiveScannedAt": "2026-07-19T15:36:47.727Z",
           "archiveScanMessage": "직전 확인한 ZIP 내부 파일 링크를 유지합니다.",
-          "archiveCachedFrom": "2026-07-19T14:13:44.370Z"
+          "archiveCachedFrom": "2026-07-19T15:27:42.683Z"
         },
         {
           "title": "공고문: (2026 방재직 채용) 입사지원서.pdf",
@@ -20528,9 +20528,9 @@
               "downloadName": "4. 모집지역별 근무 사업소.pdf"
             }
           ],
-          "archiveScannedAt": "2026-07-19T15:27:42.683Z",
+          "archiveScannedAt": "2026-07-19T15:36:47.727Z",
           "archiveScanMessage": "직전 확인한 ZIP 내부 파일 링크를 유지합니다.",
-          "archiveCachedFrom": "2026-07-19T14:13:44.370Z"
+          "archiveCachedFrom": "2026-07-19T15:27:42.683Z"
         }
       ],
       "detailText": "일반직 1. 연령 ○ 입사일 기준 청년고용촉진 특별법상 청년(만15세 이상 34세 이하)인 자 * 제대군인의 경우, 의무복무기간만큼 청년연령 연장(최고연령은 만 37세로 한정) ○ 근로기준법 제64조 및 관련 법령상 채용이 금지된 자 지원 불가 2. 병역 ○ 병역기피 사실이 없는 자(군미필자 및 입사일 전일까지 전역 가능한 자도 지원 가능) 3. 전공: 제한없음 4. 자격: 고졸 또는 사회적배려대상자(취업지원대상자, 장애인, 기초생활수급자, 북한이탈주민, 다문화가족, 한부모가족, 자립준비청년, 경력단절여성) 5. 기타 ○ 공고문 채용 결격 사유에 해당하지 않은 자로 입사일(8.10)부터 근무 가능한 자 ○ 채용대상 제외자 : 한전KDN 인턴 근무 유경험자 직무관련 자격증, 컴퓨터활용능력, 한국사능력검정시험, KBS한국어능력시험, 영어성적, 취업지원대상자, 장애인 ※ 자세한 사항은 첨부파일 '채용공고문' 참조 ○ 1차전형(서류평가) : 지원자격 및 자기소개서 적부평가, 적격자에 한하여 정량평가 / 채용인원의 2배수 ○ 2차전형(자기소개서 평가) : 자기소개서 정성평가 / 채용인원의 1배수 사무일반 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 1. 채용공고문.pdf 공고문:",
@@ -22776,9 +22776,9 @@
               "downloadName": "05. 4단계 자기소개서.png"
             }
           ],
-          "archiveScannedAt": "2026-07-19T15:27:42.683Z",
+          "archiveScannedAt": "2026-07-19T15:36:47.727Z",
           "archiveScanMessage": "직전 확인한 ZIP 내부 파일 링크를 유지합니다.",
-          "archiveCachedFrom": "2026-07-19T14:13:44.370Z"
+          "archiveCachedFrom": "2026-07-19T15:27:42.683Z"
         },
         {
           "title": "입사지원서: 별정직 직무기술서.pdf",
@@ -23039,9 +23039,9 @@
               "downloadName": "(참고4) 장애인 등 응시자 편의제공 안내.pdf"
             }
           ],
-          "archiveScannedAt": "2026-07-19T15:27:42.683Z",
+          "archiveScannedAt": "2026-07-19T15:36:47.727Z",
           "archiveScanMessage": "직전 확인한 ZIP 내부 파일 링크를 유지합니다.",
-          "archiveCachedFrom": "2026-07-19T14:13:44.370Z"
+          "archiveCachedFrom": "2026-07-19T15:27:42.683Z"
         },
         {
           "title": "기타 첨부파일: 별지서식.zip",
@@ -23067,9 +23067,9 @@
               "downloadName": "(별지서식2) 채용결과 이의신청서.hwp"
             }
           ],
-          "archiveScannedAt": "2026-07-19T15:27:42.683Z",
+          "archiveScannedAt": "2026-07-19T15:36:47.727Z",
           "archiveScanMessage": "직전 확인한 ZIP 내부 파일 링크를 유지합니다.",
-          "archiveCachedFrom": "2026-07-19T14:13:44.370Z"
+          "archiveCachedFrom": "2026-07-19T15:27:42.683Z"
         }
       ],
       "detailText": "일반직,행정직,사무직 1. 고등학교 졸업자 - 고등학교 검정고시 합격자 및 대학 재학,휴학,중퇴자 포함(대학 졸업자 또는 졸업예정자, 졸업유예자 제외) 2. 다음 중 어느 하나에 해당되는 자 - 장애인, 저소득층(수급자 또는 한부모가족), 북한이탈주민, 다문화가족, 자립준비청년 - 성별: 무관 - 병역: 제한 없음(단, 병역법 제76조에서 정한 병역의무 불이행 사실이 없는 자에 한함) - 연령: 「청년고용촉진특별법」 제5조 및 동법 시행령 제2조에 근거하여 본 채용의 임용예정일 기준으로 15세 이상 ~ 34세 이하에 해당되는 자만 지원 가능 - 「제대군인지원에 관한 법률」 제2조 및 제16조에 따른 제대군인 응시 상한 연령 연장 * (복무기간 기준) 1년 미만: 1세 / 1년 이상∼2년 미만: 2세 / 2년 이상: 3세 장애인, 취업지원대상자, 저소득층, 북한이탈주민, 다문화가족, 자립준비청년, 공단 근무경력자 - 지원서 접수 - (1차) 서류전형 / 적격자 전원 - (2차) 필기전형 / 채용인원의 5배수 - (3차) 면접전형 - 최종 합격자 임용 일반행정(일반직 7급 전환형_사회형평 고졸제한) 구분 선발인원 응시인원 결과 확정일 1차 39명 64명 2026.06.19 2차 5명 16명 202",
@@ -23771,9 +23771,9 @@
               "downloadName": "(붙임5) 한국철도공사 블라인드 채용 준수를 위한 가이드라인.pdf"
             }
           ],
-          "archiveScannedAt": "2026-07-19T15:27:42.683Z",
+          "archiveScannedAt": "2026-07-19T15:36:47.727Z",
           "archiveScanMessage": "직전 확인한 ZIP 내부 파일 링크를 유지합니다.",
-          "archiveCachedFrom": "2026-07-19T14:13:44.370Z"
+          "archiveCachedFrom": "2026-07-19T15:27:42.683Z"
         }
       ],
       "detailText": "기타(사무보조, 고객안내, 물품관리 등) ○ 공통사항 (1) 학력,성별,연령 : 제한없음 (2) 기타 : 근로시작일(2026년 7월 13일)부터 근무가 가능한 자, 사무보조 및 고객안내, 물품관리 업무 등이 가능한 자 ○ 자격제한 (1) 「장애인고용촉진 및 직업재활법」에 따른 장애인 (2) 「국가유공자 등 예우 및 지원에 관한 법률」에 따른 상이등급 해당자 * 기타 세부 지원 자격은 첨부파일의 채용 공고문을 참조 국가유공자등 예우 및 지원에 관한 법률에 의한 취업지원대상자 : 면접전형에 취업지원대상증명서 가점비율 적용 ※ 자세한 사항은 첨부파일 공고문을 참조 1차(서류전형) : 자기소개서의 검증을 통해 합격자 선정 2차(면접전형) : 면접점수와 취업지원대상자 가산점을 합산한 고득점자 순으로 최종합격자 선발 ※ 자세한 사항은 첨부파일 2026년 한국철도공사 장애인 체험형 인턴사원 채용 공고문.pdf 공고문: 입사지원서(샘플).pdf 공고문: 장애인 체험형인턴 직무기술서.pdf 입사지원서: 2026년 한국철도공사 장애인 체험형 인턴사원 채용 참고자료.zip 마감 잡알리오 공공기관 채용",
@@ -24013,7 +24013,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302676"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -24115,7 +24115,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -24212,7 +24212,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.ssis.or.kr/lay1/bbs/S1T916C1391/O/130/view.do?article_seq=129491&cpage=1&rows=10&condition=&keyword=",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302676",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -24283,7 +24283,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302771"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -24377,7 +24377,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -24472,7 +24472,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://diramsjob.recruiter.co.kr/career/home",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302771",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -24539,7 +24539,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302523"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-09T14:59:59.000Z",
       "publishedDate": "2026-07-09",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -24631,7 +24631,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -24712,7 +24712,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "http://www.apcc21.org/board/BBSMSTR_000000000999/view/ac4bf6f4-7aa8-11f1-ba11-71758b733211",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302523",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -24779,7 +24779,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302686"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-15T14:59:59.000Z",
       "publishedDate": "2026-07-15",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -24875,7 +24875,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -24956,7 +24956,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "https://nierecruit.fairy.im/announcement/detail/112",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302686",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -25023,7 +25023,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302704"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -25118,7 +25118,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -25211,7 +25211,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B0%95%EC%9B%90%EC%A7%80%EC%82%AC&page=1&rnm_idx=911",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302704",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -25278,7 +25278,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302648"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -25373,7 +25373,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -25466,7 +25466,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B2%BD%EA%B8%B0%EB%82%A8%EB%B6%80%EC%A7%80%EC%82%AC&page=1&rnm_idx=910",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302648",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -25533,7 +25533,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302469"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -25625,7 +25625,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -25718,7 +25718,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://snubh.recruiter.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302469",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -25785,7 +25785,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302783"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -25880,7 +25880,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -25973,7 +25973,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B2%BD%EA%B8%B0%EB%B6%81%EB%B6%80%EC%A7%80%EC%82%AC&page=1&rnm_idx=912",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302783",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -26040,7 +26040,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302818"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -26132,7 +26132,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -26225,7 +26225,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/semi/board.do?menu=3303&mode=view&post=780374",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302818",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -26300,7 +26300,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302734"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-15T14:59:59.000Z",
       "publishedDate": "2026-07-15",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -26394,7 +26394,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -26491,7 +26491,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://wiset.or.kr/bbs/BBSMSTR_000000000305/view.do",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302734",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -26562,7 +26562,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302735"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-15T14:59:59.000Z",
       "publishedDate": "2026-07-15",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -26656,7 +26656,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -26751,7 +26751,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://arte.fairyhr.com/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302735",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -26818,7 +26818,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302489"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-09T14:59:59.000Z",
       "publishedDate": "2026-07-09",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -26909,7 +26909,7 @@
         "companyNoticeCheckStatus": "fetch_failed",
         "companyNoticeReachable": false,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "job_alio_detail_confirmed",
         "doubleCheckLabel": "잡알리오 공식 원문 확인",
         "verificationNote": "잡알리오 공식 상세 공고와 첨부 공고문 기준으로 마감·자격·전형 정보를 확인했습니다."
@@ -27001,7 +27001,7 @@
         "officialBasis": "잡알리오 공식 원문 확인",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302489",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302489",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -27068,7 +27068,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302837"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -27162,7 +27162,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -27243,7 +27243,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.comwel.or.kr/recruit/hp/main.do",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302837",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -27310,7 +27310,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302838"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -27404,7 +27404,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -27485,7 +27485,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.comwel.or.kr/recruit/hp/main.do",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302838",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -27552,7 +27552,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302762"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-15T14:59:59.000Z",
       "publishedDate": "2026-07-15",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -27645,7 +27645,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -27726,7 +27726,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.comwel.or.kr/recruit/hp/main.do",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302762",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -27793,7 +27793,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302470"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -27886,7 +27886,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -27967,7 +27967,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://snubh.recruiter.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302470",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -28034,7 +28034,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302757"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -28127,7 +28127,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -28208,7 +28208,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://nia.plusrecruit.co.kr/#/recruitment/detail/29",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302757",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -28275,7 +28275,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302827"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -28376,7 +28376,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -28457,7 +28457,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.k-medi.or.kr/web/lay1/bbs/S1T13C148/A/47/view.do?article_seq=14767&cpage=1&rows=10&condition=&keyword=",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302827",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -28524,7 +28524,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302811"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -28617,7 +28617,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -28698,7 +28698,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.redcross.or.kr/redrecruit/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302811",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -28773,7 +28773,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302772"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -28862,7 +28862,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -28945,7 +28945,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.iitp.kr/kr/1/notice/hire.it",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302772",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -29008,7 +29008,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302684"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -29104,7 +29104,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -29184,7 +29184,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://kdischool.recruiter.co.kr/appsite/company/index",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302684",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -29251,7 +29251,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302636"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -29343,7 +29343,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -29424,7 +29424,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.comwel.or.kr/recruit/hp/main.do",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302636",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -29491,7 +29491,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302627"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -29581,7 +29581,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -29662,7 +29662,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://kimst.recruiter.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302627",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -29737,7 +29737,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302664"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -29819,7 +29819,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -29902,7 +29902,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "https://recruit.incruit.com/kepcomcs",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302664",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -29969,7 +29969,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302314"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-07T14:59:59.000Z",
       "publishedDate": "2026-07-07",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -30054,7 +30054,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "job_alio_detail_confirmed",
         "doubleCheckLabel": "잡알리오 공식 원문 확인",
         "verificationNote": "잡알리오 공식 상세 공고와 첨부 공고문 기준으로 마감·자격·전형 정보를 확인했습니다."
@@ -30146,7 +30146,7 @@
         "officialBasis": "잡알리오 공식 원문 확인",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302314",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302314",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -30213,7 +30213,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302422"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-06T14:59:59.000Z",
       "publishedDate": "2026-07-06",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -30306,7 +30306,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -30399,7 +30399,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kised.or.kr/board.es?mid=a10304000000&bid=0014&act=view&list_no=4548&tag=&nPage=1",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302422",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -30466,7 +30466,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302794"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -30557,7 +30557,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -30650,7 +30650,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/jungsu/board.do?menu=254&mode=view&post=780339",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302794",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -30717,7 +30717,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302594"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -30809,7 +30809,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -30902,7 +30902,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/chungnam/board.do?menu=10539&mode=view&post=779964",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302594",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -30969,7 +30969,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302576"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -31060,7 +31060,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -31153,7 +31153,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/ulsan/board.do?menu=10553&mode=view&post=779942",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302576",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -31220,7 +31220,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302573"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-09T14:59:59.000Z",
       "publishedDate": "2026-07-09",
       "firstSeenAt": "2026-07-19T15:27:42.683Z",
@@ -31309,7 +31309,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -31402,7 +31402,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.bohun.or.kr/djcare/na/ntt/selectNttInfo.do?mi=34278&bbsId=1358&bbsSysId=djcare&nttSn=187295",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302573",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -31469,7 +31469,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302822"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -31563,7 +31563,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_reachable",
         "doubleCheckLabel": "공식 공고 접속확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 링크를 함께 확인했습니다. 세부 변동 가능 항목은 다음 수집에서 다시 대조합니다."
@@ -31656,7 +31656,7 @@
         "officialBasis": "공식 공고 접속확인",
         "officialUrl": "https://koddi.fairyhr.com/announcement/detail/87",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302822",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -31721,7 +31721,7 @@
       "companyNoticeUrl": "",
       "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=302713",
       "supplementarySourceUrls": [],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -31812,7 +31812,7 @@
         "companyNoticeCheckStatus": "reachable_unmatched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": false,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "job_alio_detail_confirmed",
         "doubleCheckLabel": "잡알리오 공식 원문 확인",
         "verificationNote": "잡알리오 공식 상세 공고와 첨부 공고문 기준으로 마감·자격·전형 정보를 확인했습니다."
@@ -31904,7 +31904,7 @@
         "officialBasis": "잡알리오 공식 원문 확인",
         "officialUrl": "https://job.alio.go.kr/recruitview.do?idx=302713",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302713",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -31971,7 +31971,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302839"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-17T14:59:59.000Z",
       "publishedDate": "2026-07-17",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -32072,7 +32072,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -32153,7 +32153,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.knuch.kr:442/content/04info/11_01.asp?proc_type=view&b_num=5074&rtn_url=%2Fcontent%2F04info%2F11%5F01%2Easp",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302839",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -32228,7 +32228,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302852"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-17T14:59:59.000Z",
       "publishedDate": "2026-07-17",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -32316,7 +32316,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -32399,7 +32399,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019506",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302852",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -32466,7 +32466,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302782"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -32557,7 +32557,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -32638,7 +32638,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kps.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302782",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -32709,7 +32709,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302817"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -32795,7 +32795,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -32877,7 +32877,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kps.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302817",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -32952,7 +32952,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302785"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -33047,7 +33047,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -33130,7 +33130,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.keci.or.kr/common/bbs/selectBbs.do?bbs_code=A1003&bbs_seq=8469&sch_sort_col=&sch_sort=&sch_type=&row_per_page=&sch_text=&currentPage=1",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302785",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -33205,7 +33205,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302832"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -33297,7 +33297,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -33380,7 +33380,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.keci.or.kr/common/bbs/selectBbs.do?bbs_code=A1003&bbs_seq=8472&sch_sort_col=&sch_sort=&sch_type=&row_per_page=&sch_text=&currentPage=1",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302832",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -33443,7 +33443,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302815"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -33536,7 +33536,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -33616,7 +33616,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.jejunuh.co.kr/prog/rcrutPbanc/main/sub05_03_03_01/view.do?rcrutPbancNo=2631",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302815",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -33691,7 +33691,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302795"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -33779,7 +33779,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -33862,7 +33862,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019503",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302795",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -33929,7 +33929,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302728"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-15T14:59:59.000Z",
       "publishedDate": "2026-07-15",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -34028,7 +34028,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -34109,7 +34109,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.knuch.kr:442/content/04info/11_01.asp?proc_type=view&b_num=5071&rtn_url=%2Fcontent%2F04info%2F11%5F01%2Easp",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302728",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -34184,7 +34184,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302745"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-15T14:59:59.000Z",
       "publishedDate": "2026-07-15",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -34272,7 +34272,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -34355,7 +34355,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019498",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302745",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -34422,7 +34422,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302736"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-15T14:59:59.000Z",
       "publishedDate": "2026-07-15",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -34513,7 +34513,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -34594,7 +34594,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.comwel.or.kr/recruit/hp/main.do",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302736",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -34661,7 +34661,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302760"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-15T14:59:59.000Z",
       "publishedDate": "2026-07-15",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -34749,7 +34749,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -34830,7 +34830,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.ex.co.kr/",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302760",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -34897,7 +34897,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302730"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-15T14:59:59.000Z",
       "publishedDate": "2026-07-15",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -34987,7 +34987,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -35068,7 +35068,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.kopo.ac.kr/chuncheon/board.do?menu=10533&mode=view&post=780217",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302730",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -35139,7 +35139,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302645"
       ],
-      "verifiedAt": "2026-07-19T15:27:42.683Z",
+      "verifiedAt": "2026-07-19T15:36:47.727Z",
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -35229,7 +35229,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-19T15:27:42.683Z",
+        "companyNoticeCheckedAt": "2026-07-19T15:36:47.727Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -35311,7 +35311,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://www.bohun.or.kr/seoul/na/ntt/selectNttInfo.do?mi=32253&bbsId=1158&bbsSysId=seoul&nttSn=187392",
         "sourceUrl": "https://job.alio.go.kr/recruitview.do?idx=302645",
-        "generatedAt": "2026-07-19T15:27:42.683Z"
+        "generatedAt": "2026-07-19T15:36:47.727Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
