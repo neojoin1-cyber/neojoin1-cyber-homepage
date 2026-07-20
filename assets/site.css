@@ -2507,6 +2507,7 @@ a.atlas-node{text-decoration:none}
 .atlas-node .atlas-link{display:inline-block;margin-top:9px;color:#116f6c;font-size:12px;font-weight:800}
 .atlas-node .atlas-link::after{content:"  →"}
 .atlas-portal .node-a{--x:13%;--y:7%;--w:28%}.atlas-portal .node-b{--x:57%;--y:7%;--w:28%}.atlas-portal .node-c{--x:17%;--y:60%;--w:27%}.atlas-portal .node-d{--x:56%;--y:59%;--w:28%}
+.atlas-home-opportunity .node-a{--x:6%;--y:6%;--w:29%;height:20%}.atlas-home-opportunity .node-b{--x:65%;--y:6%;--w:29%;height:20%}.atlas-home-opportunity .node-c{--x:7%;--y:53%;--w:29%;height:18%}.atlas-home-opportunity .node-d{--x:64%;--y:53%;--w:29%;height:18%}
 .atlas-exams .node-a{--x:3%;--y:65%;--w:27%}.atlas-exams .node-b{--x:36.5%;--y:72%;--w:27%}.atlas-exams .node-c{--x:70%;--y:65%;--w:27%}
 .atlas-vocational .node-a{--x:9%;--y:11%;--w:23%}.atlas-vocational .node-b{--x:38%;--y:10%;--w:24%}.atlas-vocational .node-c{--x:69%;--y:11%;--w:23%}
 .atlas-apps .atlas-node{--w:24%;background:rgba(255,253,246,.96)}.atlas-apps .node-a{--x:5%;--y:8%}.atlas-apps .node-b{--x:71%;--y:8%}.atlas-apps .node-c{--x:4%;--y:60%}.atlas-apps .node-d{--x:38%;--y:71%}.atlas-apps .node-e{--x:72%;--y:60%}

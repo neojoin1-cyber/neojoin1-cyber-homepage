@@ -594,7 +594,7 @@ async function validateHomepage() {
   fail('home.no-legacy-ebook-link', !html.includes('https://gyo6--ebook.web.app'), '대표 홈페이지는 기존 전자책 서재 링크를 노출하지 않습니다.');
   fail('home.ebook-direction', html.includes('href="ebooks.html"') && html.includes('전자책'), '대표 홈에서 전자책 서비스로 바로 이동할 수 있습니다.');
   fail('home.ebook-no-paid-teaser-copy', !hasPaidTeaserCopy(html), '전자책 안내에서 유료 전환처럼 보일 수 있는 맛보기 표현을 쓰지 않습니다.');
-  fail('home.hero-brand-copy', html.includes('교육 현장의 경험') && html.includes('gyo6.kr · 교육.한국'), '대표 홈은 교육 현장 경험과 gyo6.kr의 교육.한국 의미를 간결하게 전합니다.');
+  fail('home.hero-brand-copy', html.includes('대한민국 교육격차 해소 포털') && html.includes('적은 비용 · 필요한 노력 · 더 넓은 기회') && html.includes('gyo6.kr · 교육.한국'), '대표 홈은 교육격차 해소와 가성비 있는 자기설계 방향을 간결하게 전합니다.');
   fail('home.learning-app-not-ebook', html.includes('href="apps.html"') && html.includes('앱·서비스'), '학습 앱과 출시 서비스는 별도 앱·서비스 분기로 안내됩니다.');
   fail('home.today-where-positioning', html.includes('href="apps.html"'), '오늘어디가를 포함한 앱 포트폴리오 진입 경로가 유지됩니다.');
   fail('home.adventure-positioning', html.includes('href="apps.html"'), '모험동화를 포함한 앱 포트폴리오 진입 경로가 유지됩니다.');
@@ -602,7 +602,7 @@ async function validateHomepage() {
   fail('home.vocational-two-axis', html.includes('href="vocational.html"') && html.includes('특성화고 플랫폼'), '채용정보·상담자료실·전자책을 묶은 특성화고 플랫폼 분기가 유지됩니다.');
   fail('home.business-area-simple', html.includes('href="exams.html"') && html.includes('href="vocational.html"') && html.includes('href="apps.html"'), '대표 홈페이지는 세 가지 핵심 사업 분기로 정리되어 있습니다.');
   fail('home.thirty-years-proud-story', html.includes('href="host.html"') && html.includes('30년'), '30년 특성화고 경험을 신뢰 아카이브로 안내합니다.');
-  fail('home.hero-image-versioned', html.includes('map-portal-four-pillars.jpg'), '세 가지 핵심 사업과 교육현장 기록을 한 장에 연결한 최적화 인포그래픽 자산이 반영되어 있습니다.');
+  fail('home.hero-image-versioned', html.includes('map-home-education-opportunity.jpg'), '교육격차 해소와 네 가지 서비스 진입점을 연결한 메인 전용 인포그래픽 자산이 반영되어 있습니다.');
   fail('home.no-stale-axis-copy', staleAxisHits.length === 0, '이전 4축/기업자료/실험실 문구가 홈페이지에서 제거되어 있습니다.', staleAxisHits.join(', '));
 
   const ids = new Set(collectMatches(html, /\bid="([^"]+)"/g).map((match) => match[1]));
@@ -624,7 +624,7 @@ async function validateCoreContentPages() {
   const resources = await readText('resources.html');
   const host = await readText('host.html');
 
-  fail('core.about-page', about.includes('경험은 은퇴하지 않습니다') && about.includes('시니어 교육전문가') && about.includes('교육격차') && about.includes('설탕과소금 대표'), '설탕과소금 소개 페이지가 시니어 교육전문가의 경험과 교육격차 해소 소신을 담고 있습니다.');
+  fail('core.about-page', about.includes('교육현장 30년 · 경험에서 실천으로') && about.includes('시니어 교육전문가') && about.includes('교육격차') && about.includes('세 가지 사업') && about.includes('설탕과소금 대표') && about.includes('map-about-experience-direction.jpg'), '설탕과소금 소개 페이지가 교육 경험, 교육격차 해소 소신, 세 사업 방향을 전용 이미지와 함께 담고 있습니다.');
   fail('core.education-field-thirty-years', host.includes('교육현장 30년') && !host.includes('30년 특성화고'), '30년 기록의 브랜드 명칭이 교육현장 30년으로 통일되어 있습니다.');
   fail('core.vocational-content-weight', vocational.includes('href="jobs.html"') && vocational.includes('href="resources.html"') && vocational.includes('href="ebooks.html"'), '특성화고 플랫폼 페이지가 채용정보·상담자료실·전자책을 핵심 서비스로 연결합니다.');
   fail('core.exam-service-links', exams.includes('href="https://imyong.gyo6.kr"') && exams.includes('href="https://suneung.gyo6.kr"') && exams.includes('href="https://0mu1.gyo6.kr"'), '임용·수능·공무원 시험 카드가 각 전용 서비스 주소로 연결됩니다.');
