@@ -1,34 +1,43 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-20T14:10:22.553Z",
-  "feedGeneratedAt": "2026-07-20T14:10:22.553Z",
+  "generatedAt": "2026-07-20T15:59:44.189Z",
+  "feedGeneratedAt": "2026-07-20T15:59:44.189Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "ok",
+  "status": "degraded",
   "summary": {
     "total": 48,
     "active": 22,
     "deadlineSoon": 26,
     "applicationClosed": 0,
     "sourcesChecked": 15,
-    "sourcesConfigured": 4,
-    "sourcesFailed": 0,
+    "sourcesConfigured": 6,
+    "sourcesFailed": 1,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 0,
-    "sourceFallbackProtected": 0,
+    "staleFallbackItems": 48,
+    "sourceFallbackProtected": 48,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 140,
+    "studentRecruitSafetyReview": 67,
     "automatedBriefingReady": 48,
     "automatedBriefingAttempted": 48,
     "automatedBriefingFailed": 0
   },
-  "sourceFailures": [],
+  "sourceFailures": [
+    {
+      "id": "job-alio-openapi",
+      "name": "잡알리오 공공기관 채용",
+      "isolatedFailure": false,
+      "fallbackProtected": true,
+      "fallbackItemCount": 67,
+      "message": "연결 실패: recent-page-2: recent-page-2 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page; recent-page-1: recent-page-1 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page · 직전 정상 공고 67건 보존"
+    }
+  ],
   "aiBriefing": {
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-07-20T14:10:22.553Z",
+    "generatedAt": "2026-07-20T15:59:44.189Z",
     "attempted": 48,
     "succeeded": 48,
     "failed": 0,
@@ -36,11 +45,11 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-20T14:10:22.553Z",
+    "generatedAt": "2026-07-20T15:59:44.189Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 140,
+    "studentRecruitReviewCount": 67,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -169,6 +178,27 @@
         "status": "deadline_soon",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://snubh.recruiter.co.kr/"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "창업진흥원",
+        "title": "창업진흥원 2026년 제2차 신규직원 채용 공고(일반행정)",
+        "deadline": "2026-07-20",
+        "status": "deadline_soon",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.kised.or.kr/board.es?mid=a10304000000&bid=0014&act=view&list_no=4548&tag=&nPage=1"
       },
       {
         "list": "items",
@@ -434,26 +464,6 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.k-medi.or.kr/web/lay1/bbs/S1T13C148/A/47/view.do?article_seq=14767&cpage=1&rows=10&condition=&keyword="
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "대한적십자사",
-        "title": "대한적십자사 (통영적십자병원) 정규직 기술원(시설) 채용 공고",
-        "deadline": "2026-08-02",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.redcross.or.kr/redrecruit/"
       }
     ]
   },
