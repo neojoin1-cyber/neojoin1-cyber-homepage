@@ -148,7 +148,9 @@ function syncTabs() {
 
 function renderPost(post) {
   const room = ROOM_LABELS[post.room] || "게시판";
-  const status = post.status === "answered" ? "답변완료" : post.status === "closed" ? "종료" : "접수";
+  const status = post.room === "promotion"
+    ? "공개"
+    : post.status === "answered" ? "답변완료" : post.status === "closed" ? "종료" : "접수";
   const protectedNotice = post.canViewBody
     ? ""
     : `<p class="board-private">본문은 작성자와 관리자만 확인할 수 있습니다.</p>`;
