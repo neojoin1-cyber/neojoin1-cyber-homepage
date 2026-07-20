@@ -153,7 +153,7 @@ function renderPost(post) {
     ? ""
     : `<p class="board-private">본문은 작성자와 관리자만 확인할 수 있습니다.</p>`;
   const body = post.canViewBody && post.body
-    ? `<div class="board-body">${escapeHtml(post.body).replaceAll("\n", "<br>")}</div>`
+    ? renderBoardBody(post.body, post.room)
     : "";
   const reply = post.canViewBody && post.adminReply
     ? `<div class="board-reply"><strong>관리자 답변</strong><p>${escapeHtml(post.adminReply).replaceAll("\n", "<br>")}</p></div>`
@@ -172,6 +172,25 @@ function renderPost(post) {
       ${reply}
     </article>
   `;
+}
+
+function renderBoardBody(value, room) {
+  const lines = String(value ?? "").split("\n");
+  const content = lines.map((line) => {
+    const image = room === "promotion"
+      ? line.match(/^\[\[image:(assets\/news\/[a-z0-9._/-]+\.(?:png|jpe?g|webp))\|([^\]]{1,160})\]\]$/i)
+      : null;
+
+    if (image) {
+      const src = escapeHtml(image[1]);
+      const alt = escapeHtml(image[2].trim());
+      return `<figure class="board-post-visual"><img src="${src}" alt="${alt}" loading="lazy" decoding="async"><figcaption>${alt}</figcaption></figure>`;
+    }
+
+    return escapeHtml(line);
+  }).join("<br>");
+
+  return `<div class="board-body">${content}</div>`;
 }
 
 function formatDate(value) {

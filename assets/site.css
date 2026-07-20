@@ -713,6 +713,26 @@ h3 {
   color: #34425a;
 }
 
+.board-post-visual {
+  margin: 18px 0 22px;
+}
+
+.board-post-visual img {
+  display: block;
+  width: min(100%, 760px);
+  height: auto;
+  margin-inline: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.board-post-visual figcaption {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}
+
 .board-reply {
   margin-top: 16px;
   border-left: 4px solid var(--teal);
