@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-19T15:49:53.403Z",
-  "feedGeneratedAt": "2026-07-19T15:49:53.403Z",
+  "generatedAt": "2026-07-20T00:10:17.159Z",
+  "feedGeneratedAt": "2026-07-20T00:10:17.159Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
@@ -11,14 +11,14 @@
     "deadlineSoon": 30,
     "applicationClosed": 0,
     "sourcesChecked": 15,
-    "sourcesConfigured": 6,
+    "sourcesConfigured": 4,
     "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
     "staleFallbackItems": 0,
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 135,
+    "studentRecruitSafetyReview": 134,
     "automatedBriefingReady": 46,
     "automatedBriefingAttempted": 46,
     "automatedBriefingFailed": 0
@@ -28,7 +28,7 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-07-19T15:49:53.403Z",
+    "generatedAt": "2026-07-20T00:10:17.159Z",
     "attempted": 46,
     "succeeded": 46,
     "failed": 0,
@@ -36,11 +36,11 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-19T15:49:53.403Z",
+    "generatedAt": "2026-07-20T00:10:17.159Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 135,
+    "studentRecruitReviewCount": 134,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -300,6 +300,66 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "근로복지공단",
+        "title": "근로복지공단 [정선병원] 공무직(전기기계통신기사-기계분야) 채용 공고",
+        "deadline": "2026-07-23",
+        "status": "deadline_soon",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "근로복지공단",
+        "title": "근로복지공단 [태백병원] 공무직(전기기계통신기사-기계분야) 채용 공고",
+        "deadline": "2026-07-23",
+        "status": "deadline_soon",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "근로복지공단",
+        "title": "근로복지공단 [강원지역본부] 공무직(보험가입조사원) 및 [강릉지사] 공무직(사무원) 채용 공고",
+        "deadline": "2026-07-22",
+        "status": "deadline_soon",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
         "signals": [
           "공공·금융·대기업 소스",
@@ -316,6 +376,25 @@
         "status": "deadline_soon",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://snubh.recruiter.co.kr/"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국지능정보사회진흥원",
+        "title": "2026년 한국지능정보사회진흥원 4차 계약직[무기계약직(상담직, 중계직), 휴직대체계약직(상담직)] 채용공고",
+        "deadline": "2026-07-30",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://nia.plusrecruit.co.kr/#/recruitment/detail/29"
       },
       {
         "list": "items",
@@ -377,86 +456,6 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.iitp.kr/kr/1/notice/hire.it"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리 · 필기신호 직접분류 재검토",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "KDI국제정책대학원",
-        "title": "[KDI국제정책대학원] 2026년 제8차 위촉직 채용(교육행정/기계설비)",
-        "deadline": "2026-07-29",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://kdischool.recruiter.co.kr/appsite/company/index"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "인턴·채용연계",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "해양수산과학기술진흥원",
-        "title": "해양수산과학기술진흥원 2026년도 제2차 신규직원(기간제근로자 및 청년인턴) 채용 공고",
-        "deadline": "2026-07-29",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://kimst.recruiter.co.kr/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "근로복지공단",
-        "title": "근로복지공단 [태백병원] 공무직(전기기계통신기사-기계분야) 채용 공고",
-        "deadline": "2026-07-23",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "근로복지공단",
-        "title": "근로복지공단 [정선병원] 공무직(전기기계통신기사-기계분야) 채용 공고",
-        "deadline": "2026-07-23",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
       }
     ]
   },
