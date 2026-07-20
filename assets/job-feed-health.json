@@ -1,55 +1,46 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-20T04:24:28.424Z",
-  "feedGeneratedAt": "2026-07-20T04:24:28.424Z",
+  "generatedAt": "2026-07-20T05:10:19.153Z",
+  "feedGeneratedAt": "2026-07-20T05:10:19.153Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "degraded",
+  "status": "ok",
   "summary": {
-    "total": 46,
-    "active": 16,
-    "deadlineSoon": 30,
+    "total": 47,
+    "active": 19,
+    "deadlineSoon": 28,
     "applicationClosed": 0,
     "sourcesChecked": 15,
-    "sourcesConfigured": 6,
-    "sourcesFailed": 1,
+    "sourcesConfigured": 4,
+    "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 45,
-    "sourceFallbackProtected": 45,
+    "staleFallbackItems": 0,
+    "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 65,
-    "automatedBriefingReady": 46,
-    "automatedBriefingAttempted": 46,
+    "studentRecruitSafetyReview": 134,
+    "automatedBriefingReady": 47,
+    "automatedBriefingAttempted": 47,
     "automatedBriefingFailed": 0
   },
-  "sourceFailures": [
-    {
-      "id": "job-alio-openapi",
-      "name": "잡알리오 공공기관 채용",
-      "isolatedFailure": false,
-      "fallbackProtected": true,
-      "fallbackItemCount": 64,
-      "message": "연결 실패: recent-page-2: recent-page-2 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page; recent-page-1: recent-page-1 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page · 직전 정상 공고 64건 보존"
-    }
-  ],
+  "sourceFailures": [],
   "aiBriefing": {
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-07-20T04:24:28.424Z",
-    "attempted": 46,
-    "succeeded": 46,
+    "generatedAt": "2026-07-20T05:10:19.153Z",
+    "attempted": 47,
+    "succeeded": 47,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-20T04:24:28.424Z",
+    "generatedAt": "2026-07-20T05:10:19.153Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 65,
+    "studentRecruitReviewCount": 134,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -287,28 +278,6 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "신용보증기금",
-        "title": "2026년도 하반기 신용보증기금 체험형 청년인턴 채용",
-        "deadline": "2026-07-23",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=302489"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
         "signals": [
           "공공·금융·대기업 소스",
@@ -398,6 +367,45 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
+        "company": "한국장애인고용공단",
+        "title": "[한국장애인고용공단 경기남부직업능력개발원] 특정업무직(운영지원직) 시설정비원(3조3교대) 채용",
+        "deadline": "2026-07-30",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.kead.or.kr/bbs/deptgongji/bbsPage.do?menuId=MENU0895"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 전문자격·면허 중심 · 분류:학생추천 제외",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "재단법인 한국장기조직기증원",
+        "title": "재단법인 한국장기조직기증원 (재)한국장기조직기증원 2026년 제3차 공개채용",
+        "deadline": "2026-08-03",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://koda1458.recruiter.co.kr/"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
         "company": "한국지능정보사회진흥원",
         "title": "2026년 한국지능정보사회진흥원 4차 계약직[무기계약직(상담직, 중계직), 휴직대체계약직(상담직)] 채용공고",
         "deadline": "2026-07-30",
@@ -445,26 +453,6 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.redcross.or.kr/redrecruit/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리 · 필기신호 직접분류 재검토",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "정보통신기획평가원",
-        "title": "2026년 정보통신기획평가원 직원채용(전문직) 공고",
-        "deadline": "2026-08-07",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.iitp.kr/kr/1/notice/hire.it"
       }
     ]
   },
