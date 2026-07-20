@@ -5,6 +5,27 @@ const ROOM_LABELS = {
   qna: "질의응답"
 };
 
+const FEATURED_NEWS = {
+  id: "featured-education-experts",
+  room: "promotion",
+  title: "교육의 다음 장을 함께 만들 전문가를 기다립니다",
+  body: `[[image:assets/news/education-experts-invitation.png|교육전문가 검수·자문 인력풀 초대 안내]]
+
+교육현장 경험을 다음 세대의 기회로 연결할 전문가를 기다립니다.
+
+- 참여 분야: 공무원·임용·수능 핵심노트 및 모의고사
+- 주요 역할: 사실·정답 전수 검증, 출제 경향 분석, 핵심노트·예상문제 검수
+- 협업 방식: 재택 중심 온라인 협업, 비대면 면담과 프로젝트별 온보딩
+- 운영 원칙: 위촉 계약, 비밀유지협약, 저작권과 정산 기준 사전 확정
+- 함께할 분: 교육 경력을 의미 있게 이어갈 은퇴·시니어 전문가와 현장 교육전문가
+- 참여 문의: 소식·문의 화면의 협업문의에서 남겨 주세요.`,
+  status: "open",
+  canViewBody: true,
+  author: { anonymousName: "설탕과소금" },
+  createdAt: "2026-07-20T11:16:00.000Z",
+  updatedAt: "2026-07-20T11:16:00.000Z"
+};
+
 const app = document.querySelector("[data-board-app]");
 const tabs = [...document.querySelectorAll("[data-board-room]")];
 const searchForm = document.querySelector("[data-board-search]");
@@ -76,7 +97,7 @@ async function loadPosts() {
       throw new Error(data.error || `HTTP ${response.status}`);
     }
 
-    const posts = Array.isArray(data.posts) ? data.posts : [];
+    const posts = mergeFeaturedNews(Array.isArray(data.posts) ? data.posts : []);
     statusEl.textContent = posts.length
       ? `${posts.length}개의 게시글을 표시합니다.`
       : "아직 표시할 게시글이 없습니다.";
@@ -84,6 +105,24 @@ async function loadPosts() {
   } catch (error) {
     statusEl.textContent = error.message || "게시글을 불러오지 못했습니다.";
   }
+}
+
+function mergeFeaturedNews(posts) {
+  const roomMatches = state.room === "all" || state.room === FEATURED_NEWS.room;
+  const keyword = state.q.toLocaleLowerCase("ko-KR");
+  const textMatches = !keyword
+    || `${FEATURED_NEWS.title} ${FEATURED_NEWS.body}`.toLocaleLowerCase("ko-KR").includes(keyword);
+  const alreadyPublished = posts.some((post) => (
+    post.room === FEATURED_NEWS.room && post.title === FEATURED_NEWS.title
+  ));
+
+  const merged = roomMatches && textMatches && !alreadyPublished
+    ? [FEATURED_NEWS, ...posts]
+    : posts;
+
+  return merged.sort((a, b) => (
+    new Date(b.updatedAt || b.createdAt || 0) - new Date(a.updatedAt || a.createdAt || 0)
+  ));
 }
 
 async function submitPost(event) {
