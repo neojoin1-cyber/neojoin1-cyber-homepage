@@ -1,55 +1,46 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-21T03:58:20.444Z",
-  "feedGeneratedAt": "2026-07-21T03:58:20.444Z",
+  "generatedAt": "2026-07-21T05:10:19.353Z",
+  "feedGeneratedAt": "2026-07-21T05:10:19.353Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "degraded",
+  "status": "ok",
   "summary": {
-    "total": 44,
-    "active": 22,
+    "total": 46,
+    "active": 24,
     "deadlineSoon": 22,
     "applicationClosed": 0,
     "sourcesChecked": 15,
-    "sourcesConfigured": 6,
-    "sourcesFailed": 1,
+    "sourcesConfigured": 4,
+    "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 44,
-    "sourceFallbackProtected": 44,
+    "staleFallbackItems": 0,
+    "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 67,
-    "automatedBriefingReady": 44,
-    "automatedBriefingAttempted": 44,
+    "studentRecruitSafetyReview": 138,
+    "automatedBriefingReady": 46,
+    "automatedBriefingAttempted": 46,
     "automatedBriefingFailed": 0
   },
-  "sourceFailures": [
-    {
-      "id": "job-alio-openapi",
-      "name": "잡알리오 공공기관 채용",
-      "isolatedFailure": false,
-      "fallbackProtected": true,
-      "fallbackItemCount": 67,
-      "message": "연결 실패: recent-page-1: recent-page-1 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page; recent-page-2: recent-page-2 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page · 직전 정상 공고 67건 보존"
-    }
-  ],
+  "sourceFailures": [],
   "aiBriefing": {
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-07-21T03:58:20.444Z",
-    "attempted": 44,
-    "succeeded": 44,
+    "generatedAt": "2026-07-21T05:10:19.353Z",
+    "attempted": 46,
+    "succeeded": 46,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-21T03:58:20.444Z",
+    "generatedAt": "2026-07-21T05:10:19.353Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 67,
+    "studentRecruitReviewCount": 138,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -257,6 +248,27 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
+        "company": "전남대학교병원",
+        "title": "2026년 7월 전남대학교병원 직원(중증장애인 단시간근로자_무기계약직) 공개채용시험 공고",
+        "deadline": "2026-07-29",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://cnuh.recruiter.co.kr/app/jobnotice/view?systemKindCode=MRS2&jobnoticeSn=260269"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
         "company": "대한적십자사",
         "title": "대한적십자사 2026년도 제3차 혈액관리본부 전문직 등 신규 직원 공개 모집",
         "deadline": "2026-08-04",
@@ -323,6 +335,26 @@
         "status": "deadline_soon",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "대한적십자사",
+        "title": "대한적십자사 상주적십자병원 직원(정규직 물리치료사, 정규직 기술원_전산) 모집",
+        "deadline": "2026-08-06",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.redcross.or.kr/redrecruit"
       },
       {
         "list": "items",
@@ -401,7 +433,7 @@
         "deadline": "2026-07-31",
         "status": "active",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.k-medi.or.kr/web/lay1/bbs/S1T13C148/A/47/view.do?article_seq=14767&cpage=1&rows=10&condition=&keyword="
+        "primaryOfficialUrl": "https://www.k-medi.or.kr/web/lay1/bbs/S1T13C148/A/47/list.do"
       },
       {
         "list": "items",
@@ -422,46 +454,6 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.redcross.or.kr/redrecruit/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리 · 필기신호 직접분류 재검토",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "정보통신기획평가원",
-        "title": "2026년 정보통신기획평가원 직원채용(전문직) 공고",
-        "deadline": "2026-08-07",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.iitp.kr/kr/1/notice/hire.it"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리 · 필기신호 직접분류 재검토",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "KDI국제정책대학원",
-        "title": "[KDI국제정책대학원] 2026년 제8차 위촉직 채용(교육행정/기계설비)",
-        "deadline": "2026-07-29",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://kdischool.recruiter.co.kr/appsite/company/index"
       }
     ]
   },
