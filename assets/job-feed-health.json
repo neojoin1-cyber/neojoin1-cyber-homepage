@@ -1,55 +1,46 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-20T15:59:44.189Z",
-  "feedGeneratedAt": "2026-07-20T15:59:44.189Z",
+  "generatedAt": "2026-07-21T00:10:20.367Z",
+  "feedGeneratedAt": "2026-07-21T00:10:20.367Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "degraded",
+  "status": "ok",
   "summary": {
-    "total": 48,
+    "total": 44,
     "active": 22,
-    "deadlineSoon": 26,
+    "deadlineSoon": 22,
     "applicationClosed": 0,
     "sourcesChecked": 15,
-    "sourcesConfigured": 6,
-    "sourcesFailed": 1,
+    "sourcesConfigured": 4,
+    "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 48,
-    "sourceFallbackProtected": 48,
+    "staleFallbackItems": 0,
+    "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 67,
-    "automatedBriefingReady": 48,
-    "automatedBriefingAttempted": 48,
+    "studentRecruitSafetyReview": 132,
+    "automatedBriefingReady": 44,
+    "automatedBriefingAttempted": 44,
     "automatedBriefingFailed": 0
   },
-  "sourceFailures": [
-    {
-      "id": "job-alio-openapi",
-      "name": "잡알리오 공공기관 채용",
-      "isolatedFailure": false,
-      "fallbackProtected": true,
-      "fallbackItemCount": 67,
-      "message": "연결 실패: recent-page-2: recent-page-2 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page; recent-page-1: recent-page-1 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page · 직전 정상 공고 67건 보존"
-    }
-  ],
+  "sourceFailures": [],
   "aiBriefing": {
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-07-20T15:59:44.189Z",
-    "attempted": 48,
-    "succeeded": 48,
+    "generatedAt": "2026-07-21T00:10:20.367Z",
+    "attempted": 44,
+    "succeeded": 44,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-20T15:59:44.189Z",
+    "generatedAt": "2026-07-21T00:10:20.367Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 67,
+    "studentRecruitReviewCount": 132,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -130,6 +121,27 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
+        "company": "학교법인한국폴리텍",
+        "title": "학교법인한국폴리텍 한국폴리텍대학 반도체융합캠퍼스 업무직(대학운영직_전기원) 채용 공고(2차)",
+        "deadline": "2026-07-26",
+        "status": "deadline_soon",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.kopo.ac.kr/semi/board.do?menu=3303&mode=view&post=780374"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
         "company": "주택관리공단(주)",
         "title": "채용형 인턴 채용공고(주택관리공단 강원지사)",
         "deadline": "2026-07-21",
@@ -151,54 +163,12 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "주택관리공단(주)",
-        "title": "채용형 인턴 채용공고(주택관리공단 경기남부지사)",
-        "deadline": "2026-07-20",
-        "status": "deadline_soon",
+        "company": "한국보건의료인국가시험원",
+        "title": "2026년도 제4차 한국보건의료인국가시험원 신규직원 채용 공고",
+        "deadline": "2026-08-04",
+        "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B2%BD%EA%B8%B0%EB%82%A8%EB%B6%80%EC%A7%80%EC%82%AC&page=1&rnm_idx=910"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "분당서울대학교병원",
-        "title": "분당서울대학교병원 신입(업무지원직 장애인) 직원 채용 공고",
-        "deadline": "2026-07-20",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://snubh.recruiter.co.kr/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "창업진흥원",
-        "title": "창업진흥원 2026년 제2차 신규직원 채용 공고(일반행정)",
-        "deadline": "2026-07-20",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kised.or.kr/board.es?mid=a10304000000&bid=0014&act=view&list_no=4548&tag=&nPage=1"
+        "primaryOfficialUrl": "https://www.kuksiwon.or.kr/notice/brd/m_51/view.do?seq=3980&srchFr=&srchTo=&srchWord=&srchTp=&itm_seq_1=0&itm_seq_2=0&multi_itm_seq=0&company_cd=&company_nm=&etc1="
       },
       {
         "list": "items",
@@ -220,27 +190,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B2%BD%EA%B8%B0%EB%B6%81%EB%B6%80%EC%A7%80%EC%82%AC&page=1&rnm_idx=912"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "학교법인한국폴리텍",
-        "title": "학교법인한국폴리텍 한국폴리텍대학 반도체융합캠퍼스 업무직(대학운영직_전기원) 채용 공고(2차)",
-        "deadline": "2026-07-26",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kopo.ac.kr/semi/board.do?menu=3303&mode=view&post=780374"
       },
       {
         "list": "items",
@@ -369,26 +318,6 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "분당서울대학교병원",
-        "title": "분당서울대학교병원 신입(업무지원직) 직원 채용 공고",
-        "deadline": "2026-07-20",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://snubh.recruiter.co.kr/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
         "signals": [
           "공공·금융·대기업 소스",
@@ -464,6 +393,66 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.k-medi.or.kr/web/lay1/bbs/S1T13C148/A/47/view.do?article_seq=14767&cpage=1&rows=10&condition=&keyword="
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "대한적십자사",
+        "title": "대한적십자사 (통영적십자병원) 정규직 기술원(시설) 채용 공고",
+        "deadline": "2026-08-02",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.redcross.or.kr/redrecruit/"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리 · 필기신호 직접분류 재검토",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "정보통신기획평가원",
+        "title": "2026년 정보통신기획평가원 직원채용(전문직) 공고",
+        "deadline": "2026-08-07",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.iitp.kr/kr/1/notice/hire.it"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리 · 필기신호 직접분류 재검토",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "KDI국제정책대학원",
+        "title": "[KDI국제정책대학원] 2026년 제8차 위촉직 채용(교육행정/기계설비)",
+        "deadline": "2026-07-29",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://kdischool.recruiter.co.kr/appsite/company/index"
       }
     ]
   },
