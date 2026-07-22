@@ -624,7 +624,7 @@ async function validateCoreContentPages() {
   const resources = await readText('resources.html');
   const host = await readText('host.html');
 
-  fail('core.about-page', about.includes('설탕과소금 소개 · 교육현장 30년') && about.includes('경험에서 실천으로') && about.includes('시니어 교육전문가') && about.includes('교육격차') && about.includes('세 가지 사업') && about.includes('설탕과소금 대표') && about.includes('map-about-experience-direction.jpg'), '설탕과소금 소개 페이지가 교육 경험, 교육격차 해소 소신, 세 사업 방향을 전용 이미지와 함께 담고 있습니다.');
+  fail('core.about-page', about.includes('설탕과소금 소개 · 교육현장 30년') && about.includes('시니어 교육전문가') && about.includes('교육격차') && about.includes('설탕과소금 대표') && about.includes('aria-label="설탕과소금이 지키는 네 방향"') && ['branch-about-experience.webp', 'branch-about-connection.webp', 'branch-about-practice.webp', 'branch-about-technology.webp'].every((asset) => about.includes(asset)), '설탕과소금 소개 페이지가 교육 경험, 교육격차 해소 소신, 세 사업 방향을 네 개의 전용 이미지 카드로 담고 있습니다.');
   fail('core.education-field-thirty-years', host.includes('교육현장 30년') && !host.includes('30년 특성화고'), '30년 기록의 브랜드 명칭이 교육현장 30년으로 통일되어 있습니다.');
   fail('core.vocational-content-weight', vocational.includes('href="jobs.html"') && vocational.includes('href="resources.html"') && vocational.includes('href="ebooks.html"'), '특성화고 플랫폼 페이지가 채용정보·상담자료실·전자책을 핵심 서비스로 연결합니다.');
   fail('core.exam-service-links', exams.includes('href="https://imyong.gyo6.kr"') && exams.includes('href="https://suneung.gyo6.kr"') && exams.includes('href="https://0mu1.gyo6.kr"'), '임용·수능·공무원 시험 카드가 각 전용 서비스 주소로 연결됩니다.');
