@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-22T03:59:20.876Z",
-  "feedGeneratedAt": "2026-07-22T03:59:20.876Z",
+  "generatedAt": "2026-07-22T07:41:31.977Z",
+  "feedGeneratedAt": "2026-07-22T07:41:31.977Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
-    "total": 51,
-    "active": 28,
+    "total": 55,
+    "active": 32,
     "deadlineSoon": 23,
     "applicationClosed": 0,
     "sourcesChecked": 15,
@@ -18,9 +18,9 @@
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 149,
-    "automatedBriefingReady": 51,
-    "automatedBriefingAttempted": 51,
+    "studentRecruitSafetyReview": 155,
+    "automatedBriefingReady": 55,
+    "automatedBriefingAttempted": 55,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -28,23 +28,45 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-07-22T03:59:20.876Z",
-    "attempted": 51,
-    "succeeded": 51,
+    "generatedAt": "2026-07-22T07:41:31.977Z",
+    "attempted": 55,
+    "succeeded": 55,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-22T03:59:20.876Z",
+    "generatedAt": "2026-07-22T07:41:31.977Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 149,
+    "studentRecruitReviewCount": 155,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
     "studentRecruitReviewSamples": [
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국석유관리원",
+        "title": "2026년 한국석유관리원 채용형 인턴 채용공고",
+        "deadline": "2026-08-06",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.kpetro.or.kr/lay1/bbs/S1T91C685/F/72/view.do?article_seq=14802&cpage=1&rows=10&condition=&keyword=&show=&cat="
+      },
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
@@ -437,26 +459,6 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.redcross.or.kr/redrecruit/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리 · 필기신호 직접분류 재검토",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "정보통신기획평가원",
-        "title": "2026년 정보통신기획평가원 직원채용(전문직) 공고",
-        "deadline": "2026-08-07",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.iitp.kr/kr/1/notice/hire.it"
       }
     ]
   },
