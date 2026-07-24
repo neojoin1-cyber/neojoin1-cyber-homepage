@@ -189,26 +189,37 @@
 
     .wt-phone-stage {
       position: relative;
-      min-height: 610px;
+      min-height: 560px;
+      width: min(100%, 500px);
+      margin-left: auto;
     }
 
     .wt-phone {
-      display: block;
-      width: min(360px, 58vw);
-      border: 14px solid var(--deep);
-      border-radius: 42px;
-      background: #fff;
-      box-shadow: var(--shadow);
-    }
-
-    .wt-phone-main { margin-left: auto; }
-    .wt-phone-sub {
       position: absolute;
-      width: min(250px, 42vw);
+      display: block;
+      width: 244px;
+      height: auto;
+      border: 8px solid var(--deep);
+      border-radius: 30px;
+      background: #fff;
+      box-shadow: 0 24px 54px rgba(15, 23, 48, .24);
     }
-    .wt-phone-place { left: 0; bottom: 10px; }
-    .wt-phone-atlas { right: 0; bottom: -26px; }
 
+    .wt-phone-main {
+      z-index: 2;
+      left: 8px;
+      top: 6px;
+      transform: rotate(-2.5deg);
+    }
+    .wt-phone-sub {
+      width: 224px;
+    }
+    .wt-phone-place {
+      z-index: 3;
+      right: 4px;
+      top: 48px;
+      transform: rotate(2.5deg);
+    }
     .wt-section {
       padding: 86px 0;
     }
@@ -530,8 +541,10 @@
       .wt-cta {
         grid-template-columns: 1fr;
       }
-      .wt-phone-stage { min-height: 760px; }
-      .wt-phone-main { margin: 0 auto; }
+      .wt-phone-stage {
+        min-height: 560px;
+        margin: 24px auto 0;
+      }
       .wt-cards,
       .wt-places {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -590,16 +603,21 @@
         max-width: 358px;
       }
       .wt-phone-stage {
-        min-height: 610px;
+        min-height: 440px;
         width: 100%;
         max-width: 358px;
-        margin: 28px 0 0;
+        margin: 30px auto 0;
         overflow: hidden;
       }
-      .wt-phone-main { width: min(286px, 74vw); }
-      .wt-phone-sub { width: min(182px, 47vw); }
-      .wt-phone-place { left: 0; }
-      .wt-phone-atlas { right: -10px; }
+      .wt-phone-main {
+        left: -2px;
+        width: min(190px, 52vw);
+      }
+      .wt-phone-sub { width: min(176px, 48vw); }
+      .wt-phone-place {
+        right: -2px;
+        top: 34px;
+      }
     }
   </style>
 </head>
@@ -640,7 +658,6 @@
         <div class="wt-phone-stage" aria-label="오늘어디가 앱 화면 캡처">
           <img class="wt-phone wt-phone-main" src="assets/wheretoday/wheretoday-screen-home.webp" alt="오늘어디가 홈 화면" width="720" height="1558" />
           <img class="wt-phone wt-phone-sub wt-phone-place" src="assets/wheretoday/wheretoday-screen-place-bulguksa.webp" alt="경주 불국사 상세 화면" width="720" height="1558" loading="lazy" />
-          <img class="wt-phone wt-phone-sub wt-phone-atlas" src="assets/wheretoday/wheretoday-screen-atlas.webp" alt="지역별 유산 인벤토리 화면" width="720" height="1558" loading="lazy" />
         </div>
       </div>
     </section>
