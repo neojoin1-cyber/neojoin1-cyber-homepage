@@ -1,24 +1,24 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-24T00:10:20.713Z",
-  "feedGeneratedAt": "2026-07-24T00:10:20.713Z",
+  "generatedAt": "2026-07-24T03:37:30.840Z",
+  "feedGeneratedAt": "2026-07-24T03:37:30.840Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
     "total": 53,
-    "active": 26,
-    "deadlineSoon": 27,
+    "active": 27,
+    "deadlineSoon": 26,
     "applicationClosed": 0,
     "sourcesChecked": 15,
-    "sourcesConfigured": 4,
+    "sourcesConfigured": 6,
     "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
     "staleFallbackItems": 0,
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 153,
+    "studentRecruitSafetyReview": 154,
     "automatedBriefingReady": 53,
     "automatedBriefingAttempted": 53,
     "automatedBriefingFailed": 0
@@ -28,7 +28,7 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-07-24T00:10:20.713Z",
+    "generatedAt": "2026-07-24T03:37:30.840Z",
     "attempted": 53,
     "succeeded": 53,
     "failed": 0,
@@ -36,11 +36,11 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-24T00:10:20.713Z",
+    "generatedAt": "2026-07-24T03:37:30.840Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 153,
+    "studentRecruitReviewCount": 154,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -425,26 +425,6 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리 · 필기신호 직접분류 재검토",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "KDI국제정책대학원",
-        "title": "[KDI국제정책대학원] 2026년 제8차 위촉직 채용(교육행정/기계설비)",
-        "deadline": "2026-07-29",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://kdischool.recruiter.co.kr/appsite/company/index"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
         "signals": [
           "공공·금융·대기업 소스",
@@ -461,6 +441,26 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019525"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "대한적십자사",
+        "title": "대한적십자사 상주적십자병원 직원(정규직 물리치료사, 정규직 기술원_전산) 모집",
+        "deadline": "2026-08-06",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.redcross.or.kr/redrecruit"
       }
     ]
   },
