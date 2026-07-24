@@ -1,59 +1,71 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-23T16:01:21.305Z",
-  "feedGeneratedAt": "2026-07-23T16:01:21.305Z",
+  "generatedAt": "2026-07-24T00:10:20.713Z",
+  "feedGeneratedAt": "2026-07-24T00:10:20.713Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "degraded",
+  "status": "ok",
   "summary": {
-    "total": 54,
-    "active": 32,
-    "deadlineSoon": 22,
+    "total": 53,
+    "active": 26,
+    "deadlineSoon": 27,
     "applicationClosed": 0,
     "sourcesChecked": 15,
-    "sourcesConfigured": 6,
-    "sourcesFailed": 1,
+    "sourcesConfigured": 4,
+    "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 54,
-    "sourceFallbackProtected": 54,
+    "staleFallbackItems": 0,
+    "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 79,
-    "automatedBriefingReady": 54,
-    "automatedBriefingAttempted": 54,
+    "studentRecruitSafetyReview": 153,
+    "automatedBriefingReady": 53,
+    "automatedBriefingAttempted": 53,
     "automatedBriefingFailed": 0
   },
-  "sourceFailures": [
-    {
-      "id": "job-alio-openapi",
-      "name": "잡알리오 공공기관 채용",
-      "isolatedFailure": false,
-      "fallbackProtected": true,
-      "fallbackItemCount": 78,
-      "message": "연결 실패: recent-page-1: recent-page-1 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page; recent-page-2: recent-page-2 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page · 직전 정상 공고 78건 보존"
-    }
-  ],
+  "sourceFailures": [],
   "aiBriefing": {
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-07-23T16:01:21.305Z",
-    "attempted": 54,
-    "succeeded": 54,
+    "generatedAt": "2026-07-24T00:10:20.713Z",
+    "attempted": 53,
+    "succeeded": 53,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-23T16:01:21.305Z",
+    "generatedAt": "2026-07-24T00:10:20.713Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 79,
+    "studentRecruitReviewCount": 153,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
     "studentRecruitReviewSamples": [
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "동남권원자력의학원",
+        "title": "동남권원자력의학원 [직원채용] (신규) 무기계약직 일반업무직(병동·외래특수) 공개 채용",
+        "deadline": "2026-07-29",
+        "status": "deadline_soon",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://diramsjob.recruiter.co.kr/career/home"
+      },
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
@@ -96,27 +108,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.ssis.or.kr/lay1/bbs/S1T916C1391/O/130/view.do?article_seq=129491&cpage=1&rows=10&condition=&keyword="
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "동남권원자력의학원",
-        "title": "동남권원자력의학원 [직원채용] (신규) 무기계약직 일반업무직(병동·외래특수) 공개 채용",
-        "deadline": "2026-07-29",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://diramsjob.recruiter.co.kr/career/home"
       },
       {
         "list": "items",
@@ -247,6 +238,70 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국문화예술교육진흥원",
+        "title": "한국문화예술교육진흥원 직원 채용 공고(26-3차)",
+        "deadline": "2026-07-29",
+        "status": "deadline_soon",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://arte.fairyhr.com/"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "전남대학교병원",
+        "title": "2026년 7월 전남대학교병원 직원(중증장애인 단시간근로자_무기계약직) 공개채용시험 공고",
+        "deadline": "2026-07-29",
+        "status": "deadline_soon",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://cnuh.recruiter.co.kr/app/jobnotice/view?systemKindCode=MRS2&jobnoticeSn=260269"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "분당서울대학교병원",
+        "title": "분당서울대학교병원 신입(업무지원직 장애인) 직원 채용 공고",
+        "deadline": "2026-08-03",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://snubh.recruiter.co.kr/"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
           "고졸·특성화고 명시",
           "인턴·채용연계",
           "공채 신호",
@@ -303,49 +358,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://wiset.or.kr/bbs/BBSMSTR_000000000305/view.do"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국문화예술교육진흥원",
-        "title": "한국문화예술교육진흥원 직원 채용 공고(26-3차)",
-        "deadline": "2026-07-29",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://arte.fairyhr.com/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "전남대학교병원",
-        "title": "2026년 7월 전남대학교병원 직원(중증장애인 단시간근로자_무기계약직) 공개채용시험 공고",
-        "deadline": "2026-07-29",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://cnuh.recruiter.co.kr/app/jobnotice/view?systemKindCode=MRS2&jobnoticeSn=260269"
       },
       {
         "list": "items",
@@ -413,42 +425,22 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리 · 필기신호 직접분류 재검토",
         "signals": [
           "공공·금융·대기업 소스",
           "학력무관",
-          "공채 신호",
+          "필기·NCS 신호",
           "신입·정규직 계열"
         ],
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "근로복지공단",
-        "title": "근로복지공단 [정선병원] 공무직(전기기계통신기사-기계분야) 채용 공고",
-        "deadline": "2026-07-23",
+        "company": "KDI국제정책대학원",
+        "title": "[KDI국제정책대학원] 2026년 제8차 위촉직 채용(교육행정/기계설비)",
+        "deadline": "2026-07-29",
         "status": "deadline_soon",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "근로복지공단",
-        "title": "근로복지공단 [태백병원] 공무직(전기기계통신기사-기계분야) 채용 공고",
-        "deadline": "2026-07-23",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
+        "primaryOfficialUrl": "https://kdischool.recruiter.co.kr/appsite/company/index"
       },
       {
         "list": "items",
