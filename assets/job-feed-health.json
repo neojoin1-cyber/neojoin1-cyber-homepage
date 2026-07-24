@@ -1,24 +1,24 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-24T07:56:05.318Z",
-  "feedGeneratedAt": "2026-07-24T07:56:05.318Z",
+  "generatedAt": "2026-07-24T14:10:20.789Z",
+  "feedGeneratedAt": "2026-07-24T14:10:20.789Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
     "total": 59,
-    "active": 34,
-    "deadlineSoon": 25,
+    "active": 35,
+    "deadlineSoon": 24,
     "applicationClosed": 0,
     "sourcesChecked": 15,
-    "sourcesConfigured": 6,
+    "sourcesConfigured": 4,
     "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
     "staleFallbackItems": 0,
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 155,
+    "studentRecruitSafetyReview": 157,
     "automatedBriefingReady": 59,
     "automatedBriefingAttempted": 59,
     "automatedBriefingFailed": 0
@@ -28,7 +28,7 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-07-24T07:56:05.318Z",
+    "generatedAt": "2026-07-24T14:10:20.789Z",
     "attempted": 59,
     "succeeded": 59,
     "failed": 0,
@@ -36,11 +36,11 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-24T07:56:05.318Z",
+    "generatedAt": "2026-07-24T14:10:20.789Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 155,
+    "studentRecruitReviewCount": 157,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -91,26 +91,6 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국수력원자력(주)",
-        "title": "한국수력원자력(주) 2026년도 제4차 신입사원(고졸수준 일반전형) 선발",
-        "deadline": "2026-08-07",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.khnp.co.kr/recruit"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호",
         "signals": [
           "공공·금융·대기업 소스",
@@ -128,6 +108,26 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.ssis.or.kr/lay1/bbs/S1T916C1391/O/130/view.do?article_seq=129491&cpage=1&rows=10&condition=&keyword="
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국수력원자력(주)",
+        "title": "한국수력원자력(주) 2026년도 제4차 신입사원(고졸수준 일반전형) 선발",
+        "deadline": "2026-08-07",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.khnp.co.kr/recruit"
       },
       {
         "list": "items",
@@ -169,26 +169,6 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=302927"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "국립생태원",
-        "title": "2026년 제4차 국립생태원 기간제근로자(수탁과제) 채용 2차 재공고",
-        "deadline": "2026-07-27",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://nierecruit.fairy.im/announcement/detail/112"
       },
       {
         "list": "items",
@@ -289,6 +269,27 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
+        "company": "한국사회복지협의회",
+        "title": "한국사회복지협의회 2026년 제3차 직원 채용 공고",
+        "deadline": "2026-08-10",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://bokji.net/not/recru/01_01.bokji?BOARDIDX=32709"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
         "company": "분당서울대학교병원",
         "title": "분당서울대학교병원 신입(업무지원직 장애인) 직원 채용 공고",
         "deadline": "2026-08-03",
@@ -358,6 +359,27 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.kspo.or.kr/kspo/singl/empmn/view.do?empmnId=767&menuNo=200186&pageIndex=1"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국교육개발원",
+        "title": "한국교육개발원 2026년도 제8차 직원 채용 공고",
+        "deadline": "2026-08-10",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://kedi.recruiter.co.kr/"
       },
       {
         "list": "items",
@@ -442,27 +464,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://wiset.or.kr/bbs/BBSMSTR_000000000305/view.do"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국전력공사",
-        "title": "한국전력공사 2026년도 NDIS데이터관리원 채용공고",
-        "deadline": "2026-08-06",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303025"
       }
     ]
   },
