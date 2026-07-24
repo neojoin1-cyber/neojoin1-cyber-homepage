@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-24T14:10:20.789Z",
-  "feedGeneratedAt": "2026-07-24T14:10:20.789Z",
+  "generatedAt": "2026-07-24T15:41:19.969Z",
+  "feedGeneratedAt": "2026-07-24T15:41:19.969Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
-    "total": 59,
-    "active": 35,
-    "deadlineSoon": 24,
+    "total": 58,
+    "active": 28,
+    "deadlineSoon": 30,
     "applicationClosed": 0,
     "sourcesChecked": 15,
-    "sourcesConfigured": 4,
+    "sourcesConfigured": 6,
     "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
     "staleFallbackItems": 0,
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 157,
-    "automatedBriefingReady": 59,
-    "automatedBriefingAttempted": 59,
+    "studentRecruitSafetyReview": 152,
+    "automatedBriefingReady": 58,
+    "automatedBriefingAttempted": 58,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -28,23 +28,44 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-07-24T14:10:20.789Z",
-    "attempted": 59,
-    "succeeded": 59,
+    "generatedAt": "2026-07-24T15:41:19.969Z",
+    "attempted": 58,
+    "succeeded": 58,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-24T14:10:20.789Z",
+    "generatedAt": "2026-07-24T15:41:19.969Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 157,
+    "studentRecruitReviewCount": 152,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
     "studentRecruitReviewSamples": [
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국사회보장정보원",
+        "title": "한국사회보장정보원 2026년도 제3차 직원 채용공고",
+        "deadline": "2026-07-30",
+        "status": "deadline_soon",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.ssis.or.kr/lay1/bbs/S1T916C1391/O/130/view.do?article_seq=129491&cpage=1&rows=10&condition=&keyword="
+      },
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
@@ -87,27 +108,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.kpetro.or.kr/lay1/bbs/S1T91C685/F/72/view.do?article_seq=14802&cpage=1&rows=10&condition=&keyword=&show=&cat="
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국사회보장정보원",
-        "title": "한국사회보장정보원 2026년도 제3차 직원 채용공고",
-        "deadline": "2026-07-30",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.ssis.or.kr/lay1/bbs/S1T916C1391/O/130/view.do?article_seq=129491&cpage=1&rows=10&condition=&keyword="
       },
       {
         "list": "items",
@@ -205,6 +205,27 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
+        "company": "주택관리공단(주)",
+        "title": "채용형 인턴 채용공고(주택관리공단 경기북부지사)(보훈채용)",
+        "deadline": "2026-07-30",
+        "status": "deadline_soon",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B2%BD%EA%B8%B0%EB%B6%81%EB%B6%80%EC%A7%80%EC%82%AC&page=1&rnm_idx=912"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
         "company": "학교법인한국폴리텍",
         "title": "학교법인한국폴리텍 한국폴리텍대학 반도체융합캠퍼스 업무직(대학운영직_전기원) 채용 공고(2차)",
         "deadline": "2026-07-26",
@@ -254,27 +275,6 @@
         "status": "deadline_soon",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://cnuh.recruiter.co.kr/app/jobnotice/view?systemKindCode=MRS2&jobnoticeSn=260269"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국사회복지협의회",
-        "title": "한국사회복지협의회 2026년 제3차 직원 채용 공고",
-        "deadline": "2026-08-10",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://bokji.net/not/recru/01_01.bokji?BOARDIDX=32709"
       },
       {
         "list": "items",
@@ -429,6 +429,27 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국전력공사",
+        "title": "한국전력공사 2026년도 NDIS데이터관리원 채용공고",
+        "deadline": "2026-08-06",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303025"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
           "고졸·특성화고 명시",
           "인턴·채용연계",
           "공채 신호",
@@ -437,33 +458,12 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "주택관리공단(주)",
-        "title": "채용형 인턴 채용공고(주택관리공단 경기북부지사)(보훈채용)",
-        "deadline": "2026-07-30",
+        "company": "한국마사회",
+        "title": "2026년 한국마사회 전임직(무기계약직) 보훈특별고용 공고(산업안전관리)",
+        "deadline": "2026-08-05",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B2%BD%EA%B8%B0%EB%B6%81%EB%B6%80%EC%A7%80%EC%82%AC&page=1&rnm_idx=912"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "인턴·채용연계",
-          "공채 신호"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국여성과학기술인육성재단",
-        "title": "한국여성과학기술인육성재단 2026년도 제4차 하반기 체험형 청년인턴(일반,보훈제한경쟁) 채용 공고",
-        "deadline": "2026-07-30",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://wiset.or.kr/bbs/BBSMSTR_000000000305/view.do"
+        "primaryOfficialUrl": "https://recruit.incruit.com/kra/"
       }
     ]
   },
