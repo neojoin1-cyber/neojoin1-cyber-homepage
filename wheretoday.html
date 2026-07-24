@@ -1,0 +1,857 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>오늘어디가 1분 체험 | 설탕과소금</title>
+  <meta name="description" content="경주·전주·제주의 가족 체험학습을 장소 선택, 현장 미션, 보고서와 복습으로 연결하는 오늘어디가 앱을 1분 동안 체험해 보세요." />
+  <link rel="canonical" href="https://gyo6.kr/wheretoday.html" />
+  <link rel="icon" type="image/jpeg" href="assets/thumb-brand-horizontal-sign.jpg" />
+  <link rel="stylesheet" href="assets/site.css" />
+  <style>
+    :root {
+      --night: #101b3f;
+      --deep: #0f1730;
+      --star: #ffd43b;
+      --paper: #fff8ed;
+      --lav: #f4f1ff;
+      --ink: #111827;
+      --muted: #667085;
+      --line: #e7e3f0;
+      --gyeongju: #c9772f;
+      --jeonju: #8a54c6;
+      --jeju: #2e86c9;
+      --shadow: 0 24px 80px rgba(15, 23, 48, .18);
+    }
+
+    * { box-sizing: border-box; }
+    html { overflow-x: hidden; }
+    body {
+      margin: 0;
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+      color: var(--ink);
+      background: linear-gradient(180deg, var(--paper), #f5f4fb 58%, #eef7fb);
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    .wt-wrap {
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 10% 6%, rgba(255, 212, 59, .24), transparent 28rem),
+        linear-gradient(180deg, var(--paper), #f7f4ff 56%, #eef7fb);
+    }
+
+    .wt-hero {
+      position: relative;
+      min-height: 760px;
+      isolation: isolate;
+    }
+
+    .wt-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(90deg, rgba(255, 248, 237, .98), rgba(255, 248, 237, .84) 42%, rgba(255, 248, 237, .18) 72%),
+        linear-gradient(180deg, rgba(255, 248, 237, 0) 54%, var(--paper) 100%),
+        url("assets/wheretoday/wheretoday-hero-imagegen.webp") center right / cover no-repeat;
+    }
+
+    .wt-container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .wt-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 24px 0;
+    }
+
+    .wt-logo,
+    .wt-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 0 16px;
+      border-radius: 999px;
+      background: var(--night);
+      color: var(--star);
+      font-weight: 900;
+      box-shadow: 0 8px 24px rgba(15, 23, 48, .12);
+    }
+
+    .wt-nav-links {
+      display: flex;
+      gap: 8px;
+      padding: 6px;
+      border: 1px solid rgba(231, 227, 240, .95);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .78);
+      backdrop-filter: blur(10px);
+    }
+
+    .wt-nav-links a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: var(--night);
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .wt-hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(380px, .92fr);
+      gap: clamp(28px, 5vw, 72px);
+      align-items: center;
+      padding: 72px 0 96px;
+    }
+
+    .wt-copy h1 {
+      margin: 22px 0 18px;
+      color: var(--deep);
+      font-size: clamp(3.4rem, 9vw, 6.3rem);
+      line-height: .96;
+      letter-spacing: -.08em;
+      max-width: 100%;
+    }
+
+    .wt-copy p {
+      margin: 0;
+      max-width: 640px;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2vw, 1.28rem);
+      line-height: 1.72;
+      word-break: keep-all;
+    }
+
+    .wt-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .wt-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 24px;
+      border-radius: 999px;
+      border: 0;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .wt-btn-primary { background: var(--night); color: var(--star); }
+    .wt-btn-ghost {
+      background: rgba(255, 255, 255, .84);
+      color: var(--night);
+      border: 1px solid var(--line);
+    }
+
+    .wt-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .wt-stat {
+      min-height: 104px;
+      padding: 16px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, .84);
+      border: 1px solid rgba(24, 36, 73, .16);
+    }
+
+    .wt-stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .wt-stat strong {
+      display: block;
+      margin-top: 4px;
+      color: var(--gyeongju);
+      font-size: clamp(2rem, 4vw, 2.9rem);
+      line-height: 1;
+    }
+
+    .wt-phone-stage {
+      position: relative;
+      min-height: 610px;
+    }
+
+    .wt-phone {
+      display: block;
+      width: min(360px, 58vw);
+      border: 14px solid var(--deep);
+      border-radius: 42px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .wt-phone-main { margin-left: auto; }
+    .wt-phone-sub {
+      position: absolute;
+      width: min(250px, 42vw);
+    }
+    .wt-phone-place { left: 0; bottom: 10px; }
+    .wt-phone-atlas { right: 0; bottom: -26px; }
+
+    .wt-section {
+      padding: 86px 0;
+    }
+
+    .wt-section-head {
+      max-width: 820px;
+      margin-bottom: 34px;
+    }
+
+    .wt-kicker {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 14px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--star) 30%, white);
+      color: #8a5a00;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .wt-section h2 {
+      margin: 14px 0 12px;
+      color: var(--deep);
+      font-size: clamp(2.1rem, 5vw, 3.5rem);
+      line-height: 1.12;
+      letter-spacing: -.055em;
+    }
+
+    .wt-section p {
+      color: var(--muted);
+      line-height: 1.72;
+      font-size: 1.1rem;
+      word-break: keep-all;
+    }
+
+    .wt-demo {
+      display: grid;
+      grid-template-columns: minmax(0, .95fr) minmax(360px, 1.05fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .wt-demo-panel,
+    .wt-card,
+    .wt-place {
+      border-radius: 30px;
+      background: rgba(255, 255, 255, .88);
+      border: 1px solid var(--line);
+      box-shadow: 0 8px 26px rgba(15, 23, 48, .08);
+    }
+
+    .wt-demo-panel {
+      padding: 28px;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .wt-demo-panel button {
+      width: 100%;
+      text-align: left;
+      padding: 18px 18px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: #fff;
+      color: var(--deep);
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .wt-demo-panel button[aria-selected="true"] {
+      background: var(--night);
+      color: #fff;
+      border-color: var(--night);
+      box-shadow: 0 12px 30px rgba(16, 27, 63, .18);
+    }
+
+    .wt-sim {
+      min-height: 640px;
+      padding: 24px;
+      border-radius: 36px;
+      background:
+        radial-gradient(circle at 85% 6%, rgba(255, 212, 59, .5), transparent 8rem),
+        linear-gradient(180deg, var(--night), #26346d 48%, #f6f4fb 48%);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .wt-sim-screen {
+      height: 100%;
+      border-radius: 30px;
+      background: #f6f4fb;
+      overflow: hidden;
+      border: 10px solid var(--deep);
+    }
+
+    .wt-sim-hero {
+      min-height: 230px;
+      padding: 24px;
+      color: #fff;
+      background:
+        linear-gradient(180deg, rgba(16, 27, 63, .45), rgba(16, 27, 63, .92)),
+        var(--sim-image) center / cover no-repeat;
+    }
+
+    .wt-sim-hero small {
+      display: inline-flex;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .9);
+      color: var(--gyeongju);
+      font-weight: 900;
+    }
+
+    .wt-sim-hero h3 {
+      margin: 56px 0 8px;
+      font-size: 2.1rem;
+      line-height: 1.1;
+    }
+
+    .wt-sim-body {
+      padding: 20px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .wt-sim-bubble {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: var(--night);
+      color: #fff;
+      line-height: 1.55;
+      font-weight: 700;
+    }
+
+    .wt-sim-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .wt-mini-card {
+      min-height: 126px;
+      padding: 16px;
+      border-radius: 20px;
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+
+    .wt-mini-card strong {
+      display: block;
+      color: var(--deep);
+      margin-bottom: 8px;
+    }
+
+    .wt-mini-card span {
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .wt-cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .wt-card {
+      padding: 28px;
+    }
+
+    .wt-card small {
+      color: var(--gyeongju);
+      font-weight: 900;
+    }
+
+    .wt-card h3 {
+      margin: 10px 0;
+      color: var(--deep);
+      font-size: 1.45rem;
+    }
+
+    .wt-gate {
+      display: grid;
+      grid-template-columns: minmax(0, .86fr) minmax(320px, 1.14fr);
+      gap: 18px;
+      align-items: stretch;
+      margin-top: 20px;
+    }
+
+    .wt-gate-copy {
+      padding: 28px;
+      border-radius: 30px;
+      background: var(--night);
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .wt-gate-copy small {
+      color: var(--star);
+      font-weight: 900;
+    }
+
+    .wt-gate-copy h3 {
+      margin: 12px 0;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      line-height: 1.08;
+      letter-spacing: -.055em;
+    }
+
+    .wt-gate-copy p {
+      color: rgba(255,255,255,.8);
+      font-size: 1rem;
+    }
+
+    .wt-gate-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .wt-gate-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, .9);
+    }
+
+    .wt-gate-item span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--star) 48%, white);
+      color: #8a5a00;
+      font-weight: 1000;
+    }
+
+    .wt-gate-item strong {
+      display: block;
+      color: var(--deep);
+      margin-bottom: 4px;
+    }
+
+    .wt-gate-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .98rem;
+      line-height: 1.58;
+    }
+
+    .wt-places {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .wt-place {
+      overflow: hidden;
+    }
+
+    .wt-place img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      display: block;
+    }
+
+    .wt-place div {
+      padding: 18px;
+    }
+
+    .wt-place h3 {
+      margin: 0 0 8px;
+      color: var(--deep);
+    }
+
+    .wt-cta {
+      margin: 20px auto 92px;
+      padding: clamp(28px, 5vw, 54px);
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(300px, .9fr);
+      gap: 26px;
+      align-items: center;
+      border-radius: 34px;
+      background:
+        radial-gradient(circle at 94% 10%, rgba(255, 212, 59, .26), transparent 20rem),
+        linear-gradient(135deg, #fff, #f7f2ff);
+      border: 1px solid var(--line);
+      box-shadow: 0 12px 40px rgba(15, 23, 48, .1);
+    }
+
+    .wt-cta h2 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      letter-spacing: -.055em;
+      color: var(--deep);
+    }
+
+    .wt-cta-box {
+      padding: 24px;
+      border-radius: 26px;
+      background: var(--night);
+      color: #fff;
+    }
+
+    .wt-cta-box strong { color: var(--star); }
+    .wt-cta-box ul { margin: 14px 0 22px; padding-left: 20px; color: rgba(255,255,255,.84); }
+
+    @media (max-width: 920px) {
+      .wt-hero-grid,
+      .wt-demo,
+      .wt-gate,
+      .wt-cta {
+        grid-template-columns: 1fr;
+      }
+      .wt-phone-stage { min-height: 760px; }
+      .wt-phone-main { margin: 0 auto; }
+      .wt-cards,
+      .wt-places {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .wt-wrap { width: 100vw; max-width: 100vw; overflow-x: hidden; }
+      .wt-container { width: calc(100vw - 32px); max-width: calc(100vw - 32px); }
+      .wt-nav { align-items: flex-start; flex-direction: column; }
+      .wt-nav-links { width: 100%; overflow-x: auto; }
+      .wt-hero-grid {
+        display: block;
+        width: 100%;
+        padding-top: 38px;
+      }
+      .wt-copy {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        overflow: hidden;
+      }
+      .wt-copy h1 {
+        font-size: clamp(2.45rem, 11.4vw, 3.05rem);
+        letter-spacing: -.065em;
+        overflow-wrap: anywhere;
+      }
+      .wt-copy p,
+      .wt-section p {
+        width: 100%;
+        max-width: 31ch;
+        font-size: 1rem;
+        line-height: 1.72;
+        word-break: keep-all;
+        overflow-wrap: anywhere;
+      }
+      .wt-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        width: 100%;
+        max-width: 358px;
+      }
+      .wt-btn {
+        width: 100%;
+        max-width: 100%;
+        padding-inline: 18px;
+      }
+      .wt-stats,
+      .wt-cards,
+      .wt-places,
+      .wt-sim-grid,
+      .wt-gate {
+        grid-template-columns: 1fr;
+      }
+      .wt-stats {
+        max-width: 358px;
+      }
+      .wt-phone-stage {
+        min-height: 610px;
+        width: 100%;
+        max-width: 358px;
+        margin: 28px 0 0;
+        overflow: hidden;
+      }
+      .wt-phone-main { width: min(286px, 74vw); }
+      .wt-phone-sub { width: min(182px, 47vw); }
+      .wt-phone-place { left: 0; }
+      .wt-phone-atlas { right: -10px; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">본문 바로가기</a>
+  <header class="site-header"><nav class="nav" aria-label="주요 메뉴"><a class="brand" href="index.html"><strong>설탕과소금</strong><span>gyo6.kr · 교육.한국</span></a><div class="navlinks"><a href="about.html">설탕과소금 소개</a><a href="business.html">사업영역</a><a href="exams.html">핵심노트·모의고사</a><a href="vocational.html">특성화고 플랫폼</a><a class="active" href="apps.html">앱·서비스</a><a href="host.html">교육현장 30년</a><a href="boards.html">소식·문의</a></div></nav></header>
+  <main class="wt-wrap" id="main">
+    <section class="wt-hero">
+      <nav class="wt-container wt-nav" aria-label="오늘어디가 소개">
+        <a class="wt-logo" href="apps.html" aria-label="앱·서비스 목록으로 돌아가기">오늘어디가</a>
+        <div class="wt-nav-links">
+          <a href="#demo">시연</a>
+          <a href="#preview">콘텐츠</a>
+          <a href="#tester">테스터 모집</a>
+        </div>
+      </nav>
+
+      <div class="wt-container wt-hero-grid">
+        <div class="wt-copy">
+          <span class="wt-pill">설탕과소금 가정체험학습 앱</span>
+          <h1>여행이 끝나도<br />배움은 남게.</h1>
+          <p>
+            오늘어디가는 경주·전주·제주의 하루를 아이 나이에 맞는 체험학습으로 바꾸는 앱입니다.
+            홈페이지에서는 핵심 경험만 가볍게 시연하고, 실제 기록과 현장 기능은 앱에서 이어집니다.
+          </p>
+          <div class="wt-actions">
+          <a class="wt-btn wt-btn-primary" href="#demo">1분 체험 시작</a>
+          <a class="wt-btn wt-btn-ghost" href="#tester">비공개 테스트 안내</a>
+          </div>
+          <div class="wt-stats" aria-label="오늘어디가 콘텐츠 규모">
+            <div class="wt-stat"><span>도시</span><strong>3</strong></div>
+            <div class="wt-stat"><span>장소</span><strong>45</strong></div>
+            <div class="wt-stat"><span>퀴즈</span><strong>135+</strong></div>
+            <div class="wt-stat"><span>한능검 연결</span><strong>24</strong></div>
+          </div>
+        </div>
+
+        <div class="wt-phone-stage" aria-label="오늘어디가 앱 화면 캡처">
+          <img class="wt-phone wt-phone-main" src="assets/wheretoday/wheretoday-screen-home.webp" alt="오늘어디가 홈 화면" width="720" height="1558" />
+          <img class="wt-phone wt-phone-sub wt-phone-place" src="assets/wheretoday/wheretoday-screen-place-bulguksa.webp" alt="경주 불국사 상세 화면" width="720" height="1558" loading="lazy" />
+          <img class="wt-phone wt-phone-sub wt-phone-atlas" src="assets/wheretoday/wheretoday-screen-atlas.webp" alt="지역별 유산 인벤토리 화면" width="720" height="1558" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
+    <section class="wt-container wt-section" id="demo">
+      <div class="wt-section-head">
+        <span class="wt-kicker">1 MINUTE EXPERIENCE</span>
+        <h2>설치 전에는 핵심 흐름만 가볍게 체험</h2>
+        <p>
+          방문자는 장소 선택, 현장 미션, 복습·보고서 흐름을 짧게 이해합니다.
+          사진 기록·위치 기반 진행·저장·보고서 생성처럼 아이의 실제 활동이 들어가는 기능은 앱 설치 후 이어집니다.
+        </p>
+      </div>
+
+      <div class="wt-demo">
+        <div class="wt-demo-panel" role="tablist" aria-label="오늘어디가 시연 단계">
+          <button type="button" aria-selected="true" data-step="0">1. 장소를 고른다 — 경주 불국사</button>
+          <button type="button" aria-selected="false" data-step="1">2. 현장 미션을 확인한다</button>
+          <button type="button" aria-selected="false" data-step="2">3. 보고서·복습으로 이어진다</button>
+        </div>
+
+        <div class="wt-sim" aria-live="polite">
+          <div class="wt-sim-screen">
+            <div class="wt-sim-hero" id="simHero" style="--sim-image:url('assets/wheretoday/gyeongju-bulguksa.webp')">
+              <small id="simTag">경주 · 역사 현장학습</small>
+              <h3 id="simTitle">경주 불국사</h3>
+              <p id="simSummary">돌로 쌓은 다리와 두 석탑이 아름다운 통일신라의 절.</p>
+            </div>
+            <div class="wt-sim-body">
+              <div class="wt-sim-bubble" id="simBubble">부처의 나라, 불국사에 왔어! 두 탑이 어떻게 다른지 찾아볼까?</div>
+              <div class="wt-sim-grid">
+                <div class="wt-mini-card">
+                  <strong id="simCardA">공식 근거와 이야기</strong>
+                  <span id="simBodyA">지역 인벤토리와 장소 이야기를 먼저 보고, 아이 수준에 맞는 질문을 고릅니다.</span>
+                </div>
+                <div class="wt-mini-card">
+                  <strong id="simCardB">현장 미션 2개</strong>
+                  <span id="simBodyB">아이 과제와 부모 참여 질문이 현장 모드로 이어집니다.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wt-gate" aria-label="앱 설치 전환 지점">
+        <div class="wt-gate-copy">
+          <small>INSTALL MOMENT</small>
+          <h3>중요한 순간에는<br />앱으로 이어집니다</h3>
+          <p>
+            홈페이지는 사용자가 앱의 가치를 납득할 만큼만 보여 줍니다.
+            아이별 추천, 현장 기록, 보고서 저장처럼 실제 체험학습 데이터가 필요한 순간에는 설치 안내로 전환합니다.
+          </p>
+          <a class="wt-btn wt-btn-primary" href="#tester">앱 테스트 참여 안내 보기</a>
+        </div>
+        <div class="wt-gate-list">
+          <article class="wt-gate-item">
+            <span>1</span>
+            <div>
+              <strong>“우리 아이 학년에 맞게 보기”를 누를 때</strong>
+              <p>홈페이지는 예시만 보여 주고, 유아·저학년·고학년 맞춤 설명은 앱에서 이어지게 합니다.</p>
+            </div>
+          </article>
+          <article class="wt-gate-item">
+            <span>2</span>
+            <div>
+              <strong>“현장 미션 시작”을 누를 때</strong>
+              <p>카메라, 위치, 오프라인팩, 저장 기능이 필요한 지점이므로 앱 설치 가치가 자연스럽게 생깁니다.</p>
+            </div>
+          </article>
+          <article class="wt-gate-item">
+            <span>3</span>
+            <div>
+              <strong>“보고서 만들기”를 누를 때</strong>
+              <p>학교 제출용 기록과 복습 자료는 앱 안의 실제 활동 데이터를 바탕으로 생성하도록 남겨 둡니다.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="wt-container wt-section">
+      <div class="wt-section-head">
+        <span class="wt-kicker">WHY APP</span>
+        <h2>홍보는 홈페이지, 실제 진행은 앱</h2>
+      </div>
+      <div class="wt-cards">
+        <article class="wt-card">
+          <small>신뢰</small>
+          <h3>홈페이지가 설명합니다</h3>
+          <p>운영 주체, 앱 가치, 콘텐츠 범위, 테스터 모집 안내를 설탕과소금 홈페이지에서 보여 줍니다.</p>
+        </article>
+        <article class="wt-card">
+          <small>집중</small>
+          <h3>앱이 기록합니다</h3>
+          <p>카메라, 오프라인 여행팩, 알림, 보고서·전자책 생성은 설치형 앱의 본 기능으로 유지합니다.</p>
+        </article>
+        <article class="wt-card">
+          <small>전환</small>
+          <h3>설치 전환을 만듭니다</h3>
+          <p>웹에서 “괜찮아 보인다”를 만들고, 실제 활동이 필요한 순간 앱 설치 또는 테스트 참여로 연결합니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="wt-container wt-section" id="preview">
+      <div class="wt-section-head">
+        <span class="wt-kicker">CONTENT PREVIEW</span>
+        <h2>경주 대표 콘텐츠 미리보기</h2>
+        <p>실제 앱에는 경주·전주·제주 45곳의 장소 이야기, 미션, 퀴즈, 한국사 연결이 들어갑니다.</p>
+      </div>
+      <div class="wt-places">
+        <article class="wt-place">
+          <img src="assets/wheretoday/gyeongju-bulguksa.webp" alt="불국사 대표 이미지" width="960" height="640" loading="lazy" />
+          <div><h3>불국사</h3><p>통일신라의 석탑과 세계유산 이야기</p></div>
+        </article>
+        <article class="wt-place">
+          <img src="assets/wheretoday/gyeongju-seokguram.webp" alt="석굴암 대표 이미지" width="960" height="640" loading="lazy" />
+          <div><h3>석굴암</h3><p>불상과 돔 구조, 과학적 설계 관찰</p></div>
+        </article>
+        <article class="wt-place">
+          <img src="assets/wheretoday/gyeongju-chumseongdae.webp" alt="첨성대 대표 이미지" width="960" height="640" loading="lazy" />
+          <div><h3>첨성대</h3><p>신라의 별 관찰과 과학 탐구</p></div>
+        </article>
+        <article class="wt-place">
+          <img src="assets/wheretoday/gyeongju-donggung-wolji.webp" alt="동궁과 월지 대표 이미지" width="960" height="640" loading="lazy" />
+          <div><h3>동궁과 월지</h3><p>왕궁 정원과 신라 생활문화</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="wt-container wt-cta" id="tester">
+      <div>
+        <span class="wt-kicker">CLOSED TEST</span>
+        <h2>오늘어디가의 첫 체험에 함께해 주세요</h2>
+        <p>
+          경주·전주·제주의 가족 체험학습을 직접 살펴보고,
+          비공개 테스트 참여 시점과 설치 방법을 문의로 받아보세요.
+        </p>
+      </div>
+      <div class="wt-cta-box">
+        <strong>비공개 테스트 안내</strong>
+        <ul>
+          <li>테스트 참여 가능 시점과 설치 방법 안내</li>
+          <li>가족 현장학습 사용 경험과 개선 의견 접수</li>
+          <li>정식 출시 및 Google Play 공개 소식 안내</li>
+        </ul>
+        <a class="wt-btn wt-btn-primary" href="boards.html#write">테스트 참여 문의 남기기</a>
+      </div>
+    </section>
+  </main>
+  <footer class="lean-footer"><div class="wrap lean-footer-grid"><div><strong>설탕과소금</strong><div>앱·웹 서비스 개발·런칭</div></div><div class="footer-links"><a href="index.html">홈</a><a href="apps.html">앱·서비스</a><a href="vocational.html">특성화고 플랫폼</a><a href="host.html">교육현장 30년</a><a href="boards.html">소식·문의</a></div></div></footer>
+
+  <script>
+    const steps = [
+      {
+        image: "assets/wheretoday/gyeongju-bulguksa.webp",
+        tag: "경주 · 역사 현장학습",
+        title: "경주 불국사",
+        summary: "돌로 쌓은 다리와 두 석탑이 아름다운 통일신라의 절.",
+        bubble: "부처의 나라, 불국사에 왔어! 두 탑이 어떻게 다른지 찾아볼까?",
+        cardA: "공식 근거와 이야기",
+        bodyA: "지역 인벤토리와 장소 이야기를 먼저 보고, 아이 수준에 맞는 질문을 고릅니다.",
+        cardB: "현장 미션 2개",
+        bodyB: "아이 과제와 부모 참여 질문이 현장 모드로 이어집니다."
+      },
+      {
+        image: "assets/wheretoday/gyeongju-chumseongdae.webp",
+        tag: "현장 모드",
+        title: "관찰하고 말해 보기",
+        summary: "장소를 보는 눈을 질문과 미션으로 만들어 줍니다.",
+        bubble: "사진만 찍고 끝내지 말고, 아이가 직접 발견한 것을 말로 남겨 보자!",
+        cardA: "아이 미션",
+        bodyA: "무엇을 보았는지, 어떤 점이 신기했는지 아이 언어로 기록합니다.",
+        cardB: "보호자 질문",
+        bodyB: "부모가 던질 수 있는 쉬운 질문으로 대화가 이어집니다."
+      },
+      {
+        image: "assets/wheretoday/gyeongju-donggung-wolji.webp",
+        tag: "회상 · 복습",
+        title: "보고서와 전자책",
+        summary: "여행 기록을 학교 제출본과 추억용 전자책으로 정리합니다.",
+        bubble: "오늘 찍은 사진과 답변이 보고서의 재료가 돼. 집에 가서 복습 퀴즈도 해 보자!",
+        cardA: "학교 제출본",
+        bodyA: "체험학습 계획과 현장 기록을 A4 보고서 흐름으로 정리합니다.",
+        cardB: "한국사 복습",
+        bodyB: "장소별 퀴즈와 한능검 기초 주제로 기억을 이어 갑니다."
+      }
+    ];
+
+    const buttons = Array.from(document.querySelectorAll("[data-step]"));
+    const ids = ["simHero", "simTag", "simTitle", "simSummary", "simBubble", "simCardA", "simBodyA", "simCardB", "simBodyB"];
+    const el = Object.fromEntries(ids.map((id) => [id, document.getElementById(id)]));
+
+    function renderStep(index) {
+      const step = steps[index];
+      el.simHero.style.setProperty("--sim-image", `url('${step.image}')`);
+      el.simTag.textContent = step.tag;
+      el.simTitle.textContent = step.title;
+      el.simSummary.textContent = step.summary;
+      el.simBubble.textContent = step.bubble;
+      el.simCardA.textContent = step.cardA;
+      el.simBodyA.textContent = step.bodyA;
+      el.simCardB.textContent = step.cardB;
+      el.simBodyB.textContent = step.bodyB;
+      buttons.forEach((button, i) => button.setAttribute("aria-selected", String(i === index)));
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => renderStep(Number(button.dataset.step)));
+    });
+  </script>
+</body>
+</html>
