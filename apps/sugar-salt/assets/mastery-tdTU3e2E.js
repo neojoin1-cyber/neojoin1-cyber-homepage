@@ -1,0 +1,1 @@
+var e=`kbs_mastery_v1`;function t(){try{return JSON.parse(localStorage.getItem(e)??`{}`)}catch{return{}}}function n(t){try{localStorage.setItem(e,JSON.stringify(t))}catch{}}function r(e,t){return`${e}:${t}`}function i(e,i,a){if(!e||!i)return;let o=t(),s=r(e,i);o[s]||(o[s]={c:0,t:0}),o[s].t+=1,a&&(o[s].c+=1),n(o)}export{i as t};

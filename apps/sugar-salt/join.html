@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>설탕과소금 앱 설치</title>
+  <meta name="description" content="달콤한 취업 성공을 위한 짭짤한 실력 준비 — 특성화고 취업 학습 앱">
+  <meta property="og:title" content="설탕과소금">
+  <meta property="og:description" content="달콤한 취업 성공을 위한 짭짤한 실력 준비">
+  <meta property="og:image" content="icons/icon-512.png">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', -apple-system, sans-serif;
+      background: linear-gradient(160deg, #4C1D95 0%, #6D28D9 50%, #7C2D12 100%);
+      background-attachment: fixed;
+      color: white;
+      padding: 32px 20px 48px;
+    }
+
+    .wrap {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    /* ── 헤더 ── */
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .header img {
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      margin-bottom: 12px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .header h1 {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+    .header p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.6;
+    }
+
+    /* ── 설치 버튼 ── */
+    .btn-install {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: white;
+      color: #5B21B6;
+      text-decoration: none;
+      border-radius: 16px;
+      padding: 17px 24px;
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+      margin-bottom: 10px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-install:active { opacity: 0.88; }
+    .btn-install svg { flex-shrink: 0; }
+
+    .notice {
+      font-size: 12px;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.7;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    /* ── 과목/기능 카드 ── */
+    .glass {
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 20px;
+      padding: 18px 16px;
+      margin-bottom: 12px;
+    }
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13.5px;
+      color: rgba(255,255,255,0.88);
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .feature:last-child { border-bottom: none; }
+    .fi { font-size: 18px; flex-shrink: 0; width: 26px; text-align: center; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .grid-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.82);
+      padding: 6px 0;
+    }
+
+    /* ── 푸터 ── */
+    .footer {
+      border-top: 1px solid rgba(255,255,255,0.12);
+      padding-top: 18px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.42);
+      line-height: 1.9;
+      text-align: center;
+    }
+    .footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- 헤더 -->
+    <div class="header">
+      <img src="icons/icon-512.png" alt="설탕과소금">
+      <h1>설탕과소금</h1>
+      <p>달콤한 취업 성공을 위한<br>짭짤한 실력 준비</p>
+    </div>
+
+    <!-- 설치 버튼 (최상단) -->
+    <a class="btn-install" href="https://play.google.com/apps/internaltest/4701531516564569722">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M3.18 23.76a2 2 0 0 0 2.2-.23l12.3-7.1-3.35-3.35L3.18 23.76z" fill="#EA4335"/>
+        <path d="M22.38 10.27C21.88 9.9 18 7.6 5.38.23A2 2 0 0 0 3.18.47L14.33 11.6l8.05-1.33z" fill="#4285F4"/>
+        <path d="M3.18.47A2 2 0 0 0 2 2.24v19.52a2 2 0 0 0 1.18 1.77l11.15-11.15L3.18.47z" fill="#34A853"/>
+        <path d="M14.33 12l3.35 3.35 4.7-2.72a2 2 0 0 0 0-3.46l-4.7-2.7L14.33 12z" fill="#FBBC04"/>
+      </svg>
+      Google Play에서 설치
+    </a>
+    <p class="notice">※ 내부 테스트 버전 · 링크 클릭 → 테스터 등록 → Play 스토어에서 설치</p>
+
+    <!-- 학습 과목 -->
+    <div class="glass">
+      <p class="section-label">학습 과목</p>
+      <div class="feature"><span class="fi">🏅</span> 직업공통능력 — 교육부 인증평가 대비</div>
+      <div class="feature"><span class="fi">📖</span> 직업기초능력 — 공채 필기시험 (311문항)</div>
+      <div class="feature"><span class="fi">🍽️</span> 도제학교 외부평가 — 식음료서비스 (560문항)</div>
+      <div class="feature"><span class="fi">⚙️</span> 도제학교 외부평가 — 품질경영</div>
+      <div class="feature"><span class="fi">🎤</span> 고졸취업 면접스킬</div>
+    </div>
+
+    <!-- 앱 기능 -->
+    <div class="glass">
+      <p class="section-label">앱 기능</p>
+      <div class="grid">
+        <div class="grid-item"><span class="fi">🎯</span> 교사 미션 · 학급 관리</div>
+        <div class="grid-item"><span class="fi">🏆</span> 학급 · 전국 랭킹</div>
+        <div class="grid-item"><span class="fi">📝</span> 오답노트</div>
+        <div class="grid-item"><span class="fi">🔥</span> 학습 스트릭</div>
+        <div class="grid-item"><span class="fi">🌙</span> 다크모드</div>
+        <div class="grid-item"><span class="fi">📡</span> 오프라인 지원</div>
+      </div>
+    </div>
+
+    <!-- 푸터 -->
+    <div class="footer">
+      설탕과소금 AI Digital Content Lab<br>
+      특성화고 · 마이스터고 취업 학습 플랫폼<br>
+      <a href="https://www.gyo6.kr">www.gyo6.kr</a>
+    </div>
+
+  </div>
+</body>
+</html>
