@@ -2806,6 +2806,7 @@ a.branch-card:focus-visible { outline: 4px solid #bf7b47; outline-offset: 4px; }
   .branch-heading-side { max-width: 720px; }
   .branch-card-grid.cols-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .branch-card-grid.cols-3 > :last-child { grid-column: 1 / -1; }
+  .branch-card-grid.cols-3.balanced > :last-child { grid-column: auto; }
   .branch-card-grid.cols-5 > :nth-child(n) { grid-column: span 3; }
   .branch-card-grid.cols-5 > :last-child { grid-column: 2 / span 4; }
 }
