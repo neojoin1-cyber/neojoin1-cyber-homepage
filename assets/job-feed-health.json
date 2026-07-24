@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-24T15:41:19.969Z",
-  "feedGeneratedAt": "2026-07-24T15:41:19.969Z",
+  "generatedAt": "2026-07-24T16:03:15.856Z",
+  "feedGeneratedAt": "2026-07-24T16:03:15.856Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
@@ -28,7 +28,7 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-07-24T15:41:19.969Z",
+    "generatedAt": "2026-07-24T16:03:15.856Z",
     "attempted": 58,
     "succeeded": 58,
     "failed": 0,
@@ -36,7 +36,7 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-24T15:41:19.969Z",
+    "generatedAt": "2026-07-24T16:03:15.856Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
@@ -242,6 +242,27 @@
           "학력무관",
           "필기·NCS 신호",
           "인턴·채용연계",
+          "공채 신호"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국여성과학기술인육성재단",
+        "title": "한국여성과학기술인육성재단 2026년도 제4차 하반기 체험형 청년인턴(일반,보훈제한경쟁) 채용 공고",
+        "deadline": "2026-07-30",
+        "status": "deadline_soon",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://wiset.or.kr/bbs/BBSMSTR_000000000305/view.do"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "인턴·채용연계",
           "공채 신호",
           "신입·정규직 계열"
         ],
@@ -366,27 +387,6 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국교육개발원",
-        "title": "한국교육개발원 2026년도 제8차 직원 채용 공고",
-        "deadline": "2026-08-10",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://kedi.recruiter.co.kr/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
           "고졸·특성화고 명시",
           "인턴·채용연계",
           "공채 신호",
@@ -437,12 +437,12 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "한국전력공사",
-        "title": "한국전력공사 2026년도 NDIS데이터관리원 채용공고",
-        "deadline": "2026-08-06",
+        "company": "한국교육개발원",
+        "title": "한국교육개발원 2026년도 제8차 직원 채용 공고",
+        "deadline": "2026-08-10",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303025"
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303076"
       },
       {
         "list": "items",
@@ -450,20 +450,20 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
+          "학력무관",
+          "필기·NCS 신호",
           "공채 신호",
           "신입·정규직 계열"
         ],
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "한국마사회",
-        "title": "2026년 한국마사회 전임직(무기계약직) 보훈특별고용 공고(산업안전관리)",
-        "deadline": "2026-08-05",
+        "company": "한국전력공사",
+        "title": "한국전력공사 2026년도 NDIS데이터관리원 채용공고",
+        "deadline": "2026-08-06",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://recruit.incruit.com/kra/"
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303025"
       }
     ]
   },
