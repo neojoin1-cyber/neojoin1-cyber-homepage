@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fast Profile | 설탕과소금</title>
+  <meta name="description" content="설탕과소금 포털 안에서 Fast Profile 서비스를 살펴봅니다.">
+  <link rel="canonical" href="https://gyo6.kr/profile.html">
+  <link rel="icon" type="image/jpeg" href="assets/thumb-brand-horizontal-sign.jpg">
+  <link rel="stylesheet" href="assets/site.css">
+  <style>
+    html, body { height: 100%; }
+    body { margin: 0; overflow: hidden; }
+    .profile-shell {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      height: 100%;
+      min-height: 100dvh;
+      background: #f7f4ec;
+    }
+    .profile-stage {
+      position: relative;
+      min-height: 0;
+      border-top: 1px solid rgba(19, 42, 74, .12);
+      background: #f4f7fb;
+    }
+    .profile-stage iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #fff;
+    }
+    .profile-fallback {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 0 16px;
+      border: 1px solid rgba(19, 42, 74, .16);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .94);
+      color: #132a4a;
+      font-weight: 800;
+      box-shadow: 0 10px 30px rgba(19, 42, 74, .12);
+    }
+    @media (max-width: 760px) {
+      .profile-shell { height: auto; min-height: 100dvh; }
+      .profile-stage { height: calc(100dvh - 190px); min-height: 620px; }
+      .profile-fallback { right: 12px; bottom: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#profile-app">Fast Profile 바로가기</a>
+  <div class="profile-shell">
+    <header class="site-header"><nav class="nav" aria-label="주요 메뉴"><a class="brand" href="index.html"><strong>설탕과소금</strong><span>gyo6.kr · 교육.한국</span></a><div class="navlinks"><a href="about.html">설탕과소금 소개</a><a href="business.html">사업영역</a><a href="exams.html">핵심노트·모의고사</a><a href="vocational.html">특성화고 플랫폼</a><a class="active" href="apps.html">앱·서비스</a><a href="host.html">교육현장 30년</a><a href="boards.html">소식·문의</a></div></nav></header>
+    <main class="profile-stage" id="profile-app">
+      <iframe
+        src="https://profile.gyo6.kr/"
+        title="Fast Profile 서비스"
+        allow="camera"
+        referrerpolicy="strict-origin-when-cross-origin"
+      ></iframe>
+      <a class="profile-fallback" href="https://profile.gyo6.kr/" target="_blank" rel="noopener noreferrer">별도 창에서 열기 ↗</a>
+    </main>
+  </div>
+</body>
+</html>
