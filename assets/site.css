@@ -2976,31 +2976,41 @@ a.branch-card:focus-visible { outline: 4px solid #bf7b47; outline-offset: 4px; }
 @media (max-width: 780px) {
   .service-entry { min-height: auto; background: var(--salt-50); }
   .service-entry-image {
-    top: 26px;
-    right: 0;
-    left: auto;
-    width: min(38vw, 260px);
-    height: min(44vw, 210px);
-    border-radius: 26px 0 0 26px;
-    object-position: 72% center;
-    box-shadow: var(--shadow-soft);
+    inset: 0 0 auto;
+    width: 100%;
+    height: 280px;
+    border-radius: 0;
+    object-position: 68% center;
+    box-shadow: none;
   }
-  .service-entry-shade { display: none; }
-  .service-entry-content { min-height: auto; padding-top: 34px; }
-  .service-entry-intro { width: min(64%, 520px); }
+  .service-entry-shade {
+    display: block;
+    inset: 0 0 auto;
+    height: 280px;
+    background: linear-gradient(90deg, rgba(251, 248, 240, .97) 0%, rgba(251, 248, 240, .9) 48%, rgba(251, 248, 240, .47) 100%);
+  }
+  .service-entry-content { position: relative; min-height: auto; padding-top: 0; padding-bottom: 44px; }
+  .service-entry-intro {
+    width: 100%;
+    min-height: 280px;
+    display: grid;
+    align-content: center;
+    padding: 24px 26% 24px 0;
+  }
   .service-entry h1 { font-size: clamp(36px, 10vw, 52px); }
   .service-entry-content > .form-topic-grid,
   .service-entry-content > .counseling-paths,
   .service-entry-content > .privacy-note,
   .service-entry-content > .actions { width: 100%; }
-  .form-topic-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .form-topic-grid { margin-top: 22px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .counseling-paths { margin-top: 22px; }
   .form-results-head { align-items: flex-start; flex-direction: column; }
 }
 @media (max-width: 520px) {
   .service-entry-content { padding-left: 16px; padding-right: 16px; }
-  .service-entry-intro { width: 65%; }
-  .counseling-entry .service-entry-intro { width: 68%; }
-  .service-entry-image { top: 22px; width: 37vw; height: 41vw; max-height: 170px; border-radius: 22px 0 0 22px; }
+  .service-entry-image,
+  .service-entry-shade { height: 250px; }
+  .service-entry-intro { min-height: 250px; padding-right: 18%; }
   .form-topic-grid { gap: 8px; }
   .form-topic-button { min-height: 126px; padding: 13px; border-radius: 14px; }
   .form-topic-button strong { font-size: 19px; }
