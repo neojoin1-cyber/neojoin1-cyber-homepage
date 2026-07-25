@@ -594,9 +594,9 @@ async function validateHomepage() {
   const staleAxisHits = staleAxisTerms.filter((term) => html.includes(term));
 
   fail('home.feed-link-present', html.includes('href="jobs.html"') && html.includes('채용정보'), '특성화고 플랫폼 채용정보 진입 링크가 유지되어 있습니다.');
-  fail('home.core-content-links', html.includes('href="jobs.html"') && html.includes('href="resources.html#forms"') && html.includes('href="resources.html#counseling"') && html.includes('href="ebooks.html"'), '대표 홈에서 채용정보·서식창고·상담실·별도 전자책 서비스 진입이 유지됩니다.');
+  fail('home.core-content-links', html.includes('href="jobs.html"') && html.includes('href="forms.html"') && html.includes('href="counseling-room.html"') && html.includes('href="ebooks.html"'), '대표 홈에서 채용정보·서식창고·상담실·별도 전자책 서비스 진입이 유지됩니다.');
   fail('home.no-public-manual-job-feed-run', !html.includes('actions/workflows/job-feed.yml') && !html.includes('수동수집 실행'), '공개 홈에는 GitHub Actions 수동수집 버튼을 노출하지 않습니다.');
-  fail('home.law-link', html.includes('href="resources.html#forms"') && html.includes('href="resources.html#counseling"'), '대표 홈에서 공식자료 서식창고와 비공개 상담실 진입 경로가 각각 유지되어 있습니다.');
+  fail('home.law-link', html.includes('href="forms.html"') && html.includes('href="counseling-room.html"'), '대표 홈에서 공식자료 서식창고와 비공개 상담실 진입 경로가 각각 유지되어 있습니다.');
   fail('home.no-legacy-ebook-link', !html.includes('https://gyo6--ebook.web.app'), '대표 홈페이지는 기존 전자책 서재 링크를 노출하지 않습니다.');
   fail('home.ebook-direction', html.includes('href="ebooks.html"') && html.includes('전자책'), '대표 홈에서 전자책 서비스로 바로 이동할 수 있습니다.');
   fail('home.ebook-no-paid-teaser-copy', !hasPaidTeaserCopy(html), '전자책 안내에서 유료 전환처럼 보일 수 있는 맛보기 표현을 쓰지 않습니다.');
@@ -629,6 +629,9 @@ async function validateCoreContentPages() {
   const jobs = await readText('jobs.html');
   const css = await readText('assets/site.css');
   const resources = await readText('resources.html');
+  const forms = await readText('forms.html');
+  const counselingRoom = await readText('counseling-room.html');
+  const formsLibrary = await readText('assets/forms-library.js');
   const host = await readText('host.html');
   const appsPage = await readText('apps.html');
   const learningAppTrial = await readText('apps/sugar-salt/index.html');
@@ -637,7 +640,7 @@ async function validateCoreContentPages() {
 
   fail('core.about-page', about.includes('설탕과소금 소개 · 교육현장 30년') && about.includes('시니어 교육전문가') && about.includes('교육격차') && about.includes('설탕과소금 대표') && about.includes('aria-label="설탕과소금이 지키는 네 방향"') && ['branch-about-experience.webp', 'branch-about-connection.webp', 'branch-about-practice.webp', 'branch-about-technology.webp'].every((asset) => about.includes(asset)), '설탕과소금 소개 페이지가 교육 경험, 교육격차 해소 소신, 세 사업 방향을 네 개의 전용 이미지 카드로 담고 있습니다.');
   fail('core.education-field-thirty-years', host.includes('교육현장 30년') && !host.includes('30년 특성화고'), '30년 기록의 브랜드 명칭이 교육현장 30년으로 통일되어 있습니다.');
-  fail('core.vocational-content-weight', vocational.includes('href="jobs.html"') && vocational.includes('href="resources.html#forms"') && vocational.includes('href="resources.html#counseling"') && !vocational.includes('href="ebooks.html"'), '특성화고 플랫폼 페이지가 전자책을 제외하고 채용정보·서식창고·상담실을 핵심 서비스로 연결합니다.');
+  fail('core.vocational-content-weight', vocational.includes('href="jobs.html"') && vocational.includes('href="forms.html"') && vocational.includes('href="counseling-room.html"') && !vocational.includes('href="ebooks.html"'), '특성화고 플랫폼 페이지가 전자책을 제외하고 채용정보·서식창고·상담실을 독립 서비스로 연결합니다.');
   fail('core.exam-service-links', exams.includes('href="https://imyong.gyo6.kr"') && exams.includes('href="https://suneung.gyo6.kr"') && exams.includes('href="https://0mu1.gyo6.kr"'), '임용·수능·공무원 시험 카드가 각 전용 서비스 주소로 연결됩니다.');
   fail('core.civil-service-parking', civilServiceParking.includes('공무원시험') && civilServiceParking.includes('전용 서비스 개발 중') && civilServiceParking.includes('href="https://gyo6.kr/exams.html"'), '공무원시험 전용 파킹 페이지가 개발 상태와 포털 복귀 경로를 안내합니다.');
   fail('core.jobs-content-weight', jobs.includes('특성화고 공채') && jobs.includes('공기업') && jobs.includes('공무원') && jobs.includes('대기업') && jobs.includes('공식 첨부서류'), '채용정보 페이지가 핵심 공채와 공식 첨부서류 기능을 명확히 안내합니다.');
@@ -646,7 +649,10 @@ async function validateCoreContentPages() {
   fail('core.jobs-daily-work-ui', jobs.includes('isDailyWorkerRecruit') && jobs.includes('priority-label') && jobs.includes('daily-work') && css.includes('.label.daily-work') && css.includes('.feed-meta .label.priority-label'), '핵심 추천 배지를 반응형으로 강조하고 일용직 공고를 목록과 요약에서 분명하게 표시합니다.');
   fail('core.jobs-supplemental-search', jobs.includes('feed.supplementalItems') && jobs.includes('기본 추천 목록과 검색 전용 보조 목록을 함께 검색'), '기본 화면에서 덜 중요한 공고를 줄이되 검색하면 보조 목록까지 빠짐없이 찾습니다.');
   fail('core.jobs-official-page-link', jobs.includes('function isLikelyFileUrl') && jobs.includes('pageCandidates') && jobs.includes('!isLikelyFileUrl(url)'), '채용정보 공식 공고 버튼은 첨부파일 다운로드가 아니라 공고 상세 페이지를 우선 연결합니다.');
-  fail('core.resources-page', resources.includes('https://gyo6-law-info.web.app/#formVault') && resources.includes('https://gyo6-law-info.web.app/#counselGateway') && resources.includes('법률 자문을 대신하지 않습니다') && /승인\s*회원/.test(resources), '서식창고·상담실 안내 페이지가 분리된 기능 연결·회원 권한·서비스 한계를 분명히 안내합니다.');
+  fail('core.resources-compatibility-route', resources.includes("location.hash === '#counseling'") && resources.includes("'counseling-room.html'") && resources.includes("'forms.html'"), '기존 자료실 주소가 서식창고와 상담실의 독립 화면으로 안전하게 이동합니다.');
+  fail('core.forms-dedicated-page', forms.includes('forms-vault-hero-v1.png') && forms.includes('data-form-topic="operations"') && forms.includes('data-form-topic="employment"') && forms.includes('id="form-results"') && forms.includes('public-resource-form-vault-generated.js'), '서식창고가 전용 배경 이미지, 분야 버튼, 실제 서식 목록 영역을 갖춘 독립 화면으로 구성됩니다.');
+  fail('core.forms-direct-category-list', formsLibrary.includes("entry.status === 'ready'") && formsLibrary.includes('renderTopic') && formsLibrary.includes('scrollIntoView') && formsLibrary.includes("categories: ['fieldTraining', 'staffLabor']") && formsLibrary.includes("categories: ['careerEmployment']"), '서식창고는 실제 제공 가능한 서식만 분야별로 분류하고 버튼 클릭 즉시 해당 목록을 표시합니다.');
+  fail('core.counseling-dedicated-page', counselingRoom.includes('counseling-room-hero-v1.png') && counselingRoom.includes('학생 상담') && counselingRoom.includes('선생님 상담') && counselingRoom.includes('작성자와 관리자만 확인') && counselingRoom.includes('https://gyo6-law-info.web.app/#counselGateway'), '상담실이 학생·교사 상담 안내 이미지와 비공개 원칙, 입장 버튼을 갖춘 독립 화면으로 구성됩니다.');
   fail('core.learning-app-trial-link', appsPage.includes('href="apps/sugar-salt/"') && appsPage.includes('target="_blank"') && appsPage.includes('설탕과소금 앱 10분 체험하기'), '앱·서비스 페이지가 설탕과소금 앱 10분 체험판을 새 창으로 연결합니다.');
   fail('core.learning-app-trial-build', learningAppTrial.includes('설탕과소금 앱 10분 체험') && learningAppTrial.includes('registerSW.js') && !learningAppTrial.includes('manifest.json'), '설탕과소금 앱 경로가 로그인형 PWA가 아닌 10분 체험판 빌드를 제공합니다.');
   fail('core.learning-app-trial-worker-cleanup', learningAppRegister.includes("startsWith('/apps/sugar-salt/')") && learningAppRegister.includes('registration.unregister()') && learningAppWorker.includes('self.registration.unregister()'), '체험판이 같은 앱 경로의 기존 서비스워커만 안전하게 해제합니다.');
