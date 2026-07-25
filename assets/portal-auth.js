@@ -1,11 +1,13 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import {
   browserLocalPersistence,
+  createUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
   setPersistence,
   signInWithEmailAndPassword,
-  signOut
+  signOut,
+  updateProfile
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
 const firebaseConfig = {
@@ -104,16 +106,52 @@ async function refreshMember() {
 
 async function handleAuthSubmit(event) {
   const form = event.target;
-  if (!(form instanceof HTMLFormElement) || !form.matches("[data-portal-login-form]")) {
+  if (!(form instanceof HTMLFormElement)) {
     return;
   }
+  const isLogin = form.matches("[data-portal-login-form]");
+  const isSignup = form.matches("[data-portal-signup-form]");
+  if (!isLogin && !isSignup) return;
   event.preventDefault();
   const submit = form.querySelector("button[type='submit']");
   if (submit) submit.disabled = true;
   state.message = "로그인과 승인 상태를 확인하는 중입니다.";
   renderAuthDialog(true);
   try {
-    await signInWithEmailAndPassword(auth, form.elements.email.value.trim(), form.elements.password.value);
+    if (isLogin) {
+      await signInWithEmailAndPassword(auth, form.elements.email.value.trim(), form.elements.password.value);
+    } else {
+      const credential = await createUserWithEmailAndPassword(
+        auth,
+        form.elements.email.value.trim(),
+        form.elements.password.value
+      );
+      await updateProfile(credential.user, { displayName: form.elements.displayName.value.trim() });
+      const token = await credential.user.getIdToken();
+      const response = await fetch(`${MEMBER_API}/api/member/register`, {
+        method: "POST",
+        headers: {
+          accept: "application/json",
+          authorization: `Bearer ${token}`,
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({
+          displayName: form.elements.displayName.value.trim(),
+          schoolName: form.elements.schoolName.value.trim(),
+          phone: form.elements.phone.value.trim(),
+          requestedRole: form.elements.requestedRole.value,
+          note: form.elements.note.value.trim()
+        })
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || data.error) {
+        throw new Error(data.error || `회원가입 접수 오류 (${response.status})`);
+      }
+      await refreshMember();
+      state.message = "설탕과소금 통합회원 가입 신청을 접수했습니다. 관리자 승인 후 자료를 받을 수 있습니다.";
+      syncPageState();
+      renderAuthDialog(true);
+    }
   } catch (error) {
     state.message = formatLoginError(error);
     renderAuthDialog(true);
@@ -174,7 +212,26 @@ function renderLoginForm() {
       <label>비밀번호<input name="password" type="password" autocomplete="current-password" required></label>
       <button type="submit">로그인</button>
     </form>
-    <a class="portal-auth-signup" href="https://gyo6-law-info.web.app/?login=1#login">신규 회원가입 신청</a>`;
+    <details class="portal-auth-signup">
+      <summary>설탕과소금 신규 회원가입</summary>
+      <form class="portal-auth-form portal-auth-signup-form" data-portal-signup-form>
+        <label>이름<input name="displayName" type="text" autocomplete="name" required></label>
+        <label>이메일<input name="email" type="email" autocomplete="email" required></label>
+        <label>비밀번호<input name="password" type="password" autocomplete="new-password" minlength="6" required></label>
+        <label>소속·학교<input name="schoolName" type="text" placeholder="예: ○○고등학교"></label>
+        <label>연락처<input name="phone" type="text" autocomplete="tel"></label>
+        <label>신청 권한
+          <select name="requestedRole">
+            <option value="general">일반 사용자</option>
+            <option value="teacher">교사</option>
+            <option value="school_admin_teacher">학교관리자 교사</option>
+            <option value="student">학생</option>
+          </select>
+        </label>
+        <label>신청 사유<textarea name="note" rows="2" placeholder="자료 이용 목적을 간단히 적어주세요."></textarea></label>
+        <button type="submit">가입 신청</button>
+      </form>
+    </details>`;
 }
 
 function renderSignedIn() {
@@ -186,7 +243,7 @@ function renderSignedIn() {
   return `
     <p class="portal-auth-pending"><strong>${escapeHtml(state.user.displayName || state.user.email || "회원")}</strong>님은 로그인했지만 아직 관리자 승인 전입니다.</p>
     <div class="portal-auth-row">
-      <a href="https://gyo6-law-info.web.app/?login=1">회원정보·승인상태 확인</a>
+      <span>가입정보와 승인상태는 설탕과소금 통합회원으로 관리됩니다.</span>
       <button type="button" data-portal-auth-action="logout">로그아웃</button>
     </div>`;
 }

@@ -1,5 +1,5 @@
-const FORM_VAULT_URL = 'https://gyo6-law-info.web.app/#formVault';
 const PAGE_SIZE = 20;
+const EDITABLE_FORMATS = new Set(['hwp', 'hwpx', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx']);
 
 const topicDefinitions = {
   operations: {
@@ -78,16 +78,38 @@ function createEntryCard(entry) {
   title.textContent = entry.title;
   copy.append(meta, title);
 
-  const link = document.createElement('a');
+  const link = document.createElement('button');
   link.className = 'btn';
-  link.href = FORM_VAULT_URL;
-  link.target = '_blank';
-  link.rel = 'noopener noreferrer';
-  link.textContent = '승인 후 열기';
-  link.setAttribute('aria-label', `${entry.title} 자료실에서 승인 후 열기`);
+  link.type = 'button';
+  link.textContent = '편집파일 받기';
+  link.setAttribute('aria-label', `${entry.title} 편집파일 받기`);
+  link.addEventListener('click', () => downloadEditableForm(entry, link));
 
   article.append(copy, link);
   return article;
+}
+
+async function downloadEditableForm(entry, button) {
+  const auth = window.GYO6_PORTAL_AUTH;
+  if (!auth?.requireApproved?.('설탕과소금 승인 회원 로그인 후 편집 가능한 서식 파일을 받을 수 있습니다.')) {
+    return;
+  }
+
+  const url = entry.editableUrl;
+  if (!url || !EDITABLE_FORMATS.has(String(entry.format || '').toLowerCase())) {
+    button.textContent = '편집파일 확인 중';
+    button.disabled = true;
+    return;
+  }
+
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.target = '_blank';
+  anchor.rel = 'noopener noreferrer';
+  anchor.download = entry.fileName || '';
+  document.body.append(anchor);
+  anchor.click();
+  anchor.remove();
 }
 
 function renderTopic(topic, shouldScroll = true) {
@@ -120,8 +142,8 @@ function renderList() {
 function showLoadError() {
   resultsSection.hidden = false;
   resultsTitle.textContent = '서식 목록을 불러오지 못했습니다.';
-  resultsSummary.textContent = '전체 서식 검색에서 최신 자료를 확인해 주세요.';
-  listMount.innerHTML = `<a class="btn primary" href="${FORM_VAULT_URL}" target="_blank" rel="noopener noreferrer">전체 서식 검색</a>`;
+  resultsSummary.textContent = '잠시 후 다시 시도해 주세요.';
+  listMount.replaceChildren();
 }
 
 function initialize() {
@@ -131,7 +153,11 @@ function initialize() {
     return;
   }
 
-  state.entries = rawEntries.filter((entry) => entry.status === 'ready');
+  state.entries = rawEntries.filter((entry) =>
+    entry.status === 'ready'
+    && entry.editableUrl
+    && EDITABLE_FORMATS.has(String(entry.format || '').toLowerCase())
+  );
   updateTopicCounts();
 
   topicButtons.forEach((button) => {

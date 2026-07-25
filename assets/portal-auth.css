@@ -114,11 +114,40 @@ body.portal-member-blocked #job-hub-home .feed-tags {
   font: inherit;
 }
 
+.portal-auth-form select,
+.portal-auth-form textarea {
+  width: 100%;
+  border: 1px solid rgba(18, 45, 76, 0.2);
+  border-radius: 10px;
+  background: #fff;
+  color: #102c4c;
+  font: inherit;
+  padding: 0.72rem 0.8rem;
+}
+
+.portal-auth-signup {
+  margin-top: 1rem;
+  border-top: 1px solid rgba(18, 45, 76, 0.12);
+  padding-top: 0.9rem;
+}
+
+.portal-auth-signup summary {
+  color: #0f5f56;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.portal-auth-signup-form {
+  margin-top: 0.9rem;
+  max-height: min(52vh, 520px);
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
 .portal-auth-form button,
 .portal-auth-logout,
 .portal-auth-row button,
-.portal-auth-row a,
-.portal-auth-signup {
+.portal-auth-row a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -137,8 +166,6 @@ body.portal-member-blocked #job-hub-home .feed-tags {
 
 .portal-auth-signup {
   width: 100%;
-  margin-top: 10px;
-  border-color: #c8dcd7;
   background: #fff;
   color: #2f766d;
 }
