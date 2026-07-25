@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-25T05:10:18.436Z",
-  "feedGeneratedAt": "2026-07-25T05:10:18.436Z",
+  "generatedAt": "2026-07-25T07:26:46.031Z",
+  "feedGeneratedAt": "2026-07-25T07:26:46.031Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
@@ -11,7 +11,7 @@
     "deadlineSoon": 30,
     "applicationClosed": 0,
     "sourcesChecked": 15,
-    "sourcesConfigured": 4,
+    "sourcesConfigured": 6,
     "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
     "staleFallbackItems": 0,
@@ -28,7 +28,7 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-07-25T05:10:18.436Z",
+    "generatedAt": "2026-07-25T07:26:46.031Z",
     "attempted": 57,
     "succeeded": 57,
     "failed": 0,
@@ -36,7 +36,7 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-25T05:10:18.436Z",
+    "generatedAt": "2026-07-25T07:26:46.031Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
@@ -290,27 +290,6 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "한국사회복지협의회",
-        "title": "한국사회복지협의회 2026년 제3차 직원 채용 공고",
-        "deadline": "2026-08-10",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://bokji.net/not/recru/01_01.bokji?BOARDIDX=32709"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
         "company": "분당서울대학교병원",
         "title": "분당서울대학교병원 신입(업무지원직 장애인) 직원 채용 공고",
         "deadline": "2026-08-03",
@@ -464,6 +443,27 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303025"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국마사회",
+        "title": "2026년 한국마사회 전임직(무기계약직) 보훈특별고용 공고(산업안전관리)",
+        "deadline": "2026-08-05",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://recruit.incruit.com/kra/"
       }
     ]
   },
