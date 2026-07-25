@@ -630,6 +630,10 @@ async function validateCoreContentPages() {
   const css = await readText('assets/site.css');
   const resources = await readText('resources.html');
   const host = await readText('host.html');
+  const appsPage = await readText('apps.html');
+  const learningAppTrial = await readText('apps/sugar-salt/index.html');
+  const learningAppRegister = await readText('apps/sugar-salt/registerSW.js');
+  const learningAppWorker = await readText('apps/sugar-salt/sw.js');
 
   fail('core.about-page', about.includes('설탕과소금 소개 · 교육현장 30년') && about.includes('시니어 교육전문가') && about.includes('교육격차') && about.includes('설탕과소금 대표') && about.includes('aria-label="설탕과소금이 지키는 네 방향"') && ['branch-about-experience.webp', 'branch-about-connection.webp', 'branch-about-practice.webp', 'branch-about-technology.webp'].every((asset) => about.includes(asset)), '설탕과소금 소개 페이지가 교육 경험, 교육격차 해소 소신, 세 사업 방향을 네 개의 전용 이미지 카드로 담고 있습니다.');
   fail('core.education-field-thirty-years', host.includes('교육현장 30년') && !host.includes('30년 특성화고'), '30년 기록의 브랜드 명칭이 교육현장 30년으로 통일되어 있습니다.');
@@ -643,6 +647,9 @@ async function validateCoreContentPages() {
   fail('core.jobs-supplemental-search', jobs.includes('feed.supplementalItems') && jobs.includes('기본 추천 목록과 검색 전용 보조 목록을 함께 검색'), '기본 화면에서 덜 중요한 공고를 줄이되 검색하면 보조 목록까지 빠짐없이 찾습니다.');
   fail('core.jobs-official-page-link', jobs.includes('function isLikelyFileUrl') && jobs.includes('pageCandidates') && jobs.includes('!isLikelyFileUrl(url)'), '채용정보 공식 공고 버튼은 첨부파일 다운로드가 아니라 공고 상세 페이지를 우선 연결합니다.');
   fail('core.resources-page', resources.includes('https://gyo6-law-info.web.app/#formVault') && resources.includes('https://gyo6-law-info.web.app/#counselGateway') && resources.includes('법률 자문을 대신하지 않습니다') && /승인\s*회원/.test(resources), '서식창고·상담실 안내 페이지가 분리된 기능 연결·회원 권한·서비스 한계를 분명히 안내합니다.');
+  fail('core.learning-app-trial-link', appsPage.includes('href="apps/sugar-salt/"') && appsPage.includes('target="_blank"') && appsPage.includes('설탕과소금 앱 10분 체험하기'), '앱·서비스 페이지가 설탕과소금 앱 10분 체험판을 새 창으로 연결합니다.');
+  fail('core.learning-app-trial-build', learningAppTrial.includes('설탕과소금 앱 10분 체험') && learningAppTrial.includes('registerSW.js') && !learningAppTrial.includes('manifest.json'), '설탕과소금 앱 경로가 로그인형 PWA가 아닌 10분 체험판 빌드를 제공합니다.');
+  fail('core.learning-app-trial-worker-cleanup', learningAppRegister.includes("startsWith('/apps/sugar-salt/')") && learningAppRegister.includes('registration.unregister()') && learningAppWorker.includes('self.registration.unregister()'), '체험판이 같은 앱 경로의 기존 서비스워커만 안전하게 해제합니다.');
 }
 
 async function validateDirectionDocs() {
