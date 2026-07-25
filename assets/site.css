@@ -2974,16 +2974,15 @@ a.branch-card:focus-visible { outline: 4px solid #bf7b47; outline-offset: 4px; }
 .privacy-note b { padding: 5px 9px; border-radius: 999px; background: var(--sage-700); color: #fff; font-size: 11px; }
 
 @media (max-width: 780px) {
-  .service-entry { min-height: auto; }
-  .service-entry-image { position: relative; height: min(58vw, 390px); object-position: 68% center; }
-  .service-entry-shade { background: linear-gradient(180deg, rgba(251, 248, 240, 0) 0%, rgba(251, 248, 240, .3) 45%, rgba(251, 248, 240, 1) 100%); }
-  .service-entry-content { min-height: auto; padding-top: 26px; }
+  .service-entry { min-height: calc(100svh - 112px); }
+  .service-entry-image { position: absolute; height: 100%; object-position: 68% center; }
+  .service-entry-shade { background: linear-gradient(90deg, rgba(251, 248, 240, .97) 0%, rgba(251, 248, 240, .89) 54%, rgba(251, 248, 240, .48) 100%); }
+  .service-entry-content { min-height: calc(100svh - 112px); padding-top: 34px; }
   .service-entry h1 { font-size: clamp(39px, 12vw, 58px); }
   .form-topic-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .form-results-head { align-items: flex-start; flex-direction: column; }
 }
 @media (max-width: 520px) {
-  .service-entry-image { height: 68vw; }
   .service-entry-content { padding-left: 16px; padding-right: 16px; }
   .form-topic-grid { gap: 8px; }
   .form-topic-button { min-height: 126px; padding: 13px; border-radius: 14px; }
