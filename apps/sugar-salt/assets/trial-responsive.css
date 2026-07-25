@@ -1,0 +1,31 @@
+/*
+ * The production app uses a 480px desktop shell. The public trial entry is a
+ * separate two-column introduction and needs the full browser canvas.
+ */
+@media (min-width: 621px) {
+  body:has(.trial-entry) {
+    align-items: stretch;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  #root:has(.trial-entry) {
+    width: 100%;
+    max-width: none;
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .trial-entry-copy > div {
+    min-width: 0;
+  }
+
+  .trial-entry h1 {
+    word-break: keep-all;
+    overflow-wrap: normal;
+    text-wrap: balance;
+  }
+}
