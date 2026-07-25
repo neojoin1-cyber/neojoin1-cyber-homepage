@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-25T00:11:19.395Z",
-  "feedGeneratedAt": "2026-07-25T00:11:19.395Z",
+  "generatedAt": "2026-07-25T01:11:27.113Z",
+  "feedGeneratedAt": "2026-07-25T01:11:27.113Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
-    "total": 58,
-    "active": 28,
+    "total": 57,
+    "active": 27,
     "deadlineSoon": 30,
     "applicationClosed": 0,
     "sourcesChecked": 15,
@@ -18,9 +18,9 @@
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 152,
-    "automatedBriefingReady": 58,
-    "automatedBriefingAttempted": 58,
+    "studentRecruitSafetyReview": 151,
+    "automatedBriefingReady": 57,
+    "automatedBriefingAttempted": 57,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -28,19 +28,19 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-07-25T00:11:19.395Z",
-    "attempted": 58,
-    "succeeded": 58,
+    "generatedAt": "2026-07-25T01:11:27.113Z",
+    "attempted": 57,
+    "succeeded": 57,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-25T00:11:19.395Z",
+    "generatedAt": "2026-07-25T01:11:27.113Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 152,
+    "studentRecruitReviewCount": 151,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -127,27 +127,6 @@
         "deadline": "2026-08-07",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.khnp.co.kr/recruit"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외 · 필기신호 직접분류 재검토",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국수력원자력(주)",
-        "title": "한국수력원자력(주) 2026년도 제3차 신입사원(대졸수준) 선발",
-        "deadline": "2026-08-06",
-        "status": "active",
-        "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.khnp.co.kr/recruit"
       },
       {
@@ -464,6 +443,27 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.kuksiwon.or.kr/notice/brd/m_51/view.do?seq=3980&srchFr=&srchTo=&srchWord=&srchTp=&itm_seq_1=0&itm_seq_2=0&multi_itm_seq=0&company_cd=&company_nm=&etc1="
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국전력공사",
+        "title": "한국전력공사 2026년도 NDIS데이터관리원 채용공고",
+        "deadline": "2026-08-06",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303025"
       }
     ]
   },

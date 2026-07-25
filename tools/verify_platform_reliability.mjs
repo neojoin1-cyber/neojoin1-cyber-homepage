@@ -33,6 +33,7 @@ const COLLEGE_APPLICANT_DISQUALIFIED_PATTERN = /(대학(?:교)?\s*(?:재학생|�
 const DEGREE_ONLY_APPLICANT_PATTERN = /(전문학사|대졸|학사\s*(?:이상|학위|졸업)|석사|박사)/;
 const DEGREE_PREFERENCE_PATTERN = /(우대|가점|우대조건|우대사항|우대함).{0,32}(전문학사|대졸|학사|석사|박사)|(전문학사|대졸|학사|석사|박사).{0,32}(우대|가점|우대조건|우대사항|우대함)/;
 const MIXED_HIGH_SCHOOL_RECRUIT_PATTERN = /(대졸\s*수준\s*(?:및|·|,|\/|와|과)\s*고졸\s*수준|고졸\s*수준\s*(?:및|·|,|\/|와|과)\s*대졸\s*수준|고졸\s*(?:전형|채용|구분|직군|직렬)|고등학교\s*졸업(?:예정)?자?\s*(?:지원|응시)\s*가능)/;
+const EXPLICIT_COLLEGE_LEVEL_RECRUIT_PATTERN = /(?:전문대졸|대졸|학사)\s*(?:수준|전형|직군|직렬|채용|선발)/;
 const PAID_TEASER_COPY_PHRASES = ['무료', '첫 챕터', '공개'].map((prefix) => `${prefix} 맛보기`);
 const MIN_FINANCE_LARGE_COMPANY_WATCH_COUNT = 80;
 const REQUIRED_FINANCE_LARGE_COMPANY_WATCH_EMPLOYERS = [
@@ -424,7 +425,10 @@ function hasStudentRecommendationMismatchSignal(item) {
 
 function hasCollegeOnlyApplicantSignal(item) {
   const text = feedItemEligibilityText(item);
+  const headline = [item.title, item.baseTitle].filter(Boolean).join(' ');
+  if (EXPLICIT_COLLEGE_LEVEL_RECRUIT_PATTERN.test(headline) && !MIXED_HIGH_SCHOOL_RECRUIT_PATTERN.test(headline)) return true;
   if (COLLEGE_APPLICANT_PATTERN.test(text) && !COLLEGE_APPLICANT_DISQUALIFIED_PATTERN.test(text)) return true;
+  if (EXPLICIT_COLLEGE_LEVEL_RECRUIT_PATTERN.test(text) && !MIXED_HIGH_SCHOOL_RECRUIT_PATTERN.test(text)) return true;
   if (!DEGREE_ONLY_APPLICANT_PATTERN.test(text) || DEGREE_PREFERENCE_PATTERN.test(text)) return false;
   return !MIXED_HIGH_SCHOOL_RECRUIT_PATTERN.test(text);
 }
@@ -438,11 +442,13 @@ function isCareerOnlyWithoutStudentSignal(item) {
 
 function highSchoolSuitabilityProblem(item) {
   const text = feedItemEligibilityText(item);
+  const headline = [item.title, item.baseTitle].filter(Boolean).join(' ');
   const strongHighSchool = hasStrongHighSchoolSignal(item);
   const entryLevel = hasEntryLevelSignal(item);
   const educationOpen = hasEducationOpenSignal(item);
   const hasEligibleMixedRole = Boolean(item.roleEligibility?.mixed && item.roleEligibility?.eligibleRoles?.length);
   if (CANCELED_RECRUIT_PATTERN.test(text)) return 'canceled-recruit';
+  if (EXPLICIT_COLLEGE_LEVEL_RECRUIT_PATTERN.test(headline) && !MIXED_HIGH_SCHOOL_RECRUIT_PATTERN.test(headline)) return 'college-level-headline';
   if (hasCollegeOnlyApplicantSignal(item) && !hasEligibleMixedRole) return 'college-or-degree-only';
   if (hasStudentRecommendationMismatchSignal(item)) return 'student-recommendation-mismatch';
   if (STUDENT_UNSUITABLE_HEALTHCARE_ROLE_PATTERN.test(text) && !hasEligibleMixedRole) return 'student-unsuitable-professional-healthcare';
@@ -621,6 +627,7 @@ async function validateCoreContentPages() {
   const exams = await readText('exams.html');
   const civilServiceParking = await readText('parking/0mu1/index.html');
   const jobs = await readText('jobs.html');
+  const css = await readText('assets/site.css');
   const resources = await readText('resources.html');
   const host = await readText('host.html');
 
@@ -632,6 +639,7 @@ async function validateCoreContentPages() {
   fail('core.jobs-content-weight', jobs.includes('특성화고 공채') && jobs.includes('공기업') && jobs.includes('공무원') && jobs.includes('대기업') && jobs.includes('공식 첨부서류'), '채용정보 페이지가 핵심 공채와 공식 첨부서류 기능을 명확히 안내합니다.');
   fail('core.jobs-sort-search', jobs.includes('data-sort-mode="new"') && jobs.includes('data-sort-mode="deadline"') && jobs.includes('job-search-input') && jobs.includes('job-search-button') && jobs.includes('isCorePublicRecruit') && jobs.includes('core-recruit'), '채용정보 페이지가 신규순·마감일자순·검색·핵심 공채 강조 UI를 제공합니다.');
   fail('core.jobs-role-priority-ui', jobs.includes('studentPriority?.tier') && jobs.includes('special-student-recruit') && jobs.includes('military-restricted') && jobs.includes('학생 지원 가능 직렬') && jobs.includes('직렬별 자격 판정') && jobs.includes('학생 채널 제외'), '채용정보 화면이 졸업예정자 특별추천과 병역 제한을 구분하고 직렬별 학생 지원 가능 여부를 표시합니다.');
+  fail('core.jobs-daily-work-ui', jobs.includes('isDailyWorkerRecruit') && jobs.includes('priority-label') && jobs.includes('daily-work') && css.includes('.label.daily-work') && css.includes('.feed-meta .label.priority-label'), '핵심 추천 배지를 반응형으로 강조하고 일용직 공고를 목록과 요약에서 분명하게 표시합니다.');
   fail('core.jobs-supplemental-search', jobs.includes('feed.supplementalItems') && jobs.includes('기본 추천 목록과 검색 전용 보조 목록을 함께 검색'), '기본 화면에서 덜 중요한 공고를 줄이되 검색하면 보조 목록까지 빠짐없이 찾습니다.');
   fail('core.jobs-official-page-link', jobs.includes('function isLikelyFileUrl') && jobs.includes('pageCandidates') && jobs.includes('!isLikelyFileUrl(url)'), '채용정보 공식 공고 버튼은 첨부파일 다운로드가 아니라 공고 상세 페이지를 우선 연결합니다.');
   fail('core.resources-page', resources.includes('https://gyo6-law-info.web.app') && resources.includes('법률 자문을 대신하지 않습니다') && /승인\s*회원/.test(resources), '상담자료실 안내 페이지가 공식자료 연결·회원 권한·서비스 한계를 분명히 안내합니다.');
@@ -740,6 +748,7 @@ function validateFeed(feed, label = 'local') {
   const directPolicyProblems = [];
   const weakOfficialPublicRecruit = [];
   const suitabilityProblems = [];
+  const dailyWorkLabelProblems = [];
   const malformedDeadlineProblems = [];
   const unresolvedDeadlineProblems = [];
   const unresolvedQualificationProblems = [];
@@ -768,6 +777,9 @@ function validateFeed(feed, label = 'local') {
     if (!protectedDetailFeed && (isLikelyFileUrl(item.primaryOfficialUrl) || isLikelyFileUrl(item.companyNoticeUrl))) officialFileUrlProblems.push(prefix);
     if (!['active', 'deadline_soon', 'application_closed', 'needs_review'].includes(item.status)) itemProblems.push(`${prefix} status=${item.status}`);
     if (suitabilityProblem) suitabilityProblems.push(`${prefix} ${suitabilityProblem}`);
+    if (/서울올림픽기념국민체육진흥공단.*경륜[·ㆍ.\s-]*경정.*(?:지원직|콘텐츠\s*디자인|파트너)/.test(`${item.company || ''} ${item.title || ''}`) && item.dailyWork !== true) {
+      dailyWorkLabelProblems.push(prefix);
+    }
     if (deadlineProblems.length) malformedDeadlineProblems.push(`${prefix} ${deadlineProblems.slice(0, 3).join(', ')}`);
     if (!protectedDetailFeed && item.status !== 'application_closed' && item.processTrack === 'exam-formal' && item.detailLevel === 'detailed-public-recruit' && unresolvedDeadline.length) {
       unresolvedDeadlineProblems.push(`${prefix} ${unresolvedDeadline.slice(0, 2).join(', ')}`);
@@ -811,6 +823,7 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.items.direct-policy`, directPolicyProblems.length === 0, `${label} 면접중심·현장형 채용은 간단 안내로 분리되고 교육청 소스는 직접 표시되지 않습니다.`, directPolicyProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-regional-education-direct-card`, regionalEducationDirectItems.length === 0, `${label} 지역 교육청·학교 취업지원 소식은 직접 결과 카드로 노출되지 않습니다.`, regionalEducationDirectItems.slice(0, 5).map((item) => `${item.source}:${item.title}`).join(' | '));
   fail(`${label}.items.high-school-suitability`, suitabilityProblems.length === 0, `${label} 고졸·졸업예정자 코너에 학생 추천 적합성이 낮거나 경력·전문자격 전용인 공고가 섞이지 않습니다.`, suitabilityProblems.slice(0, 5).join(' | '));
+  fail(`${label}.items.daily-work-label`, dailyWorkLabelProblems.length === 0, `${label} 경륜·경정 일용직 공고는 근무형태를 명확히 표시합니다.`, dailyWorkLabelProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-malformed-deadline-text`, malformedDeadlineProblems.length === 0, `${label} 마감일 표시에 존재하지 않는 날짜 조각이 없습니다.`, malformedDeadlineProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-unresolved-current-deadline`, unresolvedDeadlineProblems.length === 0, `${label} 진행중 공채 상세는 공식 원문 재확인 후 확정 마감일을 표시합니다.`, unresolvedDeadlineProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-unresolved-current-qualification`, unresolvedQualificationProblems.length === 0, `${label} 진행중 공채 상세는 공식 원문 재확인 후 자격요건을 구체적으로 표시합니다.`, unresolvedQualificationProblems.slice(0, 5).join(' | '));

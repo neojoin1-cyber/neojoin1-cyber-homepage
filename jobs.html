@@ -215,6 +215,20 @@
       return "핵심 공채";
     }
 
+    function isDailyWorkerRecruit(item) {
+      const text = [
+        item.title,
+        item.company,
+        item.employmentType,
+        item.recruitField,
+        item.detailText,
+        ...(Array.isArray(item.guideTags) ? item.guideTags : [])
+      ].filter(Boolean).join(" ");
+      return item.dailyWork === true
+        || /(일용직|일용\s*근로(?:자)?|일급제?|일당|단기지원직)/.test(text)
+        || /서울올림픽기념국민체육진흥공단.*경륜[·ㆍ.\s-]*경정.*(?:지원직|콘텐츠\s*디자인|파트너)/.test(text);
+    }
+
     function visibleItems(items) {
       const term = currentSearchTerm.trim().toLowerCase();
       const filtered = term
@@ -364,10 +378,15 @@
     function renderDetailSections(item) {
       const briefing = item.teacherBriefing || {};
       const details = item.publicRecruitDetails || {};
+      const dailyWork = isDailyWorkerRecruit(item);
       const summaryFallback = [
         `채용부문: ${details.hiring || item.recruitField || "자동 추출 대기"}`,
         `응시자격: ${details.eligibility || [item.education, item.career].filter(Boolean).join(" · ") || "자동 추출 대기"}`,
         `마감: ${details.application || item.deadlineText || item.deadline || "자동 추출 대기"}`
+      ];
+      const summaryLines = [
+        ...(dailyWork ? ["근무조건: 일용직 · 일급 및 근무일은 공식 공고 확인"] : []),
+        ...(Array.isArray(briefing.summaryLines) && briefing.summaryLines.length ? briefing.summaryLines : summaryFallback)
       ];
       const scheduleFallback = [
         details.process || item.processNote || item.processTrackName || "전형절차 자동 추출 대기",
@@ -381,7 +400,7 @@
       ];
       return `
         <div class="job-detail-grid">
-          <section class="job-detail-section"><h4>채용 요약</h4><ul>${compactLines(briefing.summaryLines, summaryFallback.join(" / ")) || compactLines(summaryFallback)}</ul></section>
+          <section class="job-detail-section"><h4>채용 요약</h4><ul>${compactLines(summaryLines)}</ul></section>
           <section class="job-detail-section"><h4>전형 일정</h4><ul>${compactLines(briefing.scheduleLines, scheduleFallback.join(" / ")) || compactLines(scheduleFallback)}</ul></section>
           ${roleLines.length ? `<section class="job-detail-section wide"><h4>직렬별 자격 판정</h4><ul>${compactLines(roleLines)}</ul><p class="job-detail-note">자동 판정은 탐색을 돕기 위한 분류이며 최종 지원 자격은 공식 공고문을 확인해야 합니다.</p></section>` : ""}
           <section class="job-detail-section wide"><h4>첨부자료 바로 확인</h4>${renderAttachments(item)}</section>
@@ -488,12 +507,14 @@
         const specialRecommendation = item.studentPriority?.specialRecommendation === true;
         const militaryOpenRecommendation = item.studentPriority?.militaryOpenRecommendation === true;
         const militaryRestricted = item.studentPriority?.militaryRestricted === true;
+        const dailyWork = isDailyWorkerRecruit(item);
         const eligibleRoles = item.roleEligibility?.eligibleRoles || item.studentChannelAssessment?.roleEligibility?.eligibleRoles || [];
         const posted = item.collectionAudit?.publishedDate || (item.publishedAt ? item.publishedAt.slice(0, 10) : "") || item.collectionAudit?.firstSeenDate || "";
         return `
-          <article class="feed-item ${coreRecruit ? "core-recruit" : ""} ${specialRecommendation ? "special-student-recruit" : ""} ${militaryRestricted ? "military-restricted" : ""}">
+          <article class="feed-item ${coreRecruit ? "core-recruit" : ""} ${specialRecommendation ? "special-student-recruit" : ""} ${militaryRestricted ? "military-restricted" : ""} ${dailyWork ? "daily-work-recruit" : ""}">
             <div class="feed-meta">
-              ${priorityLabel ? `<span class="label ${specialRecommendation ? "special" : militaryOpenRecommendation ? "military-open" : militaryRestricted ? "military-limit" : "hot"}">${escapeHtml(priorityLabel)}</span>` : ""}
+              ${priorityLabel ? `<span class="label priority-label ${specialRecommendation ? "special" : militaryOpenRecommendation ? "military-open" : militaryRestricted ? "military-limit" : "hot"}">${escapeHtml(priorityLabel)}</span>` : ""}
+              ${dailyWork ? `<span class="label daily-work">일용직</span>` : ""}
               <span class="label teal">${status}</span>
               <span class="label gold">마감 ${deadline}</span>
               ${posted ? `<span class="label">공고 ${escapeHtml(posted)}</span>` : ""}

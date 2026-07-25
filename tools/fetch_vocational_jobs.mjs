@@ -1066,6 +1066,9 @@ const HIGH_SCHOOL_ELIGIBLE_PATTERN = /(학력\s*[:：]?\s*(?:무관|제한\s*없
 const DEGREE_ONLY_APPLICANT_PATTERN = /(전문학사|대졸|학사\s*(?:이상|학위|졸업)|석사|박사)/;
 const DEGREE_PREFERENCE_PATTERN = /(우대|가점|우대조건|우대사항|우대함).{0,32}(전문학사|대졸|학사|석사|박사)|(전문학사|대졸|학사|석사|박사).{0,32}(우대|가점|우대조건|우대사항|우대함)/;
 const MIXED_HIGH_SCHOOL_RECRUIT_PATTERN = /(대졸\s*수준\s*(?:및|·|,|\/|와|과)\s*고졸\s*수준|고졸\s*수준\s*(?:및|·|,|\/|와|과)\s*대졸\s*수준|고졸\s*(?:전형|채용|구분|직군|직렬)|고등학교\s*졸업(?:예정)?자?\s*(?:지원|응시)\s*가능)/;
+const EXPLICIT_COLLEGE_LEVEL_RECRUIT_PATTERN = /(?:전문대졸|대졸|학사)\s*(?:수준|전형|직군|직렬|채용|선발)/;
+const DAILY_WORK_PATTERN = /(일용직|일용\s*근로(?:자)?|일급제?|일당|단기지원직)/;
+const KSPO_DAILY_WORK_PATTERN = /경륜[·ㆍ.\s-]*경정.*(?:지원직|콘텐츠\s*디자인|파트너)/;
 const EXPLICIT_HIGH_SCHOOL_GRADUATE_CANDIDATE_PATTERN = /(?:(?:특성화고|직업계고|마이스터고|고등학교|고교)(?:등학교)?\s*(?:재학생|졸업\s*예정(?:자)?|졸업예정(?:자)?|졸업자\s*및\s*졸업\s*예정자)|고졸\s*(?:예정자|졸업\s*예정자)).{0,40}(?:채용|모집|지원|응시|전형|추천)|(?:채용|모집|지원|응시|전형|추천).{0,40}(?:(?:특성화고|직업계고|마이스터고|고등학교|고교)(?:등학교)?\s*(?:재학생|졸업\s*예정(?:자)?|졸업예정(?:자)?)|고졸\s*(?:예정자|졸업\s*예정자))/;
 const MILITARY_SERVICE_COMPLETION_PATTERN = /(남성|남자|지원자|응시자).{0,40}(병역\s*(?:필|필한|필하였|마친|완료)|병역필|군필|전역자|면제자)|(병역\s*(?:필|필한|필하였|마친|완료)|병역필|군필|전역자|면제자).{0,40}(남성|남자|지원자|응시자)|병역필\s*또는\s*면제|병역을\s*마쳤거나\s*면제/;
 const MILITARY_NO_LIMIT_PATTERN = /(병역(?:법)?.{0,34}(?:기피|불이행)\s*사실(?:이)?\s*없는\s*자|병역의무를\s*기피한\s*사실이\s*없는\s*자|현역(?:은|의\s*경우)?.{0,36}입사(?:예정)?일.{0,24}(?:전역|제대)\s*가능|고졸(?:자|예정자)?.{0,30}병역.{0,20}제한\s*없음)/;
@@ -3415,8 +3418,22 @@ function hasStudentUnsuitableProfessionalRole(value) {
 function hasCollegeOnlyApplicantSignal(value) {
   const text = normalizeSpace(value);
   if (COLLEGE_APPLICANT_PATTERN.test(text) && !COLLEGE_APPLICANT_DISQUALIFIED_PATTERN.test(text)) return true;
+  if (EXPLICIT_COLLEGE_LEVEL_RECRUIT_PATTERN.test(text) && !MIXED_HIGH_SCHOOL_RECRUIT_PATTERN.test(text)) return true;
   if (!DEGREE_ONLY_APPLICANT_PATTERN.test(text) || DEGREE_PREFERENCE_PATTERN.test(text)) return false;
   return !MIXED_HIGH_SCHOOL_RECRUIT_PATTERN.test(text);
+}
+
+function hasDailyWorkRecruitSignal(raw = {}) {
+  const text = normalizeSpace([
+    raw.title,
+    raw.company,
+    raw.employmentType,
+    raw.recruitField,
+    raw.description,
+    raw.processText
+  ].filter(Boolean).join(' '));
+  return DAILY_WORK_PATTERN.test(text)
+    || (/서울올림픽기념국민체육진흥공단/.test(text) && KSPO_DAILY_WORK_PATTERN.test(text));
 }
 
 function hasVerifiedStudentEligibilitySignal(value) {
@@ -3555,6 +3572,19 @@ function validateRecruitRoleFixtures() {
     title: '고졸 신입 공개채용(사무직, 전기 기술직)',
     education: '고졸'
   }, '고졸 신입 공개채용');
+  const collegeLevelAssessment = buildStudentChannelAssessment({
+    title: '한국수력원자력 2026년도 신입사원(대졸수준) 선발',
+    company: '한국수력원자력',
+    education: '학력무관,중졸이하,고졸,대졸(2~3년),대졸(4년)',
+    career: '신입',
+    employmentType: '정규직',
+    recruitField: '사무직,기술직'
+  }, { processTrack: 'exam-formal' });
+  const dailyWorkDetected = hasDailyWorkRecruitSignal({
+    title: '경륜·경정 파트너(발매) 채용 공고',
+    company: '서울올림픽기념국민체육진흥공단',
+    employmentType: '무기계약직'
+  });
 
   const fixtureOk = mixedHospital.eligibleRoles.some((role) => /조경관리/.test(role))
     && mixedHospital.reviewRoles.some((role) => /시설기술/.test(role))
@@ -3562,9 +3592,12 @@ function validateRecruitRoleFixtures() {
     && mixedHospital.excludedRoles.some((role) => /청소/.test(role))
     && professionalOnly.eligibleRoles.length === 0
     && professionalOnly.excludedRoles.length === 2
-    && highSchoolTechnical.eligibleRoles.length === 2;
+    && highSchoolTechnical.eligibleRoles.length === 2
+    && collegeLevelAssessment.collegeOnly
+    && collegeLevelAssessment.hardBlocked
+    && dailyWorkDetected;
   if (!fixtureOk) {
-    throw new Error(`Recruit role eligibility fixture failed: ${JSON.stringify({ mixedHospital, professionalOnly, highSchoolTechnical })}`);
+    throw new Error(`Recruit role eligibility fixture failed: ${JSON.stringify({ mixedHospital, professionalOnly, highSchoolTechnical, collegeLevelAssessment, dailyWorkDetected })}`);
   }
 }
 
@@ -3586,7 +3619,9 @@ function buildStudentChannelAssessment(raw, process) {
   const roleEligibility = assessRecruitRoles(raw, verifiedText);
   const roleLevelException = roleEligibility.mixed && roleEligibility.hasEligibleRole;
   const highSchoolEligible = hasVerifiedStudentEligibilitySignal(verifiedText);
-  const collegeOnly = hasCollegeOnlyApplicantSignal(text) && !roleLevelException;
+  const explicitCollegeLevel = EXPLICIT_COLLEGE_LEVEL_RECRUIT_PATTERN.test(normalizeSpace([raw.title, raw.baseTitle].filter(Boolean).join(' ')))
+    && !MIXED_HIGH_SCHOOL_RECRUIT_PATTERN.test(normalizeSpace([raw.title, raw.baseTitle].filter(Boolean).join(' ')));
+  const collegeOnly = explicitCollegeLevel || (hasCollegeOnlyApplicantSignal(text) && !roleLevelException);
   const professionalOnly = hasStudentUnsuitableProfessionalRole(text) && !roleLevelException;
   const recommendationMismatch = hasStudentUnsuitableRecruitSignal(text) && !roleLevelException;
   const militaryNoLimit = hasMilitaryNoLimitSignal(verifiedText);
@@ -3627,6 +3662,7 @@ function buildStudentChannelAssessment(raw, process) {
     militaryCompletionRequired,
     militaryNoLimit,
     explicitHighSchoolGraduateCandidate,
+    explicitCollegeLevel,
     collegeOnly,
     professionalOnly,
     advancedRoleMismatch,
@@ -4773,10 +4809,12 @@ function hasAdvancedEducationOnly(item) {
 
 function isUnsuitableForHighSchoolChannel(item) {
   const text = eligibilityText(item);
+  const headline = normalizeSpace([item.title, item.baseTitle].filter(Boolean).join(' '));
   const roleLevelException = hasRoleLevelEligibilityException(item);
   const strongHighSchool = hasStrongHighSchoolSignal(item);
   const entryLevel = hasEntryLevelSignal(item);
   const educationOpen = hasEducationOpenSignal(item);
+  if (EXPLICIT_COLLEGE_LEVEL_RECRUIT_PATTERN.test(headline) && !MIXED_HIGH_SCHOOL_RECRUIT_PATTERN.test(headline)) return true;
   if (hasCollegeOnlyApplicantSignal(text) && !roleLevelException) return true;
   if (hasStudentUnsuitableRecruitSignal(text) && !roleLevelException) return true;
   if (hasStudentUnsuitableProfessionalRole(text) && !roleLevelException) return true;
@@ -4819,6 +4857,7 @@ function normalizeItem(raw) {
   const servicePolicy = buildServicePolicy(process, sourceVerification);
   const publishedDate = parseDate(raw.publishedAt || raw.registeredAt || raw.postedAt || raw.openDate || raw.postingDate);
   const collectionAudit = buildCollectionAudit(raw, publishedDate);
+  const dailyWork = hasDailyWorkRecruitSignal(raw);
   const isExamFormal = process.processTrack === 'exam-formal';
   const isRegionalEducationVerificationSource = servicePolicy.detailLevel === 'regional-education-verification-source';
   const deadlinePassed = Boolean(deadlineDate && !Number.isNaN(deadlineDate.getTime()) && NOW.getTime() >= deadlineDate.getTime());
@@ -4863,6 +4902,7 @@ function normalizeItem(raw) {
   const guideTags = compactTags([
     process.trackName,
     process.sectorName,
+    dailyWork ? '일용직' : '',
     raw.employmentType || '고용형태 확인',
     raw.education || '학력조건 확인',
     schoolRecommendation === 'required' ? '학교장 추천 확인' : '추천여부 확인',
@@ -4894,6 +4934,7 @@ function normalizeItem(raw) {
     education: normalizeSpace(raw.education) || '원문 확인',
     career: normalizeSpace(raw.career) || '원문 확인',
     employmentType: normalizeSpace(raw.employmentType) || '원문 확인',
+    dailyWork,
     recruitField: normalizeSpace(raw.recruitField || raw.jobField || raw.workField || raw.position).slice(0, 160),
     recruitNumber: normalizeSpace(raw.recruitNumber || raw.hiringCount || raw.recruitCount).slice(0, 80),
     applicationMethod: normalizeSpace(raw.applicationMethod || raw.application || raw.applyMethod).slice(0, 180),
@@ -5478,7 +5519,7 @@ const PUBLIC_JOB_ITEM_FIELDS = new Set([
   'collectionAudit', 'fitScore', 'fitLabels', 'processTrack', 'processTrackName', 'writtenExam',
   'processConfidence', 'processLabels', 'processNote', 'studentChannelAssessment', 'roleEligibility', 'studentPriority', 'sector',
   'sectorName', 'servicePriority', 'servicePolicyLabel', 'detailLevel', 'displayNote',
-  'schoolRecommendation', 'status', 'legalCheckFlags', 'guideTags', 'trackName',
+  'schoolRecommendation', 'status', 'legalCheckFlags', 'guideTags', 'dailyWork', 'trackName',
   'staleSourceFallback', 'url', 'originalUrl', 'sourceDetailUrl', 'detailText', 'contactAdvice',
   'sourceVerification', 'regionalEducationVerification', 'publicRecruitDetails', 'teacherBriefing', 'attachments',
   'primaryOfficialUrl', 'companyNoticeUrl', 'sourceOfficialUrl', 'officialUrl',
