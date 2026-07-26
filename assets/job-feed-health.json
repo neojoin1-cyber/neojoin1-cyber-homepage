@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-26T14:10:19.426Z",
-  "feedGeneratedAt": "2026-07-26T14:10:19.426Z",
+  "generatedAt": "2026-07-26T15:16:41.874Z",
+  "feedGeneratedAt": "2026-07-26T15:16:41.874Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
-    "total": 57,
-    "active": 26,
-    "deadlineSoon": 31,
+    "total": 58,
+    "active": 29,
+    "deadlineSoon": 29,
     "applicationClosed": 0,
     "sourcesChecked": 15,
-    "sourcesConfigured": 4,
+    "sourcesConfigured": 6,
     "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
     "staleFallbackItems": 0,
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 151,
-    "automatedBriefingReady": 57,
-    "automatedBriefingAttempted": 57,
+    "studentRecruitSafetyReview": 153,
+    "automatedBriefingReady": 58,
+    "automatedBriefingAttempted": 58,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -28,19 +28,19 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-07-26T14:10:19.426Z",
-    "attempted": 57,
-    "succeeded": 57,
+    "generatedAt": "2026-07-26T15:16:41.874Z",
+    "attempted": 58,
+    "succeeded": 58,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-26T14:10:19.426Z",
+    "generatedAt": "2026-07-26T15:16:41.874Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 151,
+    "studentRecruitReviewCount": 153,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -152,6 +152,46 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "국립생태원",
+        "title": "2026년 제4차 국립생태원 기간제근로자(수탁과제) 채용 2차 재공고",
+        "deadline": "2026-07-27",
+        "status": "deadline_soon",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://nierecruit.fairy.im/announcement/detail/112"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "국립생태원",
+        "title": "2026년 제5차 국립생태원 기간제근로자(수탁과제) 채용 재공고",
+        "deadline": "2026-08-05",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://nierecruit.fairy.im/announcement/detail/113"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
@@ -190,27 +230,6 @@
         "status": "deadline_soon",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B2%BD%EA%B8%B0%EB%B6%81%EB%B6%80%EC%A7%80%EC%82%AC&page=1&rnm_idx=912"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "학교법인한국폴리텍",
-        "title": "학교법인한국폴리텍 한국폴리텍대학 반도체융합캠퍼스 업무직(대학운영직_전기원) 채용 공고(2차)",
-        "deadline": "2026-07-26",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kopo.ac.kr/semi/board.do?menu=3303&mode=view&post=780374"
       },
       {
         "list": "items",
@@ -269,33 +288,12 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "전남대학교병원",
-        "title": "2026년 7월 전남대학교병원 직원(중증장애인 단시간근로자_무기계약직) 공개채용시험 공고",
-        "deadline": "2026-07-29",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://cnuh.recruiter.co.kr/app/jobnotice/view?systemKindCode=MRS2&jobnoticeSn=260269"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국사회복지협의회",
-        "title": "한국사회복지협의회 2026년 제3차 직원 채용 공고",
+        "company": "충남대학교병원",
+        "title": "[대전] 2026년 7월 충남대학교병원 업무지원직(기계기사, 전기기사, 환경사) 공개채용",
         "deadline": "2026-08-10",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://bokji.net/not/recru/01_01.bokji?BOARDIDX=32709"
+        "primaryOfficialUrl": "https://cnuhinsa.recruiter.co.kr/career/home"
       },
       {
         "list": "items",
@@ -317,27 +315,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://snubh.recruiter.co.kr/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "서울올림픽기념국민체육진흥공단",
-        "title": "서울올림픽기념국민체육진흥공단 경륜·경정 지원직 채용 공고",
-        "deadline": "2026-08-07",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kspo.or.kr/kspo/singl/empmn/view.do?empmnId=765&menuNo=200186&pageIndex=1"
       },
       {
         "list": "items",
@@ -380,6 +357,27 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.kspo.or.kr/kspo/singl/empmn/view.do?empmnId=767&menuNo=200186&pageIndex=1"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "서울올림픽기념국민체육진흥공단",
+        "title": "서울올림픽기념국민체육진흥공단 경륜·경정 지원직 채용 공고",
+        "deadline": "2026-08-07",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.kspo.or.kr/kspo/singl/empmn/view.do?empmnId=765&menuNo=200186&pageIndex=1"
       },
       {
         "list": "items",
