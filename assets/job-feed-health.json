@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-27T04:24:38.598Z",
-  "feedGeneratedAt": "2026-07-27T04:24:38.598Z",
+  "generatedAt": "2026-07-27T05:10:19.649Z",
+  "feedGeneratedAt": "2026-07-27T05:10:19.649Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
-    "total": 55,
-    "active": 32,
-    "deadlineSoon": 23,
+    "total": 56,
+    "active": 34,
+    "deadlineSoon": 22,
     "applicationClosed": 0,
     "sourcesChecked": 15,
-    "sourcesConfigured": 6,
+    "sourcesConfigured": 4,
     "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
     "staleFallbackItems": 0,
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 156,
-    "automatedBriefingReady": 55,
-    "automatedBriefingAttempted": 55,
+    "studentRecruitSafetyReview": 159,
+    "automatedBriefingReady": 56,
+    "automatedBriefingAttempted": 56,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -28,23 +28,44 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-07-27T04:24:38.598Z",
-    "attempted": 55,
-    "succeeded": 55,
+    "generatedAt": "2026-07-27T05:10:19.649Z",
+    "attempted": 56,
+    "succeeded": 56,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-27T04:24:38.598Z",
+    "generatedAt": "2026-07-27T05:10:19.649Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 156,
+    "studentRecruitReviewCount": 159,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
     "studentRecruitReviewSamples": [
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국사회보장정보원",
+        "title": "한국사회보장정보원 2026년도 제3차 직원 채용공고",
+        "deadline": "2026-07-30",
+        "status": "deadline_soon",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.ssis.or.kr/lay1/bbs/S1T916C1391/O/130/view.do?article_seq=129491&cpage=1&rows=10&condition=&keyword="
+      },
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
@@ -107,27 +128,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.khnp.co.kr/recruit"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국사회보장정보원",
-        "title": "한국사회보장정보원 2026년도 제3차 직원 채용공고",
-        "deadline": "2026-07-30",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.ssis.or.kr/lay1/bbs/S1T916C1391/O/130/view.do?article_seq=129491&cpage=1&rows=10&condition=&keyword="
       },
       {
         "list": "items",
@@ -238,20 +238,41 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
+          "학력무관",
+          "필기·NCS 신호",
           "공채 신호",
           "신입·정규직 계열"
         ],
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "분당서울대학교병원",
-        "title": "분당서울대학교병원 신입(업무지원직 장애인) 직원 채용 공고",
-        "deadline": "2026-08-03",
+        "company": "국방전직교육원",
+        "title": "2026년 제2차 국방전직교육원 직원 채용 공고 - 정규직",
+        "deadline": "2026-08-11",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://snubh.recruiter.co.kr/"
+        "primaryOfficialUrl": "https://www.moti.or.kr/main/recruit"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "국방전직교육원",
+        "title": "2026년 제2차 국방전직교육원 직원 채용 공고 - 공무직",
+        "deadline": "2026-08-11",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.moti.or.kr/main/recruit"
       },
       {
         "list": "items",
@@ -267,12 +288,33 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "서울올림픽기념국민체육진흥공단",
-        "title": "서울올림픽기념국민체육진흥공단 경륜·경정 파트너(발매) 채용 공고",
-        "deadline": "2026-08-07",
+        "company": "한국사회복지협의회",
+        "title": "한국사회복지협의회 2026년 제3차 직원 채용 공고",
+        "deadline": "2026-08-10",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kspo.or.kr/kspo/singl/empmn/view.do?empmnId=767&menuNo=200186&pageIndex=1"
+        "primaryOfficialUrl": "https://bokji.net/not/recru/01_01.bokji?BOARDIDX=32709"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "분당서울대학교병원",
+        "title": "분당서울대학교병원 신입(업무지원직 장애인) 직원 채용 공고",
+        "deadline": "2026-08-03",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://snubh.recruiter.co.kr/"
       },
       {
         "list": "items",
@@ -315,6 +357,27 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.kspo.or.kr/kspo/singl/empmn/view.do?empmnId=766&menuNo=200186&pageIndex=1"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "서울올림픽기념국민체육진흥공단",
+        "title": "서울올림픽기념국민체육진흥공단 경륜·경정 파트너(발매) 채용 공고",
+        "deadline": "2026-08-07",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.kspo.or.kr/kspo/singl/empmn/view.do?empmnId=767&menuNo=200186&pageIndex=1"
       },
       {
         "list": "items",
@@ -399,69 +462,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303025"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국마사회",
-        "title": "2026년 한국마사회 전임직(무기계약직) 보훈특별고용 공고(산업안전관리)",
-        "deadline": "2026-08-05",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://recruit.incruit.com/kra/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "대한적십자사",
-        "title": "대한적십자사 2026년도 제3차 혈액관리본부 전문직 등 신규 직원 공개 모집",
-        "deadline": "2026-08-04",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=302908"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국사회복지협의회",
-        "title": "한국사회복지협의회 2026년 제3차 직원 채용 공고",
-        "deadline": "2026-08-10",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://bokji.net/not/recru/01_01.bokji?BOARDIDX=32709"
       }
     ]
   },
