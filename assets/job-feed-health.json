@@ -1,34 +1,43 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-30T14:10:40.963Z",
-  "feedGeneratedAt": "2026-07-30T14:10:40.963Z",
+  "generatedAt": "2026-07-30T15:59:18.319Z",
+  "feedGeneratedAt": "2026-07-30T15:59:18.319Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "ok",
+  "status": "degraded",
   "summary": {
     "total": 59,
     "active": 38,
     "deadlineSoon": 21,
     "applicationClosed": 0,
     "sourcesChecked": 15,
-    "sourcesConfigured": 4,
-    "sourcesFailed": 0,
+    "sourcesConfigured": 6,
+    "sourcesFailed": 1,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 0,
-    "sourceFallbackProtected": 0,
-    "publicationBlocked": 0,
+    "staleFallbackItems": 59,
+    "sourceFallbackProtected": 59,
+    "publicationBlocked": 1,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 169,
+    "studentRecruitSafetyReview": 92,
     "automatedBriefingReady": 59,
     "automatedBriefingAttempted": 59,
     "automatedBriefingFailed": 0
   },
-  "sourceFailures": [],
+  "sourceFailures": [
+    {
+      "id": "job-alio-openapi",
+      "name": "잡알리오 공공기관 채용",
+      "isolatedFailure": false,
+      "fallbackProtected": true,
+      "fallbackItemCount": 88,
+      "message": "연결 실패: recent-page-1: recent-page-1 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page; recent-page-2: recent-page-2 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page · 직전 정상 공고 88건 보존"
+    }
+  ],
   "aiBriefing": {
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-07-30T14:10:40.963Z",
+    "generatedAt": "2026-07-30T15:59:18.319Z",
     "attempted": 59,
     "succeeded": 59,
     "failed": 0,
@@ -36,14 +45,24 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-30T14:10:40.963Z",
-    "blockedCount": 0,
+    "generatedAt": "2026-07-30T15:59:18.319Z",
+    "blockedCount": 1,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 169,
-    "blockedByReason": {},
+    "studentRecruitReviewCount": 92,
+    "blockedByReason": {
+      "student-hard-blocked": 1
+    },
     "repairedByReason": {},
-    "blockedSamples": [],
+    "blockedSamples": [
+      {
+        "list": "archiveItems",
+        "reason": "student-hard-blocked",
+        "source": "moef-public-recruit",
+        "company": "자동차손해배상진흥원",
+        "title": "자동차손해배상진흥원 신입 및 경력직 직원 채용 공고(재개)(원서 마감)"
+      }
+    ],
     "studentRecruitReviewSamples": [
       {
         "list": "items",
