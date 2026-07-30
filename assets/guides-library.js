@@ -126,7 +126,22 @@ function inferCategory(entry) {
   if (/현장실습|도제학교|산학일체형|일학습병행|직업계고\s*실습/.test(title)) {
     return 'fieldTraining';
   }
-  if (/취업|진로|채용|면접|직업진로|취업지원/.test(title)) {
+  if (
+    /계약제교원|기간제교사|교육공무직|교원\s*채용|직원\s*채용|강사\s*채용|채용\s*시험|휴직|복직/.test(title)
+  ) {
+    return 'staffLabor';
+  }
+  if (/조기취업형\s*계약학과|선도대학\s*육성사업/.test(title)) {
+    return 'general';
+  }
+  if (entry.category === 'careerEmployment') {
+    return 'careerEmployment';
+  }
+  if (
+    /고졸채용|고졸청년|직업계고.*취업|특성화고.*취업|마이스터고.*취업|취업지원|취업지도|취업상담|취업준비|취업추천|취업역량|채용연계|취업맞춤반|학교장추천|중앙취업지원센터|이력서|자기소개서|면접지도|직무역량|직업진로|진로교육|진로지도|졸업생.*취업/.test(
+      title,
+    )
+  ) {
     return 'careerEmployment';
   }
   if (/학교생활기록부|생활기록부|학적|출결|전입|전출|편입학|학생생활/.test(title)) {
