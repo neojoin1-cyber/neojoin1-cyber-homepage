@@ -2168,6 +2168,24 @@ body {
 
 .brand strong { font-size: 21px; }
 .brand span { font-size: 11px; letter-spacing: 0.06em; }
+.site-header .brand {
+  position: relative;
+  display: block;
+  flex: 0 0 auto;
+  width: 168px;
+  height: 40px;
+  background: url("../brand/logo/lockup.svg") center / contain no-repeat;
+}
+.site-header .brand strong,
+.site-header .brand span {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 .navlinks { gap: 4px; }
 .navlinks a {
   min-height: 44px;
@@ -2329,6 +2347,75 @@ body {
 .about-grid .compact-card-new { display: grid; align-content: start; gap: 14px; }
 .about-grid .compact-card-new > strong { margin-top: 8px; font-family: var(--font-display); font-size: 18px; }
 
+.brand-mark-section {
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(135deg, rgba(255, 253, 248, 0.96), rgba(232, 240, 233, 0.82));
+}
+
+.brand-mark-section .wrap {
+  padding-top: clamp(34px, 5vw, 62px);
+  padding-bottom: clamp(34px, 5vw, 62px);
+}
+
+.brand-mark-card {
+  display: grid;
+  grid-template-columns: 116px minmax(0, 1fr);
+  gap: clamp(22px, 4vw, 46px);
+  align-items: center;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: clamp(24px, 4vw, 42px);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 253, 248, 0.94);
+  box-shadow: var(--shadow-soft);
+}
+
+.brand-mark-card img {
+  width: 116px;
+  height: 116px;
+}
+
+.brand-mark-copy h2 {
+  margin: 6px 0 10px;
+  color: var(--navy);
+  font: 700 clamp(26px, 3.5vw, 40px) / 1.25 var(--font-display);
+  letter-spacing: -0.03em;
+}
+
+.brand-mark-copy p {
+  max-width: 660px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.brand-mark-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.brand-mark-points span {
+  padding: 7px 11px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--navy-soft);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.corporate-status {
+  display: inline-block;
+  margin-top: 15px;
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 800;
+}
+
 .branch-card,
 .compact-card-new,
 .gateway-card,
@@ -2475,6 +2562,10 @@ body {
 
 @media (max-width: 520px) {
   .nav { padding: 10px 16px; }
+  .site-header .brand {
+    width: 134px;
+    height: 32px;
+  }
   .navlinks a { font-size: 13px; padding: 8px 10px; }
   .lean-hero .wrap,
   .lean-section .wrap { padding-left: 18px; padding-right: 18px; }
@@ -2487,6 +2578,18 @@ body {
   .compact-card-new,
   .gateway-card,
   .role-card { padding: 18px; }
+  .brand-mark-card {
+    grid-template-columns: 72px minmax(0, 1fr);
+    gap: 16px;
+    padding: 20px;
+  }
+  .brand-mark-card img {
+    width: 72px;
+    height: 72px;
+  }
+  .brand-mark-copy h2 { font-size: 25px; }
+  .brand-mark-copy p { font-size: 15px; }
+  .brand-mark-points span { font-size: 12px; }
 }
 
 /* Integrated editorial posters: copy and infographic share one visual surface. */
