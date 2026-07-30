@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "generatedAt": "2026-07-30T03:21:18.665Z",
+  "generatedAt": "2026-07-30T03:43:49.839Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "mode": "official-public-recruit-auto-registration",
@@ -46,7 +46,7 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-30T03:21:18.665Z",
+    "generatedAt": "2026-07-30T03:43:49.839Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
@@ -478,7 +478,7 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-07-30T03:21:18.665Z",
+    "generatedAt": "2026-07-30T03:43:49.839Z",
     "attempted": 59,
     "succeeded": 59,
     "failed": 0,
@@ -486,7 +486,7 @@
   },
   "collectionReview": {
     "status": "review_needed",
-    "generatedAt": "2026-07-30T03:21:18.665Z",
+    "generatedAt": "2026-07-30T03:43:49.839Z",
     "firstDayGoal": "공채는 게시 첫날 수집을 목표로 하며, 늦게 발견된 공고는 누락 점검 대상으로 기록한다.",
     "dynamicJobAlioGoal": "잡알리오 최근 등록 공고는 기관 화이트리스트나 제목 키워드와 무관하게 상세 원문을 열어 고졸·학력무관 후보를 판정한다.",
     "studentRecruitSafetyGoal": "학생에게 잘못 추천하지 않도록 제외하되, 공공·금융·대기업·필기/NCS·고졸·정규직 신호가 있는 중요 공채 후보는 안전검토 큐에 반드시 남긴다.",
@@ -1194,7 +1194,7 @@
       }
     ],
     "criticalCoverage": {
-      "checkedAt": "2026-07-30T03:21:18.665Z",
+      "checkedAt": "2026-07-30T03:43:49.839Z",
       "watchInstitutionCount": 94,
       "currentRequiredCount": 0,
       "coveredCurrent": [],
@@ -1212,7 +1212,7 @@
   },
   "secretReadiness": {
     "status": "needs_secrets_or_official_feeds",
-    "generatedAt": "2026-07-30T03:21:18.665Z",
+    "generatedAt": "2026-07-30T03:43:49.839Z",
     "totalSources": 15,
     "readySources": 6,
     "partialSources": 0,
@@ -2212,11 +2212,11 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-07-30T03:21:18.665Z",
+      "checkedAt": "2026-07-30T03:43:49.839Z",
       "itemCount": 1,
-      "message": "인사혁신처 공공취업 API 409건 점검, 후보 1건, 공식분류 조회 51회",
-      "scannedCount": 409,
-      "rawItemCount": 409,
+      "message": "인사혁신처 공공취업 API 649건 점검, 후보 1건, 공식분류 조회 54회",
+      "scannedCount": 649,
+      "rawItemCount": 649,
       "firstDayCandidates": 0,
       "missedReviewNeeded": 1,
       "resolvedEndpoint": "https://apis.data.go.kr/1760000/PblJobService/getList"
@@ -2235,9 +2235,9 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-07-30T03:21:18.665Z",
+      "checkedAt": "2026-07-30T03:43:49.839Z",
       "itemCount": 4,
-      "message": "기재부 공공기관 채용 API 10건 점검, 후보 4건, 공식 공고 접속확인 3건, 호출방식 page,perPage,returnType",
+      "message": "기재부 공공기관 채용 API 10건 점검, 후보 4건, 공식 공고 접속확인 4건, 호출방식 page,perPage,returnType",
       "scannedCount": 10,
       "rawItemCount": 10,
       "firstDayCandidates": 4,
@@ -2257,7 +2257,7 @@
       "readiness": "active",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-07-30T03:21:18.665Z",
+      "checkedAt": "2026-07-30T03:43:49.839Z",
       "itemCount": 0,
       "message": "GitHub Secret WORK24_AUTH_KEY 또는 WORKNET_AUTH_KEY 미설정"
     },
@@ -2272,7 +2272,7 @@
       "readiness": "active",
       "configured": true,
       "ok": false,
-      "checkedAt": "2026-07-30T03:21:18.665Z",
+      "checkedAt": "2026-07-30T03:43:49.839Z",
       "itemCount": 0,
       "message": "연결 실패: recent-page-1: recent-page-1 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page; recent-page-2: recent-page-2 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page · 직전 정상 공고 88건 보존",
       "scannedCount": 0,
@@ -2296,7 +2296,7 @@
         "missingCandidates": []
       },
       "criticalCoverage": {
-        "checkedAt": "2026-07-30T03:21:18.665Z",
+        "checkedAt": "2026-07-30T03:43:49.839Z",
         "watchInstitutionCount": 94,
         "currentRequiredCount": 0,
         "coveredCurrent": [],
@@ -2318,7 +2318,7 @@
       "readiness": "active",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-07-30T03:21:18.665Z",
+      "checkedAt": "2026-07-30T03:43:49.839Z",
       "itemCount": 0,
       "message": "서울 하이잡 공식 목록 20건 점검, 보조검증 후보 2건, 공식 공고 확인 0건, 첫날 수집 0건, 누락점검 2건",
       "verificationItemCount": 2,
@@ -2340,7 +2340,7 @@
       "readiness": "active",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-07-30T03:21:18.665Z",
+      "checkedAt": "2026-07-30T03:43:49.839Z",
       "itemCount": 0,
       "message": "GitHub Secret SARAMIN_ACCESS_KEY 미설정"
     },
@@ -2360,9 +2360,9 @@
       "readiness": "pending",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-07-30T03:21:18.665Z",
+      "checkedAt": "2026-07-30T03:43:49.839Z",
       "itemCount": 3,
-      "message": "공식 채용 페이지 89/94개 감시, 채용대행 API 55개 추가확인, 표시후보 3건, 보조검증 후보 0건, 접속확인전용 0개, 실패 5개",
+      "message": "공식 채용 페이지 90/94개 감시, 채용대행 API 54개 추가확인, 표시후보 3건, 보조검증 후보 0건, 접속확인전용 1개, 실패 4개",
       "verificationItemCount": 0,
       "scannedCount": 15,
       "configuredFeedCount": 0,
@@ -2463,21 +2463,24 @@
         "OK금융그룹",
         "SBI저축은행"
       ],
-      "checkedUrlCount": 89,
-      "reachabilityOnlyCount": 0,
-      "reachabilityOnlyEmployers": [],
-      "recruiterApiCheckedCount": 55,
+      "checkedUrlCount": 90,
+      "reachabilityOnlyCount": 1,
+      "reachabilityOnlyEmployers": [
+        "IBK기업은행"
+      ],
+      "recruiterApiCheckedCount": 54,
       "recruiterApiTotalCount": 413,
       "recruiterApiCurrentCount": 43,
       "recruiterApiRecordCount": 12,
-      "recruiterApiFailures": [],
-      "failedUrlCount": 5,
+      "recruiterApiFailures": [
+        "신한카드: HTTP timeout after 15000ms"
+      ],
+      "failedUrlCount": 4,
       "watchFailures": [
-        "SK하이닉스: external client failed: Command failed: curl -L --silent --show-error --max-time 12 -X GET -H User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125 Sa",
+        "SK하이닉스: external client failed: Command failed: curl -L --silent --show-error --max-time 13 -X GET -H User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125 Sa",
         "한화: HTTP timeout after 15000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT",
-        "NH농협은행: external client failed: Command failed: curl -L --silent --show-error --max-time 22 -X GET -H User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125 Sa",
-        "IBK기업은행: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT",
-        "신협: HTTP timeout after 15000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT"
+        "NH농협은행: external client failed: Command failed: curl -L --silent --show-error --max-time 24 -X GET -H User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125 Sa",
+        "저축은행중앙회: HTTP timeout after 15000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT"
       ]
     },
     {
@@ -2494,7 +2497,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-07-30T03:21:18.665Z",
+      "checkedAt": "2026-07-30T03:43:49.839Z",
       "itemCount": 0,
       "message": "인사혁신처 나라일터 공식 API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -2512,7 +2515,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-07-30T03:21:18.665Z",
+      "checkedAt": "2026-07-30T03:43:49.839Z",
       "itemCount": 0,
       "message": "국방부·각 군 공식 모집/채용 공고 데이터 경로 확인 후 연결"
     },
@@ -2530,7 +2533,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-07-30T03:21:18.665Z",
+      "checkedAt": "2026-07-30T03:43:49.839Z",
       "itemCount": 0,
       "message": "잡코리아 공식 제휴 또는 이용 허가된 API 확인 후 연결"
     },
@@ -2548,7 +2551,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-07-30T03:21:18.665Z",
+      "checkedAt": "2026-07-30T03:43:49.839Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -2566,7 +2569,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-07-30T03:21:18.665Z",
+      "checkedAt": "2026-07-30T03:43:49.839Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -2584,7 +2587,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-07-30T03:21:18.665Z",
+      "checkedAt": "2026-07-30T03:43:49.839Z",
       "itemCount": 0,
       "message": "공식 제휴/API 또는 허용된 데이터 경로 확인 후 연결"
     },
@@ -2601,11 +2604,11 @@
       "readiness": "pending",
       "configured": true,
       "ok": true,
-      "checkedAt": "2026-07-30T03:21:18.665Z",
+      "checkedAt": "2026-07-30T03:43:49.839Z",
       "itemCount": 0,
-      "message": "공식 채용 페이지 7/9개 감시, 채용대행 API 0개 추가확인, 표시후보 0건, 보조검증 후보 2건, 접속확인전용 0개, 실패 2개",
+      "message": "공식 채용 페이지 6/9개 감시, 채용대행 API 0개 추가확인, 표시후보 0건, 보조검증 후보 2건, 접속확인전용 0개, 실패 3개",
       "verificationItemCount": 2,
-      "scannedCount": 20,
+      "scannedCount": 11,
       "configuredFeedCount": 0,
       "builtInFeedCount": 9,
       "watchEmployerCount": 9,
@@ -2620,7 +2623,7 @@
         "경상남도교육청 취업지원센터",
         "부산광역시교육청 취업지원센터"
       ],
-      "checkedUrlCount": 7,
+      "checkedUrlCount": 6,
       "reachabilityOnlyCount": 0,
       "reachabilityOnlyEmployers": [],
       "recruiterApiCheckedCount": 0,
@@ -2628,10 +2631,11 @@
       "recruiterApiCurrentCount": 0,
       "recruiterApiRecordCount": 0,
       "recruiterApiFailures": [],
-      "failedUrlCount": 2,
+      "failedUrlCount": 3,
       "watchFailures": [
-        "울산광역시교육청 취업지원센터: external client failed: Command failed: curl -L --silent --show-error --max-time 11 -X GET -H User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125 Sa",
-        "세종특별자치시교육청 취업지원센터: HTTP timeout after 15000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT"
+        "울산광역시교육청 취업지원센터: external client failed: Command failed: curl -L --silent --show-error --max-time 12 -X GET -H User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125 Sa",
+        "세종특별자치시교육청 취업지원센터: HTTP timeout after 15000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT",
+        "제주특별자치도교육청 취업지원센터: HTTP timeout after 15000ms"
       ]
     },
     {
@@ -2648,7 +2652,7 @@
       "readiness": "pending",
       "configured": false,
       "ok": false,
-      "checkedAt": "2026-07-30T03:21:18.665Z",
+      "checkedAt": "2026-07-30T03:43:49.839Z",
       "itemCount": 0,
       "message": "비영리기관 공식 채용 공고 경로와 이용 조건 확인 후 연결"
     }
@@ -2686,16 +2690,16 @@
       "supplementarySourceUrls": [
         "https://hyundai-steel.recruiter.co.kr/"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-23T14:59:59.000Z",
       "publishedDate": "2026-07-23",
-      "firstSeenAt": "2026-07-30T03:21:18.665Z",
+      "firstSeenAt": "2026-07-30T03:43:49.839Z",
       "firstSeenDate": "2026-07-30",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-23T14:59:59.000Z",
         "publishedDate": "2026-07-23",
-        "firstSeenAt": "2026-07-30T03:21:18.665Z",
+        "firstSeenAt": "2026-07-30T03:43:49.839Z",
         "firstSeenDate": "2026-07-30",
         "detectionLagDays": 7,
         "firstDayCollected": false,
@@ -2780,7 +2784,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-30T03:21:18.665Z",
+        "companyNoticeCheckedAt": "2026-07-30T03:43:49.839Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -2869,7 +2873,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://hyundai-steel.recruiter.co.kr/career/jobs/122847",
         "sourceUrl": "https://hyundai-steel.recruiter.co.kr/",
-        "generatedAt": "2026-07-30T03:21:18.665Z"
+        "generatedAt": "2026-07-30T03:43:49.839Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -2929,16 +2933,16 @@
       "supplementarySourceUrls": [
         "https://celltrion.recruiter.co.kr/"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-24T14:59:59.000Z",
       "publishedDate": "2026-07-24",
-      "firstSeenAt": "2026-07-30T03:21:18.665Z",
+      "firstSeenAt": "2026-07-30T03:43:49.839Z",
       "firstSeenDate": "2026-07-30",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-24T14:59:59.000Z",
         "publishedDate": "2026-07-24",
-        "firstSeenAt": "2026-07-30T03:21:18.665Z",
+        "firstSeenAt": "2026-07-30T03:43:49.839Z",
         "firstSeenDate": "2026-07-30",
         "detectionLagDays": 6,
         "firstDayCollected": false,
@@ -3033,7 +3037,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-30T03:21:18.665Z",
+        "companyNoticeCheckedAt": "2026-07-30T03:43:49.839Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -3112,7 +3116,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://celltrion.recruiter.co.kr/career/jobs/122979",
         "sourceUrl": "https://celltrion.recruiter.co.kr/",
-        "generatedAt": "2026-07-30T03:21:18.665Z"
+        "generatedAt": "2026-07-30T03:43:49.839Z"
       },
       "schoolRecommendation": "unknown",
       "status": "deadline_soon",
@@ -3172,16 +3176,16 @@
       "supplementarySourceUrls": [
         "https://hanmi.recruiter.co.kr/"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-30T14:59:59.000Z",
       "publishedDate": "2026-07-30",
-      "firstSeenAt": "2026-07-30T03:21:18.665Z",
+      "firstSeenAt": "2026-07-30T03:43:49.839Z",
       "firstSeenDate": "2026-07-30",
       "collectionAudit": {
         "policy": "public-recruit-first-day-collection",
         "publishedAt": "2026-07-30T14:59:59.000Z",
         "publishedDate": "2026-07-30",
-        "firstSeenAt": "2026-07-30T03:21:18.665Z",
+        "firstSeenAt": "2026-07-30T03:43:49.839Z",
         "firstSeenDate": "2026-07-30",
         "detectionLagDays": 0,
         "firstDayCollected": true,
@@ -3272,7 +3276,7 @@
         "companyNoticeCheckStatus": "content_matched",
         "companyNoticeReachable": true,
         "companyNoticeMatched": true,
-        "companyNoticeCheckedAt": "2026-07-30T03:21:18.665Z",
+        "companyNoticeCheckedAt": "2026-07-30T03:43:49.839Z",
         "doubleCheckStatus": "company_notice_confirmed",
         "doubleCheckLabel": "공식 공고 2중확인",
         "verificationNote": "공식 채용 소스와 회사·기관 또는 채용대행 공식 공지사항 내용을 함께 확인했습니다."
@@ -3351,7 +3355,7 @@
         "officialBasis": "공식 공고 2중확인",
         "officialUrl": "https://hanmi.recruiter.co.kr/career/jobs/123538",
         "sourceUrl": "https://hanmi.recruiter.co.kr/",
-        "generatedAt": "2026-07-30T03:21:18.665Z"
+        "generatedAt": "2026-07-30T03:43:49.839Z"
       },
       "schoolRecommendation": "unknown",
       "status": "active",
@@ -3421,7 +3425,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302928"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-21T14:59:59.000Z",
       "publishedDate": "2026-07-21",
       "firstSeenAt": "2026-07-21T15:51:17.818Z",
@@ -3527,7 +3531,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -3681,7 +3685,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302861"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-20T14:59:59.000Z",
       "publishedDate": "2026-07-20",
       "firstSeenAt": "2026-07-20T05:10:19.153Z",
@@ -3784,7 +3788,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -3938,7 +3942,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302818"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -4041,7 +4045,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -4195,7 +4199,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302794"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -4297,7 +4301,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -4451,7 +4455,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302791"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-16T14:59:59.000Z",
       "publishedDate": "2026-07-16",
       "firstSeenAt": "2026-07-24T15:41:19.969Z",
@@ -4553,7 +4557,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -4706,7 +4710,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302704"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-14T14:59:59.000Z",
       "publishedDate": "2026-07-14",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -4811,7 +4815,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -4964,7 +4968,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302469"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -5066,7 +5070,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -5219,7 +5223,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302648"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -5324,7 +5328,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -5477,7 +5481,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302576"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -5578,7 +5582,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -5731,7 +5735,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302594"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-13T14:59:59.000Z",
       "publishedDate": "2026-07-13",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -5833,7 +5837,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -5986,7 +5990,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302620"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-10T14:59:59.000Z",
       "publishedDate": "2026-07-10",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -6085,7 +6089,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -6238,7 +6242,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302448"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-07T14:59:59.000Z",
       "publishedDate": "2026-07-07",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -6311,7 +6315,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -6456,7 +6460,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302089"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-06-29T14:59:59.000Z",
       "publishedDate": "2026-06-29",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -6526,7 +6530,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -6679,9 +6683,9 @@
               "downloadName": "★공고문 최종.jpg"
             }
           ],
-          "archiveScannedAt": "2026-07-30T03:21:18.665Z",
+          "archiveScannedAt": "2026-07-30T03:43:49.839Z",
           "archiveScanMessage": "직전 확인한 ZIP 내부 파일 링크를 유지합니다.",
-          "archiveCachedFrom": "2026-07-30T02:39:30.904Z"
+          "archiveCachedFrom": "2026-07-30T03:21:18.665Z"
         },
         {
           "title": "공고문: (2026 방재직 채용) 입사지원서.pdf",
@@ -6703,7 +6707,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302121"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-06-29T14:59:59.000Z",
       "publishedDate": "2026-06-29",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -6777,7 +6781,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -6935,9 +6939,9 @@
               "downloadName": "4. 모집지역별 근무 사업소.pdf"
             }
           ],
-          "archiveScannedAt": "2026-07-30T03:21:18.665Z",
+          "archiveScannedAt": "2026-07-30T03:43:49.839Z",
           "archiveScanMessage": "직전 확인한 ZIP 내부 파일 링크를 유지합니다.",
-          "archiveCachedFrom": "2026-07-30T02:39:30.904Z"
+          "archiveCachedFrom": "2026-07-30T03:21:18.665Z"
         }
       ],
       "detailText": "일반직 1. 연령 ○ 입사일 기준 청년고용촉진 특별법상 청년(만15세 이상 34세 이하)인 자 * 제대군인의 경우, 의무복무기간만큼 청년연령 연장(최고연령은 만 37세로 한정) ○ 근로기준법 제64조 및 관련 법령상 채용이 금지된 자 지원 불가 2. 병역 ○ 병역기피 사실이 없는 자(군미필자 및 입사일 전일까지 전역 가능한 자도 지원 가능) 3. 전공: 제한없음 4. 자격: 고졸 또는 사회적배려대상자(취업지원대상자, 장애인, 기초생활수급자, 북한이탈주민, 다문화가족, 한부모가족, 자립준비청년, 경력단절여성) 5. 기타 ○ 공고문 채용 결격 사유에 해당하지 않은 자로 입사일(8.10)부터 근무 가능한 자 ○ 채용대상 제외자 : 한전KDN 인턴 근무 유경험자 직무관련 자격증, 컴퓨터활용능력, 한국사능력검정시험, KBS한국어능력시험, 영어성적, 취업지원대상자, 장애인 ※ 자세한 사항은 첨부파일 '채용공고문' 참조 ○ 1차전형(서류평가) : 지원자격 및 자기소개서 적부평가, 적격자에 한하여 정량평가 / 채용인원의 2배수 ○ 2차전형(자기소개서 평가) : 자기소개서 정성평가 / 채용인원의 1배수 사무일반 구분 선발인원 응시인원 결과 확정일 1차 - - - 최종 - - - 1. 채용공고문.pdf 공고문:",
@@ -6951,7 +6955,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302103"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-06-29T14:59:59.000Z",
       "publishedDate": "2026-06-29",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -7022,7 +7026,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -7168,7 +7172,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302334"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-03T14:59:59.000Z",
       "publishedDate": "2026-07-03",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -7241,7 +7245,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -7386,7 +7390,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302336"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-03T14:59:59.000Z",
       "publishedDate": "2026-07-03",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -7459,7 +7463,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -7604,7 +7608,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302274"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-02T14:59:59.000Z",
       "publishedDate": "2026-07-02",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -7677,7 +7681,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -7822,7 +7826,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302203"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-01T14:59:59.000Z",
       "publishedDate": "2026-07-01",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -7895,7 +7899,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -8044,7 +8048,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301961"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-06-23T14:59:59.000Z",
       "publishedDate": "2026-06-23",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -8114,7 +8118,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -8269,7 +8273,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301870"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-06-19T14:59:59.000Z",
       "publishedDate": "2026-06-19",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -8339,7 +8343,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -8492,7 +8496,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301675"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-06-15T14:59:59.000Z",
       "publishedDate": "2026-06-15",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -8562,7 +8566,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -8713,7 +8717,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301560"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-06-11T14:59:59.000Z",
       "publishedDate": "2026-06-11",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -8783,7 +8787,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -8930,7 +8934,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301381"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-06-05T14:59:59.000Z",
       "publishedDate": "2026-06-05",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -9003,7 +9007,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -9183,9 +9187,9 @@
               "downloadName": "05. 4단계 자기소개서.png"
             }
           ],
-          "archiveScannedAt": "2026-07-30T03:21:18.665Z",
+          "archiveScannedAt": "2026-07-30T03:43:49.839Z",
           "archiveScanMessage": "직전 확인한 ZIP 내부 파일 링크를 유지합니다.",
-          "archiveCachedFrom": "2026-07-30T02:39:30.904Z"
+          "archiveCachedFrom": "2026-07-30T03:21:18.665Z"
         },
         {
           "title": "입사지원서: 별정직 직무기술서.pdf",
@@ -9203,7 +9207,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301265"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-06-02T14:59:59.000Z",
       "publishedDate": "2026-06-02",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -9274,7 +9278,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -9446,9 +9450,9 @@
               "downloadName": "(참고4) 장애인 등 응시자 편의제공 안내.pdf"
             }
           ],
-          "archiveScannedAt": "2026-07-30T03:21:18.665Z",
+          "archiveScannedAt": "2026-07-30T03:43:49.839Z",
           "archiveScanMessage": "직전 확인한 ZIP 내부 파일 링크를 유지합니다.",
-          "archiveCachedFrom": "2026-07-30T02:39:30.904Z"
+          "archiveCachedFrom": "2026-07-30T03:21:18.665Z"
         },
         {
           "title": "기타 첨부파일: 별지서식.zip",
@@ -9474,9 +9478,9 @@
               "downloadName": "(별지서식2) 채용결과 이의신청서.hwp"
             }
           ],
-          "archiveScannedAt": "2026-07-30T03:21:18.665Z",
+          "archiveScannedAt": "2026-07-30T03:43:49.839Z",
           "archiveScanMessage": "직전 확인한 ZIP 내부 파일 링크를 유지합니다.",
-          "archiveCachedFrom": "2026-07-30T02:39:30.904Z"
+          "archiveCachedFrom": "2026-07-30T03:21:18.665Z"
         }
       ],
       "detailText": "일반직,행정직,사무직 1. 고등학교 졸업자 - 고등학교 검정고시 합격자 및 대학 재학,휴학,중퇴자 포함(대학 졸업자 또는 졸업예정자, 졸업유예자 제외) 2. 다음 중 어느 하나에 해당되는 자 - 장애인, 저소득층(수급자 또는 한부모가족), 북한이탈주민, 다문화가족, 자립준비청년 - 성별: 무관 - 병역: 제한 없음(단, 병역법 제76조에서 정한 병역의무 불이행 사실이 없는 자에 한함) - 연령: 「청년고용촉진특별법」 제5조 및 동법 시행령 제2조에 근거하여 본 채용의 임용예정일 기준으로 15세 이상 ~ 34세 이하에 해당되는 자만 지원 가능 - 「제대군인지원에 관한 법률」 제2조 및 제16조에 따른 제대군인 응시 상한 연령 연장 * (복무기간 기준) 1년 미만: 1세 / 1년 이상∼2년 미만: 2세 / 2년 이상: 3세 장애인, 취업지원대상자, 저소득층, 북한이탈주민, 다문화가족, 자립준비청년, 공단 근무경력자 - 지원서 접수 - (1차) 서류전형 / 적격자 전원 - (2차) 필기전형 / 채용인원의 5배수 - (3차) 면접전형 - 최종 합격자 임용 일반행정(일반직 7급 전환형_사회형평 고졸제한) 구분 선발인원 응시인원 결과 확정일 1차 39명 64명 2026.06.19 2차 5명 16명 202",
@@ -9490,7 +9494,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301242"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-06-01T14:59:59.000Z",
       "publishedDate": "2026-06-01",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -9561,7 +9565,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -9710,7 +9714,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=301166"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-05-29T14:59:59.000Z",
       "publishedDate": "2026-05-29",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -9783,7 +9787,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -9927,7 +9931,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=300932"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-05-22T14:59:59.000Z",
       "publishedDate": "2026-05-22",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -9997,7 +10001,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -10178,9 +10182,9 @@
               "downloadName": "(붙임5) 한국철도공사 블라인드 채용 준수를 위한 가이드라인.pdf"
             }
           ],
-          "archiveScannedAt": "2026-07-30T03:21:18.665Z",
+          "archiveScannedAt": "2026-07-30T03:43:49.839Z",
           "archiveScanMessage": "직전 확인한 ZIP 내부 파일 링크를 유지합니다.",
-          "archiveCachedFrom": "2026-07-30T02:39:30.904Z"
+          "archiveCachedFrom": "2026-07-30T03:21:18.665Z"
         }
       ],
       "detailText": "기타(사무보조, 고객안내, 물품관리 등) ○ 공통사항 (1) 학력,성별,연령 : 제한없음 (2) 기타 : 근로시작일(2026년 7월 13일)부터 근무가 가능한 자, 사무보조 및 고객안내, 물품관리 업무 등이 가능한 자 ○ 자격제한 (1) 「장애인고용촉진 및 직업재활법」에 따른 장애인 (2) 「국가유공자 등 예우 및 지원에 관한 법률」에 따른 상이등급 해당자 * 기타 세부 지원 자격은 첨부파일의 채용 공고문을 참조 국가유공자등 예우 및 지원에 관한 법률에 의한 취업지원대상자 : 면접전형에 취업지원대상증명서 가점비율 적용 ※ 자세한 사항은 첨부파일 공고문을 참조 1차(서류전형) : 자기소개서의 검증을 통해 합격자 선정 2차(면접전형) : 면접점수와 취업지원대상자 가산점을 합산한 고득점자 순으로 최종합격자 선발 ※ 자세한 사항은 첨부파일 2026년 한국철도공사 장애인 체험형 인턴사원 채용 공고문.pdf 공고문: 입사지원서(샘플).pdf 공고문: 장애인 체험형인턴 직무기술서.pdf 입사지원서: 2026년 한국철도공사 장애인 체험형 인턴사원 채용 참고자료.zip 마감 잡알리오 공공기관 채용",
@@ -10194,7 +10198,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=300879"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-05-21T14:59:59.000Z",
       "publishedDate": "2026-05-21",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -10264,7 +10268,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -10425,9 +10429,9 @@
               "downloadName": "이력서 작성 _ [한국직업능력연구원] 2026년도 제5차 직원(보훈대상자) 및 기간제 계약직원(휴직자 대체) 채용화면3.pdf"
             }
           ],
-          "archiveScannedAt": "2026-07-30T03:21:18.665Z",
+          "archiveScannedAt": "2026-07-30T03:43:49.839Z",
           "archiveScanMessage": "직전 확인한 ZIP 내부 파일 링크를 유지합니다.",
-          "archiveCachedFrom": "2026-07-30T02:39:30.904Z"
+          "archiveCachedFrom": "2026-07-30T03:21:18.665Z"
         },
         {
           "title": "입사지원서: 2. (직무설명서) 2026년도 제5차 직원(보훈대상자) 및 기간제 계약직원(휴직자 대체) 채용.pdf",
@@ -10453,7 +10457,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303228"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-29T14:59:59.000Z",
       "publishedDate": "2026-07-29",
       "firstSeenAt": "2026-07-29T14:10:46.613Z",
@@ -10558,7 +10562,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -10720,7 +10724,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302985"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-22T14:59:59.000Z",
       "publishedDate": "2026-07-22",
       "firstSeenAt": "2026-07-22T07:41:31.977Z",
@@ -10826,7 +10830,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -10990,7 +10994,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303146"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-29T14:59:59.000Z",
       "publishedDate": "2026-07-29",
       "firstSeenAt": "2026-07-29T05:11:21.832Z",
@@ -11091,7 +11095,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -11253,7 +11257,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302994"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-23T14:59:59.000Z",
       "publishedDate": "2026-07-23",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -11356,7 +11360,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -11512,7 +11516,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303215"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-29T14:59:59.000Z",
       "publishedDate": "2026-07-29",
       "firstSeenAt": "2026-07-29T07:51:26.574Z",
@@ -11620,7 +11624,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -11766,9 +11770,9 @@
               "downloadName": "1-1. 일반직(전산) 직무기술서.pdf"
             }
           ],
-          "archiveScannedAt": "2026-07-30T03:21:18.665Z",
+          "archiveScannedAt": "2026-07-30T03:43:49.839Z",
           "archiveScanMessage": "직전 확인한 ZIP 내부 파일 링크를 유지합니다.",
-          "archiveCachedFrom": "2026-07-30T02:39:30.904Z"
+          "archiveCachedFrom": "2026-07-30T03:21:18.665Z"
         }
       ],
       "detailText": "일반직,행정직,사무직,전산직 ○ 일반직 - 행정, 전산 - 일반직 4급 1. 국가 또는 지방공무원 7급으로 재직하거나 8급으로 5년 이상 재직한 자 2. 정부투자기관 또는 정부출연기관 등 공공기관에서 4급으로 재직하거나 5급으로 5년 이상 재직한 자 3. 관련분야 석사학위 취득 후 3년 이상 실무경력자 4. 관련분야 학사",
@@ -11782,7 +11786,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302927"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-21T14:59:59.000Z",
       "publishedDate": "2026-07-21",
       "firstSeenAt": "2026-07-21T15:51:17.818Z",
@@ -11889,7 +11893,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -12029,7 +12033,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302958"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-27T14:59:59.000Z",
       "publishedDate": "2026-07-27",
       "firstSeenAt": "2026-07-26T15:16:41.874Z",
@@ -12136,7 +12140,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -12278,7 +12282,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303163"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-28T14:59:59.000Z",
       "publishedDate": "2026-07-28",
       "firstSeenAt": "2026-07-28T05:10:21.648Z",
@@ -12382,7 +12386,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -12523,7 +12527,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303164"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-28T14:59:59.000Z",
       "publishedDate": "2026-07-28",
       "firstSeenAt": "2026-07-28T05:10:21.648Z",
@@ -12627,7 +12631,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -12768,7 +12772,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302964"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-24T14:59:59.000Z",
       "publishedDate": "2026-07-24",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -12871,7 +12875,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -13029,7 +13033,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302875"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-21T14:59:59.000Z",
       "publishedDate": "2026-07-21",
       "firstSeenAt": "2026-07-21T00:10:20.367Z",
@@ -13123,7 +13127,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -13271,7 +13275,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303168"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-29T14:59:59.000Z",
       "publishedDate": "2026-07-29",
       "firstSeenAt": "2026-07-29T00:10:23.758Z",
@@ -13372,7 +13376,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -13522,7 +13526,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303072"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-27T14:59:59.000Z",
       "publishedDate": "2026-07-27",
       "firstSeenAt": "2026-07-26T15:16:41.874Z",
@@ -13632,7 +13636,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -13794,7 +13798,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303060"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-24T14:59:59.000Z",
       "publishedDate": "2026-07-24",
       "firstSeenAt": "2026-07-24T07:40:42.027Z",
@@ -13896,7 +13900,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -14062,7 +14066,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303061"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-24T14:59:59.000Z",
       "publishedDate": "2026-07-24",
       "firstSeenAt": "2026-07-24T07:40:42.027Z",
@@ -14156,7 +14160,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -14322,7 +14326,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303062"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-24T14:59:59.000Z",
       "publishedDate": "2026-07-24",
       "firstSeenAt": "2026-07-24T07:40:42.027Z",
@@ -14424,7 +14428,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -14586,7 +14590,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303076"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-24T14:59:59.000Z",
       "publishedDate": "2026-07-24",
       "firstSeenAt": "2026-07-24T14:10:20.789Z",
@@ -14689,7 +14693,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -14842,7 +14846,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303073"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-24T14:59:59.000Z",
       "publishedDate": "2026-07-24",
       "firstSeenAt": "2026-07-24T07:56:05.318Z",
@@ -14944,7 +14948,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -15096,7 +15100,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303157"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-28T14:59:59.000Z",
       "publishedDate": "2026-07-28",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -15191,7 +15195,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -15353,7 +15357,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303177"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-28T14:59:59.000Z",
       "publishedDate": "2026-07-28",
       "firstSeenAt": "2026-07-28T07:46:16.054Z",
@@ -15461,7 +15465,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -15615,7 +15619,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303113"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-27T14:59:59.000Z",
       "publishedDate": "2026-07-27",
       "firstSeenAt": "2026-07-27T05:10:19.649Z",
@@ -15721,7 +15725,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -15869,7 +15873,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303111"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-27T14:59:59.000Z",
       "publishedDate": "2026-07-27",
       "firstSeenAt": "2026-07-27T05:10:19.649Z",
@@ -15963,7 +15967,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -16115,7 +16119,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303025"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-23T14:59:59.000Z",
       "publishedDate": "2026-07-23",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -16211,7 +16215,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -16368,7 +16372,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302853"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-22T14:59:59.000Z",
       "publishedDate": "2026-07-22",
       "firstSeenAt": "2026-07-21T15:51:17.818Z",
@@ -16470,7 +16474,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -16630,7 +16634,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303152"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-28T14:59:59.000Z",
       "publishedDate": "2026-07-28",
       "firstSeenAt": "2026-07-28T03:29:45.368Z",
@@ -16731,7 +16735,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -16887,7 +16891,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303155"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-24T14:59:59.000Z",
       "publishedDate": "2026-07-24",
       "firstSeenAt": "2026-07-24T05:10:21.508Z",
@@ -16997,7 +17001,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -17151,7 +17155,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303203"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-29T14:59:59.000Z",
       "publishedDate": "2026-07-29",
       "firstSeenAt": "2026-07-29T05:11:21.832Z",
@@ -17257,7 +17261,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -17399,7 +17403,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303123"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-27T14:59:59.000Z",
       "publishedDate": "2026-07-27",
       "firstSeenAt": "2026-07-27T08:43:45.022Z",
@@ -17507,7 +17511,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -17649,7 +17653,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303051"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-24T14:59:59.000Z",
       "publishedDate": "2026-07-24",
       "firstSeenAt": "2026-07-24T05:10:21.508Z",
@@ -17752,7 +17756,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -17898,7 +17902,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303021"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-23T14:59:59.000Z",
       "publishedDate": "2026-07-23",
       "firstSeenAt": "2026-07-23T10:36:18.290Z",
@@ -18001,7 +18005,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -18144,9 +18148,9 @@
               "downloadName": "2. 채용공고문(정규직 기술원_전산).pdf"
             }
           ],
-          "archiveScannedAt": "2026-07-30T03:21:18.665Z",
+          "archiveScannedAt": "2026-07-30T03:43:49.839Z",
           "archiveScanMessage": "직전 확인한 ZIP 내부 파일 링크를 유지합니다.",
-          "archiveCachedFrom": "2026-07-30T02:39:30.904Z"
+          "archiveCachedFrom": "2026-07-30T03:21:18.665Z"
         },
         {
           "title": "공고문: 입사지원서.hwp",
@@ -18176,9 +18180,9 @@
               "downloadName": "1. 직무기술서(물리치료사).hwp"
             }
           ],
-          "archiveScannedAt": "2026-07-30T03:21:18.665Z",
+          "archiveScannedAt": "2026-07-30T03:43:49.839Z",
           "archiveScanMessage": "직전 확인한 ZIP 내부 파일 링크를 유지합니다.",
-          "archiveCachedFrom": "2026-07-30T02:39:30.904Z"
+          "archiveCachedFrom": "2026-07-30T03:21:18.665Z"
         }
       ],
       "detailText": "기술직,보건직 O 정규직 물리치료사 : 물리치료사 면허증 소지자 O 정규직 기술원 : 정보처리기사 자격증 소지자 O 장애인 : 서류심사 우선합격(단, 필수지원자격 갖추지 않을 시 우선합격대상에서 제외) 및 면접전형 우대 O 북한이탈주민 : 면접전형 우대 O 취업지원대상자 : 관련법률에 따라 적용 O 접수기간 : 2026.",
@@ -18192,7 +18196,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302915"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-21T14:59:59.000Z",
       "publishedDate": "2026-07-21",
       "firstSeenAt": "2026-07-21T05:10:19.353Z",
@@ -18302,7 +18306,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -18445,7 +18449,7 @@
         "https://job.alio.go.kr/recruitview.do?idx=303235",
         "https://www.data.go.kr/data/15125273/openapi.do"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-30T14:59:59.000Z",
       "publishedDate": "2026-07-30",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -18549,7 +18553,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -18695,7 +18699,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303140"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-28T14:59:59.000Z",
       "publishedDate": "2026-07-28",
       "firstSeenAt": "2026-07-27T16:31:58.827Z",
@@ -18804,7 +18808,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -18979,9 +18983,9 @@
               "downloadName": "5. NCS 직무기술서(보건직)_응급구조사★.hwp"
             }
           ],
-          "archiveScannedAt": "2026-07-30T03:21:18.665Z",
+          "archiveScannedAt": "2026-07-30T03:43:49.839Z",
           "archiveScanMessage": "직전 확인한 ZIP 내부 파일 링크를 유지합니다.",
-          "archiveCachedFrom": "2026-07-30T02:39:30.904Z"
+          "archiveCachedFrom": "2026-07-30T03:21:18.665Z"
         }
       ],
       "detailText": "행정직,보건직 행정직(일반행정, 법무, 경영, 회계) : 공인영어성적 일정 기준 이상인 자 보건직(응급구조사) : 공인영어성적 일정 기준 이상인 자, 1급 응급구조사 자격 소지자 및 1종 보통 운전면허 소지자 가. 취업지원대상자 : 관련 법률에 의거 가점(각 전형 단계별 만점의 5% 또는 10%) 나. 장애인 : 각 전형",
@@ -18993,7 +18997,7 @@
       "companyNoticeUrl": "",
       "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303046",
       "supplementarySourceUrls": [],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-24T14:59:59.000Z",
       "publishedDate": "2026-07-24",
       "firstSeenAt": "2026-07-24T03:37:30.840Z",
@@ -19100,7 +19104,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -19293,9 +19297,9 @@
               "downloadName": "[정규직 08] 직무기술서_연구조사직 기상예보.hwp"
             }
           ],
-          "archiveScannedAt": "2026-07-30T03:21:18.665Z",
+          "archiveScannedAt": "2026-07-30T03:43:49.839Z",
           "archiveScanMessage": "직전 확인한 ZIP 내부 파일 링크를 유지합니다.",
-          "archiveCachedFrom": "2026-07-30T02:39:30.904Z"
+          "archiveCachedFrom": "2026-07-30T03:21:18.665Z"
         },
         {
           "title": "직무기술서: 장애유형별 편의지원 내용 및 신청서.hwp",
@@ -19333,9 +19337,9 @@
               "downloadName": "KOMSA 블라인드 처리 가이드라인.pdf"
             }
           ],
-          "archiveScannedAt": "2026-07-30T03:21:18.665Z",
+          "archiveScannedAt": "2026-07-30T03:43:49.839Z",
           "archiveScanMessage": "직전 확인한 ZIP 내부 파일 링크를 유지합니다.",
-          "archiveCachedFrom": "2026-07-30T02:39:30.904Z"
+          "archiveCachedFrom": "2026-07-30T03:21:18.665Z"
         },
         {
           "title": "기타 첨부파일: 채용 이의신청서(양식).hwp",
@@ -19353,7 +19357,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302926"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-22T14:59:59.000Z",
       "publishedDate": "2026-07-22",
       "firstSeenAt": "2026-07-21T15:51:17.818Z",
@@ -19463,7 +19467,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -19606,7 +19610,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303099"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-27T14:59:59.000Z",
       "publishedDate": "2026-07-27",
       "firstSeenAt": "2026-07-27T04:24:38.598Z",
@@ -19709,7 +19713,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -19915,9 +19919,9 @@
               "downloadName": "2026년 하반기 한국도로공사 체험형 청년인턴 채용_3.최종확인.png"
             }
           ],
-          "archiveScannedAt": "2026-07-30T03:21:18.665Z",
+          "archiveScannedAt": "2026-07-30T03:43:49.839Z",
           "archiveScanMessage": "직전 확인한 ZIP 내부 파일 링크를 유지합니다.",
-          "archiveCachedFrom": "2026-07-30T02:39:30.904Z"
+          "archiveCachedFrom": "2026-07-30T03:21:18.665Z"
         },
         {
           "title": "공고문: 2026년 하반기 한국도로공사 체험형 청년인턴 직무기술서.pdf",
@@ -19935,7 +19939,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303101"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-27T14:59:59.000Z",
       "publishedDate": "2026-07-27",
       "firstSeenAt": "2026-07-27T04:24:38.598Z",
@@ -20036,7 +20040,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -20190,7 +20194,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303050"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-24T14:59:59.000Z",
       "publishedDate": "2026-07-24",
       "firstSeenAt": "2026-07-24T05:10:21.508Z",
@@ -20290,7 +20294,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -20440,7 +20444,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302922"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-27T14:59:59.000Z",
       "publishedDate": "2026-07-27",
       "firstSeenAt": "2026-07-26T15:16:41.874Z",
@@ -20540,7 +20544,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -20699,7 +20703,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303020"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-23T14:59:59.000Z",
       "publishedDate": "2026-07-23",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -20793,7 +20797,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -20943,7 +20947,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303098"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-27T14:59:59.000Z",
       "publishedDate": "2026-07-27",
       "firstSeenAt": "2026-07-27T04:24:38.598Z",
@@ -21045,7 +21049,7 @@
       "servicePriority": "primary-public-recruit",
       "servicePolicyLabel": "공채 상세",
       "detailLevel": "detailed-public-recruit",
-      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "회사·기관 또는 채용대행 공식 공고를 기준으로 전형, 자격, 마감 정보를 상세 확인합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "회사·기관 채용 공지, 채용대행 접수 시스템, 첨부 공고문 기준으로 자동 요약하고 변동 가능 항목은 수집 때 다시 대조합니다.",
       "publicRecruitDetails": {
         "companyNotice": "회사·기관 공식 공고 확인",
@@ -21195,7 +21199,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303206"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-30T14:59:59.000Z",
       "publishedDate": "2026-07-30",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -21297,7 +21301,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -21447,9 +21451,9 @@
               "downloadName": "직무기술서(사무보조).hwp"
             }
           ],
-          "archiveScannedAt": "2026-07-30T03:21:18.665Z",
+          "archiveScannedAt": "2026-07-30T03:43:49.839Z",
           "archiveScanMessage": "직전 확인한 ZIP 내부 파일 링크를 유지합니다.",
-          "archiveCachedFrom": "2026-07-30T02:39:30.904Z"
+          "archiveCachedFrom": "2026-07-30T03:21:18.665Z"
         }
       ],
       "detailText": "계약직 채용 분야 직무를 수행 가능하며, 채용예정일 즉시 근무 가능한 자 - 보훈대상자 : 각 전형단계별 가점부여(만점의 5%~10%) - 장애인 : 각 전형단계별 가점부여(만점의 10%) - 채용공고일 기준 최근 1년 이내 국민체력100 체력인증서 : 각 전형단계별 가점부여(만점의 5%) ※ 세부사항 채용공고문 참조 1",
@@ -21463,7 +21467,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303005"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-29T14:59:59.000Z",
       "publishedDate": "2026-07-29",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -21565,7 +21569,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -21703,7 +21707,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303225"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-29T14:59:59.000Z",
       "publishedDate": "2026-07-29",
       "firstSeenAt": "2026-07-30T00:10:54.070Z",
@@ -21804,7 +21808,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -21941,7 +21945,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303156"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-28T14:59:59.000Z",
       "publishedDate": "2026-07-28",
       "firstSeenAt": "2026-07-30T00:10:54.070Z",
@@ -22046,7 +22050,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -22195,7 +22199,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303118"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-27T14:59:59.000Z",
       "publishedDate": "2026-07-27",
       "firstSeenAt": "2026-07-28T14:10:25.865Z",
@@ -22299,7 +22303,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -22443,7 +22447,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303110"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-27T14:59:59.000Z",
       "publishedDate": "2026-07-27",
       "firstSeenAt": "2026-07-25T03:33:46.826Z",
@@ -22542,7 +22546,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -22684,7 +22688,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303100"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-27T14:59:59.000Z",
       "publishedDate": "2026-07-27",
       "firstSeenAt": "2026-07-30T00:10:54.070Z",
@@ -22790,7 +22794,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -22932,7 +22936,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303018"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-23T14:59:59.000Z",
       "publishedDate": "2026-07-23",
       "firstSeenAt": "2026-07-25T03:33:46.826Z",
@@ -23031,7 +23035,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -23173,7 +23177,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303014"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-23T14:59:59.000Z",
       "publishedDate": "2026-07-23",
       "firstSeenAt": "2026-07-25T15:16:40.266Z",
@@ -23273,7 +23277,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -23415,7 +23419,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303004"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-23T14:59:59.000Z",
       "publishedDate": "2026-07-23",
       "firstSeenAt": "2026-07-19T14:13:44.370Z",
@@ -23517,7 +23521,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -23659,7 +23663,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302967"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-22T14:59:59.000Z",
       "publishedDate": "2026-07-22",
       "firstSeenAt": "2026-07-24T15:41:19.969Z",
@@ -23761,7 +23765,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -23903,7 +23907,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=302966"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-22T14:59:59.000Z",
       "publishedDate": "2026-07-22",
       "firstSeenAt": "2026-07-24T15:41:19.969Z",
@@ -24003,7 +24007,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -24145,7 +24149,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303191"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-29T14:59:59.000Z",
       "publishedDate": "2026-07-29",
       "firstSeenAt": "2026-07-29T00:10:23.758Z",
@@ -24243,7 +24247,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -24409,9 +24413,9 @@
               "downloadName": "1.직무설명자료(행정).pdf"
             }
           ],
-          "archiveScannedAt": "2026-07-30T03:21:18.665Z",
+          "archiveScannedAt": "2026-07-30T03:43:49.839Z",
           "archiveScanMessage": "직전 확인한 ZIP 내부 파일 링크를 유지합니다.",
-          "archiveCachedFrom": "2026-07-30T02:39:30.904Z"
+          "archiveCachedFrom": "2026-07-30T03:21:18.665Z"
         }
       ],
       "detailText": "계약직 - 공사 인사규정 제19조(임용 - 서류전형 우대 : 어학및자격, 비수도권지역인재, 기초생활수급자, 북한이탈주민, 다문화가족 자녀, 자립준비청년 - 특별우대 : 취업지원대상자(국가보훈대상자), 장애인 - 1단계(서류전형) : 5배수, 공인어학성적·자격증 등(100점) - 2단계(면접전형) : 1배수, 인성면접(10",
@@ -24425,7 +24429,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303125"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-27T14:59:59.000Z",
       "publishedDate": "2026-07-27",
       "firstSeenAt": "2026-07-27T08:43:45.022Z",
@@ -24519,7 +24523,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -24661,7 +24665,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303158"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-28T14:59:59.000Z",
       "publishedDate": "2026-07-28",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -24760,7 +24764,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -24902,7 +24906,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303159"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-28T14:59:59.000Z",
       "publishedDate": "2026-07-28",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -25001,7 +25005,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -25143,7 +25147,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303013"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-23T14:59:59.000Z",
       "publishedDate": "2026-07-23",
       "firstSeenAt": "2026-07-14T12:37:21.516Z",
@@ -25242,7 +25246,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
@@ -25392,7 +25396,7 @@
       "supplementarySourceUrls": [
         "https://job.alio.go.kr/recruitview.do?idx=303172"
       ],
-      "verifiedAt": "2026-07-30T03:21:18.665Z",
+      "verifiedAt": "2026-07-30T03:43:49.839Z",
       "publishedAt": "2026-07-28T14:59:59.000Z",
       "publishedDate": "2026-07-28",
       "firstSeenAt": "2026-07-28T07:46:16.054Z",
@@ -25486,7 +25490,7 @@
       "servicePriority": "support-brief-direct",
       "servicePolicyLabel": "간단 안내",
       "detailLevel": "brief-company-contact",
-      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
+      "displayNote": "면접중심·현장형 채용은 마감, 전형, 자격, 첨부자료 중심으로 자동 요약합니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다. 현재 실행에서 잡알리오 공공기관 채용 소스가 실패해 직전 정상 데이터를 임시 보존했습니다.",
       "contactAdvice": "근무조건·급여·제출서류·청소년 근로 가능 여부 등 변동 항목은 공식 공고와 접수 링크에서 자동 확인 항목으로 표시합니다.",
       "publicRecruitDetails": null,
       "teacherBriefing": {
