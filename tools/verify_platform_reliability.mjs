@@ -604,8 +604,9 @@ async function validateHomepage() {
     'home.hero-brand-copy',
     html.includes('대한민국 교육격차 해소 포털')
       && html.includes('적은 비용 · 필요한 노력 · 더 넓은 기회')
-      && html.includes('src="brand/logo/lockup.svg"')
-      && html.includes('alt="유한회사 설탕과소금"'),
+      && html.includes('src="brand/logo/badge.svg"')
+      && html.includes('class="brand-wordmark"')
+      && html.includes('gyo6.kr · 교육.한국'),
     '대표 홈은 공식 법인 로고와 교육격차 해소·가성비 있는 자기설계 방향을 간결하게 전합니다.',
   );
   fail('home.learning-app-not-ebook', html.includes('href="apps.html"') && html.includes('앱·서비스'), '학습 앱과 출시 서비스는 별도 앱·서비스 분기로 안내됩니다.');
@@ -657,7 +658,7 @@ async function validateCoreContentPages() {
   const learningAppWorker = await readText('apps/sugar-salt/sw.js');
 
   const missingCorporateLogos = brandPages
-    .filter(({ html }) => !html.includes('brand/logo/lockup.svg') || !html.includes('alt="유한회사 설탕과소금"'))
+    .filter(({ html }) => !html.includes('brand/logo/badge.svg') || !html.includes('class="brand-wordmark"') || !html.includes('gyo6.kr · 교육.한국'))
     .map(({ filePath }) => filePath);
   fail(
     'core.corporate-brand-global',

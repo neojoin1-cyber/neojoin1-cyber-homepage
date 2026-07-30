@@ -2169,15 +2169,36 @@ body {
 .brand strong { font-size: 21px; }
 .brand span { font-size: 11px; letter-spacing: 0.06em; }
 .site-header .brand {
-  display: block;
+  display: inline-flex;
+  align-items: center;
   flex: 0 0 auto;
-  width: 168px;
-  height: 40px;
-}
-.site-header .brand img {
-  display: block;
   width: auto;
-  height: 40px;
+  min-height: 46px;
+  gap: 10px;
+}
+.site-header .brand .brand-mark {
+  display: block;
+  width: 46px;
+  height: 46px;
+}
+.site-header .brand-wordmark {
+  display: grid;
+  gap: 3px;
+  color: var(--navy);
+}
+.site-header .brand-wordmark strong {
+  color: var(--navy);
+  font-family: var(--font-display);
+  font-size: 21px;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+.site-header .brand-wordmark small {
+  color: var(--muted);
+  font-size: 11.5px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.025em;
 }
 .navlinks { gap: 4px; }
 .navlinks a {
@@ -2556,10 +2577,15 @@ body {
 @media (max-width: 520px) {
   .nav { padding: 10px 16px; }
   .site-header .brand {
-    width: 134px;
-    height: 32px;
+    min-height: 40px;
+    gap: 8px;
   }
-  .site-header .brand img { height: 32px; }
+  .site-header .brand .brand-mark {
+    width: 40px;
+    height: 40px;
+  }
+  .site-header .brand-wordmark strong { font-size: 19px; }
+  .site-header .brand-wordmark small { font-size: 11px; }
   .navlinks a { font-size: 13px; padding: 8px 10px; }
   .lean-hero .wrap,
   .lean-section .wrap { padding-left: 18px; padding-right: 18px; }
