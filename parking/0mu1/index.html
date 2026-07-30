@@ -16,7 +16,7 @@
     .skip{position:absolute;left:-9999px}.skip:focus{left:16px;top:16px;z-index:20;padding:10px 14px;background:#fff}
     header{border-bottom:1px solid var(--line);background:rgba(255,253,248,.96)}
     nav{display:flex;align-items:center;justify-content:space-between;gap:24px;width:min(1160px,calc(100% - 36px));margin:auto;padding:18px 0}
-    .brand{text-decoration:none}.brand strong{display:block;font:700 22px/1 "Gowun Batang",serif;color:var(--navy)}.brand span{display:block;margin-top:5px;color:var(--muted);font-size:11px}
+    .brand{display:block;width:168px;height:40px;text-decoration:none}.brand img{display:block;width:auto;height:40px}
     .portal{padding:10px 14px;border:1px solid var(--line);border-radius:999px;text-decoration:none;font-size:13px;font-weight:700}
     main{width:min(1160px,calc(100% - 36px));margin:auto;padding:clamp(42px,8vw,96px) 0 64px}
     .hero{position:relative;min-height:620px;overflow:hidden;border:1px solid var(--line);border-radius:30px;background:var(--paper);box-shadow:0 30px 80px rgba(16,43,78,.13)}
@@ -36,12 +36,12 @@
     .family p{margin:0;color:var(--muted);font-size:13px}.family-links{display:flex;flex-wrap:wrap;gap:10px}.family-links a{padding:9px 12px;border-radius:999px;background:#fff;text-decoration:none;font-size:12px;font-weight:700}
     footer{padding:28px 18px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;text-align:center}
     @media(max-width:760px){nav{align-items:flex-start}.hero{min-height:auto}.hero::before{background:linear-gradient(180deg,rgba(255,253,248,.98),rgba(255,253,248,.84)),repeating-linear-gradient(0deg,transparent 0 42px,rgba(16,43,78,.05) 43px)}.copy{width:100%;padding:42px 26px 300px}.seal{right:50%;top:auto;bottom:28px;width:240px;transform:translateX(50%)}.tracks{grid-template-columns:1fr}.family{align-items:flex-start;flex-direction:column}}
-    @media(max-width:420px){h1{font-size:50px}.lead br{display:none}.portal{font-size:11px}.copy{padding-inline:22px}}
+    @media(max-width:420px){h1{font-size:50px}.lead br{display:none}.portal{font-size:11px}.copy{padding-inline:22px}.brand{width:134px;height:32px}.brand img{height:32px}}
   </style>
 </head>
 <body>
   <a class="skip" href="#main">본문 바로가기</a>
-  <header><nav><a class="brand" href="https://gyo6.kr"><strong>설탕과소금</strong><span>핵심노트 · 모의고사</span></a><a class="portal" href="https://gyo6.kr/exams.html">시험 사업 지도</a></nav></header>
+  <header><nav><a class="brand" href="https://gyo6.kr" aria-label="유한회사 설탕과소금 홈"><img src="https://gyo6.kr/brand/logo/lockup.svg" width="168" height="40" alt="유한회사 설탕과소금"></a><a class="portal" href="https://gyo6.kr/exams.html">시험 사업 지도</a></nav></header>
   <main id="main">
     <section class="hero" aria-labelledby="title">
       <div class="copy">

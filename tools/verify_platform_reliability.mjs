@@ -600,7 +600,14 @@ async function validateHomepage() {
   fail('home.no-legacy-ebook-link', !html.includes('https://gyo6--ebook.web.app'), '대표 홈페이지는 기존 전자책 서재 링크를 노출하지 않습니다.');
   fail('home.ebook-direction', html.includes('href="ebooks.html"') && html.includes('전자책'), '대표 홈에서 전자책 서비스로 바로 이동할 수 있습니다.');
   fail('home.ebook-no-paid-teaser-copy', !hasPaidTeaserCopy(html), '전자책 안내에서 유료 전환처럼 보일 수 있는 맛보기 표현을 쓰지 않습니다.');
-  fail('home.hero-brand-copy', html.includes('대한민국 교육격차 해소 포털') && html.includes('적은 비용 · 필요한 노력 · 더 넓은 기회') && html.includes('gyo6.kr · 교육.한국'), '대표 홈은 교육격차 해소와 가성비 있는 자기설계 방향을 간결하게 전합니다.');
+  fail(
+    'home.hero-brand-copy',
+    html.includes('대한민국 교육격차 해소 포털')
+      && html.includes('적은 비용 · 필요한 노력 · 더 넓은 기회')
+      && html.includes('src="brand/logo/lockup.svg"')
+      && html.includes('alt="유한회사 설탕과소금"'),
+    '대표 홈은 공식 법인 로고와 교육격차 해소·가성비 있는 자기설계 방향을 간결하게 전합니다.',
+  );
   fail('home.learning-app-not-ebook', html.includes('href="apps.html"') && html.includes('앱·서비스'), '학습 앱과 출시 서비스는 별도 앱·서비스 분기로 안내됩니다.');
   fail('home.today-where-positioning', html.includes('href="apps.html"'), '오늘어디가를 포함한 앱 포트폴리오 진입 경로가 유지됩니다.');
   fail('home.adventure-positioning', html.includes('href="apps.html"'), '모험동화를 포함한 앱 포트폴리오 진입 경로가 유지됩니다.');
@@ -622,6 +629,15 @@ async function validateHomepage() {
 }
 
 async function validateCoreContentPages() {
+  const brandPagePaths = [
+    'index.html', 'about.html', 'business.html', 'exams.html', 'vocational.html',
+    'apps.html', 'host.html', 'boards.html', 'contact.html', 'counseling-room.html',
+    'ebooks.html', 'forms.html', 'guides.html', 'jobs.html', 'miovera.html',
+    'profile.html', 'resources.html', 'wheretoday.html', 'parking/0mu1/index.html',
+  ];
+  const brandPages = await Promise.all(
+    brandPagePaths.map(async (filePath) => ({ filePath, html: await readText(filePath) })),
+  );
   const about = await readText('about.html');
   const vocational = await readText('vocational.html');
   const exams = await readText('exams.html');
@@ -640,6 +656,15 @@ async function validateCoreContentPages() {
   const learningAppRegister = await readText('apps/sugar-salt/registerSW.js');
   const learningAppWorker = await readText('apps/sugar-salt/sw.js');
 
+  const missingCorporateLogos = brandPages
+    .filter(({ html }) => !html.includes('brand/logo/lockup.svg') || !html.includes('alt="유한회사 설탕과소금"'))
+    .map(({ filePath }) => filePath);
+  fail(
+    'core.corporate-brand-global',
+    missingCorporateLogos.length === 0,
+    '메인과 모든 주요 분기·서비스 화면의 상단에 공식 법인 로고가 직접 표시됩니다.',
+    missingCorporateLogos.join(', '),
+  );
   fail('core.about-page', about.includes('설탕과소금 소개 · 교육현장 30년') && about.includes('시니어 교육전문가') && about.includes('교육격차') && about.includes('설탕과소금 대표') && about.includes('aria-label="설탕과소금이 지키는 네 방향"') && ['branch-about-experience.webp', 'branch-about-connection.webp', 'branch-about-practice.webp', 'branch-about-technology.webp'].every((asset) => about.includes(asset)), '설탕과소금 소개 페이지가 교육 경험, 교육격차 해소 소신, 세 사업 방향을 네 개의 전용 이미지 카드로 담고 있습니다.');
   fail('core.education-field-thirty-years', host.includes('교육현장 30년') && !host.includes('30년 특성화고'), '30년 기록의 브랜드 명칭이 교육현장 30년으로 통일되어 있습니다.');
   fail('core.vocational-content-weight', vocational.includes('href="jobs.html"') && vocational.includes('href="forms.html"') && vocational.includes('href="guides.html"') && vocational.includes('href="counseling-room.html"') && !vocational.includes('href="ebooks.html"'), '특성화고 플랫폼 페이지가 전자책을 제외하고 채용정보·서식창고·업무지침·상담실을 독립 서비스로 연결합니다.');

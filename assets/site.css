@@ -2169,22 +2169,15 @@ body {
 .brand strong { font-size: 21px; }
 .brand span { font-size: 11px; letter-spacing: 0.06em; }
 .site-header .brand {
-  position: relative;
   display: block;
   flex: 0 0 auto;
   width: 168px;
   height: 40px;
-  background: url("../brand/logo/lockup.svg") center / contain no-repeat;
 }
-.site-header .brand strong,
-.site-header .brand span {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  white-space: nowrap;
+.site-header .brand img {
+  display: block;
+  width: auto;
+  height: 40px;
 }
 .navlinks { gap: 4px; }
 .navlinks a {
@@ -2566,6 +2559,7 @@ body {
     width: 134px;
     height: 32px;
   }
+  .site-header .brand img { height: 32px; }
   .navlinks a { font-size: 13px; padding: 8px 10px; }
   .lean-hero .wrap,
   .lean-section .wrap { padding-left: 18px; padding-right: 18px; }
