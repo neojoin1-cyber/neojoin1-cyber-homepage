@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-07-30T00:10:54.070Z",
-  "feedGeneratedAt": "2026-07-30T00:10:54.070Z",
+  "generatedAt": "2026-07-30T02:39:30.904Z",
+  "feedGeneratedAt": "2026-07-30T02:39:30.904Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
-    "total": 58,
-    "active": 37,
+    "total": 59,
+    "active": 38,
     "deadlineSoon": 21,
     "applicationClosed": 0,
     "sourcesChecked": 15,
-    "sourcesConfigured": 4,
+    "sourcesConfigured": 6,
     "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
     "staleFallbackItems": 0,
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 160,
-    "automatedBriefingReady": 58,
-    "automatedBriefingAttempted": 58,
+    "studentRecruitSafetyReview": 163,
+    "automatedBriefingReady": 59,
+    "automatedBriefingAttempted": 59,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -28,19 +28,19 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-07-30T00:10:54.070Z",
-    "attempted": 58,
-    "succeeded": 58,
+    "generatedAt": "2026-07-30T02:39:30.904Z",
+    "attempted": 59,
+    "succeeded": 59,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-07-30T00:10:54.070Z",
+    "generatedAt": "2026-07-30T02:39:30.904Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 160,
+    "studentRecruitReviewCount": 163,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -184,12 +184,32 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
+        "company": "국립생태원",
+        "title": "2026년 제5차 국립생태원 기간제근로자(수탁과제) 채용 재공고",
+        "deadline": "2026-08-05",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://nierecruit.fairy.im/announcement/detail/113"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
         "company": "기술보증기금",
         "title": "기술보증기금 사무지원인력 채용공고 (구미지점)",
         "deadline": "2026-08-12",
         "status": "active",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.kibo.or.kr/"
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303163"
       },
       {
         "list": "items",
@@ -209,48 +229,7 @@
         "deadline": "2026-08-12",
         "status": "active",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.kibo.or.kr/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "국립생태원",
-        "title": "2026년 제5차 국립생태원 기간제근로자(수탁과제) 채용 재공고",
-        "deadline": "2026-08-05",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://nierecruit.fairy.im/announcement/detail/113"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "근로복지공단",
-        "title": "근로복지공단 [서울지역관내] 공무직 직원 채용 공고",
-        "deadline": "2026-08-04",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303164"
       },
       {
         "list": "items",
@@ -329,27 +308,6 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "대한법률구조공단",
-        "title": "대한법률구조공단 일반직 7급(전산담당) 제한경쟁채용 시험 공고",
-        "deadline": "2026-08-12",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.klac.or.kr/notification/hireNotice/selectHireNoticeView.do?boardCode=241&contentId=AD_0000164305"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
         "company": "충남대학교병원",
         "title": "[대전] 2026년 7월 충남대학교병원 업무지원직(기계기사, 전기기사, 환경사) 공개채용",
         "deadline": "2026-08-10",
@@ -363,41 +321,20 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
           "공채 신호",
           "신입·정규직 계열"
         ],
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "국방전직교육원",
-        "title": "2026년 제2차 국방전직교육원 직원 채용 공고 - 공무직",
-        "deadline": "2026-08-11",
+        "company": "서울올림픽기념국민체육진흥공단",
+        "title": "서울올림픽기념국민체육진흥공단 경륜·경정 지원직 채용 공고",
+        "deadline": "2026-08-07",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.moti.or.kr/main/recruit"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "국방전직교육원",
-        "title": "2026년 제2차 국방전직교육원 직원 채용 공고 - 정규직",
-        "deadline": "2026-08-11",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.moti.or.kr/main/recruit"
+        "primaryOfficialUrl": "https://www.kspo.or.kr/kspo/singl/empmn/view.do?empmnId=765&menuNo=200186&pageIndex=1"
       },
       {
         "list": "items",
@@ -413,12 +350,12 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "한국사회복지협의회",
-        "title": "(수정) 한국사회복지협의회 2026년 제3차 직원 채용 공고",
-        "deadline": "2026-08-10",
+        "company": "서울올림픽기념국민체육진흥공단",
+        "title": "서울올림픽기념국민체육진흥공단 경륜·경정 콘텐츠 디자인 채용 공고",
+        "deadline": "2026-08-07",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://bokji.net/not/recru/01_01.bokji?BOARDIDX=32709"
+        "primaryOfficialUrl": "https://www.kspo.or.kr/kspo/singl/empmn/view.do?empmnId=766&menuNo=200186&pageIndex=1"
       },
       {
         "list": "items",
@@ -447,6 +384,27 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국교육개발원",
+        "title": "한국교육개발원 2026년도 제8차 직원 채용 공고",
+        "deadline": "2026-08-10",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://kedi.recruiter.co.kr/"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
           "고졸·특성화고 명시",
           "인턴·채용연계",
           "공채 신호",
@@ -455,12 +413,54 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "서울올림픽기념국민체육진흥공단",
-        "title": "서울올림픽기념국민체육진흥공단 경륜·경정 지원직 채용 공고",
+        "company": "(재)한국통계정보원",
+        "title": "(재)한국통계정보원 [제2026-08] 한국통계정보원 무기계약직(경력직) 제한경쟁 채용 공고",
         "deadline": "2026-08-07",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kspo.or.kr/kspo/singl/empmn/view.do?empmnId=765&menuNo=200186&pageIndex=1"
+        "primaryOfficialUrl": "https://kosii.or.kr/kosii/dc/pstmng/dcCmPstMngDetail.do?bbsId=BBS00000000000000060&pstId=PST00000000000004064&menuCd=DC0505010000"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "근로복지공단",
+        "title": "근로복지공단 [서울지역관내] 공무직 직원 채용 공고",
+        "deadline": "2026-08-04",
+        "status": "deadline_soon",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "정보통신산업진흥원",
+        "title": "정보통신산업진흥원 정규직(일반직 및 전문직) 채용 공고",
+        "deadline": "2026-08-12",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://recruit.incruit.com/nipa/"
       }
     ]
   },
