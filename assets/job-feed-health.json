@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-01T07:37:05.260Z",
-  "feedGeneratedAt": "2026-08-01T07:37:05.260Z",
+  "generatedAt": "2026-08-01T07:49:50.244Z",
+  "feedGeneratedAt": "2026-08-01T07:49:50.244Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
@@ -28,7 +28,7 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-01T07:37:05.260Z",
+    "generatedAt": "2026-08-01T07:49:50.244Z",
     "attempted": 56,
     "succeeded": 56,
     "failed": 0,
@@ -36,7 +36,7 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-01T07:37:05.260Z",
+    "generatedAt": "2026-08-01T07:49:50.244Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
@@ -144,32 +144,12 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "국립생태원",
-        "title": "2026년 제5차 국립생태원 기간제근로자(수탁과제) 채용 재공고",
-        "deadline": "2026-08-05",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://nierecruit.fairy.im/announcement/detail/113"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
         "company": "기술보증기금",
         "title": "기술보증기금 사무지원인력 채용공고 (구미지점)",
         "deadline": "2026-08-12",
         "status": "active",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303163"
+        "primaryOfficialUrl": "https://www.kibo.or.kr/"
       },
       {
         "list": "items",
@@ -189,7 +169,27 @@
         "deadline": "2026-08-12",
         "status": "active",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303164"
+        "primaryOfficialUrl": "https://www.kibo.or.kr/"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "국립생태원",
+        "title": "2026년 제5차 국립생태원 기간제근로자(수탁과제) 채용 재공고",
+        "deadline": "2026-08-05",
+        "status": "deadline_soon",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://nierecruit.fairy.im/announcement/detail/113"
       },
       {
         "list": "items",
