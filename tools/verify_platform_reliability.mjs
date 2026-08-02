@@ -631,7 +631,7 @@ async function validateHomepage() {
 
 async function validateCoreContentPages() {
   const brandPagePaths = [
-    'index.html', 'about.html', 'business.html', 'exams.html', 'vocational.html',
+    'index.html', 'about.html', 'business.html', 'exams.html', 'exam-service.html', 'vocational.html',
     'apps.html', 'host.html', 'boards.html', 'contact.html', 'counseling-room.html',
     'ebooks.html', 'forms.html', 'guides.html', 'jobs.html', 'miovera.html',
     'profile.html', 'resources.html', 'wheretoday.html', 'parking/0mu1/index.html',
@@ -643,6 +643,7 @@ async function validateCoreContentPages() {
   const about = await readText('about.html');
   const vocational = await readText('vocational.html');
   const exams = await readText('exams.html');
+  const examService = await readText('exam-service.html');
   const civilServiceParking = await readText('parking/0mu1/index.html');
   const jobs = await readText('jobs.html');
   const css = await readText('assets/site.css');
@@ -677,7 +678,7 @@ async function validateCoreContentPages() {
   fail('core.about-page', about.includes('설탕과소금 소개 · 교육현장 30년') && about.includes('시니어 교육전문가') && about.includes('교육격차') && about.includes('설탕과소금 대표') && about.includes('aria-label="설탕과소금이 지키는 네 방향"') && ['branch-about-experience.webp', 'branch-about-connection.webp', 'branch-about-practice.webp', 'branch-about-technology.webp'].every((asset) => about.includes(asset)), '설탕과소금 소개 페이지가 교육 경험, 교육격차 해소 소신, 세 사업 방향을 네 개의 전용 이미지 카드로 담고 있습니다.');
   fail('core.education-field-thirty-years', host.includes('교육현장 30년') && !host.includes('30년 특성화고'), '30년 기록의 브랜드 명칭이 교육현장 30년으로 통일되어 있습니다.');
   fail('core.vocational-content-weight', vocational.includes('href="jobs.html"') && vocational.includes('href="forms.html"') && vocational.includes('href="guides.html"') && vocational.includes('href="counseling-room.html"') && !vocational.includes('href="ebooks.html"'), '특성화고 플랫폼 페이지가 전자책을 제외하고 채용정보·서식창고·업무지침·상담실을 독립 서비스로 연결합니다.');
-  fail('core.exam-service-links', exams.includes('공직시험 연구소') && exams.includes('href="https://imyong.gyo6.kr/"') && exams.includes('href="https://0mu1.gyo6.kr/"') && exams.includes('7급 국가직 · 7급 지방직') && exams.includes('경제학 · 행정법 · 행정학 · 헌법') && !exams.includes('suneung.gyo6.kr') && !exams.includes('수능시험'), '공직시험 연구소가 임용고사와 7급 국가직·지방직 공무원시험 서비스로 직접 연결되고 수능 메뉴는 제외됩니다.');
+  fail('core.exam-service-links', exams.includes('href="exam-service.html?service=elementary"') && exams.includes('href="exam-service.html?service=secondary"') && exams.includes('href="exam-service.html?service=civil"') && examService.includes('https://chodeung.gyo6.kr/') && examService.includes('https://imyong.gyo6.kr/') && examService.includes('https://0mu1.gyo6.kr/') && examService.includes('id="service-frame"') && exams.includes('7급 국가직 · 7급 지방직') && exams.includes('경제학 · 행정법 · 행정학 · 헌법') && !exams.includes('suneung.gyo6.kr') && !exams.includes('수능시험'), '공직시험 연구소가 포털 상단 메뉴를 유지하는 내부 화면에서 초등·중등 임용과 공무원시험을 제공하며 수능 메뉴는 제외됩니다.');
   fail('core.civil-service-parking', civilServiceParking.includes('공무원시험') && civilServiceParking.includes('전용 서비스 개발 중') && civilServiceParking.includes('href="https://gyo6.kr/exams.html"'), '공무원시험 전용 파킹 페이지가 개발 상태와 포털 복귀 경로를 안내합니다.');
   fail('core.jobs-content-weight', jobs.includes('특성화고 공채') && jobs.includes('공기업') && jobs.includes('공무원') && jobs.includes('대기업') && jobs.includes('공식 첨부서류'), '채용정보 페이지가 핵심 공채와 공식 첨부서류 기능을 명확히 안내합니다.');
   fail('core.jobs-sort-search', jobs.includes('data-sort-mode="new"') && jobs.includes('data-sort-mode="deadline"') && jobs.includes('job-search-input') && jobs.includes('job-search-button') && jobs.includes('isCorePublicRecruit') && jobs.includes('core-recruit'), '채용정보 페이지가 신규순·마감일자순·검색·핵심 공채 강조 UI를 제공합니다.');

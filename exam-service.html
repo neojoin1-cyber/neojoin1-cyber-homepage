@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>시험 서비스 | 설탕과소금</title>
+  <meta name="description" content="설탕과소금 포털 안에서 초등·중등 교원 임용고사와 공무원시험 서비스를 이용합니다.">
+  <link rel="canonical" href="https://gyo6.kr/exam-service.html">
+  <link rel="icon" href="brand/logo/favicon.svg" type="image/svg+xml">
+  <style>@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Jua&display=swap');</style>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body class="service-viewer-body">
+  <a class="skip" href="#service-frame">시험 서비스 바로가기</a>
+  <header class="site-header"><nav class="nav" aria-label="주요 메뉴"><a class="brand" href="index.html" aria-label="유한회사 설탕과소금 홈"><img class="brand-mark" src="brand/logo/badge.svg" width="46" height="46" alt=""><span class="brand-wordmark"><strong>설탕과소금</strong><small>gyo6.kr · 교육.한국</small></span></a><div class="navlinks"><a href="about.html">설탕과소금 소개</a><a href="business.html">사업영역</a><a class="active" href="exams.html">공직시험 연구소</a><a href="vocational.html">특성화고 플랫폼</a><a href="apps.html">앱·서비스</a><a href="host.html">교육현장 30년</a><a href="boards.html">소식·문의</a></div></nav></header>
+  <main id="main" class="service-viewer-main">
+    <section class="service-viewer-toolbar" aria-label="시험 서비스 선택">
+      <div class="service-viewer-toolbar-inner">
+        <div class="service-viewer-heading"><strong id="service-title">시험 서비스</strong><span>설탕과소금 포털에서 이어서 이용합니다.</span></div>
+        <nav class="service-viewer-tabs" aria-label="시험 종류">
+          <a href="exam-service.html?service=elementary" data-service="elementary">초등임용</a>
+          <a href="exam-service.html?service=secondary" data-service="secondary">중등임용</a>
+          <a href="exam-service.html?service=civil" data-service="civil">공무원시험</a>
+        </nav>
+        <a class="service-viewer-external" id="service-external" href="https://imyong.gyo6.kr/" target="_blank" rel="noopener noreferrer">원본 화면 열기</a>
+      </div>
+    </section>
+    <div class="service-frame-wrap">
+      <div class="service-frame-loading" id="service-loading" role="status">시험 서비스를 불러오는 중입니다.</div>
+      <iframe id="service-frame" title="시험 서비스" src="about:blank" allow="clipboard-read; clipboard-write; fullscreen" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+    <noscript class="service-viewer-noscript">JavaScript를 사용할 수 없으면 <a href="https://chodeung.gyo6.kr/">초등임용</a>, <a href="https://imyong.gyo6.kr/">중등임용</a>, <a href="https://0mu1.gyo6.kr/">공무원시험</a>을 직접 열어 주세요.</noscript>
+  </main>
+  <script>
+    (() => {
+      const services = {
+        elementary: { label: "초등교원임용고사", url: "https://chodeung.gyo6.kr/" },
+        secondary: { label: "중등교원임용고사", url: "https://imyong.gyo6.kr/" },
+        civil: { label: "공무원시험", url: "https://0mu1.gyo6.kr/" }
+      };
+      const frame = document.querySelector("#service-frame");
+      const title = document.querySelector("#service-title");
+      const external = document.querySelector("#service-external");
+      const loading = document.querySelector("#service-loading");
+      const tabs = [...document.querySelectorAll("[data-service]")];
+
+      const showService = (requested, updateHistory = false) => {
+        const key = Object.prototype.hasOwnProperty.call(services, requested) ? requested : "secondary";
+        const service = services[key];
+        title.textContent = service.label;
+        document.title = `${service.label} | 설탕과소금`;
+        external.href = service.url;
+        frame.title = `${service.label} 서비스 화면`;
+        loading.hidden = false;
+        frame.classList.remove("is-loaded");
+        frame.src = service.url;
+        tabs.forEach((tab) => {
+          const active = tab.dataset.service === key;
+          tab.classList.toggle("active", active);
+          if (active) tab.setAttribute("aria-current", "page");
+          else tab.removeAttribute("aria-current");
+        });
+        if (updateHistory) history.pushState({ service: key }, "", `?service=${key}`);
+      };
+
+      tabs.forEach((tab) => tab.addEventListener("click", (event) => {
+        event.preventDefault();
+        showService(tab.dataset.service, true);
+      }));
+      frame.addEventListener("load", () => {
+        loading.hidden = true;
+        frame.classList.add("is-loaded");
+      });
+      window.addEventListener("popstate", () => {
+        showService(new URLSearchParams(location.search).get("service"));
+      });
+      showService(new URLSearchParams(location.search).get("service"));
+    })();
+  </script>
+</body>
+</html>
