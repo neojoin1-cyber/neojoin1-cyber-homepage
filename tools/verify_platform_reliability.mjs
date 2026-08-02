@@ -639,6 +639,7 @@ async function validateCoreContentPages() {
   const brandPages = await Promise.all(
     brandPagePaths.map(async (filePath) => ({ filePath, html: await readText(filePath) })),
   );
+  const homePage = await readText('index.html');
   const about = await readText('about.html');
   const vocational = await readText('vocational.html');
   const exams = await readText('exams.html');
@@ -657,6 +658,9 @@ async function validateCoreContentPages() {
   const learningAppRegister = await readText('apps/sugar-salt/registerSW.js');
   const learningAppWorker = await readText('apps/sugar-salt/sw.js');
   const portalBoards = await readText('assets/portal-boards.js');
+  const portalPopup = await readText('assets/portal-popup.js');
+  const boardEnhancements = await readText('assets/board-enhancements.css');
+  const boardsPage = await readText('boards.html');
 
   const missingCorporateLogos = brandPages
     .filter(({ html }) => !html.includes('brand/logo/badge.svg') || !html.includes('class="brand-wordmark"') || !html.includes('gyo6.kr · 교육.한국'))
@@ -668,6 +672,8 @@ async function validateCoreContentPages() {
     missingCorporateLogos.join(', '),
   );
   fail('core.board-management-ui', portalBoards.includes('data-board-action=\"edit\"') && portalBoards.includes('data-board-action=\"delete\"') && portalBoards.includes('requestBoardMutation(\"update\"') && portalBoards.includes('requestBoardMutation(\"delete\"') && !portalBoards.includes('FEATURED_NEWS'), '권한이 있는 게시글에 수정·삭제 도구를 표시하고 첫 소식은 실제 게시물로 관리합니다.');
+  fail('core.board-attachments-ui', boardsPage.includes('name=\"attachments\"') && portalBoards.includes('attachment/upload') && portalBoards.includes('attachment/delete') && portalBoards.includes('hydratePrivateImages') && portalBoards.includes('파일당 15MB'), '게시판이 이미지·문서 첨부, 권한별 미리보기·다운로드, 첨부 삭제를 제공합니다.');
+  fail('core.board-home-popup', homePage.includes('assets/portal-popup.js') && portalPopup.includes('popup=1') && portalPopup.includes('localStorage.setItem') && portalPopup.includes('post.updatedAt') && boardEnhancements.includes('.board-home-popup'), '관리자가 지정한 공개 소식 팝업을 게시물 버전별로 한 번만 반응형 표시합니다.');
   fail('core.about-page', about.includes('설탕과소금 소개 · 교육현장 30년') && about.includes('시니어 교육전문가') && about.includes('교육격차') && about.includes('설탕과소금 대표') && about.includes('aria-label="설탕과소금이 지키는 네 방향"') && ['branch-about-experience.webp', 'branch-about-connection.webp', 'branch-about-practice.webp', 'branch-about-technology.webp'].every((asset) => about.includes(asset)), '설탕과소금 소개 페이지가 교육 경험, 교육격차 해소 소신, 세 사업 방향을 네 개의 전용 이미지 카드로 담고 있습니다.');
   fail('core.education-field-thirty-years', host.includes('교육현장 30년') && !host.includes('30년 특성화고'), '30년 기록의 브랜드 명칭이 교육현장 30년으로 통일되어 있습니다.');
   fail('core.vocational-content-weight', vocational.includes('href="jobs.html"') && vocational.includes('href="forms.html"') && vocational.includes('href="guides.html"') && vocational.includes('href="counseling-room.html"') && !vocational.includes('href="ebooks.html"'), '특성화고 플랫폼 페이지가 전자책을 제외하고 채용정보·서식창고·업무지침·상담실을 독립 서비스로 연결합니다.');
