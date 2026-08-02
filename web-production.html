@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>홈페이지 제작·운영 | 디지털 프로젝트 스튜디오 | 설탕과소금</title>
+  <meta name="description" content="설탕과소금의 기관 홈페이지 정보구조 설계, 반응형 제작, 검증과 운영 지원 방식을 소개합니다.">
+  <link rel="canonical" href="https://gyo6.kr/web-production.html">
+  <link rel="icon" href="brand/logo/favicon.svg" type="image/svg+xml">
+  <style>@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap');</style>
+  <link rel="stylesheet" href="assets/site.css?v=20260802-project-studio">
+  <style>
+    .web-project { background: linear-gradient(145deg, #f6f1e6 0%, #f4f6f1 52%, #e9f1ef 100%); }
+    .web-hero { padding: clamp(42px, 7vw, 88px) 0 clamp(34px, 5vw, 60px); }
+    .web-hero-grid { display: grid; grid-template-columns: minmax(0, .82fr) minmax(360px, 1.18fr); gap: clamp(28px, 6vw, 78px); align-items: center; }
+    .web-kicker { color: #0b685e; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+    .web-hero h1 { margin: 14px 0 16px; color: var(--navy); font: 700 clamp(35px, 4vw, 50px)/1.12 "Gowun Batang", serif; letter-spacing: -.06em; text-wrap: balance; }
+    .web-hero p { max-width: 660px; margin: 0; color: #4e625d; font-size: clamp(16px,1.4vw,19px); line-height: 1.75; }
+    .web-hero .actions { margin-top: 24px; }
+    .web-visual { overflow: hidden; margin: 0; border: 1px solid rgba(19,42,74,.14); border-radius: 28px; background: #fff; box-shadow: 0 24px 60px rgba(19,42,74,.13); }
+    .web-visual img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
+    .web-process { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 14px; padding: 0 0 clamp(64px,9vw,110px); }
+    .web-step { padding: clamp(22px,3vw,32px); border: 1px solid rgba(19,42,74,.13); border-radius: 20px; background: rgba(255,255,255,.8); }
+    .web-step b { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 11px; background: #0e675c; color: #fff; font-size: 12px; }
+    .web-step h2 { margin: 14px 0 8px; color: var(--navy); font-size: clamp(20px,2vw,27px); }
+    .web-step p { margin: 0; color: #536761; font-size: 14px; line-height: 1.7; }
+    @media (max-width: 820px) { .web-hero-grid { grid-template-columns: 1fr; } .web-visual { order: -1; } }
+    @media (max-width: 620px) { .web-hero { padding-top: 24px; } .web-visual { border-radius: 18px; } .web-process { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body class="web-project">
+  <a class="skip" href="#main">본문 바로가기</a>
+  <header class="site-header"><nav class="nav" aria-label="주요 메뉴"><a class="brand" href="index.html" aria-label="유한회사 설탕과소금 홈"><img class="brand-mark" src="brand/logo/badge.svg" width="46" height="46" alt=""><span class="brand-wordmark"><strong>설탕과소금</strong><small>gyo6.kr · 교육.한국</small></span></a><div class="navlinks"><a href="vocational.html?v=20260802-navfix1">특성화고 교육지원센터</a><a href="exams.html?v=20260802-navfix1">공직시험 연구소</a><a class="active" href="apps.html?v=20260802-navfix1">디지털 프로젝트 스튜디오</a><a href="host.html?v=20260802-navfix1">교육현장 30년</a><a href="boards.html?v=20260802-navfix1">소식·문의</a></div></nav></header>
+  <main id="main">
+    <section class="web-hero"><div class="wrap web-hero-grid">
+      <div>
+        <span class="web-kicker">Institutional Web · Plan to Operation</span>
+        <h1>찾기 쉽고,<br>운영하기 좋은 웹.</h1>
+        <p>기관의 사업과 이용자 동선을 먼저 정리하고, 스마트폰부터 PC까지 읽기 좋은 화면으로 구현한 뒤 실제 운영과 개선까지 지원합니다.</p>
+        <div class="actions"><a class="btn primary" href="https://ktedu.or.kr/" target="_blank" rel="noopener noreferrer">운영 사례 보기 ↗</a><a class="btn" href="boards.html?v=20260802-navfix1#write">제작 협업 문의</a></div>
+      </div>
+      <figure class="web-visual"><img src="assets/branch-apps-web.webp" width="960" height="720" alt="기관 홈페이지를 기획하고 여러 화면에서 검증하며 운영하는 작업 장면"></figure>
+    </div></section>
+    <section class="wrap web-process" aria-label="홈페이지 제작 운영 과정">
+      <article class="web-step"><b>01</b><h2>정보구조부터</h2><p>기관의 사업, 자료와 문의 흐름을 정리해 방문자가 필요한 내용을 쉽게 찾도록 설계합니다.</p></article>
+      <article class="web-step"><b>02</b><h2>모든 화면에서</h2><p>스마트폰·태블릿·PC에 맞춰 글자, 이미지와 버튼이 자연스럽게 재배치되도록 제작하고 검증합니다.</p></article>
+      <article class="web-step"><b>03</b><h2>공개 이후까지</h2><p>콘텐츠 갱신, 연결 점검과 사용 중 발견되는 불편을 지속적으로 보완합니다.</p></article>
+    </section>
+  </main>
+  <footer class="lean-footer"><div class="wrap lean-footer-grid"><div><strong>유한회사 설탕과소금</strong><div>디지털 프로젝트 스튜디오 · 홈페이지 제작·운영</div></div><div class="footer-links"><a href="apps.html?v=20260802-navfix1">프로젝트 목록</a><a href="https://ktedu.or.kr/" target="_blank" rel="noopener noreferrer">운영 사례</a><a href="boards.html?v=20260802-navfix1">소식·문의</a></div></div></footer>
+</body>
+</html>

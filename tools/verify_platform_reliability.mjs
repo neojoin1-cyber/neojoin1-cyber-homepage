@@ -467,6 +467,7 @@ function validateProjectScope() {
     || normalized.endsWith('/neojoin-job-feed-publish')
     || normalized.endsWith('/meister-platform/portal')
     || normalized.includes('/meister-platform/.tmp-portal-')
+    || normalized.includes('/meister-platform/portal-service-')
     || normalized.includes('/meister-platform/.job-feed-local-runner/runs/');
   fail('scope.project-folder', isHomepageProject, '작업 폴더가 gyo6.kr portal 프로젝트입니다.', ROOT_DIR);
   fail('scope.no-ebook-path', !normalized.includes('gyo6_secure_ebook_platform_v2'), '전자책 기존 프로젝트 경로가 검증 대상에 포함되지 않았습니다.');
@@ -593,10 +594,10 @@ async function validateHomepage() {
   const staleAxisTerms = ['기업자료', '공채·기업자료', 'AI 활용 실험실', 'lab-branch-home', '기록 보관소', '디지털 기록', 'KBS NOVA'];
   const staleAxisHits = staleAxisTerms.filter((term) => html.includes(term));
 
-  fail('home.feed-link-present', html.includes('href="vocational.html?v=20260802-navfix1"') && html.includes('특성화고 현장지원실'), '대표 홈에서 특성화고 현장지원실을 거쳐 채용정보에 접근하는 핵심 경로가 유지됩니다.');
-  fail('home.core-content-links', html.includes('특성화고 현장지원실') && html.includes('공직시험 연구소') && html.includes('디지털 제작연구소'), '대표 홈에서 세 핵심 사업 화면으로 이동하는 경로가 유지됩니다.');
+  fail('home.feed-link-present', html.includes('href="vocational.html?v=20260802-navfix1"') && html.includes('특성화고 교육지원센터'), '대표 홈에서 특성화고 교육지원센터를 거쳐 채용정보에 접근하는 핵심 경로가 유지됩니다.');
+  fail('home.core-content-links', html.includes('특성화고 교육지원센터') && html.includes('공직시험 연구소') && html.includes('디지털 프로젝트 스튜디오'), '대표 홈에서 세 핵심 사업 화면으로 이동하는 경로가 유지됩니다.');
   fail('home.no-public-manual-job-feed-run', !html.includes('actions/workflows/job-feed.yml') && !html.includes('수동수집 실행'), '공개 홈에는 GitHub Actions 수동수집 버튼을 노출하지 않습니다.');
-  fail('home.law-link', html.includes('href="vocational.html?v=20260802-navfix1"') && html.includes('서식창고') && html.includes('상담실'), '대표 홈의 특성화고 현장지원실 카드가 서식창고와 비공개 상담실 진입 방향을 안내합니다.');
+  fail('home.law-link', html.includes('href="vocational.html?v=20260802-navfix1"') && html.includes('서식창고') && html.includes('상담실'), '대표 홈의 특성화고 교육지원센터 카드가 서식창고와 비공개 상담실 진입 방향을 안내합니다.');
   fail('home.no-legacy-ebook-link', !html.includes('https://gyo6--ebook.web.app'), '대표 홈페이지는 기존 전자책 서재 링크를 노출하지 않습니다.');
   fail('home.ebook-direction', !html.includes('href="ebooks.html"') && !html.includes('<strong>전자책</strong>'), '대표 홈은 현재 사업 구조에 맞춰 별도 전자책 바로가기를 노출하지 않습니다.');
   fail('home.ebook-no-paid-teaser-copy', !hasPaidTeaserCopy(html), '전자책 안내에서 유료 전환처럼 보일 수 있는 맛보기 표현을 쓰지 않습니다.');
@@ -609,11 +610,11 @@ async function validateHomepage() {
       && html.includes('gyo6.kr · 교육.한국'),
     '대표 홈은 공식 법인 로고와 교육격차 해소·가성비 있는 자기설계 방향을 간결하게 전합니다.',
   );
-  fail('home.learning-app-not-ebook', html.includes('href="apps.html') && html.includes('디지털 제작연구소'), '앱·웹·홍보물 프로젝트는 디지털 제작연구소 분기로 안내됩니다.');
+  fail('home.learning-app-not-ebook', html.includes('href="apps.html') && html.includes('디지털 프로젝트 스튜디오'), '앱·웹·게임·홍보물 프로젝트는 디지털 프로젝트 스튜디오 분기로 안내됩니다.');
   fail('home.today-where-positioning', html.includes('href="apps.html'), '오늘어디가를 포함한 앱 포트폴리오 진입 경로가 유지됩니다.');
   fail('home.adventure-positioning', html.includes('href="apps.html'), '모험동화를 포함한 앱 포트폴리오 진입 경로가 유지됩니다.');
   fail('home.novastar-positioning', html.includes('href="apps.html'), '버블 노바 스타를 포함한 앱 포트폴리오 진입 경로가 유지됩니다.');
-  fail('home.vocational-two-axis', html.includes('href="vocational.html') && html.includes('채용정보 · 서식창고 · 업무지침 · 상담실'), '채용정보·서식창고·업무지침·상담실을 묶은 특성화고 현장지원실 분기가 유지됩니다.');
+  fail('home.vocational-two-axis', html.includes('href="vocational.html') && html.includes('채용정보 · 학습앱 · 서식창고 · 업무지침 · 상담실'), '채용정보·학습앱·서식창고·업무지침·상담실을 묶은 특성화고 교육지원센터 분기가 유지됩니다.');
   fail('home.business-area-simple', html.includes('href="exams.html') && html.includes('href="vocational.html') && html.includes('href="apps.html'), '대표 홈페이지는 세 가지 핵심 사업 분기로 정리되어 있습니다.');
   fail('home.thirty-years-proud-story', html.includes('href="host.html') && html.includes('30년'), '30년 특성화고 경험을 신뢰 아카이브로 안내합니다.');
   fail('home.hero-image-versioned', html.includes('map-home-education-opportunity.jpg'), '교육격차 해소와 네 가지 서비스 진입점을 연결한 메인 전용 인포그래픽 자산이 반영되어 있습니다.');
@@ -634,7 +635,7 @@ async function validateCoreContentPages() {
     'index.html', 'about.html', 'business.html', 'exams.html', 'exam-service.html', 'vocational.html',
     'apps.html', 'host.html', 'boards.html', 'contact.html', 'counseling-room.html', 'learning-app.html',
     'ebooks.html', 'forms.html', 'guides.html', 'jobs.html', 'miovera.html',
-    'profile.html', 'resources.html', 'wheretoday.html', 'parking/0mu1/index.html',
+    'profile.html', 'resources.html', 'wheretoday.html', 'bubble-nova-star.html', 'web-production.html', 'parking/0mu1/index.html',
   ];
   const brandPages = await Promise.all(
     brandPagePaths.map(async (filePath) => ({ filePath, html: await readText(filePath) })),
@@ -656,6 +657,8 @@ async function validateCoreContentPages() {
   const host = await readText('host.html');
   const appsPage = await readText('apps.html');
   const adCreativeFactoryPage = await readText('ad-creative-factory.html');
+  const bubbleNovaPage = await readText('bubble-nova-star.html');
+  const webProductionPage = await readText('web-production.html');
   const learningAppTrial = await readText('apps/sugar-salt/index.html');
   const learningAppViewer = await readText('learning-app.html');
   const learningAppRegister = await readText('apps/sugar-salt/registerSW.js');
@@ -684,7 +687,7 @@ async function validateCoreContentPages() {
   fail('home.greeting-before-identity', homePage.indexOf('id="greeting"') < homePage.indexOf('class="brand-mark-section"'), '메인 페이지는 대표 인사말을 기업 로고 설명보다 먼저 보여 줍니다.');
   fail('home.animated-corporate-logos', (homePage.match(/class="logo-draw-stage/g) || []).length === 2 && homePage.includes('logo-stroke-primary') && css.includes('@keyframes brand-logo-draw') && css.includes('prefers-reduced-motion'), '메인 상단과 기업 정체성 로고가 마우스·키보드 포커스에서 획 그리기 애니메이션을 제공하고 모션 접근성을 지킵니다.');
   fail('core.vocational-content-weight', vocational.includes('href="jobs.html"') && vocational.includes('href="forms.html"') && vocational.includes('href="guides.html"') && vocational.includes('href="counseling-room.html"') && !vocational.includes('href="ebooks.html"'), '특성화고 플랫폼 페이지가 전자책을 제외하고 채용정보·서식창고·업무지침·상담실을 독립 서비스로 연결합니다.');
-  fail('core.vocational-priority-layout', vocational.includes('class="branch-card-grid vocational-service-grid"') && vocational.indexOf('href="jobs.html"') < vocational.indexOf('href="learning-app.html"') && vocational.indexOf('href="learning-app.html"') < vocational.indexOf('href="forms.html"') && vocational.indexOf('href="forms.html"') < vocational.indexOf('href="guides.html"') && vocational.indexOf('href="guides.html"') < vocational.indexOf('href="counseling-room.html"') && !vocational.includes('학교 현장을 위한 다섯 가지 연결') && !vocational.includes('vocational-role-grid'), '특성화고 현장지원실은 채용정보와 학습앱을 첫 줄에 강조하고 서식·지침·상담을 둘째 줄에 배치하며 중복 설명 영역을 제거합니다.');
+  fail('core.vocational-priority-layout', vocational.includes('class="branch-card-grid vocational-service-grid"') && vocational.indexOf('href="jobs.html"') < vocational.indexOf('href="learning-app.html"') && vocational.indexOf('href="learning-app.html"') < vocational.indexOf('href="forms.html"') && vocational.indexOf('href="forms.html"') < vocational.indexOf('href="guides.html"') && vocational.indexOf('href="guides.html"') < vocational.indexOf('href="counseling-room.html"') && !vocational.includes('학교 현장을 위한 다섯 가지 연결') && !vocational.includes('vocational-role-grid'), '특성화고 교육지원센터는 채용정보와 학습앱을 첫 줄에 강조하고 서식·지침·상담을 둘째 줄에 배치하며 중복 설명 영역을 제거합니다.');
   fail('core.exam-service-links', exams.includes('href="exam-service.html?service=elementary"') && exams.includes('href="exam-service.html?service=secondary"') && exams.includes('href="exam-service.html?service=civil"') && examService.includes('https://chodeung.gyo6.kr/') && examService.includes('https://imyong.gyo6.kr/') && examService.includes('https://0mu1.gyo6.kr/') && examService.includes('id="service-frame"') && exams.includes('7급 국가직 · 7급 지방직') && exams.includes('경제학 · 행정법 · 행정학 · 헌법') && !exams.includes('suneung.gyo6.kr') && !exams.includes('수능시험'), '공직시험 연구소가 포털 상단 메뉴를 유지하는 내부 화면에서 초등·중등 임용과 공무원시험을 제공하며 수능 메뉴는 제외됩니다.');
   fail('core.civil-service-parking', civilServiceParking.includes('공무원시험') && civilServiceParking.includes('전용 서비스 개발 중') && civilServiceParking.includes('href="https://gyo6.kr/exams.html"'), '공무원시험 전용 파킹 페이지가 개발 상태와 포털 복귀 경로를 안내합니다.');
   fail('core.jobs-content-weight', jobs.includes('특성화고 공채') && jobs.includes('공기업') && jobs.includes('공무원') && jobs.includes('대기업') && jobs.includes('공식 첨부서류'), '채용정보 페이지가 핵심 공채와 공식 첨부서류 기능을 명확히 안내합니다.');
@@ -699,9 +702,11 @@ async function validateCoreContentPages() {
   fail('core.guides-dedicated-page', guides.includes('guides-library-hero-v1.webp') && guides.includes('id="guide-search-form"') && guides.includes('data-guide-topic="operations"') && guides.includes('data-guide-topic="employment"') && guides.includes('id="guide-results"') && guides.includes('public-resource-index-generated.js'), '업무지침이 전용 배경 이미지, 검색, 분야 버튼과 공식자료 목록을 갖춘 독립 화면으로 구성됩니다.');
   fail('core.guides-search-category-list', guidesLibrary.includes("new Set(['guide', 'rule', 'law'])") && guidesLibrary.includes('function groupResources') && guidesLibrary.includes('function inferCategory') && guidesLibrary.includes('function runSearch') && guidesLibrary.includes('forms.html#'), '업무지침은 지침·규정·법령을 중복 정리하고 업무 분야 보정, 검색과 관련 서식 연결을 제공합니다.');
   fail('core.counseling-dedicated-page', counselingRoom.includes('counseling-room-hero-v1.png') && counselingRoom.includes('학생 상담') && counselingRoom.includes('선생님 상담') && counselingRoom.includes('작성자와 관리자만 확인') && counselingRoom.includes('https://gyo6-law-info.web.app/#counselGateway'), '상담실이 학생·교사 상담 안내 이미지와 비공개 원칙, 입장 버튼을 갖춘 독립 화면으로 구성됩니다.');
-  fail('core.learning-app-trial-link', vocational.includes('class="branch-card learning-app-card vocational-featured-card"') && vocational.includes('href="learning-app.html"') && !vocational.includes('href="learning-app.html" target="_blank"') && vocational.includes('<strong>설탕과소금 학습앱</strong>') && learningAppViewer.includes('class="service-viewer-body"') && learningAppViewer.includes('id="service-frame"') && learningAppViewer.includes('src="apps/sugar-salt/"'), '특성화고 현장지원실의 학습앱 핵심 카드가 새 창 없이 포털 메뉴 아래의 내부 10분 체험 뷰어로 연결됩니다.');
-  fail('core.ad-creative-factory-link', appsPage.includes('href="ad-creative-factory.html"') && appsPage.includes('assets/branch-apps-ad-creative-factory.webp') && appsPage.includes('광고홍보물공장 살펴보기 →') && !appsPage.includes('acf-api-usgpvhwdbq-du.a.run.app'), '디지털 제작연구소가 광고홍보물공장을 외부 실행 없이 포털 내부 소개 페이지로 연결합니다.');
+  fail('core.learning-app-trial-link', vocational.includes('class="branch-card learning-app-card vocational-featured-card"') && vocational.includes('href="learning-app.html"') && !vocational.includes('href="learning-app.html" target="_blank"') && vocational.includes('<strong>설탕과소금 학습앱</strong>') && learningAppViewer.includes('class="service-viewer-body"') && learningAppViewer.includes('id="service-frame"') && learningAppViewer.includes('src="apps/sugar-salt/"'), '특성화고 교육지원센터의 학습앱 핵심 카드가 새 창 없이 포털 메뉴 아래의 내부 10분 체험 뷰어로 연결됩니다.');
+  fail('core.ad-creative-factory-link', appsPage.includes('href="ad-creative-factory.html"') && appsPage.includes('assets/branch-apps-ad-creative-factory.webp') && appsPage.includes('광고홍보물공장 살펴보기 →') && !appsPage.includes('acf-api-usgpvhwdbq-du.a.run.app'), '디지털 프로젝트 스튜디오가 광고홍보물공장을 외부 실행 없이 포털 내부 소개 페이지로 연결합니다.');
   fail('core.ad-creative-factory-preview', ['ad-creative-factory-step-01.webp', 'ad-creative-factory-step-02.webp', 'ad-creative-factory-step-03.webp', 'ad-creative-factory-step-04.webp'].every((asset) => adCreativeFactoryPage.includes(asset)) && adCreativeFactoryPage.includes('출시 준비 · 소개 전용') && adCreativeFactoryPage.includes('실제 제작이나 결제 없이') && !adCreativeFactoryPage.includes('acf-api-usgpvhwdbq-du.a.run.app'), '광고홍보물공장 소개 페이지가 포털 메뉴 아래에서 네 단계 화면만 보여 주고 실제 제작·결제 주소를 노출하지 않습니다.');
+  fail('core.bubble-nova-launch-page', appsPage.includes('href="bubble-nova-star.html"') && appsPage.includes('Google Play 정식 출시 · 게임 앱') && bubbleNovaPage.includes('Google Play 정식 출시') && bubbleNovaPage.includes('play.google.com/store/apps/details?id=com.bubblenova.star') && bubbleNovaPage.includes('bubble-nova-star-game.neojoin.chatgpt.site'), '버블 노바 스타가 Google Play 정식 출시작으로 강조되고 내부 소개에서 설치와 웹 실행을 분리해 제공합니다.');
+  fail('core.web-production-page', appsPage.includes('href="web-production.html"') && webProductionPage.includes('정보구조부터') && webProductionPage.includes('모든 화면에서') && webProductionPage.includes('공개 이후까지') && webProductionPage.includes('https://ktedu.or.kr/'), '홈페이지 제작·운영이 내부 사례 소개에서 기획·반응형 제작·운영 지원과 실제 사례를 안내합니다.');
   fail('core.learning-app-trial-build', learningAppTrial.includes('설탕과소금 앱 10분 체험') && learningAppTrial.includes('registerSW.js') && !learningAppTrial.includes('manifest.json'), '설탕과소금 앱 경로가 로그인형 PWA가 아닌 10분 체험판 빌드를 제공합니다.');
   fail('core.learning-app-trial-worker-cleanup', learningAppRegister.includes("startsWith('/apps/sugar-salt/')") && learningAppRegister.includes('registration.unregister()') && learningAppWorker.includes('self.registration.unregister()'), '체험판이 같은 앱 경로의 기존 서비스워커만 안전하게 해제합니다.');
 }
