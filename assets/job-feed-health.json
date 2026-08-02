@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-02T15:15:00.171Z",
-  "feedGeneratedAt": "2026-08-02T15:15:00.171Z",
+  "generatedAt": "2026-08-02T15:41:30.541Z",
+  "feedGeneratedAt": "2026-08-02T15:41:30.541Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
@@ -28,7 +28,7 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-02T15:15:00.171Z",
+    "generatedAt": "2026-08-02T15:41:30.541Z",
     "attempted": 58,
     "succeeded": 58,
     "failed": 0,
@@ -36,7 +36,7 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-02T15:15:00.171Z",
+    "generatedAt": "2026-08-02T15:41:30.541Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
@@ -45,27 +45,6 @@
     "repairedByReason": {},
     "blockedSamples": [],
     "studentRecruitReviewSamples": [
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국직업능력연구원",
-        "title": "[한국직업능력연구원] 2026년도 제5차 직원(보훈대상자) 및 기간제 계약직원(휴직자 대체) 채용공고",
-        "deadline": "2026-08-13",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://krivet.recruiter.co.kr/"
-      },
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
@@ -86,7 +65,28 @@
         "deadline": "2026-08-14",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303318"
+        "primaryOfficialUrl": "https://www.kogas.or.kr/"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국직업능력연구원",
+        "title": "[한국직업능력연구원] 2026년도 제5차 직원(보훈대상자) 및 기간제 계약직원(휴직자 대체) 채용공고",
+        "deadline": "2026-08-13",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://krivet.recruiter.co.kr/"
       },
       {
         "list": "items",
