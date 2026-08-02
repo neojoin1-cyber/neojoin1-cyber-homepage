@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>광고홍보물공장 소개 | 디지털 제작연구소 | 설탕과소금</title>
+  <meta name="description" content="광고 시안 선택부터 디자인 편집, 고객 검토와 승인, 인쇄 원본 제작까지 광고홍보물공장의 네 단계 작업 흐름을 화면으로 소개합니다.">
+  <link rel="canonical" href="https://gyo6.kr/ad-creative-factory.html">
+  <link rel="icon" href="brand/logo/favicon.svg" type="image/svg+xml">
+  <style>@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap');</style>
+  <link rel="stylesheet" href="assets/site.css?v=20260802-portal-hub">
+  <style>
+    .acf-page { background: linear-gradient(180deg, #f5f1e7 0, #f8f6ef 34%, #eef4f0 100%); }
+    .acf-hero { padding: clamp(48px, 7vw, 88px) 0 clamp(34px, 5vw, 60px); }
+    .acf-hero-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr); gap: clamp(28px, 5vw, 72px); align-items: end; }
+    .acf-hero h1 { max-width: 850px; margin: 14px 0 18px; color: var(--navy); font: 700 clamp(38px, 5.2vw, 70px)/1.12 "Gowun Batang", serif; letter-spacing: -.055em; text-wrap: balance; }
+    .acf-hero .lead { max-width: 760px; margin: 0; color: #465c57; font-size: clamp(16px, 1.5vw, 20px); line-height: 1.75; }
+    .acf-summary { padding: clamp(24px, 3vw, 34px); border: 1px solid rgba(13, 70, 62, .18); border-radius: 22px; background: rgba(255, 255, 255, .76); box-shadow: 0 18px 40px rgba(19, 49, 45, .08); }
+    .acf-summary strong { display: block; margin-bottom: 12px; color: #0d5d53; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+    .acf-summary p { margin: 0; color: var(--navy); font-weight: 700; line-height: 1.65; }
+    .acf-summary small { display: block; margin-top: 12px; color: #63736f; line-height: 1.6; }
+    .acf-flow { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: clamp(30px, 5vw, 56px); }
+    .acf-flow a { display: flex; gap: 12px; align-items: center; min-height: 66px; padding: 12px 15px; border: 1px solid rgba(13, 70, 62, .18); border-radius: 16px; background: #fffdf8; color: var(--navy); font-weight: 700; }
+    .acf-flow b { display: grid; place-items: center; flex: 0 0 32px; width: 32px; height: 32px; border-radius: 10px; background: #0b6d62; color: #fff; font-size: 12px; }
+    .acf-gallery { padding: 0 0 clamp(70px, 9vw, 120px); }
+    .acf-step { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr); gap: clamp(22px, 4vw, 54px); align-items: center; padding: clamp(26px, 4vw, 50px) 0; border-top: 1px solid rgba(19, 42, 74, .13); }
+    .acf-step:nth-child(even) { grid-template-columns: minmax(260px, .65fr) minmax(0, 1.35fr); }
+    .acf-step:nth-child(even) .acf-shot { order: 2; }
+    .acf-shot { overflow: hidden; margin: 0; border: 1px solid rgba(19, 42, 74, .14); border-radius: 22px; background: #fff; box-shadow: 0 22px 50px rgba(19, 42, 74, .1); }
+    .acf-shot img { display: block; width: 100%; height: auto; aspect-ratio: 8 / 5; object-fit: contain; background: #f4f3ed; }
+    .acf-copy { padding: clamp(6px, 1vw, 14px); }
+    .acf-number { display: inline-flex; align-items: center; gap: 10px; color: #0c6a60; font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .acf-copy h2 { margin: 13px 0 12px; color: var(--navy); font: 700 clamp(28px, 3.1vw, 44px)/1.18 "Gowun Batang", serif; letter-spacing: -.045em; }
+    .acf-copy p { margin: 0; color: #52645f; line-height: 1.75; }
+    .acf-points { display: grid; gap: 9px; margin: 20px 0 0; padding: 0; list-style: none; }
+    .acf-points li { position: relative; padding-left: 18px; color: #243f39; font-size: 14px; font-weight: 700; line-height: 1.55; }
+    .acf-points li::before { content: ""; position: absolute; left: 0; top: .62em; width: 7px; height: 7px; border-radius: 50%; background: #cf874a; }
+    .acf-notice { margin-top: clamp(16px, 3vw, 30px); padding: clamp(22px, 3vw, 34px); border-radius: 22px; background: #0d302d; color: #f7f0df; }
+    .acf-notice-grid { display: flex; justify-content: space-between; gap: 24px; align-items: center; }
+    .acf-notice h2 { margin: 0 0 8px; font-size: clamp(22px, 2.4vw, 32px); }
+    .acf-notice p { max-width: 720px; margin: 0; color: #cddbd4; line-height: 1.7; }
+    .acf-notice .btn { flex: 0 0 auto; background: #fffaf0; color: #15352f; }
+    @media (max-width: 820px) {
+      .acf-hero-grid, .acf-step, .acf-step:nth-child(even) { grid-template-columns: 1fr; }
+      .acf-step:nth-child(even) .acf-shot { order: 0; }
+      .acf-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .acf-notice-grid { align-items: flex-start; flex-direction: column; }
+    }
+    @media (max-width: 520px) {
+      .acf-hero { padding-top: 34px; }
+      .acf-hero h1 { font-size: clamp(34px, 11vw, 44px); }
+      .acf-flow { grid-template-columns: 1fr; }
+      .acf-flow a { min-height: 56px; }
+      .acf-step { padding: 28px 0; }
+      .acf-shot { border-radius: 16px; }
+      .acf-copy { padding-inline: 2px; }
+    }
+  </style>
+</head>
+<body class="acf-page">
+  <a class="skip" href="#main">본문 바로가기</a>
+  <header class="site-header"><nav class="nav" aria-label="주요 메뉴"><a class="brand" href="index.html" aria-label="유한회사 설탕과소금 홈"><img class="brand-mark" src="brand/logo/badge.svg" width="46" height="46" alt=""><span class="brand-wordmark"><strong>설탕과소금</strong><small>gyo6.kr · 교육.한국</small></span></a><div class="navlinks"><a href="vocational.html?v=20260802-navfix1">특성화고 현장지원실</a><a href="exams.html?v=20260802-navfix1">공직시험 연구소</a><a class="active" href="apps.html?v=20260802-navfix1">디지털 제작연구소</a><a href="host.html?v=20260802-navfix1">교육현장 30년</a><a href="boards.html?v=20260802-navfix1">소식·문의</a></div></nav></header>
+  <main id="main">
+    <section class="acf-hero"><div class="wrap">
+      <div class="acf-hero-grid">
+        <div>
+          <div class="eyebrow">Digital Production Lab · Preview</div>
+          <h1>광고 시안에서<br>인쇄 원본까지.</h1>
+          <p class="lead">광고홍보물공장은 광고업자의 실무 흐름을 한 작업실로 연결하는 제작 시스템입니다. 현재 포털에서는 실제 제작이나 결제 없이 핵심 화면과 작업 방식만 소개합니다.</p>
+        </div>
+        <aside class="acf-summary" aria-label="서비스 공개 범위">
+          <strong>출시 준비 · 소개 전용</strong>
+          <p>규격 선택 · 직접 편집 · 고객 검토 · 인쇄 품질 확인</p>
+          <small>실제 제작 기능과 유료 결제는 이 페이지에서 제공하지 않습니다.</small>
+        </aside>
+      </div>
+      <nav class="acf-flow" aria-label="광고홍보물공장 소개 단계">
+        <a href="#acf-step-1"><b>01</b><span>시안 고르기</span></a>
+        <a href="#acf-step-2"><b>02</b><span>디자인 편집</span></a>
+        <a href="#acf-step-3"><b>03</b><span>고객 검토</span></a>
+        <a href="#acf-step-4"><b>04</b><span>인쇄 원본</span></a>
+      </nav>
+    </div></section>
+    <section class="acf-gallery"><div class="wrap">
+      <article class="acf-step" id="acf-step-1">
+        <figure class="acf-shot"><img src="assets/ad-creative-factory-step-01.webp" width="1440" height="900" alt="광고 종류와 규격별 준비 시안을 선택하는 광고홍보물공장 시작 화면"></figure>
+        <div class="acf-copy"><span class="acf-number">Step 01 · Order Desk</span><h2>가장 비슷한 광고부터 고릅니다.</h2><p>현수막, 포스터, 전단, 매장 홍보물 등 실제 제작 규격을 먼저 선택하고 준비된 시안에서 빠르게 시작합니다.</p><ul class="acf-points"><li>광고 종류별 실제 규격</li><li>준비 시안 또는 직접 주문</li><li>브랜드 자료 재사용</li></ul></div>
+      </article>
+      <article class="acf-step" id="acf-step-2">
+        <figure class="acf-shot"><img src="assets/ad-creative-factory-step-02.webp" width="1440" height="900" alt="문구, 글꼴, 크기와 배치를 직접 고치는 광고홍보물공장 디자인 편집 화면" loading="lazy"></figure>
+        <div class="acf-copy"><span class="acf-number">Step 02 · Design Editor</span><h2>시안을 직접 고칩니다.</h2><p>문구, 글꼴, 가격, 연락처와 배치는 새 이미지를 만들지 않고 반복 수정합니다. 필요한 요소만 골라 정확하게 교정합니다.</p><ul class="acf-points"><li>문구·글꼴·배치 직접 편집</li><li>실제 크기와 안전선 확인</li><li>수정 이력과 버전 관리</li></ul></div>
+      </article>
+      <article class="acf-step" id="acf-step-3">
+        <figure class="acf-shot"><img src="assets/ad-creative-factory-step-03.webp" width="1440" height="900" alt="고객에게 시안 링크를 보내 의견과 승인을 받는 광고홍보물공장 검토 화면" loading="lazy"></figure>
+        <div class="acf-copy"><span class="acf-number">Step 03 · Customer Review</span><h2>고객은 링크로 검토합니다.</h2><p>별도 설명 없이 시안을 크게 보고 원하는 위치에 의견을 남깁니다. 수정이 끝난 버전만 최종 승인할 수 있습니다.</p><ul class="acf-points"><li>가입 없는 고객 검토 링크</li><li>시안 위치별 의견 표시</li><li>최종 승인본 잠금</li></ul></div>
+      </article>
+      <article class="acf-step" id="acf-step-4">
+        <figure class="acf-shot"><img src="assets/ad-creative-factory-step-04.webp" width="1440" height="900" alt="승인된 시안을 실제 규격 인쇄 파일로 준비하는 광고홍보물공장 출력 화면" loading="lazy"></figure>
+        <div class="acf-copy"><span class="acf-number">Step 04 · Print Output</span><h2>승인본만 인쇄 원본으로 연결합니다.</h2><p>고객 승인 이후 실제 규격과 출력 품질을 확인합니다. 필수 문구와 이미지 해상도가 기준에 맞는지 점검하는 마지막 단계입니다.</p><ul class="acf-points"><li>승인 버전 기준 출력</li><li>원거리 판독·이미지 품질검사</li><li>실제 규격 인쇄 PDF 준비</li></ul></div>
+      </article>
+      <aside class="acf-notice"><div class="acf-notice-grid"><div><h2>현재는 기능 소개만 제공합니다.</h2><p>광고 제작과 결제가 필요한 경우 바로 실행하지 않고, 작업 범위와 운영 준비 상태를 먼저 확인한 뒤 협업을 안내합니다.</p></div><a class="btn" href="boards.html?v=20260802-navfix1#write">제작 협업 문의</a></div></aside>
+    </div></section>
+  </main>
+  <footer class="lean-footer"><div class="wrap lean-footer-grid"><div><strong>유한회사 설탕과소금</strong><div>디지털 제작연구소 · 광고홍보물공장 소개</div></div><div class="footer-links"><a href="apps.html?v=20260802-navfix1">디지털 제작연구소</a><a href="boards.html?v=20260802-navfix1">소식·문의</a></div></div></footer>
+</body>
+</html>

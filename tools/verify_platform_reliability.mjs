@@ -609,13 +609,13 @@ async function validateHomepage() {
       && html.includes('gyo6.kr · 교육.한국'),
     '대표 홈은 공식 법인 로고와 교육격차 해소·가성비 있는 자기설계 방향을 간결하게 전합니다.',
   );
-  fail('home.learning-app-not-ebook', html.includes('href="apps.html"') && html.includes('디지털 제작연구소'), '앱·웹·홍보물 프로젝트는 디지털 제작연구소 분기로 안내됩니다.');
-  fail('home.today-where-positioning', html.includes('href="apps.html"'), '오늘어디가를 포함한 앱 포트폴리오 진입 경로가 유지됩니다.');
-  fail('home.adventure-positioning', html.includes('href="apps.html"'), '모험동화를 포함한 앱 포트폴리오 진입 경로가 유지됩니다.');
-  fail('home.novastar-positioning', html.includes('href="apps.html"'), '버블 노바 스타를 포함한 앱 포트폴리오 진입 경로가 유지됩니다.');
-  fail('home.vocational-two-axis', html.includes('href="vocational.html"') && html.includes('채용정보 · 서식창고 · 업무지침 · 상담실'), '채용정보·서식창고·업무지침·상담실을 묶은 특성화고 현장지원실 분기가 유지됩니다.');
-  fail('home.business-area-simple', html.includes('href="exams.html"') && html.includes('href="vocational.html"') && html.includes('href="apps.html"'), '대표 홈페이지는 세 가지 핵심 사업 분기로 정리되어 있습니다.');
-  fail('home.thirty-years-proud-story', html.includes('href="host.html"') && html.includes('30년'), '30년 특성화고 경험을 신뢰 아카이브로 안내합니다.');
+  fail('home.learning-app-not-ebook', html.includes('href="apps.html') && html.includes('디지털 제작연구소'), '앱·웹·홍보물 프로젝트는 디지털 제작연구소 분기로 안내됩니다.');
+  fail('home.today-where-positioning', html.includes('href="apps.html'), '오늘어디가를 포함한 앱 포트폴리오 진입 경로가 유지됩니다.');
+  fail('home.adventure-positioning', html.includes('href="apps.html'), '모험동화를 포함한 앱 포트폴리오 진입 경로가 유지됩니다.');
+  fail('home.novastar-positioning', html.includes('href="apps.html'), '버블 노바 스타를 포함한 앱 포트폴리오 진입 경로가 유지됩니다.');
+  fail('home.vocational-two-axis', html.includes('href="vocational.html') && html.includes('채용정보 · 서식창고 · 업무지침 · 상담실'), '채용정보·서식창고·업무지침·상담실을 묶은 특성화고 현장지원실 분기가 유지됩니다.');
+  fail('home.business-area-simple', html.includes('href="exams.html') && html.includes('href="vocational.html') && html.includes('href="apps.html'), '대표 홈페이지는 세 가지 핵심 사업 분기로 정리되어 있습니다.');
+  fail('home.thirty-years-proud-story', html.includes('href="host.html') && html.includes('30년'), '30년 특성화고 경험을 신뢰 아카이브로 안내합니다.');
   fail('home.hero-image-versioned', html.includes('map-home-education-opportunity.jpg'), '교육격차 해소와 네 가지 서비스 진입점을 연결한 메인 전용 인포그래픽 자산이 반영되어 있습니다.');
   fail('home.no-stale-axis-copy', staleAxisHits.length === 0, '이전 4축/기업자료/실험실 문구가 홈페이지에서 제거되어 있습니다.', staleAxisHits.join(', '));
 
@@ -655,6 +655,7 @@ async function validateCoreContentPages() {
   const guidesLibrary = await readText('assets/guides-library.js');
   const host = await readText('host.html');
   const appsPage = await readText('apps.html');
+  const adCreativeFactoryPage = await readText('ad-creative-factory.html');
   const learningAppTrial = await readText('apps/sugar-salt/index.html');
   const learningAppRegister = await readText('apps/sugar-salt/registerSW.js');
   const learningAppWorker = await readText('apps/sugar-salt/sw.js');
@@ -692,8 +693,9 @@ async function validateCoreContentPages() {
   fail('core.guides-dedicated-page', guides.includes('guides-library-hero-v1.webp') && guides.includes('id="guide-search-form"') && guides.includes('data-guide-topic="operations"') && guides.includes('data-guide-topic="employment"') && guides.includes('id="guide-results"') && guides.includes('public-resource-index-generated.js'), '업무지침이 전용 배경 이미지, 검색, 분야 버튼과 공식자료 목록을 갖춘 독립 화면으로 구성됩니다.');
   fail('core.guides-search-category-list', guidesLibrary.includes("new Set(['guide', 'rule', 'law'])") && guidesLibrary.includes('function groupResources') && guidesLibrary.includes('function inferCategory') && guidesLibrary.includes('function runSearch') && guidesLibrary.includes('forms.html#'), '업무지침은 지침·규정·법령을 중복 정리하고 업무 분야 보정, 검색과 관련 서식 연결을 제공합니다.');
   fail('core.counseling-dedicated-page', counselingRoom.includes('counseling-room-hero-v1.png') && counselingRoom.includes('학생 상담') && counselingRoom.includes('선생님 상담') && counselingRoom.includes('작성자와 관리자만 확인') && counselingRoom.includes('https://gyo6-law-info.web.app/#counselGateway'), '상담실이 학생·교사 상담 안내 이미지와 비공개 원칙, 입장 버튼을 갖춘 독립 화면으로 구성됩니다.');
-  fail('core.learning-app-trial-link', vocational.includes('href="apps/sugar-salt/"') && vocational.includes('target="_blank"') && vocational.includes('설탕과소금 학습앱 체험'), '특성화고 현장지원실이 설탕과소금 학습앱 체험판을 새 창으로 연결합니다.');
-  fail('core.ad-creative-factory-link', appsPage.includes('href="https://acf-api-usgpvhwdbq-du.a.run.app/"') && appsPage.includes('assets/branch-apps-ad-creative-factory.webp') && appsPage.includes('광고홍보물공장 열기 ↗'), '디지털 제작연구소가 광고홍보물공장 운영 주소와 전용 대표 이미지로 연결됩니다.');
+  fail('core.learning-app-trial-link', vocational.includes('class="branch-card learning-app-card"') && vocational.includes('href="apps/sugar-salt/"') && vocational.includes('target="_blank"') && vocational.includes('<strong>설탕과소금 학습앱</strong>'), '특성화고 현장지원실이 설탕과소금 학습앱을 다섯 번째 정식 카드로 표시하고 체험판을 새 창으로 연결합니다.');
+  fail('core.ad-creative-factory-link', appsPage.includes('href="ad-creative-factory.html"') && appsPage.includes('assets/branch-apps-ad-creative-factory.webp') && appsPage.includes('광고홍보물공장 살펴보기 →') && !appsPage.includes('acf-api-usgpvhwdbq-du.a.run.app'), '디지털 제작연구소가 광고홍보물공장을 외부 실행 없이 포털 내부 소개 페이지로 연결합니다.');
+  fail('core.ad-creative-factory-preview', ['ad-creative-factory-step-01.webp', 'ad-creative-factory-step-02.webp', 'ad-creative-factory-step-03.webp', 'ad-creative-factory-step-04.webp'].every((asset) => adCreativeFactoryPage.includes(asset)) && adCreativeFactoryPage.includes('출시 준비 · 소개 전용') && adCreativeFactoryPage.includes('실제 제작이나 결제 없이') && !adCreativeFactoryPage.includes('acf-api-usgpvhwdbq-du.a.run.app'), '광고홍보물공장 소개 페이지가 포털 메뉴 아래에서 네 단계 화면만 보여 주고 실제 제작·결제 주소를 노출하지 않습니다.');
   fail('core.learning-app-trial-build', learningAppTrial.includes('설탕과소금 앱 10분 체험') && learningAppTrial.includes('registerSW.js') && !learningAppTrial.includes('manifest.json'), '설탕과소금 앱 경로가 로그인형 PWA가 아닌 10분 체험판 빌드를 제공합니다.');
   fail('core.learning-app-trial-worker-cleanup', learningAppRegister.includes("startsWith('/apps/sugar-salt/')") && learningAppRegister.includes('registration.unregister()') && learningAppWorker.includes('self.registration.unregister()'), '체험판이 같은 앱 경로의 기존 서비스워커만 안전하게 해제합니다.');
 }
