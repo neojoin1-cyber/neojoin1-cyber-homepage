@@ -2150,6 +2150,23 @@ h3 {
 .home-pillar-card.vocational .home-pillar-copy::before,
 .home-pillar-card.history .home-pillar-copy::before { background: #2b7c6e; box-shadow: 0 0 0 7px rgba(43, 124, 110, .12); }
 .home-pillar-card.apps .home-pillar-copy::before { background: #d19b4e; box-shadow: 0 0 0 7px rgba(209, 155, 78, .14); }
+/* Desktop editorial scale: three primary cards and one horizontal foundation. */
+@media (min-width: 901px) {
+  .home-showcase { padding-top: clamp(24px, 3vw, 42px); padding-bottom: clamp(40px, 5vw, 64px); }
+  .home-showcase-intro { max-width: 960px; margin-bottom: clamp(20px, 2.5vw, 30px); }
+  .home-showcase-intro h1 { max-width: 900px; font-size: clamp(36px, 3.9vw, 52px); line-height: 1.18; }
+  .home-pillar-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 1.8vw, 22px); }
+  .home-pillar-card { border-radius: 20px; }
+  .home-pillar-card img { height: clamp(185px, 16vw, 225px); }
+  .home-pillar-copy { min-height: 138px; padding: clamp(16px, 1.65vw, 21px); }
+  .home-pillar-copy::before { top: 20px; right: 21px; width: 8px; height: 8px; }
+  .home-pillar-copy strong { font-size: clamp(21px, 2vw, 27px); }
+  .home-pillar-copy em { font-size: 13px; }
+  .home-pillar-copy b { margin-top: 10px; font-size: 12px; }
+  .home-pillar-card.history { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(280px, .82fr) minmax(0, 1.18fr); height: clamp(196px, 15vw, 220px); }
+  .home-pillar-card.history img { height: 100%; min-height: 0; aspect-ratio: auto; border-right: 1px solid rgba(20, 51, 73, .12); border-bottom: 0; }
+  .home-pillar-card.history .home-pillar-copy { height: 100%; min-height: 0; align-content: center; padding-inline: clamp(24px, 3vw, 40px); }
+}
 
 @media (max-width: 760px) {
   .feed-meta .label.priority-label {
@@ -3029,6 +3046,23 @@ a.branch-card:focus-visible { outline: 4px solid #bf7b47; outline-offset: 4px; }
 .branch-card-grid.cols-5 > :nth-child(n+3) img { height: clamp(190px, 18vw, 260px); }
 .branch-card-grid.cols-3 .branch-card-copy,
 .branch-card-grid.cols-5 > :nth-child(n+3) .branch-card-copy { min-height: 170px; }
+/* Compact editorial branch pages: three cards, then a wide concluding card. */
+@media (min-width: 901px) {
+  .compact-branch-page .branch-showcase { padding-top: clamp(24px, 3vw, 38px); padding-bottom: clamp(40px, 5vw, 62px); }
+  .compact-branch-page .branch-heading { margin-bottom: clamp(20px, 2.5vw, 30px); }
+  .compact-branch-page .branch-heading h1 { max-width: 820px; font-size: clamp(34px, 3.8vw, 48px); line-height: 1.18; }
+  .compact-branch-page .branch-card-grid.cols-4 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(15px, 1.7vw, 20px); }
+  .compact-branch-page .branch-card { padding: 0; border-radius: 18px; }
+  .compact-branch-page .branch-card img { height: clamp(165px, 14vw, 205px); }
+  .compact-branch-page .branch-card-copy { min-height: 134px; padding: clamp(15px, 1.55vw, 19px); }
+  .compact-branch-page .branch-card-copy::after { top: 19px; right: 19px; width: 7px; height: 7px; }
+  .compact-branch-page .branch-card-copy strong { font-size: clamp(20px, 1.8vw, 25px); }
+  .compact-branch-page .branch-card-copy em { font-size: 12px; }
+  .compact-branch-page .branch-card-copy b { margin-top: 9px; font-size: 11px; }
+  .compact-branch-page .branch-card-grid.cols-4 > :last-child { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(280px, .8fr) minmax(0, 1.2fr); height: clamp(184px, 14vw, 205px); }
+  .compact-branch-page .branch-card-grid.cols-4 > :last-child img { height: 100%; min-height: 0; border-right: 1px solid rgba(20, 51, 73, .12); border-bottom: 0; }
+  .compact-branch-page .branch-card-grid.cols-4 > :last-child .branch-card-copy { height: 100%; min-height: 0; align-content: center; padding-inline: clamp(24px, 3vw, 38px); }
+}
 
 @media (max-width: 900px) {
   .branch-heading { grid-template-columns: 1fr; align-items: start; }
@@ -3083,39 +3117,6 @@ a.branch-card:focus-visible { outline: 4px solid #bf7b47; outline-offset: 4px; }
 }
 .service-viewer-body .site-header { flex: 0 0 auto; border-bottom: 1px solid var(--line); }
 .service-viewer-main { display: flex; flex: 1 1 auto; min-height: 0; flex-direction: column; overflow: hidden; }
-.service-viewer-toolbar { flex: 0 0 auto; border-bottom: 1px solid var(--line); background: rgba(248, 244, 234, .96); }
-.service-viewer-toolbar-inner {
-  display: grid;
-  grid-template-columns: minmax(190px, .8fr) auto minmax(120px, .8fr);
-  align-items: center;
-  gap: 16px;
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: 10px 20px;
-}
-.service-viewer-heading { display: grid; min-width: 0; line-height: 1.25; }
-.service-viewer-heading strong { overflow: hidden; color: var(--navy); font-size: 15px; text-overflow: ellipsis; white-space: nowrap; }
-.service-viewer-heading span { margin-top: 3px; color: var(--muted); font-size: 11px; }
-.service-viewer-tabs { display: flex; gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: 999px; background: #fffdf8; }
-.service-viewer-tabs a,
-.service-viewer-external {
-  min-height: 38px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  text-decoration: none;
-  font-size: 12px;
-  font-weight: 800;
-  white-space: nowrap;
-}
-.service-viewer-tabs a { padding: 7px 13px; color: #3f5565; }
-.service-viewer-tabs a:hover,
-.service-viewer-tabs a:focus-visible,
-.service-viewer-tabs a.active { outline: none; background: var(--navy); color: #fff; }
-.service-viewer-external { justify-self: end; padding: 7px 14px; border: 1px solid var(--line); background: #fffdf8; color: var(--navy); }
-.service-viewer-external:hover,
-.service-viewer-external:focus-visible { outline: 3px solid rgba(181, 110, 62, .24); border-color: #b56e3e; }
 .service-frame-wrap { position: relative; flex: 1 1 auto; min-height: 0; overflow: hidden; background: #fff; }
 .service-frame-wrap iframe { width: 100%; height: 100%; border: 0; background: #fff; opacity: 0; transition: opacity .2s ease; }
 .service-frame-wrap iframe.is-loaded { opacity: 1; }
@@ -3124,15 +3125,6 @@ a.branch-card:focus-visible { outline: 4px solid #bf7b47; outline-offset: 4px; }
 .service-viewer-noscript { padding: 16px; background: #fff4d8; color: var(--navy); text-align: center; }
 @media (max-width: 1080px) {
   .service-viewer-body .navlinks { flex-wrap: nowrap; justify-content: flex-start; }
-}
-@media (max-width: 760px) {
-  .service-viewer-toolbar-inner { grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; padding: 8px 12px; }
-  .service-viewer-heading { grid-column: 1 / -1; }
-  .service-viewer-heading span { display: none; }
-  .service-viewer-tabs { min-width: 0; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; }
-  .service-viewer-tabs::-webkit-scrollbar { display: none; }
-  .service-viewer-tabs a { min-height: 34px; padding: 6px 11px; font-size: 11px; }
-  .service-viewer-external { min-height: 34px; padding: 6px 11px; font-size: 11px; }
 }
 /* Dedicated vocational service entry pages */
 .service-entry {
