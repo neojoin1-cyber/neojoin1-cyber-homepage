@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-02T08:25:13.549Z",
-  "feedGeneratedAt": "2026-08-02T08:25:13.549Z",
+  "generatedAt": "2026-08-02T09:03:01.858Z",
+  "feedGeneratedAt": "2026-08-02T09:03:01.858Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
@@ -28,7 +28,7 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-02T08:25:13.549Z",
+    "generatedAt": "2026-08-02T09:03:01.858Z",
     "attempted": 57,
     "succeeded": 57,
     "failed": 0,
@@ -36,7 +36,7 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-02T08:25:13.549Z",
+    "generatedAt": "2026-08-02T09:03:01.858Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
@@ -144,32 +144,12 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "국립생태원",
-        "title": "2026년 제5차 국립생태원 기간제근로자(수탁과제) 채용 재공고",
-        "deadline": "2026-08-05",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://nierecruit.fairy.im/announcement/detail/113"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
         "company": "기술보증기금",
         "title": "기술보증기금 사무지원인력 채용공고 (구미지점)",
         "deadline": "2026-08-12",
         "status": "active",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303163"
+        "primaryOfficialUrl": "https://www.kibo.or.kr/"
       },
       {
         "list": "items",
@@ -189,7 +169,27 @@
         "deadline": "2026-08-12",
         "status": "active",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303164"
+        "primaryOfficialUrl": "https://www.kibo.or.kr/"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "국립생태원",
+        "title": "2026년 제5차 국립생태원 기간제근로자(수탁과제) 채용 재공고",
+        "deadline": "2026-08-05",
+        "status": "deadline_soon",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://nierecruit.fairy.im/announcement/detail/113"
       },
       {
         "list": "items",
@@ -352,6 +352,27 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
+        "company": "대한법률구조공단",
+        "title": "대한법률구조공단 일반직 7급(전산담당) 제한경쟁채용 시험 공고",
+        "deadline": "2026-08-12",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.klac.or.kr/notification/hireNotice/selectHireNoticeView.do?boardCode=241&contentId=AD_0000164305"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
         "company": "충남대학교병원",
         "title": "[대전] 2026년 7월 충남대학교병원 업무지원직(기계기사, 전기기사, 환경사) 공개채용",
         "deadline": "2026-08-10",
@@ -394,6 +415,27 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
+        "company": "근로복지공단",
+        "title": "근로복지공단 [서울지역관내] 공무직 직원 채용 공고",
+        "deadline": "2026-08-04",
+        "status": "deadline_soon",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
         "company": "국립중앙의료원",
         "title": "국립중앙의료원 업무지원직 병동지원-보훈제한경쟁(간호부) 재공고",
         "deadline": "2026-08-10",
@@ -421,49 +463,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303274"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국고용노동교육원",
-        "title": "2026년 제3차 정규직(교육직(일반)/채용형인턴) 채용 공고_한국고용노동교육원",
-        "deadline": "2026-08-13",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303269"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "정보통신산업진흥원",
-        "title": "정보통신산업진흥원 정규직(일반직 및 전문직) 채용 공고",
-        "deadline": "2026-08-12",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://recruit.incruit.com/nipa/"
       }
     ]
   },
