@@ -3075,6 +3075,12 @@ a.branch-card:focus-visible { outline: 4px solid #bf7b47; outline-offset: 4px; }
   font-size: 12px;
   line-height: 1.65;
 }
+.app-card-detail .inline-release {
+  display: inline;
+  margin: 0;
+  color: #8d3f24;
+  font-size: inherit;
+}
 .app-card-tags {
   display: flex;
   flex-wrap: wrap;
@@ -3098,6 +3104,8 @@ a.branch-card:focus-visible { outline: 4px solid #bf7b47; outline-offset: 4px; }
 .branch-card-grid.cols-5 > :nth-child(n+3) img { height: clamp(190px, 18vw, 260px); }
 .branch-card-grid.cols-3 .branch-card-copy,
 .branch-card-grid.cols-5 > :nth-child(n+3) .branch-card-copy { min-height: 170px; }
+.branch-card-grid.cols-3 .project-detail-card .branch-card-copy { min-height: 350px; }
+.release-project-card { border-color: rgba(181, 110, 62, .42); }
 /* Compact editorial branch pages: three cards, then a wide concluding card. */
 @media (min-width: 901px) {
   .compact-branch-page .branch-showcase { padding-top: clamp(24px, 3vw, 38px); padding-bottom: clamp(40px, 5vw, 62px); }
@@ -3122,7 +3130,13 @@ a.branch-card:focus-visible { outline: 4px solid #bf7b47; outline-offset: 4px; }
   .compact-branch-page .vocational-service-grid > :nth-child(n+3) img { height: clamp(165px, 14vw, 205px); }
   .compact-branch-page .vocational-service-grid > :nth-child(n+3) .branch-card-copy { min-height: 134px; padding: clamp(15px, 1.55vw, 19px); }
   .vocational-featured-card .app-card-detail { margin-top: 7px; font-size: 11px; line-height: 1.5; }
-  .vocational-featured-card .app-card-tags { gap: 4px; margin-top: 8px; }
+  .vocational-featured-card .app-card-detail .inline-release {
+  display: inline;
+  margin: 0;
+  color: #8d3f24;
+  font-size: inherit;
+}
+.app-card-tags { gap: 4px; margin-top: 8px; }
   .vocational-featured-card .app-card-tags i { padding: 4px 6px; font-size: 9px; }
 }
 
@@ -3162,11 +3176,20 @@ a.branch-card:focus-visible { outline: 4px solid #bf7b47; outline-offset: 4px; }
   .branch-card-copy em { font-size: 12px; }
   .branch-card-copy b { margin-top: 9px; font-size: 11px; }
   .branch-card-copy::after { top: 18px; right: 14px; width: 7px; height: 7px; }
-  .learning-app-card { grid-template-columns: 1fr; }
-  .learning-app-card img { height: 220px !important; min-height: 0 !important; }
-  .learning-app-card .branch-card-copy { min-height: 0; }
+  .learning-app-card,
+  .project-detail-card { grid-template-columns: 1fr; }
+  .learning-app-card img,
+  .project-detail-card img { height: 220px !important; min-height: 0 !important; }
+  .learning-app-card .branch-card-copy,
+  .branch-card-grid.cols-3 .project-detail-card .branch-card-copy { min-height: 0; }
   .app-card-detail { font-size: 11px; }
-  .app-card-tags { gap: 5px; }
+  .app-card-detail .inline-release {
+  display: inline;
+  margin: 0;
+  color: #8d3f24;
+  font-size: inherit;
+}
+.app-card-tags { gap: 5px; }
   .app-card-tags i { padding: 5px 7px; font-size: 9px; }
 }
 
