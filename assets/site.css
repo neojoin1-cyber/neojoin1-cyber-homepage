@@ -2917,6 +2917,7 @@ a.atlas-node{text-decoration:none}
 .branch-heading-side { max-width: 440px; margin: 0; color: #52645f; font-weight: 600; }
 .branch-heading .actions { margin: 0; }
 .branch-card-grid { display: grid; gap: clamp(15px, 2vw, 24px); }
+.branch-card-grid.cols-2,
 .branch-card-grid.cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .branch-card-grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .branch-card-grid.cols-5 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
@@ -2985,6 +2986,7 @@ a.branch-card:focus-visible { outline: 4px solid #bf7b47; outline-offset: 4px; }
   .branch-heading h1 { font-size: clamp(32px, 9vw, 42px); line-height: 1.24; text-wrap: wrap; }
   .branch-heading h1 .branch-accent { white-space: normal; }
   .branch-heading-side { font-size: 14px; }
+  .branch-card-grid.cols-2,
   .branch-card-grid.cols-4,
   .branch-card-grid.cols-3,
   .branch-card-grid.cols-5 { grid-template-columns: 1fr; }
