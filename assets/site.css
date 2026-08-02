@@ -2255,6 +2255,54 @@ body {
   width: 46px;
   height: 46px;
 }
+.logo-draw-stage {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+}
+.logo-draw-stage-nav {
+  width: 46px;
+  height: 46px;
+}
+.brand-logo-svg { overflow: visible; }
+.logo-stroke {
+  fill: none;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.logo-stroke-primary { stroke: #1f3a5f; stroke-width: 8; }
+.logo-stroke-secondary { stroke: #3d5b82; stroke-width: 6.5; }
+.logo-stroke-base { stroke: #d2953b; stroke-width: 4; }
+.brand:hover .logo-stroke,
+.brand:focus-visible .logo-stroke,
+.logo-draw-stage:hover .logo-stroke,
+.logo-draw-stage:focus-visible .logo-stroke {
+  animation: brand-logo-draw .72s cubic-bezier(.22, .75, .2, 1) both;
+}
+.brand:hover .logo-stroke-secondary,
+.brand:focus-visible .logo-stroke-secondary,
+.logo-draw-stage:hover .logo-stroke-secondary,
+.logo-draw-stage:focus-visible .logo-stroke-secondary { animation-delay: .12s; }
+.brand:hover .logo-stroke-base,
+.brand:focus-visible .logo-stroke-base,
+.logo-draw-stage:hover .logo-stroke-base,
+.logo-draw-stage:focus-visible .logo-stroke-base { animation-delay: .24s; }
+.logo-draw-stage:focus-visible {
+  outline: 3px solid rgba(210, 149, 59, .55);
+  outline-offset: 5px;
+  border-radius: 12px;
+}
+@keyframes brand-logo-draw {
+  0% { stroke-dashoffset: 1; opacity: .12; }
+  24% { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brand .logo-stroke,
+  .logo-draw-stage .logo-stroke { animation: none !important; stroke-dashoffset: 0; }
+}
 .site-header .brand-wordmark {
   display: grid;
   gap: 3px;
@@ -2459,7 +2507,9 @@ body {
   box-shadow: var(--shadow-soft);
 }
 
-.brand-mark-card img {
+.brand-mark-card img,
+.brand-mark-card .logo-draw-stage-large,
+.brand-mark-card .logo-draw-stage-large svg {
   width: 116px;
   height: 116px;
 }
@@ -2677,7 +2727,9 @@ body {
     gap: 16px;
     padding: 20px;
   }
-  .brand-mark-card img {
+  .brand-mark-card img,
+  .brand-mark-card .logo-draw-stage-large,
+  .brand-mark-card .logo-draw-stage-large svg {
     width: 72px;
     height: 72px;
   }
