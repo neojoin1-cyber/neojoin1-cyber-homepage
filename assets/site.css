@@ -3062,6 +3062,16 @@ a.branch-card:focus-visible { outline: 4px solid #bf7b47; outline-offset: 4px; }
   .compact-branch-page .branch-card-grid.cols-4 > :last-child { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(280px, .8fr) minmax(0, 1.2fr); height: clamp(184px, 14vw, 205px); }
   .compact-branch-page .branch-card-grid.cols-4 > :last-child img { height: 100%; min-height: 0; border-right: 1px solid rgba(20, 51, 73, .12); border-bottom: 0; }
   .compact-branch-page .branch-card-grid.cols-4 > :last-child .branch-card-copy { height: 100%; min-height: 0; align-content: center; padding-inline: clamp(24px, 3vw, 38px); }
+  .compact-branch-page .vocational-service-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(15px, 1.7vw, 20px); }
+  .compact-branch-page .vocational-service-grid > .branch-card { grid-column: span 2; padding: 0; border-radius: 18px; }
+  .compact-branch-page .vocational-service-grid > .vocational-featured-card { grid-column: span 3; display: grid; grid-template-columns: minmax(210px, .82fr) minmax(0, 1.18fr); height: clamp(210px, 17vw, 245px); }
+  .compact-branch-page .vocational-service-grid > .vocational-featured-card img { height: 100%; min-height: 0; border-right: 1px solid rgba(20, 51, 73, .12); border-bottom: 0; }
+  .compact-branch-page .vocational-service-grid > .vocational-featured-card .branch-card-copy { height: 100%; min-height: 0; align-content: center; padding: clamp(16px, 2vw, 25px); }
+  .compact-branch-page .vocational-service-grid > :nth-child(n+3) img { height: clamp(165px, 14vw, 205px); }
+  .compact-branch-page .vocational-service-grid > :nth-child(n+3) .branch-card-copy { min-height: 134px; padding: clamp(15px, 1.55vw, 19px); }
+  .vocational-featured-card .app-card-detail { margin-top: 7px; font-size: 11px; line-height: 1.5; }
+  .vocational-featured-card .app-card-tags { gap: 4px; margin-top: 8px; }
+  .vocational-featured-card .app-card-tags i { padding: 4px 6px; font-size: 9px; }
 }
 
 @media (max-width: 900px) {
@@ -3072,6 +3082,8 @@ a.branch-card:focus-visible { outline: 4px solid #bf7b47; outline-offset: 4px; }
   .branch-card-grid.cols-3.balanced > :last-child { grid-column: auto; }
   .branch-card-grid.cols-5 > :nth-child(n) { grid-column: span 3; }
   .branch-card-grid.cols-5 > :last-child { grid-column: 2 / span 4; }
+  .vocational-service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .vocational-service-grid > :last-child { grid-column: 1 / -1; }
 }
 @media (max-width: 620px) {
   .branch-heading h1 { font-size: clamp(32px, 9vw, 42px); line-height: 1.24; text-wrap: wrap; }
@@ -3081,9 +3093,11 @@ a.branch-card:focus-visible { outline: 4px solid #bf7b47; outline-offset: 4px; }
   .branch-card-grid.cols-4,
   .branch-card-grid.cols-3,
   .branch-card-grid.cols-5 { grid-template-columns: 1fr; }
+  .vocational-service-grid { grid-template-columns: 1fr; }
   .branch-card-grid.cols-3 > :last-child,
   .branch-card-grid.cols-5 > :nth-child(n),
   .branch-card-grid.cols-5 > :last-child { grid-column: auto; }
+  .vocational-service-grid > :last-child { grid-column: auto; }
   .branch-card { display: grid; grid-template-columns: 39% minmax(0, 1fr); border-radius: 18px; }
   .branch-card img,
   .branch-card-grid.cols-3 .branch-card img,
@@ -3409,7 +3423,6 @@ a.branch-card:focus-visible { outline: 4px solid #bf7b47; outline-offset: 4px; }
 }
 .guide-empty strong { color: var(--navy); font-size: 18px; }
 .guide-more { margin: 22px auto 0; }
-.vocational-role-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .counseling-entry .service-entry-content { max-width: var(--max); }
 .counseling-entry .service-entry-content > p { max-width: 620px; }
 .counseling-paths {
@@ -3467,7 +3480,6 @@ a.branch-card:focus-visible { outline: 4px solid #bf7b47; outline-offset: 4px; }
   .guide-results-head { align-items: flex-start; flex-direction: column; }
   .guide-list-item { grid-template-columns: 1fr; }
   .guide-card-actions { justify-content: flex-start; }
-  .vocational-role-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 520px) {
   .service-entry-content { padding-left: 16px; padding-right: 16px; }
@@ -3488,7 +3500,6 @@ a.branch-card:focus-visible { outline: 4px solid #bf7b47; outline-offset: 4px; }
   .guide-source-link,
   .guide-related-link { min-width: 0; padding-left: 8px; padding-right: 8px; text-align: center; }
   .guide-source-note { align-items: flex-start; }
-  .vocational-role-grid { grid-template-columns: 1fr; }
   .counseling-paths { grid-template-columns: 1fr; }
   .privacy-note { align-items: flex-start; }
 }
