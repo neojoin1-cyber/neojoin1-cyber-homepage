@@ -5,27 +5,6 @@ const ROOM_LABELS = {
   qna: "질의응답"
 };
 
-const FEATURED_NEWS = {
-  id: "featured-education-experts",
-  room: "promotion",
-  title: "교육의 다음 장을 함께 만들 전문가를 기다립니다",
-  body: `[[image:assets/news/education-experts-invitation.png|교육전문가 검수·자문 인력풀 초대 안내]]
-
-교육현장 경험을 다음 세대의 기회로 연결할 전문가를 기다립니다.
-
-- 참여 분야: 공무원·임용·수능 핵심노트 및 모의고사
-- 주요 역할: 사실·정답 전수 검증, 출제 경향 분석, 핵심노트·예상문제 검수
-- 협업 방식: 재택 중심 온라인 협업, 비대면 면담과 프로젝트별 온보딩
-- 운영 원칙: 위촉 계약, 비밀유지협약, 저작권과 정산 기준 사전 확정
-- 함께할 분: 교육 경력을 의미 있게 이어갈 은퇴·시니어 전문가와 현장 교육전문가
-- 참여 문의: 소식·문의 화면의 협업문의에서 남겨 주세요.`,
-  status: "open",
-  canViewBody: true,
-  author: { anonymousName: "설탕과소금" },
-  createdAt: "2026-07-20T11:16:00.000Z",
-  updatedAt: "2026-07-20T11:16:00.000Z"
-};
-
 const app = document.querySelector("[data-board-app]");
 const tabs = [...document.querySelectorAll("[data-board-room]")];
 const searchForm = document.querySelector("[data-board-search]");
@@ -68,6 +47,8 @@ function bindEvents() {
   });
 
   writeForm?.addEventListener("submit", submitPost);
+  listEl?.addEventListener("click", handlePostAction);
+  listEl?.addEventListener("submit", submitPostEdit);
   document.addEventListener("gyo6-portal-auth-state", () => {
     state.authReady = true;
     loadPosts();
@@ -97,7 +78,7 @@ async function loadPosts() {
       throw new Error(data.error || `HTTP ${response.status}`);
     }
 
-    const posts = mergeFeaturedNews(Array.isArray(data.posts) ? data.posts : []);
+    const posts = Array.isArray(data.posts) ? data.posts : [];
     statusEl.textContent = posts.length
       ? `${posts.length}개의 게시글을 표시합니다.`
       : "아직 표시할 게시글이 없습니다.";
@@ -105,24 +86,6 @@ async function loadPosts() {
   } catch (error) {
     statusEl.textContent = error.message || "게시글을 불러오지 못했습니다.";
   }
-}
-
-function mergeFeaturedNews(posts) {
-  const roomMatches = state.room === "all" || state.room === FEATURED_NEWS.room;
-  const keyword = state.q.toLocaleLowerCase("ko-KR");
-  const textMatches = !keyword
-    || `${FEATURED_NEWS.title} ${FEATURED_NEWS.body}`.toLocaleLowerCase("ko-KR").includes(keyword);
-  const alreadyPublished = posts.some((post) => (
-    post.room === FEATURED_NEWS.room && post.title === FEATURED_NEWS.title
-  ));
-
-  const merged = roomMatches && textMatches && !alreadyPublished
-    ? [FEATURED_NEWS, ...posts]
-    : posts;
-
-  return merged.sort((a, b) => (
-    new Date(b.updatedAt || b.createdAt || 0) - new Date(a.updatedAt || a.createdAt || 0)
-  ));
 }
 
 async function submitPost(event) {
@@ -166,6 +129,90 @@ async function submitPost(event) {
   }
 }
 
+
+async function handlePostAction(event) {
+  const button = event.target instanceof Element ? event.target.closest("[data-board-action]") : null;
+  if (!button || !listEl?.contains(button)) return;
+
+  const article = button.closest("[data-board-post-id]");
+  const form = article?.querySelector("[data-board-edit-form]");
+  const action = button.dataset.boardAction;
+  if (action === "edit") {
+    form?.removeAttribute("hidden");
+    form?.elements.title?.focus();
+    return;
+  }
+  if (action === "cancel") {
+    form?.setAttribute("hidden", "");
+    form?.reset();
+    return;
+  }
+  if (action !== "delete") return;
+
+  const id = Number(article?.dataset.boardPostId);
+  if (!Number.isInteger(id) || id <= 0) return;
+  if (!window.confirm("이 게시글을 삭제하시겠습니까? 삭제 후에는 복구할 수 없습니다.")) return;
+
+  button.disabled = true;
+  statusEl.textContent = "게시글을 삭제하는 중입니다.";
+  try {
+    await requestBoardMutation("delete", { id });
+    statusEl.textContent = "게시글을 삭제했습니다.";
+    await loadPosts();
+  } catch (error) {
+    statusEl.textContent = error.message || "게시글을 삭제하지 못했습니다.";
+  } finally {
+    button.disabled = false;
+  }
+}
+
+async function submitPostEdit(event) {
+  const form = event.target;
+  if (!(form instanceof HTMLFormElement) || !form.matches("[data-board-edit-form]")) return;
+  event.preventDefault();
+
+  const id = Number(form.dataset.boardPostId);
+  if (!Number.isInteger(id) || id <= 0) return;
+  const submit = form.querySelector("button[type='submit']");
+  if (submit) submit.disabled = true;
+  statusEl.textContent = "게시글을 수정하는 중입니다.";
+
+  try {
+    const formData = new FormData(form);
+    await requestBoardMutation("update", {
+      id,
+      anonymousName: formData.get("anonymousName")?.toString() || "",
+      title: formData.get("title")?.toString() || "",
+      body: formData.get("body")?.toString() || ""
+    });
+    statusEl.textContent = "게시글을 수정했습니다.";
+    await loadPosts();
+  } catch (error) {
+    statusEl.textContent = error.message || "게시글을 수정하지 못했습니다.";
+  } finally {
+    if (submit) submit.disabled = false;
+  }
+}
+
+async function requestBoardMutation(action, payload) {
+  const token = await window.GYO6_PORTAL_AUTH?.getAccessToken?.();
+  if (!token) throw new Error("승인 회원 로그인 후 게시글을 관리할 수 있습니다.");
+
+  const endpoint = BOARD_API.replace("/api/boards", `/api/board/${action}`);
+  const response = await fetch(endpoint, {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "content-type": "application/json",
+      authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(payload)
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok || data.error) throw new Error(data.error || `HTTP ${response.status}`);
+  return data;
+}
+
 async function getOptionalToken() {
   const auth = window.GYO6_PORTAL_AUTH;
   const snapshot = auth?.getState?.();
@@ -200,8 +247,25 @@ function renderPost(post) {
     ? `<div class="board-reply"><strong>관리자 답변</strong><p>${escapeHtml(post.adminReply).replaceAll("\n", "<br>")}</p></div>`
     : "";
 
+  const management = post.canManage && /^\d+$/.test(String(post.id))
+    ? `
+      <div class="board-post-actions" aria-label="게시글 관리">
+        <button class="btn" type="button" data-board-action="edit">수정</button>
+        <button class="btn danger" type="button" data-board-action="delete">삭제</button>
+      </div>
+      <form class="board-post-edit" data-board-edit-form data-board-post-id="${escapeHtml(post.id)}" hidden>
+        <label>표시 이름<input name="anonymousName" type="text" maxlength="40" value="${escapeHtml(post.author?.anonymousName || "")}"></label>
+        <label>제목<input name="title" type="text" maxlength="120" value="${escapeHtml(post.title || "")}" required></label>
+        <label>내용<textarea name="body" rows="8" required>${escapeHtml(post.body || "")}</textarea></label>
+        <div class="board-post-edit-actions">
+          <button class="btn primary" type="submit">수정 저장</button>
+          <button class="btn" type="button" data-board-action="cancel">취소</button>
+        </div>
+      </form>`
+    : "";
+
   return `
-    <article class="board-post">
+    <article class="board-post" data-board-post-id="${escapeHtml(post.id || "")}">
       <div class="board-post-meta">
         <span>${escapeHtml(room)}</span>
         <span>${escapeHtml(status)}</span>
@@ -211,6 +275,7 @@ function renderPost(post) {
       ${protectedNotice}
       ${body}
       ${reply}
+      ${management}
     </article>
   `;
 }

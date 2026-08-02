@@ -762,6 +762,63 @@ h3 {
   margin-bottom: 0;
 }
 
+.board-post-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.board-post-actions .btn,
+.board-post-edit-actions .btn {
+  min-height: 42px;
+}
+
+.board-post-actions .danger {
+  border-color: #e8b8b0;
+  color: #9f3528;
+  background: #fff8f6;
+}
+
+.board-post-edit {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+  border-radius: 16px;
+  padding: 16px;
+  background: #f7faf9;
+}
+
+.board-post-edit[hidden] { display: none; }
+
+.board-post-edit label {
+  display: grid;
+  gap: 7px;
+  color: var(--navy);
+  font-weight: 800;
+}
+
+.board-post-edit input,
+.board-post-edit textarea {
+  width: 100%;
+  border: 1px solid #cfd9dc;
+  border-radius: 12px;
+  padding: 12px 13px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+}
+
+.board-post-edit textarea { resize: vertical; }
+
+.board-post-edit-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .board-write-card {
   display: grid;
   grid-template-columns: minmax(0, .75fr) minmax(0, 1.25fr);
