@@ -3,6 +3,10 @@
 
   const API_BASE = "https://gyo6-law-info-ai.gyo6.workers.dev";
   const CARD_URL = "https://gyo6.kr/card/kim-younghee/";
+  const CONTACT_MEDIA = {
+    photo: "../../assets/card/kim-younghee-contact-photo.jpg",
+    logo: "../../brand/logo/png/app-icon-512.png"
+  };
   const PROFILE = {
     name: "김영희",
     organization: "유한회사 설탕과소금",
@@ -115,35 +119,84 @@
     form?.addEventListener("submit", submitExchange);
   }
 
-  function buildVcard() {
+  async function buildVcard() {
     const note = `${MODES[mode].label} | ${MODES[mode].message}`;
-    return [
+    const [photo, logo] = await Promise.all([
+      loadVcardImage(CONTACT_MEDIA.photo),
+      loadVcardImage(CONTACT_MEDIA.logo)
+    ]);
+    const lines = [
       "BEGIN:VCARD",
       "VERSION:3.0",
       `FN:${escapeVcard(PROFILE.name)}`,
       `N:${escapeVcard(PROFILE.name)};;;;`,
       `ORG:${escapeVcard(PROFILE.organization)}`,
       `TITLE:${escapeVcard(PROFILE.title)}`,
+      photo ? `PHOTO;ENCODING=b;TYPE=JPEG:${photo}` : "",
+      logo ? `LOGO;ENCODING=b;TYPE=PNG:${logo}` : "",
       `TEL;TYPE=CELL:${PROFILE.phone.replaceAll("-", "")}`,
       `EMAIL;TYPE=WORK:${PROFILE.email}`,
       `URL:${CARD_URL}`,
       `ADR;TYPE=WORK:;;${escapeVcard("원지길12번길 56-5, 1층")};경주시;경북;;대한민국`,
       `NOTE:${escapeVcard(note)}`,
       "END:VCARD"
-    ].join("\r\n");
+    ].filter(Boolean);
+    return lines.map(foldVcardLine).join("\r\n");
   }
 
-  function downloadVcard() {
-    const blob = new Blob(["\ufeff", buildVcard()], { type: "text/vcard;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement("a");
-    anchor.href = url;
-    anchor.download = "김영희_설탕과소금.vcf";
-    document.body.append(anchor);
-    anchor.click();
-    anchor.remove();
-    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
-    showToast("김영희 대표의 연락처 파일을 열었습니다.");
+  async function downloadVcard() {
+    const buttons = [...document.querySelectorAll("[data-save-contact]")];
+    buttons.forEach((button) => { button.disabled = true; });
+    showToast("사진과 로고를 포함한 연락처를 준비하고 있습니다.");
+    try {
+      const blob = new Blob(["\ufeff", await buildVcard()], { type: "text/vcard;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = "김영희_설탕과소금.vcf";
+      document.body.append(anchor);
+      anchor.click();
+      anchor.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      showToast("공식 사진과 로고가 포함된 연락처를 열었습니다.");
+    } finally {
+      buttons.forEach((button) => { button.disabled = false; });
+    }
+  }
+
+  async function loadVcardImage(path) {
+    try {
+      const response = await fetch(new URL(path, document.baseURI));
+      if (!response.ok) return "";
+      const blob = await response.blob();
+      return await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.addEventListener("load", () => resolve(String(reader.result || "").split(",")[1] || ""), { once: true });
+        reader.addEventListener("error", () => reject(reader.error), { once: true });
+        reader.readAsDataURL(blob);
+      });
+    } catch {
+      return "";
+    }
+  }
+
+  function foldVcardLine(line) {
+    const encoder = new TextEncoder();
+    if (encoder.encode(line).length <= 75) return line;
+    const folded = [];
+    let current = "";
+    let byteLimit = 75;
+    for (const character of line) {
+      if (current && encoder.encode(current + character).length > byteLimit) {
+        folded.push(folded.length ? ` ${current}` : current);
+        current = character;
+        byteLimit = 74;
+      } else {
+        current += character;
+      }
+    }
+    if (current) folded.push(folded.length ? ` ${current}` : current);
+    return folded.join("\r\n");
   }
 
   async function shareCard(sharedMode = mode, explicitUrl = "") {
