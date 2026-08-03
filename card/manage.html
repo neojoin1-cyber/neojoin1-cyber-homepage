@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>디지털 명함 관계관리 | 설탕과소금</title>
+  <meta name="description" content="설탕과소금 디지털 명함으로 교환한 연락처와 상황별 QR을 관리합니다.">
+  <meta name="robots" content="noindex,nofollow">
+  <style>@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=Noto+Serif+KR:wght@600;700&display=swap');</style>
+  <link rel="stylesheet" href="../assets/portal-auth.css">
+  <link rel="stylesheet" href="../assets/card/card-admin.css">
+</head>
+<body>
+  <a class="admin-skip" href="#manage-main">관리 내용으로 바로가기</a>
+
+  <header class="admin-header">
+    <a href="./" class="admin-brand" aria-label="김영희 디지털 명함 보기">
+      <img src="../assets/card/sugar-salt-lockup.svg" alt="설탕과소금">
+    </a>
+    <div class="admin-header__actions">
+      <a href="./">내 명함 보기</a>
+      <button type="button" id="portal-auth-trigger">로그인</button>
+    </div>
+  </header>
+
+  <main id="manage-main" class="admin-main">
+    <section class="admin-hero">
+      <p>GYO6 CONNECT</p>
+      <h1>명함을 건넨 순간부터<br>다음 연락까지 기억합니다.</h1>
+      <p class="admin-hero__lead">상황별 명함 링크를 만들고, 서로 교환한 연락처에 메모와 후속 연락일을 남기는 설탕과소금의 관계관리 공간입니다.</p>
+    </section>
+
+    <section class="access-panel" data-access-panel>
+      <h2>관리자 확인이 필요합니다.</h2>
+      <p data-access-message>총괄관리자 또는 관리자 계정으로 로그인하면 명함 교환 내역이 표시됩니다.</p>
+      <button type="button" data-open-login>관리자 로그인</button>
+    </section>
+
+    <div class="admin-content" data-admin-content hidden>
+      <section class="summary-grid" aria-label="명함 교환 요약">
+        <article><span>전체 인연</span><strong data-stat-total>0</strong></article>
+        <article><span>새 연락처</span><strong data-stat-new>0</strong></article>
+        <article><span>후속 연락</span><strong data-stat-followup>0</strong></article>
+        <article><span>이번 달</span><strong data-stat-month>0</strong></article>
+      </section>
+
+      <section class="manage-section" aria-labelledby="contacts-title">
+        <div class="manage-title-row">
+          <div>
+            <p>RELATIONSHIP NOTES</p>
+            <h2 id="contacts-title">서로 교환한 명함</h2>
+          </div>
+          <button type="button" class="line-button" data-export-csv>CSV 내보내기</button>
+        </div>
+
+        <div class="filter-row">
+          <label>
+            <span>검색</span>
+            <input type="search" data-contact-search placeholder="이름, 기관, 전화, 이메일">
+          </label>
+          <label>
+            <span>상태</span>
+            <select data-contact-status>
+              <option value="all">전체 상태</option>
+              <option value="new">새 연락처</option>
+              <option value="contacted">연락함</option>
+              <option value="follow-up">후속 연락</option>
+              <option value="completed">완료</option>
+            </select>
+          </label>
+          <label>
+            <span>명함 모드</span>
+            <select data-contact-mode>
+              <option value="all">전체 모드</option>
+              <option value="general">설탕과소금 대표</option>
+              <option value="vocational">특성화고 교육지원</option>
+              <option value="exam">공직시험 연구소</option>
+              <option value="studio">디지털 프로젝트</option>
+            </select>
+          </label>
+        </div>
+
+        <p class="list-status" data-list-status aria-live="polite">연락처를 불러오는 중입니다.</p>
+        <div class="contact-cards" data-contact-cards></div>
+      </section>
+
+      <section class="manage-section" aria-labelledby="qr-title">
+        <div class="manage-title-row">
+          <div>
+            <p>CONTEXT-AWARE CARD</p>
+            <h2 id="qr-title">상황별 명함 링크와 QR</h2>
+          </div>
+        </div>
+        <p class="section-copy">같은 김영희 대표의 명함이지만 만나는 자리마다 첫 소개와 출처가 달라집니다. QR을 내려받아 안내물·행사자료·NFC 카드에 사용하세요.</p>
+
+        <div class="qr-grid">
+          <article class="qr-card">
+            <img src="../assets/card/qr-general.png" alt="일반 명함 QR">
+            <div><span>일반 명함</span><strong>설탕과소금 대표</strong><small>종이 명함과 일반 미팅</small></div>
+            <button type="button" data-copy-url="https://gyo6.kr/card/kim-younghee/?src=paper">주소 복사</button>
+            <a href="../assets/card/qr-general.png" download="gyo6-card-general-qr.png">QR 저장</a>
+          </article>
+          <article class="qr-card">
+            <img src="../assets/card/qr-vocational.png" alt="특성화고 교육지원 명함 QR">
+            <div><span>교육기관</span><strong>특성화고 교육지원</strong><small>학교·교육청·교사 미팅</small></div>
+            <button type="button" data-copy-url="https://gyo6.kr/card/kim-younghee/?mode=vocational&amp;src=vocational">주소 복사</button>
+            <a href="../assets/card/qr-vocational.png" download="gyo6-card-vocational-qr.png">QR 저장</a>
+          </article>
+          <article class="qr-card">
+            <img src="../assets/card/qr-exam.png" alt="공직시험 연구소 명함 QR">
+            <div><span>시험·학습</span><strong>공직시험 연구소</strong><small>수험·교재·평가 협력</small></div>
+            <button type="button" data-copy-url="https://gyo6.kr/card/kim-younghee/?mode=exam&amp;src=exam">주소 복사</button>
+            <a href="../assets/card/qr-exam.png" download="gyo6-card-exam-qr.png">QR 저장</a>
+          </article>
+          <article class="qr-card">
+            <img src="../assets/card/qr-studio.png" alt="디지털 프로젝트 스튜디오 명함 QR">
+            <div><span>디지털 협업</span><strong>프로젝트 스튜디오</strong><small>웹·앱·AI 프로젝트 미팅</small></div>
+            <button type="button" data-copy-url="https://gyo6.kr/card/kim-younghee/?mode=studio&amp;src=studio">주소 복사</button>
+            <a href="../assets/card/qr-studio.png" download="gyo6-card-studio-qr.png">QR 저장</a>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <dialog class="contact-dialog" data-contact-dialog aria-labelledby="contact-dialog-title">
+    <form data-contact-edit-form>
+      <div class="contact-dialog__head">
+        <div>
+          <p>FOLLOW-UP</p>
+          <h2 id="contact-dialog-title" data-edit-title>연락처 관리</h2>
+        </div>
+        <button type="button" data-close-contact aria-label="연락처 관리 창 닫기">×</button>
+      </div>
+      <input name="id" type="hidden">
+      <label>진행 상태
+        <select name="status">
+          <option value="new">새 연락처</option>
+          <option value="contacted">연락함</option>
+          <option value="follow-up">후속 연락</option>
+          <option value="completed">완료</option>
+        </select>
+      </label>
+      <label>태그
+        <input name="tags" type="text" maxlength="240" placeholder="예: 특성화고, 교재협력, 경주 (쉼표로 구분)">
+      </label>
+      <label>다시 연락할 날짜
+        <input name="followUpAt" type="date">
+      </label>
+      <label>대표 메모
+        <textarea name="ownerNote" rows="5" maxlength="1000" placeholder="논의 내용과 다음 행동을 기록하세요."></textarea>
+      </label>
+      <p data-edit-message aria-live="polite"></p>
+      <div class="contact-dialog__buttons">
+        <button type="button" class="danger-button" data-delete-contact>연락처 삭제</button>
+        <button type="submit" class="save-button">저장</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="admin-toast" data-admin-toast role="status" aria-live="polite" hidden></div>
+  <div id="portal-auth-mount"></div>
+  <script type="module" src="../assets/portal-auth.js"></script>
+  <script type="module" src="../assets/card/card-admin.js"></script>
+</body>
+</html>
