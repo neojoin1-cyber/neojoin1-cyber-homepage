@@ -3069,6 +3069,21 @@ a.branch-card:focus-visible { outline: 4px solid #bf7b47; outline-offset: 4px; }
 .branch-card-copy em { margin-top: 7px; color: #52645f; font-size: 14px; font-style: normal; font-weight: 600; }
 .branch-card-copy b { margin-top: 13px; color: #116f6c; font-size: 12px; }
 .app-card-lead { color: #26463f !important; line-height: 1.55; }
+.store-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 18px;
+  letter-spacing: .045em !important;
+  line-height: 1.35;
+}
+.google-play-mark {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2300c853' d='M3 2.3 14.2 12 3 21.7Z'/%3E%3Cpath fill='%2300b0ff' d='M3 2.3 16.8 10 14.2 12Z'/%3E%3Cpath fill='%23ffca28' d='m14.2 12 2.6 2L3 21.7Z'/%3E%3Cpath fill='%23f44336' d='m16.8 10 4.2 2-4.2 2-2.6-2Z'/%3E%3C/svg%3E") center / contain no-repeat;
+  filter: drop-shadow(0 1px 1px rgba(20, 51, 73, .18));
+}
 .app-card-detail {
   margin-top: 10px;
   color: #52645f;
