@@ -258,6 +258,8 @@ a { color: inherit; }
   cursor: pointer;
 }
 
+.action[hidden] { display: none; }
+
 .action--primary {
   border-color: var(--navy);
   background: var(--navy);

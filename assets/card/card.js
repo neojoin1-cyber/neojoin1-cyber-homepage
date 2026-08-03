@@ -3,6 +3,7 @@
 
   const API_BASE = "https://gyo6-law-info-ai.gyo6.workers.dev";
   const CARD_URL = "https://gyo6.kr/card/kim-younghee/";
+  const OWNER_STORAGE_KEY = "gyo6.business-card.owner.kim-younghee";
   const CONTACT_MEDIA = {
     photo: "../../assets/card/kim-younghee-contact-photo.jpg",
     logo: "../../brand/logo/png/app-icon-512.png"
@@ -63,6 +64,20 @@
   const params = new URLSearchParams(window.location.search);
   const mode = Object.hasOwn(MODES, params.get("mode")) ? params.get("mode") : "general";
   const source = cleanParam(params.get("src"), 60) || "direct";
+  const ownerRequested = params.get("owner") === "1";
+  let ownerStored = false;
+  try {
+    if (ownerRequested) window.localStorage.setItem(OWNER_STORAGE_KEY, "1");
+    ownerStored = window.localStorage.getItem(OWNER_STORAGE_KEY) === "1";
+  } catch {
+    ownerStored = false;
+  }
+  const isOwnerView = ownerRequested || ownerStored;
+  if (ownerRequested && ownerStored) {
+    const cleanUrl = new URL(window.location.href);
+    cleanUrl.searchParams.delete("owner");
+    window.history.replaceState(null, "", cleanUrl);
+  }
   const exchangeDialog = document.querySelector("[data-exchange-dialog]");
   const qrDialog = document.querySelector("[data-qr-dialog]");
   const form = document.querySelector("[data-exchange-form]");
@@ -72,6 +87,7 @@
   let toastTimer = 0;
 
   applyMode();
+  applyOwnerView();
   bindEvents();
 
   function applyMode() {
@@ -88,10 +104,17 @@
       url.hash = "";
       url.searchParams.set("mode", targetMode);
       if (source !== "direct") url.searchParams.set("src", source);
+      if (isOwnerView && !ownerStored) url.searchParams.set("owner", "1");
       link.href = url.toString();
       link.classList.toggle("is-active", targetMode === mode);
       if (targetMode === mode) link.setAttribute("aria-current", "true");
     });
+  }
+
+  function applyOwnerView() {
+    const qrButton = document.querySelector("[data-show-qr]");
+    if (qrButton) qrButton.hidden = !isOwnerView;
+    document.body.dataset.cardView = isOwnerView ? "owner" : "visitor";
   }
 
   function bindEvents() {
