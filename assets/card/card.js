@@ -5,7 +5,7 @@
   const CARD_URL = "https://gyo6.kr/card/kim-younghee/";
   const OWNER_STORAGE_KEY = "gyo6.business-card.owner.kim-younghee";
   const CONTACT_MEDIA = {
-    photo: "../../assets/card/kim-younghee-contact-photo.jpg",
+    photo: "../../assets/card/kim-younghee-contact-executive-v5.jpg",
     logo: "https://gyo6.kr/brand/logo/png/app-icon-512.png"
   };
   const PROFILE = {
@@ -19,7 +19,7 @@
   const MODES = {
     general: {
       label: "설탕과소금 대표",
-      message: "교육 현장의 경험을 연구와 기술로 이어갑니다."
+      message: "교육의 경험을 AI와 디지털 시스템으로 확장합니다."
     },
     vocational: {
       label: "특성화고 교육지원 시스템",

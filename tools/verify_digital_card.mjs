@@ -9,7 +9,7 @@ const managePagePath = resolve(portalRoot, "card", "manage.html");
 const publicScriptPath = resolve(portalRoot, "assets", "card", "card.js");
 const manageScriptPath = resolve(portalRoot, "assets", "card", "card-admin.js");
 const lockupPath = resolve(portalRoot, "assets", "card", "sugar-salt-lockup.svg");
-const contactPhotoPath = resolve(portalRoot, "assets", "card", "kim-younghee-contact-photo.jpg");
+const contactPhotoPath = resolve(portalRoot, "assets", "card", "kim-younghee-contact-executive-v5.jpg");
 const contactLogoPath = resolve(portalRoot, "brand", "logo", "png", "app-icon-512.png");
 const ownerManifestPath = resolve(portalRoot, "card", "kim-younghee", "owner.webmanifest");
 
@@ -53,7 +53,7 @@ assert.match(publicScript, /PHOTO;ENCODING=b;TYPE=JPEG/);
 assert.match(publicScript, /LOGO;VALUE=uri/);
 assert.doesNotMatch(publicScript, /LOGO;ENCODING=b/);
 assert.match(publicScript, /foldVcardLine/);
-assert.match(publicScript, /kim-younghee-contact-photo\.jpg/);
+assert.match(publicScript, /kim-younghee-contact-executive-v5\.jpg/);
 assert.match(publicScript, /new Blob\(\[await buildVcard\(\)\], \{ type: "text\/vcard" \}\)/);
 assert.doesNotMatch(publicScript, /new Blob\(\["\\ufeff"/);
 assert.match(publicScript, /kim-younghee-gyo6\.vcf/);
