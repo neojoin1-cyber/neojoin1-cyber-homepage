@@ -1,0 +1,28 @@
+{
+  "id": "/card/park-gyehyeon/owner-profile",
+  "name": "박계현 디지털 프로필",
+  "short_name": "박계현 프로필",
+  "description": "경주여자정보고등학교 박계현 도제교육부장의 소유자용 디지털 프로필",
+  "lang": "ko-KR",
+  "start_url": "/card/park-gyehyeon/?src=owner",
+  "scope": "/card/park-gyehyeon/",
+  "display": "standalone",
+  "background_color": "#F5F1E8",
+  "theme_color": "#132844",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/assets/card/park-gyehyeon-contact-v1.jpg",
+      "sizes": "640x640",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "공식 프로필",
+      "short_name": "프로필",
+      "url": "/card/park-gyehyeon/?src=owner"
+    }
+  ]
+}

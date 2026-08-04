@@ -12,6 +12,7 @@ QR_CODES = {
     "qr-vocational.png": "https://gyo6.kr/card/kim-younghee/?mode=vocational&src=vocational",
     "qr-exam.png": "https://gyo6.kr/card/kim-younghee/?mode=exam&src=exam",
     "qr-studio.png": "https://gyo6.kr/card/kim-younghee/?mode=studio&src=studio",
+    "qr-park-gyehyeon.png": "https://gyo6.kr/card/park-gyehyeon/?src=qr",
 }
 
 

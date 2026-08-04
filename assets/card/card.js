@@ -1,14 +1,15 @@
 (function () {
   "use strict";
 
-  const API_BASE = "https://gyo6-law-info-ai.gyo6.workers.dev";
-  const CARD_URL = "https://gyo6.kr/card/kim-younghee/";
-  const OWNER_STORAGE_KEY = "gyo6.business-card.owner.kim-younghee";
-  const CONTACT_MEDIA = {
+  const CONFIG = window.CARD_PROFILE || {};
+  const API_BASE = CONFIG.apiBase || "https://gyo6-law-info-ai.gyo6.workers.dev";
+  const CARD_URL = CONFIG.cardUrl || "https://gyo6.kr/card/kim-younghee/";
+  const OWNER_STORAGE_KEY = CONFIG.ownerStorageKey || "gyo6.business-card.owner.kim-younghee";
+  const CONTACT_MEDIA = CONFIG.contactMedia || {
     photo: "../../assets/card/kim-younghee-contact-executive-v5.jpg",
     logo: "https://gyo6.kr/brand/logo/png/app-icon-512.png"
   };
-  const PROFILE = {
+  const PROFILE = CONFIG.profile || {
     name: "김영희",
     organization: "유한회사 설탕과소금",
     title: "대표 · 이사",
@@ -16,7 +17,7 @@
     email: "admin@gyo6.kr",
     address: "경북 경주시 원지길12번길 56-5, 1층"
   };
-  const MODES = {
+  const MODES = CONFIG.modes || {
     general: {
       label: "설탕과소금 대표",
       message: "교육의 경험을 AI와 디지털 시스템으로 확장합니다."
@@ -34,7 +35,7 @@
       message: "교육 콘텐츠와 아이디어를 실제로 쓰이는 웹·앱·AI 서비스로 구현합니다."
     }
   };
-  const QR_VARIANTS = {
+  const QR_VARIANTS = CONFIG.qrVariants || {
     general: {
       image: "../../assets/card/qr-general.png",
       label: "기본 명함",
@@ -61,6 +62,12 @@
     }
   };
 
+  const CARD_SLUG = CONFIG.cardSlug || "kim-younghee";
+  const CONTACT_FILENAME = CONFIG.contactFilename || "kim-younghee-gyo6.vcf";
+  const SHARE_TITLE = CONFIG.shareTitle || "김영희 대표·이사 | 유한회사 설탕과소금";
+  const SHARE_TEXT = CONFIG.shareText || "유한회사 설탕과소금 김영희 대표·이사 디지털 명함";
+  const INSTALL_NAME = CONFIG.installName || `${PROFILE.name} 명함`;
+  const CONTACT_SUCCESS = CONFIG.contactSuccess || "공식 사진과 회사 정보가 포함된 연락처를 열었습니다.";
   const params = new URLSearchParams(window.location.search);
   const mode = Object.hasOwn(MODES, params.get("mode")) ? params.get("mode") : "general";
   const source = cleanParam(params.get("src"), 60) || "direct";
@@ -159,7 +166,7 @@
     window.addEventListener("appinstalled", () => {
       installPromptEvent = null;
       applyOwnerView();
-      showToast("김영희 명함 앱을 홈 화면에 설치했습니다.");
+      showToast(`${INSTALL_NAME} 앱을 홈 화면에 설치했습니다.`);
     });
   }
 
@@ -177,8 +184,8 @@
       `LOGO;VALUE=uri:${CONTACT_MEDIA.logo}`,
       `TEL;TYPE=CELL:${PROFILE.phone.replaceAll("-", "")}`,
       `EMAIL;TYPE=WORK:${PROFILE.email}`,
-      `URL:${CARD_URL}`,
-      `ADR;TYPE=WORK:;;${escapeVcard("원지길12번길 56-5, 1층")};경주시;경북;;대한민국`,
+      `URL:${PROFILE.website || CARD_URL}`,
+      PROFILE.vcardAddress ? `ADR;TYPE=WORK:${PROFILE.vcardAddress}` : `ADR;TYPE=WORK:;;${escapeVcard(PROFILE.address)};;;;대한민국`,
       `NOTE:${escapeVcard(note)}`,
       "END:VCARD"
     ].filter(Boolean);
@@ -194,12 +201,12 @@
       const url = URL.createObjectURL(blob);
       const anchor = document.createElement("a");
       anchor.href = url;
-      anchor.download = "kim-younghee-gyo6.vcf";
+      anchor.download = CONTACT_FILENAME;
       document.body.append(anchor);
       anchor.click();
       anchor.remove();
       window.setTimeout(() => URL.revokeObjectURL(url), 60000);
-      showToast("공식 사진과 회사 정보가 포함된 연락처를 열었습니다.");
+      showToast(CONTACT_SUCCESS);
     } catch {
       showToast("연락처 파일을 만들지 못했습니다. 잠시 후 다시 시도해 주세요.");
     } finally {
@@ -245,8 +252,8 @@
   async function shareCard(sharedMode = mode, explicitUrl = "") {
     const shareUrl = explicitUrl || buildOfficialUrl(sharedMode, "share");
     const shareData = {
-      title: "김영희 대표·이사 | 유한회사 설탕과소금",
-      text: `${MODES[sharedMode].label} · 유한회사 설탕과소금 김영희 대표`,
+      title: SHARE_TITLE,
+      text: MODES[sharedMode]?.shareText || SHARE_TEXT,
       url: shareUrl
     };
     try {
@@ -325,7 +332,7 @@
     const image = document.querySelector("[data-qr-image]");
     if (image) {
       image.src = variant.image;
-      image.alt = `김영희 대표 ${variant.label} 디지털 명함 QR`;
+      image.alt = `${PROFILE.name} ${variant.label} 디지털 명함 QR`;
     }
     const label = document.querySelector("[data-qr-label]");
     const description = document.querySelector("[data-qr-description]");
@@ -393,7 +400,7 @@
         method: "POST",
         headers: { accept: "application/json", "content-type": "application/json" },
         body: JSON.stringify({
-          cardSlug: "kim-younghee",
+          cardSlug: CARD_SLUG,
           name: data.get("name")?.toString() || "",
           phone,
           email,
@@ -413,7 +420,7 @@
       }
 
       form.reset();
-      setMessage("명함 교환이 완료되었습니다. 김영희 대표의 연락처도 저장해 주세요.", true);
+      setMessage(`명함 교환이 완료되었습니다. ${PROFILE.name}님의 연락처도 저장해 주세요.`, true);
       downloadVcard();
       window.setTimeout(closeExchange, 1800);
     } catch (error) {

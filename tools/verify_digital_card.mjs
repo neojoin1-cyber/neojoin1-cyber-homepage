@@ -12,8 +12,15 @@ const lockupPath = resolve(portalRoot, "assets", "card", "sugar-salt-lockup.svg"
 const contactPhotoPath = resolve(portalRoot, "assets", "card", "kim-younghee-contact-executive-v5.jpg");
 const contactLogoPath = resolve(portalRoot, "brand", "logo", "png", "app-icon-512.png");
 const ownerManifestPath = resolve(portalRoot, "card", "kim-younghee", "owner.webmanifest");
+const parkPagePath = resolve(portalRoot, "card", "park-gyehyeon", "index.html");
+const parkManifestPath = resolve(portalRoot, "card", "park-gyehyeon", "owner.webmanifest");
+const parkStylePath = resolve(portalRoot, "assets", "card", "park-gyehyeon.css");
+const parkHeroPath = resolve(portalRoot, "assets", "card", "park-gyehyeon-executive-hero-v1.jpg");
+const parkContactPath = resolve(portalRoot, "assets", "card", "park-gyehyeon-contact-v1.jpg");
+const parkLogoPath = resolve(portalRoot, "assets", "card", "gyeongju-girls-information-high-school-logo.png");
+const parkQrPath = resolve(portalRoot, "assets", "card", "qr-park-gyehyeon.png");
 
-for (const path of [publicPagePath, managePagePath, publicScriptPath, manageScriptPath, lockupPath, contactPhotoPath, contactLogoPath, ownerManifestPath]) {
+for (const path of [publicPagePath, managePagePath, publicScriptPath, manageScriptPath, lockupPath, contactPhotoPath, contactLogoPath, ownerManifestPath, parkPagePath, parkManifestPath, parkStylePath, parkHeroPath, parkContactPath, parkLogoPath, parkQrPath]) {
   assert.equal(existsSync(path), true, `missing file: ${path}`);
 }
 
@@ -77,6 +84,30 @@ for (const mode of ["general", "vocational", "exam", "studio"]) {
   assert.match(publicScript, new RegExp(`${mode}: \\{`));
 }
 
+const parkPage = readFileSync(parkPagePath, "utf8");
+assert.match(parkPage, /박계현/);
+assert.match(parkPage, /경주여자정보고등학교/);
+assert.match(parkPage, /도제교육부장/);
+assert.match(parkPage, /산학일체형 도제교육/);
+assert.match(parkPage, /기업연계 현장교육/);
+assert.match(parkPage, /학생 진로·취업 성장 지원/);
+assert.match(parkPage, /data-save-contact/);
+assert.match(parkPage, /data-show-qr hidden/);
+assert.match(parkPage, /data-install-card hidden/);
+assert.match(parkPage, /window\.CARD_PROFILE/);
+assert.match(parkPage, /park-gyehyeon-contact-v1\.jpg/);
+assert.match(parkPage, /qr-park-gyehyeon\.png/);
+assert.doesNotMatch(parkPage, /data-open-exchange/);
+assert.ok(readFileSync(parkContactPath).byteLength < 100_000, "Park contact photo must stay lightweight");
+const parkManifest = JSON.parse(readFileSync(parkManifestPath, "utf8"));
+assert.equal(parkManifest.id, "/card/park-gyehyeon/owner-profile");
+assert.equal(parkManifest.start_url, "/card/park-gyehyeon/?src=owner");
+assert.equal(parkManifest.display, "standalone");
+assert.deepEqual(parkManifest.icons.map((icon) => icon.sizes), ["640x640"]);
+assert.equal(readFileSync(parkQrPath).subarray(1, 4).toString("ascii"), "PNG");
+assert.equal(readFileSync(parkQrPath).readUInt32BE(16), 720);
+assert.equal(readFileSync(parkQrPath).readUInt32BE(20), 720);
+
 const managePage = readFileSync(managePagePath, "utf8");
 const manageScript = readFileSync(manageScriptPath, "utf8");
 assert.match(managePage, /kim-younghee\/\?src=owner/);
@@ -92,7 +123,7 @@ for (const name of ["qr-general.png", "qr-vocational.png", "qr-exam.png", "qr-st
 assert.match(manageScript, /\/api\/admin\/card\/contacts/);
 assert.match(manageScript, /CSV 내보내기|exportCsv/);
 
-for (const [htmlPath, html] of [[publicPagePath, publicPage], [managePagePath, managePage]]) {
+for (const [htmlPath, html] of [[publicPagePath, publicPage], [parkPagePath, parkPage], [managePagePath, managePage]]) {
   const references = [...html.matchAll(/(?:src|href)="([^"#?]+)"/g)].map((match) => match[1]);
   for (const reference of references) {
     if (/^(?:https?:|mailto:|tel:)/.test(reference) || reference === "./" || reference.endsWith("/")) continue;

@@ -1,0 +1,178 @@
+body[data-card-slug="park-gyehyeon"] {
+  --school-navy: #132844;
+  --school-navy-deep: #09192d;
+  --school-wine: #762d45;
+  --school-gold: #c9a253;
+  --school-ivory: #f7f3ea;
+  --school-ink: #172b43;
+  background:
+    radial-gradient(circle at 14% 4%, rgba(201, 162, 83, 0.17), transparent 27%),
+    linear-gradient(145deg, #e8edf1 0%, #f5f1e8 48%, #e5eaee 100%);
+}
+
+body[data-card-slug="park-gyehyeon"] .profile-card {
+  box-shadow: 0 36px 96px rgba(12, 30, 50, 0.22);
+}
+
+body[data-card-slug="park-gyehyeon"] .profile-hero {
+  background:
+    radial-gradient(circle at 86% 18%, rgba(118, 45, 69, 0.36), transparent 31%),
+    linear-gradient(145deg, #0a1d33 0%, #15314d 62%, #1b3853 100%);
+}
+
+body[data-card-slug="park-gyehyeon"] .profile-hero::before {
+  background:
+    linear-gradient(112deg, transparent 64%, rgba(201, 162, 83, 0.11)),
+    radial-gradient(circle at 74% 22%, rgba(255, 255, 255, 0.08), transparent 25%);
+}
+
+body[data-card-slug="park-gyehyeon"] .school-lockup {
+  width: min(282px, 72%);
+  padding: 7px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.16);
+}
+
+body[data-card-slug="park-gyehyeon"] .school-lockup img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+body[data-card-slug="park-gyehyeon"] .official-mark,
+body[data-card-slug="park-gyehyeon"] .identity__eyebrow {
+  color: #dfc582;
+}
+
+body[data-card-slug="park-gyehyeon"] .name-line h1 {
+  letter-spacing: -0.1em;
+}
+
+body[data-card-slug="park-gyehyeon"] .name-wordmark::before {
+  background: linear-gradient(90deg, #d5b567, rgba(213, 181, 103, 0.06));
+}
+
+body[data-card-slug="park-gyehyeon"] .name-line p {
+  color: #e0bd6b;
+}
+
+body[data-card-slug="park-gyehyeon"] .profile-photo {
+  border-color: rgba(224, 189, 107, 0.76);
+  background: #d9d4c9;
+  box-shadow: 0 30px 68px rgba(0, 0, 0, 0.36);
+}
+
+body[data-card-slug="park-gyehyeon"] .profile-photo::after {
+  background: var(--school-wine);
+}
+
+body[data-card-slug="park-gyehyeon"] .profile-photo img {
+  object-position: 50% 28%;
+  transform: scale(1.16);
+  transform-origin: 50% 11%;
+}
+
+body[data-card-slug="park-gyehyeon"] .profile-connect {
+  background: linear-gradient(180deg, #fbf9f4, #f5f0e7);
+}
+
+body[data-card-slug="park-gyehyeon"] .connect-heading p,
+body[data-card-slug="park-gyehyeon"] .section-heading p,
+body[data-card-slug="park-gyehyeon"] .exchange-callout__eyebrow {
+  color: var(--school-wine);
+}
+
+body[data-card-slug="park-gyehyeon"] .action--primary,
+body[data-card-slug="park-gyehyeon"] .submit-button {
+  background: linear-gradient(135deg, #142f4b, #762d45);
+}
+
+body[data-card-slug="park-gyehyeon"] .action__mark,
+body[data-card-slug="park-gyehyeon"] .contact-list dt,
+body[data-card-slug="park-gyehyeon"] .work-item__number {
+  color: var(--school-wine);
+}
+
+body[data-card-slug="park-gyehyeon"] .work-item {
+  border-left: 3px solid rgba(118, 45, 69, 0.2);
+}
+
+body[data-card-slug="park-gyehyeon"] .work-item:hover {
+  border-color: rgba(118, 45, 69, 0.52);
+}
+
+body[data-card-slug="park-gyehyeon"] .work-item em {
+  display: block;
+  margin-top: 8px;
+  color: #8b6a25;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+body[data-card-slug="park-gyehyeon"] .leadership-message {
+  background:
+    linear-gradient(135deg, rgba(118, 45, 69, 0.95), rgba(19, 40, 68, 0.98)),
+    #132844;
+}
+
+body[data-card-slug="park-gyehyeon"] .leadership-message::before {
+  background: linear-gradient(120deg, transparent 52%, rgba(224, 189, 107, 0.14));
+}
+
+body[data-card-slug="park-gyehyeon"] .card-footer a {
+  overflow-wrap: anywhere;
+}
+
+body[data-card-slug="park-gyehyeon"] .qr-mode-tabs--single {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 680px) {
+  body[data-card-slug="park-gyehyeon"] .identity {
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 22px;
+    padding-top: 30px;
+  }
+
+  body[data-card-slug="park-gyehyeon"] .profile-photo {
+    width: 360px;
+  }
+
+  body[data-card-slug="park-gyehyeon"] .quick-actions {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  body[data-card-slug="park-gyehyeon"][data-card-view="owner"] .quick-actions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  body[data-card-slug="park-gyehyeon"] .action--qr {
+    grid-column: 1 / -1;
+  }
+
+  body[data-card-slug="park-gyehyeon"] .action--install {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 520px) {
+  body[data-card-slug="park-gyehyeon"] .profile-photo {
+    width: calc(100% + 40px);
+  }
+
+  body[data-card-slug="park-gyehyeon"] .school-lockup {
+    width: min(255px, 76%);
+  }
+
+  body[data-card-slug="park-gyehyeon"] .identity__eyebrow {
+    font-size: 7px;
+  }
+
+  body[data-card-slug="park-gyehyeon"] .name-line p {
+    font-size: 14px;
+  }
+}
