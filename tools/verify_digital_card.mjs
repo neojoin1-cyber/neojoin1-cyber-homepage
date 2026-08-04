@@ -45,10 +45,17 @@ assert.match(publicScript, /new URL\(window\.location\.href\)/);
 assert.match(publicScript, /QR_VARIANTS/);
 assert.match(publicScript, /buildOfficialUrl/);
 assert.match(publicScript, /PHOTO;ENCODING=b;TYPE=JPEG/);
-assert.match(publicScript, /LOGO;ENCODING=b;TYPE=PNG/);
+assert.match(publicScript, /LOGO;VALUE=uri/);
+assert.doesNotMatch(publicScript, /LOGO;ENCODING=b/);
 assert.match(publicScript, /foldVcardLine/);
 assert.match(publicScript, /kim-younghee-contact-photo\.jpg/);
+assert.match(publicScript, /new Blob\(\[await buildVcard\(\)\], \{ type: "text\/vcard" \}\)/);
+assert.doesNotMatch(publicScript, /new Blob\(\["\\ufeff"/);
+assert.match(publicScript, /kim-younghee-gyo6\.vcf/);
+assert.match(publicScript, /URL\.revokeObjectURL\(url\), 60000/);
 assert.match(publicScript, /OWNER_STORAGE_KEY/);
+assert.match(publicScript, /source === "owner"/);
+assert.match(publicScript, /searchParams\.set\("src", "owner"\)/);
 assert.match(publicScript, /dataset\.cardView = isOwnerView \? "owner" : "visitor"/);
 assert.ok(readFileSync(contactPhotoPath).byteLength < 100_000, "contact photo must stay lightweight");
 assert.ok(readFileSync(contactLogoPath).byteLength < 100_000, "contact logo must stay lightweight");
@@ -59,7 +66,7 @@ for (const mode of ["general", "vocational", "exam", "studio"]) {
 
 const managePage = readFileSync(managePagePath, "utf8");
 const manageScript = readFileSync(manageScriptPath, "utf8");
-assert.match(managePage, /kim-younghee\/\?owner=1/);
+assert.match(managePage, /kim-younghee\/\?src=owner/);
 for (const name of ["qr-general.png", "qr-vocational.png", "qr-exam.png", "qr-studio.png"]) {
   assert.match(managePage, new RegExp(name.replace(".", "\\.")));
   const imagePath = resolve(portalRoot, "assets", "card", name);

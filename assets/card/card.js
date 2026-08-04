@@ -6,7 +6,7 @@
   const OWNER_STORAGE_KEY = "gyo6.business-card.owner.kim-younghee";
   const CONTACT_MEDIA = {
     photo: "../../assets/card/kim-younghee-contact-photo.jpg",
-    logo: "../../brand/logo/png/app-icon-512.png"
+    logo: "https://gyo6.kr/brand/logo/png/app-icon-512.png"
   };
   const PROFILE = {
     name: "김영희",
@@ -64,7 +64,8 @@
   const params = new URLSearchParams(window.location.search);
   const mode = Object.hasOwn(MODES, params.get("mode")) ? params.get("mode") : "general";
   const source = cleanParam(params.get("src"), 60) || "direct";
-  const ownerRequested = params.get("owner") === "1";
+  const legacyOwnerRequested = params.get("owner") === "1";
+  const ownerRequested = legacyOwnerRequested || source === "owner";
   let ownerStored = false;
   try {
     if (ownerRequested) window.localStorage.setItem(OWNER_STORAGE_KEY, "1");
@@ -73,10 +74,11 @@
     ownerStored = false;
   }
   const isOwnerView = ownerRequested || ownerStored;
-  if (ownerRequested && ownerStored) {
-    const cleanUrl = new URL(window.location.href);
-    cleanUrl.searchParams.delete("owner");
-    window.history.replaceState(null, "", cleanUrl);
+  if (legacyOwnerRequested) {
+    const stableOwnerUrl = new URL(window.location.href);
+    stableOwnerUrl.searchParams.delete("owner");
+    stableOwnerUrl.searchParams.set("src", "owner");
+    window.history.replaceState(null, "", stableOwnerUrl);
   }
   const exchangeDialog = document.querySelector("[data-exchange-dialog]");
   const qrDialog = document.querySelector("[data-qr-dialog]");
@@ -144,10 +146,7 @@
 
   async function buildVcard() {
     const note = `${MODES[mode].label} | ${MODES[mode].message}`;
-    const [photo, logo] = await Promise.all([
-      loadVcardImage(CONTACT_MEDIA.photo),
-      loadVcardImage(CONTACT_MEDIA.logo)
-    ]);
+    const photo = await loadVcardImage(CONTACT_MEDIA.photo);
     const lines = [
       "BEGIN:VCARD",
       "VERSION:3.0",
@@ -156,7 +155,7 @@
       `ORG:${escapeVcard(PROFILE.organization)}`,
       `TITLE:${escapeVcard(PROFILE.title)}`,
       photo ? `PHOTO;ENCODING=b;TYPE=JPEG:${photo}` : "",
-      logo ? `LOGO;ENCODING=b;TYPE=PNG:${logo}` : "",
+      `LOGO;VALUE=uri:${CONTACT_MEDIA.logo}`,
       `TEL;TYPE=CELL:${PROFILE.phone.replaceAll("-", "")}`,
       `EMAIL;TYPE=WORK:${PROFILE.email}`,
       `URL:${CARD_URL}`,
@@ -164,24 +163,26 @@
       `NOTE:${escapeVcard(note)}`,
       "END:VCARD"
     ].filter(Boolean);
-    return lines.map(foldVcardLine).join("\r\n");
+    return `${lines.map(foldVcardLine).join("\r\n")}\r\n`;
   }
 
   async function downloadVcard() {
     const buttons = [...document.querySelectorAll("[data-save-contact]")];
     buttons.forEach((button) => { button.disabled = true; });
-    showToast("사진과 로고를 포함한 연락처를 준비하고 있습니다.");
+    showToast("공식 사진이 포함된 연락처를 준비하고 있습니다.");
     try {
-      const blob = new Blob(["\ufeff", await buildVcard()], { type: "text/vcard;charset=utf-8" });
+      const blob = new Blob([await buildVcard()], { type: "text/vcard" });
       const url = URL.createObjectURL(blob);
       const anchor = document.createElement("a");
       anchor.href = url;
-      anchor.download = "김영희_설탕과소금.vcf";
+      anchor.download = "kim-younghee-gyo6.vcf";
       document.body.append(anchor);
       anchor.click();
       anchor.remove();
-      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
-      showToast("공식 사진과 로고가 포함된 연락처를 열었습니다.");
+      window.setTimeout(() => URL.revokeObjectURL(url), 60000);
+      showToast("공식 사진과 회사 정보가 포함된 연락처를 열었습니다.");
+    } catch {
+      showToast("연락처 파일을 만들지 못했습니다. 잠시 후 다시 시도해 주세요.");
     } finally {
       buttons.forEach((button) => { button.disabled = false; });
     }
