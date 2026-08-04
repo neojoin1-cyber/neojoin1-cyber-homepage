@@ -87,7 +87,8 @@ for (const mode of ["general", "vocational", "exam", "studio"]) {
 const parkPage = readFileSync(parkPagePath, "utf8");
 assert.match(parkPage, /박계현/);
 assert.match(parkPage, /경주여자정보고등학교/);
-assert.match(parkPage, /도제교육부장/);
+assert.match(parkPage, /도제운영부장/);
+assert.doesNotMatch(parkPage, /도제교육부장/);
 assert.match(parkPage, /산학일체형 도제교육/);
 assert.match(parkPage, /기업연계 현장교육/);
 assert.match(parkPage, /학생 진로·취업 성장 지원/);
