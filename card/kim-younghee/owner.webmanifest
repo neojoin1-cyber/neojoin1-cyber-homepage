@@ -1,0 +1,49 @@
+{
+  "id": "/card/kim-younghee/owner-card",
+  "name": "김영희 디지털 명함",
+  "short_name": "김영희 명함",
+  "description": "유한회사 설탕과소금 김영희 대표·이사의 소유자용 디지털 명함",
+  "lang": "ko-KR",
+  "start_url": "/card/kim-younghee/?src=owner",
+  "scope": "/card/kim-younghee/",
+  "display": "standalone",
+  "background_color": "#F7F3EB",
+  "theme_color": "#1F3A5F",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/brand/logo/png/app-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/brand/logo/png/app-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "기본 명함",
+      "short_name": "기본",
+      "url": "/card/kim-younghee/?src=owner"
+    },
+    {
+      "name": "특성화고 명함",
+      "short_name": "특성화고",
+      "url": "/card/kim-younghee/?mode=vocational&src=owner"
+    },
+    {
+      "name": "공직시험 명함",
+      "short_name": "공직시험",
+      "url": "/card/kim-younghee/?mode=exam&src=owner"
+    },
+    {
+      "name": "디지털 스튜디오 명함",
+      "short_name": "디지털",
+      "url": "/card/kim-younghee/?mode=studio&src=owner"
+    }
+  ]
+}

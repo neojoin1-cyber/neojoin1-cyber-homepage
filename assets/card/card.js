@@ -82,10 +82,12 @@
   }
   const exchangeDialog = document.querySelector("[data-exchange-dialog]");
   const qrDialog = document.querySelector("[data-qr-dialog]");
+  const installDialog = document.querySelector("[data-install-dialog]");
   const form = document.querySelector("[data-exchange-form]");
   const message = document.querySelector("[data-form-message]");
   const toast = document.querySelector("[data-toast]");
   let activeQrMode = mode;
+  let installPromptEvent = null;
   let toastTimer = 0;
 
   applyMode();
@@ -115,7 +117,9 @@
 
   function applyOwnerView() {
     const qrButton = document.querySelector("[data-show-qr]");
+    const installButton = document.querySelector("[data-install-card]");
     if (qrButton) qrButton.hidden = !isOwnerView;
+    if (installButton) installButton.hidden = !isOwnerView || isStandaloneApp();
     document.body.dataset.cardView = isOwnerView ? "owner" : "visitor";
   }
 
@@ -127,8 +131,10 @@
       button.addEventListener("click", openExchange);
     });
     document.querySelector("[data-show-qr]")?.addEventListener("click", openQr);
+    document.querySelector("[data-install-card]")?.addEventListener("click", installCardApp);
     document.querySelector("[data-close-exchange]")?.addEventListener("click", closeExchange);
     document.querySelector("[data-close-qr]")?.addEventListener("click", closeQr);
+    document.querySelector("[data-close-install]")?.addEventListener("click", closeInstallDialog);
     document.querySelector("[data-share-card]")?.addEventListener("click", () => shareCard(mode));
     document.querySelector("[data-share-qr]")?.addEventListener("click", () => shareCard(activeQrMode, QR_VARIANTS[activeQrMode].url));
     document.querySelector("[data-copy-qr-url]")?.addEventListener("click", copyQrUrl);
@@ -141,7 +147,20 @@
     qrDialog?.addEventListener("click", (event) => {
       if (event.target === qrDialog) closeQr();
     });
+    installDialog?.addEventListener("click", (event) => {
+      if (event.target === installDialog) closeInstallDialog();
+    });
     form?.addEventListener("submit", submitExchange);
+    window.addEventListener("beforeinstallprompt", (event) => {
+      event.preventDefault();
+      installPromptEvent = event;
+      applyOwnerView();
+    });
+    window.addEventListener("appinstalled", () => {
+      installPromptEvent = null;
+      applyOwnerView();
+      showToast("김영희 명함 앱을 홈 화면에 설치했습니다.");
+    });
   }
 
   async function buildVcard() {
@@ -269,6 +288,34 @@
     if (!qrDialog) return;
     if (typeof qrDialog.close === "function") qrDialog.close();
     else qrDialog.removeAttribute("open");
+  }
+
+  async function installCardApp() {
+    if (isStandaloneApp()) {
+      showToast("이미 홈 화면 명함 앱으로 실행 중입니다.");
+      return;
+    }
+    if (installPromptEvent) {
+      installPromptEvent.prompt();
+      const choice = await installPromptEvent.userChoice;
+      installPromptEvent = null;
+      if (choice.outcome === "accepted") {
+        showToast("명함 앱을 홈 화면에 추가하고 있습니다.");
+      }
+      return;
+    }
+    if (typeof installDialog?.showModal === "function") installDialog.showModal();
+    else installDialog?.setAttribute("open", "");
+  }
+
+  function closeInstallDialog() {
+    if (!installDialog) return;
+    if (typeof installDialog.close === "function") installDialog.close();
+    else installDialog.removeAttribute("open");
+  }
+
+  function isStandaloneApp() {
+    return window.matchMedia?.("(display-mode: standalone)").matches || window.navigator.standalone === true;
   }
 
   function renderQr(nextMode) {

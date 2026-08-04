@@ -11,8 +11,9 @@ const manageScriptPath = resolve(portalRoot, "assets", "card", "card-admin.js");
 const lockupPath = resolve(portalRoot, "assets", "card", "sugar-salt-lockup.svg");
 const contactPhotoPath = resolve(portalRoot, "assets", "card", "kim-younghee-contact-photo.jpg");
 const contactLogoPath = resolve(portalRoot, "brand", "logo", "png", "app-icon-512.png");
+const ownerManifestPath = resolve(portalRoot, "card", "kim-younghee", "owner.webmanifest");
 
-for (const path of [publicPagePath, managePagePath, publicScriptPath, manageScriptPath, lockupPath, contactPhotoPath, contactLogoPath]) {
+for (const path of [publicPagePath, managePagePath, publicScriptPath, manageScriptPath, lockupPath, contactPhotoPath, contactLogoPath, ownerManifestPath]) {
   assert.equal(existsSync(path), true, `missing file: ${path}`);
 }
 
@@ -26,6 +27,10 @@ assert.match(publicPage, /디지털 프로젝트 스튜디오/);
 assert.match(publicPage, /data-save-contact/);
 assert.match(publicPage, /data-open-exchange/);
 assert.match(publicPage, /data-show-qr/);
+assert.match(publicPage, /data-install-card/);
+assert.match(publicPage, /data-install-dialog/);
+assert.match(publicPage, /owner\.webmanifest/);
+assert.match(publicPage, /rel="apple-touch-icon"/);
 assert.match(publicPage, /data-show-qr hidden/);
 assert.match(publicPage, /data-qr-dialog/);
 assert.match(publicPage, /카카오톡·문자로 보내기/);
@@ -57,8 +62,16 @@ assert.match(publicScript, /OWNER_STORAGE_KEY/);
 assert.match(publicScript, /source === "owner"/);
 assert.match(publicScript, /searchParams\.set\("src", "owner"\)/);
 assert.match(publicScript, /dataset\.cardView = isOwnerView \? "owner" : "visitor"/);
+assert.match(publicScript, /beforeinstallprompt/);
+assert.match(publicScript, /display-mode: standalone/);
 assert.ok(readFileSync(contactPhotoPath).byteLength < 100_000, "contact photo must stay lightweight");
 assert.ok(readFileSync(contactLogoPath).byteLength < 100_000, "contact logo must stay lightweight");
+const ownerManifest = JSON.parse(readFileSync(ownerManifestPath, "utf8"));
+assert.equal(ownerManifest.id, "/card/kim-younghee/owner-card");
+assert.equal(ownerManifest.start_url, "/card/kim-younghee/?src=owner");
+assert.equal(ownerManifest.display, "standalone");
+assert.deepEqual(ownerManifest.icons.map((icon) => icon.sizes), ["192x192", "512x512"]);
+assert.equal(ownerManifest.shortcuts.length, 4);
 for (const mode of ["general", "vocational", "exam", "studio"]) {
   assert.match(publicPage, new RegExp(`data-qr-mode="${mode}"`));
   assert.match(publicScript, new RegExp(`${mode}: \\{`));

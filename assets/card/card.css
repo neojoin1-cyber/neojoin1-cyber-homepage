@@ -281,6 +281,16 @@ a { color: inherit; }
 .action--qr strong { font-size: 15px; }
 .action--qr small { color: rgba(255, 255, 255, 0.72); font-size: 11px; font-weight: 500; }
 
+.action--install {
+  border-color: rgba(213, 151, 52, 0.45);
+  background: #fffaf0;
+  color: var(--navy);
+}
+
+.action--install > span:last-child { display: grid; gap: 1px; }
+.action--install strong { font-size: 13px; }
+.action--install small { color: var(--muted); font-size: 10px; font-weight: 500; }
+
 .action:hover,
 .action:focus-visible {
   outline: none;
@@ -549,6 +559,23 @@ a { color: inherit; }
 .qr-display span { color: var(--muted); font-size: 12px; }
 .qr-dialog__hint { margin: 10px 0 16px; color: var(--muted); font-size: 12px; text-align: center; }
 
+.install-guide {
+  display: grid;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.install-guide section {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 15px 16px;
+  background: var(--ivory);
+}
+
+.install-guide strong { color: var(--navy); font-size: 14px; }
+.install-guide ol { margin: 10px 0 0; padding-left: 20px; color: var(--muted); font-size: 12px; line-height: 1.75; }
+.install-guide b { color: var(--navy); }
+
 .qr-dialog__actions {
   display: grid;
   grid-template-columns: 1fr 1.7fr;
@@ -703,6 +730,7 @@ a { color: inherit; }
   .identity { grid-template-columns: minmax(0, 1fr) 184px; padding-top: 62px; }
   .profile-photo { width: 184px; }
   .quick-actions { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  body[data-card-view="owner"] .quick-actions { grid-template-columns: repeat(5, minmax(0, 1fr)); }
   .action { flex-direction: column; justify-content: center; text-align: center; }
   .action--qr { flex-direction: row; }
   .work-section { padding-left: 10px; padding-right: 10px; }
@@ -728,6 +756,7 @@ a { color: inherit; }
   .field--wide { grid-column: auto; }
   .qr-dialog__content { padding: 21px 16px 18px; }
   .qr-mode-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .action--install { grid-column: 1 / -1; }
 }
 
 @media (max-width: 360px) {

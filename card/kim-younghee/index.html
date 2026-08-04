@@ -6,7 +6,22 @@
   <title>김영희 대표·이사 | 유한회사 설탕과소금</title>
   <meta name="description" content="교육 현장의 경험을 연구와 기술로 이어가는 유한회사 설탕과소금 김영희 대표·이사의 공식 디지털 명함입니다.">
   <meta name="theme-color" content="#1F3A5F">
+  <meta name="application-name" content="김영희 명함">
   <link rel="icon" href="../../assets/card/sugar-salt-badge.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../../brand/logo/png/app-icon-192.png">
+  <script>
+    (() => {
+      const ownerKey = "gyo6.business-card.owner.kim-younghee";
+      const ownerParams = new URLSearchParams(window.location.search);
+      let isOwnerLaunch = ownerParams.get("owner") === "1" || ownerParams.get("src") === "owner";
+      try { isOwnerLaunch ||= window.localStorage.getItem(ownerKey) === "1"; } catch {}
+      if (!isOwnerLaunch) return;
+      const manifest = document.createElement("link");
+      manifest.rel = "manifest";
+      manifest.href = "./owner.webmanifest";
+      document.head.append(manifest);
+    })();
+  </script>
   <link rel="canonical" href="https://gyo6.kr/card/kim-younghee/">
   <meta property="og:type" content="profile">
   <meta property="og:title" content="김영희 대표·이사 | 유한회사 설탕과소금">
@@ -15,7 +30,7 @@
   <meta property="og:image" content="https://gyo6.kr/assets/card/kim-younghee-card.png">
   <meta property="og:locale" content="ko_KR">
   <style>@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&family=Noto+Serif+KR:wght@600;700&display=swap');</style>
-  <link rel="stylesheet" href="../../assets/card/card.css?v=20260804-5">
+  <link rel="stylesheet" href="../../assets/card/card.css?v=20260804-6">
 </head>
 <body data-card-slug="kim-younghee">
   <a class="skip-link" href="#card-main">명함 내용으로 바로가기</a>
@@ -48,6 +63,10 @@
         <button class="action action--primary action--qr" type="button" data-show-qr hidden>
           <span class="action__mark" aria-hidden="true">▦</span>
           <span><strong>내 QR 보여주기</strong><small>상대방이 바로 스캔할 수 있습니다</small></span>
+        </button>
+        <button class="action action--install" type="button" data-install-card hidden>
+          <span class="action__mark" aria-hidden="true">⌂</span>
+          <span><strong>명함 앱 설치</strong><small>홈 화면에서 바로 엽니다</small></span>
         </button>
         <button class="action" type="button" data-save-contact>
           <span class="action__mark" aria-hidden="true">+</span>
@@ -225,7 +244,40 @@
     </section>
   </dialog>
 
+  <dialog class="qr-dialog" data-install-dialog aria-labelledby="install-dialog-title">
+    <section class="qr-dialog__content">
+      <div class="dialog-head">
+        <div>
+          <p>ADD TO HOME SCREEN</p>
+          <h2 id="install-dialog-title">명함 앱 설치</h2>
+        </div>
+        <button type="button" class="dialog-close" data-close-install aria-label="설치 안내 창 닫기">×</button>
+      </div>
+
+      <p class="qr-dialog__intro">현재 화면을 홈 화면에 한 번만 추가하면, 카카오톡 링크 없이 설탕과소금 아이콘으로 바로 열 수 있습니다.</p>
+      <div class="install-guide">
+        <section>
+          <strong>Android · Chrome</strong>
+          <ol>
+            <li>오른쪽 위 <b>⋮</b> 메뉴를 누릅니다.</li>
+            <li><b>앱 설치</b> 또는 <b>홈 화면에 추가</b>를 선택합니다.</li>
+            <li>이름을 ‘김영희 명함’으로 확인하고 추가합니다.</li>
+          </ol>
+        </section>
+        <section>
+          <strong>iPhone · Safari</strong>
+          <ol>
+            <li>아래쪽 <b>공유</b> 버튼을 누릅니다.</li>
+            <li><b>홈 화면에 추가</b>를 선택합니다.</li>
+            <li><b>웹 앱으로 열기</b>를 켜고 추가합니다.</li>
+          </ol>
+        </section>
+      </div>
+      <p class="qr-dialog__hint">기존 아이콘은 삭제하고 이 화면에서 새로 설치해야 소유자용 주소가 고정됩니다.</p>
+    </section>
+  </dialog>
+
   <div class="toast" data-toast role="status" aria-live="polite" hidden></div>
-  <script src="../../assets/card/card.js?v=20260804-9" defer></script>
+  <script src="../../assets/card/card.js?v=20260804-10" defer></script>
 </body>
 </html>
