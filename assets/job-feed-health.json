@@ -1,55 +1,46 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-04T05:10:28.309Z",
-  "feedGeneratedAt": "2026-08-04T05:10:28.309Z",
+  "generatedAt": "2026-08-04T07:46:54.692Z",
+  "feedGeneratedAt": "2026-08-04T07:46:54.692Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "degraded",
+  "status": "ok",
   "summary": {
-    "total": 49,
-    "active": 32,
-    "deadlineSoon": 17,
+    "total": 47,
+    "active": 29,
+    "deadlineSoon": 18,
     "applicationClosed": 0,
     "sourcesChecked": 15,
-    "sourcesConfigured": 4,
-    "sourcesFailed": 1,
+    "sourcesConfigured": 6,
+    "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
     "staleFallbackItems": 0,
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 167,
-    "automatedBriefingReady": 49,
-    "automatedBriefingAttempted": 49,
+    "studentRecruitSafetyReview": 158,
+    "automatedBriefingReady": 47,
+    "automatedBriefingAttempted": 47,
     "automatedBriefingFailed": 0
   },
-  "sourceFailures": [
-    {
-      "id": "seoul-highjob",
-      "name": "서울특별시교육청 하이잡 채용정보",
-      "isolatedFailure": false,
-      "fallbackProtected": false,
-      "fallbackItemCount": 0,
-      "message": "연결 실패: page 1: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; page 2: HTTP timeout after 18000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT"
-    }
-  ],
+  "sourceFailures": [],
   "aiBriefing": {
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-04T05:10:28.309Z",
-    "attempted": 49,
-    "succeeded": 49,
+    "generatedAt": "2026-08-04T07:46:54.692Z",
+    "attempted": 47,
+    "succeeded": 47,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-04T05:10:28.309Z",
+    "generatedAt": "2026-08-04T07:46:54.692Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 167,
+    "studentRecruitReviewCount": 158,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -179,7 +170,7 @@
         "deadline": "2026-08-12",
         "status": "active",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.kibo.or.kr/"
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303163"
       },
       {
         "list": "items",
@@ -199,28 +190,7 @@
         "deadline": "2026-08-12",
         "status": "active",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.kibo.or.kr/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "근로복지공단",
-        "title": "근로복지공단 [서울지역관내] 공무직 직원 채용 공고",
-        "deadline": "2026-08-04",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303164"
       },
       {
         "list": "items",
@@ -291,27 +261,6 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "재단법인 한국에너지재단",
-        "title": "재단법인 한국에너지재단 2026년 (재)한국에너지재단 정규직(공개경쟁) 채용 공고(채용 제2026-05호)",
-        "deadline": "2026-08-14",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.koref.or.kr/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
           "고졸·특성화고 명시",
           "인턴·채용연계",
           "공채 신호",
@@ -341,12 +290,12 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "대한법률구조공단",
-        "title": "대한법률구조공단 일반직 7급(전산담당) 제한경쟁채용 시험 공고",
-        "deadline": "2026-08-12",
-        "status": "active",
+        "company": "근로복지공단",
+        "title": "근로복지공단 [서울지역관내] 공무직 직원 채용 공고",
+        "deadline": "2026-08-04",
+        "status": "deadline_soon",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.klac.or.kr/notification/hireNotice/selectHireNoticeView.do?boardCode=241&contentId=AD_0000164305"
+        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
       },
       {
         "list": "items",
@@ -398,6 +347,27 @@
           "공공·금융·대기업 소스",
           "학력무관",
           "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "재단법인 한국에너지재단",
+        "title": "재단법인 한국에너지재단 2026년 (재)한국에너지재단 정규직(공개경쟁) 채용 공고(채용 제2026-05호)",
+        "deadline": "2026-08-14",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303274"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
           "인턴·채용연계",
           "공채 신호",
           "신입·정규직 계열"
@@ -418,39 +388,20 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
           "공채 신호",
           "신입·정규직 계열"
         ],
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "정보통신산업진흥원",
-        "title": "정보통신산업진흥원 정규직(일반직 및 전문직) 채용 공고",
+        "company": "대한법률구조공단",
+        "title": "대한법률구조공단 일반직 7급(전산담당) 제한경쟁채용 시험 공고",
         "deadline": "2026-08-12",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://recruit.incruit.com/nipa/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "근로복지공단",
-        "title": "근로복지공단 [인재개발원] 공무직(영선·조경기사) 채용 재공고",
-        "deadline": "2026-08-06",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
+        "primaryOfficialUrl": "https://www.klac.or.kr/notification/hireNotice/selectHireNoticeView.do?boardCode=241&contentId=AD_0000164305"
       },
       {
         "list": "items",
@@ -471,6 +422,44 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://koddicpdd.fairyhr.com/"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국임업진흥원",
+        "title": "2026년도 한국임업진흥원 제2차 인재채용(공무직) 공고",
+        "deadline": "2026-08-18",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.kofpi.or.kr/notice/notice_04view.do"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국스포츠레저(주)",
+        "title": "2026년 한국스포츠레저(주) 전임·지원직 채용 공고",
+        "deadline": "2026-08-14",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.kospole.co.kr/toto/board/detail/4278?pageNo=1"
       }
     ]
   },
