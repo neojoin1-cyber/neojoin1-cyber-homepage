@@ -16,11 +16,13 @@ const parkPagePath = resolve(portalRoot, "card", "park-gyehyeon", "index.html");
 const parkManifestPath = resolve(portalRoot, "card", "park-gyehyeon", "owner.webmanifest");
 const parkStylePath = resolve(portalRoot, "assets", "card", "park-gyehyeon.css");
 const parkHeroPath = resolve(portalRoot, "assets", "card", "park-gyehyeon-executive-hero-v2.jpg");
-const parkContactPath = resolve(portalRoot, "assets", "card", "park-gyehyeon-contact-v1.jpg");
+const parkContactPath = resolve(portalRoot, "assets", "card", "park-gyehyeon-contact-v2.jpg");
+const parkIcon192Path = resolve(portalRoot, "assets", "card", "park-gyehyeon-app-icon-192-v2.png");
+const parkIcon512Path = resolve(portalRoot, "assets", "card", "park-gyehyeon-app-icon-512-v2.png");
 const parkLogoPath = resolve(portalRoot, "assets", "card", "gyeongju-girls-information-high-school-logo.png");
 const parkQrPath = resolve(portalRoot, "assets", "card", "qr-park-gyehyeon.png");
 
-for (const path of [publicPagePath, managePagePath, publicScriptPath, manageScriptPath, lockupPath, contactPhotoPath, contactLogoPath, ownerManifestPath, parkPagePath, parkManifestPath, parkStylePath, parkHeroPath, parkContactPath, parkLogoPath, parkQrPath]) {
+for (const path of [publicPagePath, managePagePath, publicScriptPath, manageScriptPath, lockupPath, contactPhotoPath, contactLogoPath, ownerManifestPath, parkPagePath, parkManifestPath, parkStylePath, parkHeroPath, parkContactPath, parkIcon192Path, parkIcon512Path, parkLogoPath, parkQrPath]) {
   assert.equal(existsSync(path), true, `missing file: ${path}`);
 }
 
@@ -96,7 +98,10 @@ assert.match(parkPage, /data-save-contact/);
 assert.match(parkPage, /data-show-qr hidden/);
 assert.match(parkPage, /data-install-card hidden/);
 assert.match(parkPage, /window\.CARD_PROFILE/);
-assert.match(parkPage, /park-gyehyeon-contact-v1\.jpg/);
+assert.match(parkPage, /park-gyehyeon-contact-v2\.jpg/);
+assert.match(parkPage, /park-gyehyeon-app-icon-192-v2\.png/);
+assert.match(parkPage, /park-gyehyeon-app-icon-512-v2\.png/);
+assert.doesNotMatch(parkPage, /park-gyehyeon-contact-v1\.jpg/);
 assert.match(parkPage, /qr-park-gyehyeon\.png/);
 assert.doesNotMatch(parkPage, /data-open-exchange/);
 assert.ok(readFileSync(parkContactPath).byteLength < 100_000, "Park contact photo must stay lightweight");
@@ -104,7 +109,13 @@ const parkManifest = JSON.parse(readFileSync(parkManifestPath, "utf8"));
 assert.equal(parkManifest.id, "/card/park-gyehyeon/owner-profile");
 assert.equal(parkManifest.start_url, "/card/park-gyehyeon/?src=owner");
 assert.equal(parkManifest.display, "standalone");
-assert.deepEqual(parkManifest.icons.map((icon) => icon.sizes), ["640x640"]);
+assert.deepEqual(parkManifest.icons.map((icon) => icon.sizes), ["192x192", "512x512"]);
+for (const [iconPath, size] of [[parkIcon192Path, 192], [parkIcon512Path, 512]]) {
+  const icon = readFileSync(iconPath);
+  assert.equal(icon.subarray(1, 4).toString("ascii"), "PNG");
+  assert.equal(icon.readUInt32BE(16), size);
+  assert.equal(icon.readUInt32BE(20), size);
+}
 assert.equal(readFileSync(parkQrPath).subarray(1, 4).toString("ascii"), "PNG");
 assert.equal(readFileSync(parkQrPath).readUInt32BE(16), 720);
 assert.equal(readFileSync(parkQrPath).readUInt32BE(20), 720);

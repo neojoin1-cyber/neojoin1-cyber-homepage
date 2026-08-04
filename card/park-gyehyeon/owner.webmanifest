@@ -12,9 +12,15 @@
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "/assets/card/park-gyehyeon-contact-v1.jpg",
-      "sizes": "640x640",
-      "type": "image/jpeg",
+      "src": "/assets/card/park-gyehyeon-app-icon-192-v2.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/card/park-gyehyeon-app-icon-512-v2.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "any"
     }
   ],
