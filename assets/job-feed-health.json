@@ -1,17 +1,17 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-05T05:10:51.568Z",
-  "feedGeneratedAt": "2026-08-05T05:10:51.568Z",
+  "generatedAt": "2026-08-05T07:48:07.893Z",
+  "feedGeneratedAt": "2026-08-05T07:48:07.893Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
-    "total": 45,
-    "active": 25,
+    "total": 43,
+    "active": 23,
     "deadlineSoon": 20,
     "applicationClosed": 0,
     "sourcesChecked": 15,
-    "sourcesConfigured": 4,
+    "sourcesConfigured": 6,
     "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
     "staleFallbackItems": 0,
@@ -19,8 +19,8 @@
     "publicationBlocked": 0,
     "publicationRepaired": 0,
     "studentRecruitSafetyReview": 162,
-    "automatedBriefingReady": 45,
-    "automatedBriefingAttempted": 45,
+    "automatedBriefingReady": 43,
+    "automatedBriefingAttempted": 43,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -28,15 +28,15 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-05T05:10:51.568Z",
-    "attempted": 45,
-    "succeeded": 45,
+    "generatedAt": "2026-08-05T07:48:07.893Z",
+    "attempted": 43,
+    "succeeded": 43,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-05T05:10:51.568Z",
+    "generatedAt": "2026-08-05T07:48:07.893Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
@@ -66,27 +66,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.kogas.or.kr/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국산업인력공단",
-        "title": "한국산업인력공단 2026년 하반기 일반직 신규직원 채용공고",
-        "deadline": "2026-08-13",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.hrdkorea.or.kr/3/1/2/2"
       },
       {
         "list": "items",
@@ -217,48 +196,6 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "재단법인 한국에너지재단",
-        "title": "재단법인 한국에너지재단 2026년 (재)한국에너지재단 정규직(공개경쟁) 채용 공고(채용 제2026-05호)",
-        "deadline": "2026-08-14",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.koref.or.kr/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "전북대학교병원",
-        "title": "2026년 3분기 전북대학교병원 직원 공개채용",
-        "deadline": "2026-08-12",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://jbuh.recruiter.co.kr/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
           "고졸·특성화고 명시",
           "인턴·채용연계",
           "공채 신호",
@@ -301,6 +238,69 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "필기·NCS 신호",
+          "인턴·채용연계",
+          "공채 신호"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "근로복지공단",
+        "title": "[근로복지공단] '26년 2차 신규직원(행정직) 채용 공고",
+        "deadline": "2026-08-19",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국항로표지기술원",
+        "title": "한국항로표지기술원 연구직 7급 채용 공고",
+        "deadline": "2026-08-20",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://recruit.incruit.com/katon/"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "재단법인 한국에너지재단",
+        "title": "재단법인 한국에너지재단 2026년 (재)한국에너지재단 정규직(공개경쟁) 채용 공고(채용 제2026-05호)",
+        "deadline": "2026-08-14",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303274"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
           "학력무관",
           "필기·NCS 신호",
           "인턴·채용연계",
@@ -316,45 +316,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303269"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "근로복지공단",
-        "title": "근로복지공단 [인재개발원] 공무직(영선·조경기사) 채용 재공고",
-        "deadline": "2026-08-06",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "근로복지공단",
-        "title": "근로복지공단 [태백병원] 공무직(전기기계통신기사-기계분야) 채용 공고",
-        "deadline": "2026-08-12",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
       },
       {
         "list": "items",
@@ -437,6 +398,25 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "근로복지공단",
+        "title": "근로복지공단 [인재개발원] 공무직(영선·조경기사) 채용 재공고",
+        "deadline": "2026-08-06",
+        "status": "deadline_soon",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
         "signals": [
           "공공·금융·대기업 소스",
@@ -447,12 +427,33 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "한국보훈복지의료공단",
-        "title": "한국보훈복지의료공단 [대전보훈병원] 정규직(업무지원직(완화의료)) 및 계약직(기술직(건축)) 채용",
+        "company": "근로복지공단",
+        "title": "근로복지공단 [태백병원] 공무직(전기기계통신기사-기계분야) 채용 공고",
         "deadline": "2026-08-12",
         "status": "active",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.bohun.or.kr/daejeon/na/ntt/selectNttInfo.do?mi=33414&bbsId=1158&bbsSysId=daejeon&nttSn=187921"
+        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "학교법인한국폴리텍",
+        "title": "학교법인한국폴리텍 한국폴리텍대학 남대구캠퍼스 체험형 청년인턴(장애) 채용 공고",
+        "deadline": "2026-08-10",
+        "status": "deadline_soon",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.kopo.ac.kr/namdaegu/board.do?menu=10548&mode=view&post=781234"
       }
     ]
   },
