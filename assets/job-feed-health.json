@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-08T05:53:01.166Z",
-  "feedGeneratedAt": "2026-08-08T05:53:01.166Z",
+  "generatedAt": "2026-08-08T06:11:18.014Z",
+  "feedGeneratedAt": "2026-08-08T06:11:18.014Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
@@ -28,7 +28,7 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-08T05:53:01.166Z",
+    "generatedAt": "2026-08-08T06:11:18.014Z",
     "attempted": 49,
     "succeeded": 49,
     "failed": 0,
@@ -36,7 +36,7 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-08T05:53:01.166Z",
+    "generatedAt": "2026-08-08T06:11:18.014Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
@@ -65,7 +65,7 @@
         "deadline": "2026-08-14",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303318"
+        "primaryOfficialUrl": "https://www.kogas.or.kr/"
       },
       {
         "list": "items",
