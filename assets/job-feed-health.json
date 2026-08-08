@@ -1,14 +1,14 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-08T14:45:27.460Z",
-  "feedGeneratedAt": "2026-08-08T14:45:27.460Z",
+  "generatedAt": "2026-08-08T15:01:13.049Z",
+  "feedGeneratedAt": "2026-08-08T15:01:13.049Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
     "total": 49,
-    "active": 20,
-    "deadlineSoon": 29,
+    "active": 16,
+    "deadlineSoon": 33,
     "applicationClosed": 0,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
@@ -28,7 +28,7 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-08T14:45:27.460Z",
+    "generatedAt": "2026-08-08T15:01:13.049Z",
     "attempted": 49,
     "succeeded": 49,
     "failed": 0,
@@ -36,7 +36,7 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-08T14:45:27.460Z",
+    "generatedAt": "2026-08-08T15:01:13.049Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
@@ -63,9 +63,9 @@
         "company": "한국가스공사",
         "title": "한국가스공사 2026년 하반기 고졸 채용형 인턴(7급) 채용공고",
         "deadline": "2026-08-14",
-        "status": "active",
+        "status": "deadline_soon",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303318"
+        "primaryOfficialUrl": "https://www.kogas.or.kr/"
       },
       {
         "list": "items",
@@ -225,27 +225,6 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "주택관리공단(주)",
-        "title": "채용형 인턴 채용공고(주택관리공단 대구경북지사)",
-        "deadline": "2026-08-13",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EB%8C%80%EA%B5%AC%EA%B2%BD%EB%B6%81%EC%A7%80%EC%82%AC&page=1&rnm_idx=918"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
         "company": "학교법인한국폴리텍",
         "title": "학교법인한국폴리텍 한국폴리텍대학 제주캠퍼스 업무직(대학운영직_사감) 채용 공고",
         "deadline": "2026-08-13",
@@ -372,6 +351,27 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
+        "company": "재단법인 한국에너지재단",
+        "title": "재단법인 한국에너지재단 2026년 (재)한국에너지재단 정규직(공개경쟁) 채용 공고(채용 제2026-05호)",
+        "deadline": "2026-08-14",
+        "status": "deadline_soon",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303274"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
         "company": "한국산업안전보건공단",
         "title": "한국산업안전보건공단 2026년도 하반기 신규직원(신입직 5급) 채용공고",
         "deadline": "2026-08-24",
@@ -427,20 +427,20 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
           "공채 신호",
           "신입·정규직 계열"
         ],
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "재단법인 한국에너지재단",
-        "title": "재단법인 한국에너지재단 2026년 (재)한국에너지재단 정규직(공개경쟁) 채용 공고(채용 제2026-05호)",
-        "deadline": "2026-08-14",
-        "status": "active",
+        "company": "주택관리공단(주)",
+        "title": "채용형 인턴 채용공고(주택관리공단 대구경북지사)",
+        "deadline": "2026-08-13",
+        "status": "deadline_soon",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303274"
+        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EB%8C%80%EA%B5%AC%EA%B2%BD%EB%B6%81%EC%A7%80%EC%82%AC&page=1&rnm_idx=918"
       },
       {
         "list": "items",
