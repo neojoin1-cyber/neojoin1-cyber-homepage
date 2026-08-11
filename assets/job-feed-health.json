@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-11T14:11:18.551Z",
-  "feedGeneratedAt": "2026-08-11T14:11:18.551Z",
+  "generatedAt": "2026-08-11T15:13:28.500Z",
+  "feedGeneratedAt": "2026-08-11T15:13:28.500Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
-    "total": 48,
-    "active": 27,
-    "deadlineSoon": 21,
+    "total": 50,
+    "active": 28,
+    "deadlineSoon": 22,
     "applicationClosed": 0,
     "sourcesChecked": 15,
-    "sourcesConfigured": 4,
+    "sourcesConfigured": 6,
     "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
     "staleFallbackItems": 0,
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 156,
-    "automatedBriefingReady": 48,
-    "automatedBriefingAttempted": 48,
+    "studentRecruitSafetyReview": 160,
+    "automatedBriefingReady": 50,
+    "automatedBriefingAttempted": 50,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -28,19 +28,19 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-11T14:11:18.551Z",
-    "attempted": 48,
-    "succeeded": 48,
+    "generatedAt": "2026-08-11T15:13:28.500Z",
+    "attempted": 50,
+    "succeeded": 50,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-11T14:11:18.551Z",
+    "generatedAt": "2026-08-11T15:13:28.500Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 156,
+    "studentRecruitReviewCount": 160,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -150,6 +150,27 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:공채상세 검토대기",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "mpm-public-job",
+        "sourceName": "인사혁신처 공공취업정보",
+        "sector": "government",
+        "company": "인사혁신처 공공취업정보",
+        "title": "인사혁신처 공공취업정보 고졸·졸업예정 채용 공고 원문 확인",
+        "deadline": "",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.data.go.kr/data/15156780/openapi.do"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
@@ -237,27 +258,6 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "필기·NCS 신호",
-          "인턴·채용연계",
-          "공채 신호"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "근로복지공단",
-        "title": "[근로복지공단] '26년 2차 신규직원(행정직) 채용 공고",
-        "deadline": "2026-08-19",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
           "학력무관",
           "필기·NCS 신호",
           "공채 신호",
@@ -301,6 +301,27 @@
         "signals": [
           "공공·금융·대기업 소스",
           "고졸·특성화고 명시",
+          "필기·NCS 신호",
+          "인턴·채용연계",
+          "공채 신호"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "근로복지공단",
+        "title": "[근로복지공단] '26년 2차 신규직원(행정직) 채용 공고",
+        "deadline": "2026-08-19",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
           "인턴·채용연계",
           "공채 신호",
           "신입·정규직 계열"
@@ -318,22 +339,21 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
         "signals": [
           "공공·금융·대기업 소스",
           "학력무관",
-          "공채 신호",
           "신입·정규직 계열"
         ],
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "근로복지공단",
-        "title": "근로복지공단 [태백병원] 공무직(전기기계통신기사-기계분야) 채용 공고",
-        "deadline": "2026-08-12",
-        "status": "deadline_soon",
+        "company": "한국중소벤처기업유통원",
+        "title": "[한국중소벤처기업유통원] 2026년 하반기 채용 공고(IT전산, 사업관리(일반, 보훈), 정산서무(장애인), 직접생산확인지원, 보건관리자)",
+        "deadline": "2026-08-31",
+        "status": "active",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
+        "primaryOfficialUrl": "https://kodma.recruiter.co.kr/"
       },
       {
         "list": "items",
@@ -417,44 +437,22 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외 · 필기신호 직접분류 재검토",
+        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
         "signals": [
           "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "필기·NCS 신호",
+          "학력무관",
           "공채 신호",
           "신입·정규직 계열"
         ],
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "대한장애인체육회",
-        "title": "2026년 대한장애인체육회 제3차 채용",
-        "deadline": "2026-08-25",
-        "status": "active",
+        "company": "근로복지공단",
+        "title": "근로복지공단 [태백병원] 공무직(전기기계통신기사-기계분야) 채용 공고",
+        "deadline": "2026-08-12",
+        "status": "deadline_soon",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://koreanpc.recruiter.co.kr/app/jobnotice/list"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외 · 필기신호 직접분류 재검토",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국전력기술주식회사",
-        "title": "한국전력기술주식회사 2026년도 하반기 정규직(석·박사, 경력사원) 채용공고",
-        "deadline": "2026-08-25",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://kepco-enc.cairos.co.kr/kepco-enc/"
+        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
       }
     ]
   },
