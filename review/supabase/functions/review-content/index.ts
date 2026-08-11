@@ -5,6 +5,8 @@ const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY") ?? "";
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") ?? "";
 const REVIEW_EMAIL_ENABLED = (Deno.env.get("REVIEW_EMAIL_ENABLED") ?? "false").toLowerCase() === "true";
+const REVIEW_ACCESS_ENABLED = (Deno.env.get("REVIEW_ACCESS_ENABLED") ?? "false").toLowerCase() === "true";
+const REVIEW_LAUNCH_ENABLED = (Deno.env.get("REVIEW_LAUNCH_ENABLED") ?? "false").toLowerCase() === "true";
 const REVIEW_EMAIL_FROM = Deno.env.get("REVIEW_EMAIL_FROM") ?? "유한회사 설탕과소금 <review@gyo6.kr>";
 const REVIEW_APP_URL = Deno.env.get("REVIEW_APP_URL") ?? "https://gyo6.kr/review/";
 const ALLOWED_ORIGINS = (Deno.env.get("REVIEW_ALLOWED_ORIGINS") ?? "https://gyo6.kr,http://127.0.0.1:4175,http://localhost:4175")
@@ -82,7 +84,7 @@ function safeEventPayload(value: unknown) {
 }
 
 async function sendOperationalEmail(to: string, subject: string, html: string, idempotencyKey: string) {
-  if (!REVIEW_EMAIL_ENABLED) return { sent: false, status: "paused", id: null };
+  if (!REVIEW_LAUNCH_ENABLED || !REVIEW_EMAIL_ENABLED) return { sent: false, status: "paused", id: null };
   if (!RESEND_API_KEY) return { sent: false, status: "not_configured", id: null };
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -102,6 +104,7 @@ async function assignmentFor(admin: ReturnType<typeof createClient>, userId: str
     .eq("reviewer_user_id", userId)
     .single();
   if (error || !data) throw new Error("전문위원님께 위촉된 검수 과제가 아닙니다.");
+  if (!data.notification_sent_at) throw new Error("아직 공식 검수 시작 전입니다. 회사의 공식 시작 안내를 받으신 뒤 이용해 주세요.");
   const now = Date.now();
   if (data.status === "revoked") throw new Error("현재 이 검수과제의 이용이 종료되었습니다. 확인이 필요하시면 담당자에게 말씀해 주세요.");
   if (now < new Date(data.starts_at).getTime() || now > new Date(data.ends_at).getTime()) throw new Error("계약서에 정한 검수 가능 기간을 확인해 주세요. 일정 협의가 필요하시면 담당자에게 말씀해 주세요.");
@@ -140,12 +143,14 @@ async function bootstrap(admin: ReturnType<typeof createClient>, userId: string)
     .eq("user_id", userId)
     .single();
   if (reviewerError || !reviewer?.active) throw new Error("현재 이용 가능한 전문위원 계정을 확인하지 못했습니다. 담당자에게 말씀해 주세요.");
+  if (reviewer.role === "reviewer" && (!REVIEW_LAUNCH_ENABLED || !REVIEW_ACCESS_ENABLED)) throw new Error("현재 모든 검수 자료를 최종 점검하고 있습니다. 공식 시작 안내를 받으신 뒤 이용해 주세요.");
 
   const { data: assignmentRows, error: assignmentError } = await admin
     .from("review_assignments")
     .select("*")
     .eq("reviewer_user_id", userId)
     .in("status", ["assigned", "reviewing", "submitted", "returned"])
+    .not("notification_sent_at", "is", null)
     .order("starts_at", { ascending: true });
   if (assignmentError) throw assignmentError;
 
@@ -486,7 +491,12 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
     experts: (expertCatalog ?? []).map((item) => ({ id: item.user_id, email: item.email, name: item.display_name, mobile: item.mobile, organization: item.organization, department: item.department, positionTitle: item.position_title, roleLabel: item.role_label, active: item.active })),
     programs: (programCatalog ?? []).map((item) => ({ id: item.id, name: item.name })),
     subjects: (subjectCatalog ?? []).map((item) => ({ id: item.id, programId: item.program_id, name: item.name })),
-    documents: (documentCatalog ?? []).map((item) => ({ id: item.id, subjectId: item.subject_id, title: item.title, kind: item.kind, version: item.version, status: item.status }))
+    documents: (documentCatalog ?? []).map((item) => ({ id: item.id, subjectId: item.subject_id, title: item.title, kind: item.kind, version: item.version, status: item.status })),
+    launch: {
+      ready: REVIEW_LAUNCH_ENABLED && REVIEW_EMAIL_ENABLED && REVIEW_ACCESS_ENABLED,
+      enabled: REVIEW_LAUNCH_ENABLED,
+      pendingAssignments: assignments.filter((item) => item.status === "assigned" && !item.notification_sent_at).length
+    }
   };
 }
 
@@ -560,6 +570,63 @@ Deno.serve(async (request) => {
       return json({ ok: true, expertUserId, invitationSent }, 200, origin);
     }
 
+    if (action === "managerLaunchAll") {
+      const manager = await ensureManager(admin, userId);
+      if (manager.role !== "admin") throw new Error("전문위원 일괄 시작은 회사 대표 관리자만 승인할 수 있습니다.");
+      if (cleanText(payload.confirmation, 100) !== "전문위원 검수 일괄 시작") throw new Error("일괄 시작 확인 문구가 일치하지 않습니다.");
+      if (!REVIEW_LAUNCH_ENABLED || !REVIEW_EMAIL_ENABLED || !REVIEW_ACCESS_ENABLED) throw new Error("서버의 일괄 시작 잠금이 해제되지 않았습니다.");
+      const { data: pendingRows, error: pendingError } = await admin.from("review_assignments").select("*").eq("status", "assigned").is("notification_sent_at", null).order("reviewer_user_id");
+      if (pendingError) throw pendingError;
+      const pending = pendingRows ?? [];
+      if (!pending.length) return json({ ok: true, launchedExperts: 0, launchedAssignments: 0 }, 200, origin);
+      const now = Date.now();
+      if (pending.some((item) => !item.contract_reference || new Date(item.starts_at).getTime() > now || new Date(item.ends_at).getTime() < now)) throw new Error("계약 기준과 현재 검수기간이 확정된 위촉만 일괄 시작할 수 있습니다.");
+      const assignmentIds = pending.map((item) => item.id);
+      const { data: links, error: linkError } = await admin.from("review_assignment_documents").select("assignment_id, document_id").in("assignment_id", assignmentIds);
+      if (linkError) throw linkError;
+      if (pending.some((assignment) => !(links ?? []).some((link) => link.assignment_id === assignment.id))) throw new Error("검수 자료가 지정되지 않은 위촉이 있어 일괄 시작을 중단했습니다.");
+      const documentIds = [...new Set((links ?? []).map((item) => item.document_id))];
+      const { data: launchDocuments, error: launchDocumentError } = await admin.from("review_documents").select("id, version, status").in("id", documentIds).in("status", ["review_ready", "approved"]);
+      if (launchDocumentError) throw launchDocumentError;
+      if ((launchDocuments ?? []).length !== documentIds.length) throw new Error("교체되었거나 확정되지 않은 검수 자료가 포함되어 있어 일괄 시작을 중단했습니다. 최신 확정본으로 위촉 자료를 다시 지정해 주세요.");
+      const launchDocumentMap = new Map((launchDocuments ?? []).map((item) => [item.id, item]));
+      if (pending.some((assignment) => new Set((links ?? []).filter((link) => link.assignment_id === assignment.id).map((link) => launchDocumentMap.get(link.document_id)?.version)).size !== 1)) throw new Error("동일 위촉에 서로 다른 원고 버전이 포함되어 있어 일괄 시작을 중단했습니다.");
+      const expertIds = [...new Set(pending.map((item) => item.reviewer_user_id))];
+      const subjectIds = [...new Set(pending.map((item) => item.subject_id))];
+      const { data: experts, error: expertError } = await admin.from("review_profiles").select("user_id, email, display_name, active").in("user_id", expertIds).eq("role", "reviewer");
+      if (expertError) throw expertError;
+      if ((experts ?? []).length !== expertIds.length || (experts ?? []).some((item) => !item.active)) throw new Error("이용 불가능한 전문위원 계정이 있어 일괄 시작을 중단했습니다.");
+      const { data: subjects, error: subjectError } = await admin.from("review_subjects").select("id, program_id, name").in("id", subjectIds);
+      if (subjectError) throw subjectError;
+      if ((subjects ?? []).length !== subjectIds.length) throw new Error("확인할 수 없는 위촉 과목이 있어 일괄 시작을 중단했습니다.");
+      const programIds = [...new Set((subjects ?? []).map((item) => item.program_id))];
+      const { data: programs, error: programError } = await admin.from("review_programs").select("id, name").in("id", programIds);
+      if (programError) throw programError;
+      if ((programs ?? []).length !== programIds.length) throw new Error("확인할 수 없는 검수 사업이 있어 일괄 시작을 중단했습니다.");
+      const subjectMap = new Map((subjects ?? []).map((item) => [item.id, item]));
+      const programMap = new Map((programs ?? []).map((item) => [item.id, item]));
+      let launchedAssignments = 0;
+      for (const expert of experts ?? []) {
+        const expertAssignments = pending.filter((item) => item.reviewer_user_id === expert.user_id);
+        const assignmentList = expertAssignments.map((item) => {
+          const subject = subjectMap.get(item.subject_id) as any;
+          const program = programMap.get(subject?.program_id) as any;
+          const documentCount = (links ?? []).filter((link) => link.assignment_id === item.id).length;
+          return `<li><strong>${emailHtml(program?.name ?? "시험 대비")} · ${emailHtml(subject?.name ?? "담당 과목")}</strong><br>${emailHtml(item.title)} · 자료 ${documentCount}건<br>${emailHtml(item.starts_at.slice(0, 10))} ~ ${emailHtml(item.ends_at.slice(0, 10))}</li>`;
+        }).join("");
+        const stableAssignmentKey = expertAssignments.map((item) => item.id).sort().join("-");
+        const notification = await sendOperationalEmail(expert.email, `[설탕과소금] ${expert.display_name} 전문위원님, 검수 워크룸 공식 시작 안내`, `<div style="font-family:Arial,sans-serif;line-height:1.8;color:#243746"><h2 style="color:#102d4d">${emailHtml(expert.display_name)} 전문위원님께</h2><p>귀한 전문성으로 함께해 주셔서 깊이 감사드립니다. 계약과 검수 자료의 최종 확인을 마쳐 공식 검수를 안내드립니다.</p><ul>${assignmentList}</ul><p><a href="${emailHtml(REVIEW_APP_URL)}" style="display:inline-block;padding:11px 18px;border-radius:7px;color:#fff;background:#102d4d;text-decoration:none">전문위원 검수 워크룸 입장</a></p><p>일정이나 자료에 관하여 협의가 필요하시면 언제든 말씀해 주세요.</p><p>유한회사 설탕과소금 드림<br>admin@gyo6.kr · 010-3534-7163</p></div>`, `review-launch-${expert.user_id}-${stableAssignmentKey}`);
+        if (!notification.sent) throw new Error(`${expert.display_name} 전문위원님의 시작 안내가 발송되지 않아 일괄 시작을 중단했습니다.`);
+        const launchedAt = new Date().toISOString();
+        const expertAssignmentIds = expertAssignments.map((item) => item.id);
+        const { error: updateError } = await admin.from("review_assignments").update({ notification_sent_at: launchedAt }).in("id", expertAssignmentIds).is("notification_sent_at", null);
+        if (updateError) throw updateError;
+        await admin.from("review_events").insert({ reviewer_user_id: userId, event_type: "launch_notification_sent", payload: { expertUserId: expert.user_id, assignmentIds: expertAssignmentIds, notificationId: notification.id } });
+        launchedAssignments += expertAssignmentIds.length;
+      }
+      return json({ ok: true, launchedExperts: expertIds.length, launchedAssignments }, 200, origin);
+    }
+
     if (action === "managerSaveAssignment") {
       await ensureManager(admin, userId);
       const requestedId = cleanText(payload.id, 80);
@@ -570,14 +637,16 @@ Deno.serve(async (request) => {
       const documentIds: string[] = [...new Set<string>(Array.isArray(payload.documentIds) ? payload.documentIds.map((item: unknown) => cleanText(item, 80)).filter(Boolean) : [])];
       const startsAt = new Date(`${cleanText(payload.startsAt, 10)}T00:00:00+09:00`);
       const endsAt = new Date(`${cleanText(payload.endsAt, 10)}T23:59:59+09:00`);
-      if (!expertUserId || !subjectId || !title || !documentIds.length || Number.isNaN(startsAt.getTime()) || Number.isNaN(endsAt.getTime()) || endsAt <= startsAt) throw new Error("전문위원, 과목, 검수 자료와 기간을 정확히 입력해 주세요.");
+      if (!expertUserId || !subjectId || !title || !contractReference || !documentIds.length || Number.isNaN(startsAt.getTime()) || Number.isNaN(endsAt.getTime()) || endsAt <= startsAt) throw new Error("전문위원, 과목, 검수 자료, 계약 기준과 기간을 정확히 입력해 주세요.");
       const { data: expert, error: expertError } = await admin.from("review_profiles").select("user_id, email, display_name, active").eq("user_id", expertUserId).eq("role", "reviewer").single();
       if (expertError || !expert?.active) throw new Error("이용 가능한 전문위원 계정을 확인해 주세요.");
       const { data: subject, error: subjectError } = await admin.from("review_subjects").select("id, program_id, name").eq("id", subjectId).single();
       if (subjectError || !subject) throw new Error("위촉할 과목을 확인해 주세요.");
       const { data: program } = await admin.from("review_programs").select("id, name").eq("id", subject.program_id).single();
-      const { data: validDocuments, error: documentError } = await admin.from("review_documents").select("id, title").eq("subject_id", subjectId).in("id", documentIds);
+      const { data: validDocuments, error: documentError } = await admin.from("review_documents").select("id, title, version, status").eq("subject_id", subjectId).in("id", documentIds).in("status", ["review_ready", "approved"]);
       if (documentError || (validDocuments ?? []).length !== documentIds.length) throw new Error("담당 과목과 일치하는 검수 자료만 지정할 수 있습니다.");
+      const selectedVersions = new Set((validDocuments ?? []).map((document) => document.version));
+      if (selectedVersions.size !== 1) throw new Error("한 위촉 과제에는 동일한 확정 버전의 검수 자료만 배정할 수 있습니다.");
       let assignmentId = requestedId;
       if (requestedId) {
         const { data: existing, error: existingError } = await admin.from("review_assignments").select("*").eq("id", requestedId).single();

@@ -41,6 +41,11 @@ check("manager.audit-preservation", edge.includes("이미 검수 기록이 시�
 check("manager.role-separation", edge.includes("전문위원 계정만 이 화면에서 변경할 수 있습니다.") && edge.includes('targetProfile?.role !== "reviewer"'), "운영담당자가 관리자 계정을 전문위원으로 변경할 수 없습니다.");
 check("manager.notifications", edge.includes("https://api.resend.com/emails") && edge.includes("RESEND_API_KEY") && edge.includes("notification_sent_at"), "환경설정이 있을 때 위촉·재검토 안내 이메일을 발송하고 기록합니다.");
 check("manager.notification-gate", edge.includes("REVIEW_EMAIL_ENABLED") && edge.includes('status: "paused"') && managerJs.includes('$("#assignment-notify").checked=false'), "대표님의 일괄 시작 승인 전에는 모든 운영 메일이 서버에서 차단됩니다.");
+check("manager.access-gate", edge.includes("REVIEW_ACCESS_ENABLED") && edge.includes("공식 시작 안내를 받으신 뒤 이용해 주세요"), "대표님의 일괄 시작 승인 전에는 사전 등록 전문위원도 검수 자료에 접근할 수 없습니다.");
+check("manager.per-expert-launch-gate", edge.includes('.not("notification_sent_at", "is", null)') && edge.includes("아직 공식 검수 시작 전입니다"), "공식 시작 안내가 실제 발송·기록된 전문위원에게만 해당 과제를 공개합니다.");
+check("manager.bulk-launch", edge.includes('action === "managerLaunchAll"') && edge.includes("전문위원 검수 일괄 시작") && managerJs.includes('api("managerLaunchAll"'), "대표 관리자 확인 문구와 서버 잠금이 모두 충족될 때만 검수를 일괄 시작합니다.");
+check("manager.bulk-launch-preflight", edge.includes("교체되었거나 확정되지 않은 검수 자료") && edge.includes("최신 확정본으로 위촉 자료를 다시 지정"), "공식 시작 직전에 교체·미확정·혼합 버전 자료를 다시 검사해 구원고 발송을 차단합니다.");
+check("manager.single-version-assignment", edge.includes("selectedVersions.size !== 1") && edge.includes("동일한 확정 버전"), "한 위촉 과제에 구버전과 신버전 자료가 섞이지 않습니다.");
 check("manager.notification-fallback", managerHtml.includes('id="manual-notice-dialog"') && managerJs.includes("assignmentNotice") && managerJs.includes("statusNotice") && managerJs.includes("navigator.clipboard.writeText"), "자동 이메일을 사용할 수 없을 때 카카오톡·문자용 안내문을 생성해 수동 전달할 수 있습니다.");
 check("security.watermark", js.includes("updateWatermark") && html.includes("watermark-layer"), "개인 식별 워터마크가 작동합니다.");
 check("security.copy-print", js.includes("copy_blocked") && css.includes("@media print"), "복사와 인쇄를 제한합니다.");

@@ -24,7 +24,6 @@ from import_review_content import Block, clean_text, html_blocks, sql_text
 
 
 SOURCE_PROJECT = "infivcpgxgawclrkwtai"
-VERSION = "2026.08.11-web-v1"
 EXPECTED_EXAMS = 30
 MAX_SQL_BATCH_CHARS = 700_000
 SUPABASE_CLI = shutil.which("supabase.cmd" if os.name == "nt" else "supabase") or "supabase"
@@ -156,6 +155,7 @@ def document_sql(
     source_name: str,
     source_items: list[dict[str, Any]],
     blocks: list[Block],
+    version: str,
 ) -> str:
     digest = canonical_hash(source_items)
     rows = []
@@ -182,7 +182,7 @@ begin
   end if;
   if exists (
     select 1 from public.review_documents
-     where subject_id = v_subject and title = {sql_text(title)} and version = '{VERSION}'
+     where subject_id = v_subject and title = {sql_text(title)} and version = {sql_text(version)}
   ) then
     raise notice 'skip existing review document: {title}';
     return;
@@ -190,8 +190,8 @@ begin
   insert into public.review_documents
     (subject_id, kind, title, version, review_stage, source_object_path, source_sha256, status)
   values
-    (v_subject, {sql_text(kind)}, {sql_text(title)}, '{VERSION}', '1차 검수',
-     {sql_text(source_path)}, '{digest}', 'review_ready')
+    (v_subject, {sql_text(kind)}, {sql_text(title)}, {sql_text(version)}, '1차 검수',
+     {sql_text(source_path)}, '{digest}', 'staged')
   returning id into v_document;
   insert into public.review_blocks
     (document_id, block_key, heading, body, sort_order, source_fingerprint)
@@ -199,6 +199,45 @@ begin
     {',\n    '.join(rows)};
 end
 $review_web_import$;
+commit;
+"""
+
+
+def activation_sql(*, subject_code: str, source_name: str, version: str, expected_documents: int) -> str:
+    source_path = f"supabase://{SOURCE_PROJECT}/content_items/{source_name}"
+    return f"""begin;
+do $review_web_activate$
+declare
+  v_subject uuid;
+  v_count integer;
+begin
+  select id into v_subject
+    from public.review_subjects
+   where program_id = 'civil' and code = {sql_text(subject_code)};
+  if v_subject is null then
+    raise exception '검수 과목을 찾지 못했습니다: civil/{subject_code}';
+  end if;
+  select count(*) into v_count
+    from public.review_documents
+   where subject_id = v_subject
+     and source_object_path = {sql_text(source_path)}
+     and version = {sql_text(version)};
+  if v_count <> {expected_documents} then
+    raise exception '새 검수본 문서 수 불일치: expected %, actual %', {expected_documents}, v_count;
+  end if;
+  update public.review_documents
+     set status = 'superseded'
+   where subject_id = v_subject
+     and source_object_path = {sql_text(source_path)}
+     and version <> {sql_text(version)}
+     and status in ('staged', 'review_ready', 'reviewing', 'approved');
+  update public.review_documents
+     set status = 'review_ready'
+   where subject_id = v_subject
+     and source_object_path = {sql_text(source_path)}
+     and version = {sql_text(version)};
+end
+$review_web_activate$;
 commit;
 """
 
@@ -264,14 +303,18 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="웹 공무원 원고를 전문위원 검수 DB에 버전 고정 적재")
     parser.add_argument("--source-workdir", type=Path, required=True)
     parser.add_argument("--target-workdir", type=Path, required=True)
+    parser.add_argument("--version", required=True, help="새 검수본의 고유 버전(예: 2026.08.12-web-v2)")
     parser.add_argument("--source-name", action="append", help="특정 원본 과목명만 처리(반복 가능)")
     parser.add_argument("--apply", action="store_true")
     args = parser.parse_args()
     source_workdir = args.source_workdir.resolve()
     target_workdir = args.target_workdir.resolve()
+    version = clean_text(args.version)
+    if len(version) < 8 or len(version) > 80:
+        raise RuntimeError("버전은 날짜와 차수를 포함한 8~80자 값으로 입력해 주세요.")
     total_documents = 0
     total_blocks = 0
-    print(f"source={SOURCE_PROJECT} version={VERSION} mode={'apply' if args.apply else 'preview'}")
+    print(f"source={SOURCE_PROJECT} version={version} mode={'apply' if args.apply else 'preview'}")
     configured_sources = SOURCE_SUBJECTS
     if args.source_name:
         selected = set(args.source_name)
@@ -295,6 +338,7 @@ def main() -> int:
                     source_name=document["source_name"],
                     source_items=document["items"],
                     blocks=blocks,
+                    version=version,
                 ))
             total_documents += 1
             total_blocks += len(blocks)
@@ -315,6 +359,13 @@ def main() -> int:
             for batch_index, batch in enumerate(batches, 1):
                 apply_sql(target_workdir, "\n".join(batch))
                 print(f"  batch {batch_index}/{len(batches)} applied: documents={len(batch)}")
+            apply_sql(target_workdir, activation_sql(
+                subject_code=subject_code,
+                source_name=source_name,
+                version=version,
+                expected_documents=len(documents),
+            ))
+            print(f"  activated {source_name}: version={version}")
             print(f"applied {source_name}: documents={len(documents)}")
     print(f"complete documents={total_documents} blocks={total_blocks}")
     return 0
