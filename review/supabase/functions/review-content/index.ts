@@ -14,6 +14,9 @@ const ALLOWED_ORIGINS = (Deno.env.get("REVIEW_ALLOWED_ORIGINS") ?? "https://gyo6
   .map((value) => value.trim())
   .filter(Boolean);
 const MAX_REQUEST_CHARS = 200_000;
+const MAX_REVIEWER_ACTIONS_PER_HOUR = 600;
+const MAX_ANNOTATIONS_PER_DOCUMENT = 2_000;
+const MAX_ANNOTATIONS_PER_ASSIGNMENT = 5_000;
 const ALLOWED_REVIEW_EVENTS = new Set([
   "workroom_enter", "document_open", "assignment_change", "annotation_created",
   "annotation_deleted", "document_completed", "assignment_submitted",
@@ -96,7 +99,24 @@ async function sendOperationalEmail(to: string, subject: string, html: string, i
   return { sent: true, status: "sent", id: result.id ?? null };
 }
 
+async function ensureReviewerAccess(admin: ReturnType<typeof createClient>, userId: string) {
+  if (!REVIEW_LAUNCH_ENABLED || !REVIEW_ACCESS_ENABLED) throw new Error("현재 모든 검수 자료를 안전하게 점검하고 있습니다. 회사의 공식 재개 안내를 받으신 뒤 이용해 주세요.");
+  const { data, error } = await admin.from("review_profiles").select("user_id, role, active").eq("user_id", userId).single();
+  if (error || !data?.active || data.role !== "reviewer") throw new Error("현재 이용 가능한 전문위원 계정을 확인하지 못했습니다. 담당자에게 말씀해 주세요.");
+  return data;
+}
+
+async function consumeReviewerAction(admin: ReturnType<typeof createClient>, userId: string, action: string) {
+  const { error } = await admin.rpc("review_consume_action", { p_user_id: userId, p_action: cleanText(action, 80), p_limit: MAX_REVIEWER_ACTIONS_PER_HOUR });
+  if (error) {
+    if (String(error.message ?? "").includes("review_rate_limit_exceeded")) throw new Error("요청이 일시적으로 많습니다. 잠시 후 다시 이용해 주세요.");
+    throw error;
+  }
+}
+
 async function assignmentFor(admin: ReturnType<typeof createClient>, userId: string, assignmentId: string, requireWritable = false) {
+  await ensureReviewerAccess(admin, userId);
+  await consumeReviewerAction(admin, userId, requireWritable ? "assignment_write" : "assignment_read");
   const { data, error } = await admin
     .from("review_assignments")
     .select("*")
@@ -142,8 +162,9 @@ async function bootstrap(admin: ReturnType<typeof createClient>, userId: string)
     .select("user_id, email, display_name, mobile, organization, department, position_title, role, role_label, active")
     .eq("user_id", userId)
     .single();
-  if (reviewerError || !reviewer?.active) throw new Error("현재 이용 가능한 전문위원 계정을 확인하지 못했습니다. 담당자에게 말씀해 주세요.");
-  if (reviewer.role === "reviewer" && (!REVIEW_LAUNCH_ENABLED || !REVIEW_ACCESS_ENABLED)) throw new Error("현재 모든 검수 자료를 최종 점검하고 있습니다. 공식 시작 안내를 받으신 뒤 이용해 주세요.");
+  if (reviewerError || !reviewer?.active || reviewer.role !== "reviewer") throw new Error("현재 이용 가능한 전문위원 계정을 확인하지 못했습니다. 담당자에게 말씀해 주세요.");
+  await ensureReviewerAccess(admin, userId);
+  await consumeReviewerAction(admin, userId, "bootstrap");
 
   const { data: assignmentRows, error: assignmentError } = await admin
     .from("review_assignments")
@@ -400,8 +421,14 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
   const sha256 = Array.from(new Uint8Array(digest)).map((byte) => byte.toString(16).padStart(2, "0")).join("");
   const fileName = `${reportFilePart(program.name)}_${reportFilePart(subject.name)}_${reportFilePart(reviewer.display_name)}_검수보고서.md`;
   if (payload.status === "final") {
-    const { error: exportError } = await admin.from("review_exports").upsert({ assignment_id: assignmentId, reviewer_user_id: userId, schema_version: payload.schema, report_id: reportId, file_name: fileName, markdown, json_payload: payload, sha256, delivery_status: "ready", created_at: generatedAt, delivered_at: null }, { onConflict: "assignment_id,reviewer_user_id" });
-    if (exportError) throw exportError;
+    const exportRecord = { assignment_id: assignmentId, reviewer_user_id: userId, schema_version: payload.schema, report_id: reportId, file_name: fileName, markdown, json_payload: payload, sha256, delivery_status: "ready", created_at: generatedAt, delivered_at: null };
+    const { data: insertedExport, error: exportError } = await admin.from("review_exports").insert(exportRecord).select("report_id, file_name, markdown, sha256, delivery_status").maybeSingle();
+    if (exportError && exportError.code !== "23505") throw exportError;
+    const { data: canonicalExport, error: canonicalError } = insertedExport
+      ? { data: insertedExport, error: null }
+      : await admin.from("review_exports").select("report_id, file_name, markdown, sha256, delivery_status").eq("assignment_id", assignmentId).eq("reviewer_user_id", userId).single();
+    if (canonicalError || !canonicalExport) throw canonicalError ?? new Error("최종 검수보고서를 확정하지 못했습니다.");
+    return { reportId: canonicalExport.report_id, fileName: canonicalExport.file_name, markdown: canonicalExport.markdown, sha256: canonicalExport.sha256, status: "final", deliveryStatus: canonicalExport.delivery_status };
   }
   return { reportId, fileName, markdown, sha256, status: payload.status, deliveryStatus: payload.status === "final" ? "ready" : "draft" };
 }
@@ -540,6 +567,7 @@ Deno.serve(async (request) => {
       const organization = cleanText(payload.organization, 200);
       const department = cleanText(payload.department, 200);
       const positionTitle = cleanText(payload.positionTitle, 100);
+      const isActive = payload.active !== false;
       if (!email.includes("@") || !displayName || !mobile || !organization || !department || !positionTitle) throw new Error("전문위원님의 필수 정보를 모두 입력해 주세요.");
       let expertUserId = requestedId;
       let invitationSent = false;
@@ -556,17 +584,17 @@ Deno.serve(async (request) => {
         const { data: created, error: createError } = await admin.auth.admin.createUser({ email, email_confirm: true, user_metadata: { display_name: displayName, role: "reviewer" } });
         if (createError || !created.user) throw new Error("전문위원 계정을 생성하지 못했습니다.");
         expertUserId = created.user.id;
-        const result = await sendOperationalEmail(email, `[설탕과소금] ${displayName} 전문위원님, 검수 워크룸 이용 안내`, `<div style="font-family:Arial,sans-serif;line-height:1.8;color:#243746"><h2 style="color:#102d4d">${emailHtml(displayName)} 전문위원님, 반갑습니다.</h2><p>유한회사 설탕과소금의 전문위원으로 함께해 주셔서 깊이 감사드립니다.</p><p>과목 위촉이 완료되면 아래 전용 워크룸에서 계약 이메일 인증 후 검수 자료를 확인하실 수 있습니다.</p><p><a href="${emailHtml(REVIEW_APP_URL)}" style="display:inline-block;padding:11px 18px;border-radius:7px;color:#fff;background:#102d4d;text-decoration:none">전문위원 검수 워크룸</a></p><p>문의: admin@gyo6.kr · 010-3534-7163</p></div>`, `expert-invite-${expertUserId}`);
-        invitationSent = result.sent;
       } else {
         const { data: targetProfile, error: targetProfileError } = await admin.from("review_profiles").select("role").eq("user_id", expertUserId).single();
         if (targetProfileError || targetProfile?.role !== "reviewer") throw new Error("전문위원 계정만 이 화면에서 변경할 수 있습니다.");
         const { error: authUpdateError } = await admin.auth.admin.updateUserById(expertUserId, { email, user_metadata: { display_name: displayName, role: "reviewer" } });
         if (authUpdateError) throw new Error("전문위원 계정 정보를 갱신하지 못했습니다.");
       }
-      const { error: profileError } = await admin.from("review_profiles").upsert({ user_id: expertUserId, email, display_name: displayName, mobile, organization, department, position_title: positionTitle, role: "reviewer", role_label: "외부 전문위원", active: payload.active !== false }, { onConflict: "user_id" });
+      const { error: profileError } = await admin.from("review_profiles").upsert({ user_id: expertUserId, email, display_name: displayName, mobile, organization, department, position_title: positionTitle, role: "reviewer", role_label: "외부 전문위원", active: isActive }, { onConflict: "user_id" });
       if (profileError) throw profileError;
-      await admin.from("review_events").insert({ reviewer_user_id: userId, event_type: requestedId ? "expert_profile_updated" : "expert_profile_created", payload: { expertUserId, email, invitationSent } });
+      const { error: accessStateError } = await admin.auth.admin.updateUserById(expertUserId, { ban_duration: isActive ? "none" : "876000h" });
+      if (accessStateError) throw new Error("전문위원 계정의 이용 상태를 갱신하지 못했습니다.");
+      await admin.from("review_events").insert({ reviewer_user_id: userId, event_type: requestedId ? "expert_profile_updated" : "expert_profile_created", payload: { expertUserId, email, invitationSent: false } });
       return json({ ok: true, expertUserId, invitationSent }, 200, origin);
     }
 
@@ -589,6 +617,7 @@ Deno.serve(async (request) => {
       const { data: launchDocuments, error: launchDocumentError } = await admin.from("review_documents").select("id, version, status").in("id", documentIds).in("status", ["review_ready", "approved"]);
       if (launchDocumentError) throw launchDocumentError;
       if ((launchDocuments ?? []).length !== documentIds.length) throw new Error("교체되었거나 확정되지 않은 검수 자료가 포함되어 있어 일괄 시작을 중단했습니다. 최신 확정본으로 위촉 자료를 다시 지정해 주세요.");
+      if (new Set((launchDocuments ?? []).map((item) => item.version)).size !== 1) throw new Error("일괄 시작 대상에 서로 다른 원고 버전이 포함되어 있어 시작을 중단했습니다. 모든 과목을 동일한 최신 확정 버전으로 맞춰 주세요.");
       const launchDocumentMap = new Map((launchDocuments ?? []).map((item) => [item.id, item]));
       if (pending.some((assignment) => new Set((links ?? []).filter((link) => link.assignment_id === assignment.id).map((link) => launchDocumentMap.get(link.document_id)?.version)).size !== 1)) throw new Error("동일 위촉에 서로 다른 원고 버전이 포함되어 있어 일괄 시작을 중단했습니다.");
       const expertIds = [...new Set(pending.map((item) => item.reviewer_user_id))];
@@ -673,11 +702,7 @@ Deno.serve(async (request) => {
       if (obsoleteIds.length) await admin.from("review_assignment_documents").delete().eq("assignment_id", assignmentId).in("document_id", obsoleteIds);
       const { error: linkError } = await admin.from("review_assignment_documents").upsert(documentIds.map((documentId, index) => ({ assignment_id: assignmentId, document_id: documentId, sort_order: index + 1, visible_from: startsAt.toISOString(), visible_until: endsAt.toISOString() })), { onConflict: "assignment_id,document_id" });
       if (linkError) throw linkError;
-      let notification = { sent: false, status: "skipped", id: null as string | null };
-      if (payload.sendNotification) {
-        notification = await sendOperationalEmail(expert.email, `[설탕과소금] ${expert.display_name} 전문위원님, ${subject.name} 검수 위촉 안내`, `<div style="font-family:Arial,sans-serif;line-height:1.8;color:#243746"><h2 style="color:#102d4d">${emailHtml(expert.display_name)} 전문위원님께</h2><p>귀한 전문성으로 함께해 주셔서 깊이 감사드립니다.</p><p><strong>${emailHtml(program?.name ?? "시험 대비")} · ${emailHtml(subject.name)}</strong> 검수를 정중히 위촉드립니다.</p><ul><li>과제: ${emailHtml(title)}</li><li>기간: ${emailHtml(cleanText(payload.startsAt, 10))} ~ ${emailHtml(cleanText(payload.endsAt, 10))}</li><li>자료: ${documentIds.length}건</li></ul><p><a href="${emailHtml(REVIEW_APP_URL)}" style="display:inline-block;padding:11px 18px;border-radius:7px;color:#fff;background:#102d4d;text-decoration:none">전문위원 검수 워크룸 입장</a></p><p>일정이나 자료에 관하여 협의가 필요하시면 언제든 담당자에게 말씀해 주세요.</p><p>유한회사 설탕과소금 드림<br>admin@gyo6.kr · 010-3534-7163</p></div>`, `assignment-${assignmentId}-${startsAt.toISOString().slice(0,10)}`);
-        if (notification.sent) await admin.from("review_assignments").update({ notification_sent_at: new Date().toISOString() }).eq("id", assignmentId);
-      }
+      const notification = { sent: false, status: "launch_required", id: null as string | null };
       await admin.from("review_events").insert({ assignment_id: assignmentId, reviewer_user_id: userId, event_type: requestedId ? "assignment_updated" : "assignment_created", payload: { expertUserId, subjectId, documentIds, notificationStatus: notification.status } });
       return json({ ok: true, assignmentId, notificationSent: notification.sent, notificationStatus: notification.status }, 200, origin);
     }
@@ -750,7 +775,9 @@ Deno.serve(async (request) => {
       if (blockError) throw blockError;
       const { data: annotations } = await admin.from("review_annotations").select("*").eq("assignment_id", assignmentId).eq("document_id", documentId).eq("reviewer_user_id", userId).order("created_at");
       const { data: progress } = await admin.from("review_progress").select("*").eq("assignment_id", assignmentId).eq("document_id", documentId).eq("reviewer_user_id", userId).maybeSingle();
-      await admin.from("review_events").insert({ assignment_id: assignmentId, document_id: documentId, reviewer_user_id: userId, event_type: "document_open", payload: {} });
+      const recentOpenSince = new Date(Date.now() - 5 * 60 * 1000).toISOString();
+      const { count: recentOpenCount } = await admin.from("review_events").select("id", { count: "exact", head: true }).eq("assignment_id", assignmentId).eq("document_id", documentId).eq("reviewer_user_id", userId).eq("event_type", "document_open").gte("occurred_at", recentOpenSince);
+      if ((recentOpenCount ?? 0) === 0) await admin.from("review_events").insert({ assignment_id: assignmentId, document_id: documentId, reviewer_user_id: userId, event_type: "document_open", payload: {} });
       return json({
         document: { id: document.id, kind: document.kind, title: document.title, version: document.version, stage: document.review_stage, blocks: (blocks ?? []).map((block) => ({ id: block.id, key: block.block_key, heading: block.heading, text: block.body })) },
         annotations: (annotations ?? []).map((item) => ({ id: item.id, assignmentId: item.assignment_id, documentId: item.document_id, blockId: item.block_id, kind: item.kind, color: item.color, startOffset: item.start_offset, endOffset: item.end_offset, selectedText: item.selected_text, body: item.body, issueType: item.issue_type, severity: item.severity, status: item.status, createdAt: item.created_at, updatedAt: item.updated_at })),
@@ -778,6 +805,13 @@ Deno.serve(async (request) => {
         .maybeSingle();
       if (existingAnnotation && (existingAnnotation.reviewer_user_id !== userId || existingAnnotation.assignment_id !== assignmentId)) {
         throw new Error("현재 계정에서 다듬을 수 없는 검수의견입니다.");
+      }
+      if (!existingAnnotation) {
+        const [{ count: documentAnnotationCount }, { count: assignmentAnnotationCount }] = await Promise.all([
+          admin.from("review_annotations").select("id", { count: "exact", head: true }).eq("assignment_id", assignmentId).eq("document_id", documentId).eq("reviewer_user_id", userId),
+          admin.from("review_annotations").select("id", { count: "exact", head: true }).eq("assignment_id", assignmentId).eq("reviewer_user_id", userId)
+        ]);
+        if ((documentAnnotationCount ?? 0) >= MAX_ANNOTATIONS_PER_DOCUMENT || (assignmentAnnotationCount ?? 0) >= MAX_ANNOTATIONS_PER_ASSIGNMENT) throw new Error("등록 가능한 검수의견 수를 확인해 주세요. 추가 의견이 필요하시면 담당자에게 말씀해 주세요.");
       }
       const record = {
         id: annotationId, assignment_id: assignmentId, document_id: documentId, block_id: block.id, reviewer_user_id: userId,
@@ -809,9 +843,9 @@ Deno.serve(async (request) => {
       const progress = payload.progress ?? {};
       const { data: validBlocks } = await admin.from("review_blocks").select("id").eq("document_id", documentId);
       const validIds = new Set((validBlocks ?? []).map((block) => block.id));
-      const checkedBlocks = Array.isArray(progress.checkedBlocks) ? progress.checkedBlocks.filter((id: unknown) => validIds.has(String(id))).slice(0, 2000) : [];
+      const checkedBlocks = Array.isArray(progress.checkedBlocks) ? [...new Set(progress.checkedBlocks.map((id: unknown) => String(id)).filter((id: string) => validIds.has(id)))].slice(0, 2000) : [];
       const complete = Boolean(progress.complete) && validIds.size > 0 && checkedBlocks.length === validIds.size;
-      const record = { assignment_id: assignmentId, document_id: documentId, reviewer_user_id: userId, checked_blocks: checkedBlocks, memo: cleanText(progress.memo, 10000), complete, completed_at: complete ? progress.completedAt || new Date().toISOString() : null, updated_at: new Date().toISOString() };
+      const record = { assignment_id: assignmentId, document_id: documentId, reviewer_user_id: userId, checked_blocks: checkedBlocks, memo: cleanText(progress.memo, 10000), complete, completed_at: complete ? new Date().toISOString() : null, updated_at: new Date().toISOString() };
       const { error } = await admin.from("review_progress").upsert(record, { onConflict: "assignment_id,document_id,reviewer_user_id" });
       if (error) throw error;
       await markAssignmentReviewing(admin, userId, assignmentId);
@@ -847,14 +881,27 @@ Deno.serve(async (request) => {
 
     if (action === "logEvent") {
       const assignmentId = cleanText(payload.assignmentId, 80) || null;
-      if (assignmentId) await assignmentFor(admin, userId, assignmentId);
+      const documentId = cleanText(payload.documentId, 80) || null;
+      if (documentId && !assignmentId) throw new Error("활동 기록의 검수 과제를 확인해 주세요.");
+      if (assignmentId) {
+        await assignmentFor(admin, userId, assignmentId);
+        if (documentId) await assertDocumentAccess(admin, assignmentId, documentId);
+      } else {
+        await ensureReviewerAccess(admin, userId);
+        await consumeReviewerAction(admin, userId, "event");
+      }
       const eventType = cleanText(payload.type, 120);
       if (!ALLOWED_REVIEW_EVENTS.has(eventType)) throw new Error("허용되지 않은 활동 기록입니다.");
+      if (eventType === "document_open" && assignmentId && documentId) {
+        const recentOpenSince = new Date(Date.now() - 5 * 60 * 1000).toISOString();
+        const { count: recentOpenCount } = await admin.from("review_events").select("id", { count: "exact", head: true }).eq("assignment_id", assignmentId).eq("document_id", documentId).eq("reviewer_user_id", userId).eq("event_type", "document_open").gte("occurred_at", recentOpenSince);
+        if ((recentOpenCount ?? 0) > 0) return json({ ok: true, coalesced: true }, 200, origin);
+      }
       const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
       const { count, error: countError } = await admin.from("review_events").select("id", { count: "exact", head: true }).eq("reviewer_user_id", userId).gte("occurred_at", oneHourAgo);
       if (countError) throw countError;
       if ((count ?? 0) >= 500) throw new Error("활동 기록 요청이 일시적으로 많습니다. 잠시 후 다시 이용해 주세요.");
-      const { error: eventError } = await admin.from("review_events").insert({ assignment_id: assignmentId, document_id: cleanText(payload.documentId, 80) || null, reviewer_user_id: userId, event_type: eventType, payload: safeEventPayload(payload.payload), user_agent: cleanText(request.headers.get("User-Agent"), 500) });
+      const { error: eventError } = await admin.from("review_events").insert({ assignment_id: assignmentId, document_id: documentId, reviewer_user_id: userId, event_type: eventType, payload: safeEventPayload(payload.payload), user_agent: cleanText(request.headers.get("User-Agent"), 500) });
       if (eventError) throw eventError;
       return json({ ok: true }, 200, origin);
     }

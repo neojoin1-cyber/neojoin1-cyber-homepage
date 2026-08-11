@@ -88,6 +88,37 @@ order by c.kind, c.sort_order, c.created_at;
     return rows
 
 
+def source_rows_all(source_workdir: Path, source_names: list[str]) -> dict[str, list[dict[str, Any]]]:
+    if not source_names:
+        return {}
+    names_sql = ", ".join(sql_text(name) for name in source_names)
+    rows = run_query(source_workdir, f"""
+select
+  s.name as source_name,
+  c.id::text as id,
+  c.kind,
+  c.sort_order,
+  c.title,
+  c.body,
+  c.created_at::text as created_at
+from public.content_items c
+join public.subjects s on s.id = c.subject_id
+where s.category = '공무원'
+  and s.name in ({names_sql})
+  and c.kind in ('summary', 'exam')
+order by s.name, c.kind, c.sort_order, c.created_at, c.id;
+""".strip())
+    grouped: dict[str, list[dict[str, Any]]] = {name: [] for name in source_names}
+    for row in rows:
+        source_name = clean_text(row.pop("source_name", ""))
+        if source_name in grouped:
+            grouped[source_name].append(row)
+    missing = [name for name, items in grouped.items() if not items]
+    if missing:
+        raise RuntimeError(f"원본 웹 원고가 없습니다: {', '.join(missing)}")
+    return grouped
+
+
 def summary_blocks(items: list[dict[str, Any]]) -> list[Block]:
     blocks: list[Block] = []
     for item in items:
@@ -203,14 +234,12 @@ commit;
 """
 
 
-def activation_sql(*, subject_code: str, source_name: str, version: str, expected_documents: int) -> str:
-    source_path = f"supabase://{SOURCE_PROJECT}/content_items/{source_name}"
-    return f"""begin;
-do $review_web_activate$
-declare
-  v_subject uuid;
-  v_count integer;
-begin
+def global_activation_sql(*, sources: list[tuple[str, str, int]], version: str) -> str:
+    checks: list[str] = []
+    updates: list[str] = []
+    for subject_code, source_name, expected_documents in sources:
+        source_path = f"supabase://{SOURCE_PROJECT}/content_items/{source_name}"
+        checks.append(f"""
   select id into v_subject
     from public.review_subjects
    where program_id = 'civil' and code = {sql_text(subject_code)};
@@ -221,25 +250,83 @@ begin
     from public.review_documents
    where subject_id = v_subject
      and source_object_path = {sql_text(source_path)}
-     and version = {sql_text(version)};
+     and version = {sql_text(version)}
+     and status = 'staged';
   if v_count <> {expected_documents} then
-    raise exception '새 검수본 문서 수 불일치: expected %, actual %', {expected_documents}, v_count;
-  end if;
+    raise exception '새 검수본 문서 수 불일치 ({source_name}): expected %, actual %', {expected_documents}, v_count;
+  end if;""")
+        updates.append(f"""
   update public.review_documents
      set status = 'superseded'
-   where subject_id = v_subject
+   where subject_id = (select id from public.review_subjects where program_id = 'civil' and code = {sql_text(subject_code)})
      and source_object_path = {sql_text(source_path)}
      and version <> {sql_text(version)}
      and status in ('staged', 'review_ready', 'reviewing', 'approved');
   update public.review_documents
      set status = 'review_ready'
-   where subject_id = v_subject
+   where subject_id = (select id from public.review_subjects where program_id = 'civil' and code = {sql_text(subject_code)})
      and source_object_path = {sql_text(source_path)}
-     and version = {sql_text(version)};
+     and version = {sql_text(version)}
+     and status = 'staged';""")
+    return f"""begin;
+do $review_web_activate$
+declare
+  v_subject uuid;
+  v_count integer;
+begin
+{''.join(checks)}
+{''.join(updates)}
 end
 $review_web_activate$;
 commit;
 """
+
+
+def audit_source(target_workdir: Path, *, subject_code: str, source_name: str, documents: list[dict[str, Any]]) -> str:
+    source_path = f"supabase://{SOURCE_PROJECT}/content_items/{source_name}"
+    rows = run_query(target_workdir, f"""
+select
+  d.title,
+  d.version,
+  d.source_sha256,
+  d.status,
+  (select count(*) from public.review_blocks b where b.document_id = d.id) as block_count
+from public.review_documents d
+join public.review_subjects s on s.id = d.subject_id
+where s.program_id = 'civil'
+  and s.code = {sql_text(subject_code)}
+  and d.source_object_path = {sql_text(source_path)}
+  and d.status in ('review_ready', 'approved')
+order by d.title;
+""".strip())
+    if not rows:
+        raise RuntimeError(f"활성 검수본이 없습니다: {source_name}")
+    versions = {clean_text(row.get("version")) for row in rows}
+    if len(versions) != 1:
+        raise RuntimeError(f"활성 검수본 버전이 하나가 아닙니다: {source_name} ({', '.join(sorted(versions))})")
+    actual_by_title = {clean_text(row.get("title")): row for row in rows}
+    if len(actual_by_title) != len(rows):
+        raise RuntimeError(f"활성 검수본 제목이 중복되었습니다: {source_name}")
+    expected_by_title = {document["title"]: document for document in documents}
+    missing = sorted(set(expected_by_title) - set(actual_by_title))
+    extra = sorted(set(actual_by_title) - set(expected_by_title))
+    if missing or extra:
+        raise RuntimeError(f"원본·검수본 문서 구성이 다릅니다: {source_name} (누락 {len(missing)}, 추가 {len(extra)})")
+    mismatches: list[str] = []
+    for title, document in expected_by_title.items():
+        actual = actual_by_title[title]
+        expected_hash = canonical_hash(document["items"])
+        expected_blocks = len(document["blocks"])
+        actual_hash = clean_text(actual.get("source_sha256"))
+        actual_blocks = int(actual.get("block_count") or 0)
+        if actual_hash != expected_hash or actual_blocks != expected_blocks:
+            mismatches.append(
+                f"{title} [hash {actual_hash[:12]}→{expected_hash[:12]}, blocks {actual_blocks}→{expected_blocks}]"
+            )
+    if mismatches:
+        sample = ", ".join(mismatches[:3])
+        raise RuntimeError(f"원본과 활성 검수본의 해시 또는 문단 수가 다릅니다: {source_name} ({len(mismatches)}건: {sample})")
+    return next(iter(versions))
 
 
 def apply_sql(target_workdir: Path, sql: str) -> None:
@@ -303,18 +390,23 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="웹 공무원 원고를 전문위원 검수 DB에 버전 고정 적재")
     parser.add_argument("--source-workdir", type=Path, required=True)
     parser.add_argument("--target-workdir", type=Path, required=True)
-    parser.add_argument("--version", required=True, help="새 검수본의 고유 버전(예: 2026.08.12-web-v2)")
+    parser.add_argument("--version", help="새 검수본의 고유 버전(예: 2026.08.12-web-v2). --audit에서는 생략")
     parser.add_argument("--source-name", action="append", help="특정 원본 과목명만 처리(반복 가능)")
-    parser.add_argument("--apply", action="store_true")
+    mode_group = parser.add_mutually_exclusive_group()
+    mode_group.add_argument("--apply", action="store_true")
+    mode_group.add_argument("--audit", action="store_true", help="원본과 현재 활성 검수본의 해시·문단 수·버전을 대조")
     args = parser.parse_args()
     source_workdir = args.source_workdir.resolve()
     target_workdir = args.target_workdir.resolve()
-    version = clean_text(args.version)
-    if len(version) < 8 or len(version) > 80:
+    version = clean_text(args.version) if args.version else ""
+    if not args.audit and (len(version) < 8 or len(version) > 80):
         raise RuntimeError("버전은 날짜와 차수를 포함한 8~80자 값으로 입력해 주세요.")
     total_documents = 0
     total_blocks = 0
-    print(f"source={SOURCE_PROJECT} version={version} mode={'apply' if args.apply else 'preview'}")
+    audit_failures: list[str] = []
+    staged_sources: list[tuple[str, str, int]] = []
+    mode = "apply" if args.apply else "audit" if args.audit else "preview"
+    print(f"source={SOURCE_PROJECT} version={version or 'active'} mode={mode}")
     configured_sources = SOURCE_SUBJECTS
     if args.source_name:
         selected = set(args.source_name)
@@ -322,9 +414,21 @@ def main() -> int:
         missing = selected - {item[0] for item in configured_sources}
         if missing:
             raise RuntimeError(f"지원하지 않는 원본 과목명: {', '.join(sorted(missing))}")
+    source_snapshot = source_rows_all(source_workdir, [item[0] for item in configured_sources])
     for source_name, subject_code, display_name, track in configured_sources:
-        rows = source_rows(source_workdir, source_name)
+        rows = source_snapshot[source_name]
         documents = build_documents(rows, subject_code, display_name, track, source_name)
+        if args.audit:
+            source_blocks = sum(len(document["blocks"]) for document in documents)
+            total_documents += len(documents)
+            total_blocks += source_blocks
+            try:
+                active_version = audit_source(target_workdir, subject_code=subject_code, source_name=source_name, documents=documents)
+                print(f"  audit passed {source_name}: version={active_version} documents={len(documents)} blocks={source_blocks}")
+            except RuntimeError as error:
+                audit_failures.append(str(error))
+                print(f"  audit FAILED {source_name}: {error}")
+            continue
         source_sql: list[str] = []
         for document in documents:
             blocks = document["blocks"]
@@ -359,14 +463,13 @@ def main() -> int:
             for batch_index, batch in enumerate(batches, 1):
                 apply_sql(target_workdir, "\n".join(batch))
                 print(f"  batch {batch_index}/{len(batches)} applied: documents={len(batch)}")
-            apply_sql(target_workdir, activation_sql(
-                subject_code=subject_code,
-                source_name=source_name,
-                version=version,
-                expected_documents=len(documents),
-            ))
-            print(f"  activated {source_name}: version={version}")
-            print(f"applied {source_name}: documents={len(documents)}")
+            staged_sources.append((subject_code, source_name, len(documents)))
+            print(f"  staged {source_name}: version={version} documents={len(documents)}")
+    if audit_failures:
+        raise RuntimeError(f"원고 무결성 감사 실패 {len(audit_failures)}개 원본\n- " + "\n- ".join(audit_failures))
+    if args.apply:
+        apply_sql(target_workdir, global_activation_sql(sources=staged_sources, version=version))
+        print(f"globally activated version={version}: sources={len(staged_sources)}")
     print(f"complete documents={total_documents} blocks={total_blocks}")
     return 0
 
