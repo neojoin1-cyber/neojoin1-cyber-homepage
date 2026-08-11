@@ -2621,6 +2621,8 @@ body {
 .lean-footer .wrap { padding-top: 36px; padding-bottom: 36px; }
 .lean-footer-grid { display: grid; grid-template-columns: 1.2fr 2fr; gap: 32px; }
 .lean-footer strong { color: var(--white); font-family: var(--font-display); font-size: 22px; }
+.footer-business-info { margin-top: 8px; font-size: 12px; line-height: 1.7; }
+.footer-business-info a { color: rgba(255,255,255,.82); text-decoration: underline; text-underline-offset: 3px; }
 .footer-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px 18px; }
 .footer-links a { color: rgba(255,255,255,.82); font-size: 13px; }
 
