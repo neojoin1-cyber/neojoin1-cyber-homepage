@@ -4,6 +4,7 @@ const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ?? "";
 const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY") ?? "";
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") ?? "";
+const REVIEW_EMAIL_ENABLED = (Deno.env.get("REVIEW_EMAIL_ENABLED") ?? "false").toLowerCase() === "true";
 const REVIEW_EMAIL_FROM = Deno.env.get("REVIEW_EMAIL_FROM") ?? "유한회사 설탕과소금 <review@gyo6.kr>";
 const REVIEW_APP_URL = Deno.env.get("REVIEW_APP_URL") ?? "https://gyo6.kr/review/";
 const ALLOWED_ORIGINS = (Deno.env.get("REVIEW_ALLOWED_ORIGINS") ?? "https://gyo6.kr,http://127.0.0.1:4175,http://localhost:4175")
@@ -81,6 +82,7 @@ function safeEventPayload(value: unknown) {
 }
 
 async function sendOperationalEmail(to: string, subject: string, html: string, idempotencyKey: string) {
+  if (!REVIEW_EMAIL_ENABLED) return { sent: false, status: "paused", id: null };
   if (!RESEND_API_KEY) return { sent: false, status: "not_configured", id: null };
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -541,18 +543,11 @@ Deno.serve(async (request) => {
         expertUserId = listed?.users?.find((item) => item.email?.toLowerCase() === email)?.id ?? "";
       }
       if (!expertUserId) {
-        if (RESEND_API_KEY) {
-          const { data: created, error: createError } = await admin.auth.admin.createUser({ email, email_confirm: true, user_metadata: { display_name: displayName, role: "reviewer" } });
-          if (createError || !created.user) throw new Error("전문위원 계정을 생성하지 못했습니다.");
-          expertUserId = created.user.id;
-          const result = await sendOperationalEmail(email, `[설탕과소금] ${displayName} 전문위원님, 검수 워크룸 이용 안내`, `<div style="font-family:Arial,sans-serif;line-height:1.8;color:#243746"><h2 style="color:#102d4d">${emailHtml(displayName)} 전문위원님, 반갑습니다.</h2><p>유한회사 설탕과소금의 전문위원으로 함께해 주셔서 깊이 감사드립니다.</p><p>과목 위촉이 완료되면 아래 전용 워크룸에서 계약 이메일 인증 후 검수 자료를 확인하실 수 있습니다.</p><p><a href="${emailHtml(REVIEW_APP_URL)}" style="display:inline-block;padding:11px 18px;border-radius:7px;color:#fff;background:#102d4d;text-decoration:none">전문위원 검수 워크룸</a></p><p>문의: admin@gyo6.kr · 010-3534-7163</p></div>`, `expert-invite-${expertUserId}`);
-          invitationSent = result.sent;
-        } else {
-          const { data: invited, error: inviteError } = await admin.auth.admin.inviteUserByEmail(email, { data: { display_name: displayName, role: "reviewer" }, redirectTo: REVIEW_APP_URL });
-          if (inviteError || !invited.user) throw new Error("전문위원 계정 초대 메일을 발송하지 못했습니다.");
-          expertUserId = invited.user.id;
-          invitationSent = true;
-        }
+        const { data: created, error: createError } = await admin.auth.admin.createUser({ email, email_confirm: true, user_metadata: { display_name: displayName, role: "reviewer" } });
+        if (createError || !created.user) throw new Error("전문위원 계정을 생성하지 못했습니다.");
+        expertUserId = created.user.id;
+        const result = await sendOperationalEmail(email, `[설탕과소금] ${displayName} 전문위원님, 검수 워크룸 이용 안내`, `<div style="font-family:Arial,sans-serif;line-height:1.8;color:#243746"><h2 style="color:#102d4d">${emailHtml(displayName)} 전문위원님, 반갑습니다.</h2><p>유한회사 설탕과소금의 전문위원으로 함께해 주셔서 깊이 감사드립니다.</p><p>과목 위촉이 완료되면 아래 전용 워크룸에서 계약 이메일 인증 후 검수 자료를 확인하실 수 있습니다.</p><p><a href="${emailHtml(REVIEW_APP_URL)}" style="display:inline-block;padding:11px 18px;border-radius:7px;color:#fff;background:#102d4d;text-decoration:none">전문위원 검수 워크룸</a></p><p>문의: admin@gyo6.kr · 010-3534-7163</p></div>`, `expert-invite-${expertUserId}`);
+        invitationSent = result.sent;
       } else {
         const { data: targetProfile, error: targetProfileError } = await admin.from("review_profiles").select("role").eq("user_id", expertUserId).single();
         if (targetProfileError || targetProfile?.role !== "reviewer") throw new Error("전문위원 계정만 이 화면에서 변경할 수 있습니다.");

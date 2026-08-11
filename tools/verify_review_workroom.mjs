@@ -35,11 +35,12 @@ check("report.standard-file", html.includes("download-review-report") && js.incl
 check("manager.actual-progress", managerHtml.includes("실제 문단 확인률") || managerHtml.includes("실제 문단 확인") && managerJs.includes("checkedBlocks") && managerJs.includes("completeDocumentCount"), "운영관제가 자기보고가 아닌 서버 기록으로 실제 진도를 계산합니다.");
 check("manager.handoff-stages", ["최종 제출", "보고서 생성", "인계 완료"].every((value) => managerJs.includes(value)) && managerJs.includes("markReportDelivered"), "최종 제출부터 보고서 전달까지 단계별로 관리합니다.");
 check("manager.access-control", edge.includes("ensureManager") && edge.includes('action === "managerDashboard"') && edge.includes('action === "managerGetReport"'), "운영관제와 보고서 열람은 회사 관리자 권한으로 제한됩니다.");
-check("manager.expert-registration", managerHtml.includes("expert-form") && edge.includes('action === "managerUpsertExpert"') && edge.includes("inviteUserByEmail"), "전문위원 등록·계정 초대 흐름이 연결됩니다.");
+check("manager.expert-registration", managerHtml.includes("expert-form") && edge.includes('action === "managerUpsertExpert"') && edge.includes("admin.auth.admin.createUser") && edge.includes("email_confirm: true"), "전문위원 계정을 메일 없이 사전 등록할 수 있습니다.");
 check("manager.subject-assignment", managerHtml.includes("assignment-form") && edge.includes('action === "managerSaveAssignment"') && edge.includes("review_assignment_documents"), "과목·검수 자료·기간 위촉을 운영관제에서 설정합니다.");
 check("manager.audit-preservation", edge.includes("이미 검수 기록이 시작된 과제의 자료 구성은 변경할 수 없습니다") && edge.includes("기존 기록을 보존하고 새 과제로 등록"), "진행·전달된 검수 기록을 관리자가 덮어쓰지 못합니다.");
 check("manager.role-separation", edge.includes("전문위원 계정만 이 화면에서 변경할 수 있습니다.") && edge.includes('targetProfile?.role !== "reviewer"'), "운영담당자가 관리자 계정을 전문위원으로 변경할 수 없습니다.");
 check("manager.notifications", edge.includes("https://api.resend.com/emails") && edge.includes("RESEND_API_KEY") && edge.includes("notification_sent_at"), "환경설정이 있을 때 위촉·재검토 안내 이메일을 발송하고 기록합니다.");
+check("manager.notification-gate", edge.includes("REVIEW_EMAIL_ENABLED") && edge.includes('status: "paused"') && managerJs.includes('$("#assignment-notify").checked=false'), "대표님의 일괄 시작 승인 전에는 모든 운영 메일이 서버에서 차단됩니다.");
 check("manager.notification-fallback", managerHtml.includes('id="manual-notice-dialog"') && managerJs.includes("assignmentNotice") && managerJs.includes("statusNotice") && managerJs.includes("navigator.clipboard.writeText"), "자동 이메일을 사용할 수 없을 때 카카오톡·문자용 안내문을 생성해 수동 전달할 수 있습니다.");
 check("security.watermark", js.includes("updateWatermark") && html.includes("watermark-layer"), "개인 식별 워터마크가 작동합니다.");
 check("security.copy-print", js.includes("copy_blocked") && css.includes("@media print"), "복사와 인쇄를 제한합니다.");
