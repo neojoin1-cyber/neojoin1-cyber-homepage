@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self' https://*.supabase.co; font-src 'self'; base-uri 'self'; form-action 'self'">
+  <meta name="review-supabase-url" content="https://lpxbfggwptsmxdxvnwhy.supabase.co">
+  <meta name="review-supabase-anon-key" content="sb_publishable_HRFZW8tOwAQNPR7PQnMMhw_sMY51mqa">
+  <title>전문위원 검수 워크룸 | 유한회사 설탕과소금</title>
+  <link rel="icon" href="../brand/logo/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="review.css?v=20260811-2">
+</head>
+<body>
+  <a class="skip-link" href="#review-reader">검수 본문으로 바로가기</a>
+
+  <div class="login-screen" id="login-screen">
+    <div class="login-card">
+      <div class="login-brand">
+        <img src="../brand/logo/badge.svg" width="58" height="58" alt="">
+        <div><strong>유한회사 설탕과소금</strong><span>공직시험 연구소 · 전문위원 검수</span></div>
+      </div>
+      <p class="kicker">SECURE REVIEW WORKROOM</p>
+      <h1>전문위원 검수 워크룸</h1>
+      <p class="login-lead">전문위원님의 학문적·교육적 전문성을 바탕으로 공무원시험 대비, 초등·중등 교원임용고사 대비 자료를 검토하시는 전용 공간입니다.</p>
+
+      <form id="login-form" class="login-form">
+        <label for="login-email">계약서에 기재한 이메일</label>
+        <div class="input-button-row">
+          <input id="login-email" name="email" type="email" autocomplete="email" placeholder="professor@example.ac.kr" required>
+          <button class="button primary" type="submit" id="login-submit">인증번호 받기</button>
+        </div>
+        <div class="otp-row" id="otp-row" hidden>
+          <label for="login-otp">이메일로 받은 6자리 인증번호</label>
+          <div class="input-button-row">
+            <input id="login-otp" name="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="인증번호 입력">
+            <button class="button primary" type="button" id="otp-submit">워크룸 입장</button>
+          </div>
+        </div>
+      </form>
+
+      <button class="demo-entry" type="button" id="demo-entry">보안 기능을 먼저 체험하기</button>
+      <ul class="login-points">
+        <li>전문위원님께 위촉된 담당 과목만 안전하게 제공</li>
+        <li>전문 의견·형광펜·수정 필요 표시 자동저장</li>
+        <li>다운로드 없는 보호 열람</li>
+      </ul>
+      <p class="security-notice">소중한 원고와 전문위원님의 검수 결과를 함께 보호하기 위해 식별 워터마크가 표시되며, 자료보호 협약에 따라 복제·배포·촬영 기능은 제공되지 않습니다.</p>
+    </div>
+  </div>
+
+  <div class="app-shell" id="app-shell" hidden>
+    <header class="app-header">
+      <a class="app-brand" href="../index.html" aria-label="설탕과소금 홈">
+        <img src="../brand/logo/badge.svg" width="42" height="42" alt="">
+        <span><strong>전문위원 검수 워크룸</strong><small>유한회사 설탕과소금 · 공직시험 연구소</small></span>
+      </a>
+      <div class="header-status">
+        <span class="security-chip"><i></i> 보호 열람 중</span>
+        <span id="save-status" class="save-status" role="status">모든 내용 저장됨</span>
+        <button class="icon-button" id="help-button" type="button" aria-label="사용 안내">?</button>
+        <button class="profile-button" id="profile-button" type="button"><span id="reviewer-initial">김</span><b id="reviewer-name">김교수 전문위원님</b></button>
+      </div>
+    </header>
+
+    <section class="assignment-bar" aria-label="검수 과제 선택">
+      <div class="assignment-heading">
+        <span class="program-badge" id="program-badge">공무원시험 대비</span>
+        <div><strong id="assignment-title">헌법 핵심노트·모의고사 1차 검수</strong><small id="assignment-period">검수기간 2026. 8. 11. — 8. 19.</small></div>
+      </div>
+      <div class="assignment-progress" aria-label="전체 검수 진행률">
+        <div><span>전체 진행률</span><strong id="progress-label">0%</strong></div>
+        <progress id="progress-bar" max="100" value="0">0%</progress>
+      </div>
+      <select id="assignment-select" aria-label="검수 과제 변경"></select>
+      <button class="button finish" id="assignment-submit" type="button">최종 검수의견 제출</button>
+    </section>
+
+    <main class="workroom">
+      <aside class="document-sidebar" aria-label="검수 자료 목차">
+        <div class="sidebar-title"><strong>검수 자료</strong><button type="button" id="sidebar-toggle" aria-label="목차 접기">‹</button></div>
+        <nav id="document-list" class="document-list"></nav>
+        <div class="review-guide">
+          <strong>이번 검수의 기준</strong>
+          <ul>
+            <li>사실·법령·판례의 정확성</li>
+            <li>문항·정답·해설의 일치</li>
+            <li>수험생에게 오해 없는 표현</li>
+          </ul>
+        </div>
+      </aside>
+
+      <section class="reader-column" id="review-reader" tabindex="-1">
+        <div class="reader-toolbar" aria-label="검수 도구">
+          <div class="tool-group">
+            <button class="tool-button active" data-tool="select" type="button" title="텍스트 선택"><span>↖</span> 선택</button>
+            <button class="tool-button yellow" data-tool="highlight" data-color="yellow" type="button" title="선택한 문장을 노란색으로 표시"><span></span> 형광펜</button>
+            <button class="color-dot green" data-tool="highlight" data-color="green" type="button" aria-label="초록색 형광펜"></button>
+            <button class="color-dot pink" data-tool="highlight" data-color="pink" type="button" aria-label="분홍색 형광펜"></button>
+            <button class="tool-button" data-tool="memo" type="button"><span>✎</span> 전문 의견</button>
+            <button class="tool-button danger" data-tool="issue" type="button"><span>!</span> 수정 필요</button>
+          </div>
+          <div class="tool-group reader-controls">
+            <button class="icon-button" id="zoom-out" type="button" aria-label="글자 축소">−</button>
+            <span id="zoom-label">100%</span>
+            <button class="icon-button" id="zoom-in" type="button" aria-label="글자 확대">＋</button>
+            <button class="icon-button" id="focus-mode" type="button" aria-label="집중 보기">⛶</button>
+          </div>
+        </div>
+
+        <div class="selection-popover" id="selection-popover" role="toolbar" aria-label="선택 문장 검수 도구" hidden>
+          <span class="selection-popover-label">선택 문장</span>
+          <button class="popover-tool highlight-yellow" data-floating-tool="highlight" data-color="yellow" type="button"><i></i> 형광펜</button>
+          <button class="popover-color green" data-floating-tool="highlight" data-color="green" type="button" aria-label="초록색 형광펜"></button>
+          <button class="popover-color pink" data-floating-tool="highlight" data-color="pink" type="button" aria-label="분홍색 형광펜"></button>
+          <span class="popover-divider" aria-hidden="true"></span>
+          <button class="popover-tool" data-floating-tool="memo" type="button">✎ 전문 의견</button>
+          <button class="popover-tool issue" data-floating-tool="issue" type="button">! 수정 필요</button>
+          <button class="popover-close" id="selection-popover-close" type="button" aria-label="선택 도구 닫기">×</button>
+          <span class="popover-arrow" aria-hidden="true"></span>
+        </div>
+        <article class="review-paper" id="review-paper" aria-live="polite">
+          <header class="paper-header">
+            <div><span id="document-kind">핵심노트</span><h2 id="document-title">자료를 불러오는 중입니다</h2></div>
+            <div class="paper-meta"><span id="document-version">v1.0</span><span id="document-stage">1차 검수</span></div>
+          </header>
+          <div id="document-content" class="document-content"></div>
+          <div class="document-actions">
+            <button class="button" id="previous-document" type="button">← 이전 자료</button>
+            <button class="button primary" id="complete-document" type="button">이 자료의 검토를 마쳤습니다</button>
+            <button class="button" id="next-document" type="button">다음 자료 →</button>
+          </div>
+        </article>
+      </section>
+
+      <aside class="annotation-panel" aria-label="전문 검수의견">
+        <div class="annotation-head">
+          <div><span>REVIEW NOTES</span><strong>전문 검수의견</strong></div>
+          <span class="count-badge" id="annotation-count">0</span>
+        </div>
+        <div class="annotation-filters" role="group" aria-label="의견 필터">
+          <button class="active" data-filter="all" type="button">전체</button>
+          <button data-filter="issue" type="button">수정 필요</button>
+          <button data-filter="memo" type="button">전문 의견</button>
+          <button data-filter="highlight" type="button">표시</button>
+        </div>
+        <div class="document-memo">
+          <label for="document-memo">이 자료에 대한 종합 전문 의견</label>
+          <textarea id="document-memo" rows="3" placeholder="전체 구성, 난이도와 보완 방향에 관한 고견을 남겨 주세요."></textarea>
+          <small>입력 내용은 자동으로 저장됩니다.</small>
+        </div>
+        <div id="annotation-list" class="annotation-list"></div>
+        <div class="report-export">
+          <div><span>STANDARD REPORT</span><strong>표준 검수의견 보고서</strong></div>
+          <p>전문위원님의 기본 정보와 자료별 검수의견을 정해진 양식으로 정리하여 교재 제작 시스템에 정확하게 전달합니다.</p>
+          <button class="button" id="download-review-report" type="button">검수보고서 파일 생성</button>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <div class="watermark-layer" id="watermark-layer" aria-hidden="true"></div>
+
+  <dialog id="annotation-dialog" class="annotation-dialog">
+    <form method="dialog" id="annotation-form">
+      <header><div><span id="dialog-kicker">검수 메모</span><h2 id="dialog-title">선택 문장에 의견 남기기</h2></div><button class="dialog-close" data-close-annotation-dialog type="button" aria-label="닫기">×</button></header>
+      <blockquote id="selected-quote"></blockquote>
+      <div id="issue-fields" hidden>
+        <div class="field-row">
+          <label>보완 유형<select id="issue-type"><option>사실관계 보완</option><option>법령·판례 변경</option><option>정답·해설 보완</option><option>문항 성립 검토</option><option>표현·맞춤법</option><option>출제 적합성</option><option>기타</option></select></label>
+          <label>중요도<select id="issue-severity"><option value="critical">필수 수정</option><option value="major">중요 보완</option><option value="minor">권고</option></select></label>
+        </div>
+      </div>
+      <label class="dialog-body-label" for="annotation-body">전문 검수의견</label>
+      <textarea id="annotation-body" rows="6" placeholder="검토가 필요한 내용과 권고하시는 수정 방향을 함께 남겨 주시면 충실히 반영하겠습니다."></textarea>
+      <footer><span>Ctrl + Enter로 저장</span><div><button class="button" data-close-annotation-dialog type="button">닫기</button><button class="button primary" id="annotation-save" type="submit">전문 의견 저장</button></div></footer>
+    </form>
+  </dialog>
+
+  <dialog id="help-dialog" class="help-dialog">
+    <form method="dialog">
+      <header><div><span>QUICK GUIDE</span><h2>편안하게 검수하는 방법</h2></div><button class="dialog-close" value="cancel" aria-label="닫기">×</button></header>
+      <ol>
+        <li><strong>문장을 드래그</strong><span>확인할 문장을 마우스나 터치로 선택합니다.</span></li>
+        <li><strong>도구 선택</strong><span>형광펜, 전문 의견 또는 수정 필요를 선택합니다.</span></li>
+        <li><strong>자동저장 확인</strong><span>상단에 ‘모든 내용 저장됨’이 보이면 안전하게 저장된 상태입니다.</span></li>
+        <li><strong>자료별 확인</strong><span>한 자료의 검토를 마치신 뒤 ‘이 자료의 검토를 마쳤습니다’를 눌러 주세요.</span></li>
+      </ol>
+      <p>키보드: <kbd>Shift</kbd>+<kbd>H</kbd> 형광펜 · <kbd>Alt</kbd>+<kbd>M</kbd> 전문 의견 · <kbd>Alt</kbd>+<kbd>E</kbd> 수정 필요</p>
+      <footer><button class="button primary" value="default">확인</button></footer>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <noscript>이 검수 워크룸은 안전한 열람과 자동저장을 위해 JavaScript가 필요합니다.</noscript>
+  <script src="review.js?v=20260811-2" defer></script>
+</body>
+</html>

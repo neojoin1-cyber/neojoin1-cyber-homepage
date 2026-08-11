@@ -1,0 +1,69 @@
+import fs from "node:fs";
+import path from "node:path";
+
+const root = path.resolve(import.meta.dirname, "..");
+const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
+const checks = [];
+const check = (name, condition, detail) => checks.push({ name, condition: Boolean(condition), detail });
+
+const html = read("review/index.html");
+const css = read("review/review.css");
+const js = read("review/review.js");
+const sql = read("review/supabase/review-room-schema.sql");
+const edge = read("review/supabase/functions/review-content/index.ts");
+const headers = read("review/_headers");
+const managerHtml = read("review/manage.html");
+const managerJs = read("review/manage.js");
+const missingIdTargets = (markup, source) => {
+  const htmlIds = new Set([...markup.matchAll(/\bid=["']([^"']+)["']/g)].map((match) => match[1]));
+  const jsIds = new Set([...source.matchAll(/\$\(["']#([^"']+)["']\)/g)].map((match) => match[1]));
+  return [...jsIds].filter((id) => !htmlIds.has(id));
+};
+
+check("page.noindex", html.includes('name="robots" content="noindex, nofollow, noarchive, nosnippet"'), "보호 페이지가 검색에 노출되지 않습니다.");
+check("page.programs", ["공무원시험 대비", "초등교원임용고사 대비", "중등교원임용고사 대비"].every((value) => js.includes(value)), "세 시험군이 하나의 워크룸 구조에 포함됩니다.");
+check("tools.annotation", ["형광펜", "전문 의견", "수정 필요"].every((value) => html.includes(value)), "핵심 검수 도구가 존중 표현으로 제공됩니다.");
+check("tools.selection-popover", html.includes("selection-popover") && js.includes("showSelectionPopover") && js.includes('(pointer: coarse)'), "선택 즉시 PC 위쪽·터치 기기 아래쪽에 검수 도구가 표시됩니다.");
+check("page.event-targets", html.includes('id="review-reader"') && js.includes('$("#review-reader").addEventListener("scroll"'), "본문 스크롤 이벤트가 실제 검수 본문 요소에 연결됩니다.");
+check("page.all-event-targets", missingIdTargets(html, js).length === 0 && missingIdTargets(managerHtml, managerJs).length === 0, "전문위원·운영관제 스크립트가 참조하는 모든 ID가 실제 화면에 존재합니다.");
+check("tools.autosave", js.includes("scheduleSave") && html.includes("자동으로 저장"), "문단 확인과 전체 의견을 자동저장합니다.");
+check("tools.autosave-flush", js.includes("flushPendingSaves") && js.includes("saveJobs: new Map()") && js.includes("await flushPendingSaves();"), "자료·과제 전환과 최종 제출 전에 대기 중인 저장을 확정합니다.");
+check("auth.session-refresh", [js, managerJs].every((source) => source.includes("refresh_token") && source.includes("refreshSession")), "장시간 검수·운영 중 만료되는 인증 세션을 안전하게 갱신합니다.");
+check("auth.otp-or-magic-link", [js, managerJs].every((source) => source.includes("sessionFromMagicLink") && source.includes("email_redirect_to") && source.includes("history.replaceState")), "이메일 숫자 인증과 로그인 링크를 모두 지원하고 URL의 인증정보를 즉시 제거합니다.");
+check("language.respect", html.includes("전문위원님") && js.includes("귀한 검토에 감사드립니다") && !html.includes("외부 검수자"), "전문위원 화면의 기본 호칭과 안내가 존중 표현을 사용합니다.");
+check("report.standard-file", html.includes("download-review-report") && js.includes("sugar-salt-expert-review/v1") && js.includes("교재 생성 시스템 인계 규칙"), "검수위원 인적사항과 의견을 표준 보고서 파일로 생성합니다.");
+check("manager.actual-progress", managerHtml.includes("실제 문단 확인률") || managerHtml.includes("실제 문단 확인") && managerJs.includes("checkedBlocks") && managerJs.includes("completeDocumentCount"), "운영관제가 자기보고가 아닌 서버 기록으로 실제 진도를 계산합니다.");
+check("manager.handoff-stages", ["최종 제출", "보고서 생성", "인계 완료"].every((value) => managerJs.includes(value)) && managerJs.includes("markReportDelivered"), "최종 제출부터 보고서 전달까지 단계별로 관리합니다.");
+check("manager.access-control", edge.includes("ensureManager") && edge.includes('action === "managerDashboard"') && edge.includes('action === "managerGetReport"'), "운영관제와 보고서 열람은 회사 관리자 권한으로 제한됩니다.");
+check("manager.expert-registration", managerHtml.includes("expert-form") && edge.includes('action === "managerUpsertExpert"') && edge.includes("inviteUserByEmail"), "전문위원 등록·계정 초대 흐름이 연결됩니다.");
+check("manager.subject-assignment", managerHtml.includes("assignment-form") && edge.includes('action === "managerSaveAssignment"') && edge.includes("review_assignment_documents"), "과목·검수 자료·기간 위촉을 운영관제에서 설정합니다.");
+check("manager.audit-preservation", edge.includes("이미 검수 기록이 시작된 과제의 자료 구성은 변경할 수 없습니다") && edge.includes("기존 기록을 보존하고 새 과제로 등록"), "진행·전달된 검수 기록을 관리자가 덮어쓰지 못합니다.");
+check("manager.role-separation", edge.includes("전문위원 계정만 이 화면에서 변경할 수 있습니다.") && edge.includes('targetProfile?.role !== "reviewer"'), "운영담당자가 관리자 계정을 전문위원으로 변경할 수 없습니다.");
+check("manager.notifications", edge.includes("https://api.resend.com/emails") && edge.includes("RESEND_API_KEY") && edge.includes("notification_sent_at"), "환경설정이 있을 때 위촉·재검토 안내 이메일을 발송하고 기록합니다.");
+check("manager.notification-fallback", managerHtml.includes('id="manual-notice-dialog"') && managerJs.includes("assignmentNotice") && managerJs.includes("statusNotice") && managerJs.includes("navigator.clipboard.writeText"), "자동 이메일을 사용할 수 없을 때 카카오톡·문자용 안내문을 생성해 수동 전달할 수 있습니다.");
+check("security.watermark", js.includes("updateWatermark") && html.includes("watermark-layer"), "개인 식별 워터마크가 작동합니다.");
+check("security.copy-print", js.includes("copy_blocked") && css.includes("@media print"), "복사와 인쇄를 제한합니다.");
+check("security.headers", headers.includes("Cache-Control: no-store") && headers.includes("Content-Security-Policy"), "보호 열람 응답 헤더가 정의되어 있습니다.");
+check("security.manager-csp", managerHtml.includes("Content-Security-Policy") && managerHtml.includes('name="referrer" content="no-referrer"'), "호스트 헤더 적용 여부와 무관하게 운영관제 페이지에도 CSP가 적용됩니다.");
+check("security.production-config", [html, managerHtml].every((source) => source.includes("https://lpxbfggwptsmxdxvnwhy.supabase.co") && source.includes("sb_publishable_")), "운영 웹이 비밀키가 아닌 공개 publishable 키로 연결됩니다.");
+check("database.rls", sql.includes("enable row level security") && sql.includes("revoke all on table"), "검수 테이블 직접 접근을 차단합니다.");
+check("database.private-source", sql.includes("review-masters") && sql.includes("public, file_size_limit") && sql.includes("false,"), "원본 저장소가 비공개로 정의됩니다.");
+check("database.report-queue", sql.includes("create table if not exists public.review_exports") && sql.includes("delivery_status"), "최종 보고서가 교재 생성 시스템 인계 대기열에 보관됩니다.");
+check("api.auth", edge.includes("auth.getUser") && edge.includes("reviewer_user_id"), "보호 API가 로그인 사용자와 과제 배정을 함께 확인합니다.");
+check("api.annotation-ownership", edge.includes("existingAnnotation.reviewer_user_id !== userId"), "다른 검수위원의 의견 ID를 덮어쓸 수 없습니다.");
+check("api.server-completion", edge.includes("checkedBlocks.length === validIds.size"), "클라이언트에서 검수 완료를 임의로 우회할 수 없습니다.");
+check("api.no-store", edge.includes('"Cache-Control": "no-store'), "API 응답을 브라우저 캐시에 남기지 않습니다.");
+check("api.workflow", ["getDocument", "saveAnnotation", "saveProgress", "submitAssignment", "logEvent"].every((value) => edge.includes(`action === "${value}"`)), "열람·검수·제출·감사 흐름이 연결됩니다.");
+check("api.report-export", edge.includes('action === "exportReport"') && edge.includes("createReviewReport") && edge.includes('crypto.subtle.digest("SHA-256"'), "서버가 보고서 원본과 무결성 해시를 생성합니다.");
+check("api.report-identity", ["mobile", "organization", "department", "position_title"].every((value) => edge.includes(value)), "보고서에 검수위원 인적사항이 자동 결합됩니다.");
+check("api.report-immutable", edge.includes('.in("delivery_status", ["ready", "delivered"])') && edge.includes("existingExport.delivery_status"), "인계 대기·완료 보고서는 전문위원 재생성으로 덮어쓰지 않습니다.");
+check("api.event-bounds", edge.includes("MAX_REQUEST_CHARS") && edge.includes("ALLOWED_REVIEW_EVENTS") && edge.includes("safeEventPayload") && edge.includes("(count ?? 0) >= 500"), "감사 이벤트 유형·본문 크기·시간당 건수를 제한합니다.");
+check("api.submit-recovery", edge.includes('update({ status: "reviewing", submitted_at: null })') && edge.includes("throw reportError"), "최종 보고서 생성 실패 시 과제를 다시 편집 가능한 상태로 안전하게 되돌립니다.");
+
+const failed = checks.filter((item) => !item.condition);
+for (const item of checks) console.log(`${item.condition ? "PASS" : "FAIL"} ${item.name} - ${item.detail}`);
+if (failed.length) {
+  console.error(`\n${failed.length} review workroom checks failed.`);
+  process.exit(1);
+}
+console.log(`\n${checks.length} review workroom checks passed.`);

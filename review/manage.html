@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self' https://*.supabase.co; font-src 'self'; base-uri 'self'; form-action 'self'">
+  <meta name="review-supabase-url" content="https://lpxbfggwptsmxdxvnwhy.supabase.co">
+  <meta name="review-supabase-anon-key" content="sb_publishable_HRFZW8tOwAQNPR7PQnMMhw_sMY51mqa">
+  <title>검수 운영관제 | 유한회사 설탕과소금</title>
+  <link rel="stylesheet" href="manage.css?v=20260811-2">
+</head>
+<body>
+  <section class="manager-login" id="manager-login">
+    <div class="login-card">
+      <p class="eyebrow">SUGAR &amp; SALT · INTERNAL</p>
+      <h1>검수 운영관제</h1>
+      <p>전문위원님의 위촉 과목과 실제 검토 진행, 최종 보고서 인계까지 확인하는 회사 내부 전용 화면입니다.</p>
+      <form id="manager-login-form">
+        <label>회사 관리자 이메일<input id="manager-email" type="email" autocomplete="email" required placeholder="admin@gyo6.kr"></label>
+        <button type="submit">인증번호 받기</button>
+      </form>
+      <div class="otp-row" id="manager-otp-row" hidden>
+        <label>이메일 인증번호<input id="manager-otp" inputmode="numeric" maxlength="8"></label>
+        <button id="manager-otp-submit" type="button">안전하게 로그인</button>
+      </div>
+      <button class="demo-button" id="manager-demo" type="button">운영 화면 먼저 확인하기</button>
+      <small>운영 환경에서는 관리자 또는 운영담당자 권한이 확인된 계정만 접근할 수 있습니다.</small>
+    </div>
+  </section>
+
+  <div class="manager-app" id="manager-app" hidden>
+    <header class="topbar">
+      <a href="../index.html" class="brand"><span>ㅅ</span><div><strong>유한회사 설탕과소금</strong><small>검수 운영관제 · 회사 내부 전용</small></div></a>
+      <div class="top-actions"><span id="synced-at">서버 기록 확인 중</span><button id="new-expert" type="button">전문위원 등록</button><button id="new-assignment" class="accent-button" type="button">새 과목 위촉</button><button id="refresh-dashboard" type="button">최신 기록</button></div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div><p class="eyebrow">EXPERT REVIEW OPERATIONS</p><h1>전문위원 검수 현황</h1><p>자기보고가 아닌 문단 확인·자료 완료·최종 제출·보고서 인계 기록을 기준으로 집계합니다.</p></div>
+        <div class="hero-seal"><span>LIVE</span><strong>실제 기록</strong><small>서버 기준</small></div>
+      </section>
+
+      <section class="summary-grid" aria-label="운영 요약">
+        <article><span>위촉 전문위원</span><strong id="summary-experts">0</strong><small>현재 과제 기준</small></article>
+        <article><span>검수 진행 중</span><strong id="summary-reviewing">0</strong><small>실제 문단 확인 기록</small></article>
+        <article><span>최종 제출</span><strong id="summary-submitted">0</strong><small>표준 보고서 생성 대상</small></article>
+        <article class="accent"><span>인계 대기</span><strong id="summary-ready">0</strong><small>교재 제작 시스템 전달 전</small></article>
+        <article><span>인계 완료</span><strong id="summary-delivered">0</strong><small>보고서 전달 기록 완료</small></article>
+      </section>
+
+      <section class="control-panel">
+        <div class="filters">
+          <label>사업<select id="filter-program"><option value="all">전체 사업</option></select></label>
+          <label>진행상태<select id="filter-status"><option value="all">전체 상태</option><option value="attention">확인 필요</option><option value="assigned">위촉 완료</option><option value="reviewing">검수 진행 중</option><option value="submitted">최종 제출</option><option value="ready">보고서 인계 대기</option><option value="delivered">인계 완료</option><option value="revoked">위촉 종료</option></select></label>
+          <label class="search">전문위원·과목 검색<input id="filter-search" type="search" placeholder="성명, 소속 또는 과목"></label>
+        </div>
+        <div class="legend"><span><i class="done"></i>완료</span><span><i class="current"></i>진행</span><span><i></i>대기</span><span><i class="attention"></i>확인 필요</span></div>
+      </section>
+
+      <section class="table-card">
+        <div class="table-heading"><div><span>ASSIGNMENT CONTROL</span><h2>전문위원별 위촉·검수·보고서 현황</h2></div><p id="result-count">0건</p></div>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>전문위원 / 소속</th><th>사업·담당 과목</th><th>실제 검수 진도</th><th>검수·인계 단계</th><th>마지막 활동</th><th>운영 확인</th></tr></thead>
+            <tbody id="assignment-rows"></tbody>
+          </table>
+        </div>
+        <div class="empty" id="dashboard-empty" hidden>조건에 맞는 위촉 과제가 없습니다.</div>
+      </section>
+    </main>
+
+    <dialog id="assignment-detail">
+      <div class="detail-head"><div><span>ASSIGNMENT DETAIL</span><h2 id="detail-title">검수 상세</h2></div><button id="detail-close" type="button" aria-label="상세 닫기">×</button></div>
+      <div id="detail-body"></div>
+      <footer><button id="edit-expert" type="button">전문위원 정보</button><button id="edit-assignment" type="button">위촉 내용 확인·변경</button><button id="request-rereview" type="button">재검토 요청</button><button id="revoke-assignment" class="danger-button" type="button">위촉 종료</button><button id="download-managed-report" type="button">표준 보고서 받기</button><button class="primary" id="mark-report-delivered" type="button">교재 제작 시스템 전달 완료</button></footer>
+    </dialog>
+
+    <dialog id="expert-dialog" class="form-dialog">
+      <form id="expert-form">
+        <div class="detail-head"><div><span>EXPERT PROFILE</span><h2 id="expert-dialog-title">전문위원 등록</h2></div><button data-close-dialog="expert-dialog" type="button" aria-label="닫기">×</button></div>
+        <div class="form-body">
+          <input id="expert-id" type="hidden">
+          <div class="form-grid">
+            <label>성명<strong>*</strong><input id="expert-name" required placeholder="홍길동"></label>
+            <label>이메일<strong>*</strong><input id="expert-email" type="email" required placeholder="professor@example.ac.kr"></label>
+            <label>휴대전화<strong>*</strong><input id="expert-mobile" required placeholder="010-0000-0000"></label>
+            <label>소속 대학<strong>*</strong><input id="expert-organization" required placeholder="○○대학교"></label>
+            <label>학과·부서<strong>*</strong><input id="expert-department" required placeholder="법학과"></label>
+            <label>직위<strong>*</strong><input id="expert-position" required placeholder="교수 또는 명예교수"></label>
+          </div>
+          <label class="check-label"><input id="expert-active" type="checkbox" checked> 전문위원 계정을 이용 가능 상태로 등록합니다.</label>
+          <p class="form-note">신규 등록 시 계약 이메일로 워크룸 이용 안내를 발송합니다. 제출된 프로필 공개 범위는 별도 계약 기준을 따릅니다.</p>
+        </div>
+        <footer><button data-close-dialog="expert-dialog" type="button">닫기</button><button class="primary" type="submit">전문위원 정보 저장</button></footer>
+      </form>
+    </dialog>
+
+    <dialog id="assignment-dialog" class="form-dialog wide-dialog">
+      <form id="assignment-form">
+        <div class="detail-head"><div><span>SUBJECT APPOINTMENT</span><h2 id="assignment-dialog-title">새 과목 위촉</h2></div><button data-close-dialog="assignment-dialog" type="button" aria-label="닫기">×</button></div>
+        <div class="form-body">
+          <input id="assignment-id" type="hidden">
+          <div class="form-grid">
+            <label>전문위원<strong>*</strong><select id="assignment-expert" required></select></label>
+            <label>사업<strong>*</strong><select id="assignment-program" required></select></label>
+            <label>담당 과목<strong>*</strong><select id="assignment-subject" required></select></label>
+            <label>위촉 과제명<strong>*</strong><input id="assignment-title" required placeholder="헌법 핵심노트·모의고사 검수"></label>
+            <label>검수 시작일<strong>*</strong><input id="assignment-start" type="date" required></label>
+            <label>검수 종료일<strong>*</strong><input id="assignment-end" type="date" required></label>
+          </div>
+          <label>계약·위촉 기준<input id="assignment-contract" placeholder="2026 공무원시험 대비 외부 전문위원 검수용역"></label>
+          <fieldset><legend>제공할 검수 자료<strong>*</strong></legend><div class="document-picker" id="assignment-documents"></div></fieldset>
+          <label class="check-label"><input id="assignment-notify" type="checkbox" checked> 저장 후 전문위원님께 안내 이메일을 발송합니다.</label>
+          <p class="form-note" id="assignment-form-note">검수 기록이 시작된 뒤에는 자료 구성을 변경할 수 없습니다. 필요한 경우 기존 위촉을 종료하고 새 과제를 등록합니다. 자동 이메일을 사용할 수 없을 때에는 저장 직후 카카오톡·문자용 안내문을 제공합니다.</p>
+        </div>
+        <footer><button data-close-dialog="assignment-dialog" type="button">닫기</button><button class="primary" type="submit">위촉 내용 저장</button></footer>
+      </form>
+    </dialog>
+
+    <dialog id="manual-notice-dialog" class="form-dialog notice-dialog">
+      <div class="detail-head"><div><span>MANUAL NOTICE</span><h2 id="manual-notice-title">전문위원 안내문</h2></div><button data-close-dialog="manual-notice-dialog" type="button" aria-label="닫기">×</button></div>
+      <div class="form-body">
+        <p class="form-note">자동 이메일을 대신하여 아래 내용을 확인한 뒤 카카오톡이나 문자로 전달해 주세요.</p>
+        <textarea id="manual-notice-text" readonly aria-label="전문위원 전달 안내문"></textarea>
+      </div>
+      <footer><button data-close-dialog="manual-notice-dialog" type="button">닫기</button><button class="primary" id="copy-manual-notice" type="button">안내문 복사</button></footer>
+    </dialog>
+  </div>
+  <div class="toast" id="manager-toast" role="status"></div>
+  <script src="manage.js?v=20260811-2"></script>
+</body>
+</html>
