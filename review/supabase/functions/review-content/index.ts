@@ -9,6 +9,7 @@ const REVIEW_ACCESS_ENABLED = (Deno.env.get("REVIEW_ACCESS_ENABLED") ?? "false")
 const REVIEW_LAUNCH_ENABLED = (Deno.env.get("REVIEW_LAUNCH_ENABLED") ?? "false").toLowerCase() === "true";
 const REVIEW_EMAIL_FROM = Deno.env.get("REVIEW_EMAIL_FROM") ?? "유한회사 설탕과소금 <review@gyo6.kr>";
 const REVIEW_APP_URL = Deno.env.get("REVIEW_APP_URL") ?? "https://gyo6.kr/review/";
+const REVIEW_OPERATIONS_EMAIL = Deno.env.get("REVIEW_OPERATIONS_EMAIL") ?? "admin@gyo6.kr";
 const ALLOWED_ORIGINS = (Deno.env.get("REVIEW_ALLOWED_ORIGINS") ?? "https://gyo6.kr,http://127.0.0.1:4175,http://localhost:4175")
   .split(",")
   .map((value) => value.trim())
@@ -70,6 +71,14 @@ function emailHtml(value: unknown) {
   return String(value ?? "").replace(/[&<>\"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[character] ?? character);
 }
 
+function examTrackFromTitle(title: unknown) {
+  return String(title ?? "").includes("[지방직 7급]") ? "local" : "national";
+}
+
+function examTrackLabel(track: unknown) {
+  return track === "local" ? "지방직 7급" : "국가직 7급";
+}
+
 function safeEventPayload(value: unknown) {
   if (!value || typeof value !== "object" || Array.isArray(value)) return {};
   const safe: Record<string, string | number | boolean | null> = {};
@@ -84,7 +93,7 @@ function safeEventPayload(value: unknown) {
 }
 
 async function sendOperationalEmail(to: string, subject: string, html: string, idempotencyKey: string) {
-  if (!REVIEW_LAUNCH_ENABLED || !REVIEW_EMAIL_ENABLED) return { sent: false, status: "paused", id: null };
+  if (!REVIEW_EMAIL_ENABLED) return { sent: false, status: "paused", id: null };
   if (!RESEND_API_KEY) return { sent: false, status: "not_configured", id: null };
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -97,6 +106,7 @@ async function sendOperationalEmail(to: string, subject: string, html: string, i
 }
 
 async function assignmentFor(admin: ReturnType<typeof createClient>, userId: string, assignmentId: string, requireWritable = false) {
+  if (!REVIEW_ACCESS_ENABLED) throw new Error("전문위원 검수 접근은 대표님의 최종 시작 승인 전까지 안전하게 잠겨 있습니다.");
   const { data, error } = await admin
     .from("review_assignments")
     .select("*")
@@ -104,8 +114,8 @@ async function assignmentFor(admin: ReturnType<typeof createClient>, userId: str
     .eq("reviewer_user_id", userId)
     .single();
   if (error || !data) throw new Error("전문위원님께 위촉된 검수 과제가 아닙니다.");
-  if (!data.notification_sent_at) throw new Error("아직 공식 검수 시작 전입니다. 회사의 공식 시작 안내를 받으신 뒤 이용해 주세요.");
   const now = Date.now();
+  if (data.status === "prepared" || !data.started_at) throw new Error("계약과 최신 원고의 최종 확인이 진행 중입니다. 대표님의 일괄 시작 후 이용하실 수 있습니다.");
   if (data.status === "revoked") throw new Error("현재 이 검수과제의 이용이 종료되었습니다. 확인이 필요하시면 담당자에게 말씀해 주세요.");
   if (now < new Date(data.starts_at).getTime() || now > new Date(data.ends_at).getTime()) throw new Error("계약서에 정한 검수 가능 기간을 확인해 주세요. 일정 협의가 필요하시면 담당자에게 말씀해 주세요.");
   if (requireWritable && ["submitted", "accepted", "revoked"].includes(data.status)) throw new Error("최종 제출되었거나 종료된 검수 과제입니다. 추가 보완이 필요하시면 담당자에게 말씀해 주세요.");
@@ -137,20 +147,19 @@ async function markAssignmentReviewing(admin: ReturnType<typeof createClient>, u
 }
 
 async function bootstrap(admin: ReturnType<typeof createClient>, userId: string) {
+  if (!REVIEW_ACCESS_ENABLED) throw new Error("전문위원 검수 접근은 대표님의 최종 시작 승인 전까지 안전하게 잠겨 있습니다.");
   const { data: reviewer, error: reviewerError } = await admin
     .from("review_profiles")
     .select("user_id, email, display_name, mobile, organization, department, position_title, role, role_label, active")
     .eq("user_id", userId)
     .single();
   if (reviewerError || !reviewer?.active) throw new Error("현재 이용 가능한 전문위원 계정을 확인하지 못했습니다. 담당자에게 말씀해 주세요.");
-  if (reviewer.role === "reviewer" && (!REVIEW_LAUNCH_ENABLED || !REVIEW_ACCESS_ENABLED)) throw new Error("현재 모든 검수 자료를 최종 점검하고 있습니다. 공식 시작 안내를 받으신 뒤 이용해 주세요.");
 
   const { data: assignmentRows, error: assignmentError } = await admin
     .from("review_assignments")
     .select("*")
     .eq("reviewer_user_id", userId)
     .in("status", ["assigned", "reviewing", "submitted", "returned"])
-    .not("notification_sent_at", "is", null)
     .order("starts_at", { ascending: true });
   if (assignmentError) throw assignmentError;
 
@@ -173,10 +182,14 @@ async function bootstrap(admin: ReturnType<typeof createClient>, userId: string)
   const { data: progressRows } = assignmentIds.length
     ? await admin.from("review_progress").select("*").eq("reviewer_user_id", userId).in("assignment_id", assignmentIds)
     : { data: [] };
+  const { data: interimRows } = assignmentIds.length
+    ? await admin.from("review_interim_reports").select("assignment_id, submitted_at").eq("reviewer_user_id", userId).in("assignment_id", assignmentIds)
+    : { data: [] };
 
   const subjects = new Map((subjectRows ?? []).map((row) => [row.id, row]));
   const programs = new Map((programRows ?? []).map((row) => [row.id, row]));
   const documentMap = new Map((documents ?? []).map((row) => [row.id, row]));
+  const interimMap = new Map((interimRows ?? []).map((row) => [row.assignment_id, row.submitted_at]));
   const assignments = (assignmentRows ?? []).map((assignment) => {
     const subject = subjects.get(assignment.subject_id);
     return {
@@ -186,6 +199,8 @@ async function bootstrap(admin: ReturnType<typeof createClient>, userId: string)
       title: assignment.title,
       contractReference: assignment.contract_reference,
       period: `${assignment.starts_at.slice(0, 10)} — ${assignment.ends_at.slice(0, 10)}`,
+      interimDueAt: assignment.interim_due_at?.slice(0, 10) ?? null,
+      interimSubmittedAt: interimMap.get(assignment.id) ?? null,
       status: assignment.status,
       watermarkCode: assignment.watermark_code,
       documents: (links ?? [])
@@ -218,9 +233,9 @@ async function bootstrap(admin: ReturnType<typeof createClient>, userId: string)
   };
 }
 
-async function createReviewReport(admin: ReturnType<typeof createClient>, userId: string, assignmentId: string) {
+async function createReviewReport(admin: ReturnType<typeof createClient>, userId: string, assignmentId: string, reportKind: "draft" | "interim" | "final" = "draft") {
   const assignment = await assignmentFor(admin, userId, assignmentId);
-  if (["submitted", "accepted"].includes(assignment.status)) {
+  if (reportKind === "final" && ["submitted", "accepted"].includes(assignment.status)) {
     const { data: existingExport, error: existingExportError } = await admin
       .from("review_exports")
       .select("report_id, file_name, markdown, sha256, delivery_status")
@@ -267,7 +282,8 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
   if (progressError) throw progressError;
 
   const generatedAt = new Date().toISOString();
-  const reportId = `REVIEW-${assignmentId.slice(0, 8).toUpperCase()}-${generatedAt.replace(/\D/g, "").slice(0, 14)}`;
+  const reportPrefix = reportKind === "interim" ? "INTERIM" : "REVIEW";
+  const reportId = `${reportPrefix}-${assignmentId.slice(0, 8).toUpperCase()}-${generatedAt.replace(/\D/g, "").slice(0, 14)}`;
   const documentMap = new Map((documents ?? []).map((item) => [item.id, item]));
   const blockMap = new Map((blocks ?? []).map((item) => [item.id, item]));
   const progressMap = new Map((progressRows ?? []).map((item) => [item.document_id, item]));
@@ -305,7 +321,7 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
   const payload = {
     schema: "sugar-salt-expert-review/v1",
     reportId,
-    status: ["submitted", "accepted"].includes(assignment.status) ? "final" : "draft",
+    status: reportKind === "interim" ? "interim" : reportKind === "final" || ["submitted", "accepted"].includes(assignment.status) ? "final" : "draft",
     generatedAt,
     company: { name: "유한회사 설탕과소금", unit: program.id === "civil" ? "공직시험 연구소" : "교원임용 연구" },
     reviewer: { id: reviewer.user_id, name: reviewer.display_name, email: reviewer.email, mobile: reviewer.mobile, organization: reviewer.organization, department: reviewer.department, positionTitle: reviewer.position_title, roleLabel: reviewer.role_label },
@@ -341,7 +357,7 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
     `- 검수분야: ${reportValue(program.name)} / ${reportValue(subject.name)}`,
     `- 용역 기준: ${reportValue(assignment.contract_reference) || "외부 전문위원 검수용역"}`,
     `- 검수기간: ${payload.assignment.period}`,
-    `- 작성상태: ${payload.status === "final" ? "최종 제출" : "작성 중 초안"}`,
+    `- 작성상태: ${payload.status === "final" ? "최종 제출" : payload.status === "interim" ? "1차 중간보고" : "작성 중 초안"}`,
     "",
     "## 1. 전문위원 기본 정보",
     "",
@@ -398,12 +414,16 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
   const markdown = lines.join("\n");
   const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(markdown));
   const sha256 = Array.from(new Uint8Array(digest)).map((byte) => byte.toString(16).padStart(2, "0")).join("");
-  const fileName = `${reportFilePart(program.name)}_${reportFilePart(subject.name)}_${reportFilePart(reviewer.display_name)}_검수보고서.md`;
+  const fileName = `${reportFilePart(program.name)}_${reportFilePart(subject.name)}_${reportFilePart(reviewer.display_name)}_${payload.status === "interim" ? "1차중간보고" : "검수보고서"}.md`;
+  if (payload.status === "interim") {
+    const { error: interimError } = await admin.from("review_interim_reports").upsert({ assignment_id: assignmentId, reviewer_user_id: userId, schema_version: payload.schema, report_id: reportId, file_name: fileName, markdown, json_payload: payload, sha256, submitted_at: generatedAt }, { onConflict: "assignment_id,reviewer_user_id" });
+    if (interimError) throw interimError;
+  }
   if (payload.status === "final") {
     const { error: exportError } = await admin.from("review_exports").upsert({ assignment_id: assignmentId, reviewer_user_id: userId, schema_version: payload.schema, report_id: reportId, file_name: fileName, markdown, json_payload: payload, sha256, delivery_status: "ready", created_at: generatedAt, delivered_at: null }, { onConflict: "assignment_id,reviewer_user_id" });
     if (exportError) throw exportError;
   }
-  return { reportId, fileName, markdown, sha256, status: payload.status, deliveryStatus: payload.status === "final" ? "ready" : "draft" };
+  return { reportId, fileName, markdown, sha256, status: payload.status, deliveryStatus: payload.status === "final" ? "ready" : payload.status === "interim" ? "submitted" : "draft" };
 }
 
 async function ensureManager(admin: ReturnType<typeof createClient>, userId: string) {
@@ -432,12 +452,14 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
   const { data: annotationRows } = assignmentIds.length ? await admin.from("review_annotations").select("assignment_id, id").in("assignment_id", assignmentIds) : { data: [] };
   const { data: eventRows } = assignmentIds.length ? await admin.from("review_events").select("assignment_id, occurred_at").in("assignment_id", assignmentIds).order("occurred_at", { ascending: false }) : { data: [] };
   const { data: exportRows } = assignmentIds.length ? await admin.from("review_exports").select("id, assignment_id, report_id, file_name, sha256, delivery_status, created_at, delivered_at").in("assignment_id", assignmentIds) : { data: [] };
+  const { data: interimRows } = assignmentIds.length ? await admin.from("review_interim_reports").select("id, assignment_id, report_id, file_name, sha256, submitted_at").in("assignment_id", assignmentIds) : { data: [] };
   const reviewerMap = new Map((reviewers ?? []).map((item) => [item.user_id, item]));
   const subjectMap = new Map((subjects ?? []).map((item) => [item.id, item]));
   const programMap = new Map((programs ?? []).map((item) => [item.id, item]));
   const documentMap = new Map((documents ?? []).map((item) => [item.id, item]));
   const progressMap = new Map((progressRows ?? []).map((item) => [`${item.assignment_id}:${item.document_id}`, item]));
   const exportMap = new Map((exportRows ?? []).map((item) => [item.assignment_id, item]));
+  const interimMap = new Map((interimRows ?? []).map((item) => [item.assignment_id, item]));
   const lastActivityMap = new Map<string, string>();
   for (const event of eventRows ?? []) if (event.assignment_id && !lastActivityMap.has(event.assignment_id)) lastActivityMap.set(event.assignment_id, event.occurred_at);
   const blockCounts = new Map<string, number>();
@@ -469,7 +491,11 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
         subjectId: assignment.subject_id,
         programId: subject?.program_id ?? null,
         contractReference: assignment.contract_reference,
+        examTrack: assignment.exam_track ?? "national",
+        contractCompletedAt: assignment.contract_completed_at,
+        startedAt: assignment.started_at,
         period: `${assignment.starts_at.slice(0, 10)} — ${assignment.ends_at.slice(0, 10)}`,
+        interimDueAt: assignment.interim_due_at?.slice(0, 10) ?? null,
         status: assignment.status,
         documentCount: detailDocuments.length,
         completeDocumentCount: detailDocuments.filter((item) => item.complete).length,
@@ -479,24 +505,20 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
         lastActivityAt,
         attention,
         report: exportMap.get(assignment.id) ? { id: (exportMap.get(assignment.id) as any).id, reportId: (exportMap.get(assignment.id) as any).report_id, fileName: (exportMap.get(assignment.id) as any).file_name, sha256: (exportMap.get(assignment.id) as any).sha256, deliveryStatus: (exportMap.get(assignment.id) as any).delivery_status, createdAt: (exportMap.get(assignment.id) as any).created_at, deliveredAt: (exportMap.get(assignment.id) as any).delivered_at } : null,
+        interimReport: interimMap.get(assignment.id) ? { id: (interimMap.get(assignment.id) as any).id, reportId: (interimMap.get(assignment.id) as any).report_id, fileName: (interimMap.get(assignment.id) as any).file_name, sha256: (interimMap.get(assignment.id) as any).sha256, submittedAt: (interimMap.get(assignment.id) as any).submitted_at } : null,
         documents: detailDocuments
       };
     });
   const { data: expertCatalog } = await admin.from("review_profiles").select("user_id, email, display_name, mobile, organization, department, position_title, role_label, active").eq("role", "reviewer").order("display_name");
   const { data: subjectCatalog } = await admin.from("review_subjects").select("id, program_id, name, sort_order").order("sort_order");
   const { data: programCatalog } = await admin.from("review_programs").select("id, name, sort_order").order("sort_order");
-  const { data: documentCatalog } = await admin.from("review_documents").select("id, subject_id, title, kind, version, status").in("status", ["review_ready", "reviewing", "approved"]).order("title");
+  const { data: documentCatalog } = await admin.from("review_documents").select("id, subject_id, title, kind, version, status, source_sha256").in("status", ["review_ready", "reviewing", "approved"]).order("title");
   return {
     assignments: dashboardAssignments,
     experts: (expertCatalog ?? []).map((item) => ({ id: item.user_id, email: item.email, name: item.display_name, mobile: item.mobile, organization: item.organization, department: item.department, positionTitle: item.position_title, roleLabel: item.role_label, active: item.active })),
     programs: (programCatalog ?? []).map((item) => ({ id: item.id, name: item.name })),
     subjects: (subjectCatalog ?? []).map((item) => ({ id: item.id, programId: item.program_id, name: item.name })),
-    documents: (documentCatalog ?? []).map((item) => ({ id: item.id, subjectId: item.subject_id, title: item.title, kind: item.kind, version: item.version, status: item.status })),
-    launch: {
-      ready: REVIEW_LAUNCH_ENABLED && REVIEW_EMAIL_ENABLED && REVIEW_ACCESS_ENABLED,
-      enabled: REVIEW_LAUNCH_ENABLED,
-      pendingAssignments: assignments.filter((item) => item.status === "assigned" && !item.notification_sent_at).length
-    }
+    documents: (documentCatalog ?? []).map((item) => ({ id: item.id, subjectId: item.subject_id, title: item.title, kind: item.kind, version: item.version, status: item.status, sourceSha256: item.source_sha256, examTrack: examTrackFromTitle(item.title) }))
   };
 }
 
@@ -556,8 +578,6 @@ Deno.serve(async (request) => {
         const { data: created, error: createError } = await admin.auth.admin.createUser({ email, email_confirm: true, user_metadata: { display_name: displayName, role: "reviewer" } });
         if (createError || !created.user) throw new Error("전문위원 계정을 생성하지 못했습니다.");
         expertUserId = created.user.id;
-        const result = await sendOperationalEmail(email, `[설탕과소금] ${displayName} 전문위원님, 검수 워크룸 이용 안내`, `<div style="font-family:Arial,sans-serif;line-height:1.8;color:#243746"><h2 style="color:#102d4d">${emailHtml(displayName)} 전문위원님, 반갑습니다.</h2><p>유한회사 설탕과소금의 전문위원으로 함께해 주셔서 깊이 감사드립니다.</p><p>과목 위촉이 완료되면 아래 전용 워크룸에서 계약 이메일 인증 후 검수 자료를 확인하실 수 있습니다.</p><p><a href="${emailHtml(REVIEW_APP_URL)}" style="display:inline-block;padding:11px 18px;border-radius:7px;color:#fff;background:#102d4d;text-decoration:none">전문위원 검수 워크룸</a></p><p>문의: admin@gyo6.kr · 010-3534-7163</p></div>`, `expert-invite-${expertUserId}`);
-        invitationSent = result.sent;
       } else {
         const { data: targetProfile, error: targetProfileError } = await admin.from("review_profiles").select("role").eq("user_id", expertUserId).single();
         if (targetProfileError || targetProfile?.role !== "reviewer") throw new Error("전문위원 계정만 이 화면에서 변경할 수 있습니다.");
@@ -566,65 +586,8 @@ Deno.serve(async (request) => {
       }
       const { error: profileError } = await admin.from("review_profiles").upsert({ user_id: expertUserId, email, display_name: displayName, mobile, organization, department, position_title: positionTitle, role: "reviewer", role_label: "외부 전문위원", active: payload.active !== false }, { onConflict: "user_id" });
       if (profileError) throw profileError;
-      await admin.from("review_events").insert({ reviewer_user_id: userId, event_type: requestedId ? "expert_profile_updated" : "expert_profile_created", payload: { expertUserId, email, invitationSent } });
+      await admin.from("review_events").insert({ reviewer_user_id: userId, event_type: requestedId ? "expert_profile_updated" : "expert_profile_created", payload: { expertUserId, email, invitationSent: false, accessState: "prepared" } });
       return json({ ok: true, expertUserId, invitationSent }, 200, origin);
-    }
-
-    if (action === "managerLaunchAll") {
-      const manager = await ensureManager(admin, userId);
-      if (manager.role !== "admin") throw new Error("전문위원 일괄 시작은 회사 대표 관리자만 승인할 수 있습니다.");
-      if (cleanText(payload.confirmation, 100) !== "전문위원 검수 일괄 시작") throw new Error("일괄 시작 확인 문구가 일치하지 않습니다.");
-      if (!REVIEW_LAUNCH_ENABLED || !REVIEW_EMAIL_ENABLED || !REVIEW_ACCESS_ENABLED) throw new Error("서버의 일괄 시작 잠금이 해제되지 않았습니다.");
-      const { data: pendingRows, error: pendingError } = await admin.from("review_assignments").select("*").eq("status", "assigned").is("notification_sent_at", null).order("reviewer_user_id");
-      if (pendingError) throw pendingError;
-      const pending = pendingRows ?? [];
-      if (!pending.length) return json({ ok: true, launchedExperts: 0, launchedAssignments: 0 }, 200, origin);
-      const now = Date.now();
-      if (pending.some((item) => !item.contract_reference || new Date(item.starts_at).getTime() > now || new Date(item.ends_at).getTime() < now)) throw new Error("계약 기준과 현재 검수기간이 확정된 위촉만 일괄 시작할 수 있습니다.");
-      const assignmentIds = pending.map((item) => item.id);
-      const { data: links, error: linkError } = await admin.from("review_assignment_documents").select("assignment_id, document_id").in("assignment_id", assignmentIds);
-      if (linkError) throw linkError;
-      if (pending.some((assignment) => !(links ?? []).some((link) => link.assignment_id === assignment.id))) throw new Error("검수 자료가 지정되지 않은 위촉이 있어 일괄 시작을 중단했습니다.");
-      const documentIds = [...new Set((links ?? []).map((item) => item.document_id))];
-      const { data: launchDocuments, error: launchDocumentError } = await admin.from("review_documents").select("id, version, status").in("id", documentIds).in("status", ["review_ready", "approved"]);
-      if (launchDocumentError) throw launchDocumentError;
-      if ((launchDocuments ?? []).length !== documentIds.length) throw new Error("교체되었거나 확정되지 않은 검수 자료가 포함되어 있어 일괄 시작을 중단했습니다. 최신 확정본으로 위촉 자료를 다시 지정해 주세요.");
-      const launchDocumentMap = new Map((launchDocuments ?? []).map((item) => [item.id, item]));
-      if (pending.some((assignment) => new Set((links ?? []).filter((link) => link.assignment_id === assignment.id).map((link) => launchDocumentMap.get(link.document_id)?.version)).size !== 1)) throw new Error("동일 위촉에 서로 다른 원고 버전이 포함되어 있어 일괄 시작을 중단했습니다.");
-      const expertIds = [...new Set(pending.map((item) => item.reviewer_user_id))];
-      const subjectIds = [...new Set(pending.map((item) => item.subject_id))];
-      const { data: experts, error: expertError } = await admin.from("review_profiles").select("user_id, email, display_name, active").in("user_id", expertIds).eq("role", "reviewer");
-      if (expertError) throw expertError;
-      if ((experts ?? []).length !== expertIds.length || (experts ?? []).some((item) => !item.active)) throw new Error("이용 불가능한 전문위원 계정이 있어 일괄 시작을 중단했습니다.");
-      const { data: subjects, error: subjectError } = await admin.from("review_subjects").select("id, program_id, name").in("id", subjectIds);
-      if (subjectError) throw subjectError;
-      if ((subjects ?? []).length !== subjectIds.length) throw new Error("확인할 수 없는 위촉 과목이 있어 일괄 시작을 중단했습니다.");
-      const programIds = [...new Set((subjects ?? []).map((item) => item.program_id))];
-      const { data: programs, error: programError } = await admin.from("review_programs").select("id, name").in("id", programIds);
-      if (programError) throw programError;
-      if ((programs ?? []).length !== programIds.length) throw new Error("확인할 수 없는 검수 사업이 있어 일괄 시작을 중단했습니다.");
-      const subjectMap = new Map((subjects ?? []).map((item) => [item.id, item]));
-      const programMap = new Map((programs ?? []).map((item) => [item.id, item]));
-      let launchedAssignments = 0;
-      for (const expert of experts ?? []) {
-        const expertAssignments = pending.filter((item) => item.reviewer_user_id === expert.user_id);
-        const assignmentList = expertAssignments.map((item) => {
-          const subject = subjectMap.get(item.subject_id) as any;
-          const program = programMap.get(subject?.program_id) as any;
-          const documentCount = (links ?? []).filter((link) => link.assignment_id === item.id).length;
-          return `<li><strong>${emailHtml(program?.name ?? "시험 대비")} · ${emailHtml(subject?.name ?? "담당 과목")}</strong><br>${emailHtml(item.title)} · 자료 ${documentCount}건<br>${emailHtml(item.starts_at.slice(0, 10))} ~ ${emailHtml(item.ends_at.slice(0, 10))}</li>`;
-        }).join("");
-        const stableAssignmentKey = expertAssignments.map((item) => item.id).sort().join("-");
-        const notification = await sendOperationalEmail(expert.email, `[설탕과소금] ${expert.display_name} 전문위원님, 검수 워크룸 공식 시작 안내`, `<div style="font-family:Arial,sans-serif;line-height:1.8;color:#243746"><h2 style="color:#102d4d">${emailHtml(expert.display_name)} 전문위원님께</h2><p>귀한 전문성으로 함께해 주셔서 깊이 감사드립니다. 계약과 검수 자료의 최종 확인을 마쳐 공식 검수를 안내드립니다.</p><ul>${assignmentList}</ul><p><a href="${emailHtml(REVIEW_APP_URL)}" style="display:inline-block;padding:11px 18px;border-radius:7px;color:#fff;background:#102d4d;text-decoration:none">전문위원 검수 워크룸 입장</a></p><p>일정이나 자료에 관하여 협의가 필요하시면 언제든 말씀해 주세요.</p><p>유한회사 설탕과소금 드림<br>admin@gyo6.kr · 010-3534-7163</p></div>`, `review-launch-${expert.user_id}-${stableAssignmentKey}`);
-        if (!notification.sent) throw new Error(`${expert.display_name} 전문위원님의 시작 안내가 발송되지 않아 일괄 시작을 중단했습니다.`);
-        const launchedAt = new Date().toISOString();
-        const expertAssignmentIds = expertAssignments.map((item) => item.id);
-        const { error: updateError } = await admin.from("review_assignments").update({ notification_sent_at: launchedAt }).in("id", expertAssignmentIds).is("notification_sent_at", null);
-        if (updateError) throw updateError;
-        await admin.from("review_events").insert({ reviewer_user_id: userId, event_type: "launch_notification_sent", payload: { expertUserId: expert.user_id, assignmentIds: expertAssignmentIds, notificationId: notification.id } });
-        launchedAssignments += expertAssignmentIds.length;
-      }
-      return json({ ok: true, launchedExperts: expertIds.length, launchedAssignments }, 200, origin);
     }
 
     if (action === "managerSaveAssignment") {
@@ -634,19 +597,23 @@ Deno.serve(async (request) => {
       const subjectId = cleanText(payload.subjectId, 80);
       const title = cleanText(payload.title, 300);
       const contractReference = cleanText(payload.contractReference, 500);
+      const examTrack = cleanText(payload.examTrack, 20);
+      const contractCompleted = payload.contractCompleted === true;
       const documentIds: string[] = [...new Set<string>(Array.isArray(payload.documentIds) ? payload.documentIds.map((item: unknown) => cleanText(item, 80)).filter(Boolean) : [])];
       const startsAt = new Date(`${cleanText(payload.startsAt, 10)}T00:00:00+09:00`);
+      const interimDueAt = new Date(`${cleanText(payload.interimDueAt, 10)}T23:59:59+09:00`);
       const endsAt = new Date(`${cleanText(payload.endsAt, 10)}T23:59:59+09:00`);
-      if (!expertUserId || !subjectId || !title || !contractReference || !documentIds.length || Number.isNaN(startsAt.getTime()) || Number.isNaN(endsAt.getTime()) || endsAt <= startsAt) throw new Error("전문위원, 과목, 검수 자료, 계약 기준과 기간을 정확히 입력해 주세요.");
+      if (!expertUserId || !subjectId || !title || !documentIds.length || !["national", "local"].includes(examTrack) || !contractCompleted || Number.isNaN(startsAt.getTime()) || Number.isNaN(interimDueAt.getTime()) || Number.isNaN(endsAt.getTime()) || interimDueAt <= startsAt || interimDueAt > endsAt || endsAt <= startsAt) throw new Error("전문위원, 시험 구분, 전자계약 완료, 검수 자료와 시작·중간보고·최종완료 일정을 정확히 확인해 주세요.");
       const { data: expert, error: expertError } = await admin.from("review_profiles").select("user_id, email, display_name, active").eq("user_id", expertUserId).eq("role", "reviewer").single();
       if (expertError || !expert?.active) throw new Error("이용 가능한 전문위원 계정을 확인해 주세요.");
       const { data: subject, error: subjectError } = await admin.from("review_subjects").select("id, program_id, name").eq("id", subjectId).single();
       if (subjectError || !subject) throw new Error("위촉할 과목을 확인해 주세요.");
-      const { data: program } = await admin.from("review_programs").select("id, name").eq("id", subject.program_id).single();
-      const { data: validDocuments, error: documentError } = await admin.from("review_documents").select("id, title, version, status").eq("subject_id", subjectId).in("id", documentIds).in("status", ["review_ready", "approved"]);
+      const { data: validDocuments, error: documentError } = await admin.from("review_documents").select("id, title, version, status, source_sha256").eq("subject_id", subjectId).in("id", documentIds);
       if (documentError || (validDocuments ?? []).length !== documentIds.length) throw new Error("담당 과목과 일치하는 검수 자료만 지정할 수 있습니다.");
-      const selectedVersions = new Set((validDocuments ?? []).map((document) => document.version));
-      if (selectedVersions.size !== 1) throw new Error("한 위촉 과제에는 동일한 확정 버전의 검수 자료만 배정할 수 있습니다.");
+      if ((validDocuments ?? []).some((item) => item.status !== "review_ready" || !item.source_sha256)) throw new Error("최신 활성 원고와 원본 무결성값이 확인된 자료만 지정할 수 있습니다.");
+      if ((validDocuments ?? []).some((item) => examTrackFromTitle(item.title) !== examTrack)) throw new Error("국가직과 지방직 원고를 하나의 위촉에 혼합할 수 없습니다.");
+      if (examTrack !== "national") throw new Error("지방직 7급 검수는 별도 계약 후 별도 과제로 진행해 주세요.");
+      const contractCompletedAt = new Date().toISOString();
       let assignmentId = requestedId;
       if (requestedId) {
         const { data: existing, error: existingError } = await admin.from("review_assignments").select("*").eq("id", requestedId).single();
@@ -660,10 +627,11 @@ Deno.serve(async (request) => {
           if ((progressCount ?? 0) > 0 || (annotationCount ?? 0) > 0) throw new Error("이미 검수 기록이 시작된 과제의 자료 구성은 변경할 수 없습니다. 기존 위촉을 보존하고 새 과제로 등록해 주세요.");
         }
         if (existing.reviewer_user_id !== expertUserId) throw new Error("기록 보호를 위해 위촉 후 전문위원을 변경할 수 없습니다. 새 과제로 등록해 주세요.");
-        const { error: updateError } = await admin.from("review_assignments").update({ subject_id: subjectId, title, starts_at: startsAt.toISOString(), ends_at: endsAt.toISOString(), contract_reference: contractReference }).eq("id", requestedId);
+        if (existing.status !== "prepared") throw new Error("이미 시작된 과제는 준비 단계에서 변경할 수 없습니다.");
+        const { error: updateError } = await admin.from("review_assignments").update({ subject_id: subjectId, title, starts_at: startsAt.toISOString(), interim_due_at: interimDueAt.toISOString(), ends_at: endsAt.toISOString(), contract_reference: contractReference, exam_track: examTrack, contract_completed_at: contractCompletedAt }).eq("id", requestedId);
         if (updateError) throw updateError;
       } else {
-        const { data: created, error: createError } = await admin.from("review_assignments").insert({ reviewer_user_id: expertUserId, subject_id: subjectId, title, starts_at: startsAt.toISOString(), ends_at: endsAt.toISOString(), contract_reference: contractReference, status: "assigned" }).select("id").single();
+        const { data: created, error: createError } = await admin.from("review_assignments").insert({ reviewer_user_id: expertUserId, subject_id: subjectId, title, starts_at: startsAt.toISOString(), interim_due_at: interimDueAt.toISOString(), ends_at: endsAt.toISOString(), contract_reference: contractReference, exam_track: examTrack, contract_completed_at: contractCompletedAt, status: "prepared", started_at: null, notification_sent_at: null }).select("id").single();
         if (createError || !created) throw new Error("과목 위촉을 저장하지 못했습니다.");
         assignmentId = created.id;
       }
@@ -671,15 +639,45 @@ Deno.serve(async (request) => {
       const currentIds = new Set((currentLinks ?? []).map((item) => item.document_id));
       const obsoleteIds = [...currentIds].filter((id) => !documentIds.includes(id));
       if (obsoleteIds.length) await admin.from("review_assignment_documents").delete().eq("assignment_id", assignmentId).in("document_id", obsoleteIds);
-      const { error: linkError } = await admin.from("review_assignment_documents").upsert(documentIds.map((documentId, index) => ({ assignment_id: assignmentId, document_id: documentId, sort_order: index + 1, visible_from: startsAt.toISOString(), visible_until: endsAt.toISOString() })), { onConflict: "assignment_id,document_id" });
+      const { error: linkError } = await admin.from("review_assignment_documents").upsert(documentIds.map((documentId, index) => ({ assignment_id: assignmentId, document_id: documentId, sort_order: index + 1, visible_from: null, visible_until: endsAt.toISOString() })), { onConflict: "assignment_id,document_id" });
       if (linkError) throw linkError;
-      let notification = { sent: false, status: "skipped", id: null as string | null };
-      if (payload.sendNotification) {
-        notification = await sendOperationalEmail(expert.email, `[설탕과소금] ${expert.display_name} 전문위원님, ${subject.name} 검수 위촉 안내`, `<div style="font-family:Arial,sans-serif;line-height:1.8;color:#243746"><h2 style="color:#102d4d">${emailHtml(expert.display_name)} 전문위원님께</h2><p>귀한 전문성으로 함께해 주셔서 깊이 감사드립니다.</p><p><strong>${emailHtml(program?.name ?? "시험 대비")} · ${emailHtml(subject.name)}</strong> 검수를 정중히 위촉드립니다.</p><ul><li>과제: ${emailHtml(title)}</li><li>기간: ${emailHtml(cleanText(payload.startsAt, 10))} ~ ${emailHtml(cleanText(payload.endsAt, 10))}</li><li>자료: ${documentIds.length}건</li></ul><p><a href="${emailHtml(REVIEW_APP_URL)}" style="display:inline-block;padding:11px 18px;border-radius:7px;color:#fff;background:#102d4d;text-decoration:none">전문위원 검수 워크룸 입장</a></p><p>일정이나 자료에 관하여 협의가 필요하시면 언제든 담당자에게 말씀해 주세요.</p><p>유한회사 설탕과소금 드림<br>admin@gyo6.kr · 010-3534-7163</p></div>`, `assignment-${assignmentId}-${startsAt.toISOString().slice(0,10)}`);
-        if (notification.sent) await admin.from("review_assignments").update({ notification_sent_at: new Date().toISOString() }).eq("id", assignmentId);
+      await admin.from("review_events").insert({ assignment_id: assignmentId, reviewer_user_id: userId, event_type: requestedId ? "assignment_updated" : "assignment_created", payload: { expertUserId, subjectId, documentIds, examTrack, contractCompleted: true, startsAt: startsAt.toISOString(), interimDueAt: interimDueAt.toISOString(), endsAt: endsAt.toISOString(), notificationStatus: "held_until_batch_start" } });
+      return json({ ok: true, assignmentId, notificationSent: false, notificationStatus: "held_until_batch_start" }, 200, origin);
+    }
+
+    if (action === "managerBatchStart") {
+      await ensureManager(admin, userId);
+      if (!REVIEW_LAUNCH_ENABLED || !REVIEW_ACCESS_ENABLED || !REVIEW_EMAIL_ENABLED || !RESEND_API_KEY) {
+        throw new Error("전문위원 안내 발송 기능이 현재 잠겨 있습니다. 대표님의 최종 발송 승인 후 서버 설정을 해제해 주세요.");
       }
-      await admin.from("review_events").insert({ assignment_id: assignmentId, reviewer_user_id: userId, event_type: requestedId ? "assignment_updated" : "assignment_created", payload: { expertUserId, subjectId, documentIds, notificationStatus: notification.status } });
-      return json({ ok: true, assignmentId, notificationSent: notification.sent, notificationStatus: notification.status }, 200, origin);
+      const assignmentIds: string[] = [...new Set<string>(Array.isArray(payload.assignmentIds) ? payload.assignmentIds.map((item: unknown) => cleanText(item, 80)).filter(Boolean) : [])];
+      if (!assignmentIds.length || assignmentIds.length > 20) throw new Error("시작할 국가직 과제를 1~20건 선택해 주세요.");
+      const { data: assignments, error: assignmentError } = await admin.from("review_assignments").select("*").in("id", assignmentIds);
+      if (assignmentError || (assignments ?? []).length !== assignmentIds.length) throw new Error("일괄 시작할 과제를 모두 확인하지 못했습니다.");
+      const results=[] as Array<Record<string, unknown>>;
+      for (const assignment of assignments ?? []) {
+        if (assignment.status !== "prepared" || assignment.exam_track !== "national" || !assignment.contract_completed_at) throw new Error("계약 완료된 국가직 준비 과제만 일괄 시작할 수 있습니다.");
+        const { data: links } = await admin.from("review_assignment_documents").select("document_id").eq("assignment_id", assignment.id);
+        const documentIds=(links ?? []).map((item)=>item.document_id);
+        const { data: documents } = documentIds.length ? await admin.from("review_documents").select("id, title, version, status, source_sha256").in("id", documentIds) : { data: [] };
+        if (!documentIds.length || (documents ?? []).length !== documentIds.length || (documents ?? []).some((item)=>item.status!=="review_ready"||!item.source_sha256||examTrackFromTitle(item.title)!=="national")) throw new Error("국가직 최신 활성 원고와 무결성값을 다시 확인해 주세요.");
+        const startedAt=new Date().toISOString();
+        const { error: startError }=await admin.from("review_assignments").update({status:"assigned",started_at:startedAt,notification_sent_at:null}).eq("id",assignment.id).eq("status","prepared");
+        if(startError)throw startError;
+        await admin.from("review_assignment_documents").update({visible_from:startedAt}).eq("assignment_id",assignment.id);
+        const { data: expert }=await admin.from("review_profiles").select("email,display_name").eq("user_id",assignment.reviewer_user_id).single();
+        const { data: subject }=await admin.from("review_subjects").select("name").eq("id",assignment.subject_id).single();
+        let notification={sent:false,status:"not_configured",id:null as string|null};
+        try {
+          if(expert?.email)notification=await sendOperationalEmail(expert.email,`[설탕과소금] ${expert.display_name} 전문위원님, ${subject?.name??"담당 과목"} 국가직 검수 시작 안내`,`<div style="font-family:Arial,sans-serif;line-height:1.8;color:#243746"><h2 style="color:#102d4d">${emailHtml(expert.display_name)} 전문위원님께</h2><p>귀한 전문성으로 함께해 주셔서 깊이 감사드립니다.</p><p><strong>${emailHtml(subject?.name??"담당 과목")} · 국가직 7급 공무원시험 대비 핵심요약노트·모의고사</strong> 최신 검수 원고가 준비되었습니다.</p><ul><li>과제: ${emailHtml(assignment.title)}</li><li>검수 시작: ${emailHtml(assignment.starts_at.slice(0,10))}</li><li>1차 중간보고: ${emailHtml(assignment.interim_due_at?.slice(0,10)??"협의일")}</li><li>최종 완료: ${emailHtml(assignment.ends_at.slice(0,10))}</li><li>자료: ${documentIds.length}건</li></ul><p><a href="${emailHtml(REVIEW_APP_URL)}" style="display:inline-block;padding:11px 18px;border-radius:7px;color:#fff;background:#102d4d;text-decoration:none">전문위원 검수 워크룸 입장</a></p><p>일정이나 자료에 관하여 협의가 필요하시면 언제든 말씀해 주세요.</p><p>유한회사 설탕과소금 드림<br>admin@gyo6.kr · 010-3534-7163</p></div>`,`assignment-start-${assignment.id}`);
+        } catch {
+          notification={sent:false,status:"failed",id:null};
+        }
+        if(notification.sent)await admin.from("review_assignments").update({notification_sent_at:new Date().toISOString()}).eq("id",assignment.id);
+        await admin.from("review_events").insert({assignment_id:assignment.id,reviewer_user_id:userId,event_type:"assignment_started",payload:{examTrack:"national",documentIds,versions:(documents??[]).map((item)=>item.version),notificationStatus:notification.status}});
+        results.push({assignmentId:assignment.id,notificationSent:notification.sent,notificationStatus:notification.status});
+      }
+      return json({ok:true,startedCount:results.length,notificationSentCount:results.filter((item)=>item.notificationSent).length,results},200,origin);
     }
 
     if (action === "managerChangeAssignmentStatus") {
@@ -724,6 +722,14 @@ Deno.serve(async (request) => {
       const { data, error } = await admin.from("review_exports").select("id, report_id, file_name, markdown, sha256, delivery_status").eq("id", exportId).single();
       if (error || !data) throw new Error("표준 검수보고서를 찾지 못했습니다.");
       return json({ reportId: data.report_id, fileName: data.file_name, markdown: data.markdown, sha256: data.sha256, deliveryStatus: data.delivery_status }, 200, origin);
+    }
+
+    if (action === "managerGetInterimReport") {
+      await ensureManager(admin, userId);
+      const reportId = cleanText(payload.reportId, 80);
+      const { data, error } = await admin.from("review_interim_reports").select("id, report_id, file_name, markdown, sha256, submitted_at").eq("id", reportId).single();
+      if (error || !data) throw new Error("1차 중간보고서를 찾지 못했습니다.");
+      return json({ reportId: data.report_id, fileName: data.file_name, markdown: data.markdown, sha256: data.sha256, submittedAt: data.submitted_at }, 200, origin);
     }
 
     if (action === "markReportDelivered") {
@@ -831,17 +837,37 @@ Deno.serve(async (request) => {
       if (!submitted) throw new Error("현재 상태에서는 최종 제출할 수 없습니다. 화면을 새로 확인해 주세요.");
       let report;
       try {
-        report = await createReviewReport(admin, userId, assignmentId);
+        report = await createReviewReport(admin, userId, assignmentId, "final");
       } catch (reportError) {
         await admin.from("review_assignments").update({ status: "reviewing", submitted_at: null }).eq("id", assignmentId).eq("reviewer_user_id", userId).eq("submitted_at", submittedAt);
         throw reportError;
       }
+      const { data: assignmentSummary } = await admin.from("review_assignments").select("title, subject_id").eq("id", assignmentId).single();
+      const { data: reviewerSummary } = await admin.from("review_profiles").select("display_name").eq("user_id", userId).single();
+      const { data: subjectSummary } = assignmentSummary?.subject_id ? await admin.from("review_subjects").select("name").eq("id", assignmentSummary.subject_id).single() : { data: null };
+      try {
+        await sendOperationalEmail(REVIEW_OPERATIONS_EMAIL, `[설탕과소금] ${subjectSummary?.name ?? "담당 과목"} 검수보고서 접수`, `<div style="font-family:Arial,sans-serif;line-height:1.8;color:#243746"><h2 style="color:#102d4d">표준 검수보고서가 접수되었습니다.</h2><ul><li>전문위원: ${emailHtml(reviewerSummary?.display_name ?? "전문위원")}</li><li>과제: ${emailHtml(assignmentSummary?.title ?? "검수 과제")}</li><li>보고서 번호: ${emailHtml(report.reportId)}</li><li>무결성값: ${emailHtml(report.sha256)}</li></ul><p><a href="${emailHtml(REVIEW_APP_URL.replace(/\/$/, "/manage.html"))}">운영관제에서 보고서 확인</a></p></div>`, `report-ready-${assignmentId}-${report.sha256}`);
+      } catch {
+        await admin.from("review_events").insert({ assignment_id: assignmentId, reviewer_user_id: userId, event_type: "report_notification_failed", payload: { reportId: report.reportId } });
+      }
       return json({ ok: true, reportId: report.reportId, reportSha256: report.sha256, deliveryStatus: report.deliveryStatus }, 200, origin);
+    }
+
+    if (action === "submitInterimReport") {
+      const assignmentId = cleanText(payload.assignmentId, 80);
+      await assignmentFor(admin, userId, assignmentId, true);
+      const { data: progressRows, error: progressError } = await admin.from("review_progress").select("checked_blocks, memo").eq("assignment_id", assignmentId).eq("reviewer_user_id", userId);
+      if (progressError) throw progressError;
+      const checkedCount = (progressRows ?? []).reduce((sum, item) => sum + new Set(Array.isArray(item.checked_blocks) ? item.checked_blocks : []).size, 0);
+      if (!checkedCount) throw new Error("1차 중간보고는 실제로 확인하신 문단 기록이 있어야 제출할 수 있습니다.");
+      const report = await createReviewReport(admin, userId, assignmentId, "interim");
+      await admin.from("review_events").insert({ assignment_id: assignmentId, reviewer_user_id: userId, event_type: "interim_report_submitted", payload: { reportId: report.reportId, sha256: report.sha256, checkedCount } });
+      return json({ ok: true, reportId: report.reportId, reportSha256: report.sha256, submittedAt: new Date().toISOString() }, 200, origin);
     }
 
     if (action === "exportReport") {
       const assignmentId = cleanText(payload.assignmentId, 80);
-      const report = await createReviewReport(admin, userId, assignmentId);
+      const report = await createReviewReport(admin, userId, assignmentId, "draft");
       return json(report, 200, origin);
     }
 

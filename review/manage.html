@@ -9,7 +9,7 @@
   <meta name="review-supabase-url" content="https://lpxbfggwptsmxdxvnwhy.supabase.co">
   <meta name="review-supabase-anon-key" content="sb_publishable_HRFZW8tOwAQNPR7PQnMMhw_sMY51mqa">
   <title>검수 운영관제 | 유한회사 설탕과소금</title>
-  <link rel="stylesheet" href="manage.css?v=20260811-2">
+  <link rel="stylesheet" href="manage.css?v=20260812-3">
 </head>
 <body>
   <section class="manager-login" id="manager-login">
@@ -33,7 +33,7 @@
   <div class="manager-app" id="manager-app" hidden>
     <header class="topbar">
       <a href="../index.html" class="brand"><span>ㅅ</span><div><strong>유한회사 설탕과소금</strong><small>검수 운영관제 · 회사 내부 전용</small></div></a>
-      <div class="top-actions"><span id="synced-at">서버 기록 확인 중</span><button id="new-expert" type="button">전문위원 등록</button><button id="new-assignment" class="accent-button" type="button">새 과목 위촉</button><button id="launch-review" type="button" disabled>일괄 시작 잠금</button><button id="refresh-dashboard" type="button">최신 기록</button></div>
+      <div class="top-actions"><span id="synced-at">서버 기록 확인 중</span><button id="expert-directory" type="button">전문위원 명단</button><button id="new-expert" type="button">전문위원 등록</button><button id="new-assignment" class="accent-button" type="button">새 과목 위촉</button><button id="batch-start" type="button">일괄 시작 점검</button><button id="refresh-dashboard" type="button">최신 기록</button></div>
     </header>
 
     <main>
@@ -43,8 +43,10 @@
       </section>
 
       <section class="summary-grid" aria-label="운영 요약">
-        <article><span>위촉 전문위원</span><strong id="summary-experts">0</strong><small>현재 과제 기준</small></article>
+        <article><span>등록 전문위원</span><strong id="summary-registered">0</strong><small>전체 등록 명단 기준</small></article>
+        <article><span>위촉 전문위원</span><strong id="summary-appointed">0</strong><small>과목 배정 인원 기준</small></article>
         <article><span>검수 진행 중</span><strong id="summary-reviewing">0</strong><small>실제 문단 확인 기록</small></article>
+        <article><span>1차 중간보고</span><strong id="summary-interim">0</strong><small>제출 기록 기준</small></article>
         <article><span>최종 제출</span><strong id="summary-submitted">0</strong><small>표준 보고서 생성 대상</small></article>
         <article class="accent"><span>인계 대기</span><strong id="summary-ready">0</strong><small>교재 제작 시스템 전달 전</small></article>
         <article><span>인계 완료</span><strong id="summary-delivered">0</strong><small>보고서 전달 기록 완료</small></article>
@@ -53,7 +55,7 @@
       <section class="control-panel">
         <div class="filters">
           <label>사업<select id="filter-program"><option value="all">전체 사업</option></select></label>
-          <label>진행상태<select id="filter-status"><option value="all">전체 상태</option><option value="attention">확인 필요</option><option value="assigned">위촉 완료</option><option value="reviewing">검수 진행 중</option><option value="submitted">최종 제출</option><option value="ready">보고서 인계 대기</option><option value="delivered">인계 완료</option><option value="revoked">위촉 종료</option></select></label>
+          <label>진행상태<select id="filter-status"><option value="all">전체 상태</option><option value="attention">확인 필요</option><option value="prepared">시작 전 점검</option><option value="assigned">검수 시작</option><option value="reviewing">검수 진행 중</option><option value="submitted">최종 제출</option><option value="ready">보고서 인계 대기</option><option value="delivered">인계 완료</option><option value="revoked">위촉 종료</option></select></label>
           <label class="search">전문위원·과목 검색<input id="filter-search" type="search" placeholder="성명, 소속 또는 과목"></label>
         </div>
         <div class="legend"><span><i class="done"></i>완료</span><span><i class="current"></i>진행</span><span><i></i>대기</span><span><i class="attention"></i>확인 필요</span></div>
@@ -74,7 +76,17 @@
     <dialog id="assignment-detail">
       <div class="detail-head"><div><span>ASSIGNMENT DETAIL</span><h2 id="detail-title">검수 상세</h2></div><button id="detail-close" type="button" aria-label="상세 닫기">×</button></div>
       <div id="detail-body"></div>
-      <footer><button id="edit-expert" type="button">전문위원 정보</button><button id="edit-assignment" type="button">위촉 내용 확인·변경</button><button id="request-rereview" type="button">재검토 요청</button><button id="revoke-assignment" class="danger-button" type="button">위촉 종료</button><button id="download-managed-report" type="button">표준 보고서 받기</button><button class="primary" id="mark-report-delivered" type="button">교재 제작 시스템 전달 완료</button></footer>
+      <footer><button id="edit-expert" type="button">전문위원 정보</button><button id="edit-assignment" type="button">위촉 내용 확인·변경</button><button id="request-rereview" type="button">재검토 요청</button><button id="revoke-assignment" class="danger-button" type="button">위촉 종료</button><button id="download-interim-report" type="button">1차 중간보고 받기</button><button id="download-managed-report" type="button">최종 보고서 받기</button><button class="primary" id="mark-report-delivered" type="button">교재 제작 시스템 전달 완료</button></footer>
+    </dialog>
+
+    <dialog id="expert-directory-dialog" class="form-dialog wide-dialog">
+      <div class="detail-head"><div><span>EXPERT DIRECTORY</span><h2>등록 전문위원 명단</h2></div><button data-close-dialog="expert-directory-dialog" type="button" aria-label="닫기">×</button></div>
+      <div class="form-body">
+        <label class="directory-search">전문위원 검색<input id="expert-directory-search" type="search" placeholder="성명, 소속, 학과, 이메일 또는 위촉 과목"></label>
+        <p class="form-note" id="expert-directory-count">등록 전문위원 0명</p>
+        <div class="table-scroll directory-scroll"><table><thead><tr><th>전문위원</th><th>소속·직위</th><th>연락처</th><th>위촉 과목</th><th>상태</th><th>관리</th></tr></thead><tbody id="expert-directory-rows"></tbody></table></div>
+      </div>
+      <footer><button data-close-dialog="expert-directory-dialog" type="button">닫기</button><button class="primary" id="directory-new-expert" type="button">전문위원 추가 등록</button></footer>
     </dialog>
 
     <dialog id="expert-dialog" class="form-dialog">
@@ -108,14 +120,31 @@
             <label>담당 과목<strong>*</strong><select id="assignment-subject" required></select></label>
             <label>위촉 과제명<strong>*</strong><input id="assignment-title" required placeholder="헌법 핵심노트·모의고사 검수"></label>
             <label>검수 시작일<strong>*</strong><input id="assignment-start" type="date" required></label>
+            <label>1차 중간보고일<strong>*</strong><input id="assignment-interim" type="date" required></label>
             <label>검수 종료일<strong>*</strong><input id="assignment-end" type="date" required></label>
           </div>
-          <label>계약·위촉 기준<input id="assignment-contract" placeholder="2026 공무원시험 대비 외부 전문위원 검수용역"></label>
+          <label>계약·위촉 기준<input id="assignment-contract" placeholder="2026 국가직 7급 공무원시험 대비 핵심요약노트·모의고사 일회성 외부 검수용역"></label>
+          <div class="form-grid">
+            <label>시험 구분<strong>*</strong><select id="assignment-track" required><option value="national">국가직 7급</option><option value="local">지방직 7급(별도 계약)</option></select></label>
+            <label class="check-label"><input id="assignment-contract-complete" type="checkbox" required> 전자계약 서명이 완료되었음을 확인했습니다.</label>
+          </div>
           <fieldset><legend>제공할 검수 자료<strong>*</strong></legend><div class="document-picker" id="assignment-documents"></div></fieldset>
           <label class="check-label"><input id="assignment-notify" type="checkbox"> 대표님의 일괄 시작 승인 후 전문위원님께 안내 이메일을 발송합니다.</label>
-          <p class="form-note" id="assignment-form-note">검수 기록이 시작된 뒤에는 자료 구성을 변경할 수 없습니다. 필요한 경우 기존 위촉을 종료하고 새 과제를 등록합니다. 자동 이메일을 사용할 수 없을 때에는 저장 직후 카카오톡·문자용 안내문을 제공합니다.</p>
+          <p class="form-note" id="assignment-form-note">저장 단계에서는 안내나 자료 접근이 시작되지 않습니다. 계약 완료·국가직 구분·최신 원고·담당 과목을 확인한 뒤 대표님의 ‘일괄 시작 점검’에서만 접근과 안내를 동시에 시작합니다.</p>
         </div>
         <footer><button data-close-dialog="assignment-dialog" type="button">닫기</button><button class="primary" type="submit">위촉 내용 저장</button></footer>
+      </form>
+    </dialog>
+
+    <dialog id="batch-start-dialog" class="form-dialog wide-dialog">
+      <form id="batch-start-form">
+        <div class="detail-head"><div><span>FINAL START CHECK</span><h2>국가직 검수 일괄 시작</h2></div><button data-close-dialog="batch-start-dialog" type="button" aria-label="닫기">×</button></div>
+        <div class="form-body">
+          <p class="form-note">계약 서명 완료, 국가직 7급 최신 활성 원고, 과목 일치가 서버에서 다시 확인된 과제만 시작됩니다. 이 단계 전에는 전문위원님께 이메일이 발송되지 않고 원고도 열리지 않습니다.</p>
+          <div id="batch-start-checklist" class="document-picker"></div>
+          <label class="check-label"><input id="batch-start-confirm" type="checkbox" required> 위 목록을 확인했으며 선택된 국가직 과제를 지금 시작하고 안내를 발송합니다.</label>
+        </div>
+        <footer><button data-close-dialog="batch-start-dialog" type="button">취소</button><button class="primary" type="submit">확인한 과제 일괄 시작</button></footer>
       </form>
     </dialog>
 
@@ -129,6 +158,6 @@
     </dialog>
   </div>
   <div class="toast" id="manager-toast" role="status"></div>
-  <script src="manage.js?v=20260811-3"></script>
+  <script src="manage.js?v=20260812-3"></script>
 </body>
 </html>

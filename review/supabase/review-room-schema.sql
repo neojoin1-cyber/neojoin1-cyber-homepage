@@ -44,7 +44,11 @@ create table if not exists public.review_assignments (
   title text not null,
   contract_reference text,
   notification_sent_at timestamptz,
-  status text not null default 'assigned' check (status in ('assigned', 'reviewing', 'submitted', 'accepted', 'returned', 'revoked')),
+  status text not null default 'prepared' check (status in ('prepared', 'assigned', 'reviewing', 'submitted', 'accepted', 'returned', 'revoked')),
+  exam_track text not null default 'national' check (exam_track in ('national', 'local')),
+  contract_completed_at timestamptz,
+  started_at timestamptz,
+  interim_due_at timestamptz,
   starts_at timestamptz not null,
   ends_at timestamptz not null,
   watermark_code text not null default encode(extensions.gen_random_bytes(7), 'hex'),
@@ -159,6 +163,21 @@ create table if not exists public.review_exports (
 );
 create index if not exists review_exports_delivery_idx on public.review_exports (delivery_status, created_at);
 
+create table if not exists public.review_interim_reports (
+  id uuid primary key default gen_random_uuid(),
+  assignment_id uuid not null references public.review_assignments(id) on delete cascade,
+  reviewer_user_id uuid not null references public.review_profiles(user_id) on delete restrict,
+  schema_version text not null default 'sugar-salt-expert-review/v1',
+  report_id text not null,
+  file_name text not null,
+  markdown text not null,
+  json_payload jsonb not null,
+  sha256 text not null,
+  submitted_at timestamptz not null default now(),
+  unique (assignment_id, reviewer_user_id)
+);
+create index if not exists review_interim_reports_submitted_idx on public.review_interim_reports (submitted_at desc);
+
 -- Safe to re-run on an existing review workroom database.
 alter table public.review_profiles add column if not exists mobile text;
 alter table public.review_profiles add column if not exists organization text;
@@ -166,6 +185,14 @@ alter table public.review_profiles add column if not exists department text;
 alter table public.review_profiles add column if not exists position_title text;
 alter table public.review_assignments add column if not exists contract_reference text;
 alter table public.review_assignments add column if not exists notification_sent_at timestamptz;
+alter table public.review_assignments add column if not exists exam_track text not null default 'national';
+alter table public.review_assignments add column if not exists contract_completed_at timestamptz;
+alter table public.review_assignments add column if not exists started_at timestamptz;
+alter table public.review_assignments add column if not exists interim_due_at timestamptz;
+alter table public.review_assignments drop constraint if exists review_assignments_status_check;
+alter table public.review_assignments add constraint review_assignments_status_check check (status in ('prepared', 'assigned', 'reviewing', 'submitted', 'accepted', 'returned', 'revoked'));
+alter table public.review_assignments drop constraint if exists review_assignments_exam_track_check;
+alter table public.review_assignments add constraint review_assignments_exam_track_check check (exam_track in ('national', 'local'));
 update public.review_profiles set role_label = '외부 전문위원' where role_label = '외부 검수위원';
 
 create or replace function public.review_set_updated_at()
@@ -203,6 +230,7 @@ alter table public.review_annotations enable row level security;
 alter table public.review_progress enable row level security;
 alter table public.review_events enable row level security;
 alter table public.review_exports enable row level security;
+alter table public.review_interim_reports enable row level security;
 
 -- Browser users call the Edge Function only. Direct PostgREST table access is denied,
 -- preventing bulk enumeration of review content even when a JWT is valid.
@@ -217,7 +245,8 @@ revoke all on table
   public.review_annotations,
   public.review_progress,
   public.review_events,
-  public.review_exports
+  public.review_exports,
+  public.review_interim_reports
 from anon, authenticated;
 
 grant all on table
@@ -231,7 +260,8 @@ grant all on table
   public.review_annotations,
   public.review_progress,
   public.review_events,
-  public.review_exports
+  public.review_exports,
+  public.review_interim_reports
 to service_role;
 grant usage, select on sequence public.review_events_id_seq to service_role;
 

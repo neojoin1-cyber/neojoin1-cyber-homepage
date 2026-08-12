@@ -1,5 +1,10 @@
 "use strict";
 
+if (window.top !== window.self) {
+  document.documentElement.innerHTML = '<head><title>접근 제한</title></head><body><p>검수자료는 공식 검수 워크룸에서만 열람할 수 있습니다.</p></body>';
+  throw new Error("Embedded review access blocked");
+}
+
 const STORAGE_KEY = "sugar-salt-review-workroom-demo-v1";
 const meta = (name) => document.querySelector(`meta[name="${name}"]`)?.content?.trim() || "";
 const config = {
@@ -7,6 +12,7 @@ const config = {
   anonKey: meta("review-supabase-anon-key")
 };
 config.production = Boolean(config.supabaseUrl && config.anonKey);
+const localDemoAllowed = ["127.0.0.1", "localhost"].includes(location.hostname) && new URLSearchParams(location.search).get("demo") === "1";
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -32,6 +38,7 @@ const DEMO = {
       subject: { id: "constitution", name: "헌법" },
       title: "헌법 핵심노트·모의고사 1차 검수",
       period: "2026. 8. 11. — 8. 19.",
+      interimDueAt: "2026-08-15",
       status: "reviewing",
       contractReference: "2026 공무원시험 대비 외부 검수용역",
       watermarkCode: "CV-CON-260811-A7",
@@ -407,7 +414,9 @@ function renderAssignmentHeader() {
   if (!assignment) return;
   $("#program-badge").textContent = assignment.program.name;
   $("#assignment-title").textContent = assignment.title;
-  $("#assignment-period").textContent = `검수기간 ${assignment.period}`;
+  $("#assignment-period").textContent = `검수기간 ${assignment.period}${assignment.interimDueAt ? ` · 1차 중간보고 ${assignment.interimDueAt}` : ""}`;
+  $("#interim-submit").disabled = assignment.status === "submitted" || Boolean(assignment.interimSubmittedAt);
+  $("#interim-submit").textContent = assignment.interimSubmittedAt ? "1차 중간보고 제출 완료" : "1차 중간보고 제출";
   $("#assignment-submit").disabled = assignment.status === "submitted";
   $("#assignment-submit").textContent = assignment.status === "submitted" ? "최종 검수의견 제출 완료" : "최종 검수의견 제출";
 }
@@ -926,6 +935,32 @@ async function submitAssignment() {
   }
 }
 
+async function submitInterimReport() {
+  const assignment = activeAssignment();
+  const totalChecked = assignment.documents.reduce((sum, document) => sum + (progressFor(document.id).checkedBlocks?.length || 0), 0);
+  if (!totalChecked) {
+    toast("1차 중간보고는 실제로 확인하신 문단 기록이 있어야 제출할 수 있습니다.");
+    return;
+  }
+  if (!confirm("현재까지의 실제 검수 진도와 전문 검수의견을 1차 중간보고로 제출하시겠습니까? 제출 후에도 최종 완료일까지 검수를 계속하실 수 있습니다.")) return;
+  const button = $("#interim-submit");
+  button.disabled = true;
+  button.textContent = "중간보고 정리 중…";
+  try {
+    await flushPendingSaves();
+    const result = state.mode === "production"
+      ? await api("submitInterimReport", { assignmentId: assignment.id })
+      : { submittedAt: nowIso(), reportId: `INTERIM-DEMO-${Date.now()}` };
+    assignment.interimSubmittedAt = result.submittedAt || nowIso();
+    renderAssignmentHeader();
+    toast("1차 중간보고가 운영관제에 안전하게 제출되었습니다. 검수는 계속 진행하실 수 있습니다.");
+  } catch (error) {
+    button.disabled = false;
+    button.textContent = "1차 중간보고 제출";
+    toast(error.message || "1차 중간보고를 제출하지 못했습니다.");
+  }
+}
+
 function focusAnnotation(id) {
   const annotation = state.annotations.find((item) => item.id === id);
   if (!annotation) return;
@@ -939,7 +974,7 @@ function bindEvents() {
   $("#demo-entry").addEventListener("click", enterDemo);
   $("#login-form").addEventListener("submit", async (event) => {
     event.preventDefault();
-    if (!config.production) {
+    if (!config.production || localDemoAllowed) {
       toast("현재는 보안 기능 체험 모드입니다. 아래 체험 버튼을 이용해 주세요.");
       return;
     }
@@ -970,6 +1005,7 @@ function bindEvents() {
     }
   });
   $("#assignment-select").addEventListener("change", (event) => changeAssignment(event.target.value));
+  $("#interim-submit").addEventListener("click", submitInterimReport);
   $("#assignment-submit").addEventListener("click", submitAssignment);
   $("#download-review-report").addEventListener("click", downloadReviewReport);
   $("#document-list").addEventListener("click", (event) => {
@@ -1067,7 +1103,7 @@ bindEvents();
 if (!config.production) {
   $("#login-submit").textContent = "운영 연결 준비 중";
   $("#login-submit").disabled = true;
-} else {
+} else if (!localDemoAllowed) {
   $("#demo-entry").hidden = true;
   try {
     const magicLinkSession = sessionFromMagicLink();
