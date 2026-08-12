@@ -1,71 +1,46 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-12T06:55:48.460Z",
-  "feedGeneratedAt": "2026-08-12T06:55:48.460Z",
+  "generatedAt": "2026-08-12T15:12:31.379Z",
+  "feedGeneratedAt": "2026-08-12T15:12:31.379Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "degraded",
+  "status": "ok",
   "summary": {
-    "total": 50,
-    "active": 29,
-    "deadlineSoon": 21,
+    "total": 49,
+    "active": 26,
+    "deadlineSoon": 23,
     "applicationClosed": 0,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
-    "sourcesFailed": 3,
+    "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 50,
-    "sourceFallbackProtected": 50,
+    "staleFallbackItems": 0,
+    "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 87,
-    "automatedBriefingReady": 50,
-    "automatedBriefingAttempted": 50,
+    "studentRecruitSafetyReview": 163,
+    "automatedBriefingReady": 49,
+    "automatedBriefingAttempted": 49,
     "automatedBriefingFailed": 0
   },
-  "sourceFailures": [
-    {
-      "id": "mpm-public-job",
-      "name": "인사혁신처 공공취업정보",
-      "isolatedFailure": false,
-      "fallbackProtected": false,
-      "fallbackItemCount": 0,
-      "message": "키 확인됨. 공식 호출 URL 확인 필요: https://apis.data.go.kr/1760000/PblJobService/getList: HTTP timeout after 9000ms; https://apis.data.go.kr/1760000/PblJobService/getList: HTTP timeout after 9000ms"
-    },
-    {
-      "id": "moef-public-recruit",
-      "name": "기재부 공공기관 채용정보",
-      "isolatedFailure": false,
-      "fallbackProtected": false,
-      "fallbackItemCount": 0,
-      "message": "연결 실패: HTTP timeout after 9000ms; HTTP timeout after 9000ms"
-    },
-    {
-      "id": "job-alio-openapi",
-      "name": "잡알리오 공공기관 채용",
-      "isolatedFailure": false,
-      "fallbackProtected": true,
-      "fallbackItemCount": 83,
-      "message": "연결 실패: recent-page-2: recent-page-2 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page; recent-page-1: recent-page-1 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page · 직전 정상 공고 83건 보존"
-    }
-  ],
+  "sourceFailures": [],
   "aiBriefing": {
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-12T06:55:48.460Z",
-    "attempted": 50,
-    "succeeded": 50,
+    "generatedAt": "2026-08-12T15:12:31.379Z",
+    "attempted": 49,
+    "succeeded": 49,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-12T06:55:48.460Z",
+    "generatedAt": "2026-08-12T15:12:31.379Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 87,
+    "studentRecruitReviewCount": 163,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -175,6 +150,27 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:공채상세 검토대기",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "mpm-public-job",
+        "sourceName": "인사혁신처 공공취업정보",
+        "sector": "government",
+        "company": "인사혁신처 공공취업정보",
+        "title": "인사혁신처 공공취업정보 고졸·졸업예정 채용 공고 원문 확인",
+        "deadline": "",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.data.go.kr/data/15156780/openapi.do"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
@@ -263,19 +259,19 @@
         "signals": [
           "공공·금융·대기업 소스",
           "고졸·특성화고 명시",
-          "필기·NCS 신호",
           "인턴·채용연계",
-          "공채 신호"
+          "공채 신호",
+          "신입·정규직 계열"
         ],
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "근로복지공단",
-        "title": "[근로복지공단] '26년 2차 신규직원(행정직) 채용 공고",
-        "deadline": "2026-08-19",
+        "company": "주택관리공단(주)",
+        "title": "채용형 인턴 채용공고(주택관리공단 전북지사)",
+        "deadline": "2026-08-20",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
+        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EC%A0%84%EB%B6%81%EC%A7%80%EC%82%AC&page=1&rnm_idx=923"
       },
       {
         "list": "items",
@@ -347,6 +343,27 @@
         "signals": [
           "공공·금융·대기업 소스",
           "고졸·특성화고 명시",
+          "필기·NCS 신호",
+          "인턴·채용연계",
+          "공채 신호"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "근로복지공단",
+        "title": "[근로복지공단] '26년 2차 신규직원(행정직) 채용 공고",
+        "deadline": "2026-08-19",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
           "인턴·채용연계",
           "공채 신호",
           "신입·정규직 계열"
@@ -364,22 +381,22 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리 · 필기신호 직접분류 재검토",
         "signals": [
           "공공·금융·대기업 소스",
           "학력무관",
-          "공채 신호",
+          "필기·NCS 신호",
           "신입·정규직 계열"
         ],
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "근로복지공단",
-        "title": "근로복지공단 [태백병원] 공무직(전기기계통신기사-기계분야) 채용 공고",
-        "deadline": "2026-08-12",
+        "company": "한국장애인개발원",
+        "title": "한국장애인개발원 [제2026-85호] 2026년도 제4차 부산광역시장애아동·발달장애인지원센터(개인별지원팀) 기간제 계약직 채용 공고",
+        "deadline": "2026-08-18",
         "status": "deadline_soon",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
+        "primaryOfficialUrl": "https://koddicpdd.fairyhr.com/"
       },
       {
         "list": "items",
@@ -439,45 +456,6 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.bohun.or.kr/incheon/na/ntt/selectNttInfo.do?mi=33641&bbsId=1158&bbsSysId=incheon&nttSn=188168"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국보훈복지의료공단",
-        "title": "한국보훈복지의료공단 [중앙보훈병원] 업무지원직 직원 채용 공고(8월)",
-        "deadline": "2026-08-19",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.bohun.or.kr/seoul/na/ntt/selectNttInfo.do?mi=32253&bbsId=1158&bbsSysId=seoul&nttSn=188190"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리 · 필기신호 직접분류 재검토",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국장애인개발원",
-        "title": "한국장애인개발원 [제2026-85호] 2026년도 제4차 부산광역시장애아동·발달장애인지원센터(개인별지원팀) 기간제 계약직 채용 공고",
-        "deadline": "2026-08-18",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://koddicpdd.fairyhr.com/"
       }
     ]
   },
