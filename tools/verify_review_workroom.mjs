@@ -34,6 +34,7 @@ check("manager.batch-start", managerHtml.includes("batch-start-dialog") && manag
 check("manager.email-lock", edge.includes("전문위원 안내 발송 기능이 현재 잠겨 있습니다") && edge.includes("!REVIEW_LAUNCH_ENABLED || !REVIEW_ACCESS_ENABLED || !REVIEW_EMAIL_ENABLED || !RESEND_API_KEY"), "발송·접근·시작 설정 중 하나라도 잠기면 과제 시작과 이메일 발송이 함께 차단됩니다.");
 check("api.access-lock", edge.includes("전문위원 검수 접근은 대표님의 최종 시작 승인 전까지 안전하게 잠겨 있습니다") && edge.includes("if (!REVIEW_ACCESS_ENABLED)"), "대표님의 최종 승인 전에는 전문위원 로그인 후에도 검수 자료가 열리지 않습니다.");
 check("manager.interim-report", html.includes("interim-submit") && managerHtml.includes("download-interim-report") && edge.includes('action === "submitInterimReport"') && edge.includes('action === "managerGetInterimReport"'), "전문위원의 중간보고 제출과 관리자 수신·다운로드가 연결됩니다.");
+check("manager.launch-schedule", managerJs.includes('startsAt: "2026-08-13"') && managerJs.includes('interimDueAt: "2026-08-19"') && managerJs.includes('endsAt: "2026-08-22"'), "국가직 위촉·중간보고·최종완료 일정이 확정일로 고정됩니다.");
 check("database.interim-report", batchSql.includes("review_interim_reports") && batchSql.includes("interim_due_at") && batchSql.includes("revoke all on table public.review_interim_reports"), "중간보고와 제출기한을 보호 테이블에 기록합니다.");
 check("content.version-integrity", edge.includes("source_sha256") && edge.includes("최신 활성 원고와 원본 무결성값") && managerJs.includes("sourceSha256"), "활성 원고의 버전·무결성값을 서버와 운영 화면에서 확인합니다.");
 check("manager.audit-preservation", edge.includes("이미 검수 기록이 시작된 과제의 자료 구성은 변경할 수 없습니다") && edge.includes("기존 기록을 보존하고 새 과제로 등록"), "진행·전달된 검수 기록을 관리자가 덮어쓰지 못합니다.");
