@@ -24,6 +24,8 @@ check("tools.annotation", ["형광펜", "전문 의견", "수정 필요"].every(
 check("tools.selection-popover", html.includes("selection-popover") && js.includes("showSelectionPopover") && js.includes('(pointer: coarse)'), "선택 즉시 PC 위쪽·터치 기기 아래쪽에 검수 도구가 표시됩니다.");
 check("tools.mobile-layout", css.includes("data-short") && css.includes("max-width: calc(100vw - 16px)") && css.includes("grid-template-columns: 1fr;"), "스마트폰에서도 헤더·제출 버튼·원고가 화면 폭 안에서 정돈됩니다.");
 check("tools.autosave", js.includes("scheduleSave") && html.includes("자동으로 저장"), "문단 확인과 전체 의견을 자동저장합니다.");
+check("content.source-tables", js.includes("REVIEW_TABLE_V1") && js.includes("renderTableGroup") && css.includes("review-data-table") && css.includes("review-table-confirm"), "원본 표를 셀별 문장으로 흩뜨리지 않고 전문 검수용 표로 복원합니다.");
+check("content.table-progress", js.includes("data-check-blocks") && js.includes("toggleBlocks") && js.includes("review-table-cell"), "표의 행 확인과 셀별 검수 의견이 기존 진행기록·보고서에 연결됩니다.");
 check("auth.remembered-session", js.includes("AUTH_MAX_AGE_MS") && managerJs.includes("AUTH_MAX_AGE_MS") && html.includes("14일간 인증 상태 유지") && managerHtml.includes("14일간 관리자 인증 유지"), "기기별 14일 인증 유지와 명시적 로그아웃을 제공합니다.");
 check("language.respect", html.includes("전문위원님") && js.includes("귀한 검토에 감사드립니다") && !html.includes("외부 검수자"), "전문위원 화면의 기본 호칭과 안내가 존중 표현을 사용합니다.");
 check("report.standard-file", html.includes("download-review-report") && js.includes("sugar-salt-expert-review/v1") && js.includes("교재 생성 시스템 인계 규칙"), "검수위원 인적사항과 의견을 표준 보고서 파일로 생성합니다.");
@@ -53,7 +55,7 @@ check("database.interim-report", batchSql.includes("review_interim_reports") && 
 check("content.version-integrity", edge.includes("source_sha256") && edge.includes("최신 활성 원고와 원본 무결성값") && managerJs.includes("sourceSha256"), "활성 원고의 버전·무결성값을 서버와 운영 화면에서 확인합니다.");
 check("manager.audit-preservation", edge.includes("이미 검수 기록이 시작된 과제의 자료 구성은 변경할 수 없습니다") && edge.includes("기존 기록을 보존하고 새 과제로 등록"), "진행·전달된 검수 기록을 관리자가 덮어쓰지 못합니다.");
 check("manager.notifications", edge.includes("https://api.resend.com/emails") && edge.includes("RESEND_API_KEY") && edge.includes("notification_sent_at"), "환경설정이 있을 때 위촉·재검토 안내 이메일을 발송하고 기록합니다.");
-check("security.watermark", js.includes("updateWatermark") && html.includes("watermark-layer"), "개인 식별 워터마크가 작동합니다.");
+check("security.watermark", js.includes("updateWatermark") && html.includes("watermark-layer") && css.includes("opacity: .055"), "식별 가능한 범위에서 원고 가독성을 해치지 않도록 완화한 개인 워터마크가 작동합니다.");
 check("security.copy-print", js.includes("copy_blocked") && css.includes("@media print"), "복사와 인쇄를 제한합니다.");
 check("security.frame-block", js.includes("window.top !== window.self") && js.includes("Embedded review access blocked"), "외부 사이트의 화면 삽입을 차단합니다.");
 check("security.headers", headers.includes("Cache-Control: no-store") && headers.includes("Content-Security-Policy"), "보호 열람 응답 헤더가 정의되어 있습니다.");

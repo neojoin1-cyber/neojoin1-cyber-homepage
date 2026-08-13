@@ -24,7 +24,7 @@ from typing import Any
 
 
 SOURCE_PROJECT = "infivcpgxgawclrkwtai"
-VERSION = "2026.08.13-web-v3"
+VERSION = "2026.08.13-web-v4"
 EXPECTED_EXAMS = 30
 MAX_SQL_BATCH_CHARS = 700_000
 SUPABASE_CLI = shutil.which("supabase.cmd" if os.name == "nt" else "supabase") or "supabase"
@@ -76,15 +76,60 @@ class SectionParser(HTMLParser):
         self.buffer: list[str] = []
         self.heading = "원문"
         self.blocks: list[Block] = []
+        self.table_depth = 0
+        self.table_index = 0
+        self.table_rows: list[list[tuple[str, bool, int, int]]] = []
+        self.table_row: list[tuple[str, bool, int, int]] | None = None
+        self.table_cell: list[str] | None = None
+        self.table_cell_is_header = False
+        self.table_cell_colspan = 1
+        self.table_cell_rowspan = 1
+        self.table_heading = "원문"
+
+    def finish_table(self) -> None:
+        if self.table_row:
+            self.table_rows.append(self.table_row)
+        self.table_index += 1
+        for row_index, row in enumerate(self.table_rows):
+            for column_index, (text, is_header, colspan, rowspan) in enumerate(row):
+                marker = f"[[REVIEW_TABLE_V1|{self.table_index}|{row_index}|{column_index}|{'H' if is_header else 'D'}|{colspan}|{rowspan}]]"
+                self.blocks.append(Block(marker + self.table_heading, text))
+        self.table_rows = []
+        self.table_row = None
+        self.table_cell = None
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         tag = tag.lower()
         if tag in self.SKIP:
             self.skip_depth += 1
-        if not self.skip_depth and tag in self.HEADINGS | self.CONTENT:
+        if self.skip_depth:
+            return
+        if tag == "table":
+            if not self.table_depth:
+                self.table_rows = []
+                self.table_row = None
+                self.table_cell = None
+                self.table_heading = self.heading
+            self.table_depth += 1
+            return
+        if self.table_depth:
+            if tag == "tr" and self.table_depth == 1:
+                if self.table_row:
+                    self.table_rows.append(self.table_row)
+                self.table_row = []
+            elif tag in {"th", "td"} and self.table_depth == 1:
+                attributes = {name.lower(): value for name, value in attrs}
+                self.table_cell = []
+                self.table_cell_is_header = tag == "th"
+                self.table_cell_colspan = max(1, int(attributes.get("colspan") or 1)) if str(attributes.get("colspan") or "1").isdigit() else 1
+                self.table_cell_rowspan = max(1, int(attributes.get("rowspan") or 1)) if str(attributes.get("rowspan") or "1").isdigit() else 1
+            elif tag == "br" and self.table_cell is not None:
+                self.table_cell.append(" ")
+            return
+        if tag in self.HEADINGS | self.CONTENT:
             self.capture = tag
             self.buffer = []
-        elif not self.skip_depth and tag == "br" and self.capture:
+        elif tag == "br" and self.capture:
             self.buffer.append("\n")
 
     def handle_endtag(self, tag: str) -> None:
@@ -92,7 +137,25 @@ class SectionParser(HTMLParser):
         if tag in self.SKIP and self.skip_depth:
             self.skip_depth -= 1
             return
-        if self.skip_depth or tag != self.capture:
+        if self.skip_depth:
+            return
+        if self.table_depth:
+            if tag in {"th", "td"} and self.table_depth == 1 and self.table_cell is not None:
+                text = clean_text("".join(self.table_cell)).replace("\n", " ")
+                if self.table_row is None:
+                    self.table_row = []
+                self.table_row.append((text or "—", self.table_cell_is_header, self.table_cell_colspan, self.table_cell_rowspan))
+                self.table_cell = None
+            elif tag == "tr" and self.table_depth == 1:
+                if self.table_row:
+                    self.table_rows.append(self.table_row)
+                self.table_row = None
+            elif tag == "table":
+                self.table_depth -= 1
+                if not self.table_depth:
+                    self.finish_table()
+            return
+        if tag != self.capture:
             return
         text = clean_text("".join(self.buffer))
         if text and tag in self.HEADINGS:
@@ -103,7 +166,11 @@ class SectionParser(HTMLParser):
         self.buffer = []
 
     def handle_data(self, data: str) -> None:
-        if not self.skip_depth and self.capture:
+        if self.skip_depth:
+            return
+        if self.table_depth and self.table_cell is not None:
+            self.table_cell.append(data)
+        elif self.capture:
             self.buffer.append(data)
 
 
@@ -149,7 +216,12 @@ def summary_blocks(items: list[dict[str, Any]]) -> list[Block]:
         if not isinstance(html, str) or not html.strip():
             raise RuntimeError(f"핵심노트 HTML이 없습니다: {title}")
         for block in html_blocks(html):
-            heading = title if block.heading == "원문" else f"{title} · {block.heading}"
+            if block.heading.startswith("[[REVIEW_TABLE_V1|"):
+                marker, visible_heading = block.heading.split("]]", 1)
+                section_heading = title if visible_heading == "원문" else f"{title} · {visible_heading}"
+                heading = marker + "]]" + section_heading
+            else:
+                heading = title if block.heading == "원문" else f"{title} · {block.heading}"
             blocks.append(Block(heading, block.body))
     return blocks
 
@@ -248,6 +320,53 @@ def apply_sql(target_workdir: Path, sql: str) -> None:
             path.unlink()
 
 
+def activate_version(target_workdir: Path, expected_documents: int) -> None:
+    sql = f"""begin;
+do $review_activate$
+declare v_count integer;
+begin
+  select count(*) into v_count from public.review_documents where version={sql_text(VERSION)} and status='review_ready';
+  if v_count <> {expected_documents} then raise exception '새 검수 원고 수 불일치: % / {expected_documents}', v_count; end if;
+  if exists (
+    select 1 from public.review_assignment_documents link
+    join public.review_assignments assignment on assignment.id=link.assignment_id
+    join public.review_documents document on document.id=link.document_id
+    where document.version like '2026.08.13-web-v%' and assignment.status not in ('prepared','revoked')
+  ) then raise exception '이미 시작된 위촉이 있어 원고 교체를 중단합니다'; end if;
+  update public.review_assignment_documents link
+     set document_id = replacement.id, visible_from = null
+    from public.review_documents current_document
+    join public.review_documents replacement
+      on replacement.subject_id=current_document.subject_id
+     and replacement.title=current_document.title
+     and replacement.kind=current_document.kind
+     and replacement.version={sql_text(VERSION)}
+     and replacement.status='review_ready'
+   where link.document_id=current_document.id
+     and current_document.version like '2026.08.13-web-v%'
+     and current_document.version <> {sql_text(VERSION)};
+  update public.review_documents old_document
+     set status='superseded'
+   where old_document.version like '2026.08.13-web-v%'
+     and old_document.version <> {sql_text(VERSION)}
+     and exists (
+       select 1 from public.review_documents replacement
+        where replacement.subject_id=old_document.subject_id
+          and replacement.title=old_document.title
+          and replacement.kind=old_document.kind
+          and replacement.version={sql_text(VERSION)}
+     );
+  insert into public.review_events (assignment_id, reviewer_user_id, event_type, payload)
+  select assignment.id, assignment.reviewer_user_id, 'content_structure_rebuilt',
+         jsonb_build_object('version', {sql_text(VERSION)}, 'reason', 'restore_html_table_structure', 'notificationStatus', 'held')
+    from public.review_assignments assignment
+   where assignment.status='prepared';
+end $review_activate$;
+commit;
+"""
+    apply_sql(target_workdir.resolve(), sql)
+
+
 def main() -> int:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
@@ -256,17 +375,22 @@ def main() -> int:
     parser.add_argument("--target-workdir", type=Path, required=True)
     parser.add_argument("--apply", action="store_true")
     args = parser.parse_args()
-    total_documents = total_blocks = 0
+    total_documents = total_blocks = total_tables = total_table_cells = 0
     print(f"source={SOURCE_PROJECT} version={VERSION} mode={'apply' if args.apply else 'preview'}")
     for source_name, subject_code, display_name, track in SOURCE_SUBJECTS:
         documents = build_documents(source_rows(args.source_workdir.resolve(), source_name), subject_code, display_name, track, source_name)
         statements: list[str] = []
         for document in documents:
             digest = canonical_hash(document["items"])
-            print(f"{document['title']}: blocks={len(document['blocks'])} sha256={digest[:12]}")
+            table_markers = [block.heading.split("|", 2)[1] for block in document["blocks"] if block.heading.startswith("[[REVIEW_TABLE_V1|")]
+            table_cells = len(table_markers)
+            tables = len(set(table_markers))
+            print(f"{document['title']}: blocks={len(document['blocks'])} tables={tables} table_cells={table_cells} sha256={digest[:12]}")
             statements.append(document_sql(document))
             total_documents += 1
             total_blocks += len(document["blocks"])
+            total_tables += tables
+            total_table_cells += table_cells
         if args.apply:
             batch: list[str] = []
             size = 0
@@ -279,7 +403,9 @@ def main() -> int:
                 size += statement_size
             if batch:
                 apply_sql(args.target_workdir.resolve(), "\n".join(batch))
-    print(f"complete documents={total_documents} blocks={total_blocks}")
+    if args.apply:
+        activate_version(args.target_workdir.resolve(), total_documents)
+    print(f"complete documents={total_documents} blocks={total_blocks} tables={total_tables} table_cells={total_table_cells}")
     return 0
 
 

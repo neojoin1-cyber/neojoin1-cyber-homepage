@@ -523,15 +523,41 @@ function normalizedBlockHeading(value = "") {
   return String(value ?? "").replace(/\s+/g, " ").trim();
 }
 
+function parseTableHeading(value = "") {
+  const match = normalizedBlockHeading(value).match(/^\[\[REVIEW_TABLE_V1\|(\d+)\|(\d+)\|(\d+)\|([HD])(?:\|(\d+)\|(\d+))?\]\](.*)$/);
+  if (!match) return null;
+  return {
+    tableIndex: Number(match[1]),
+    rowIndex: Number(match[2]),
+    columnIndex: Number(match[3]),
+    isHeader: match[4] === "H",
+    colspan: Math.max(1, Number(match[5] || 1)),
+    rowspan: Math.max(1, Number(match[6] || 1)),
+    heading: match[7].trim() || "표 검수 내용",
+  };
+}
+
 function groupConsecutiveBlocks(blocks = []) {
   return blocks.reduce((groups, block) => {
+    const table = parseTableHeading(block.heading);
+    if (table) {
+      const key = `table:${table.tableIndex}:${table.heading}`;
+      const previous = groups.at(-1);
+      const cell = { ...table, block };
+      if (previous?.key === key) {
+        previous.cells.push(cell);
+        return groups;
+      }
+      groups.push({ type: "table", key, heading: table.heading, tableIndex: table.tableIndex, cells: [cell] });
+      return groups;
+    }
     const heading = normalizedBlockHeading(block.heading) || "세부 검수 내용";
     const previous = groups.at(-1);
-    if (previous?.key === heading) {
+    if (previous?.type !== "table" && previous?.key === heading) {
       previous.blocks.push(block);
       return groups;
     }
-    groups.push({ key: heading, heading, blocks: [block] });
+    groups.push({ type: "text", key: heading, heading, blocks: [block] });
     return groups;
   }, []);
 }
@@ -542,6 +568,35 @@ function renderGroupedBlock(block, progress) {
     <p class="review-block-text" data-block-id="${escapeHtml(block.id)}">${annotatedText(block)}</p>
     <button class="block-check ${checked ? "checked" : ""}" data-check-block="${escapeHtml(block.id)}" type="button" aria-label="${checked ? "확인 완료" : "이 항목 확인"}">${checked ? "✓ 확인됨" : "확인"}</button>
   </article>`;
+}
+
+function renderTableGroup(group, progress) {
+  const rows = new Map();
+  group.cells.forEach((cell) => {
+    if (!rows.has(cell.rowIndex)) rows.set(cell.rowIndex, []);
+    rows.get(cell.rowIndex).push(cell);
+  });
+  const tableRows = [...rows.entries()].sort(([a], [b]) => a - b).map(([, cells]) => {
+    const ordered = [...cells].sort((a, b) => a.columnIndex - b.columnIndex);
+    const blockIds = ordered.map(({ block }) => block.id);
+    const checked = blockIds.every((id) => progress.checkedBlocks?.includes(id));
+    const columns = ordered.map((cell) => {
+      const tag = cell.isHeader ? "th" : "td";
+      return `<${tag} class="review-table-cell" data-block-id="${escapeHtml(cell.block.id)}" colspan="${cell.colspan}" rowspan="${cell.rowspan}" ${cell.isHeader ? 'scope="col"' : ""}>
+        <span class="review-block-text" data-block-id="${escapeHtml(cell.block.id)}">${annotatedText(cell.block)}</span>
+      </${tag}>`;
+    }).join("");
+    return `<tr>${columns}<td class="review-table-confirm"><button class="block-check ${checked ? "checked" : ""}" data-check-blocks="${escapeHtml(blockIds.join(","))}" type="button" aria-label="${checked ? "이 행 확인 완료" : "이 행 확인"}">${checked ? "✓ 확인됨" : "행 확인"}</button></td></tr>`;
+  }).join("");
+  return `<section class="review-block-group review-table-group">
+    <header class="review-block-group-head">
+      <h3>${escapeHtml(group.heading)}</h3>
+      <span>원문 표 · ${rows.size}행</span>
+    </header>
+    <div class="review-data-table-wrap" role="region" aria-label="${escapeHtml(group.heading)} 표" tabindex="0">
+      <table class="review-data-table"><tbody>${tableRows}</tbody></table>
+    </div>
+  </section>`;
 }
 
 function renderDocument() {
@@ -555,7 +610,7 @@ function renderDocument() {
   $("#document-memo").value = progress.memo || "";
   $("#complete-document").textContent = progress.complete ? "✓ 이 자료의 검토를 마쳤습니다" : "이 자료의 검토를 마쳤습니다";
   $("#complete-document").classList.toggle("primary", !progress.complete);
-  $("#document-content").innerHTML = groupConsecutiveBlocks(document.blocks).map((group) => `<section class="review-block-group">
+  $("#document-content").innerHTML = groupConsecutiveBlocks(document.blocks).map((group) => group.type === "table" ? renderTableGroup(group, progress) : `<section class="review-block-group">
     <header class="review-block-group-head">
       <h3>${escapeHtml(group.heading)}</h3>
       ${group.blocks.length > 1 ? `<span>${group.blocks.length}개 검수 항목</span>` : ""}
@@ -1002,9 +1057,14 @@ async function changeAssignment(assignmentId) {
 }
 
 function toggleBlock(blockId) {
+  toggleBlocks([blockId]);
+}
+
+function toggleBlocks(blockIds) {
   const progress = progressFor();
   const checked = new Set(progress.checkedBlocks || []);
-  checked.has(blockId) ? checked.delete(blockId) : checked.add(blockId);
+  const allChecked = blockIds.every((blockId) => checked.has(blockId));
+  blockIds.forEach((blockId) => allChecked ? checked.delete(blockId) : checked.add(blockId));
   updateProgress(state.activeDocumentId, { checkedBlocks: [...checked] });
   renderDocument();
   renderDocumentList();
@@ -1089,7 +1149,7 @@ async function submitInterimReport() {
 function focusAnnotation(id) {
   const annotation = state.annotations.find((item) => item.id === id);
   if (!annotation) return;
-  const block = $(`.review-block[data-block-id="${CSS.escape(annotation.blockId)}"]`);
+  const block = $(`[data-block-id="${CSS.escape(annotation.blockId)}"]`);
   block?.scrollIntoView({ behavior: "smooth", block: "center" });
   block?.classList.add("is-target");
   setTimeout(() => block?.classList.remove("is-target"), 1500);
@@ -1165,6 +1225,11 @@ function bindEvents() {
   $("#document-content").addEventListener("mouseup", captureSelection);
   $("#document-content").addEventListener("touchend", () => setTimeout(captureSelection, 80));
   $("#document-content").addEventListener("click", (event) => {
+    const rowCheck = event.target.closest("[data-check-blocks]");
+    if (rowCheck) {
+      toggleBlocks(rowCheck.dataset.checkBlocks.split(",").filter(Boolean));
+      return;
+    }
     const check = event.target.closest("[data-check-block]");
     if (check) toggleBlock(check.dataset.checkBlock);
     const mark = event.target.closest("[data-annotation-id]");
