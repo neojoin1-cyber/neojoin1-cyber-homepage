@@ -23,6 +23,7 @@ check("page.programs", ["국가직 7급 공무원시험 대비", "초등교원�
 check("tools.annotation", ["형광펜", "전문 의견", "수정 필요"].every((value) => html.includes(value)), "핵심 검수 도구가 존중 표현으로 제공됩니다.");
 check("tools.selection-popover", html.includes("selection-popover") && js.includes("showSelectionPopover") && js.includes('(pointer: coarse)'), "선택 즉시 PC 위쪽·터치 기기 아래쪽에 검수 도구가 표시됩니다.");
 check("tools.mobile-layout", css.includes("data-short") && css.includes("max-width: calc(100vw - 16px)") && css.includes("grid-template-columns: 1fr;"), "스마트폰에서도 헤더·제출 버튼·원고가 화면 폭 안에서 정돈됩니다.");
+check("tools.large-review", html.includes("큰 화면 검수") && html.includes('aria-pressed="false"') && js.includes("setFocusMode") && js.includes("readerBaseFontSize") && css.includes("body.focus-mode .document-sidebar") && css.includes("body.focus-mode .annotation-panel") && css.includes("min(1560px"), "대형 모니터에서는 목차와 검수의견을 유지하며 원고 폭과 글자 크기를 함께 확대합니다.");
 check("tools.autosave", js.includes("scheduleSave") && html.includes("자동으로 저장"), "문단 확인과 전체 의견을 자동저장합니다.");
 check("content.source-tables", js.includes("REVIEW_TABLE_V1") && js.includes("renderTableGroup") && css.includes("review-data-table") && css.includes("review-table-confirm"), "원본 표를 셀별 문장으로 흩뜨리지 않고 전문 검수용 표로 복원합니다.");
 check("content.table-progress", js.includes("data-check-blocks") && js.includes("toggleBlocks") && js.includes("review-table-cell"), "표의 행 확인과 셀별 검수 의견이 기존 진행기록·보고서에 연결됩니다.");

@@ -622,7 +622,37 @@ function renderDocument() {
   const index = activeAssignment().documents.findIndex((item) => item.id === document.id);
   $("#previous-document").disabled = index <= 0;
   $("#next-document").disabled = index >= activeAssignment().documents.length - 1;
-  $("#review-paper").style.setProperty("--reader-font-size", `${16 * state.zoom / 100}px`);
+  applyReaderScale();
+}
+
+function readerBaseFontSize() {
+  const width = window.innerWidth || 1280;
+  if (document.body.classList.contains("focus-mode")) {
+    if (width >= 2400) return 21;
+    if (width >= 1800) return 19.5;
+    if (width >= 1440) return 18;
+  }
+  if (width >= 2000) return 18;
+  if (width >= 1600) return 17;
+  return 16;
+}
+
+function applyReaderScale() {
+  $("#review-paper")?.style.setProperty("--reader-font-size", `${readerBaseFontSize() * state.zoom / 100}px`);
+}
+
+function setFocusMode(enabled) {
+  document.body.classList.toggle("focus-mode", enabled);
+  const button = $("#focus-mode");
+  const label = $("#focus-mode-label");
+  button.setAttribute("aria-pressed", String(enabled));
+  button.setAttribute("aria-label", enabled ? "기본 검수 화면으로 돌아가기" : "큰 화면 검수 시작");
+  label.textContent = enabled ? "기본 화면" : "큰 화면 검수";
+  applyReaderScale();
+  hideSelectionPopover(true);
+  toast(enabled
+    ? "큰 화면 검수를 시작했습니다. 목차·원고·전문 검수의견을 한 화면에서 확인할 수 있습니다."
+    : "기본 검수 화면으로 돌아왔습니다.");
 }
 
 function annotationLabel(annotation) {
@@ -1284,11 +1314,12 @@ function bindEvents() {
   });
   $("#zoom-in").addEventListener("click", () => { state.zoom = Math.min(140, state.zoom + 10); $("#zoom-label").textContent = `${state.zoom}%`; renderDocument(); });
   $("#zoom-out").addEventListener("click", () => { state.zoom = Math.max(80, state.zoom - 10); $("#zoom-label").textContent = `${state.zoom}%`; renderDocument(); });
-  $("#focus-mode").addEventListener("click", () => document.body.classList.toggle("focus-mode"));
+  $("#focus-mode").addEventListener("click", () => setFocusMode(!document.body.classList.contains("focus-mode")));
   $("#sidebar-toggle").addEventListener("click", () => document.body.classList.toggle("sidebar-collapsed"));
   $("#help-button").addEventListener("click", () => $("#help-dialog").showModal());
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && !$("#selection-popover").hidden) hideSelectionPopover(true);
+    else if (event.key === "Escape" && document.body.classList.contains("focus-mode")) setFocusMode(false);
     if (event.shiftKey && event.key.toLowerCase() === "h") { event.preventDefault(); createAnnotation("highlight", { color: "yellow" }); }
     if (event.altKey && event.key.toLowerCase() === "m") { event.preventDefault(); openAnnotationDialog("memo"); }
     if (event.altKey && event.key.toLowerCase() === "e") { event.preventDefault(); openAnnotationDialog("issue"); }
@@ -1308,6 +1339,7 @@ function bindEvents() {
     }
   });
   window.addEventListener("beforeprint", () => logEvent("print_attempt"));
+  window.addEventListener("resize", applyReaderScale, { passive: true });
   document.addEventListener("visibilitychange", () => {
     if (document.hidden && hasPendingSaves()) flushPendingSaves().catch(() => {});
     logEvent(document.hidden ? "window_hidden" : "window_visible");
