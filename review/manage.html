@@ -34,7 +34,7 @@
   <div class="manager-app" id="manager-app" hidden>
     <header class="topbar">
       <a href="../index.html" class="brand"><span>ㅅ</span><div><strong>유한회사 설탕과소금</strong><small>검수 운영관제 · 회사 내부 전용</small></div></a>
-      <div class="top-actions"><span id="synced-at">서버 기록 확인 중</span><button id="runtime-controls" type="button">운영 잠금 관리</button><button id="expert-directory" type="button">전문위원 명단</button><button id="new-expert" type="button">전문위원 등록</button><button id="new-assignment" class="accent-button" type="button">새 과목 위촉</button><button id="batch-start" type="button">일괄 시작 점검</button><button id="refresh-dashboard" type="button">최신 기록</button><button id="manager-logout" type="button">로그아웃</button></div>
+      <div class="top-actions"><span id="synced-at" class="sync-status" role="status" aria-live="polite"><i aria-hidden="true"></i><span>서버 기록 확인 중</span></span><button id="runtime-controls" type="button">운영 잠금 관리</button><button id="expert-directory" type="button">전문위원 명단</button><button id="new-expert" type="button">전문위원 등록</button><button id="new-assignment" class="accent-button" type="button">새 과목 위촉</button><button id="batch-start" type="button">일괄 시작 점검</button><button id="refresh-dashboard" type="button">지금 갱신</button><button id="manager-logout" type="button">로그아웃</button></div>
     </header>
 
     <main>
@@ -223,6 +223,6 @@
     </dialog>
   </div>
   <div class="toast" id="manager-toast" role="status"></div>
-  <script src="manage.js?v=20260814-3"></script>
+  <script src="manage.js?v=20260814-4"></script>
 </body>
 </html>
