@@ -71,6 +71,14 @@ function emailHtml(value: unknown) {
   return String(value ?? "").replace(/[&<>\"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[character] ?? character);
 }
 
+function buildAssignmentStartEmail(expertName: unknown, subjectName: unknown, assignment: Record<string, unknown>, documents: Array<Record<string, unknown>>) {
+  const safeExpertName = emailHtml(expertName);
+  const safeSubjectName = emailHtml(subjectName || "담당 과목");
+  const documentRows = documents.map((item, index) => `<tr><td style="padding:10px 0;border-bottom:1px solid #e7e1d7;color:#9a6727;font-weight:700;vertical-align:top;width:32px">${String(index + 1).padStart(2, "0")}</td><td style="padding:10px 0;border-bottom:1px solid #e7e1d7;color:#1d3552"><strong>${emailHtml(item.title)}</strong><span style="display:block;color:#718094;font-size:12px;margin-top:2px">${emailHtml(item.version || "버전 확인")}</span></td></tr>`).join("");
+  const detailRow = (label: string, value: unknown) => `<tr><td style="padding:7px 12px 7px 0;color:#738092;font-size:13px;width:110px;vertical-align:top">${label}</td><td style="padding:7px 0;color:#172f4d;font-size:14px;font-weight:700">${emailHtml(value)}</td></tr>`;
+  return `<!doctype html><html lang="ko"><body style="margin:0;padding:0;background:#f3f1ed;color:#27384a;font-family:'Apple SD Gothic Neo','Noto Sans KR',Arial,sans-serif"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f3f1ed"><tr><td align="center" style="padding:32px 12px"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:680px;background:#fff;border:1px solid #ded8cd;border-top:5px solid #173654"><tr><td style="padding:30px 34px 24px;border-bottom:1px solid #e7e1d7"><p style="margin:0 0 8px;color:#b2762e;font-size:11px;font-weight:800;letter-spacing:2px">SUGAR &amp; SALT · EXPERT REVIEW</p><table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr><td><h1 style="margin:0;color:#173654;font-family:Georgia,'Noto Serif KR',serif;font-size:26px;line-height:1.35">전문위원 검수 개시 안내</h1><p style="margin:8px 0 0;color:#738092;font-size:13px">국가직 7급 공무원시험 대비 핵심요약노트·모의고사</p></td><td align="right" style="color:#b2762e;font-size:12px;font-weight:700;white-space:nowrap">공직시험 연구소</td></tr></table></td></tr><tr><td style="padding:30px 34px"><p style="margin:0 0 20px;color:#172f4d;font-size:17px;line-height:1.8"><strong>${safeExpertName} 전문위원님께</strong></p><p style="margin:0 0 24px;font-size:14px;line-height:1.9">귀한 학문적 전문성으로 함께해 주심에 깊이 감사드립니다.<br><strong style="color:#173654">${safeSubjectName}</strong> 담당 검수 원고와 전용 워크룸이 준비되어 아래와 같이 안내드립니다.</p><div style="border:1px solid #ddd6ca;background:#fbfaf8;padding:17px 20px;margin-bottom:24px"><p style="margin:0 0 10px;color:#b2762e;font-size:12px;font-weight:800;letter-spacing:1px">APPOINTMENT &amp; SCHEDULE</p><table role="presentation" width="100%" cellspacing="0" cellpadding="0">${detailRow("위촉 과제", assignment.title)}${detailRow("검수 개시", String(assignment.starts_at || "").slice(0, 10))}${detailRow("1차 중간보고", String(assignment.interim_due_at || "협의일").slice(0, 10))}${detailRow("최종 완료", String(assignment.ends_at || "").slice(0, 10))}</table></div><p style="margin:0 0 8px;color:#173654;font-size:15px;font-weight:800">담당 검수 자료</p><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom:26px">${documentRows}</table><p style="margin:0 0 12px;color:#173654;font-size:15px;font-weight:800">워크룸 이용 절차</p><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom:24px"><tr><td style="padding:12px 14px;background:#f5f7f8;border-left:3px solid #b2762e;font-size:13px;line-height:1.85"><strong>01</strong> 계약서에 기재하신 이메일로 인증번호를 받아 입장합니다.<br><strong>02</strong> 위촉된 담당 과목과 최신 원고 버전을 확인합니다.<br><strong>03</strong> 문장을 선택하여 형광펜·전문 의견·수정 필요 도구로 검토합니다.<br><strong>04</strong> 저장한 의견은 자동 보관되며 최종 제출 전까지 수정·보완할 수 있습니다.<br><strong>05</strong> 자료별 검토 완료 후 지정일에 중간보고와 최종 검수의견을 제출합니다.</td></tr></table><p style="margin:0 0 22px;padding:13px 15px;background:#fff8ed;border:1px solid #ead7b9;color:#62513a;font-size:12px;line-height:1.8">원고와 전문위원님의 의견을 함께 보호하기 위해 파일 다운로드 대신 식별 워터마크가 적용된 보호 열람으로 제공됩니다. 안정적인 검수를 위해 PC 또는 태블릿 사용을 권장드립니다.</p><p style="margin:0 0 26px;text-align:center"><a href="${emailHtml(REVIEW_APP_URL)}" style="display:inline-block;padding:13px 26px;background:#173654;color:#fff;text-decoration:none;border-radius:4px;font-size:14px;font-weight:800">전문위원 검수 워크룸 입장</a></p><p style="margin:0;font-size:13px;line-height:1.85">일정이나 자료에 관하여 협의가 필요하시면 언제든 말씀해 주십시오.<br>전문위원님의 고견이 충실히 반영될 수 있도록 정중히 지원하겠습니다.</p></td></tr><tr><td style="padding:22px 34px;background:#173654;color:#dce4ec;font-size:12px;line-height:1.75"><strong style="display:block;color:#fff;font-size:14px;margin-bottom:3px">유한회사 설탕과소금</strong>공직시험 연구소 · 대표 김영희<br><a href="mailto:admin@gyo6.kr" style="color:#e1b46e;text-decoration:none">admin@gyo6.kr</a> · 010-3534-7163 · <a href="https://gyo6.kr" style="color:#e1b46e;text-decoration:none">gyo6.kr</a></td></tr></table></td></tr></table></body></html>`;
+}
+
 function examTrackFromTitle(title: unknown) {
   return String(title ?? "").includes("[지방직 7급]") ? "local" : "national";
 }
@@ -672,6 +680,7 @@ Deno.serve(async (request) => {
       if (examTrack !== "national") throw new Error("지방직 7급 검수는 별도 계약 후 별도 과제로 진행해 주세요.");
       const contractCompletedAt = new Date().toISOString();
       let assignmentId = requestedId;
+      let duplicatePrevented = false;
       if (requestedId) {
         const { data: existing, error: existingError } = await admin.from("review_assignments").select("*").eq("id", requestedId).single();
         if (existingError || !existing) throw new Error("확인·변경할 위촉 과제를 찾지 못했습니다.");
@@ -688,9 +697,25 @@ Deno.serve(async (request) => {
         const { error: updateError } = await admin.from("review_assignments").update({ subject_id: subjectId, title, starts_at: startsAt.toISOString(), interim_due_at: interimDueAt.toISOString(), ends_at: endsAt.toISOString(), contract_reference: contractReference, exam_track: examTrack, contract_completed_at: contractCompletedAt }).eq("id", requestedId);
         if (updateError) throw updateError;
       } else {
-        const { data: created, error: createError } = await admin.from("review_assignments").insert({ reviewer_user_id: expertUserId, subject_id: subjectId, title, starts_at: startsAt.toISOString(), interim_due_at: interimDueAt.toISOString(), ends_at: endsAt.toISOString(), contract_reference: contractReference, exam_track: examTrack, contract_completed_at: contractCompletedAt, status: "prepared", started_at: null, notification_sent_at: null }).select("id").single();
-        if (createError || !created) throw new Error("과목 위촉을 저장하지 못했습니다.");
-        assignmentId = created.id;
+        const assignmentKey = { reviewer_user_id: expertUserId, subject_id: subjectId, exam_track: examTrack, starts_at: startsAt.toISOString(), ends_at: endsAt.toISOString() };
+        const findExistingAssignment = async () => admin.from("review_assignments").select("id").match(assignmentKey).neq("status", "revoked").order("created_at", { ascending: true }).limit(1).maybeSingle();
+        const { data: existingDuplicate, error: duplicateLookupError } = await findExistingAssignment();
+        if (duplicateLookupError) throw new Error("기존 위촉 중복 여부를 확인하지 못했습니다.");
+        if (existingDuplicate?.id) {
+          assignmentId = existingDuplicate.id;
+          duplicatePrevented = true;
+        } else {
+          const { data: created, error: createError } = await admin.from("review_assignments").insert({ ...assignmentKey, title, interim_due_at: interimDueAt.toISOString(), contract_reference: contractReference, contract_completed_at: contractCompletedAt, status: "prepared", started_at: null, notification_sent_at: null }).select("id").single();
+          if (createError?.code === "23505") {
+            const { data: racedAssignment, error: racedLookupError } = await findExistingAssignment();
+            if (racedLookupError || !racedAssignment?.id) throw new Error("동일 위촉의 중복 저장을 안전하게 정리하지 못했습니다.");
+            assignmentId = racedAssignment.id;
+            duplicatePrevented = true;
+          } else {
+            if (createError || !created) throw new Error("과목 위촉을 저장하지 못했습니다.");
+            assignmentId = created.id;
+          }
+        }
       }
       const { data: currentLinks } = await admin.from("review_assignment_documents").select("document_id").eq("assignment_id", assignmentId);
       const currentIds = new Set((currentLinks ?? []).map((item) => item.document_id));
@@ -698,8 +723,8 @@ Deno.serve(async (request) => {
       if (obsoleteIds.length) await admin.from("review_assignment_documents").delete().eq("assignment_id", assignmentId).in("document_id", obsoleteIds);
       const { error: linkError } = await admin.from("review_assignment_documents").upsert(documentIds.map((documentId, index) => ({ assignment_id: assignmentId, document_id: documentId, sort_order: index + 1, visible_from: null, visible_until: endsAt.toISOString() })), { onConflict: "assignment_id,document_id" });
       if (linkError) throw linkError;
-      await admin.from("review_events").insert({ assignment_id: assignmentId, reviewer_user_id: userId, event_type: requestedId ? "assignment_updated" : "assignment_created", payload: { expertUserId, subjectId, documentIds, examTrack, contractCompleted: true, startsAt: startsAt.toISOString(), interimDueAt: interimDueAt.toISOString(), endsAt: endsAt.toISOString(), notificationStatus: "held_until_batch_start" } });
-      return json({ ok: true, assignmentId, notificationSent: false, notificationStatus: "held_until_batch_start" }, 200, origin);
+      await admin.from("review_events").insert({ assignment_id: assignmentId, reviewer_user_id: userId, event_type: requestedId ? "assignment_updated" : duplicatePrevented ? "assignment_duplicate_prevented" : "assignment_created", payload: { expertUserId, subjectId, documentIds, examTrack, contractCompleted: true, startsAt: startsAt.toISOString(), interimDueAt: interimDueAt.toISOString(), endsAt: endsAt.toISOString(), notificationStatus: "held_until_batch_start", duplicatePrevented } });
+      return json({ ok: true, assignmentId, duplicatePrevented, notificationSent: false, notificationStatus: "held_until_batch_start" }, 200, origin);
     }
 
     if (action === "managerBatchStart") {
@@ -726,7 +751,7 @@ Deno.serve(async (request) => {
         const { data: subject }=await admin.from("review_subjects").select("name").eq("id",assignment.subject_id).single();
         let notification={sent:false,status:"not_configured",id:null as string|null};
         try {
-          if(expert?.email)notification=await sendOperationalEmail(expert.email,`[설탕과소금] ${expert.display_name} 전문위원님, ${subject?.name??"담당 과목"} 국가직 검수 시작 안내`,`<div style="font-family:Arial,sans-serif;line-height:1.8;color:#243746"><h2 style="color:#102d4d">${emailHtml(expert.display_name)} 전문위원님께</h2><p>귀한 전문성으로 함께해 주셔서 깊이 감사드립니다.</p><p><strong>${emailHtml(subject?.name??"담당 과목")} · 국가직 7급 공무원시험 대비 핵심요약노트·모의고사</strong> 최신 검수 원고가 준비되었습니다.</p><ul><li>과제: ${emailHtml(assignment.title)}</li><li>검수 시작: ${emailHtml(assignment.starts_at.slice(0,10))}</li><li>1차 중간보고: ${emailHtml(assignment.interim_due_at?.slice(0,10)??"협의일")}</li><li>최종 완료: ${emailHtml(assignment.ends_at.slice(0,10))}</li><li>자료: ${documentIds.length}건</li></ul><p><a href="${emailHtml(REVIEW_APP_URL)}" style="display:inline-block;padding:11px 18px;border-radius:7px;color:#fff;background:#102d4d;text-decoration:none">전문위원 검수 워크룸 입장</a></p><p>일정이나 자료에 관하여 협의가 필요하시면 언제든 말씀해 주세요.</p><p>유한회사 설탕과소금 드림<br>admin@gyo6.kr · 010-3534-7163</p></div>`,`assignment-start-${assignment.id}`);
+          if(expert?.email)notification=await sendOperationalEmail(expert.email,`[유한회사 설탕과소금] ${expert.display_name} 전문위원님 · ${subject?.name??"담당 과목"} 검수 개시 안내`,buildAssignmentStartEmail(expert.display_name,subject?.name,assignment,(documents??[]) as Array<Record<string, unknown>>),`assignment-start-${assignment.id}`);
         } catch {
           notification={sent:false,status:"failed",id:null};
         }
