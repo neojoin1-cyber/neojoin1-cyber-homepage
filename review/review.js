@@ -644,10 +644,9 @@ function applyReaderScale() {
 function setFocusMode(enabled) {
   document.body.classList.toggle("focus-mode", enabled);
   const button = $("#focus-mode");
-  const label = $("#focus-mode-label");
   button.setAttribute("aria-pressed", String(enabled));
   button.setAttribute("aria-label", enabled ? "기본 검수 화면으로 돌아가기" : "큰 화면 검수 시작");
-  label.textContent = enabled ? "기본 화면" : "큰 화면 검수";
+  button.setAttribute("title", enabled ? "원래 검수 화면으로 돌아갑니다" : "목차와 검수의견을 유지한 채 원고를 크게 봅니다");
   applyReaderScale();
   hideSelectionPopover(true);
   toast(enabled

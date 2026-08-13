@@ -255,6 +255,18 @@ progress::-webkit-progress-value { border-radius: 999px; background: var(--sage-
 .large-review-button[aria-pressed="true"] { border-color: var(--sage-700); color: #fff; background: var(--sage-700); }
 .large-review-button span { font-size: 15px; line-height: 1; }
 .large-review-button b { font-weight: inherit; }
+.focus-exit-label { display: none; }
+body.focus-mode .focus-enter-label { display: none; }
+body.focus-mode .focus-exit-label { display: inline; }
+body.focus-mode .large-review-button {
+  min-height: 38px;
+  padding-inline: 13px;
+  border-color: var(--copper-600);
+  color: #fff;
+  background: var(--copper-600);
+  box-shadow: 0 5px 16px rgba(178, 118, 53, .22);
+}
+body.focus-mode .large-review-button:hover { background: #96602a; }
 .selection-popover {
   position: fixed;
   z-index: 90;
@@ -415,7 +427,7 @@ body.focus-mode .workroom { grid-template-columns: clamp(230px, 14vw, 310px) min
 body.focus-mode .document-sidebar,
 body.focus-mode .annotation-panel { display: block; }
 body.focus-mode .reader-toolbar { min-height: 62px; padding: 11px 18px; }
-body.focus-mode .review-paper { width: min(1280px, calc(100% - 52px)); margin: 26px auto; padding: clamp(46px, 4vw, 78px); }
+body.focus-mode .review-paper { width: min(1440px, calc(100% - 44px)); margin: 22px auto; padding: clamp(46px, 4vw, 78px); }
 body.focus-mode .document-copy strong { font-size: 13px; }
 body.focus-mode .document-copy small { font-size: 11px; }
 body.focus-mode .annotation-head strong { font-size: 18px; }
@@ -424,12 +436,12 @@ body.focus-mode .annotation-head strong { font-size: 18px; }
   .workroom { grid-template-columns: 270px minmax(720px, 1fr) 360px; }
   .review-paper { width: min(1120px, calc(100% - 52px)); }
   body.focus-mode .workroom { grid-template-columns: clamp(260px, 15vw, 340px) minmax(760px, 1fr) clamp(350px, 20vw, 420px); }
-  body.focus-mode .review-paper { width: min(1420px, calc(100% - 64px)); }
+  body.focus-mode .review-paper { width: min(1580px, calc(100% - 48px)); }
 }
 
 @media (min-width: 2400px) {
   body.focus-mode .workroom { grid-template-columns: 360px minmax(900px, 1fr) 440px; }
-  body.focus-mode .review-paper { width: min(1560px, calc(100% - 80px)); padding: 82px 96px; }
+  body.focus-mode .review-paper { width: min(1760px, calc(100% - 56px)); padding: 82px 96px; }
 }
 
 @media (max-width: 1280px) {
