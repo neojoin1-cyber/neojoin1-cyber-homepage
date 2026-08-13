@@ -332,8 +332,8 @@ function safeEventPayload(value: unknown) {
 }
 
 async function sendOperationalEmail(to: string, subject: string, html: string, idempotencyKey: string) {
-  if (!REVIEW_EMAIL_ENABLED) return { sent: false, status: "paused", id: null };
-  if (!REVIEW_EMAIL_PROVIDER) return { sent: false, status: "not_configured", id: null };
+  if (!REVIEW_EMAIL_ENABLED) return { sent: false, status: "paused", id: null, provider: null };
+  if (!REVIEW_EMAIL_PROVIDER) return { sent: false, status: "not_configured", id: null, provider: null };
   const fromMatch = REVIEW_EMAIL_FROM.match(/^\s*(.*?)\s*<([^>]+)>\s*$/);
   const senderName = fromMatch?.[1]?.trim() || "유한회사 설탕과소금";
   const senderEmail = fromMatch?.[2]?.trim() || REVIEW_EMAIL_FROM.trim();
@@ -359,6 +359,53 @@ async function sendOperationalEmail(to: string, subject: string, html: string, i
   const result = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error("안내 이메일 발송 서비스가 요청을 처리하지 못했습니다.");
   return { sent: true, status: "sent", id: result.messageId ?? result.id ?? null, provider: REVIEW_EMAIL_PROVIDER };
+}
+
+function buildSupplementalGuideText(expertName: unknown, subjectName: unknown) {
+  const name = cleanText(expertName, 80) || "전문위원";
+  const subject = cleanText(subjectName, 80) || "담당 과목";
+  return `${name} 전문위원님께
+
+안녕하십니까. 유한회사 설탕과소금 공직시험 연구소입니다.
+${subject} 검수를 위한 워크룸 이용 방법을 아래와 같이 보충 안내드립니다.
+
+1. 워크룸 입장
+   https://gyo6.kr/review/
+   계약서에 기재하신 이메일을 입력하시면 인증번호가 전문위원님의 해당 이메일로 직접 발송됩니다. 대표가 별도로 인증번호를 전달하지 않습니다.
+
+2. 담당 자료 확인
+   로그인 후 ${subject} 담당 자료만 표시됩니다. 좌측 목록에서 자료를 선택하여 최신 버전과 검수 범위를 확인해 주십시오.
+
+3. 문장별 검수 기록
+   검토할 문장을 선택하면 형광펜·전문 의견·수정 필요 도구가 바로 표시됩니다. 기록한 의견은 우측 ‘전문 검수의견’에 자동 저장되며 최종 제출 전까지 수정하거나 삭제할 수 있습니다.
+
+4. 확인 및 큰 화면 이용
+   내용 확인 후 문단 또는 표의 ‘확인’ 버튼을 눌러 주십시오. 화면 상단의 큰 화면 검수를 이용하면 원고 중심으로 넓게 볼 수 있으며, 같은 버튼으로 기본 화면으로 돌아올 수 있습니다.
+
+5. 중간보고와 최종 제출
+   1차 중간보고와 최종 검수의견은 워크룸의 해당 버튼에서 미리보기로 확인한 뒤 제출해 주십시오. 미확인 문단과 빠른 확인 주의기록이 있으면 제출 전에 안내됩니다.
+
+6. 이용 중 도움이 필요한 경우
+   admin@gyo6.kr / 010-3534-7163으로 연락 주시면 확인 후 정중히 지원하겠습니다.
+
+귀한 학문적 전문성으로 함께해 주심에 다시 한번 감사드립니다.
+
+유한회사 설탕과소금
+공직시험 연구소 · 대표 김영희
+https://gyo6.kr`;
+}
+
+function buildSupplementalGuideEmail(expertName: unknown, subjectName: unknown) {
+  const safeExpertName = emailHtml(expertName || "전문위원");
+  const safeSubjectName = emailHtml(subjectName || "담당 과목");
+  const steps = [
+    ["워크룸 입장", `계약서에 기재하신 이메일로 인증번호를 직접 받아 입장합니다. 대표가 인증번호를 별도로 전달하지 않습니다.`],
+    ["담당 자료 확인", `${safeSubjectName} 담당 자료만 표시되며 좌측 목록에서 최신 원고와 검수 범위를 확인합니다.`],
+    ["문장별 의견 기록", `문장을 선택하면 형광펜·전문 의견·수정 필요 도구가 표시됩니다. 기록은 자동 저장되며 최종 제출 전까지 수정·삭제할 수 있습니다.`],
+    ["확인·큰 화면 이용", `문단 또는 표의 확인 버튼으로 검토 범위를 기록하고, 큰 화면 검수 버튼으로 원고 중심 화면과 기본 화면을 전환합니다.`],
+    ["보고서 확인·제출", `중간보고와 최종 검수의견은 미리보기에서 확인한 뒤 제출합니다. 미확인 문단과 확인 속도 주의기록도 제출 전에 안내됩니다.`]
+  ].map(([title, body], index) => `<tr><td style="padding:13px 0;border-bottom:1px solid #e8e3da;color:#b2762e;font-weight:800;vertical-align:top;width:36px">${String(index + 1).padStart(2, "0")}</td><td style="padding:13px 0;border-bottom:1px solid #e8e3da"><strong style="display:block;color:#173654;font-size:14px;margin-bottom:4px">${title}</strong><span style="color:#536476;font-size:13px;line-height:1.75">${body}</span></td></tr>`).join("");
+  return `<!doctype html><html lang="ko"><body style="margin:0;background:#f3f1ed;color:#27384a;font-family:'Apple SD Gothic Neo','Noto Sans KR',Arial,sans-serif"><table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr><td align="center" style="padding:32px 12px"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:680px;background:#fff;border:1px solid #ded8cd;border-top:5px solid #173654"><tr><td style="padding:30px 34px 24px;border-bottom:1px solid #e7e1d7"><p style="margin:0 0 8px;color:#b2762e;font-size:11px;font-weight:800;letter-spacing:2px">SUGAR &amp; SALT · REVIEW SUPPORT</p><h1 style="margin:0;color:#173654;font-family:Georgia,'Noto Serif KR',serif;font-size:26px;line-height:1.35">전문위원 검수 워크룸<br>이용 보충 안내</h1></td></tr><tr><td style="padding:30px 34px"><p style="margin:0 0 18px;color:#172f4d;font-size:17px;line-height:1.8"><strong>${safeExpertName} 전문위원님께</strong></p><p style="margin:0 0 24px;font-size:14px;line-height:1.9">${safeSubjectName} 검수에 함께해 주심에 깊이 감사드립니다.<br>워크룸을 편안하게 이용하실 수 있도록 핵심 절차를 정리하여 안내드립니다.</p><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom:24px">${steps}</table><p style="margin:0 0 24px;text-align:center"><a href="${emailHtml(REVIEW_APP_URL)}" style="display:inline-block;padding:13px 26px;background:#173654;color:#fff;text-decoration:none;border-radius:4px;font-size:14px;font-weight:800">전문위원 검수 워크룸 입장</a></p><p style="margin:0;padding:14px 16px;background:#fbf6ed;border-left:3px solid #b2762e;color:#665845;font-size:12px;line-height:1.8">이용 중 도움이 필요하시면 admin@gyo6.kr 또는 010-3534-7163으로 연락해 주십시오. 전문위원님의 고견이 온전히 기록될 수 있도록 정중히 지원하겠습니다.</p></td></tr><tr><td style="padding:22px 34px;background:#173654;color:#dce4ec;font-size:12px;line-height:1.75"><strong style="display:block;color:#fff;font-size:14px;margin-bottom:3px">유한회사 설탕과소금</strong>공직시험 연구소 · 대표 김영희<br><a href="mailto:admin@gyo6.kr" style="color:#e1b46e;text-decoration:none">admin@gyo6.kr</a> · <a href="https://gyo6.kr" style="color:#e1b46e;text-decoration:none">gyo6.kr</a></td></tr></table></td></tr></table></body></html>`;
 }
 
 async function runtimeControls(admin: ReturnType<typeof createClient>) {
@@ -956,6 +1003,56 @@ Deno.serve(async (request) => {
 
     if (action === "managerDashboard") return json(await managerDashboard(admin, userId), 200, origin);
 
+    if (action === "managerGetCommunicationAudit") {
+      await ensureManager(admin, userId);
+      const assignmentId = cleanText(payload.assignmentId, 80);
+      if (!assignmentId) throw new Error("확인할 위촉 과제를 선택해 주세요.");
+      const { data: assignment, error: assignmentError } = await admin.from("review_assignments").select("*").eq("id", assignmentId).single();
+      if (assignmentError || !assignment) throw new Error("위촉 과제를 확인하지 못했습니다.");
+      const [{ data: expert }, { data: subject }, { data: links }, { data: events }, { data: archivedRows }] = await Promise.all([
+        admin.from("review_profiles").select("email, display_name").eq("user_id", assignment.reviewer_user_id).single(),
+        admin.from("review_subjects").select("name").eq("id", assignment.subject_id).single(),
+        admin.from("review_assignment_documents").select("document_id, sort_order").eq("assignment_id", assignmentId).order("sort_order"),
+        admin.from("review_events").select("event_type, occurred_at, payload").eq("assignment_id", assignmentId).in("event_type", ["notification_dispatched", "assignment_started", "assignment_start_failed"]).order("occurred_at", { ascending: false }),
+        admin.from("review_notification_archive").select("subject, html_body, template_version, provider, provider_message_id, delivery_status, sent_at").eq("assignment_id", assignmentId).eq("notification_type", "assignment_start").order("sent_at", { ascending: false }).limit(1)
+      ]);
+      if (!expert?.email) throw new Error("전문위원 이메일 정보를 확인하지 못했습니다.");
+      const documentIds = (links ?? []).map((item) => item.document_id);
+      const { data: documents } = documentIds.length ? await admin.from("review_documents").select("id, title, version").in("id", documentIds) : { data: [] };
+      const documentMap = new Map((documents ?? []).map((item) => [item.id, item]));
+      const orderedDocuments = (links ?? []).map((item) => documentMap.get(item.document_id)).filter(Boolean) as Array<Record<string, unknown>>;
+      const archived = (events ?? []).find((event) => event.event_type === "notification_dispatched");
+      const exactArchive = archivedRows?.[0] ?? null;
+      const started = (events ?? []).find((event) => event.event_type === "assignment_started");
+      const failure = (events ?? []).find((event) => event.event_type === "assignment_start_failed");
+      const archivedPayload = (archived?.payload ?? {}) as Record<string, unknown>;
+      const startedPayload = (started?.payload ?? {}) as Record<string, unknown>;
+      const startSubject = cleanText(exactArchive?.subject ?? archivedPayload.subject, 300) || `[유한회사 설탕과소금] ${expert.display_name} 전문위원님 · ${subject?.name ?? "담당 과목"} 검수 개시 안내`;
+      const archivedHtml = exactArchive?.html_body ?? "";
+      const startHtml = archivedHtml || buildAssignmentStartEmail(expert.display_name, subject?.name, assignment, orderedDocuments);
+      const supplementSubject = `[유한회사 설탕과소금] ${expert.display_name} 전문위원님 · ${subject?.name ?? "담당 과목"} 검수 워크룸 이용 보충 안내`;
+      return json({
+        ok: true,
+        assignmentId,
+        recipient: { name: expert.display_name, email: expert.email },
+        subject: subject?.name ?? "담당 과목",
+        delivery: {
+          status: assignment.notification_sent_at ? "service_accepted" : failure ? "failed" : "not_recorded",
+          sentAt: exactArchive?.sent_at ?? assignment.notification_sent_at ?? archived?.occurred_at ?? null,
+          provider: exactArchive?.provider ?? archivedPayload.provider ?? null,
+          providerMessageId: exactArchive?.provider_message_id ?? archivedPayload.providerMessageId ?? startedPayload.notificationId ?? null,
+          templateVersion: exactArchive?.template_version ?? archivedPayload.templateVersion ?? "assignment-start-v1",
+          exactOriginal: Boolean(archivedHtml)
+        },
+        startNotice: { subject: startSubject, html: startHtml },
+        supplementalGuide: {
+          subject: supplementSubject,
+          html: buildSupplementalGuideEmail(expert.display_name, subject?.name),
+          text: buildSupplementalGuideText(expert.display_name, subject?.name)
+        }
+      }, 200, origin);
+    }
+
     if (action === "managerSetRuntimeControls") {
       await ensureManager(admin, userId);
       const command = cleanText(payload.command, 20);
@@ -1115,9 +1212,11 @@ Deno.serve(async (request) => {
           results.push({assignmentId:assignment.id,started:false,alreadyStarted:false,notificationSent:false,notificationStatus:"failed",notificationRecordStatus:"reviewer_email_missing",error:"전문위원 이메일을 확인해 주세요."});
           continue;
         }
-        let notification={sent:false,status:"failed",id:null as string|null};
+        const notificationSubject=`[유한회사 설탕과소금] ${expert.display_name} 전문위원님 · ${subject?.name??"담당 과목"} 검수 개시 안내`;
+        const notificationHtml=buildAssignmentStartEmail(expert.display_name,subject?.name,assignment,(documents??[]) as Array<Record<string, unknown>>);
+        let notification={sent:false,status:"failed",id:null as string|null,provider:null as string|null};
         try {
-          notification=await sendOperationalEmail(expert.email,`[유한회사 설탕과소금] ${expert.display_name} 전문위원님 · ${subject?.name??"담당 과목"} 검수 개시 안내`,buildAssignmentStartEmail(expert.display_name,subject?.name,assignment,(documents??[]) as Array<Record<string, unknown>>),`assignment-start-${assignment.id}`);
+          notification=await sendOperationalEmail(expert.email,notificationSubject,notificationHtml,`assignment-start-${assignment.id}`);
         } catch (error) {
           await admin.from("review_events").insert({assignment_id:assignment.id,reviewer_user_id:userId,event_type:"assignment_start_failed",payload:{phase:"email",notificationStatus:"failed",message:cleanText(error instanceof Error?error.message:"안내 이메일 발송 실패",200)}});
           results.push({assignmentId:assignment.id,started:false,alreadyStarted:false,notificationSent:false,notificationStatus:"failed",notificationRecordStatus:"email_failed",error:"안내 이메일 발송 서비스 접수에 실패했습니다."});
@@ -1127,6 +1226,8 @@ Deno.serve(async (request) => {
           results.push({assignmentId:assignment.id,started:false,alreadyStarted:false,notificationSent:false,notificationStatus:notification.status,notificationRecordStatus:"email_not_sent",error:"안내 이메일이 발송 서비스에 접수되지 않았습니다."});
           continue;
         }
+        const { error: archiveError } = await admin.from("review_notification_archive").upsert({assignment_id:assignment.id,notification_type:"assignment_start",channel:"email",recipient_email:expert.email,recipient_name:expert.display_name,subject:notificationSubject,html_body:notificationHtml,text_body:null,template_version:"assignment-start-v1",provider:notification.provider,provider_message_id:notification.id,delivery_status:"service_accepted",sent_at:new Date().toISOString(),created_by:userId},{onConflict:"assignment_id,notification_type,recipient_email"});
+        await admin.from("review_events").insert({assignment_id:assignment.id,reviewer_user_id:userId,event_type:"notification_dispatched",payload:{channel:"email",recipient:expert.email,subject:notificationSubject,templateVersion:"assignment-start-v1",provider:notification.provider,providerMessageId:notification.id,notificationStatus:notification.status,archiveStored:!archiveError,archiveError:archiveError?cleanText(archiveError.message,160):null}});
         const startedAt=new Date().toISOString();
         const notificationSentAt=notification.sent?new Date().toISOString():null;
         const {data:startedRows,error:startError}=await admin.from("review_assignments").update({status:"assigned",started_at:startedAt,notification_sent_at:notificationSentAt}).eq("id",assignment.id).eq("status","prepared").select("id");

@@ -5,6 +5,37 @@ body { color:var(--text); background:#eef1f2; font-family:"Pretendard","Noto San
 .manager-app.records-refreshing main { opacity:.56; filter:saturate(.78); transition:opacity .18s ease,filter .18s ease; }
 .manager-app.records-refreshing #refresh-dashboard { position:relative; padding-left:32px; }
 .manager-app.records-refreshing #refresh-dashboard::before { content:""; position:absolute; left:12px; top:50%; width:12px; height:12px; margin-top:-7px; border:2px solid rgba(255,255,255,.4); border-top-color:currentColor; border-radius:50%; animation:records-spin .7s linear infinite; }
+
+.communication-audit-dialog { width:min(1120px,calc(100vw - 28px)); max-height:92vh; padding:0; border:0; border-radius:24px; overflow:hidden; color:#173654; background:#f6f4ef; box-shadow:0 28px 80px rgba(11,35,58,.28); }
+.communication-audit-dialog::backdrop { background:rgba(7,25,43,.66); backdrop-filter:blur(4px); }
+.communication-audit-dialog .detail-head { background:#102d49; color:#fff; padding:24px 30px; }
+.communication-audit-dialog .detail-head span,.communication-section-head span { color:#c58a42; font-size:11px; font-weight:800; letter-spacing:.14em; }
+.communication-audit-dialog .detail-head h2 { margin:5px 0 4px; font-family:Georgia,'Noto Serif KR',serif; font-size:28px; }
+.communication-audit-dialog .detail-head p { margin:0; color:#c8d4df; font-size:13px; }
+.communication-audit-body { max-height:calc(92vh - 154px); padding:24px 30px 28px; overflow:auto; }
+.communication-receipt,.communication-preview-section,.communication-copy-panel { background:#fff; border:1px solid #ddd7cc; border-radius:16px; box-shadow:0 8px 24px rgba(23,54,84,.06); }
+.communication-receipt { padding:20px 22px; }
+.communication-section-head { display:flex; align-items:flex-start; justify-content:space-between; gap:24px; margin-bottom:15px; }
+.communication-section-head h3 { margin:4px 0 0; font-family:Georgia,'Noto Serif KR',serif; font-size:20px; color:#173654; }
+.communication-section-head>strong { padding:7px 11px; border-radius:999px; background:#e8f3ee; color:#2e715d; font-size:12px; white-space:nowrap; }
+.communication-section-head>span:last-child { max-width:52%; color:#667789; font-size:12px; font-weight:600; letter-spacing:0; text-align:right; }
+.communication-meta { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border-top:1px solid #eee9df; }
+.communication-meta div { min-width:0; padding:14px 16px 4px 0; }
+.communication-meta span { display:block; margin-bottom:5px; color:#7b8794; font-size:11px; }
+.communication-meta strong { display:block; overflow-wrap:anywhere; color:#173654; font-size:13px; }
+.communication-note { margin:15px 0 0; padding:11px 13px; background:#fbf6ed; border-left:3px solid #c58a42; color:#695c4a; font-size:12px; line-height:1.65; }
+.communication-tabs { display:flex; gap:8px; margin:18px 0 12px; }
+.communication-tabs button { padding:10px 15px; border:1px solid #cdd5dc; border-radius:999px; background:#fff; color:#496074; font-weight:700; }
+.communication-tabs button.active { border-color:#173654; background:#173654; color:#fff; }
+.communication-preview-section { padding:20px 22px 22px; }
+#communication-preview-frame { display:block; width:100%; height:620px; border:1px solid #dcd6cb; border-radius:10px; background:#f3f1ed; }
+.communication-copy-panel { margin-top:14px; padding:20px 22px; }
+.communication-copy-panel label { display:block; margin-bottom:13px; color:#173654; font-size:12px; font-weight:800; }
+.communication-copy-panel input,.communication-copy-panel textarea { width:100%; margin-top:7px; padding:12px 13px; border:1px solid #cfd6dc; border-radius:8px; background:#fbfbfa; color:#243d56; font:inherit; font-weight:400; box-sizing:border-box; }
+.communication-copy-panel textarea { min-height:310px; resize:vertical; line-height:1.75; }
+.communication-copy-panel p { margin:0; color:#6e7b88; font-size:12px; line-height:1.6; }
+.communication-audit-dialog footer { display:flex; justify-content:flex-end; gap:8px; padding:15px 24px; border-top:1px solid #ddd7cc; background:#fff; }
+@media(max-width:760px){.communication-audit-dialog{width:calc(100vw - 12px);border-radius:15px}.communication-audit-body{padding:16px}.communication-audit-dialog .detail-head{padding:20px}.communication-meta{grid-template-columns:1fr 1fr}.communication-section-head{display:block}.communication-section-head>span:last-child{display:block;max-width:none;margin-top:8px;text-align:left}#communication-preview-frame{height:520px}}
 .manager-app.records-refreshed .hero,.manager-app.records-refreshed .summary-grid,.manager-app.records-refreshed .table-card { animation:records-confirm .85s ease; }
 @keyframes records-spin { to { transform:rotate(360deg); } }
 @keyframes records-confirm { 0% { box-shadow:0 0 0 0 rgba(206,143,58,0); } 28% { box-shadow:0 0 0 5px rgba(206,143,58,.34); } 100% { box-shadow:0 0 0 0 rgba(206,143,58,0); } }

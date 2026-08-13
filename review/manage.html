@@ -82,7 +82,32 @@
     <dialog id="assignment-detail">
       <div class="detail-head"><div><span>ASSIGNMENT DETAIL</span><h2 id="detail-title">검수 상세</h2></div><button id="detail-close" type="button" aria-label="상세 닫기">×</button></div>
       <div id="detail-body"></div>
-      <footer><button id="preview-assignment" type="button">실제 검수 화면 확인</button><button class="primary" id="start-assignment" type="button">개별 검수 시작</button><button id="edit-expert" type="button">전문위원 정보</button><button id="edit-assignment" type="button">위촉 내용 확인·변경</button><button id="request-rereview" type="button">재검토 요청</button><button id="revoke-assignment" class="danger-button" type="button">위촉 종료</button><button id="download-interim-report" type="button">1차 중간보고 받기</button><button class="primary" id="download-managed-report" type="button">대표 검토·승인</button><button id="download-handoff-package" type="button">Claude Code 인계자료</button><button id="mark-report-delivered" type="button">교재 제작 시스템 전달 완료</button></footer>
+      <footer><button id="preview-assignment" type="button">실제 검수 화면 확인</button><button id="communication-audit" type="button">발송 안내 확인</button><button class="primary" id="start-assignment" type="button">개별 검수 시작</button><button id="edit-expert" type="button">전문위원 정보</button><button id="edit-assignment" type="button">위촉 내용 확인·변경</button><button id="request-rereview" type="button">재검토 요청</button><button id="revoke-assignment" class="danger-button" type="button">위촉 종료</button><button id="download-interim-report" type="button">1차 중간보고 받기</button><button class="primary" id="download-managed-report" type="button">대표 검토·승인</button><button id="download-handoff-package" type="button">Claude Code 인계자료</button><button id="mark-report-delivered" type="button">교재 제작 시스템 전달 완료</button></footer>
+    </dialog>
+
+    <dialog id="communication-audit-dialog" class="communication-audit-dialog">
+      <div class="detail-head"><div><span>COMMUNICATION AUDIT</span><h2 id="communication-audit-title">전문위원 안내 확인</h2><p>검수 중인 전문위원님께 영향을 주지 않는 대표 전용 읽기 화면입니다.</p></div><button data-close-dialog="communication-audit-dialog" type="button" aria-label="닫기">×</button></div>
+      <div class="communication-audit-body">
+        <section class="communication-receipt" aria-labelledby="communication-receipt-heading">
+          <div class="communication-section-head"><div><span>01 · DELIVERY RECORD</span><h3 id="communication-receipt-heading">검수 개시 안내 발송 기록</h3></div><strong id="communication-delivery-badge">확인 중</strong></div>
+          <div class="communication-meta" id="communication-meta"></div>
+          <p class="communication-note" id="communication-reconstruction-note"></p>
+        </section>
+        <nav class="communication-tabs" aria-label="안내문 종류">
+          <button class="active" id="communication-start-tab" type="button">발송된 개시 안내</button>
+          <button id="communication-supplement-tab" type="button">개별 보충 안내</button>
+        </nav>
+        <section class="communication-preview-section">
+          <div class="communication-section-head"><div><span id="communication-preview-kicker">02 · SENT NOTICE</span><h3 id="communication-preview-heading">발송 양식 미리보기</h3></div><span id="communication-preview-subject"></span></div>
+          <iframe id="communication-preview-frame" sandbox="" title="전문위원 안내 이메일 미리보기"></iframe>
+        </section>
+        <section class="communication-copy-panel" id="communication-copy-panel" hidden>
+          <label>이메일 제목<input id="communication-supplement-subject" readonly></label>
+          <label>보충 안내 본문<textarea id="communication-supplement-text" readonly></textarea></label>
+          <p>이 화면에서는 발송하지 않습니다. 대표님이 내용을 확인한 뒤 필요한 전문위원님께만 개별 전달할 수 있습니다.</p>
+        </section>
+      </div>
+      <footer><button data-close-dialog="communication-audit-dialog" type="button">닫기</button><button id="copy-supplement-subject" type="button" hidden>제목 복사</button><button class="primary" id="copy-supplement-notice" type="button" hidden>보충 안내 복사</button></footer>
     </dialog>
 
     <dialog id="report-review-dialog" class="report-review-dialog">

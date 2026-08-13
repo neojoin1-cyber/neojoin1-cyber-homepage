@@ -20,6 +20,7 @@ const nationalSubjectSql = read("review/supabase/migrations/20260813010000_fix_n
 const runtimeControlSql = read("review/supabase/migrations/20260814000000_review_runtime_controls.sql");
 const reportWorkflowSql = read("review/supabase/migrations/20260814010000_review_report_workflow.sql");
 const integritySql = read("review/supabase/migrations/20260814020000_review_integrity_tracking.sql");
+const notificationArchiveSql = read("review/supabase/migrations/20260814040000_review_notification_archive.sql");
 
 check("page.noindex", html.includes('name="robots" content="noindex, nofollow, noarchive, nosnippet"'), "보호 페이지가 검색에 노출되지 않습니다.");
 check("page.programs", ["국가직 7급 공무원시험 대비", "초등교원임용고사 대비", "중등교원임용고사 대비"].every((value) => js.includes(value)), "세 시험군이 하나의 워크룸 구조에 포함됩니다.");
@@ -62,6 +63,9 @@ check("manager.official-assignment-title", managerJs.includes("syncOfficialAssig
 check("manager.assignment-idempotency", managerJs.includes("assignmentSaving") && edge.includes("assignment_duplicate_prevented") && edge.includes('createError?.code === "23505"'), "연속 클릭과 동시 요청에서도 동일 위촉은 한 건만 유지합니다.");
 check("manager.revoked-default-hidden", managerJs.includes('status==="all"?row.status!=="revoked"'), "종료한 위촉은 감사기록으로 보존하되 기본 운영 목록에서는 숨깁니다.");
 check("manager.assignment-onboarding", edge.includes("전문위원 검수 개시 안내") && edge.includes("담당 검수 자료") && edge.includes("워크룸 이용 절차"), "계약 완료 후 품위 있는 안내장에 담당 자료와 전체 검수 절차를 자동 안내합니다.");
+check("manager.communication-audit", managerHtml.includes('id="communication-audit"') && managerHtml.includes('id="communication-preview-frame"') && managerJs.includes("managerGetCommunicationAudit") && edge.includes('action === "managerGetCommunicationAudit"') && edge.includes("ensureManager(admin, userId)"), "대표가 수신자·제목·접수시각·메일 양식을 관리자 전용 읽기 화면에서 확인합니다.");
+check("manager.supplemental-guide", managerHtml.includes("개별 보충 안내") && managerJs.includes("renderCommunicationTab") && edge.includes("buildSupplementalGuideEmail") && edge.includes("buildSupplementalGuideText") && !managerJs.includes('api("managerSendSupplement'), "개별 보충 안내는 품위 있는 양식으로 미리보기·복사하되 자동 재발송하지 않습니다.");
+check("database.notification-archive", notificationArchiveSql.includes("review_notification_archive") && notificationArchiveSql.includes("enable row level security") && notificationArchiveSql.includes("revoke all") && edge.includes('admin.from("review_notification_archive")'), "향후 발송 메일 원문은 일반 대시보드 활동기록과 분리된 대표 전용 보관함에 저장합니다.");
 check("manager.prepared-gate", edge.includes('status: "prepared"') && edge.includes("held_until_batch_start") && edge.includes("계약과 최신 원고의 최종 확인이 진행 중입니다"), "계약·원고 최종 확인 전에는 전문위원 접근이 열리지 않습니다.");
 check("manager.batch-start", managerHtml.includes("batch-start-dialog") && managerJs.includes("managerBatchStart") && edge.includes('action === "managerBatchStart"'), "대표님의 확인 후 국가직 과제를 한꺼번에 시작합니다.");
 check("manager.single-start", managerHtml.includes('id="start-assignment"') && managerJs.includes("startSingleAssignment") && managerJs.includes("assignmentIds:[assignmentId]"), "계약 완료 시 전문위원별로 검수를 개별 시작하고 안내장을 발송합니다.");
