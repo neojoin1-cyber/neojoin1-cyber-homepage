@@ -285,16 +285,16 @@ grant usage, select on sequence public.review_events_id_seq to service_role;
 grant usage, select on sequence public.review_change_history_id_seq to service_role;
 
 insert into public.review_programs (id, name, sort_order) values
-  ('civil', '공무원시험 대비', 10),
+  ('civil', '국가직 7급 공무원시험 대비', 10),
   ('elementary', '초등교원임용고사 대비', 20),
   ('secondary', '중등교원임용고사 대비', 30)
 on conflict (id) do update set name = excluded.name, sort_order = excluded.sort_order;
 
 insert into public.review_subjects (program_id, code, name, sort_order) values
   ('civil', 'constitution', '헌법', 10),
-  ('civil', 'economics', '경제학원론', 20),
-  ('civil', 'administrative-law', '행정법총론', 30),
-  ('civil', 'public-administration', '행정학개론', 40),
+  ('civil', 'economics', '경제학', 20),
+  ('civil', 'administrative-law', '행정법', 30),
+  ('civil', 'public-administration', '행정학', 40),
   ('elementary', 'integrated-curriculum', '초등 교육과정 통합', 10),
   ('elementary', 'teacher-essay', '교직논술', 20),
   ('elementary', 'kindergarten', '유치원', 30),

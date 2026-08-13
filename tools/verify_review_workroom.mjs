@@ -16,9 +16,10 @@ const managerHtml = read("review/manage.html");
 const managerJs = read("review/manage.js");
 const batchSql = read("review/supabase/migrations/20260812000000_review_batch_start.sql");
 const historySql = read("review/supabase/migrations/20260813000000_review_change_history.sql");
+const nationalSubjectSql = read("review/supabase/migrations/20260813010000_fix_national_subject_names.sql");
 
 check("page.noindex", html.includes('name="robots" content="noindex, nofollow, noarchive, nosnippet"'), "보호 페이지가 검색에 노출되지 않습니다.");
-check("page.programs", ["공무원시험 대비", "초등교원임용고사 대비", "중등교원임용고사 대비"].every((value) => js.includes(value)), "세 시험군이 하나의 워크룸 구조에 포함됩니다.");
+check("page.programs", ["국가직 7급 공무원시험 대비", "초등교원임용고사 대비", "중등교원임용고사 대비"].every((value) => js.includes(value)), "세 시험군이 하나의 워크룸 구조에 포함됩니다.");
 check("tools.annotation", ["형광펜", "전문 의견", "수정 필요"].every((value) => html.includes(value)), "핵심 검수 도구가 존중 표현으로 제공됩니다.");
 check("tools.selection-popover", html.includes("selection-popover") && js.includes("showSelectionPopover") && js.includes('(pointer: coarse)'), "선택 즉시 PC 위쪽·터치 기기 아래쪽에 검수 도구가 표시됩니다.");
 check("tools.autosave", js.includes("scheduleSave") && html.includes("자동으로 저장"), "문단 확인과 전체 의견을 자동저장합니다.");
@@ -34,6 +35,7 @@ check("manager.readonly-preview", managerHtml.includes("preview-assignment") && 
 check("manager.expert-registration", managerHtml.includes("expert-form") && edge.includes('action === "managerUpsertExpert"') && edge.includes("admin.createUser") && edge.includes("invitationSent: false"), "전문위원 정보는 내부 등록되며 일괄 시작 전에는 초대 메일이 발송되지 않습니다.");
 check("manager.expert-directory", managerHtml.includes("expert-directory-dialog") && managerJs.includes("renderExpertDirectory") && managerJs.includes("summary-registered"), "등록 전문위원 전체 명단과 위촉 현황을 별도로 집계합니다.");
 check("manager.subject-assignment", managerHtml.includes("assignment-form") && edge.includes('action === "managerSaveAssignment"') && edge.includes("review_assignment_documents"), "과목·검수 자료·기간 위촉을 운영관제에서 설정합니다.");
+check("manager.national-subject-names", managerJs.includes('name:"국가직 7급 공무원시험 대비"') && ["헌법", "행정법", "행정학", "경제학"].every((value) => managerJs.includes(`name:\"${value}\"`)) && !managerJs.includes('name:"행정법총론"') && !managerJs.includes('name:"행정학개론"') && !managerJs.includes('name:"경제학원론"') && nationalSubjectSql.includes("'[국가직 7급] 행정법'") && nationalSubjectSql.includes("'국가직 7급 공무원시험 대비'"), "국가직 7급 일반행정 제2차 공식 사업명과 과목명을 그대로 사용합니다.");
 check("manager.prepared-gate", edge.includes('status: "prepared"') && edge.includes("held_until_batch_start") && edge.includes("계약과 최신 원고의 최종 확인이 진행 중입니다"), "계약·원고 최종 확인 전에는 전문위원 접근이 열리지 않습니다.");
 check("manager.batch-start", managerHtml.includes("batch-start-dialog") && managerJs.includes("managerBatchStart") && edge.includes('action === "managerBatchStart"'), "대표님의 확인 후 국가직 과제를 한꺼번에 시작합니다.");
 check("manager.email-lock", edge.includes("전문위원 안내 발송 기능이 현재 잠겨 있습니다") && edge.includes("!REVIEW_LAUNCH_ENABLED || !REVIEW_ACCESS_ENABLED || !REVIEW_EMAIL_ENABLED || !RESEND_API_KEY"), "발송·접근·시작 설정 중 하나라도 잠기면 과제 시작과 이메일 발송이 함께 차단됩니다.");

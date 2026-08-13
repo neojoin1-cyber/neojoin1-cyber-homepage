@@ -32,11 +32,11 @@ SUPABASE_CLI = shutil.which("supabase.cmd" if os.name == "nt" else "supabase") o
 SOURCE_SUBJECTS = (
     ("헌법(국가직 7급)", "constitution", "헌법", "국가직 7급"),
     ("헌법(지방직 7급)", "constitution", "헌법", "지방직 7급"),
-    ("경제학(국가직 7급)", "economics", "경제학원론", "국가직 7급"),
+    ("경제학(국가직 7급)", "economics", "경제학", "국가직 7급"),
     ("경제학원론(지방직 7급)", "economics", "경제학원론", "지방직 7급"),
-    ("행정법(국가직 7급)", "administrative-law", "행정법총론", "국가직 7급"),
+    ("행정법(국가직 7급)", "administrative-law", "행정법", "국가직 7급"),
     ("행정법(지방직 7급)", "administrative-law", "행정법총론", "지방직 7급"),
-    ("행정학(국가직 7급)", "public-administration", "행정학개론", "국가직 7급"),
+    ("행정학(국가직 7급)", "public-administration", "행정학", "국가직 7급"),
     ("행정학(지방직 7급)", "public-administration", "행정학개론", "지방직 7급"),
 )
 

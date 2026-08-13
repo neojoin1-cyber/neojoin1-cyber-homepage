@@ -37,13 +37,13 @@ const DEMO = {
   assignments: [
     {
       id: "civil-constitution",
-      program: { id: "civil", name: "공무원시험 대비" },
+      program: { id: "civil", name: "국가직 7급 공무원시험 대비" },
       subject: { id: "constitution", name: "헌법" },
       title: "헌법 핵심노트·모의고사 1차 검수",
       period: "2026. 8. 11. — 8. 19.",
       interimDueAt: "2026-08-15",
       status: "reviewing",
-      contractReference: "2026 공무원시험 대비 외부 검수용역",
+      contractReference: "2026 국가직 7급 공무원시험 대비 핵심요약노트·모의고사 외부 전문위원 검수용역",
       watermarkCode: "CV-CON-260811-A7",
       documents: [
         {
