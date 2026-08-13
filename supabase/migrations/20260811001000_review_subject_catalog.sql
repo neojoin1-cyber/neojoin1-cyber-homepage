@@ -1,8 +1,8 @@
 insert into public.review_subjects (program_id, code, name, sort_order) values
   ('civil', 'constitution', '헌법', 10),
-  ('civil', 'economics', '경제학원론', 20),
-  ('civil', 'administrative-law', '행정법총론', 30),
-  ('civil', 'public-administration', '행정학개론', 40),
+  ('civil', 'economics', '경제학', 20),
+  ('civil', 'administrative-law', '행정법', 30),
+  ('civil', 'public-administration', '행정학', 40),
   ('elementary', 'integrated-curriculum', '초등 교육과정 통합', 10),
   ('elementary', 'teacher-essay', '교직논술', 20),
   ('elementary', 'kindergarten', '유치원', 30),
