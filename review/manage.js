@@ -105,13 +105,14 @@ $("#new-expert").addEventListener("click",()=>openExpertForm());
 $("#directory-new-expert").addEventListener("click",()=>{$("#expert-directory-dialog").close();openExpertForm();});
 $("#expert-directory-search").addEventListener("input",renderExpertDirectory);
 $("#expert-directory-rows").addEventListener("click",event=>{const button=event.target.closest("[data-directory-edit]");if(!button)return;const expert=state.experts.find(item=>item.id===button.dataset.directoryEdit);if(expert){$("#expert-directory-dialog").close();openExpertForm(expert);}});
-$("#new-assignment").addEventListener("click",()=>openAssignmentForm());
+function syncOfficialAssignmentTitle(){ const subject=state.subjects.find(item=>item.id===$("#assignment-subject").value); if(subject&&!$("#assignment-id").value)$("#assignment-title").value=`${subject.name} 핵심요약노트·모의고사 검수`; }
+$("#new-assignment").addEventListener("click",()=>{openAssignmentForm();syncOfficialAssignmentTitle();});
 $("#batch-start").addEventListener("click",openBatchStart);
 $("#batch-start-form").addEventListener("submit",batchStart);
 $("#expert-form").addEventListener("submit",saveExpert);
 $("#assignment-form").addEventListener("submit",saveAssignment);
 $("#assignment-program").addEventListener("change",()=>{ $("#assignment-subject").innerHTML=subjectOptions($("#assignment-program").value); renderDocumentPicker($("#assignment-subject").value); });
-$("#assignment-subject").addEventListener("change",()=>renderDocumentPicker($("#assignment-subject").value));
+$("#assignment-subject").addEventListener("change",()=>{renderDocumentPicker($("#assignment-subject").value);syncOfficialAssignmentTitle();});
 $("#assignment-track").addEventListener("change",()=>renderDocumentPicker($("#assignment-subject").value));
 $("#copy-manual-notice").addEventListener("click",async()=>{ try{await navigator.clipboard.writeText($("#manual-notice-text").value);toast("안내문을 복사했습니다.");}catch{ $("#manual-notice-text").focus();$("#manual-notice-text").select();toast("선택된 안내문을 복사해 주세요.");} });
 document.addEventListener("click",event=>{ const button=event.target.closest("[data-close-dialog]"); if(button)$("#"+button.dataset.closeDialog).close(); });

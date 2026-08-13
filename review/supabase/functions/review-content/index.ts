@@ -665,11 +665,11 @@ Deno.serve(async (request) => {
       if (expertError || !expert?.active) throw new Error("이용 가능한 전문위원 계정을 확인해 주세요.");
       const { data: subject, error: subjectError } = await admin.from("review_subjects").select("id, program_id, name").eq("id", subjectId).single();
       if (subjectError || !subject) throw new Error("위촉할 과목을 확인해 주세요.");
+      const assignmentTitle = examTrack === "national" ? `${subject.name} 핵심요약노트·모의고사 검수` : title;
       const { data: validDocuments, error: documentError } = await admin.from("review_documents").select("id, title, version, status, source_sha256").eq("subject_id", subjectId).in("id", documentIds);
       if (documentError || (validDocuments ?? []).length !== documentIds.length) throw new Error("담당 과목과 일치하는 검수 자료만 지정할 수 있습니다.");
       if ((validDocuments ?? []).some((item) => examTrackFromTitle(item.title) !== examTrack)) throw new Error("선택한 시험 구분과 일치하는 국가직 또는 지방직 원고만 지정할 수 있습니다.");
       if ((validDocuments ?? []).some((item) => item.status !== "review_ready" || !item.source_sha256)) throw new Error("최신 활성 원고와 원본 무결성값이 확인된 자료만 지정할 수 있습니다.");
-      if ((validDocuments ?? []).some((item) => examTrackFromTitle(item.title) !== examTrack)) throw new Error("국가직과 지방직 원고를 하나의 위촉에 혼합할 수 없습니다.");
       if (examTrack !== "national") throw new Error("지방직 7급 검수는 별도 계약 후 별도 과제로 진행해 주세요.");
       const contractCompletedAt = new Date().toISOString();
       let assignmentId = requestedId;
@@ -686,10 +686,10 @@ Deno.serve(async (request) => {
         }
         if (existing.reviewer_user_id !== expertUserId) throw new Error("기록 보호를 위해 위촉 후 전문위원을 변경할 수 없습니다. 새 과제로 등록해 주세요.");
         if (existing.status !== "prepared") throw new Error("이미 시작된 과제는 준비 단계에서 변경할 수 없습니다.");
-        const { error: updateError } = await admin.from("review_assignments").update({ subject_id: subjectId, title, starts_at: startsAt.toISOString(), interim_due_at: interimDueAt.toISOString(), ends_at: endsAt.toISOString(), contract_reference: contractReference, exam_track: examTrack, contract_completed_at: contractCompletedAt }).eq("id", requestedId);
+        const { error: updateError } = await admin.from("review_assignments").update({ subject_id: subjectId, title: assignmentTitle, starts_at: startsAt.toISOString(), interim_due_at: interimDueAt.toISOString(), ends_at: endsAt.toISOString(), contract_reference: contractReference, exam_track: examTrack, contract_completed_at: contractCompletedAt }).eq("id", requestedId);
         if (updateError) throw updateError;
       } else {
-        const { data: created, error: createError } = await admin.from("review_assignments").insert({ reviewer_user_id: expertUserId, subject_id: subjectId, title, starts_at: startsAt.toISOString(), interim_due_at: interimDueAt.toISOString(), ends_at: endsAt.toISOString(), contract_reference: contractReference, exam_track: examTrack, contract_completed_at: contractCompletedAt, status: "prepared", started_at: null, notification_sent_at: null }).select("id").single();
+        const { data: created, error: createError } = await admin.from("review_assignments").insert({ reviewer_user_id: expertUserId, subject_id: subjectId, title: assignmentTitle, starts_at: startsAt.toISOString(), interim_due_at: interimDueAt.toISOString(), ends_at: endsAt.toISOString(), contract_reference: contractReference, exam_track: examTrack, contract_completed_at: contractCompletedAt, status: "prepared", started_at: null, notification_sent_at: null }).select("id").single();
         if (createError || !created) throw new Error("과목 위촉을 저장하지 못했습니다.");
         assignmentId = created.id;
       }
