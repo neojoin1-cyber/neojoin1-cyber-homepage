@@ -22,6 +22,7 @@ check("page.noindex", html.includes('name="robots" content="noindex, nofollow, n
 check("page.programs", ["국가직 7급 공무원시험 대비", "초등교원임용고사 대비", "중등교원임용고사 대비"].every((value) => js.includes(value)), "세 시험군이 하나의 워크룸 구조에 포함됩니다.");
 check("tools.annotation", ["형광펜", "전문 의견", "수정 필요"].every((value) => html.includes(value)), "핵심 검수 도구가 존중 표현으로 제공됩니다.");
 check("tools.selection-popover", html.includes("selection-popover") && js.includes("showSelectionPopover") && js.includes('(pointer: coarse)'), "선택 즉시 PC 위쪽·터치 기기 아래쪽에 검수 도구가 표시됩니다.");
+check("tools.mobile-layout", css.includes("data-short") && css.includes("max-width: calc(100vw - 16px)") && css.includes("grid-template-columns: 1fr;"), "스마트폰에서도 헤더·제출 버튼·원고가 화면 폭 안에서 정돈됩니다.");
 check("tools.autosave", js.includes("scheduleSave") && html.includes("자동으로 저장"), "문단 확인과 전체 의견을 자동저장합니다.");
 check("auth.remembered-session", js.includes("AUTH_MAX_AGE_MS") && managerJs.includes("AUTH_MAX_AGE_MS") && html.includes("14일간 인증 상태 유지") && managerHtml.includes("14일간 관리자 인증 유지"), "기기별 14일 인증 유지와 명시적 로그아웃을 제공합니다.");
 check("language.respect", html.includes("전문위원님") && js.includes("귀한 검토에 감사드립니다") && !html.includes("외부 검수자"), "전문위원 화면의 기본 호칭과 안내가 존중 표현을 사용합니다.");
@@ -38,8 +39,12 @@ check("manager.subject-assignment", managerHtml.includes("assignment-form") && e
 check("manager.national-subject-names", managerJs.includes('name:"국가직 7급 공무원시험 대비"') && ["헌법", "행정법", "행정학", "경제학"].every((value) => managerJs.includes(`name:\"${value}\"`)) && !managerJs.includes('name:"행정법총론"') && !managerJs.includes('name:"행정학개론"') && !managerJs.includes('name:"경제학원론"') && nationalSubjectSql.includes("'[국가직 7급] 행정법'") && nationalSubjectSql.includes("'국가직 7급 공무원시험 대비'"), "국가직 7급 일반행정 제2차 공식 사업명과 과목명을 그대로 사용합니다.");
 check("manager.exam-track-isolation", managerJs.includes("documentTrack(item)===track") && edge.includes("examTrackFromTitle(item.title) !== examTrack") && edge.includes("examTrackFromTitle(item.title)!==\"national\""), "국가직 위촉에는 국가직 원고만 선택·저장·시작할 수 있습니다.");
 check("manager.official-assignment-title", managerJs.includes("syncOfficialAssignmentTitle") && edge.includes('`${subject.name} 핵심요약노트·모의고사 검수`') && edge.includes("title: assignmentTitle"), "위촉 과제명을 공식 과목명으로 자동 생성하고 서버에서 다시 확정합니다.");
+check("manager.assignment-idempotency", managerJs.includes("assignmentSaving") && edge.includes("assignment_duplicate_prevented") && edge.includes('createError?.code === "23505"'), "연속 클릭과 동시 요청에서도 동일 위촉은 한 건만 유지합니다.");
+check("manager.revoked-default-hidden", managerJs.includes('status==="all"?row.status!=="revoked"'), "종료한 위촉은 감사기록으로 보존하되 기본 운영 목록에서는 숨깁니다.");
+check("manager.assignment-onboarding", edge.includes("전문위원 검수 개시 안내") && edge.includes("담당 검수 자료") && edge.includes("워크룸 이용 절차"), "계약 완료 후 품위 있는 안내장에 담당 자료와 전체 검수 절차를 자동 안내합니다.");
 check("manager.prepared-gate", edge.includes('status: "prepared"') && edge.includes("held_until_batch_start") && edge.includes("계약과 최신 원고의 최종 확인이 진행 중입니다"), "계약·원고 최종 확인 전에는 전문위원 접근이 열리지 않습니다.");
 check("manager.batch-start", managerHtml.includes("batch-start-dialog") && managerJs.includes("managerBatchStart") && edge.includes('action === "managerBatchStart"'), "대표님의 확인 후 국가직 과제를 한꺼번에 시작합니다.");
+check("manager.single-start", managerHtml.includes('id="start-assignment"') && managerJs.includes("startSingleAssignment") && managerJs.includes("assignmentIds:[row.id]"), "계약 완료 시 전문위원별로 검수를 개별 시작하고 안내장을 발송합니다.");
 check("manager.email-lock", edge.includes("전문위원 안내 발송 기능이 현재 잠겨 있습니다") && edge.includes("!REVIEW_LAUNCH_ENABLED || !REVIEW_ACCESS_ENABLED || !REVIEW_EMAIL_ENABLED || !RESEND_API_KEY"), "발송·접근·시작 설정 중 하나라도 잠기면 과제 시작과 이메일 발송이 함께 차단됩니다.");
 check("api.access-lock", edge.includes("전문위원 검수 접근은 대표님의 최종 시작 승인 전까지 안전하게 잠겨 있습니다") && edge.includes("if (!REVIEW_ACCESS_ENABLED)"), "대표님의 최종 승인 전에는 전문위원 로그인 후에도 검수 자료가 열리지 않습니다.");
 check("manager.interim-report", html.includes("interim-submit") && managerHtml.includes("download-interim-report") && edge.includes('action === "submitInterimReport"') && edge.includes('action === "managerGetInterimReport"'), "전문위원의 중간보고 제출과 관리자 수신·다운로드가 연결됩니다.");

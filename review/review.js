@@ -519,6 +519,31 @@ function annotatedText(block) {
   }).join("");
 }
 
+function normalizedBlockHeading(value = "") {
+  return String(value ?? "").replace(/\s+/g, " ").trim();
+}
+
+function groupConsecutiveBlocks(blocks = []) {
+  return blocks.reduce((groups, block) => {
+    const heading = normalizedBlockHeading(block.heading) || "세부 검수 내용";
+    const previous = groups.at(-1);
+    if (previous?.key === heading) {
+      previous.blocks.push(block);
+      return groups;
+    }
+    groups.push({ key: heading, heading, blocks: [block] });
+    return groups;
+  }, []);
+}
+
+function renderGroupedBlock(block, progress) {
+  const checked = progress.checkedBlocks?.includes(block.id);
+  return `<article class="review-block" data-block-id="${escapeHtml(block.id)}" role="listitem">
+    <p class="review-block-text" data-block-id="${escapeHtml(block.id)}">${annotatedText(block)}</p>
+    <button class="block-check ${checked ? "checked" : ""}" data-check-block="${escapeHtml(block.id)}" type="button" aria-label="${checked ? "확인 완료" : "이 항목 확인"}">${checked ? "✓ 확인됨" : "확인"}</button>
+  </article>`;
+}
+
 function renderDocument() {
   const document = activeDocument();
   if (!document?.blocks) return;
@@ -530,13 +555,15 @@ function renderDocument() {
   $("#document-memo").value = progress.memo || "";
   $("#complete-document").textContent = progress.complete ? "✓ 이 자료의 검토를 마쳤습니다" : "이 자료의 검토를 마쳤습니다";
   $("#complete-document").classList.toggle("primary", !progress.complete);
-  $("#document-content").innerHTML = document.blocks.map((block) => {
-    const checked = progress.checkedBlocks?.includes(block.id);
-    return `<section class="review-block" data-block-id="${escapeHtml(block.id)}">
-      <div class="review-block-head"><h3>${escapeHtml(block.heading)}</h3><button class="block-check ${checked ? "checked" : ""}" data-check-block="${escapeHtml(block.id)}" type="button">${checked ? "✓ 확인됨" : "확인"}</button></div>
-      <p class="review-block-text" data-block-id="${escapeHtml(block.id)}">${annotatedText(block)}</p>
-    </section>`;
-  }).join("");
+  $("#document-content").innerHTML = groupConsecutiveBlocks(document.blocks).map((group) => `<section class="review-block-group">
+    <header class="review-block-group-head">
+      <h3>${escapeHtml(group.heading)}</h3>
+      ${group.blocks.length > 1 ? `<span>${group.blocks.length}개 검수 항목</span>` : ""}
+    </header>
+    <div class="review-block-list" role="list">
+      ${group.blocks.map((block) => renderGroupedBlock(block, progress)).join("")}
+    </div>
+  </section>`).join("");
   const index = activeAssignment().documents.findIndex((item) => item.id === document.id);
   $("#previous-document").disabled = index <= 0;
   $("#next-document").disabled = index >= activeAssignment().documents.length - 1;
