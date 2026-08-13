@@ -24,7 +24,7 @@ from typing import Any
 
 
 SOURCE_PROJECT = "infivcpgxgawclrkwtai"
-VERSION = "2026.08.13-web-v4"
+VERSION = "2026.08.13-web-v5"
 EXPECTED_EXAMS = 30
 MAX_SQL_BATCH_CHARS = 700_000
 SUPABASE_CLI = shutil.which("supabase.cmd" if os.name == "nt" else "supabase") or "supabase"
@@ -64,16 +64,29 @@ def paragraph_blocks(text: str, prefix: str = "문단") -> list[Block]:
     return [Block(f"{prefix} {index}", item) for index, item in enumerate(parts, 1) if item]
 
 
+HTML_TAG_NAMES = (
+    "a|abbr|address|article|aside|b|bdi|bdo|blockquote|br|caption|cite|code|col|colgroup|data|dd|del|"
+    "details|dfn|div|dl|dt|em|figcaption|figure|footer|h[1-6]|header|hr|i|ins|kbd|li|main|mark|nav|"
+    "ol|p|pre|q|s|samp|script|section|small|span|strong|style|sub|summary|sup|table|tbody|td|tfoot|th|"
+    "thead|time|tr|u|ul|var|wbr"
+)
+UNSAFE_LESS_THAN = re.compile(rf"<(?!/?(?:{HTML_TAG_NAMES})(?=[\s>/])|!--|!doctype(?=[\s>])|\?)", re.IGNORECASE)
+
+
+def sanitize_html_source(html: str) -> str:
+    """Protect mathematical comparison signs from being parsed as bogus HTML tags."""
+    return UNSAFE_LESS_THAN.sub("&lt;", html)
+
+
 class SectionParser(HTMLParser):
     SKIP = {"script", "style", "noscript", "template", "svg"}
     HEADINGS = {"h1", "h2", "h3", "h4", "h5", "h6"}
-    CONTENT = {"p", "li", "blockquote", "pre", "td", "th"}
+    CONTENT = {"p", "li", "blockquote", "pre", "div"}
 
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
         self.skip_depth = 0
-        self.capture: str | None = None
-        self.buffer: list[str] = []
+        self.capture_stack: list[tuple[str, list[str]]] = []
         self.heading = "원문"
         self.blocks: list[Block] = []
         self.table_depth = 0
@@ -85,6 +98,7 @@ class SectionParser(HTMLParser):
         self.table_cell_colspan = 1
         self.table_cell_rowspan = 1
         self.table_heading = "원문"
+        self.table_caption: list[str] | None = None
 
     def finish_table(self) -> None:
         if self.table_row:
@@ -110,6 +124,7 @@ class SectionParser(HTMLParser):
                 self.table_row = None
                 self.table_cell = None
                 self.table_heading = self.heading
+                self.table_caption = None
             self.table_depth += 1
             return
         if self.table_depth:
@@ -123,14 +138,15 @@ class SectionParser(HTMLParser):
                 self.table_cell_is_header = tag == "th"
                 self.table_cell_colspan = max(1, int(attributes.get("colspan") or 1)) if str(attributes.get("colspan") or "1").isdigit() else 1
                 self.table_cell_rowspan = max(1, int(attributes.get("rowspan") or 1)) if str(attributes.get("rowspan") or "1").isdigit() else 1
+            elif tag == "caption" and self.table_depth == 1:
+                self.table_caption = []
             elif tag == "br" and self.table_cell is not None:
                 self.table_cell.append(" ")
             return
         if tag in self.HEADINGS | self.CONTENT:
-            self.capture = tag
-            self.buffer = []
-        elif tag == "br" and self.capture:
-            self.buffer.append("\n")
+            self.capture_stack.append((tag, []))
+        elif tag == "br" and self.capture_stack:
+            self.capture_stack[-1][1].append("\n")
 
     def handle_endtag(self, tag: str) -> None:
         tag = tag.lower()
@@ -150,33 +166,39 @@ class SectionParser(HTMLParser):
                 if self.table_row:
                     self.table_rows.append(self.table_row)
                 self.table_row = None
+            elif tag == "caption" and self.table_depth == 1 and self.table_caption is not None:
+                caption = clean_text("".join(self.table_caption))
+                if caption:
+                    self.table_heading = caption
+                self.table_caption = None
             elif tag == "table":
                 self.table_depth -= 1
                 if not self.table_depth:
                     self.finish_table()
             return
-        if tag != self.capture:
+        if not self.capture_stack or tag != self.capture_stack[-1][0]:
             return
-        text = clean_text("".join(self.buffer))
-        if text and tag in self.HEADINGS:
+        capture_tag, buffer = self.capture_stack.pop()
+        text = clean_text("".join(buffer))
+        if text and capture_tag in self.HEADINGS:
             self.heading = text
         elif text:
             self.blocks.append(Block(self.heading, text))
-        self.capture = None
-        self.buffer = []
 
     def handle_data(self, data: str) -> None:
         if self.skip_depth:
             return
-        if self.table_depth and self.table_cell is not None:
+        if self.table_depth and self.table_caption is not None:
+            self.table_caption.append(data)
+        elif self.table_depth and self.table_cell is not None:
             self.table_cell.append(data)
-        elif self.capture:
-            self.buffer.append(data)
+        elif self.capture_stack:
+            self.capture_stack[-1][1].append(data)
 
 
 def html_blocks(html: str) -> list[Block]:
     parser = SectionParser()
-    parser.feed(html)
+    parser.feed(sanitize_html_source(html))
     return parser.blocks or paragraph_blocks(re.sub(r"<[^>]+>", " ", html))
 
 
