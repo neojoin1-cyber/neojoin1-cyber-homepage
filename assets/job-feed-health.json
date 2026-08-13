@@ -1,10 +1,10 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-13T02:41:53.051Z",
-  "feedGeneratedAt": "2026-08-13T02:41:53.051Z",
+  "generatedAt": "2026-08-13T03:11:10.715Z",
+  "feedGeneratedAt": "2026-08-13T03:11:10.715Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "ok",
+  "status": "degraded",
   "summary": {
     "total": 45,
     "active": 23,
@@ -12,23 +12,48 @@
     "applicationClosed": 0,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
-    "sourcesFailed": 0,
+    "sourcesFailed": 3,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 0,
-    "sourceFallbackProtected": 0,
-    "publicationBlocked": 1,
+    "staleFallbackItems": 45,
+    "sourceFallbackProtected": 45,
+    "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 161,
+    "studentRecruitSafetyReview": 82,
     "automatedBriefingReady": 45,
     "automatedBriefingAttempted": 45,
     "automatedBriefingFailed": 0
   },
-  "sourceFailures": [],
+  "sourceFailures": [
+    {
+      "id": "mpm-public-job",
+      "name": "인사혁신처 공공취업정보",
+      "isolatedFailure": false,
+      "fallbackProtected": true,
+      "fallbackItemCount": 1,
+      "message": "키 확인됨. 공식 호출 URL 확인 필요: https://apis.data.go.kr/1760000/PblJobService/getList: HTTP timeout after 9000ms; https://apis.data.go.kr/1760000/PblJobService/getList: HTTP timeout after 9000ms · 직전 정상 공고 1건 보존"
+    },
+    {
+      "id": "moef-public-recruit",
+      "name": "기재부 공공기관 채용정보",
+      "isolatedFailure": false,
+      "fallbackProtected": false,
+      "fallbackItemCount": 0,
+      "message": "연결 실패: HTTP timeout after 9000ms; HTTP timeout after 9000ms"
+    },
+    {
+      "id": "job-alio-openapi",
+      "name": "잡알리오 공공기관 채용",
+      "isolatedFailure": false,
+      "fallbackProtected": true,
+      "fallbackItemCount": 77,
+      "message": "연결 실패: recent-page-1: recent-page-1 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page; recent-page-2: recent-page-2 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page · 직전 정상 공고 77건 보존"
+    }
+  ],
   "aiBriefing": {
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-13T02:41:53.051Z",
+    "generatedAt": "2026-08-13T03:11:10.715Z",
     "attempted": 45,
     "succeeded": 45,
     "failed": 0,
@@ -36,24 +61,14 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-13T02:41:53.051Z",
-    "blockedCount": 1,
+    "generatedAt": "2026-08-13T03:11:10.715Z",
+    "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 161,
-    "blockedByReason": {
-      "student-hard-blocked": 1
-    },
+    "studentRecruitReviewCount": 82,
+    "blockedByReason": {},
     "repairedByReason": {},
-    "blockedSamples": [
-      {
-        "list": "archiveItems",
-        "reason": "student-hard-blocked",
-        "source": "moef-public-recruit",
-        "company": "한국생명존중희망재단",
-        "title": "[제2026-3호] 한국생명존중희망재단 제3차 직원 채용 (공개, 제한경쟁) 공고(원서 마감)"
-      }
-    ],
+    "blockedSamples": [],
     "studentRecruitReviewSamples": [
       {
         "list": "items",
