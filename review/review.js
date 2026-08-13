@@ -646,11 +646,11 @@ function setFocusMode(enabled) {
   const button = $("#focus-mode");
   button.setAttribute("aria-pressed", String(enabled));
   button.setAttribute("aria-label", enabled ? "기본 검수 화면으로 돌아가기" : "큰 화면 검수 시작");
-  button.setAttribute("title", enabled ? "원래 검수 화면으로 돌아갑니다" : "목차와 검수의견을 유지한 채 원고를 크게 봅니다");
+  button.setAttribute("title", enabled ? "좌우 메뉴가 있는 기본 검수 화면으로 돌아갑니다" : "좌우 메뉴를 숨기고 원고를 화면 가득 크게 봅니다");
   applyReaderScale();
   hideSelectionPopover(true);
   toast(enabled
-    ? "큰 화면 검수를 시작했습니다. 목차·원고·전문 검수의견을 한 화면에서 확인할 수 있습니다."
+    ? "큰 화면 검수를 시작했습니다. 원고와 검수 도구만 화면 가득 표시합니다."
     : "기본 검수 화면으로 돌아왔습니다.");
 }
 
