@@ -538,6 +538,8 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
       const eventTimes = (types: string[]) => reviewerEvents.filter((event) => types.includes(event.event_type)).map((event) => event.occurred_at).filter(Boolean).sort();
       const firstEventAt = (types: string[]) => eventTimes(types)[0] ?? null;
       const startEvent = (eventRows ?? []).find((event) => event.assignment_id === assignment.id && event.event_type === "assignment_started");
+      const startNotificationStatus = (startEvent?.payload as any)?.notificationStatus;
+      const notificationSentAt = assignment.notification_sent_at ?? (startNotificationStatus === "sent" ? startEvent?.occurred_at ?? null : null);
       const assignmentProgress = (progressRows ?? []).filter((item) => item.assignment_id === assignment.id);
       const progressActivityTimes = assignmentProgress.filter((item) => (Array.isArray(item.checked_blocks) && item.checked_blocks.length) || item.memo || item.complete).map((item) => item.updated_at).filter(Boolean).sort();
       const reviewerActivityTimes = [...reviewerEvents.map((event) => event.occurred_at), ...progressActivityTimes].filter(Boolean).sort();
@@ -561,8 +563,8 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
         examTrack: assignment.exam_track ?? "national",
         contractCompletedAt: assignment.contract_completed_at,
         startedAt: assignment.started_at,
-        notificationSentAt: assignment.notification_sent_at,
-        notificationStatus: assignment.notification_sent_at ? "sent" : (startEvent?.payload as any)?.notificationStatus ?? (assignment.started_at ? "unknown" : "not_started"),
+        notificationSentAt,
+        notificationStatus: notificationSentAt ? "sent" : startNotificationStatus ?? (assignment.started_at ? "unknown" : "not_started"),
         workroomEnteredAt,
         firstDocumentOpenedAt,
         firstReviewRecordedAt,
@@ -769,9 +771,15 @@ Deno.serve(async (request) => {
         } catch {
           notification={sent:false,status:"failed",id:null};
         }
-        if(notification.sent)await admin.from("review_assignments").update({notification_sent_at:new Date().toISOString()}).eq("id",assignment.id);
-        await admin.from("review_events").insert({assignment_id:assignment.id,reviewer_user_id:userId,event_type:"assignment_started",payload:{examTrack:"national",documentIds,versions:(documents??[]).map((item)=>item.version),notificationStatus:notification.status}});
-        results.push({assignmentId:assignment.id,notificationSent:notification.sent,notificationStatus:notification.status});
+        const notificationSentAt=notification.sent?new Date().toISOString():null;
+        let notificationRecordStatus="recorded";
+        if(notificationSentAt){
+          const {error:notificationRecordError}=await admin.from("review_assignments").update({notification_sent_at:notificationSentAt}).eq("id",assignment.id);
+          if(notificationRecordError)notificationRecordStatus="event_fallback";
+        }
+        const {error:startEventError}=await admin.from("review_events").insert({assignment_id:assignment.id,reviewer_user_id:userId,event_type:"assignment_started",payload:{examTrack:"national",documentIds,versions:(documents??[]).map((item)=>item.version),notificationStatus:notification.status,notificationSentAt,notificationId:notification.id}});
+        if(startEventError&&notificationRecordStatus==="event_fallback")throw new Error("검수는 시작되고 안내 메일도 발송됐으나 발송 기록 저장에 실패했습니다. 메일을 재발송하지 말고 관리자에게 기록 복구를 요청해 주세요.");
+        results.push({assignmentId:assignment.id,notificationSent:notification.sent,notificationStatus:notification.status,notificationRecordStatus});
       }
       return json({ok:true,startedCount:results.length,notificationSentCount:results.filter((item)=>item.notificationSent).length,results},200,origin);
     }
