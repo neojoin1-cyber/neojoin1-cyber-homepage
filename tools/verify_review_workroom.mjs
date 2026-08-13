@@ -23,6 +23,7 @@ check("page.programs", ["국가직 7급 공무원시험 대비", "초등교원�
 check("tools.annotation", ["형광펜", "전문 의견", "수정 필요"].every((value) => html.includes(value)), "핵심 검수 도구가 존중 표현으로 제공됩니다.");
 check("tools.selection-popover", html.includes("selection-popover") && js.includes("showSelectionPopover") && js.includes('(pointer: coarse)'), "선택 즉시 PC 위쪽·터치 기기 아래쪽에 검수 도구가 표시됩니다.");
 check("tools.mobile-layout", css.includes("data-short") && css.includes("max-width: calc(100vw - 16px)") && css.includes("grid-template-columns: 1fr;"), "스마트폰에서도 헤더·제출 버튼·원고가 화면 폭 안에서 정돈됩니다.");
+check("tools.ipad-scroll", css.includes("-webkit-overflow-scrolling: touch") && css.includes("touch-action: pan-y") && css.includes("calc(100dvh - 155px)"), "아이패드에서도 원고 영역이 화면 높이에 맞춰 즉시 터치 스크롤됩니다.");
 check("tools.large-review", html.includes("큰 화면 검수") && html.includes("기본 화면으로") && html.includes("20260813-5") && html.includes('aria-pressed="false"') && js.includes("setFocusMode") && js.includes("readerBaseFontSize") && css.includes("body.focus-mode .app-header") && css.includes("display: none !important") && css.includes("grid-template-columns: minmax(0, 1fr)") && css.includes("width: calc(100% - 56px)"), "큰화면 검수에서는 일반 메뉴와 좌우 패널을 숨기고 원고와 검수 도구만 화면 가득 표시하며 명확한 기본 화면 복귀 버튼을 제공합니다.");
 check("tools.autosave", js.includes("scheduleSave") && html.includes("자동으로 저장"), "문단 확인과 전체 의견을 자동저장합니다.");
 check("content.source-tables", js.includes("REVIEW_TABLE_V1") && js.includes("renderTableGroup") && css.includes("review-data-table") && css.includes("review-table-confirm"), "원본 표를 셀별 문장으로 흩뜨리지 않고 전문 검수용 표로 복원합니다.");
