@@ -6,6 +6,9 @@ if (window.top !== window.self) {
 }
 
 const STORAGE_KEY = "sugar-salt-review-workroom-demo-v1";
+const AUTH_STORAGE_KEY = "sugar-salt-review-auth-v1";
+const AUTH_MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000;
+const managerPreviewAssignmentId = new URLSearchParams(location.search).get("managerPreview") || "";
 const meta = (name) => document.querySelector(`meta[name="${name}"]`)?.content?.trim() || "";
 const config = {
   supabaseUrl: meta("review-supabase-url").replace(/\/$/, ""),
@@ -137,7 +140,9 @@ const state = {
   saveJobs: new Map(),
   saveTimers: new Map(),
   savePromises: new Set(),
-  remoteDocumentCache: new Map()
+  remoteDocumentCache: new Map(),
+  rememberSession: true,
+  reportPreview: null
 };
 
 function clone(value) {
@@ -192,6 +197,7 @@ function toast(message) {
 }
 
 function logEvent(type, payload = {}) {
+  if (state.mode === "manager-preview") return;
   const event = { type, payload, assignmentId: state.activeAssignmentId, documentId: state.activeDocumentId, occurredAt: nowIso() };
   if (state.mode === "demo") {
     const saved = restoreDemoState();
@@ -256,10 +262,36 @@ function scheduleSave(kind, payload) {
   state.saveTimers.set(key, setTimeout(() => runSaveJob(key).catch(() => {}), 480));
 }
 
+function persistAuthSession() {
+  if (!state.rememberSession || !state.refreshToken) return;
+  localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify({ refreshToken: state.refreshToken, savedAt: Date.now() }));
+}
+
+function restoreAuthSession() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(AUTH_STORAGE_KEY) || "null");
+    if (!saved?.refreshToken || Date.now() - Number(saved.savedAt || 0) > AUTH_MAX_AGE_MS) throw new Error("expired");
+    state.refreshToken = saved.refreshToken;
+    state.rememberSession = true;
+    return true;
+  } catch {
+    localStorage.removeItem(AUTH_STORAGE_KEY);
+    return false;
+  }
+}
+
+function clearAuthSession() {
+  localStorage.removeItem(AUTH_STORAGE_KEY);
+  state.token = null;
+  state.refreshToken = null;
+  state.tokenExpiresAt = 0;
+}
+
 function applySession(session) {
   state.token = session.access_token;
   if (session.refresh_token) state.refreshToken = session.refresh_token;
   state.tokenExpiresAt = Date.now() + Math.max(60, Number(session.expires_in) || 3600) * 1000;
+  persistAuthSession();
 }
 
 async function refreshSession() {
@@ -274,7 +306,7 @@ async function refreshSession() {
       credentials: "omit"
     });
     const session = await response.json().catch(() => ({}));
-    if (!response.ok || !session.access_token) throw new Error("로그인 시간이 만료되었습니다. 다시 로그인해 주세요.");
+    if (!response.ok || !session.access_token) { clearAuthSession(); throw new Error("로그인 시간이 만료되었습니다. 다시 로그인해 주세요."); }
     applySession(session);
   })();
   try {
@@ -345,9 +377,9 @@ function sessionFromMagicLink() {
 }
 
 async function enterProduction(session) {
-  state.mode = "production";
+  state.mode = managerPreviewAssignmentId ? "manager-preview" : "production";
   applySession(session);
-  const bootstrap = await api("bootstrap");
+  const bootstrap = await api(managerPreviewAssignmentId ? "managerPreviewBootstrap" : "bootstrap", managerPreviewAssignmentId ? { assignmentId: managerPreviewAssignmentId } : {});
   state.reviewer = bootstrap.reviewer;
   state.assignments = bootstrap.assignments;
   state.progress = bootstrap.progress || {};
@@ -356,6 +388,20 @@ async function enterProduction(session) {
   if (!state.activeAssignmentId) throw new Error("현재 위촉된 검수 과제가 없습니다. 확인이 필요하시면 담당자에게 말씀해 주세요.");
   await ensureRemoteDocument(state.activeDocumentId);
   enterApp();
+}
+
+async function resumeProductionSession() {
+  if (!restoreAuthSession()) return false;
+  await refreshSession();
+  await enterProduction({ access_token: state.token, refresh_token: state.refreshToken, expires_in: Math.max(60, Math.floor((state.tokenExpiresAt - Date.now()) / 1000)) });
+  return true;
+}
+
+async function logout() {
+  const token = state.token;
+  clearAuthSession();
+  if (token) fetch(`${config.supabaseUrl}/auth/v1/logout`, { method: "POST", headers: { apikey: config.anonKey, Authorization: `Bearer ${token}` }, cache: "no-store" }).catch(() => {});
+  location.href = location.pathname;
 }
 
 function enterDemo() {
@@ -368,7 +414,7 @@ function enterDemo() {
   state.activeAssignmentId = state.assignments[0].id;
   state.activeDocumentId = state.assignments[0].documents[0].id;
   enterApp();
-  toast("기능 확인용 예시 자료로 입장했습니다.");
+  toast("기능 확인용 예시 자료로 입장했습니다. 귀한 검토에 감사드립니다.");
 }
 
 function enterApp() {
@@ -377,6 +423,14 @@ function enterApp() {
   $("#app-shell").hidden = false;
   $("#reviewer-name").textContent = `${state.reviewer.name} ${state.reviewer.roleLabel || "전문위원"}님`;
   $("#reviewer-initial").textContent = state.reviewer.name?.slice(0, 1) || "검";
+  if (state.mode === "manager-preview") {
+    $("#save-status").textContent = "관리자 읽기 전용 확인";
+    $("#assignment-submit").disabled = true;
+    $("#interim-submit").disabled = true;
+    $("#complete-document").disabled = true;
+    $("#document-memo").disabled = true;
+    $$('[data-tool],[data-floating-tool]').forEach((button) => button.disabled = true);
+  }
   renderAssignmentOptions();
   renderAll();
   updateWatermark();
@@ -385,8 +439,8 @@ function enterApp() {
 }
 
 async function ensureRemoteDocument(documentId) {
-  if (state.mode !== "production" || state.remoteDocumentCache.has(documentId)) return;
-  const result = await api("getDocument", { assignmentId: state.activeAssignmentId, documentId });
+  if (!["production", "manager-preview"].includes(state.mode) || state.remoteDocumentCache.has(documentId)) return;
+  const result = await api(state.mode === "manager-preview" ? "managerPreviewDocument" : "getDocument", { assignmentId: state.activeAssignmentId, documentId });
   state.remoteDocumentCache.set(documentId, result.document);
   const assignment = activeAssignment();
   assignment.documents = assignment.documents.map((document) => document.id === documentId ? result.document : document);
@@ -419,6 +473,14 @@ function renderAssignmentHeader() {
   $("#interim-submit").textContent = assignment.interimSubmittedAt ? "1차 중간보고 제출 완료" : "1차 중간보고 제출";
   $("#assignment-submit").disabled = assignment.status === "submitted";
   $("#assignment-submit").textContent = assignment.status === "submitted" ? "최종 검수의견 제출 완료" : "최종 검수의견 제출";
+  const receipt = $("#report-receipt");
+  if (assignment.report) {
+    receipt.hidden = false;
+    receipt.textContent = `접수 완료 · 보고서 ${assignment.report.reportId} · 무결성 ${String(assignment.report.sha256 || "").slice(0, 12)}… · ${assignment.report.deliveryStatus === "delivered" ? "교재 제작 시스템 전달 완료" : "관리자 인계 대기"}`;
+  } else {
+    receipt.hidden = true;
+    receipt.textContent = "";
+  }
 }
 
 function renderDocumentList() {
@@ -547,7 +609,13 @@ function buildDemoReviewReport() {
     `| 이메일 | ${reportValue(state.reviewer.email)} |`,
     `| 휴대전화 | ${reportValue(state.reviewer.mobile)} |`,
     "",
-    "## 2. 검수 현황",
+    "## 2. 검수 목적·범위·기준",
+    "",
+    "- 목적: 위촉 범위의 핵심요약노트·모의고사 원고에 대하여 사실관계, 최신 법령·판례·정책자료, 정답 및 해설의 타당성을 확인합니다.",
+    `- 범위: ${reportValue(assignment.subject.name)} 담당 원고 ${assignment.documents.length}건`,
+    "- 기준: 원문 위치와 인용문을 보존하여 의견을 기록하고, 필수 수정·중요 보완·권고를 구분합니다.",
+    "",
+    "## 3. 검수 결과 요약",
     "",
     `- 자료 ${assignment.documents.length}건 중 ${completedDocuments}건 검수 확인`,
     `- 수정·보완 의견 ${findings.length}건, 참고 표시 ${assignmentAnnotations.filter((item) => item.kind === "highlight").length}건`,
@@ -558,7 +626,7 @@ function buildDemoReviewReport() {
     const annotations = assignmentAnnotations.filter((item) => item.documentId === document.id);
     const blockMap = new Map((document.blocks || []).map((block) => [block.id, block]));
     lines.push(
-      `## ${documentIndex + 3}. ${reportValue(document.kind)} — ${reportValue(document.title)}`,
+      `## ${documentIndex + 4}. ${reportValue(document.kind)} — ${reportValue(document.title)}`,
       "",
       `- 문서 ID: ${document.id}`,
       `- 버전·단계: ${reportValue(document.version)} / ${reportValue(document.stage)}`,
@@ -586,6 +654,10 @@ function buildDemoReviewReport() {
     });
   });
   lines.push(
+    "## 전문위원 최종 확인",
+    "",
+    "본 보고서는 위 검수 범위에서 실제로 확인하고 기록한 의견을 원문 위치와 함께 정리한 것입니다. 최종 제출 전 미리보기에서 내용과 누락 여부를 확인합니다.",
+    "",
     "## 교재 생성 시스템 인계 규칙",
     "",
     "1. `필수 수정` 의견은 반영 또는 반려 사유 기록 없이는 다음 제작 단계로 이동하지 않습니다.",
@@ -597,7 +669,22 @@ function buildDemoReviewReport() {
   return {
     reportId,
     fileName: `${reportFilePart(assignment.program.name)}_${reportFilePart(assignment.subject.name)}_${reportFilePart(state.reviewer.name)}_검수보고서.md`,
-    markdown: lines.join("\n")
+    markdown: lines.join("\n"),
+    json: {
+      documents: assignment.documents.map((document) => {
+        const blockMap = new Map((document.blocks || []).map((block) => [block.id, block]));
+        return {
+          id: document.id,
+          title: document.title,
+          findings: assignmentAnnotations.filter((item) => item.documentId === document.id).map((item) => ({
+            id: item.id,
+            kind: item.kind,
+            location: blockMap.get(item.blockId)?.heading || item.blockId,
+            reviewerComment: item.body
+          }))
+        };
+      })
+    }
   };
 }
 
@@ -618,9 +705,11 @@ async function downloadReviewReport() {
   button.disabled = true;
   button.textContent = "보고서 생성 중…";
   try {
-    const report = state.mode === "production"
-      ? await api("exportReport", { assignmentId: state.activeAssignmentId })
-      : buildDemoReviewReport();
+    const report = state.mode === "manager-preview"
+      ? await api("managerPreviewReport", { assignmentId: state.activeAssignmentId })
+      : state.mode === "production"
+        ? await api("exportReport", { assignmentId: state.activeAssignmentId })
+        : buildDemoReviewReport();
     downloadTextFile(report.fileName, report.markdown);
     toast(`표준 검수보고서를 생성했습니다. (${report.reportId})`);
     logEvent("review_report_exported", { reportId: report.reportId });
@@ -637,7 +726,7 @@ function renderAnnotations() {
   const filtered = state.filter === "all" ? all : all.filter((annotation) => annotation.kind === state.filter);
   $("#annotation-count").textContent = String(all.length);
   $("#annotation-list").innerHTML = filtered.length ? filtered.map((annotation) => `<article class="annotation-card" data-kind="${escapeHtml(annotation.kind)}" data-annotation-card="${escapeHtml(annotation.id)}">
-    <header><span class="annotation-type">${escapeHtml(annotationLabel(annotation))}</span><span class="annotation-actions">${annotation.kind !== "highlight" ? `<button type="button" data-edit-annotation="${escapeHtml(annotation.id)}">의견 다듬기</button>` : ""}<button type="button" data-delete-annotation="${escapeHtml(annotation.id)}">표시 지우기</button></span></header>
+    <header><span class="annotation-type">${escapeHtml(annotationLabel(annotation))}</span><span class="annotation-actions">${state.mode === "manager-preview" ? "읽기 전용" : `${annotation.kind !== "highlight" ? `<button type="button" data-edit-annotation="${escapeHtml(annotation.id)}">의견 다듬기</button>` : ""}<button type="button" data-delete-annotation="${escapeHtml(annotation.id)}">표시 지우기</button>`}</span></header>
     <blockquote>${escapeHtml(annotation.selectedText || "표시한 문장")}</blockquote>
     ${annotation.body ? `<p>${escapeHtml(annotation.body)}</p>` : ""}
     ${annotation.kind === "issue" ? `<span class="severity">${escapeHtml({ critical: "필수 수정", major: "중요 보완", minor: "권고" }[annotation.severity] || "검토")}</span>` : ""}
@@ -746,6 +835,7 @@ function selectedRangeOrToast() {
 }
 
 async function createAnnotation(kind, options = {}) {
+  if (state.mode === "manager-preview") { toast("관리자 확인 화면은 검수 기록을 변경하지 않는 읽기 전용입니다."); return; }
   const selection = selectedRangeOrToast();
   if (!selection) return;
   const annotation = {
@@ -801,6 +891,7 @@ function openAnnotationDialog(kind, annotation = null) {
 
 async function saveDialogAnnotation(event) {
   event.preventDefault();
+  if (state.mode === "manager-preview") return;
   const body = $("#annotation-body").value.trim();
   if (!body) {
     toast("전문위원님의 검수의견을 입력해 주세요.");
@@ -835,6 +926,7 @@ async function saveDialogAnnotation(event) {
 }
 
 async function deleteAnnotation(id) {
+  if (state.mode === "manager-preview") return;
   const annotation = state.annotations.find((item) => item.id === id);
   if (!annotation || !confirm("선택하신 검수 표시를 지우시겠습니까?")) return;
   try {
@@ -914,6 +1006,7 @@ function completeDocument() {
 }
 
 async function submitAssignment() {
+  if (state.mode === "manager-preview") return;
   const assignment = activeAssignment();
   const incomplete = assignment.documents.filter((document) => !progressFor(document.id).complete);
   if (incomplete.length) {
@@ -923,12 +1016,16 @@ async function submitAssignment() {
   if (!confirm("작성하신 전문 검수의견을 최종 제출하시겠습니까? 제출 후에는 회사 담당자의 확인 전까지 내용이 안전하게 보존되며, 추가 보완이 필요하실 때에는 담당자가 다시 열어 드립니다.")) return;
   try {
     await flushPendingSaves();
-    if (state.mode === "production") await api("submitAssignment", { assignmentId: assignment.id });
+    const result = state.mode === "production" ? await api("submitAssignment", { assignmentId: assignment.id }) : { reportId: `DEMO-${Date.now()}`, reportSha256: "demo", deliveryStatus: "ready" };
     assignment.status = "submitted";
+    assignment.report = { reportId: result.reportId, sha256: result.reportSha256, deliveryStatus: result.deliveryStatus };
     if (state.mode === "demo") persistDemo();
     renderAssignmentHeader();
     renderProgress();
-    toast("전문위원님의 최종 검수의견이 안전하게 제출되었습니다. 귀한 검토에 감사드립니다.");
+    const receipt = $("#report-receipt");
+    receipt.hidden = false;
+    receipt.textContent = `접수 완료 · 보고서 ${result.reportId} · 무결성 ${String(result.reportSha256 || "").slice(0, 12)}… · 관리자 인계 대기`;
+    toast("최종 검수보고서가 안전하게 접수되어 관리자 운영관제에 표시되었습니다.");
     logEvent("assignment_submitted");
   } catch {
     toast("최종 검수의견을 제출하지 못했습니다. 잠시 후 다시 시도해 주세요.");
@@ -936,6 +1033,7 @@ async function submitAssignment() {
 }
 
 async function submitInterimReport() {
+  if (state.mode === "manager-preview") return;
   const assignment = activeAssignment();
   const totalChecked = assignment.documents.reduce((sum, document) => sum + (progressFor(document.id).checkedBlocks?.length || 0), 0);
   if (!totalChecked) {
@@ -970,6 +1068,24 @@ function focusAnnotation(id) {
   setTimeout(() => block?.classList.remove("is-target"), 1500);
 }
 
+function renderReportPreview(report) {
+  state.reportPreview = report;
+  $("#report-preview-content").textContent = report.markdown || "보고서 내용을 불러오지 못했습니다.";
+  const documents = report.json?.documents || [];
+  const rows = documents.flatMap((document) => (document.findings || []).filter((finding) => finding.kind !== "highlight").map((finding) => ({ document, finding })));
+  const sourceEditAvailable = state.mode !== "manager-preview" && activeAssignment()?.status !== "submitted";
+  $("#report-preview-findings").innerHTML = rows.length ? rows.map(({ document, finding }) => `<article class="report-finding"><div><strong>${escapeHtml(document.title)} · ${escapeHtml(finding.location)}</strong><span>${escapeHtml(finding.reviewerComment || "의견 없음")}</span></div>${sourceEditAvailable ? `<button type="button" data-report-edit="${escapeHtml(finding.id)}" data-report-document="${escapeHtml(document.id)}">원문 위치에서 다듬기</button>` : "<span>읽기 전용</span>"}</article>`).join("") : '<div class="empty-annotations">보고서에 반영된 수정·보완 의견이 없습니다.</div>';
+  $("#report-preview-dialog").showModal();
+}
+
+async function previewReviewReport() {
+  try {
+    await flushPendingSaves();
+    const report = state.mode === "demo" ? buildDemoReviewReport() : await api(state.mode === "manager-preview" ? "managerPreviewReport" : "exportReport", { assignmentId: state.activeAssignmentId });
+    renderReportPreview(report);
+  } catch (error) { toast(error.message || "보고서 미리보기를 만들지 못했습니다."); }
+}
+
 function bindEvents() {
   $("#demo-entry").addEventListener("click", enterDemo);
   $("#login-form").addEventListener("submit", async (event) => {
@@ -996,6 +1112,7 @@ function bindEvents() {
     const button = $("#otp-submit");
     button.disabled = true;
     try {
+      state.rememberSession = $("#remember-login").checked;
       const session = await verifyOtp($("#login-email").value.trim(), $("#login-otp").value.trim());
       await enterProduction(session);
     } catch (error) {
@@ -1008,6 +1125,12 @@ function bindEvents() {
   $("#interim-submit").addEventListener("click", submitInterimReport);
   $("#assignment-submit").addEventListener("click", submitAssignment);
   $("#download-review-report").addEventListener("click", downloadReviewReport);
+  $("#preview-review-report").addEventListener("click", previewReviewReport);
+  $("#logout-button").addEventListener("click", logout);
+  $("#report-preview-close").addEventListener("click", () => $("#report-preview-dialog").close());
+  $("#report-preview-confirm").addEventListener("click", () => $("#report-preview-dialog").close());
+  $("#report-preview-download").addEventListener("click", () => { if (state.reportPreview) downloadTextFile(state.reportPreview.fileName, state.reportPreview.markdown); });
+  $("#report-preview-findings").addEventListener("click", async (event) => { const button = event.target.closest("[data-report-edit]"); if (!button) return; $("#report-preview-dialog").close(); const documentId = button.dataset.reportDocument; if (documentId && documentId !== state.activeDocumentId) await selectDocument(documentId); const annotation = state.annotations.find((item) => item.id === button.dataset.reportEdit); if (!annotation) { toast("원문 의견을 불러오지 못했습니다. 최신 화면을 다시 확인해 주세요."); return; } focusAnnotation(annotation.id); openAnnotationDialog(annotation.kind, annotation); });
   $("#document-list").addEventListener("click", (event) => {
     const button = event.target.closest("[data-document-id]");
     if (button) selectDocument(button.dataset.documentId);
@@ -1055,7 +1178,7 @@ function bindEvents() {
     $$("[data-filter]").forEach((item) => item.classList.toggle("active", item === button));
     renderAnnotations();
   }));
-  $("#document-memo").addEventListener("input", (event) => updateProgress(state.activeDocumentId, { memo: event.target.value }));
+  $("#document-memo").addEventListener("input", (event) => { if (state.mode !== "manager-preview") updateProgress(state.activeDocumentId, { memo: event.target.value }); });
   $("#complete-document").addEventListener("click", completeDocument);
   $("#previous-document").addEventListener("click", () => {
     const documents = activeAssignment().documents;
@@ -1105,10 +1228,5 @@ if (!config.production) {
   $("#login-submit").disabled = true;
 } else if (!localDemoAllowed) {
   $("#demo-entry").hidden = true;
-  try {
-    const magicLinkSession = sessionFromMagicLink();
-    if (magicLinkSession) enterProduction(magicLinkSession).catch((error) => toast(error.message));
-  } catch (error) {
-    toast(error.message);
-  }
+  (async()=>{ try { const magicLinkSession = sessionFromMagicLink(); if (magicLinkSession) await enterProduction(magicLinkSession); else await resumeProductionSession(); } catch (error) { toast(error.message); } })();
 }

@@ -23,7 +23,7 @@
       </div>
       <p class="kicker">SECURE REVIEW WORKROOM</p>
       <h1>전문위원 검수 워크룸</h1>
-      <p class="login-lead">전문위원님의 학문적·교육적 전문성을 바탕으로 공무원시험 대비, 초등·중등 교원임용고사 대비 자료를 검토하시는 전용 공간입니다.</p>
+      <p class="login-lead">전문위원님의 학문적·교육적 전문성을 바탕으로 공무원시험 대비, 초등·중등 교원임용고사 대비 자료를 검토하시는 전용 공간입니다. 귀한 검토에 감사드립니다.</p>
 
       <form id="login-form" class="login-form">
         <label for="login-email">계약서에 기재한 이메일</label>
@@ -38,6 +38,7 @@
             <button class="button primary" type="button" id="otp-submit">워크룸 입장</button>
           </div>
         </div>
+        <label class="remember-login"><input id="remember-login" type="checkbox" checked> 이 기기에서 14일간 인증 상태 유지</label>
       </form>
 
       <button class="demo-entry" type="button" id="demo-entry">보안 기능을 먼저 체험하기</button>
@@ -60,6 +61,7 @@
         <span class="security-chip"><i></i> 보호 열람 중</span>
         <span id="save-status" class="save-status" role="status">모든 내용 저장됨</span>
         <button class="icon-button" id="help-button" type="button" aria-label="사용 안내">?</button>
+        <button class="session-button" id="logout-button" type="button">로그아웃</button>
         <button class="profile-button" id="profile-button" type="button"><span id="reviewer-initial">김</span><b id="reviewer-name">김교수 전문위원님</b></button>
       </div>
     </header>
@@ -154,7 +156,9 @@
         <div class="report-export">
           <div><span>STANDARD REPORT</span><strong>표준 검수의견 보고서</strong></div>
           <p>전문위원님의 기본 정보와 자료별 검수의견을 정해진 양식으로 정리하여 교재 제작 시스템에 정확하게 전달합니다.</p>
+          <button class="button" id="preview-review-report" type="button">보고서 미리보기·보완</button>
           <button class="button" id="download-review-report" type="button">검수보고서 파일 생성</button>
+          <div class="report-receipt" id="report-receipt" hidden></div>
         </div>
       </aside>
     </main>
@@ -176,6 +180,14 @@
       <textarea id="annotation-body" rows="6" placeholder="검토가 필요한 내용과 권고하시는 수정 방향을 함께 남겨 주시면 충실히 반영하겠습니다."></textarea>
       <footer><span>Ctrl + Enter로 저장</span><div><button class="button" data-close-annotation-dialog type="button">닫기</button><button class="button primary" id="annotation-save" type="submit">전문 의견 저장</button></div></footer>
     </form>
+  </dialog>
+
+  <dialog id="report-preview-dialog" class="report-preview-dialog">
+    <header><div><span>STANDARD REVIEW REPORT</span><h2>표준 검수보고서 미리보기</h2></div><button class="dialog-close" id="report-preview-close" type="button" aria-label="닫기">×</button></header>
+    <p class="report-preview-guide">수정할 항목의 ‘원문 위치에서 다듬기’를 누르면 해당 콘텐츠와 검수의견으로 바로 이동합니다. 원문 기록을 수정한 뒤 다시 열면 보고서에 즉시 반영됩니다.</p>
+    <div id="report-preview-findings" class="report-preview-findings"></div>
+    <pre id="report-preview-content" class="report-preview-content"></pre>
+    <footer><button class="button" id="report-preview-download" type="button">현재 보고서 파일 받기</button><button class="button primary" id="report-preview-confirm" type="button">확인 완료</button></footer>
   </dialog>
 
   <dialog id="help-dialog" class="help-dialog">

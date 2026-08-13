@@ -104,6 +104,8 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   background: #fff;
 }
 .otp-row { margin-top: 16px; }
+.remember-login { margin-top: 12px; display: flex !important; align-items: center; gap: 8px; color: var(--muted) !important; font-size: 12px !important; font-weight: 700 !important; }
+.remember-login input { width: 16px; height: 16px; }
 .demo-entry { width: 100%; margin-top: 16px; padding: 10px; border: 0; color: var(--sage-700); background: transparent; font-weight: 800; text-decoration: underline; text-underline-offset: 4px; }
 .login-points { margin: 24px 0 0; padding: 16px 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; border-radius: 14px; list-style: none; background: var(--sage-100); }
 .login-points li { position: relative; padding-left: 18px; color: #304e48; font-size: 12px; font-weight: 750; }
@@ -322,8 +324,23 @@ progress::-webkit-progress-value { border-radius: 999px; background: var(--sage-
 .report-export strong { color: var(--navy-900); font-family: var(--serif); font-size: 13px; }
 .report-export p { margin: 7px 0 10px; color: var(--muted); font-size: 9px; line-height: 1.55; }
 .report-export .button { width: 100%; min-height: 38px; font-size: 10px; }
+.report-export .button + .button { margin-top: 6px; }
+.report-receipt { margin-top: 8px; padding: 9px; border-radius: 8px; color: #31534d; background: #edf6f3; font-size: 9px; line-height: 1.55; }
+.session-button { min-height: 34px; padding: 0 10px; border: 1px solid var(--line); border-radius: 8px; color: var(--navy-900); background: #fff; font-size: 10px; font-weight: 800; }
 
 .annotation-dialog, .help-dialog { width: min(610px, calc(100% - 28px)); padding: 0; border: 0; border-radius: 18px; color: var(--text); background: #fff; box-shadow: 0 24px 90px rgba(0,0,0,.28); }
+.report-preview-dialog { width: min(920px, calc(100% - 28px)); max-height: calc(100vh - 30px); padding: 22px; overflow: auto; border: 0; border-radius: 18px; color: var(--text); background: #fff; box-shadow: 0 24px 90px rgba(0,0,0,.28); }
+.report-preview-dialog header { display: flex; justify-content: space-between; gap: 16px; }
+.report-preview-dialog header span { color: var(--copper-600); font-size: 9px; font-weight: 900; letter-spacing: .12em; }
+.report-preview-dialog h2 { margin: 3px 0 0; color: var(--navy-900); font-family: var(--serif); }
+.report-preview-guide { padding: 12px; border-left: 3px solid var(--copper-500); color: var(--muted); background: #faf8f1; font-size: 12px; line-height: 1.7; }
+.report-preview-findings { display: grid; gap: 8px; }
+.report-finding { padding: 11px; display: grid; grid-template-columns: 1fr auto; gap: 8px; border: 1px solid var(--line); border-radius: 9px; }
+.report-finding strong,.report-finding span { display: block; font-size: 11px; }
+.report-finding span { margin-top: 4px; color: var(--muted); }
+.report-finding button { align-self: center; padding: 8px 10px; border: 1px solid var(--line); border-radius: 7px; color: var(--navy-900); background: #fff; font-size: 10px; font-weight: 800; }
+.report-preview-content { max-height: 42vh; margin-top: 14px; padding: 16px; overflow: auto; border: 1px solid var(--line); border-radius: 10px; white-space: pre-wrap; color: #243746; background: #f7f8f8; font: 11px/1.65 ui-monospace,Consolas,monospace; }
+.report-preview-dialog footer { margin-top: 14px; display: flex; justify-content: flex-end; gap: 8px; }
 dialog::backdrop { background: rgba(7, 18, 31, .64); backdrop-filter: blur(3px); }
 .annotation-dialog form, .help-dialog form { padding: 24px; }
 .annotation-dialog header, .help-dialog header { display: flex; justify-content: space-between; gap: 16px; }

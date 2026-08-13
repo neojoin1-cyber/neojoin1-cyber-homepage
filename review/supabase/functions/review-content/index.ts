@@ -107,6 +107,8 @@ async function sendOperationalEmail(to: string, subject: string, html: string, i
 
 async function assignmentFor(admin: ReturnType<typeof createClient>, userId: string, assignmentId: string, requireWritable = false) {
   if (!REVIEW_ACCESS_ENABLED) throw new Error("전문위원 검수 접근은 대표님의 최종 시작 승인 전까지 안전하게 잠겨 있습니다.");
+  const { data: profile } = await admin.from("review_profiles").select("active").eq("user_id", userId).single();
+  if (!profile?.active) throw new Error("현재 이 검수계정의 이용이 종료되었습니다. 확인이 필요하시면 담당자에게 말씀해 주세요.");
   const { data, error } = await admin
     .from("review_assignments")
     .select("*")
@@ -146,21 +148,36 @@ async function markAssignmentReviewing(admin: ReturnType<typeof createClient>, u
   if (error) throw error;
 }
 
-async function bootstrap(admin: ReturnType<typeof createClient>, userId: string) {
-  if (!REVIEW_ACCESS_ENABLED) throw new Error("전문위원 검수 접근은 대표님의 최종 시작 승인 전까지 안전하게 잠겨 있습니다.");
+async function bootstrap(admin: ReturnType<typeof createClient>, userId: string, previewAssignmentId = "") {
+  const managerPreview = Boolean(previewAssignmentId);
+  let reviewerUserId = userId;
+  if (managerPreview) {
+    await ensureManager(admin, userId);
+    const { data: previewAssignment, error: previewError } = await admin
+      .from("review_assignments")
+      .select("id, reviewer_user_id, status")
+      .eq("id", previewAssignmentId)
+      .single();
+    if (previewError || !previewAssignment) throw new Error("관리자 확인이 가능한 위촉 과제를 찾지 못했습니다.");
+    reviewerUserId = previewAssignment.reviewer_user_id;
+  } else if (!REVIEW_ACCESS_ENABLED) {
+    throw new Error("전문위원 검수 접근은 대표님의 최종 시작 승인 전까지 안전하게 잠겨 있습니다.");
+  }
   const { data: reviewer, error: reviewerError } = await admin
     .from("review_profiles")
     .select("user_id, email, display_name, mobile, organization, department, position_title, role, role_label, active")
-    .eq("user_id", userId)
+    .eq("user_id", reviewerUserId)
     .single();
-  if (reviewerError || !reviewer?.active) throw new Error("현재 이용 가능한 전문위원 계정을 확인하지 못했습니다. 담당자에게 말씀해 주세요.");
+  if (reviewerError || !reviewer || (!managerPreview && !reviewer.active)) throw new Error("현재 이용 가능한 전문위원 계정을 확인하지 못했습니다. 담당자에게 말씀해 주세요.");
 
-  const { data: assignmentRows, error: assignmentError } = await admin
+  let assignmentQuery = admin
     .from("review_assignments")
     .select("*")
-    .eq("reviewer_user_id", userId)
-    .in("status", ["assigned", "reviewing", "submitted", "returned"])
-    .order("starts_at", { ascending: true });
+    .eq("reviewer_user_id", reviewerUserId);
+  assignmentQuery = managerPreview
+    ? assignmentQuery.eq("id", previewAssignmentId)
+    : assignmentQuery.in("status", ["assigned", "reviewing", "submitted", "returned"]);
+  const { data: assignmentRows, error: assignmentError } = await assignmentQuery.order("starts_at", { ascending: true });
   if (assignmentError) throw assignmentError;
 
   const subjectIds = [...new Set((assignmentRows ?? []).map((row) => row.subject_id))];
@@ -180,16 +197,20 @@ async function bootstrap(admin: ReturnType<typeof createClient>, userId: string)
     ? await admin.from("review_documents").select("id, kind, title, version, review_stage").in("id", documentIds)
     : { data: [] };
   const { data: progressRows } = assignmentIds.length
-    ? await admin.from("review_progress").select("*").eq("reviewer_user_id", userId).in("assignment_id", assignmentIds)
+    ? await admin.from("review_progress").select("*").eq("reviewer_user_id", reviewerUserId).in("assignment_id", assignmentIds)
     : { data: [] };
   const { data: interimRows } = assignmentIds.length
-    ? await admin.from("review_interim_reports").select("assignment_id, submitted_at").eq("reviewer_user_id", userId).in("assignment_id", assignmentIds)
+    ? await admin.from("review_interim_reports").select("assignment_id, submitted_at").eq("reviewer_user_id", reviewerUserId).in("assignment_id", assignmentIds)
+    : { data: [] };
+  const { data: exportRows } = assignmentIds.length
+    ? await admin.from("review_exports").select("id, assignment_id, report_id, file_name, sha256, delivery_status, created_at, delivered_at").eq("reviewer_user_id", reviewerUserId).in("assignment_id", assignmentIds)
     : { data: [] };
 
   const subjects = new Map((subjectRows ?? []).map((row) => [row.id, row]));
   const programs = new Map((programRows ?? []).map((row) => [row.id, row]));
   const documentMap = new Map((documents ?? []).map((row) => [row.id, row]));
   const interimMap = new Map((interimRows ?? []).map((row) => [row.assignment_id, row.submitted_at]));
+  const exportMap = new Map((exportRows ?? []).map((row) => [row.assignment_id, row]));
   const assignments = (assignmentRows ?? []).map((assignment) => {
     const subject = subjects.get(assignment.subject_id);
     return {
@@ -203,6 +224,15 @@ async function bootstrap(admin: ReturnType<typeof createClient>, userId: string)
       interimSubmittedAt: interimMap.get(assignment.id) ?? null,
       status: assignment.status,
       watermarkCode: assignment.watermark_code,
+      report: exportMap.has(assignment.id) ? {
+        id: exportMap.get(assignment.id).id,
+        reportId: exportMap.get(assignment.id).report_id,
+        fileName: exportMap.get(assignment.id).file_name,
+        sha256: exportMap.get(assignment.id).sha256,
+        deliveryStatus: exportMap.get(assignment.id).delivery_status,
+        createdAt: exportMap.get(assignment.id).created_at,
+        deliveredAt: exportMap.get(assignment.id).delivered_at
+      } : null,
       documents: (links ?? [])
         .filter((link) => link.assignment_id === assignment.id)
         .map((link) => documentMap.get(link.document_id))
@@ -229,16 +259,24 @@ async function bootstrap(admin: ReturnType<typeof createClient>, userId: string)
   return {
     reviewer: { id: reviewer.user_id, name: reviewer.display_name, email: reviewer.email, mobile: reviewer.mobile, organization: reviewer.organization, department: reviewer.department, positionTitle: reviewer.position_title, role: reviewer.role, roleLabel: reviewer.role_label },
     assignments,
-    progress
+    progress,
+    managerPreview
   };
 }
 
-async function createReviewReport(admin: ReturnType<typeof createClient>, userId: string, assignmentId: string, reportKind: "draft" | "interim" | "final" = "draft") {
-  const assignment = await assignmentFor(admin, userId, assignmentId);
+async function createReviewReport(admin: ReturnType<typeof createClient>, userId: string, assignmentId: string, reportKind: "draft" | "interim" | "final" = "draft", managerOverride = false) {
+  let assignment;
+  if (managerOverride) {
+    const { data, error } = await admin.from("review_assignments").select("*").eq("id", assignmentId).eq("reviewer_user_id", userId).single();
+    if (error || !data) throw new Error("관리자 확인이 가능한 위촉 과제를 찾지 못했습니다.");
+    assignment = data;
+  } else {
+    assignment = await assignmentFor(admin, userId, assignmentId);
+  }
   if (reportKind === "final" && ["submitted", "accepted"].includes(assignment.status)) {
     const { data: existingExport, error: existingExportError } = await admin
       .from("review_exports")
-      .select("report_id, file_name, markdown, sha256, delivery_status")
+      .select("report_id, file_name, markdown, json_payload, sha256, delivery_status")
       .eq("assignment_id", assignmentId)
       .eq("reviewer_user_id", userId)
       .in("delivery_status", ["ready", "delivered"])
@@ -249,6 +287,7 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
         reportId: existingExport.report_id,
         fileName: existingExport.file_name,
         markdown: existingExport.markdown,
+        json: existingExport.json_payload,
         sha256: existingExport.sha256,
         status: "final",
         deliveryStatus: existingExport.delivery_status
@@ -370,7 +409,13 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
     `| 이메일 | ${reportValue(reviewer.email)} |`,
     `| 휴대전화 | ${reportValue(reviewer.mobile)} |`,
     "",
-    "## 2. 검수 현황",
+    "## 2. 검수 목적·범위·기준",
+    "",
+    "- 목적: 위촉 범위의 핵심요약노트·모의고사 원고에 대하여 사실관계, 최신 법령·판례·정책자료, 정답 및 해설의 타당성을 확인합니다.",
+    `- 범위: ${reportValue(subject.name)} 담당 원고 ${payload.summary.documentCount}건`,
+    "- 기준: 원문 위치와 인용문을 보존하여 의견을 기록하고, 필수 수정·중요 보완·권고를 구분합니다.",
+    "",
+    "## 3. 검수 결과 요약",
     "",
     `- 자료 ${payload.summary.documentCount}건 중 ${payload.summary.completedDocumentCount}건 검수 확인`,
     `- 수정·보완 의견 ${payload.summary.findingCount}건, 참고 표시 ${payload.summary.referenceMarkCount}건`,
@@ -378,7 +423,7 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
   ];
   detailDocuments.forEach((document: any, documentIndex: number) => {
     lines.push(
-      `## ${documentIndex + 3}. ${reportValue(document.kind)} — ${reportValue(document.title)}`,
+      `## ${documentIndex + 4}. ${reportValue(document.kind)} — ${reportValue(document.title)}`,
       "",
       `- 문서 ID: ${document.id}`,
       `- 버전·단계: ${reportValue(document.version)} / ${reportValue(document.stage)}`,
@@ -403,6 +448,10 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
     ));
   });
   lines.push(
+    "## 전문위원 최종 확인",
+    "",
+    "본 보고서는 위 검수 범위에서 실제로 확인하고 기록한 의견을 원문 위치와 함께 정리한 것입니다. 최종 제출 전 미리보기에서 내용과 누락 여부를 확인합니다.",
+    "",
     "## 교재 생성 시스템 인계 규칙",
     "",
     "1. `필수 수정` 의견은 반영 또는 반려 사유 기록 없이는 다음 제작 단계로 이동하지 않습니다.",
@@ -418,12 +467,14 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
   if (payload.status === "interim") {
     const { error: interimError } = await admin.from("review_interim_reports").upsert({ assignment_id: assignmentId, reviewer_user_id: userId, schema_version: payload.schema, report_id: reportId, file_name: fileName, markdown, json_payload: payload, sha256, submitted_at: generatedAt }, { onConflict: "assignment_id,reviewer_user_id" });
     if (interimError) throw interimError;
+    await admin.from("review_change_history").insert({ assignment_id: assignmentId, reviewer_user_id: userId, changed_by: userId, change_type: "report_generated", target_id: reportId, after_payload: { reportId, reportKind: "interim", sha256 } });
   }
   if (payload.status === "final") {
     const { error: exportError } = await admin.from("review_exports").upsert({ assignment_id: assignmentId, reviewer_user_id: userId, schema_version: payload.schema, report_id: reportId, file_name: fileName, markdown, json_payload: payload, sha256, delivery_status: "ready", created_at: generatedAt, delivered_at: null }, { onConflict: "assignment_id,reviewer_user_id" });
     if (exportError) throw exportError;
+    await admin.from("review_change_history").insert({ assignment_id: assignmentId, reviewer_user_id: userId, changed_by: userId, change_type: "report_submitted", target_id: reportId, after_payload: { reportId, reportKind: "final", sha256, deliveryStatus: "ready" } });
   }
-  return { reportId, fileName, markdown, sha256, status: payload.status, deliveryStatus: payload.status === "final" ? "ready" : payload.status === "interim" ? "submitted" : "draft" };
+  return { reportId, fileName, markdown, json: payload, sha256, status: payload.status, deliveryStatus: payload.status === "final" ? "ready" : payload.status === "interim" ? "submitted" : "draft" };
 }
 
 async function ensureManager(admin: ReturnType<typeof createClient>, userId: string) {
@@ -552,6 +603,12 @@ Deno.serve(async (request) => {
     if (action === "bootstrap") return json(await bootstrap(admin, userId), 200, origin);
 
     if (action === "managerDashboard") return json(await managerDashboard(admin, userId), 200, origin);
+
+    if (action === "managerPreviewBootstrap") {
+      await ensureManager(admin, userId);
+      const assignmentId = cleanText(payload.assignmentId, 80);
+      return json(await bootstrap(admin, userId, assignmentId), 200, origin);
+    }
 
     if (action === "managerUpsertExpert") {
       await ensureManager(admin, userId);
@@ -742,6 +799,8 @@ Deno.serve(async (request) => {
       if (error) throw error;
       if (!delivered) throw new Error("이미 처리되었거나 전달 대기 상태가 아닌 보고서입니다.");
       await admin.from("review_events").insert({ assignment_id: report.assignment_id, reviewer_user_id: userId, event_type: "report_delivered", payload: { exportId }, occurred_at: deliveredAt });
+      const { data: deliveredReport } = await admin.from("review_exports").select("reviewer_user_id, report_id, sha256").eq("id", exportId).single();
+      if (deliveredReport) await admin.from("review_change_history").insert({ assignment_id: report.assignment_id, reviewer_user_id: deliveredReport.reviewer_user_id, changed_by: userId, change_type: "report_delivered", target_id: deliveredReport.report_id, after_payload: { exportId, sha256: deliveredReport.sha256, deliveredAt } });
       return json({ ok: true, deliveredAt }, 200, origin);
     }
 
@@ -764,6 +823,31 @@ Deno.serve(async (request) => {
       }, 200, origin);
     }
 
+    if (action === "managerPreviewDocument") {
+      await ensureManager(admin, userId);
+      const assignmentId = cleanText(payload.assignmentId, 80);
+      const documentId = cleanText(payload.documentId, 80);
+      const { data: assignment, error: assignmentError } = await admin
+        .from("review_assignments")
+        .select("id, reviewer_user_id, status")
+        .eq("id", assignmentId)
+        .single();
+      if (assignmentError || !assignment) throw new Error("관리자 확인이 가능한 위촉 과제를 찾지 못했습니다.");
+      const { data: documentLink } = await admin.from("review_assignment_documents").select("assignment_id").eq("assignment_id", assignmentId).eq("document_id", documentId).maybeSingle();
+      if (!documentLink) throw new Error("이 위촉 과제에 연결된 검수 자료가 아닙니다.");
+      const { data: document, error: documentError } = await admin.from("review_documents").select("id, kind, title, version, review_stage").eq("id", documentId).single();
+      if (documentError || !document) throw new Error("검수 자료를 찾지 못했습니다.");
+      const { data: blocks, error: blockError } = await admin.from("review_blocks").select("id, block_key, heading, body, sort_order").eq("document_id", documentId).order("sort_order");
+      if (blockError) throw blockError;
+      const { data: annotations } = await admin.from("review_annotations").select("*").eq("assignment_id", assignmentId).eq("document_id", documentId).eq("reviewer_user_id", assignment.reviewer_user_id).order("created_at");
+      const { data: progress } = await admin.from("review_progress").select("*").eq("assignment_id", assignmentId).eq("document_id", documentId).eq("reviewer_user_id", assignment.reviewer_user_id).maybeSingle();
+      return json({
+        document: { id: document.id, kind: document.kind, title: document.title, version: document.version, stage: document.review_stage, blocks: (blocks ?? []).map((block) => ({ id: block.id, key: block.block_key, heading: block.heading, text: block.body })) },
+        annotations: (annotations ?? []).map((item) => ({ id: item.id, assignmentId: item.assignment_id, documentId: item.document_id, blockId: item.block_id, kind: item.kind, color: item.color, startOffset: item.start_offset, endOffset: item.end_offset, selectedText: item.selected_text, body: item.body, issueType: item.issue_type, severity: item.severity, status: item.status, createdAt: item.created_at, updatedAt: item.updated_at })),
+        progress: progress ? { checkedBlocks: progress.checked_blocks ?? [], memo: progress.memo ?? "", complete: progress.complete, completedAt: progress.completed_at } : { checkedBlocks: [], memo: "", complete: false }
+      }, 200, origin);
+    }
+
     if (action === "saveAnnotation") {
       const annotation = payload.annotation ?? {};
       const assignmentId = cleanText(annotation.assignmentId, 80);
@@ -779,7 +863,7 @@ Deno.serve(async (request) => {
       const annotationId = cleanText(annotation.id, 80);
       const { data: existingAnnotation } = await admin
         .from("review_annotations")
-        .select("id, assignment_id, reviewer_user_id")
+        .select("*")
         .eq("id", annotationId)
         .maybeSingle();
       if (existingAnnotation && (existingAnnotation.reviewer_user_id !== userId || existingAnnotation.assignment_id !== assignmentId)) {
@@ -795,6 +879,16 @@ Deno.serve(async (request) => {
       };
       const { error } = await admin.from("review_annotations").upsert(record, { onConflict: "id" });
       if (error) throw error;
+      await admin.from("review_change_history").insert({
+        assignment_id: assignmentId,
+        document_id: documentId,
+        reviewer_user_id: userId,
+        changed_by: userId,
+        change_type: "annotation_saved",
+        target_id: annotationId,
+        before_payload: existingAnnotation ?? null,
+        after_payload: record
+      });
       await markAssignmentReviewing(admin, userId, assignmentId);
       return json({ ok: true }, 200, origin);
     }
@@ -802,8 +896,20 @@ Deno.serve(async (request) => {
     if (action === "deleteAnnotation") {
       const assignmentId = cleanText(payload.assignmentId, 80);
       await assignmentFor(admin, userId, assignmentId, true);
-      const { error } = await admin.from("review_annotations").delete().eq("id", cleanText(payload.annotationId, 80)).eq("assignment_id", assignmentId).eq("reviewer_user_id", userId);
+      const annotationId = cleanText(payload.annotationId, 80);
+      const { data: existingAnnotation } = await admin.from("review_annotations").select("*").eq("id", annotationId).eq("assignment_id", assignmentId).eq("reviewer_user_id", userId).maybeSingle();
+      const { error } = await admin.from("review_annotations").delete().eq("id", annotationId).eq("assignment_id", assignmentId).eq("reviewer_user_id", userId);
       if (error) throw error;
+      if (existingAnnotation) await admin.from("review_change_history").insert({
+        assignment_id: assignmentId,
+        document_id: existingAnnotation.document_id,
+        reviewer_user_id: userId,
+        changed_by: userId,
+        change_type: "annotation_deleted",
+        target_id: annotationId,
+        before_payload: existingAnnotation,
+        after_payload: null
+      });
       return json({ ok: true }, 200, origin);
     }
 
@@ -813,6 +919,7 @@ Deno.serve(async (request) => {
       await assignmentFor(admin, userId, assignmentId, true);
       await assertDocumentAccess(admin, assignmentId, documentId);
       const progress = payload.progress ?? {};
+      const { data: existingProgress } = await admin.from("review_progress").select("*").eq("assignment_id", assignmentId).eq("document_id", documentId).eq("reviewer_user_id", userId).maybeSingle();
       const { data: validBlocks } = await admin.from("review_blocks").select("id").eq("document_id", documentId);
       const validIds = new Set((validBlocks ?? []).map((block) => block.id));
       const checkedBlocks = Array.isArray(progress.checkedBlocks) ? progress.checkedBlocks.filter((id: unknown) => validIds.has(String(id))).slice(0, 2000) : [];
@@ -820,6 +927,16 @@ Deno.serve(async (request) => {
       const record = { assignment_id: assignmentId, document_id: documentId, reviewer_user_id: userId, checked_blocks: checkedBlocks, memo: cleanText(progress.memo, 10000), complete, completed_at: complete ? progress.completedAt || new Date().toISOString() : null, updated_at: new Date().toISOString() };
       const { error } = await admin.from("review_progress").upsert(record, { onConflict: "assignment_id,document_id,reviewer_user_id" });
       if (error) throw error;
+      await admin.from("review_change_history").insert({
+        assignment_id: assignmentId,
+        document_id: documentId,
+        reviewer_user_id: userId,
+        changed_by: userId,
+        change_type: "progress_saved",
+        target_id: documentId,
+        before_payload: existingProgress ?? null,
+        after_payload: record
+      });
       await markAssignmentReviewing(admin, userId, assignmentId);
       return json({ ok: true }, 200, origin);
     }
@@ -868,6 +985,15 @@ Deno.serve(async (request) => {
     if (action === "exportReport") {
       const assignmentId = cleanText(payload.assignmentId, 80);
       const report = await createReviewReport(admin, userId, assignmentId, "draft");
+      return json(report, 200, origin);
+    }
+
+    if (action === "managerPreviewReport") {
+      await ensureManager(admin, userId);
+      const assignmentId = cleanText(payload.assignmentId, 80);
+      const { data: assignment, error } = await admin.from("review_assignments").select("reviewer_user_id, status").eq("id", assignmentId).single();
+      if (error || !assignment) throw new Error("관리자 확인이 가능한 위촉 과제를 찾지 못했습니다.");
+      const report = await createReviewReport(admin, assignment.reviewer_user_id, assignmentId, "draft", true);
       return json(report, 200, origin);
     }
 
