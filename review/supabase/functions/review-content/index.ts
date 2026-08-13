@@ -667,6 +667,7 @@ Deno.serve(async (request) => {
       if (subjectError || !subject) throw new Error("위촉할 과목을 확인해 주세요.");
       const { data: validDocuments, error: documentError } = await admin.from("review_documents").select("id, title, version, status, source_sha256").eq("subject_id", subjectId).in("id", documentIds);
       if (documentError || (validDocuments ?? []).length !== documentIds.length) throw new Error("담당 과목과 일치하는 검수 자료만 지정할 수 있습니다.");
+      if ((validDocuments ?? []).some((item) => examTrackFromTitle(item.title) !== examTrack)) throw new Error("선택한 시험 구분과 일치하는 국가직 또는 지방직 원고만 지정할 수 있습니다.");
       if ((validDocuments ?? []).some((item) => item.status !== "review_ready" || !item.source_sha256)) throw new Error("최신 활성 원고와 원본 무결성값이 확인된 자료만 지정할 수 있습니다.");
       if ((validDocuments ?? []).some((item) => examTrackFromTitle(item.title) !== examTrack)) throw new Error("국가직과 지방직 원고를 하나의 위촉에 혼합할 수 없습니다.");
       if (examTrack !== "national") throw new Error("지방직 7급 검수는 별도 계약 후 별도 과제로 진행해 주세요.");
