@@ -25,6 +25,7 @@
         <label>이메일 인증번호<input id="manager-otp" inputmode="numeric" maxlength="8"></label>
         <button id="manager-otp-submit" type="button">안전하게 로그인</button>
       </div>
+      <label class="remember-login"><input id="manager-remember-login" type="checkbox" checked> 이 기기에서 14일간 관리자 인증 유지</label>
       <button class="demo-button" id="manager-demo" type="button">운영 화면 먼저 확인하기</button>
       <small>운영 환경에서는 관리자 또는 운영담당자 권한이 확인된 계정만 접근할 수 있습니다.</small>
     </div>
@@ -33,7 +34,7 @@
   <div class="manager-app" id="manager-app" hidden>
     <header class="topbar">
       <a href="../index.html" class="brand"><span>ㅅ</span><div><strong>유한회사 설탕과소금</strong><small>검수 운영관제 · 회사 내부 전용</small></div></a>
-      <div class="top-actions"><span id="synced-at">서버 기록 확인 중</span><button id="expert-directory" type="button">전문위원 명단</button><button id="new-expert" type="button">전문위원 등록</button><button id="new-assignment" class="accent-button" type="button">새 과목 위촉</button><button id="batch-start" type="button">일괄 시작 점검</button><button id="refresh-dashboard" type="button">최신 기록</button></div>
+      <div class="top-actions"><span id="synced-at">서버 기록 확인 중</span><button id="expert-directory" type="button">전문위원 명단</button><button id="new-expert" type="button">전문위원 등록</button><button id="new-assignment" class="accent-button" type="button">새 과목 위촉</button><button id="batch-start" type="button">일괄 시작 점검</button><button id="refresh-dashboard" type="button">최신 기록</button><button id="manager-logout" type="button">로그아웃</button></div>
     </header>
 
     <main>
@@ -76,7 +77,7 @@
     <dialog id="assignment-detail">
       <div class="detail-head"><div><span>ASSIGNMENT DETAIL</span><h2 id="detail-title">검수 상세</h2></div><button id="detail-close" type="button" aria-label="상세 닫기">×</button></div>
       <div id="detail-body"></div>
-      <footer><button id="edit-expert" type="button">전문위원 정보</button><button id="edit-assignment" type="button">위촉 내용 확인·변경</button><button id="request-rereview" type="button">재검토 요청</button><button id="revoke-assignment" class="danger-button" type="button">위촉 종료</button><button id="download-interim-report" type="button">1차 중간보고 받기</button><button id="download-managed-report" type="button">최종 보고서 받기</button><button class="primary" id="mark-report-delivered" type="button">교재 제작 시스템 전달 완료</button></footer>
+      <footer><button id="preview-assignment" type="button">실제 검수 화면 확인</button><button id="edit-expert" type="button">전문위원 정보</button><button id="edit-assignment" type="button">위촉 내용 확인·변경</button><button id="request-rereview" type="button">재검토 요청</button><button id="revoke-assignment" class="danger-button" type="button">위촉 종료</button><button id="download-interim-report" type="button">1차 중간보고 받기</button><button id="download-managed-report" type="button">최종 보고서 받기</button><button class="primary" id="mark-report-delivered" type="button">교재 제작 시스템 전달 완료</button></footer>
     </dialog>
 
     <dialog id="expert-directory-dialog" class="form-dialog wide-dialog">

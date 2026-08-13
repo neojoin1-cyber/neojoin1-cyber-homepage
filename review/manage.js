@@ -6,9 +6,11 @@ config.production = Boolean(config.supabaseUrl && config.anonKey);
 const localDemoAllowed = ["127.0.0.1", "localhost"].includes(location.hostname) && new URLSearchParams(location.search).get("demo") === "1";
 const REVIEW_APP_URL = "https://gyo6.kr/review/";
 const NATIONAL_LAUNCH_SCHEDULE = { startsAt: "2026-08-13", interimDueAt: "2026-08-19", endsAt: "2026-08-22" };
+const AUTH_STORAGE_KEY = "sugar-salt-review-auth-v1";
+const AUTH_MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000;
 const $ = (selector, root = document) => root.querySelector(selector);
 const escapeHtml = (value = "") => String(value ?? "").replace(/[&<>"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[character]);
-const state = { mode: "demo", token: null, refreshToken: null, tokenExpiresAt: 0, refreshPromise: null, rows: [], experts: [], programs: [], subjects: [], documents: [], selectedId: null };
+const state = { mode: "demo", token: null, refreshToken: null, tokenExpiresAt: 0, refreshPromise: null, rememberSession: true, rows: [], experts: [], programs: [], subjects: [], documents: [], selectedId: null };
 
 const DEMO_ROWS = [
   { id:"demo-1", reviewer:{name:"김○○ 교수",organization:"한국대학교",department:"법학과",positionTitle:"교수",email:"professor1@example.ac.kr",mobile:"010-0000-0001"},program:"공무원시험 대비",subject:"헌법",title:"헌법 핵심노트·모의고사 검수",period:"2026-08-11 — 2026-08-19",status:"reviewing",documentCount:4,completeDocumentCount:2,totalBlocks:48,checkedBlocks:31,opinionCount:12,lastActivityAt:new Date(Date.now()-42*60000).toISOString(),report:null,documents:[{title:"헌법 핵심노트 1차",complete:true,checkedBlocks:18,totalBlocks:18},{title:"실전 모의고사 제1회",complete:true,checkedBlocks:9,totalBlocks:9},{title:"실전 모의고사 제2회",complete:false,checkedBlocks:4,totalBlocks:11},{title:"실전 모의고사 제3회",complete:false,checkedBlocks:0,totalBlocks:10}] },
@@ -31,8 +33,13 @@ const DEMO_CATALOG = {
 };
 
 function toast(message) { const element=$("#manager-toast"); element.textContent=message; element.classList.add("show"); clearTimeout(toast.timer); toast.timer=setTimeout(()=>element.classList.remove("show"),2600); }
-function applySession(session){ state.token=session.access_token; if(session.refresh_token)state.refreshToken=session.refresh_token; state.tokenExpiresAt=Date.now()+Math.max(60,Number(session.expires_in)||3600)*1000; }
-async function refreshSession(){ if(!state.refreshToken)throw new Error("로그인 시간이 만료되었습니다. 다시 로그인해 주세요."); if(state.refreshPromise)return state.refreshPromise; state.refreshPromise=(async()=>{ const response=await fetch(`${config.supabaseUrl}/auth/v1/token?grant_type=refresh_token`,{method:"POST",headers:{"Content-Type":"application/json",apikey:config.anonKey},body:JSON.stringify({refresh_token:state.refreshToken}),cache:"no-store",credentials:"omit"}); const session=await response.json().catch(()=>({})); if(!response.ok||!session.access_token)throw new Error("로그인 시간이 만료되었습니다. 다시 로그인해 주세요."); applySession(session); })(); try{await state.refreshPromise;}finally{state.refreshPromise=null;} }
+function persistAuthSession(){ if(!state.rememberSession||!state.refreshToken)return; localStorage.setItem(AUTH_STORAGE_KEY,JSON.stringify({refreshToken:state.refreshToken,savedAt:Date.now()})); }
+function restoreAuthSession(){ try{const saved=JSON.parse(localStorage.getItem(AUTH_STORAGE_KEY)||"null");if(!saved?.refreshToken||Date.now()-Number(saved.savedAt||0)>AUTH_MAX_AGE_MS)throw new Error("expired");state.refreshToken=saved.refreshToken;state.rememberSession=true;return true;}catch{localStorage.removeItem(AUTH_STORAGE_KEY);return false;} }
+function clearAuthSession(){localStorage.removeItem(AUTH_STORAGE_KEY);state.token=null;state.refreshToken=null;state.tokenExpiresAt=0;}
+function applySession(session){ state.token=session.access_token; if(session.refresh_token)state.refreshToken=session.refresh_token; state.tokenExpiresAt=Date.now()+Math.max(60,Number(session.expires_in)||3600)*1000;persistAuthSession(); }
+async function refreshSession(){ if(!state.refreshToken)throw new Error("로그인 시간이 만료되었습니다. 다시 로그인해 주세요."); if(state.refreshPromise)return state.refreshPromise; state.refreshPromise=(async()=>{ const response=await fetch(`${config.supabaseUrl}/auth/v1/token?grant_type=refresh_token`,{method:"POST",headers:{"Content-Type":"application/json",apikey:config.anonKey},body:JSON.stringify({refresh_token:state.refreshToken}),cache:"no-store",credentials:"omit"}); const session=await response.json().catch(()=>({})); if(!response.ok||!session.access_token){clearAuthSession();throw new Error("로그인 시간이 만료되었습니다. 다시 로그인해 주세요.");} applySession(session); })(); try{await state.refreshPromise;}finally{state.refreshPromise=null;} }
+async function resumeManagerSession(){if(!restoreAuthSession())return false;await refreshSession();state.mode="production";await loadDashboard();return true;}
+async function logout(){const token=state.token;clearAuthSession();if(token)fetch(`${config.supabaseUrl}/auth/v1/logout`,{method:"POST",headers:{apikey:config.anonKey,Authorization:`Bearer ${token}`},cache:"no-store"}).catch(()=>{});location.href=location.pathname;}
 async function api(action,payload={},retried=false) { if(state.refreshToken&&Date.now()>=state.tokenExpiresAt-60000)await refreshSession(); const response=await fetch(`${config.supabaseUrl}/functions/v1/review-content`,{method:"POST",headers:{"Content-Type":"application/json",apikey:config.anonKey,Authorization:`Bearer ${state.token}`},body:JSON.stringify({action,payload}),cache:"no-store",credentials:"omit"}); const body=await response.json().catch(()=>({})); if(response.status===401&&!retried&&state.refreshToken){await refreshSession();return api(action,payload,true);} if(!response.ok) throw new Error(body.error||"요청을 처리하지 못했습니다."); return body; }
 async function sendOtp(email){ const response=await fetch(`${config.supabaseUrl}/auth/v1/otp`,{method:"POST",headers:{"Content-Type":"application/json",apikey:config.anonKey},body:JSON.stringify({email,create_user:false,email_redirect_to:`${location.origin}${location.pathname}`}),cache:"no-store"}); if(!response.ok) throw new Error("등록된 회사 관리자 이메일인지 확인해 주세요."); }
 async function verifyOtp(email,token){ const response=await fetch(`${config.supabaseUrl}/auth/v1/verify`,{method:"POST",headers:{"Content-Type":"application/json",apikey:config.anonKey},body:JSON.stringify({email,token,type:"email"}),cache:"no-store"}); const body=await response.json().catch(()=>({})); if(!response.ok||!body.access_token) throw new Error(body.error_description||"인증번호를 확인해 주세요."); return body; }
@@ -81,7 +88,7 @@ async function changeAssignment(action){ const row=selectedRow(); if(!row)return
 
 $("#manager-demo").addEventListener("click",()=>enterDashboard({assignments:structuredClone(DEMO_ROWS).map((row,index)=>({...row,reviewer:{...row.reviewer,id:`demo-expert-${index+1}`},subjectId:DEMO_CATALOG.subjects[index]?.id||null,programId:"civil",contractReference:"2026 공무원시험 대비 외부 전문위원 검수용역"})),...structuredClone(DEMO_CATALOG)}));
 $("#manager-login-form").addEventListener("submit",async(event)=>{event.preventDefault(); if(!config.production){toast("현재는 운영 화면 확인 모드입니다. 아래 확인 버튼을 이용해 주세요.");return;} try{await sendOtp($("#manager-email").value.trim());$("#manager-otp-row").hidden=false;$("#manager-otp").focus();toast("관리자 이메일로 인증번호를 보냈습니다.");}catch(error){toast(error.message);}});
-$("#manager-otp-submit").addEventListener("click",async()=>{try{const session=await verifyOtp($("#manager-email").value.trim(),$("#manager-otp").value.trim());state.mode="production";applySession(session);await loadDashboard();}catch(error){toast(error.message);}});
+$("#manager-otp-submit").addEventListener("click",async()=>{try{state.rememberSession=$("#manager-remember-login").checked;const session=await verifyOtp($("#manager-email").value.trim(),$("#manager-otp").value.trim());state.mode="production";applySession(session);await loadDashboard();}catch(error){toast(error.message);}});
 $("#refresh-dashboard").addEventListener("click",async()=>{if(state.mode==="demo"){renderAll();toast("체험 기록을 새로고침했습니다.");return;}try{await loadDashboard();toast("최신 서버 기록을 불러왔습니다.");}catch(error){toast(error.message);}});
 [$("#filter-program"),$("#filter-status")].forEach(element=>element.addEventListener("change",renderRows));
 $("#filter-search").addEventListener("input",renderRows);
@@ -90,6 +97,8 @@ $("#detail-close").addEventListener("click",()=>$("#assignment-detail").close())
 $("#download-managed-report").addEventListener("click",downloadManagedReport);
 $("#download-interim-report").addEventListener("click",downloadInterimReport);
 $("#mark-report-delivered").addEventListener("click",markDelivered);
+$("#preview-assignment").addEventListener("click",()=>{const row=selectedRow();if(!row)return;window.open(`${REVIEW_APP_URL}?managerPreview=${encodeURIComponent(row.id)}`,"_blank","noopener");});
+$("#manager-logout").addEventListener("click",logout);
 $("#expert-directory").addEventListener("click",openExpertDirectory);
 $("#new-expert").addEventListener("click",()=>openExpertForm());
 $("#directory-new-expert").addEventListener("click",()=>{$("#expert-directory-dialog").close();openExpertForm();});
@@ -110,4 +119,4 @@ $("#edit-expert").addEventListener("click",()=>{const row=selectedRow();const ex
 $("#request-rereview").addEventListener("click",()=>changeAssignment("rereview"));
 $("#revoke-assignment").addEventListener("click",()=>changeAssignment("revoke"));
 
-if(config.production&&!localDemoAllowed){ $("#manager-demo").hidden=true; try{ const magicLinkSession=sessionFromMagicLink(); if(magicLinkSession){state.mode="production";applySession(magicLinkSession);loadDashboard().catch(error=>toast(error.message));} }catch(error){toast(error.message);} }
+if(config.production&&!localDemoAllowed){ $("#manager-demo").hidden=true; (async()=>{try{const magicLinkSession=sessionFromMagicLink();if(magicLinkSession){state.mode="production";applySession(magicLinkSession);await loadDashboard();}else await resumeManagerSession();}catch(error){toast(error.message);}})(); }
