@@ -132,8 +132,27 @@ async function sendOperationalEmail(to: string, subject: string, html: string, i
   return { sent: true, status: "sent", id: result.messageId ?? result.id ?? null, provider: REVIEW_EMAIL_PROVIDER };
 }
 
+async function runtimeControls(admin: ReturnType<typeof createClient>) {
+  const { data, error } = await admin.from("review_runtime_controls").select("access_enabled, launch_enabled, updated_by, updated_at").eq("id", "default").maybeSingle();
+  if (error) throw new Error("검수 운영 잠금 상태를 확인하지 못했습니다.");
+  return data ? {
+    accessEnabled: Boolean(data.access_enabled),
+    launchEnabled: Boolean(data.launch_enabled),
+    updatedBy: data.updated_by ?? null,
+    updatedAt: data.updated_at ?? null,
+    source: "manager"
+  } : {
+    accessEnabled: REVIEW_ACCESS_ENABLED,
+    launchEnabled: REVIEW_LAUNCH_ENABLED,
+    updatedBy: null,
+    updatedAt: null,
+    source: "environment"
+  };
+}
+
 async function assignmentFor(admin: ReturnType<typeof createClient>, userId: string, assignmentId: string, requireWritable = false) {
-  if (!REVIEW_ACCESS_ENABLED) throw new Error("전문위원 검수 접근은 대표님의 최종 시작 승인 전까지 안전하게 잠겨 있습니다.");
+  const controls = await runtimeControls(admin);
+  if (!controls.accessEnabled) throw new Error("전문위원 검수 접근은 대표님의 최종 시작 승인 전까지 안전하게 잠겨 있습니다.");
   const { data: profile } = await admin.from("review_profiles").select("active").eq("user_id", userId).single();
   if (!profile?.active) throw new Error("현재 이 검수계정의 이용이 종료되었습니다. 확인이 필요하시면 담당자에게 말씀해 주세요.");
   const { data, error } = await admin
@@ -187,7 +206,7 @@ async function bootstrap(admin: ReturnType<typeof createClient>, userId: string,
       .single();
     if (previewError || !previewAssignment) throw new Error("관리자 확인이 가능한 위촉 과제를 찾지 못했습니다.");
     reviewerUserId = previewAssignment.reviewer_user_id;
-  } else if (!REVIEW_ACCESS_ENABLED) {
+  } else if (!(await runtimeControls(admin)).accessEnabled) {
     throw new Error("전문위원 검수 접근은 대표님의 최종 시작 승인 전까지 안전하게 잠겨 있습니다.");
   }
   const { data: reviewer, error: reviewerError } = await admin
@@ -512,6 +531,7 @@ async function ensureManager(admin: ReturnType<typeof createClient>, userId: str
 
 async function managerDashboard(admin: ReturnType<typeof createClient>, userId: string) {
   await ensureManager(admin, userId);
+  const controls = await runtimeControls(admin);
   const { data: assignmentRows, error: assignmentError } = await admin.from("review_assignments").select("*").order("ends_at");
   if (assignmentError) throw assignmentError;
   const assignments = assignmentRows ?? [];
@@ -608,12 +628,15 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
   const { data: documentCatalog } = await admin.from("review_documents").select("id, subject_id, title, kind, version, status, source_sha256").in("status", ["review_ready", "reviewing", "approved"]).order("title");
   return {
     launchReadiness: {
-      enabled: Boolean(REVIEW_LAUNCH_ENABLED && REVIEW_ACCESS_ENABLED && REVIEW_EMAIL_ENABLED && REVIEW_EMAIL_PROVIDER),
-      launchEnabled: REVIEW_LAUNCH_ENABLED,
-      accessEnabled: REVIEW_ACCESS_ENABLED,
+      enabled: Boolean(controls.launchEnabled && controls.accessEnabled && REVIEW_EMAIL_ENABLED && REVIEW_EMAIL_PROVIDER),
+      launchEnabled: controls.launchEnabled,
+      accessEnabled: controls.accessEnabled,
       emailEnabled: REVIEW_EMAIL_ENABLED,
       emailConfigured: Boolean(REVIEW_EMAIL_PROVIDER),
-      emailProvider: REVIEW_EMAIL_PROVIDER || null
+      emailProvider: REVIEW_EMAIL_PROVIDER || null,
+      updatedAt: controls.updatedAt,
+      updatedBy: controls.updatedBy,
+      controlSource: controls.source
     },
     assignments: dashboardAssignments,
     experts: (expertCatalog ?? []).map((item) => ({ id: item.user_id, email: item.email, name: item.display_name, mobile: item.mobile, organization: item.organization, department: item.department, positionTitle: item.position_title, roleLabel: item.role_label, active: item.active })),
@@ -653,6 +676,19 @@ Deno.serve(async (request) => {
     if (action === "bootstrap") return json(await bootstrap(admin, userId), 200, origin);
 
     if (action === "managerDashboard") return json(await managerDashboard(admin, userId), 200, origin);
+
+    if (action === "managerSetRuntimeControls") {
+      await ensureManager(admin, userId);
+      const command = cleanText(payload.command, 20);
+      const expected = command === "unlock" ? "검수 준비 승인" : command === "lock" ? "긴급 잠금" : "";
+      if (!expected || cleanText(payload.confirmation, 30) !== expected) throw new Error("운영 잠금 변경 확인 문구가 일치하지 않습니다.");
+      const enabled = command === "unlock";
+      const changedAt = new Date().toISOString();
+      const { error: controlError } = await admin.from("review_runtime_controls").upsert({ id: "default", access_enabled: enabled, launch_enabled: enabled, updated_by: userId, updated_at: changedAt }, { onConflict: "id" });
+      if (controlError) throw new Error("검수 운영 잠금 상태를 변경하지 못했습니다.");
+      await admin.from("review_events").insert({ reviewer_user_id: userId, event_type: enabled ? "runtime_controls_unlocked" : "runtime_controls_locked", payload: { accessEnabled: enabled, launchEnabled: enabled, emailEnabled: REVIEW_EMAIL_ENABLED, emailConfigured: Boolean(REVIEW_EMAIL_PROVIDER) }, occurred_at: changedAt });
+      return json({ ok: true, accessEnabled: enabled, launchEnabled: enabled, changedAt }, 200, origin);
+    }
 
     if (action === "managerPreviewBootstrap") {
       await ensureManager(admin, userId);
@@ -772,11 +808,12 @@ Deno.serve(async (request) => {
 
     if (action === "managerBatchStart") {
       await ensureManager(admin, userId);
-      if (!REVIEW_LAUNCH_ENABLED || !REVIEW_ACCESS_ENABLED || !REVIEW_EMAIL_ENABLED || !REVIEW_EMAIL_PROVIDER) {
+      const controls = await runtimeControls(admin);
+      if (!controls.launchEnabled || !controls.accessEnabled || !REVIEW_EMAIL_ENABLED || !REVIEW_EMAIL_PROVIDER) {
         throw new Error("전문위원 안내 발송 기능이 현재 잠겨 있습니다. 대표님의 최종 발송 승인 후 서버 설정을 해제해 주세요.");
       }
       const assignmentIds: string[] = [...new Set<string>(Array.isArray(payload.assignmentIds) ? payload.assignmentIds.map((item: unknown) => cleanText(item, 80)).filter(Boolean) : [])];
-      if (!assignmentIds.length || assignmentIds.length > 20) throw new Error("시작할 국가직 과제를 1~20건 선택해 주세요.");
+      if (!assignmentIds.length || assignmentIds.length > 50) throw new Error("시작할 국가직 과제를 1~50건 선택해 주세요.");
       const { data: assignments, error: assignmentError } = await admin.from("review_assignments").select("*").in("id", assignmentIds);
       if (assignmentError || (assignments ?? []).length !== assignmentIds.length) throw new Error("일괄 시작할 과제를 모두 확인하지 못했습니다.");
       const results=[] as Array<Record<string, unknown>>;

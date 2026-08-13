@@ -9,7 +9,7 @@
   <meta name="review-supabase-url" content="https://lpxbfggwptsmxdxvnwhy.supabase.co">
   <meta name="review-supabase-anon-key" content="sb_publishable_HRFZW8tOwAQNPR7PQnMMhw_sMY51mqa">
   <title>검수 운영관제 | 유한회사 설탕과소금</title>
-  <link rel="stylesheet" href="manage.css?v=20260813-3">
+  <link rel="stylesheet" href="manage.css?v=20260814-1">
 </head>
 <body>
   <section class="manager-login" id="manager-login">
@@ -34,13 +34,18 @@
   <div class="manager-app" id="manager-app" hidden>
     <header class="topbar">
       <a href="../index.html" class="brand"><span>ㅅ</span><div><strong>유한회사 설탕과소금</strong><small>검수 운영관제 · 회사 내부 전용</small></div></a>
-      <div class="top-actions"><span id="synced-at">서버 기록 확인 중</span><button id="expert-directory" type="button">전문위원 명단</button><button id="new-expert" type="button">전문위원 등록</button><button id="new-assignment" class="accent-button" type="button">새 과목 위촉</button><button id="batch-start" type="button">일괄 시작 점검</button><button id="refresh-dashboard" type="button">최신 기록</button><button id="manager-logout" type="button">로그아웃</button></div>
+      <div class="top-actions"><span id="synced-at">서버 기록 확인 중</span><button id="runtime-controls" type="button">운영 잠금 관리</button><button id="expert-directory" type="button">전문위원 명단</button><button id="new-expert" type="button">전문위원 등록</button><button id="new-assignment" class="accent-button" type="button">새 과목 위촉</button><button id="batch-start" type="button">일괄 시작 점검</button><button id="refresh-dashboard" type="button">최신 기록</button><button id="manager-logout" type="button">로그아웃</button></div>
     </header>
 
     <main>
       <section class="hero">
         <div><p class="eyebrow">EXPERT REVIEW OPERATIONS</p><h1>전문위원 검수 현황</h1><p>자기보고가 아닌 문단 확인·자료 완료·최종 제출·보고서 인계 기록을 기준으로 집계합니다.</p></div>
         <div class="hero-seal"><span>LIVE</span><strong>실제 기록</strong><small>서버 기준</small></div>
+      </section>
+
+      <section class="runtime-status locked" id="runtime-status" aria-live="polite">
+        <div><span>REVIEW ACCESS CONTROL</span><strong id="runtime-status-title">검수 운영 잠금 상태 확인 중</strong><small id="runtime-status-copy">잠금 해제만으로는 이메일 발송이나 원고 공개가 시작되지 않습니다.</small></div>
+        <button id="runtime-status-action" type="button">운영 잠금 관리</button>
       </section>
 
       <section class="summary-grid" aria-label="운영 요약">
@@ -158,6 +163,18 @@
       <footer><button data-close-dialog="manual-notice-dialog" type="button">닫기</button><button class="primary" id="copy-manual-notice" type="button">안내문 복사</button></footer>
     </dialog>
 
+    <dialog id="runtime-controls-dialog" class="form-dialog">
+      <form id="runtime-controls-form">
+        <div class="detail-head"><div><span>REVIEW ACCESS CONTROL</span><h2>검수 운영 잠금 관리</h2></div><button data-close-dialog="runtime-controls-dialog" type="button" aria-label="닫기">×</button></div>
+        <div class="form-body">
+          <div class="runtime-dialog-state" id="runtime-dialog-state"></div>
+          <p class="form-note"><strong>잠금 해제는 시작 준비만 허용합니다.</strong><br>전문위원 이메일 발송과 담당 원고 공개는 이후 ‘일괄 시작’ 또는 ‘개별 검수 시작’을 다시 확인해야 실행됩니다.</p>
+          <label class="check-label"><input id="runtime-controls-confirm" type="checkbox" required> 위 내용을 확인했으며 검수 개시 준비 상태를 변경합니다.</label>
+        </div>
+        <footer><button data-close-dialog="runtime-controls-dialog" type="button">취소</button><button id="runtime-lock-button" class="danger-button" type="button">긴급 재잠금</button><button id="runtime-unlock-button" class="primary" type="submit">검수 개시 준비 잠금 해제</button></footer>
+      </form>
+    </dialog>
+
     <dialog id="start-result-dialog" class="form-dialog">
       <div class="detail-head"><div><span>START RESULT</span><h2 id="start-result-title">검수 시작 처리 결과</h2></div><button data-close-dialog="start-result-dialog" type="button" aria-label="닫기">×</button></div>
       <div class="form-body">
@@ -168,6 +185,6 @@
     </dialog>
   </div>
   <div class="toast" id="manager-toast" role="status"></div>
-  <script src="manage.js?v=20260813-5"></script>
+  <script src="manage.js?v=20260814-1"></script>
 </body>
 </html>

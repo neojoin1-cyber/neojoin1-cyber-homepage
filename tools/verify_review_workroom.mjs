@@ -17,6 +17,7 @@ const managerJs = read("review/manage.js");
 const batchSql = read("review/supabase/migrations/20260812000000_review_batch_start.sql");
 const historySql = read("review/supabase/migrations/20260813000000_review_change_history.sql");
 const nationalSubjectSql = read("review/supabase/migrations/20260813010000_fix_national_subject_names.sql");
+const runtimeControlSql = read("review/supabase/migrations/20260814000000_review_runtime_controls.sql");
 
 check("page.noindex", html.includes('name="robots" content="noindex, nofollow, noarchive, nosnippet"'), "보호 페이지가 검색에 노출되지 않습니다.");
 check("page.programs", ["국가직 7급 공무원시험 대비", "초등교원임용고사 대비", "중등교원임용고사 대비"].every((value) => js.includes(value)), "세 시험군이 하나의 워크룸 구조에 포함됩니다.");
@@ -55,8 +56,11 @@ check("manager.start-email-before-access", edge.indexOf("notification=await send
 check("manager.start-failure-retry", edge.includes('event_type:"assignment_start_failed"') && edge.includes('notificationRecordStatus:"email_failed"') && edge.includes('started:false'), "발송 실패 시 과제를 준비 상태로 유지하고 실패 기록과 재시도 가능 상태를 반환합니다.");
 check("manager.start-confirmation-dialog", managerHtml.includes('id="start-result-dialog"') && managerJs.includes("showStartResult") && managerJs.includes("서버에서 다시 확인했습니다") && managerJs.includes("발송 서비스 접수 완료"), "짧은 토스트 대신 서버 재조회 결과를 닫기 전까지 유지되는 완료창으로 표시합니다.");
 check("manager.launch-readiness", edge.includes("launchReadiness") && managerJs.includes("state.launchReadiness?.enabled") && managerJs.includes("메일 발송 서비스 연결 필요"), "시작·접근·메일 설정이 모두 준비됐을 때만 개별 시작 버튼을 활성화하고 부족한 설정을 정확히 표시합니다.");
-check("manager.email-lock", edge.includes("전문위원 안내 발송 기능이 현재 잠겨 있습니다") && edge.includes("!REVIEW_LAUNCH_ENABLED || !REVIEW_ACCESS_ENABLED || !REVIEW_EMAIL_ENABLED || !REVIEW_EMAIL_PROVIDER"), "발송·접근·시작 설정 중 하나라도 잠기면 과제 시작과 이메일 발송이 함께 차단됩니다.");
-check("api.access-lock", edge.includes("전문위원 검수 접근은 대표님의 최종 시작 승인 전까지 안전하게 잠겨 있습니다") && edge.includes("if (!REVIEW_ACCESS_ENABLED)"), "대표님의 최종 승인 전에는 전문위원 로그인 후에도 검수 자료가 열리지 않습니다.");
+check("manager.runtime-controls", managerHtml.includes('id="runtime-controls"') && managerHtml.includes('id="runtime-controls-dialog"') && managerJs.includes("managerSetRuntimeControls") && edge.includes('action === "managerSetRuntimeControls"') && edge.includes("runtime_controls_unlocked") && runtimeControlSql.includes("review_runtime_controls") && runtimeControlSql.includes("revoke all"), "관리자 화면에서 검수 개시 준비 잠금을 안전하게 해제·재잠금하고 변경 이력을 남깁니다.");
+check("manager.runtime-start-separation", managerHtml.includes("잠금 해제만으로는 이메일 발송이나 원고 공개가 시작되지 않습니다") && managerJs.includes("아직 이메일과 원고는 전달되지 않았습니다") && edge.includes('action === "managerBatchStart"'), "운영 잠금 해제와 실제 전문위원 일괄 시작을 별도 확인 단계로 유지합니다.");
+check("manager.batch-scale", edge.includes("assignmentIds.length > 50") && edge.includes("1~50건"), "초·중등 전문위원 22명을 포함해 최대 50개 과제를 한 번에 선택하고 서버에서 순차 시작할 수 있습니다.");
+check("manager.email-lock", edge.includes("전문위원 안내 발송 기능이 현재 잠겨 있습니다") && edge.includes("!controls.launchEnabled || !controls.accessEnabled || !REVIEW_EMAIL_ENABLED || !REVIEW_EMAIL_PROVIDER"), "발송·접근·시작 설정 중 하나라도 잠기면 과제 시작과 이메일 발송이 함께 차단됩니다.");
+check("api.access-lock", edge.includes("전문위원 검수 접근은 대표님의 최종 시작 승인 전까지 안전하게 잠겨 있습니다") && edge.includes("if (!controls.accessEnabled)"), "대표님의 최종 승인 전에는 전문위원 로그인 후에도 검수 자료가 열리지 않습니다.");
 check("manager.interim-report", html.includes("interim-submit") && managerHtml.includes("download-interim-report") && edge.includes('action === "submitInterimReport"') && edge.includes('action === "managerGetInterimReport"'), "전문위원의 중간보고 제출과 관리자 수신·다운로드가 연결됩니다.");
 check("manager.launch-schedule", managerJs.includes('startsAt: "2026-08-13"') && managerJs.includes('interimDueAt: "2026-08-19"') && managerJs.includes('endsAt: "2026-08-22"'), "국가직 위촉·중간보고·최종완료 일정이 확정일로 고정됩니다.");
 check("database.interim-report", batchSql.includes("review_interim_reports") && batchSql.includes("interim_due_at") && batchSql.includes("revoke all on table public.review_interim_reports"), "중간보고와 제출기한을 보호 테이블에 기록합니다.");
