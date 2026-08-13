@@ -588,6 +588,13 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
   const { data: programCatalog } = await admin.from("review_programs").select("id, name, sort_order").order("sort_order");
   const { data: documentCatalog } = await admin.from("review_documents").select("id, subject_id, title, kind, version, status, source_sha256").in("status", ["review_ready", "reviewing", "approved"]).order("title");
   return {
+    launchReadiness: {
+      enabled: Boolean(REVIEW_LAUNCH_ENABLED && REVIEW_ACCESS_ENABLED && REVIEW_EMAIL_ENABLED && RESEND_API_KEY),
+      launchEnabled: REVIEW_LAUNCH_ENABLED,
+      accessEnabled: REVIEW_ACCESS_ENABLED,
+      emailEnabled: REVIEW_EMAIL_ENABLED,
+      emailConfigured: Boolean(RESEND_API_KEY)
+    },
     assignments: dashboardAssignments,
     experts: (expertCatalog ?? []).map((item) => ({ id: item.user_id, email: item.email, name: item.display_name, mobile: item.mobile, organization: item.organization, department: item.department, positionTitle: item.position_title, roleLabel: item.role_label, active: item.active })),
     programs: (programCatalog ?? []).map((item) => ({ id: item.id, name: item.name })),
@@ -754,34 +761,55 @@ Deno.serve(async (request) => {
       if (assignmentError || (assignments ?? []).length !== assignmentIds.length) throw new Error("일괄 시작할 과제를 모두 확인하지 못했습니다.");
       const results=[] as Array<Record<string, unknown>>;
       for (const assignment of assignments ?? []) {
-        if (assignment.status !== "prepared" || assignment.exam_track !== "national" || !assignment.contract_completed_at) throw new Error("계약 완료된 국가직 준비 과제만 일괄 시작할 수 있습니다.");
+        if (assignment.status !== "prepared") {
+          if (assignment.started_at && assignment.notification_sent_at && ["assigned", "reviewing", "submitted", "accepted", "returned"].includes(assignment.status)) {
+            results.push({assignmentId:assignment.id,started:false,alreadyStarted:true,notificationSent:true,notificationStatus:"sent",notificationRecordStatus:"already_recorded"});
+            continue;
+          }
+          throw new Error("계약 완료된 국가직 준비 과제만 시작할 수 있습니다.");
+        }
+        if (assignment.exam_track !== "national" || !assignment.contract_completed_at) throw new Error("계약 완료된 국가직 준비 과제만 시작할 수 있습니다.");
         const { data: links } = await admin.from("review_assignment_documents").select("document_id").eq("assignment_id", assignment.id);
         const documentIds=(links ?? []).map((item)=>item.document_id);
         const { data: documents } = documentIds.length ? await admin.from("review_documents").select("id, title, version, status, source_sha256").in("id", documentIds) : { data: [] };
         if (!documentIds.length || (documents ?? []).length !== documentIds.length || (documents ?? []).some((item)=>item.status!=="review_ready"||!item.source_sha256||examTrackFromTitle(item.title)!=="national")) throw new Error("국가직 최신 활성 원고와 무결성값을 다시 확인해 주세요.");
-        const startedAt=new Date().toISOString();
-        const { error: startError }=await admin.from("review_assignments").update({status:"assigned",started_at:startedAt,notification_sent_at:null}).eq("id",assignment.id).eq("status","prepared");
-        if(startError)throw startError;
-        await admin.from("review_assignment_documents").update({visible_from:startedAt}).eq("assignment_id",assignment.id);
         const { data: expert }=await admin.from("review_profiles").select("email,display_name").eq("user_id",assignment.reviewer_user_id).single();
         const { data: subject }=await admin.from("review_subjects").select("name").eq("id",assignment.subject_id).single();
-        let notification={sent:false,status:"not_configured",id:null as string|null};
+        if(!expert?.email){
+          results.push({assignmentId:assignment.id,started:false,alreadyStarted:false,notificationSent:false,notificationStatus:"failed",notificationRecordStatus:"reviewer_email_missing",error:"전문위원 이메일을 확인해 주세요."});
+          continue;
+        }
+        let notification={sent:false,status:"failed",id:null as string|null};
         try {
-          if(expert?.email)notification=await sendOperationalEmail(expert.email,`[유한회사 설탕과소금] ${expert.display_name} 전문위원님 · ${subject?.name??"담당 과목"} 검수 개시 안내`,buildAssignmentStartEmail(expert.display_name,subject?.name,assignment,(documents??[]) as Array<Record<string, unknown>>),`assignment-start-${assignment.id}`);
-        } catch {
-          notification={sent:false,status:"failed",id:null};
+          notification=await sendOperationalEmail(expert.email,`[유한회사 설탕과소금] ${expert.display_name} 전문위원님 · ${subject?.name??"담당 과목"} 검수 개시 안내`,buildAssignmentStartEmail(expert.display_name,subject?.name,assignment,(documents??[]) as Array<Record<string, unknown>>),`assignment-start-${assignment.id}`);
+        } catch (error) {
+          await admin.from("review_events").insert({assignment_id:assignment.id,reviewer_user_id:userId,event_type:"assignment_start_failed",payload:{phase:"email",notificationStatus:"failed",message:cleanText(error instanceof Error?error.message:"안내 이메일 발송 실패",200)}});
+          results.push({assignmentId:assignment.id,started:false,alreadyStarted:false,notificationSent:false,notificationStatus:"failed",notificationRecordStatus:"email_failed",error:"안내 이메일 발송 서비스 접수에 실패했습니다."});
+          continue;
         }
+        if(!notification.sent){
+          results.push({assignmentId:assignment.id,started:false,alreadyStarted:false,notificationSent:false,notificationStatus:notification.status,notificationRecordStatus:"email_not_sent",error:"안내 이메일이 발송 서비스에 접수되지 않았습니다."});
+          continue;
+        }
+        const startedAt=new Date().toISOString();
         const notificationSentAt=notification.sent?new Date().toISOString():null;
-        let notificationRecordStatus="recorded";
-        if(notificationSentAt){
-          const {error:notificationRecordError}=await admin.from("review_assignments").update({notification_sent_at:notificationSentAt}).eq("id",assignment.id);
-          if(notificationRecordError)notificationRecordStatus="event_fallback";
+        const {data:startedRows,error:startError}=await admin.from("review_assignments").update({status:"assigned",started_at:startedAt,notification_sent_at:notificationSentAt}).eq("id",assignment.id).eq("status","prepared").select("id");
+        if(startError||!(startedRows??[]).length){
+          const {data:latest}=await admin.from("review_assignments").select("status,started_at,notification_sent_at").eq("id",assignment.id).maybeSingle();
+          if(latest?.started_at&&latest?.notification_sent_at){
+            results.push({assignmentId:assignment.id,started:false,alreadyStarted:true,notificationSent:true,notificationStatus:"sent",notificationRecordStatus:"already_recorded"});
+            continue;
+          }
+          await admin.from("review_events").insert({assignment_id:assignment.id,reviewer_user_id:userId,event_type:"assignment_start_failed",payload:{phase:"assignment_record",notificationStatus:"sent",notificationId:notification.id}});
+          results.push({assignmentId:assignment.id,started:false,alreadyStarted:false,notificationSent:true,notificationStatus:"sent",notificationRecordStatus:"assignment_record_failed",error:"안내 메일은 접수됐으나 검수 시작 기록 저장에 실패했습니다. 같은 버튼으로 다시 확인해 주세요."});
+          continue;
         }
+        const {error:visibilityError}=await admin.from("review_assignment_documents").update({visible_from:startedAt}).eq("assignment_id",assignment.id);
+        const notificationRecordStatus=visibilityError?"started_visibility_warning":"recorded";
         const {error:startEventError}=await admin.from("review_events").insert({assignment_id:assignment.id,reviewer_user_id:userId,event_type:"assignment_started",payload:{examTrack:"national",documentIds,versions:(documents??[]).map((item)=>item.version),notificationStatus:notification.status,notificationSentAt,notificationId:notification.id}});
-        if(startEventError&&notificationRecordStatus==="event_fallback")throw new Error("검수는 시작되고 안내 메일도 발송됐으나 발송 기록 저장에 실패했습니다. 메일을 재발송하지 말고 관리자에게 기록 복구를 요청해 주세요.");
-        results.push({assignmentId:assignment.id,notificationSent:notification.sent,notificationStatus:notification.status,notificationRecordStatus});
+        results.push({assignmentId:assignment.id,started:true,alreadyStarted:false,notificationSent:true,notificationStatus:notification.status,notificationRecordStatus:startEventError?"assignment_record_only":notificationRecordStatus});
       }
-      return json({ok:true,startedCount:results.length,notificationSentCount:results.filter((item)=>item.notificationSent).length,results},200,origin);
+      return json({ok:true,processedCount:results.length,startedCount:results.filter((item)=>item.started).length,alreadyStartedCount:results.filter((item)=>item.alreadyStarted).length,notificationSentCount:results.filter((item)=>item.notificationSent).length,failedCount:results.filter((item)=>item.error).length,results},200,origin);
     }
 
     if (action === "managerChangeAssignmentStatus") {
