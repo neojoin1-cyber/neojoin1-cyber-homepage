@@ -507,9 +507,9 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
   const documentIds = [...new Set((links ?? []).map((item) => item.document_id))];
   const { data: documents } = documentIds.length ? await admin.from("review_documents").select("id, title, kind, version").in("id", documentIds) : { data: [] };
   const { data: blocks } = documentIds.length ? await admin.from("review_blocks").select("id, document_id").in("document_id", documentIds) : { data: [] };
-  const { data: progressRows } = assignmentIds.length ? await admin.from("review_progress").select("assignment_id, document_id, checked_blocks, complete, completed_at, updated_at").in("assignment_id", assignmentIds) : { data: [] };
+  const { data: progressRows } = assignmentIds.length ? await admin.from("review_progress").select("assignment_id, document_id, checked_blocks, memo, complete, completed_at, updated_at").in("assignment_id", assignmentIds) : { data: [] };
   const { data: annotationRows } = assignmentIds.length ? await admin.from("review_annotations").select("assignment_id, id").in("assignment_id", assignmentIds) : { data: [] };
-  const { data: eventRows } = assignmentIds.length ? await admin.from("review_events").select("assignment_id, occurred_at").in("assignment_id", assignmentIds).order("occurred_at", { ascending: false }) : { data: [] };
+  const { data: eventRows } = assignmentIds.length ? await admin.from("review_events").select("assignment_id, document_id, reviewer_user_id, event_type, occurred_at, payload").in("assignment_id", assignmentIds).order("occurred_at", { ascending: false }) : { data: [] };
   const { data: exportRows } = assignmentIds.length ? await admin.from("review_exports").select("id, assignment_id, report_id, file_name, sha256, delivery_status, created_at, delivered_at").in("assignment_id", assignmentIds) : { data: [] };
   const { data: interimRows } = assignmentIds.length ? await admin.from("review_interim_reports").select("id, assignment_id, report_id, file_name, sha256, submitted_at").in("assignment_id", assignmentIds) : { data: [] };
   const reviewerMap = new Map((reviewers ?? []).map((item) => [item.user_id, item]));
@@ -519,8 +519,6 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
   const progressMap = new Map((progressRows ?? []).map((item) => [`${item.assignment_id}:${item.document_id}`, item]));
   const exportMap = new Map((exportRows ?? []).map((item) => [item.assignment_id, item]));
   const interimMap = new Map((interimRows ?? []).map((item) => [item.assignment_id, item]));
-  const lastActivityMap = new Map<string, string>();
-  for (const event of eventRows ?? []) if (event.assignment_id && !lastActivityMap.has(event.assignment_id)) lastActivityMap.set(event.assignment_id, event.occurred_at);
   const blockCounts = new Map<string, number>();
   for (const block of blocks ?? []) blockCounts.set(block.document_id, (blockCounts.get(block.document_id) ?? 0) + 1);
   const now = Date.now();
@@ -536,7 +534,17 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
         const checkedBlocks = new Set(Array.isArray(progress?.checked_blocks) ? progress.checked_blocks : []).size;
         return { id: link.document_id, title: document?.title ?? "검수 자료", kind: document?.kind ?? "", version: document?.version ?? "", totalBlocks, checkedBlocks: Math.min(totalBlocks, checkedBlocks), complete: Boolean(progress?.complete), completedAt: progress?.completed_at ?? null };
       });
-      const lastActivityAt = lastActivityMap.get(assignment.id) ?? null;
+      const reviewerEvents = (eventRows ?? []).filter((event) => event.assignment_id === assignment.id && event.reviewer_user_id === assignment.reviewer_user_id);
+      const eventTimes = (types: string[]) => reviewerEvents.filter((event) => types.includes(event.event_type)).map((event) => event.occurred_at).filter(Boolean).sort();
+      const firstEventAt = (types: string[]) => eventTimes(types)[0] ?? null;
+      const startEvent = (eventRows ?? []).find((event) => event.assignment_id === assignment.id && event.event_type === "assignment_started");
+      const assignmentProgress = (progressRows ?? []).filter((item) => item.assignment_id === assignment.id);
+      const progressActivityTimes = assignmentProgress.filter((item) => (Array.isArray(item.checked_blocks) && item.checked_blocks.length) || item.memo || item.complete).map((item) => item.updated_at).filter(Boolean).sort();
+      const reviewerActivityTimes = [...reviewerEvents.map((event) => event.occurred_at), ...progressActivityTimes].filter(Boolean).sort();
+      const workroomEnteredAt = firstEventAt(["workroom_enter"]);
+      const firstDocumentOpenedAt = firstEventAt(["document_open"]);
+      const firstReviewRecordedAt = [...eventTimes(["annotation_created", "document_completed"]), ...progressActivityTimes].sort()[0] ?? null;
+      const lastActivityAt = reviewerActivityTimes.at(-1) ?? null;
       let attention: string | null = null;
       if (new Date(assignment.ends_at).getTime() < now && !["submitted", "accepted"].includes(assignment.status)) attention = "검수 기한 확인 필요";
       else if (assignment.status === "reviewing" && (!lastActivityAt || now - new Date(lastActivityAt).getTime() > 72 * 60 * 60 * 1000)) attention = "최근 3일간 검수 기록 없음";
@@ -553,6 +561,11 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
         examTrack: assignment.exam_track ?? "national",
         contractCompletedAt: assignment.contract_completed_at,
         startedAt: assignment.started_at,
+        notificationSentAt: assignment.notification_sent_at,
+        notificationStatus: assignment.notification_sent_at ? "sent" : (startEvent?.payload as any)?.notificationStatus ?? (assignment.started_at ? "unknown" : "not_started"),
+        workroomEnteredAt,
+        firstDocumentOpenedAt,
+        firstReviewRecordedAt,
         period: `${assignment.starts_at.slice(0, 10)} — ${assignment.ends_at.slice(0, 10)}`,
         interimDueAt: assignment.interim_due_at?.slice(0, 10) ?? null,
         status: assignment.status,
