@@ -37,6 +37,9 @@ check("report.standard-file", html.includes("download-review-report") && js.incl
 check("report.preview-edit", html.includes("report-preview-dialog") && js.includes("원문에서 보완") && js.includes("data-report-document"), "보고서 미리보기에서 해당 원문 의견으로 돌아가 수정할 수 있습니다.");
 check("report.human-format", html.includes("공식 검수보고서 미리보기·보완") && js.includes("humanReportMarkup") && js.includes("printableReportHtml") && !html.includes("report-preview-raw"), "사람이 읽는 미리보기와 저장 파일은 원시 YAML 대신 공식 보고서 양식을 사용합니다.");
 check("review.integrity-tracking", integritySql.includes("review_block_checks") && edge.includes('action === "recordBlockViews"') && edge.includes('action === "recordBlockChecks"') && js.includes("IntersectionObserver"), "문단 노출과 확인 시각을 서버 기준으로 기록합니다.");
+check("review.integrity-request-dedup", js.includes("queuedBlockViews") && js.includes("recordedBlockViews") && js.includes("remoteDocumentPromises"), "화면 재렌더링과 연속 선택에서도 동일 열람기록·원고 요청을 중복 전송하지 않습니다.");
+check("review.document-prefetch", js.includes("prefetchAdjacentDocuments") && js.includes("requestIdleCallback") && js.includes("flushPendingSaves().catch"), "인접 원고를 유휴 시간에 미리 불러오고 자동저장이 화면 전환을 막지 않습니다.");
+check("api.parallel-document-load", edge.includes("Promise.all([") && edge.includes("documentResult, blockResult, annotationResult, progressResult"), "원고·문단·의견·진행기록을 병렬 조회하여 챕터 전환 대기를 줄입니다.");
 check("review.integrity-threshold", edge.includes("reviewReadingEstimate") && edge.includes("estimatedSeconds * 0.35") && edge.includes('return "bulk"'), "초고속·일괄 확인을 보수적인 내부 기준으로 분류합니다.");
 check("review.integrity-presubmit", html.includes("submission-integrity-dialog") && js.includes("getSubmissionIntegrity") && html.includes("대표 보고서에 그대로 포함"), "최종 제출 전에 미확인·속도 주의기록과 대표 보고 사실을 전문위원에게 표시합니다.");
 check("review.integrity-override", edge.includes("integrityAcknowledged") && edge.includes("submission_integrity_acknowledged") && js.includes("confirmAssignmentSubmission"), "전문위원이 주의기록을 명시적으로 확인한 경우에만 해당 기록을 포함해 제출을 계속할 수 있습니다.");

@@ -144,11 +144,15 @@ const state = {
   saveTimers: new Map(),
   savePromises: new Set(),
   remoteDocumentCache: new Map(),
+  remoteDocumentPromises: new Map(),
   rememberSession: true,
   reportPreview: null,
   blockViewObserver: null,
   pendingBlockViews: new Map(),
+  queuedBlockViews: new Set(),
+  recordedBlockViews: new Set(),
   blockViewTimer: null,
+  blockViewFlushPromise: null,
   submissionIntegrity: null
 };
 
@@ -445,19 +449,40 @@ function enterApp() {
   renderAssignmentOptions();
   renderAll();
   updateWatermark();
+  prefetchAdjacentDocuments();
   setInterval(updateWatermark, 60000);
   logEvent("workroom_enter");
+  logEvent("document_open", { documentId: state.activeDocumentId });
 }
 
 async function ensureRemoteDocument(documentId) {
   if (!["production", "manager-preview"].includes(state.mode) || state.remoteDocumentCache.has(documentId)) return;
-  const result = await api(state.mode === "manager-preview" ? "managerPreviewDocument" : "getDocument", { assignmentId: state.activeAssignmentId, documentId });
-  state.remoteDocumentCache.set(documentId, result.document);
-  const assignment = activeAssignment();
-  assignment.documents = assignment.documents.map((document) => document.id === documentId ? result.document : document);
-  state.annotations = state.annotations.filter((annotation) => annotation.documentId !== documentId).concat(result.annotations || []);
-  state.progress[state.activeAssignmentId] ||= {};
-  state.progress[state.activeAssignmentId][documentId] = result.progress || { checkedBlocks: [], memo: "", complete: false };
+  const assignmentId = state.activeAssignmentId;
+  const cacheKey = `${assignmentId}:${documentId}`;
+  if (!state.remoteDocumentPromises.has(cacheKey)) {
+    state.remoteDocumentPromises.set(cacheKey, (async () => {
+      const result = await api(state.mode === "manager-preview" ? "managerPreviewDocument" : "getDocument", { assignmentId, documentId });
+      state.remoteDocumentCache.set(documentId, result.document);
+      const assignment = state.assignments.find((item) => item.id === assignmentId);
+      if (assignment) assignment.documents = assignment.documents.map((document) => document.id === documentId ? result.document : document);
+      state.annotations = state.annotations.filter((annotation) => annotation.documentId !== documentId).concat(result.annotations || []);
+      state.progress[assignmentId] ||= {};
+      state.progress[assignmentId][documentId] = result.progress || { checkedBlocks: [], memo: "", complete: false };
+    })().finally(() => state.remoteDocumentPromises.delete(cacheKey)));
+  }
+  await state.remoteDocumentPromises.get(cacheKey);
+}
+
+function prefetchAdjacentDocuments(documentId = state.activeDocumentId) {
+  if (state.mode !== "production") return;
+  const documents = activeAssignment()?.documents || [];
+  const index = documents.findIndex((document) => document.id === documentId);
+  const candidates = [documents[index + 1]?.id, documents[index - 1]?.id].filter(Boolean);
+  const run = () => candidates.forEach((id) => ensureRemoteDocument(id).catch(() => {}));
+  setTimeout(() => {
+    if ("requestIdleCallback" in window) window.requestIdleCallback(run, { timeout: 1200 });
+    else run();
+  }, 650);
 }
 
 function renderAssignmentOptions() {
@@ -647,8 +672,14 @@ function observeReviewBlocks() {
       const blockId = entry.target.dataset.blockId;
       if (!blockId) return;
       const key = `${assignmentId}:${documentId}`;
+      const viewKey = `${key}:${blockId}`;
+      if (state.queuedBlockViews.has(viewKey) || state.recordedBlockViews.has(viewKey)) {
+        state.blockViewObserver.unobserve(entry.target);
+        return;
+      }
       if (!state.pendingBlockViews.has(key)) state.pendingBlockViews.set(key, new Set());
       state.pendingBlockViews.get(key).add(blockId);
+      state.queuedBlockViews.add(viewKey);
       state.blockViewObserver.unobserve(entry.target);
     });
     scheduleBlockViewFlush();
@@ -664,13 +695,33 @@ function scheduleBlockViewFlush() {
 async function flushBlockViews() {
   clearTimeout(state.blockViewTimer);
   state.blockViewTimer = null;
+  if (state.blockViewFlushPromise) {
+    await state.blockViewFlushPromise;
+    if (state.pendingBlockViews.size) return flushBlockViews();
+    return;
+  }
   const batches = [...state.pendingBlockViews.entries()];
   state.pendingBlockViews.clear();
   if (state.mode !== "production" || !batches.length) return;
-  await Promise.all(batches.map(([key, ids]) => {
+  state.blockViewFlushPromise = Promise.all(batches.map(async ([key, ids]) => {
     const [assignmentId, documentId] = key.split(":");
-    return api("recordBlockViews", { assignmentId, documentId, blockIds: [...ids] });
+    try {
+      await api("recordBlockViews", { assignmentId, documentId, blockIds: [...ids] });
+      ids.forEach((id) => {
+        state.recordedBlockViews.add(`${key}:${id}`);
+        state.queuedBlockViews.delete(`${key}:${id}`);
+      });
+    } catch (error) {
+      ids.forEach((id) => state.queuedBlockViews.delete(`${key}:${id}`));
+      throw error;
+    }
   }));
+  try {
+    await state.blockViewFlushPromise;
+  } finally {
+    state.blockViewFlushPromise = null;
+  }
+  if (state.pendingBlockViews.size) await flushBlockViews();
 }
 
 async function recordBlockChecks(blockIds, assignmentId, documentId) {
@@ -1182,13 +1233,14 @@ async function selectDocument(documentId) {
   hideSelectionPopover();
   setSaveStatus("자료 불러오는 중…", "saving");
   try {
-    await flushPendingSaves();
+    flushPendingSaves().catch(() => {});
     state.activeDocumentId = documentId;
     await ensureRemoteDocument(documentId);
     renderAll();
     setSaveStatus("모든 내용 저장됨");
     $("#review-reader")?.scrollTo?.({ top: 0, behavior: "smooth" });
     logEvent("document_open", { documentId });
+    prefetchAdjacentDocuments(documentId);
   } catch {
     setSaveStatus("자료를 불러오지 못함", "error");
     toast("검수 자료를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");

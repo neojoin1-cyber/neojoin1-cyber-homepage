@@ -456,30 +456,41 @@ async function bootstrap(admin: ReturnType<typeof createClient>, userId: string,
   if (assignmentError) throw assignmentError;
 
   const subjectIds = [...new Set((assignmentRows ?? []).map((row) => row.subject_id))];
-  const { data: subjectRows } = subjectIds.length
-    ? await admin.from("review_subjects").select("id, program_id, code, name").in("id", subjectIds)
-    : { data: [] };
-  const programIds = [...new Set((subjectRows ?? []).map((row) => row.program_id))];
-  const { data: programRows } = programIds.length
-    ? await admin.from("review_programs").select("id, name").in("id", programIds)
-    : { data: [] };
   const assignmentIds = (assignmentRows ?? []).map((row) => row.id);
-  const { data: links } = assignmentIds.length
-    ? await admin.from("review_assignment_documents").select("assignment_id, document_id, sort_order").in("assignment_id", assignmentIds).order("sort_order")
-    : { data: [] };
+  const [subjectResult, linksResult, progressResult, interimResult, exportResult] = await Promise.all([
+    subjectIds.length
+      ? admin.from("review_subjects").select("id, program_id, code, name").in("id", subjectIds)
+      : Promise.resolve({ data: [] }),
+    assignmentIds.length
+      ? admin.from("review_assignment_documents").select("assignment_id, document_id, sort_order").in("assignment_id", assignmentIds).order("sort_order")
+      : Promise.resolve({ data: [] }),
+    assignmentIds.length
+      ? admin.from("review_progress").select("*").eq("reviewer_user_id", reviewerUserId).in("assignment_id", assignmentIds)
+      : Promise.resolve({ data: [] }),
+    assignmentIds.length
+      ? admin.from("review_interim_reports").select("assignment_id, submitted_at").eq("reviewer_user_id", reviewerUserId).in("assignment_id", assignmentIds)
+      : Promise.resolve({ data: [] }),
+    assignmentIds.length
+      ? admin.from("review_exports").select("id, assignment_id, report_id, file_name, sha256, delivery_status, created_at, delivered_at").eq("reviewer_user_id", reviewerUserId).in("assignment_id", assignmentIds)
+      : Promise.resolve({ data: [] })
+  ]);
+  const subjectRows = subjectResult.data ?? [];
+  const links = linksResult.data ?? [];
+  const progressRows = progressResult.data ?? [];
+  const interimRows = interimResult.data ?? [];
+  const exportRows = exportResult.data ?? [];
+  const programIds = [...new Set(subjectRows.map((row) => row.program_id))];
   const documentIds = [...new Set((links ?? []).map((row) => row.document_id))];
-  const { data: documents } = documentIds.length
-    ? await admin.from("review_documents").select("id, kind, title, version, review_stage").in("id", documentIds)
-    : { data: [] };
-  const { data: progressRows } = assignmentIds.length
-    ? await admin.from("review_progress").select("*").eq("reviewer_user_id", reviewerUserId).in("assignment_id", assignmentIds)
-    : { data: [] };
-  const { data: interimRows } = assignmentIds.length
-    ? await admin.from("review_interim_reports").select("assignment_id, submitted_at").eq("reviewer_user_id", reviewerUserId).in("assignment_id", assignmentIds)
-    : { data: [] };
-  const { data: exportRows } = assignmentIds.length
-    ? await admin.from("review_exports").select("id, assignment_id, report_id, file_name, sha256, delivery_status, created_at, delivered_at").eq("reviewer_user_id", reviewerUserId).in("assignment_id", assignmentIds)
-    : { data: [] };
+  const [programResult, documentResult] = await Promise.all([
+    programIds.length
+      ? admin.from("review_programs").select("id, name").in("id", programIds)
+      : Promise.resolve({ data: [] }),
+    documentIds.length
+      ? admin.from("review_documents").select("id, kind, title, version, review_stage").in("id", documentIds)
+      : Promise.resolve({ data: [] })
+  ]);
+  const programRows = programResult.data ?? [];
+  const documents = documentResult.data ?? [];
 
   const subjects = new Map((subjectRows ?? []).map((row) => [row.id, row]));
   const programs = new Map((programRows ?? []).map((row) => [row.id, row]));
@@ -1267,13 +1278,18 @@ Deno.serve(async (request) => {
       const documentId = cleanText(payload.documentId, 80);
       await assignmentFor(admin, userId, assignmentId);
       await assertDocumentAccess(admin, assignmentId, documentId);
-      const { data: document, error: documentError } = await admin.from("review_documents").select("id, kind, title, version, review_stage").eq("id", documentId).single();
+      const [documentResult, blockResult, annotationResult, progressResult] = await Promise.all([
+        admin.from("review_documents").select("id, kind, title, version, review_stage").eq("id", documentId).single(),
+        admin.from("review_blocks").select("id, block_key, heading, body, sort_order").eq("document_id", documentId).order("sort_order"),
+        admin.from("review_annotations").select("*").eq("assignment_id", assignmentId).eq("document_id", documentId).eq("reviewer_user_id", userId).order("created_at"),
+        admin.from("review_progress").select("*").eq("assignment_id", assignmentId).eq("document_id", documentId).eq("reviewer_user_id", userId).maybeSingle()
+      ]);
+      const { data: document, error: documentError } = documentResult;
       if (documentError || !document) throw new Error("검수 자료를 찾지 못했습니다.");
-      const { data: blocks, error: blockError } = await admin.from("review_blocks").select("id, block_key, heading, body, sort_order").eq("document_id", documentId).order("sort_order");
+      const { data: blocks, error: blockError } = blockResult;
       if (blockError) throw blockError;
-      const { data: annotations } = await admin.from("review_annotations").select("*").eq("assignment_id", assignmentId).eq("document_id", documentId).eq("reviewer_user_id", userId).order("created_at");
-      const { data: progress } = await admin.from("review_progress").select("*").eq("assignment_id", assignmentId).eq("document_id", documentId).eq("reviewer_user_id", userId).maybeSingle();
-      await admin.from("review_events").insert({ assignment_id: assignmentId, document_id: documentId, reviewer_user_id: userId, event_type: "document_open", payload: {} });
+      const annotations = annotationResult.data;
+      const progress = progressResult.data;
       return json({
         document: { id: document.id, kind: document.kind, title: document.title, version: document.version, stage: document.review_stage, blocks: (blocks ?? []).map((block) => ({ id: block.id, key: block.block_key, heading: block.heading, text: block.body })) },
         annotations: (annotations ?? []).map((item) => ({ id: item.id, assignmentId: item.assignment_id, documentId: item.document_id, blockId: item.block_id, kind: item.kind, color: item.color, startOffset: item.start_offset, endOffset: item.end_offset, selectedText: item.selected_text, body: item.body, issueType: item.issue_type, severity: item.severity, status: item.status, createdAt: item.created_at, updatedAt: item.updated_at })),
