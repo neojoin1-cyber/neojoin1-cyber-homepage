@@ -69,8 +69,109 @@ function annotationLabel(item: Record<string, unknown>) {
   return `${({ yellow: "노랑", green: "초록", pink: "분홍" } as Record<string, string>)[String(item.color)] || "노랑"} 형광펜`;
 }
 
+function reviewReadingEstimate(value: unknown) {
+  const text = String(value ?? "");
+  const characterCount = text.replace(/\s/g, "").length;
+  const complexity = /[=<>±×÷∑√^]|\b(?:제\s*\d+\s*조|판례|법률|시행령)\b/i.test(text) ? 1.25 : 1;
+  return {
+    characterCount,
+    estimatedSeconds: Math.max(5, Math.min(180, Math.ceil((characterCount / 10) * complexity)))
+  };
+}
+
+function reviewSpeedStatus(elapsedSeconds: number | null, estimatedSeconds: number, bulkCount = 1) {
+  if (bulkCount >= 3) return "bulk";
+  if (elapsedSeconds === null || !Number.isFinite(elapsedSeconds)) return "unknown";
+  if (elapsedSeconds <= Math.max(2, estimatedSeconds * 0.18)) return "very_fast";
+  if (elapsedSeconds <= Math.max(3, estimatedSeconds * 0.35)) return "fast";
+  return "normal";
+}
+
+async function buildReviewIntegrity(admin: ReturnType<typeof createClient>, userId: string, assignmentId: string) {
+  const { data: links, error: linkError } = await admin.from("review_assignment_documents").select("document_id, sort_order").eq("assignment_id", assignmentId).order("sort_order");
+  if (linkError) throw linkError;
+  const documentIds = (links ?? []).map((item) => item.document_id);
+  const { data: documents, error: documentError } = documentIds.length
+    ? await admin.from("review_documents").select("id, title, kind").in("id", documentIds)
+    : { data: [], error: null };
+  if (documentError) throw documentError;
+  const { data: blocks, error: blockError } = documentIds.length
+    ? await admin.from("review_blocks").select("id, document_id, heading, body, sort_order").in("document_id", documentIds).order("sort_order")
+    : { data: [], error: null };
+  if (blockError) throw blockError;
+  const { data: progressRows, error: progressError } = await admin.from("review_progress").select("document_id, checked_blocks, complete").eq("assignment_id", assignmentId).eq("reviewer_user_id", userId);
+  if (progressError) throw progressError;
+  const { data: checkRows, error: checkError } = await admin.from("review_block_checks").select("*").eq("assignment_id", assignmentId).eq("reviewer_user_id", userId);
+  if (checkError) throw checkError;
+
+  const documentMap = new Map((documents ?? []).map((item) => [item.id, item]));
+  const progressMap = new Map((progressRows ?? []).map((item) => [item.document_id, item]));
+  const checkMap = new Map((checkRows ?? []).map((item) => [item.block_id, item]));
+  const unchecked: any[] = [];
+  const suspicious: any[] = [];
+  const unknownTiming: any[] = [];
+  const perDocument = documentIds.map((documentId) => {
+    const document = documentMap.get(documentId) as any;
+    const documentBlocks = (blocks ?? []).filter((block) => block.document_id === documentId);
+    const checked = new Set(Array.isArray((progressMap.get(documentId) as any)?.checked_blocks) ? (progressMap.get(documentId) as any).checked_blocks : []);
+    let checkedCharacters = 0;
+    let uncheckedCharacters = 0;
+    documentBlocks.forEach((block) => {
+      const estimate = reviewReadingEstimate(block.body);
+      const base = { documentId, documentTitle: document?.title ?? "검수 자료", blockId: block.id, heading: block.heading, excerpt: cleanText(block.body, 180), characterCount: estimate.characterCount };
+      if (!checked.has(block.id)) {
+        uncheckedCharacters += estimate.characterCount;
+        unchecked.push(base);
+        return;
+      }
+      checkedCharacters += estimate.characterCount;
+      const check = checkMap.get(block.id) as any;
+      if (!check) {
+        unknownTiming.push({ ...base, reason: "확인 시각 기록 이전에 완료된 항목" });
+        return;
+      }
+      if (["fast", "very_fast", "bulk"].includes(check.speed_status)) {
+        suspicious.push({ ...base, elapsedSeconds: check.elapsed_seconds === null ? null : Number(check.elapsed_seconds), estimatedSeconds: Number(check.estimated_seconds || estimate.estimatedSeconds), speedStatus: check.speed_status, bulkCount: Number(check.bulk_count || 1), firstCheckedAt: check.first_checked_at });
+      }
+    });
+    return {
+      documentId,
+      title: document?.title ?? "검수 자료",
+      kind: document?.kind ?? "",
+      totalBlockCount: documentBlocks.length,
+      checkedBlockCount: checked.size,
+      uncheckedBlockCount: Math.max(0, documentBlocks.length - checked.size),
+      checkedCharacters,
+      uncheckedCharacters,
+      uncheckedApproxPages: Number((uncheckedCharacters / 1200).toFixed(1)),
+      complete: Boolean((progressMap.get(documentId) as any)?.complete)
+    };
+  });
+  const totalBlockCount = perDocument.reduce((sum, item) => sum + item.totalBlockCount, 0);
+  const checkedBlockCount = perDocument.reduce((sum, item) => sum + item.checkedBlockCount, 0);
+  const uncheckedCharacters = perDocument.reduce((sum, item) => sum + item.uncheckedCharacters, 0);
+  return {
+    policyVersion: "review-integrity-2026-08-v1",
+    policyNote: "한글·전문 원고를 초당 10자 이하로 읽는 보수적 기준에서 예상시간을 산정하고, 그 35% 이하 또는 3개 이상 일괄 확인만 주의 기록으로 표시합니다. 이는 부정 판정이 아니라 대표 확인을 위한 검수완전성 자료입니다.",
+    pageConversionNote: "분량은 공백 제외 1,200자를 A4 1쪽으로 환산한 참고치입니다.",
+    totalBlockCount,
+    checkedBlockCount,
+    uncheckedBlockCount: Math.max(0, totalBlockCount - checkedBlockCount),
+    uncheckedCharacterCount: uncheckedCharacters,
+    uncheckedApproxPages: Number((uncheckedCharacters / 1200).toFixed(1)),
+    suspiciousCount: suspicious.length,
+    unknownTimingCount: unknownTiming.length,
+    hasAttention: unchecked.length > 0 || suspicious.length > 0 || unknownTiming.length > 0,
+    perDocument,
+    unchecked,
+    suspicious,
+    unknownTiming
+  };
+}
+
 function buildAiSupplement(report: any) {
   const documents = Array.isArray(report?.documents) ? report.documents : [];
+  const integrity = report?.integrity ?? {};
   const allFindings = documents.flatMap((document: any) => (Array.isArray(document.findings) ? document.findings : []).map((finding: any) => ({ ...finding, documentId: document.id, documentTitle: document.title })));
   const actionable = allFindings.filter((finding: any) => finding.kind !== "highlight");
   const issues = actionable.filter((finding: any) => finding.kind === "issue");
@@ -93,6 +194,7 @@ function buildAiSupplement(report: any) {
     recommendation: cleanText(finding.reviewerComment, 2000)
   }));
   const checks = [
+    { key: "integrity", label: "검수완전성", status: Number(integrity.uncheckedBlockCount || 0) || Number(integrity.suspiciousCount || 0) ? "attention" : "pass", detail: Number(integrity.uncheckedBlockCount || 0) || Number(integrity.suspiciousCount || 0) ? `미확인 ${Number(integrity.uncheckedBlockCount || 0)}개(약 ${Number(integrity.uncheckedApproxPages || 0)}쪽), 초고속·일괄 확인 주의기록 ${Number(integrity.suspiciousCount || 0)}개가 전문위원 확인 및 대표 보고 대상입니다.` : "미확인 및 초고속·일괄 확인 주의기록이 없습니다." },
     { key: "completion", label: "자료 완료성", status: incompleteDocuments.length ? "attention" : "pass", detail: incompleteDocuments.length ? `미완료 자료 ${incompleteDocuments.length}건이 있어 최종 인계 전 확인이 필요합니다.` : `위촉 자료 ${documents.length}건이 모두 완료로 기록되었습니다.` },
     { key: "traceability", label: "의견 추적성", status: missingQuote.length || missingComment.length ? "attention" : "pass", detail: missingQuote.length || missingComment.length ? `원문 인용 누락 ${missingQuote.length}건, 전문 의견 누락 ${missingComment.length}건을 확인해 주세요.` : "모든 수정·전문 의견이 원문 위치 및 인용문과 연결되어 있습니다." },
     { key: "priority", label: "수정 우선순위", status: critical.length ? "attention" : "pass", detail: critical.length ? `필수 수정 ${critical.length}건을 교재 수정의 최우선 순서로 전달해야 합니다.` : `필수 수정은 없으며 중요 보완 ${major.length}건, 권고 ${minor.length}건입니다.` },
@@ -130,6 +232,7 @@ function buildClaudeHandoff(report: any, managerReview: any) {
     company: report?.company,
     assignment: report?.assignment,
     reviewer: safeReviewer,
+    reviewIntegrity: report?.integrity ?? {},
     representativeReview: { notes: managerReview?.manager_notes || "", status: managerReview?.status || "approved" },
     aiSupplement: ai,
     documents: documents.map((document: any) => ({
@@ -166,6 +269,13 @@ function buildClaudeHandoff(report: any, managerReview: any) {
     reportValue(ai.conclusion),
     "",
     ...((ai.checks || []).map((item: any) => `- ${reportValue(item.label)}: ${reportValue(item.detail)}`)),
+    "",
+    "## 검수완전성 원기록",
+    "",
+    `- 확인 문단: ${Number(report?.integrity?.checkedBlockCount || 0)}/${Number(report?.integrity?.totalBlockCount || 0)}개`,
+    `- 미확인 문단: ${Number(report?.integrity?.uncheckedBlockCount || 0)}개 · 약 ${Number(report?.integrity?.uncheckedApproxPages || 0)}쪽`,
+    `- 초고속·일괄 확인 주의기록: ${Number(report?.integrity?.suspiciousCount || 0)}개`,
+    `- 판정 기준: ${reportValue(report?.integrity?.policyNote)}`,
     "",
     "## 전문위원 검수결과 및 수정 지시",
     ""
@@ -477,7 +587,7 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
     : { data: [], error: null };
   if (documentError) throw documentError;
   const { data: blocks, error: blockError } = documentIds.length
-    ? await admin.from("review_blocks").select("id, document_id, heading, sort_order").in("document_id", documentIds).order("sort_order")
+    ? await admin.from("review_blocks").select("id, document_id, heading, body, sort_order").in("document_id", documentIds).order("sort_order")
     : { data: [], error: null };
   if (blockError) throw blockError;
   const { data: annotations, error: annotationError } = await admin.from("review_annotations").select("*").eq("assignment_id", assignmentId).eq("reviewer_user_id", userId).order("created_at");
@@ -485,6 +595,7 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
   const { data: progressRows, error: progressError } = await admin.from("review_progress").select("*").eq("assignment_id", assignmentId).eq("reviewer_user_id", userId);
   if (progressError) throw progressError;
 
+  const integrity = await buildReviewIntegrity(admin, userId, assignmentId);
   const generatedAt = new Date().toISOString();
   const reportPrefix = reportKind === "interim" ? "INTERIM" : "REVIEW";
   const reportId = `${reportPrefix}-${assignmentId.slice(0, 8).toUpperCase()}-${generatedAt.replace(/\D/g, "").slice(0, 14)}`;
@@ -525,7 +636,7 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
   });
   const findings = detailDocuments.flatMap((document: any) => document.findings).filter((item: any) => item.kind !== "highlight");
   const payload = {
-    schema: "sugar-salt-expert-review/v1",
+    schema: "sugar-salt-expert-review/v2",
     reportId,
     status: reportKind === "interim" ? "interim" : reportKind === "final" || ["submitted", "accepted"].includes(assignment.status) ? "final" : "draft",
     generatedAt,
@@ -544,11 +655,12 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
       minorCount: findings.filter((item: any) => item.kind === "issue" && item.severity === "minor").length,
       professionalOpinionCount: findings.filter((item: any) => item.kind === "memo").length
     },
-    documents: detailDocuments
+    documents: detailDocuments,
+    integrity
   };
   const lines = [
     "---",
-    "schema: sugar-salt-expert-review/v1",
+    "schema: sugar-salt-expert-review/v2",
     `report_id: ${JSON.stringify(reportId)}`,
     `status: ${payload.status}`,
     `generated_at: ${JSON.stringify(generatedAt)}`,
@@ -597,6 +709,7 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
     "",
     `- 자료 ${payload.summary.documentCount}건 중 ${payload.summary.completedDocumentCount}건 검수 확인`,
     `- 수정·보완 의견 ${payload.summary.findingCount}건, 참고 표시 ${payload.summary.referenceMarkCount}건`,
+    `- 확인 기록 ${integrity.checkedBlockCount}/${integrity.totalBlockCount}개, 미확인 ${integrity.uncheckedBlockCount}개(약 ${integrity.uncheckedApproxPages}쪽), 초고속·일괄 확인 주의기록 ${integrity.suspiciousCount}개`,
     ""
   ];
   detailDocuments.forEach((document: any, documentIndex: number) => {
@@ -625,6 +738,26 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
       ""
     ));
   });
+  lines.push(
+    "## 검수완전성 확인 기록",
+    "",
+    `- 확인 문단: ${integrity.checkedBlockCount}/${integrity.totalBlockCount}개`,
+    `- 미확인 문단: ${integrity.uncheckedBlockCount}개 · 공백 제외 ${integrity.uncheckedCharacterCount}자 · 약 ${integrity.uncheckedApproxPages}쪽`,
+    `- 초고속·일괄 확인 주의기록: ${integrity.suspiciousCount}개`,
+    `- 시간 판정 불가 기존 기록: ${integrity.unknownTimingCount}개`,
+    `- 판정 기준: ${integrity.policyNote}`,
+    ""
+  );
+  if (integrity.unchecked.length) {
+    lines.push("### 미확인 위치", "");
+    integrity.unchecked.forEach((item: any, index: number) => lines.push(`${index + 1}. ${reportValue(item.documentTitle)} / ${reportValue(item.heading)} · ${item.characterCount}자 · “${reportValue(item.excerpt)}”`));
+    lines.push("");
+  }
+  if (integrity.suspicious.length) {
+    lines.push("### 확인 속도 주의 위치", "");
+    integrity.suspicious.forEach((item: any, index: number) => lines.push(`${index + 1}. ${reportValue(item.documentTitle)} / ${reportValue(item.heading)} · 실제 ${item.elapsedSeconds ?? "기록 없음"}초 / 보수적 예상 ${item.estimatedSeconds}초 · ${item.speedStatus === "bulk" ? `${item.bulkCount}개 일괄 확인` : item.speedStatus === "very_fast" ? "매우 빠른 확인" : "빠른 확인"}`));
+    lines.push("");
+  }
   lines.push(
     "## 전문위원 최종 확인",
     "",
@@ -1238,6 +1371,79 @@ Deno.serve(async (request) => {
       return json({ ok: true }, 200, origin);
     }
 
+    if (action === "recordBlockViews") {
+      const assignmentId = cleanText(payload.assignmentId, 80);
+      const documentId = cleanText(payload.documentId, 80);
+      await assignmentFor(admin, userId, assignmentId, true);
+      await assertDocumentAccess(admin, assignmentId, documentId);
+      const requestedIds = Array.isArray(payload.blockIds) ? [...new Set(payload.blockIds.map((id: unknown) => cleanText(id, 80)).filter(Boolean))].slice(0, 100) : [];
+      if (!requestedIds.length) return json({ ok: true, recorded: 0 }, 200, origin);
+      const { data: validBlocks, error: validError } = await admin.from("review_blocks").select("id, body").eq("document_id", documentId).in("id", requestedIds);
+      if (validError) throw validError;
+      const validIds = (validBlocks ?? []).map((block) => block.id);
+      const { data: existing, error: existingError } = await admin.from("review_block_checks").select("block_id").eq("assignment_id", assignmentId).eq("document_id", documentId).eq("reviewer_user_id", userId).in("block_id", validIds);
+      if (existingError) throw existingError;
+      const existingIds = new Set((existing ?? []).map((item) => item.block_id));
+      const now = new Date().toISOString();
+      const records = (validBlocks ?? []).filter((block) => !existingIds.has(block.id)).map((block) => {
+        const estimate = reviewReadingEstimate(block.body);
+        return { assignment_id: assignmentId, document_id: documentId, block_id: block.id, reviewer_user_id: userId, first_seen_at: now, estimated_seconds: estimate.estimatedSeconds, character_count: estimate.characterCount, updated_at: now };
+      });
+      if (records.length) {
+        const { error } = await admin.from("review_block_checks").insert(records);
+        if (error && !String(error.code).includes("23505")) throw error;
+      }
+      return json({ ok: true, recorded: records.length }, 200, origin);
+    }
+
+    if (action === "recordBlockChecks") {
+      const assignmentId = cleanText(payload.assignmentId, 80);
+      const documentId = cleanText(payload.documentId, 80);
+      await assignmentFor(admin, userId, assignmentId, true);
+      await assertDocumentAccess(admin, assignmentId, documentId);
+      const requestedIds = Array.isArray(payload.blockIds) ? [...new Set(payload.blockIds.map((id: unknown) => cleanText(id, 80)).filter(Boolean))].slice(0, 100) : [];
+      if (!requestedIds.length) return json({ ok: true, recorded: 0 }, 200, origin);
+      const bulkCount = Math.max(1, Math.min(100, Number(payload.bulkCount) || requestedIds.length));
+      const { data: validBlocks, error: validError } = await admin.from("review_blocks").select("id, body").eq("document_id", documentId).in("id", requestedIds);
+      if (validError) throw validError;
+      const validIds = (validBlocks ?? []).map((block) => block.id);
+      const { data: existing, error: existingError } = await admin.from("review_block_checks").select("*").eq("assignment_id", assignmentId).eq("document_id", documentId).eq("reviewer_user_id", userId).in("block_id", validIds);
+      if (existingError) throw existingError;
+      const existingMap = new Map((existing ?? []).map((item) => [item.block_id, item]));
+      const checkedAt = new Date();
+      const records = (validBlocks ?? []).map((block) => {
+        const previous = existingMap.get(block.id) as any;
+        const estimate = reviewReadingEstimate(block.body);
+        const seenAt = previous?.first_seen_at ? new Date(previous.first_seen_at) : null;
+        const elapsedSeconds = seenAt ? Math.max(0, Number(((checkedAt.getTime() - seenAt.getTime()) / 1000).toFixed(1))) : null;
+        return {
+          assignment_id: assignmentId,
+          document_id: documentId,
+          block_id: block.id,
+          reviewer_user_id: userId,
+          first_seen_at: previous?.first_seen_at ?? null,
+          first_checked_at: previous?.first_checked_at ?? checkedAt.toISOString(),
+          last_checked_at: checkedAt.toISOString(),
+          check_count: Number(previous?.check_count || 0) + 1,
+          elapsed_seconds: previous?.first_checked_at ? previous.elapsed_seconds : elapsedSeconds,
+          estimated_seconds: estimate.estimatedSeconds,
+          speed_status: previous?.first_checked_at ? previous.speed_status : reviewSpeedStatus(elapsedSeconds, estimate.estimatedSeconds, bulkCount),
+          character_count: estimate.characterCount,
+          bulk_count: Math.max(Number(previous?.bulk_count || 1), bulkCount),
+          updated_at: checkedAt.toISOString()
+        };
+      });
+      const { error } = await admin.from("review_block_checks").upsert(records, { onConflict: "assignment_id,document_id,block_id,reviewer_user_id" });
+      if (error) throw error;
+      return json({ ok: true, recorded: records.length }, 200, origin);
+    }
+
+    if (action === "getSubmissionIntegrity") {
+      const assignmentId = cleanText(payload.assignmentId, 80);
+      await assignmentFor(admin, userId, assignmentId, true);
+      return json({ ok: true, integrity: await buildReviewIntegrity(admin, userId, assignmentId) }, 200, origin);
+    }
+
     if (action === "saveProgress") {
       const assignmentId = cleanText(payload.assignmentId, 80);
       const documentId = cleanText(payload.documentId, 80);
@@ -1269,10 +1475,8 @@ Deno.serve(async (request) => {
     if (action === "submitAssignment") {
       const assignmentId = cleanText(payload.assignmentId, 80);
       await assignmentFor(admin, userId, assignmentId, true);
-      const { data: links } = await admin.from("review_assignment_documents").select("document_id").eq("assignment_id", assignmentId);
-      const { data: completed } = await admin.from("review_progress").select("document_id, complete").eq("assignment_id", assignmentId).eq("reviewer_user_id", userId).eq("complete", true);
-      const completedIds = new Set((completed ?? []).map((item) => item.document_id));
-      if ((links ?? []).some((link) => !completedIds.has(link.document_id))) throw new Error("빠짐없는 최종 제출을 위해 검토 완료 확인이 필요한 자료를 살펴봐 주세요.");
+      const integrity = await buildReviewIntegrity(admin, userId, assignmentId);
+      if (integrity.hasAttention && payload.integrityAcknowledged !== true) throw new Error("미확인 또는 확인 속도 주의기록을 먼저 확인하고 대표 보고 포함에 동의해 주세요.");
       const submittedAt = new Date().toISOString();
       const { data: submitted, error } = await admin.from("review_assignments").update({ status: "submitted", submitted_at: submittedAt }).eq("id", assignmentId).eq("reviewer_user_id", userId).in("status", ["assigned", "reviewing", "returned"]).select("id").maybeSingle();
       if (error) throw error;
@@ -1284,6 +1488,7 @@ Deno.serve(async (request) => {
         await admin.from("review_assignments").update({ status: "reviewing", submitted_at: null }).eq("id", assignmentId).eq("reviewer_user_id", userId).eq("submitted_at", submittedAt);
         throw reportError;
       }
+      await admin.from("review_events").insert({ assignment_id: assignmentId, reviewer_user_id: userId, event_type: "submission_integrity_acknowledged", payload: { policyVersion: integrity.policyVersion, uncheckedBlockCount: integrity.uncheckedBlockCount, suspiciousCount: integrity.suspiciousCount, acknowledged: Boolean(payload.integrityAcknowledged), submittedAt } });
       const { data: assignmentSummary } = await admin.from("review_assignments").select("title, subject_id").eq("id", assignmentId).single();
       const { data: reviewerSummary } = await admin.from("review_profiles").select("display_name").eq("user_id", userId).single();
       const { data: subjectSummary } = assignmentSummary?.subject_id ? await admin.from("review_subjects").select("name").eq("id", assignmentSummary.subject_id).single() : { data: null };

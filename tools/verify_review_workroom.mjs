@@ -19,6 +19,7 @@ const historySql = read("review/supabase/migrations/20260813000000_review_change
 const nationalSubjectSql = read("review/supabase/migrations/20260813010000_fix_national_subject_names.sql");
 const runtimeControlSql = read("review/supabase/migrations/20260814000000_review_runtime_controls.sql");
 const reportWorkflowSql = read("review/supabase/migrations/20260814010000_review_report_workflow.sql");
+const integritySql = read("review/supabase/migrations/20260814020000_review_integrity_tracking.sql");
 
 check("page.noindex", html.includes('name="robots" content="noindex, nofollow, noarchive, nosnippet"'), "보호 페이지가 검색에 노출되지 않습니다.");
 check("page.programs", ["국가직 7급 공무원시험 대비", "초등교원임용고사 대비", "중등교원임용고사 대비"].every((value) => js.includes(value)), "세 시험군이 하나의 워크룸 구조에 포함됩니다.");
@@ -35,6 +36,11 @@ check("language.respect", html.includes("전문위원님") && js.includes("귀�
 check("report.standard-file", html.includes("download-review-report") && js.includes("sugar-salt-expert-review/v1") && js.includes("교재 생성 시스템 인계 규칙"), "검수위원 인적사항과 의견을 표준 보고서 파일로 생성합니다.");
 check("report.preview-edit", html.includes("report-preview-dialog") && js.includes("원문에서 보완") && js.includes("data-report-document"), "보고서 미리보기에서 해당 원문 의견으로 돌아가 수정할 수 있습니다.");
 check("report.human-format", html.includes("공식 검수보고서 미리보기·보완") && js.includes("humanReportMarkup") && js.includes("printableReportHtml") && !html.includes("report-preview-raw"), "사람이 읽는 미리보기와 저장 파일은 원시 YAML 대신 공식 보고서 양식을 사용합니다.");
+check("review.integrity-tracking", integritySql.includes("review_block_checks") && edge.includes('action === "recordBlockViews"') && edge.includes('action === "recordBlockChecks"') && js.includes("IntersectionObserver"), "문단 노출과 확인 시각을 서버 기준으로 기록합니다.");
+check("review.integrity-threshold", edge.includes("reviewReadingEstimate") && edge.includes("estimatedSeconds * 0.35") && edge.includes('return "bulk"'), "초고속·일괄 확인을 보수적인 내부 기준으로 분류합니다.");
+check("review.integrity-presubmit", html.includes("submission-integrity-dialog") && js.includes("getSubmissionIntegrity") && html.includes("대표 보고서에 그대로 포함"), "최종 제출 전에 미확인·속도 주의기록과 대표 보고 사실을 전문위원에게 표시합니다.");
+check("review.integrity-override", edge.includes("integrityAcknowledged") && edge.includes("submission_integrity_acknowledged") && js.includes("confirmAssignmentSubmission"), "전문위원이 주의기록을 명시적으로 확인한 경우에만 해당 기록을 포함해 제출을 계속할 수 있습니다.");
+check("manager.integrity-report", managerJs.includes("managerIntegrityMarkup") && edge.includes("reviewIntegrity") && edge.includes("검수완전성 원기록"), "대표 보고서·AI 보조검토·Claude Code 인계자료에 동일한 검수완전성 원기록을 포함합니다.");
 check("manager.report-approval", managerHtml.includes("대표 검토·승인") && managerJs.includes("managerApproveReport") && edge.includes('action === "managerApproveReport"') && reportWorkflowSql.includes("review_manager_reviews"), "전문위원 원문을 보존한 채 대표 검토·승인 기록을 별도 보관합니다.");
 check("manager.ai-supplement", managerHtml.includes("AI 보조검토") && managerJs.includes("managerAiMarkup") && edge.includes("buildAiSupplement") && edge.includes("전문위원의 학문적 판단"), "AI 의견은 누락·우선순위 보조분석으로 분리하고 전문위원 판단을 대체하지 않습니다.");
 check("manager.claude-handoff-gate", managerHtml.includes("Claude Code 인계자료") && managerJs.includes("downloadHandoffPackage") && edge.includes('action === "managerGetHandoffPackage"') && edge.includes('managerReview?.status !== "approved"'), "대표 승인 전에는 Claude Code 인계자료가 생성되지 않습니다.");

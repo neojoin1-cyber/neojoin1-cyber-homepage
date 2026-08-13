@@ -145,7 +145,11 @@ const state = {
   savePromises: new Set(),
   remoteDocumentCache: new Map(),
   rememberSession: true,
-  reportPreview: null
+  reportPreview: null,
+  blockViewObserver: null,
+  pendingBlockViews: new Map(),
+  blockViewTimer: null,
+  submissionIntegrity: null
 };
 
 function clone(value) {
@@ -630,6 +634,53 @@ function renderDocument() {
   $("#previous-document").disabled = index <= 0;
   $("#next-document").disabled = index >= activeAssignment().documents.length - 1;
   applyReaderScale();
+  observeReviewBlocks();
+}
+
+function observeReviewBlocks() {
+  state.blockViewObserver?.disconnect();
+  if (state.mode === "manager-preview" || !("IntersectionObserver" in window)) return;
+  const assignmentId = state.activeAssignmentId;
+  const documentId = state.activeDocumentId;
+  state.blockViewObserver = new IntersectionObserver((entries) => {
+    entries.filter((entry) => entry.isIntersecting && entry.intersectionRatio >= 0.55).forEach((entry) => {
+      const blockId = entry.target.dataset.blockId;
+      if (!blockId) return;
+      const key = `${assignmentId}:${documentId}`;
+      if (!state.pendingBlockViews.has(key)) state.pendingBlockViews.set(key, new Set());
+      state.pendingBlockViews.get(key).add(blockId);
+      state.blockViewObserver.unobserve(entry.target);
+    });
+    scheduleBlockViewFlush();
+  }, { root: $("#review-reader"), threshold: [0.55] });
+  $$("#document-content [data-block-id]").forEach((element) => state.blockViewObserver.observe(element));
+}
+
+function scheduleBlockViewFlush() {
+  clearTimeout(state.blockViewTimer);
+  state.blockViewTimer = setTimeout(() => flushBlockViews().catch(() => {}), 900);
+}
+
+async function flushBlockViews() {
+  clearTimeout(state.blockViewTimer);
+  state.blockViewTimer = null;
+  const batches = [...state.pendingBlockViews.entries()];
+  state.pendingBlockViews.clear();
+  if (state.mode !== "production" || !batches.length) return;
+  await Promise.all(batches.map(([key, ids]) => {
+    const [assignmentId, documentId] = key.split(":");
+    return api("recordBlockViews", { assignmentId, documentId, blockIds: [...ids] });
+  }));
+}
+
+async function recordBlockChecks(blockIds, assignmentId, documentId) {
+  if (state.mode !== "production" || !blockIds.length) return;
+  try {
+    await flushBlockViews();
+    await api("recordBlockChecks", { assignmentId, documentId, blockIds, bulkCount: blockIds.length });
+  } catch {
+    toast("확인 시각 기록을 저장하지 못했습니다. 확인 표시는 보존되며 제출 전 다시 점검합니다.");
+  }
 }
 
 function readerBaseFontSize() {
@@ -855,6 +906,7 @@ function reportDate(value) { const date = new Date(value || ""); return Number.i
 
 function humanReportMarkup(payload, { editable = false } = {}) {
   const summary = payload.summary || {}, reviewer = payload.reviewer || {}, assignment = payload.assignment || {}, documents = payload.documents || [];
+  const integrity = payload.integrity || {};
   const actionable = documents.flatMap((document) => (document.findings || []).filter((finding) => finding.kind !== "highlight"));
   const critical = actionable.filter((finding) => finding.kind === "issue" && finding.severity === "critical").length;
   const professional = actionable.filter((finding) => finding.kind === "memo").length;
@@ -864,17 +916,18 @@ function humanReportMarkup(payload, { editable = false } = {}) {
       ${document.overallMemo ? `<p class="report-document-memo"><strong>자료 전체 의견</strong><br>${escapeHtml(document.overallMemo)}</p>` : ""}
       ${findings.length ? findings.map((finding) => `<section class="report-finding" data-severity="${escapeHtml(finding.severity || "memo")}"><header><div class="report-finding-title"><span class="report-finding-badge">${finding.kind === "issue" ? escapeHtml(severityLabel(finding.severity)) : "전문 의견"}</span><strong>${escapeHtml(finding.issueType || finding.location || "전문 검수의견")}</strong></div>${editable ? `<button class="report-edit-source" type="button" data-report-edit="${escapeHtml(finding.id)}" data-report-document="${escapeHtml(document.id)}">원문에서 보완</button>` : ""}</header><small>${escapeHtml(finding.location || "원문 위치")}</small>${finding.selectedText ? `<blockquote class="report-quote">${escapeHtml(finding.selectedText)}</blockquote>` : ""}<p class="report-opinion">${escapeHtml(finding.reviewerComment || "별도 의견 없음")}</p></section>`).join("") : '<div class="report-empty">별도의 수정·전문 의견 없이 검토가 완료된 자료입니다.</div>'}</article>`;
   }).join("");
+  const integrityMarkup = `<section class="report-section report-integrity"><header><div><span>03 · REVIEW INTEGRITY</span><h4>검수완전성 확인 기록</h4></div><small>전문위원·대표 동일 기록</small></header><div class="report-summary integrity-report-summary"><article><span>확인 문단</span><strong>${Number(integrity.checkedBlockCount ?? summary.checkedBlockCount ?? 0)}/${Number(integrity.totalBlockCount ?? summary.totalBlockCount ?? 0)}</strong></article><article class="${integrity.uncheckedBlockCount ? "attention" : ""}"><span>미확인 문단</span><strong>${Number(integrity.uncheckedBlockCount || 0)}</strong><small>약 ${Number(integrity.uncheckedApproxPages || 0)}쪽</small></article><article class="${integrity.suspiciousCount ? "attention" : ""}"><span>속도 주의기록</span><strong>${Number(integrity.suspiciousCount || 0)}</strong></article><article><span>시간판정 불가</span><strong>${Number(integrity.unknownTimingCount || 0)}</strong></article></div><p class="report-document-memo">${escapeHtml(integrity.policyNote || "확인 속도 기록은 부정 판정이 아니라 검수 범위와 완전성을 확인하기 위한 대표 참고자료입니다.")}</p>${(integrity.unchecked || []).length ? `<div class="report-integrity-list"><h5>미확인 위치</h5>${integrity.unchecked.map((item, index) => `<p><b>${index + 1}. ${escapeHtml(item.documentTitle || "검수 자료")}</b><span>${escapeHtml(item.heading || "원문 위치")} · ${Number(item.characterCount || 0)}자</span><small>${escapeHtml(item.excerpt || "")}</small></p>`).join("")}</div>` : ""}${(integrity.suspicious || []).length ? `<div class="report-integrity-list warning"><h5>확인 속도 주의 위치</h5>${integrity.suspicious.map((item, index) => `<p><b>${index + 1}. ${escapeHtml(item.documentTitle || "검수 자료")}</b><span>${escapeHtml(item.heading || "원문 위치")} · ${integrityStatusLabel(item.speedStatus)}</span><small>실제 ${item.elapsedSeconds ?? "기록 없음"}초 / 보수적 예상 ${Number(item.estimatedSeconds || 0)}초</small></p>`).join("")}</div>` : ""}</section>`;
   return `<article class="report-sheet"><header class="report-sheet-header"><div><div class="report-brand">SUGAR &amp; SALT · EXPERT REVIEW</div><h3>핵심요약노트·모의고사<br>표준 검수의견 보고서</h3><p>${escapeHtml(payload.company?.name || "유한회사 설탕과소금")} · ${escapeHtml(payload.company?.unit || "검수 운영")}</p></div><div class="report-seal"><span>OFFICIAL</span><strong>${escapeHtml(assignment.subject || "검수")}</strong></div></header>
     <section class="report-meta"><div><span>보고서 번호</span><strong>${escapeHtml(payload.reportId || "작성 중")}</strong></div><div><span>작성 상태</span><strong>${escapeHtml(reportStatusLabel(payload.status))}</strong></div><div><span>검수 분야</span><strong>${escapeHtml(assignment.program || "")} · ${escapeHtml(assignment.subject || "")}</strong></div><div><span>검수 기간</span><strong>${escapeHtml(assignment.period || "—")}</strong></div><div><span>전문위원</span><strong>${escapeHtml(reviewer.name || "전문위원")} · ${escapeHtml(reviewer.positionTitle || reviewer.roleLabel || "")}</strong></div><div><span>소속</span><strong>${escapeHtml([reviewer.organization, reviewer.department].filter(Boolean).join(" ") || "—")}</strong></div><div><span>위촉 과제</span><strong>${escapeHtml(assignment.title || "—")}</strong></div><div><span>생성 일시</span><strong>${reportDate(payload.generatedAt)}</strong></div></section>
     <section class="report-summary"><article><span>검수 자료</span><strong>${Number(summary.completedDocumentCount || 0)}/${Number(summary.documentCount || documents.length)}</strong></article><article><span>확인 문단</span><strong>${Number(summary.checkedBlockCount || 0)}/${Number(summary.totalBlockCount || 0)}</strong></article><article class="${critical ? "attention" : ""}"><span>수정·보완 의견</span><strong>${Number(summary.findingCount ?? actionable.length)}</strong></article><article><span>전문 의견</span><strong>${Number(summary.professionalOpinionCount ?? professional)}</strong></article></section>
     <section class="report-section"><header><div><span>01 · REVIEW SCOPE</span><h4>검수 목적과 기준</h4></div><small>전문위원 위촉 범위에 한함</small></header><p class="report-document-memo">위촉 범위의 핵심요약노트·모의고사 원고에 대하여 사실관계, 최신 법령·판례·정책자료, 정답 및 해설의 타당성을 확인하고 원문 위치와 함께 전문 의견을 기록했습니다.</p></section>
-    <section class="report-section"><header><div><span>02 · REVIEW FINDINGS</span><h4>자료별 검수결과</h4></div><small>수정 필요·전문 의견 원문 보존</small></header>${documentMarkup || '<div class="report-empty">검수 자료를 불러오지 못했습니다.</div>'}</section>
+    <section class="report-section"><header><div><span>02 · REVIEW FINDINGS</span><h4>자료별 검수결과</h4></div><small>수정 필요·전문 의견 원문 보존</small></header>${documentMarkup || '<div class="report-empty">검수 자료를 불러오지 못했습니다.</div>'}</section>${integrityMarkup}
     <section class="report-confirmation"><strong>전문위원 확인</strong><br>본 보고서는 위촉 범위에서 실제로 확인하고 기록한 의견을 원문 위치와 함께 정리한 것입니다. 최종 제출 이후에는 회사 대표 확인을 거쳐 교재 제작 시스템으로 전달되며, 전문위원의 원문 의견은 임의로 변경되지 않습니다.</section><footer class="report-footer-brand"><strong>유한회사 설탕과소금</strong><span>공직시험 연구소 · admin@gyo6.kr · https://gyo6.kr</span></footer></article>`;
 }
 
 function printableReportHtml(report) {
   const payload = report.json || report.report || {};
-  const css = `*{box-sizing:border-box}body{margin:0;padding:32px;color:#263746;background:#eceae4;font-family:"Noto Sans KR",Arial,sans-serif}.report-sheet{width:210mm;max-width:100%;margin:auto;padding:18mm;border-top:5px solid #102d4d;background:#fffefb;box-shadow:0 12px 34px #0002}.report-sheet-header{padding-bottom:18px;display:grid;grid-template-columns:1fr auto;gap:18px;border-bottom:3px solid #102d4d}.report-brand{color:#b2762e;font-size:10px;font-weight:800;letter-spacing:2px}h3{margin:8px 0 5px;color:#102d4d;font-family:Georgia,serif;font-size:30px;line-height:1.3}.report-sheet-header p{margin:0;color:#6a7984;font-size:12px}.report-seal{width:72px;height:72px;display:grid;place-content:center;text-align:center;border:1px solid #cda86d;border-radius:50%;background:#fbf4e8}.report-seal span{color:#b2762e;font-size:8px}.report-seal strong{color:#102d4d;font-size:14px}.report-meta{margin:18px 0;display:grid;grid-template-columns:1fr 1fr;border:1px solid #dedbd3}.report-meta div{padding:10px 12px;display:grid;grid-template-columns:84px 1fr;gap:8px;border-bottom:1px solid #ece8df;font-size:10px}.report-meta div:nth-child(odd){border-right:1px solid #ece8df}.report-meta span{color:#6a7984;font-size:8px;font-weight:800}.report-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.report-summary article{padding:12px;border:1px solid #dedbd3;border-top:3px solid #668878}.report-summary article.attention{border-top-color:#b74b45}.report-summary span{display:block;color:#6a7984;font-size:8px}.report-summary strong{display:block;margin-top:4px;color:#102d4d;font:22px Georgia}.report-section{margin-top:25px}.report-section>header{padding-bottom:8px;display:flex;justify-content:space-between;border-bottom:1px solid #bbb7ae}.report-section>header span{color:#b2762e;font-size:8px}.report-section h4{margin:3px 0;color:#102d4d;font:18px Georgia}.report-section small{font-size:8px}.report-document{margin-top:14px;padding:14px;border:1px solid #dedbd3;break-inside:avoid}.report-document>header{display:flex;justify-content:space-between}.report-document h5{margin:0;color:#102d4d;font-size:13px}.report-document header span{color:#668878;font-size:8px}.report-document-memo{padding:9px 11px;border-left:3px solid #cda86d;background:#faf7f0;font-size:10px;line-height:1.7}.report-finding{margin-top:9px;padding:12px;border:1px solid #e3e0d8;border-left:4px solid #b2762e;break-inside:avoid}.report-finding[data-severity=critical]{border-left-color:#b74b45}.report-finding-title{display:flex;gap:6px}.report-finding-badge{padding:2px 6px;border-radius:99px;background:#faecd8;font-size:8px}.report-quote{margin:8px 0;padding:8px 10px;border-left:2px solid #c9c4ba;background:#f6f5f1;font:10px/1.6 Georgia}.report-opinion{font-size:11px;line-height:1.7;white-space:pre-wrap}.report-empty{padding:20px;text-align:center;font-size:10px}.report-confirmation{margin-top:25px;padding:15px;border:1px solid #d7c6a7;background:#fbf6ec;font-size:10px;line-height:1.8}.report-footer-brand{margin-top:22px;padding-top:12px;display:flex;justify-content:space-between;border-top:1px solid #cbc7bd;font-size:8px}@page{size:A4;margin:12mm}@media print{body{padding:0;background:#fff}.report-sheet{width:auto;padding:0;border:0;box-shadow:none}}`;
+  const css = `*{box-sizing:border-box}body{margin:0;padding:32px;color:#263746;background:#eceae4;font-family:"Noto Sans KR",Arial,sans-serif}.report-sheet{width:210mm;max-width:100%;margin:auto;padding:18mm;border-top:5px solid #102d4d;background:#fffefb;box-shadow:0 12px 34px #0002}.report-sheet-header{padding-bottom:18px;display:grid;grid-template-columns:1fr auto;gap:18px;border-bottom:3px solid #102d4d}.report-brand{color:#b2762e;font-size:10px;font-weight:800;letter-spacing:2px}h3{margin:8px 0 5px;color:#102d4d;font-family:Georgia,serif;font-size:30px;line-height:1.3}.report-sheet-header p{margin:0;color:#6a7984;font-size:12px}.report-seal{width:72px;height:72px;display:grid;place-content:center;text-align:center;border:1px solid #cda86d;border-radius:50%;background:#fbf4e8}.report-seal span{color:#b2762e;font-size:8px}.report-seal strong{color:#102d4d;font-size:14px}.report-meta{margin:18px 0;display:grid;grid-template-columns:1fr 1fr;border:1px solid #dedbd3}.report-meta div{padding:10px 12px;display:grid;grid-template-columns:84px 1fr;gap:8px;border-bottom:1px solid #ece8df;font-size:10px}.report-meta div:nth-child(odd){border-right:1px solid #ece8df}.report-meta span{color:#6a7984;font-size:8px;font-weight:800}.report-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.report-summary article{padding:12px;border:1px solid #dedbd3;border-top:3px solid #668878}.report-summary article.attention{border-top-color:#b74b45}.report-summary span{display:block;color:#6a7984;font-size:8px}.report-summary strong{display:block;margin-top:4px;color:#102d4d;font:22px Georgia}.report-section{margin-top:25px}.report-section>header{padding-bottom:8px;display:flex;justify-content:space-between;border-bottom:1px solid #bbb7ae}.report-section>header span{color:#b2762e;font-size:8px}.report-section h4{margin:3px 0;color:#102d4d;font:18px Georgia}.report-section small{font-size:8px}.report-document{margin-top:14px;padding:14px;border:1px solid #dedbd3;break-inside:avoid}.report-document>header{display:flex;justify-content:space-between}.report-document h5{margin:0;color:#102d4d;font-size:13px}.report-document header span{color:#668878;font-size:8px}.report-document-memo{padding:9px 11px;border-left:3px solid #cda86d;background:#faf7f0;font-size:10px;line-height:1.7}.report-finding{margin-top:9px;padding:12px;border:1px solid #e3e0d8;border-left:4px solid #b2762e;break-inside:avoid}.report-finding[data-severity=critical]{border-left-color:#b74b45}.report-finding-title{display:flex;gap:6px}.report-finding-badge{padding:2px 6px;border-radius:99px;background:#faecd8;font-size:8px}.report-quote{margin:8px 0;padding:8px 10px;border-left:2px solid #c9c4ba;background:#f6f5f1;font:10px/1.6 Georgia}.report-opinion{font-size:11px;line-height:1.7;white-space:pre-wrap}.report-empty{padding:20px;text-align:center;font-size:10px}.report-integrity-list{margin-top:10px;padding:12px;border:1px solid #dedbd3;break-inside:avoid}.report-integrity-list.warning{border-left:4px solid #b74b45}.report-integrity-list h5{margin:0 0 6px;color:#102d4d}.report-integrity-list p{margin:0;padding:7px 0;display:grid;gap:2px;border-top:1px solid #ece8df;font-size:9px}.report-integrity-list p:first-of-type{border-top:0}.report-integrity-list span,.report-integrity-list small{color:#6a7984}.report-confirmation{margin-top:25px;padding:15px;border:1px solid #d7c6a7;background:#fbf6ec;font-size:10px;line-height:1.8}.report-footer-brand{margin-top:22px;padding-top:12px;display:flex;justify-content:space-between;border-top:1px solid #cbc7bd;font-size:8px}@page{size:A4;margin:12mm}@media print{body{padding:0;background:#fff}.report-sheet{width:auto;padding:0;border:0;box-shadow:none}}`;
   return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(payload.assignment?.subject || "검수")} 표준 검수보고서</title><style>${css}</style></head><body>${humanReportMarkup(payload)}</body></html>`;
 }
 
@@ -1164,6 +1217,7 @@ function toggleBlocks(blockIds) {
   const checked = new Set(progress.checkedBlocks || []);
   const allChecked = blockIds.every((blockId) => checked.has(blockId));
   blockIds.forEach((blockId) => allChecked ? checked.delete(blockId) : checked.add(blockId));
+  if (!allChecked) recordBlockChecks(blockIds, state.activeAssignmentId, state.activeDocumentId);
   updateProgress(state.activeDocumentId, { checkedBlocks: [...checked] });
   renderDocument();
   renderDocumentList();
@@ -1191,18 +1245,61 @@ function completeDocument() {
   logEvent("document_completed", { documentId: document.id });
 }
 
+function localSubmissionIntegrity() {
+  const assignment = activeAssignment();
+  const unchecked = [];
+  const perDocument = assignment.documents.map((document) => {
+    const checked = new Set(progressFor(document.id).checkedBlocks || []);
+    const missing = (document.blocks || []).filter((block) => !checked.has(block.id));
+    missing.forEach((block) => unchecked.push({ documentId: document.id, documentTitle: document.title, blockId: block.id, heading: block.heading, excerpt: String(block.text || "").slice(0, 180), characterCount: String(block.text || "").replace(/\s/g, "").length }));
+    return { documentId: document.id, title: document.title, totalBlockCount: document.blocks.length, checkedBlockCount: checked.size, uncheckedBlockCount: missing.length, uncheckedCharacters: missing.reduce((sum, block) => sum + String(block.text || "").replace(/\s/g, "").length, 0) };
+  });
+  const total = perDocument.reduce((sum, item) => sum + item.totalBlockCount, 0);
+  const checked = perDocument.reduce((sum, item) => sum + item.checkedBlockCount, 0);
+  const characters = perDocument.reduce((sum, item) => sum + item.uncheckedCharacters, 0);
+  return { policyNote: "체험 화면에서는 미확인 범위만 산정합니다.", totalBlockCount: total, checkedBlockCount: checked, uncheckedBlockCount: total - checked, uncheckedCharacterCount: characters, uncheckedApproxPages: Number((characters / 1200).toFixed(1)), suspiciousCount: 0, unknownTimingCount: checked, hasAttention: unchecked.length > 0, perDocument, unchecked, suspicious: [] };
+}
+
+function integrityStatusLabel(status) {
+  return status === "bulk" ? "일괄 확인" : status === "very_fast" ? "매우 빠른 확인" : "빠른 확인";
+}
+
+function renderSubmissionIntegrity(integrity) {
+  const issues = Number(integrity.uncheckedBlockCount || 0) + Number(integrity.suspiciousCount || 0) + Number(integrity.unknownTimingCount || 0);
+  $("#integrity-summary").innerHTML = `<article><span>전체 문단</span><strong>${Number(integrity.totalBlockCount || 0)}</strong></article><article><span>확인 기록</span><strong>${Number(integrity.checkedBlockCount || 0)}</strong></article><article class="${integrity.uncheckedBlockCount ? "attention" : ""}"><span>미확인</span><strong>${Number(integrity.uncheckedBlockCount || 0)}</strong><small>약 ${Number(integrity.uncheckedApproxPages || 0)}쪽</small></article><article class="${integrity.suspiciousCount || integrity.unknownTimingCount ? "attention" : ""}"><span>속도 주의</span><strong>${Number(integrity.suspiciousCount || 0)}</strong><small>시간판정 불가 ${Number(integrity.unknownTimingCount || 0)}</small></article>`;
+  const uncheckedMarkup = (integrity.unchecked || []).map((item, index) => `<button type="button" class="integrity-location" data-integrity-document="${escapeHtml(item.documentId)}" data-integrity-block="${escapeHtml(item.blockId)}"><b>${index + 1}. ${escapeHtml(item.documentTitle)}</b><span>${escapeHtml(item.heading)} · ${Number(item.characterCount || 0)}자</span><small>${escapeHtml(item.excerpt || "")}</small></button>`).join("");
+  const suspiciousMarkup = (integrity.suspicious || []).map((item, index) => `<button type="button" class="integrity-location warning" data-integrity-document="${escapeHtml(item.documentId)}" data-integrity-block="${escapeHtml(item.blockId)}"><b>${index + 1}. ${escapeHtml(item.documentTitle)}</b><span>${escapeHtml(item.heading)} · ${integrityStatusLabel(item.speedStatus)}</span><small>실제 ${item.elapsedSeconds ?? "기록 없음"}초 / 보수적 예상 ${Number(item.estimatedSeconds || 0)}초${item.bulkCount > 1 ? ` · ${Number(item.bulkCount)}개 동시 확인` : ""}</small></button>`).join("");
+  $("#integrity-details").innerHTML = `${uncheckedMarkup ? `<section><h3>미확인 위치</h3>${uncheckedMarkup}</section>` : ""}${suspiciousMarkup ? `<section><h3>확인 속도 주의 위치</h3>${suspiciousMarkup}</section>` : ""}${integrity.unknownTimingCount ? `<section><h3>시간 판정 불가 기록</h3><p class="integrity-legacy">속도기록 기능 적용 전 또는 화면 노출 기록 없이 확인된 문단 ${Number(integrity.unknownTimingCount)}개입니다. 부정 판정은 하지 않으며 대표 보고서에는 판정 불가로 명시됩니다.</p></section>` : ""}${!issues ? '<div class="integrity-clear">미확인 또는 초고속·일괄 확인 주의기록이 없습니다.</div>' : ""}`;
+  $("#integrity-policy").textContent = integrity.policyNote || "확인 속도 기록은 부정 판정이 아니라 대표 확인을 위한 검수완전성 자료입니다.";
+  $("#integrity-ack-row").hidden = !issues;
+  $("#integrity-ack").checked = false;
+  $("#integrity-submit-continue").disabled = Boolean(issues);
+}
+
+async function openSubmissionIntegrity() {
+  await flushPendingSaves();
+  await flushBlockViews();
+  const result = state.mode === "production" ? await api("getSubmissionIntegrity", { assignmentId: state.activeAssignmentId }) : { integrity: localSubmissionIntegrity() };
+  state.submissionIntegrity = result.integrity;
+  renderSubmissionIntegrity(result.integrity);
+  $("#submission-integrity-dialog").showModal();
+}
+
 async function submitAssignment() {
   if (state.mode === "manager-preview") return;
   const assignment = activeAssignment();
-  const incomplete = assignment.documents.filter((document) => !progressFor(document.id).complete);
-  if (incomplete.length) {
-    toast(`최종 제출 전에 검토 완료 확인이 필요한 자료가 ${incomplete.length}개 있습니다.`);
-    return;
-  }
-  if (!confirm("작성하신 전문 검수의견을 최종 제출하시겠습니까? 제출 후에는 회사 담당자의 확인 전까지 내용이 안전하게 보존되며, 추가 보완이 필요하실 때에는 담당자가 다시 열어 드립니다.")) return;
+  try { await openSubmissionIntegrity(); } catch (error) { toast(error.message || "검수완전성 기록을 불러오지 못했습니다."); }
+}
+
+async function confirmAssignmentSubmission() {
+  const assignment = activeAssignment();
+  const integrity = state.submissionIntegrity || {};
+  const hasAttention = Boolean(integrity.hasAttention);
+  if (hasAttention && !$("#integrity-ack").checked) return;
+  $("#integrity-submit-continue").disabled = true;
   try {
     await flushPendingSaves();
-    const result = state.mode === "production" ? await api("submitAssignment", { assignmentId: assignment.id }) : { reportId: `DEMO-${Date.now()}`, reportSha256: "demo", deliveryStatus: "ready" };
+    const result = state.mode === "production" ? await api("submitAssignment", { assignmentId: assignment.id, integrityAcknowledged: hasAttention }) : { reportId: `DEMO-${Date.now()}`, reportSha256: "demo", deliveryStatus: "ready" };
     assignment.status = "submitted";
     assignment.report = { reportId: result.reportId, sha256: result.reportSha256, deliveryStatus: result.deliveryStatus };
     if (state.mode === "demo") persistDemo();
@@ -1213,8 +1310,10 @@ async function submitAssignment() {
     receipt.textContent = `접수 완료 · 보고서 ${result.reportId} · 무결성 ${String(result.reportSha256 || "").slice(0, 12)}… · 관리자 인계 대기`;
     toast("최종 검수보고서가 안전하게 접수되어 관리자 운영관제에 표시되었습니다.");
     logEvent("assignment_submitted");
-  } catch {
-    toast("최종 검수의견을 제출하지 못했습니다. 잠시 후 다시 시도해 주세요.");
+    $("#submission-integrity-dialog").close();
+  } catch (error) {
+    $("#integrity-submit-continue").disabled = false;
+    toast(error.message || "최종 검수의견을 제출하지 못했습니다. 잠시 후 다시 시도해 주세요.");
   }
 }
 
@@ -1307,6 +1406,20 @@ function bindEvents() {
   $("#assignment-select").addEventListener("change", (event) => changeAssignment(event.target.value));
   $("#interim-submit").addEventListener("click", submitInterimReport);
   $("#assignment-submit").addEventListener("click", submitAssignment);
+  $("#integrity-dialog-close").addEventListener("click", () => $("#submission-integrity-dialog").close());
+  $("#integrity-return").addEventListener("click", () => $("#submission-integrity-dialog").close());
+  $("#integrity-ack").addEventListener("change", (event) => { $("#integrity-submit-continue").disabled = !event.target.checked; });
+  $("#integrity-submit-continue").addEventListener("click", confirmAssignmentSubmission);
+  $("#integrity-details").addEventListener("click", async (event) => {
+    const button = event.target.closest("[data-integrity-document]");
+    if (!button) return;
+    $("#submission-integrity-dialog").close();
+    if (button.dataset.integrityDocument !== state.activeDocumentId) await selectDocument(button.dataset.integrityDocument);
+    const target = $(`[data-block-id="${CSS.escape(button.dataset.integrityBlock)}"]`);
+    target?.scrollIntoView({ behavior: "smooth", block: "center" });
+    target?.classList.add("is-target");
+    setTimeout(() => target?.classList.remove("is-target"), 1800);
+  });
   $("#download-review-report").addEventListener("click", downloadReviewReport);
   $("#preview-review-report").addEventListener("click", previewReviewReport);
   $("#logout-button").addEventListener("click", logout);
