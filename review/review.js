@@ -8,7 +8,10 @@ if (window.top !== window.self) {
 const STORAGE_KEY = "sugar-salt-review-workroom-demo-v1";
 const AUTH_STORAGE_KEY = "sugar-salt-review-auth-v1";
 const AUTH_MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000;
-const managerPreviewAssignmentId = new URLSearchParams(location.search).get("managerPreview") || "";
+const reviewQuery = new URLSearchParams(location.search);
+const managerPreviewAssignmentId = reviewQuery.get("managerPreview") || "";
+const managerPreviewDocumentId = reviewQuery.get("document") || "";
+const managerPreviewFindingId = reviewQuery.get("finding") || "";
 const meta = (name) => document.querySelector(`meta[name="${name}"]`)?.content?.trim() || "";
 const config = {
   supabaseUrl: meta("review-supabase-url").replace(/\/$/, ""),
@@ -384,10 +387,14 @@ async function enterProduction(session) {
   state.assignments = bootstrap.assignments;
   state.progress = bootstrap.progress || {};
   state.activeAssignmentId = state.assignments[0]?.id || null;
-  state.activeDocumentId = state.assignments[0]?.documents?.[0]?.id || null;
+  const previewDocumentExists = state.assignments[0]?.documents?.some((document) => document.id === managerPreviewDocumentId);
+  state.activeDocumentId = previewDocumentExists ? managerPreviewDocumentId : state.assignments[0]?.documents?.[0]?.id || null;
   if (!state.activeAssignmentId) throw new Error("현재 위촉된 검수 과제가 없습니다. 확인이 필요하시면 담당자에게 말씀해 주세요.");
   await ensureRemoteDocument(state.activeDocumentId);
   enterApp();
+  if (state.mode === "manager-preview" && managerPreviewFindingId) {
+    requestAnimationFrame(() => focusAnnotation(managerPreviewFindingId));
+  }
 }
 
 async function resumeProductionSession() {
@@ -779,18 +786,50 @@ function buildDemoReviewReport() {
   );
   return {
     reportId,
-    fileName: `${reportFilePart(assignment.program.name)}_${reportFilePart(assignment.subject.name)}_${reportFilePart(state.reviewer.name)}_검수보고서.md`,
+    fileName: `${reportFilePart(assignment.program.name)}_${reportFilePart(assignment.subject.name)}_${reportFilePart(state.reviewer.name)}_검수보고서.html`,
     markdown: lines.join("\n"),
     json: {
+      schema: "sugar-salt-expert-review/v1",
+      reportId,
+      status: assignment.status === "submitted" ? "final" : "draft",
+      generatedAt,
+      company: { name: "유한회사 설탕과소금", unit: assignment.program.id === "civil" ? "공직시험 연구소" : "교원임용 연구" },
+      reviewer: { ...state.reviewer },
+      assignment: { id: assignment.id, program: assignment.program.name, subject: assignment.subject.name, title: assignment.title, contractReference: assignment.contractReference, period: assignment.period, status: assignment.status },
+      summary: {
+        documentCount: assignment.documents.length,
+        completedDocumentCount: completedDocuments,
+        totalBlockCount: assignment.documents.reduce((sum, document) => sum + (document.blocks?.length || 0), 0),
+        checkedBlockCount: assignment.documents.reduce((sum, document) => sum + (progressFor(document.id).checkedBlocks?.length || 0), 0),
+        findingCount: findings.length,
+        referenceMarkCount: assignmentAnnotations.filter((item) => item.kind === "highlight").length,
+        criticalCount: findings.filter((item) => item.kind === "issue" && item.severity === "critical").length,
+        majorCount: findings.filter((item) => item.kind === "issue" && item.severity === "major").length,
+        minorCount: findings.filter((item) => item.kind === "issue" && item.severity === "minor").length,
+        professionalOpinionCount: findings.filter((item) => item.kind === "memo").length
+      },
       documents: assignment.documents.map((document) => {
+        const progress = progressFor(document.id);
         const blockMap = new Map((document.blocks || []).map((block) => [block.id, block]));
         return {
           id: document.id,
+          kind: document.kind,
           title: document.title,
+          version: document.version,
+          stage: document.stage,
+          complete: progress.complete,
+          completedAt: progress.completedAt,
+          totalBlockCount: document.blocks?.length || 0,
+          checkedBlockCount: progress.checkedBlocks?.length || 0,
+          overallMemo: progress.memo || "",
           findings: assignmentAnnotations.filter((item) => item.documentId === document.id).map((item) => ({
             id: item.id,
+            blockId: item.blockId,
             kind: item.kind,
             location: blockMap.get(item.blockId)?.heading || item.blockId,
+            issueType: item.issueType,
+            severity: item.severity,
+            selectedText: item.selectedText,
             reviewerComment: item.body
           }))
         };
@@ -799,8 +838,8 @@ function buildDemoReviewReport() {
   };
 }
 
-function downloadTextFile(fileName, contents) {
-  const blob = new Blob([contents], { type: "text/markdown;charset=utf-8" });
+function downloadFile(fileName, contents, type = "text/html;charset=utf-8") {
+  const blob = new Blob([contents], { type });
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");
   anchor.href = url;
@@ -810,6 +849,37 @@ function downloadTextFile(fileName, contents) {
   anchor.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
+
+function reportStatusLabel(status) { return status === "final" ? "최종 제출" : status === "interim" ? "1차 중간보고" : "검토 중 초안"; }
+function reportDate(value) { const date = new Date(value || ""); return Number.isNaN(date.getTime()) ? escapeHtml(value || "—") : new Intl.DateTimeFormat("ko-KR", { dateStyle: "long", timeStyle: "short", hour12: false }).format(date); }
+
+function humanReportMarkup(payload, { editable = false } = {}) {
+  const summary = payload.summary || {}, reviewer = payload.reviewer || {}, assignment = payload.assignment || {}, documents = payload.documents || [];
+  const actionable = documents.flatMap((document) => (document.findings || []).filter((finding) => finding.kind !== "highlight"));
+  const critical = actionable.filter((finding) => finding.kind === "issue" && finding.severity === "critical").length;
+  const professional = actionable.filter((finding) => finding.kind === "memo").length;
+  const documentMarkup = documents.map((document, documentIndex) => {
+    const findings = (document.findings || []).filter((finding) => finding.kind !== "highlight");
+    return `<article class="report-document"><header><div><h5>${String(documentIndex + 1).padStart(2, "0")} · ${escapeHtml(document.title || "검수 자료")}</h5><small>${escapeHtml(document.kind || "자료")} · ${escapeHtml(document.version || "버전 확인")}</small></div><span>${document.complete ? "검토 완료" : "검토 진행 중"} · 문단 ${Number(document.checkedBlockCount || 0)}/${Number(document.totalBlockCount || 0)}</span></header>
+      ${document.overallMemo ? `<p class="report-document-memo"><strong>자료 전체 의견</strong><br>${escapeHtml(document.overallMemo)}</p>` : ""}
+      ${findings.length ? findings.map((finding) => `<section class="report-finding" data-severity="${escapeHtml(finding.severity || "memo")}"><header><div class="report-finding-title"><span class="report-finding-badge">${finding.kind === "issue" ? escapeHtml(severityLabel(finding.severity)) : "전문 의견"}</span><strong>${escapeHtml(finding.issueType || finding.location || "전문 검수의견")}</strong></div>${editable ? `<button class="report-edit-source" type="button" data-report-edit="${escapeHtml(finding.id)}" data-report-document="${escapeHtml(document.id)}">원문에서 보완</button>` : ""}</header><small>${escapeHtml(finding.location || "원문 위치")}</small>${finding.selectedText ? `<blockquote class="report-quote">${escapeHtml(finding.selectedText)}</blockquote>` : ""}<p class="report-opinion">${escapeHtml(finding.reviewerComment || "별도 의견 없음")}</p></section>`).join("") : '<div class="report-empty">별도의 수정·전문 의견 없이 검토가 완료된 자료입니다.</div>'}</article>`;
+  }).join("");
+  return `<article class="report-sheet"><header class="report-sheet-header"><div><div class="report-brand">SUGAR &amp; SALT · EXPERT REVIEW</div><h3>핵심요약노트·모의고사<br>표준 검수의견 보고서</h3><p>${escapeHtml(payload.company?.name || "유한회사 설탕과소금")} · ${escapeHtml(payload.company?.unit || "검수 운영")}</p></div><div class="report-seal"><span>OFFICIAL</span><strong>${escapeHtml(assignment.subject || "검수")}</strong></div></header>
+    <section class="report-meta"><div><span>보고서 번호</span><strong>${escapeHtml(payload.reportId || "작성 중")}</strong></div><div><span>작성 상태</span><strong>${escapeHtml(reportStatusLabel(payload.status))}</strong></div><div><span>검수 분야</span><strong>${escapeHtml(assignment.program || "")} · ${escapeHtml(assignment.subject || "")}</strong></div><div><span>검수 기간</span><strong>${escapeHtml(assignment.period || "—")}</strong></div><div><span>전문위원</span><strong>${escapeHtml(reviewer.name || "전문위원")} · ${escapeHtml(reviewer.positionTitle || reviewer.roleLabel || "")}</strong></div><div><span>소속</span><strong>${escapeHtml([reviewer.organization, reviewer.department].filter(Boolean).join(" ") || "—")}</strong></div><div><span>위촉 과제</span><strong>${escapeHtml(assignment.title || "—")}</strong></div><div><span>생성 일시</span><strong>${reportDate(payload.generatedAt)}</strong></div></section>
+    <section class="report-summary"><article><span>검수 자료</span><strong>${Number(summary.completedDocumentCount || 0)}/${Number(summary.documentCount || documents.length)}</strong></article><article><span>확인 문단</span><strong>${Number(summary.checkedBlockCount || 0)}/${Number(summary.totalBlockCount || 0)}</strong></article><article class="${critical ? "attention" : ""}"><span>수정·보완 의견</span><strong>${Number(summary.findingCount ?? actionable.length)}</strong></article><article><span>전문 의견</span><strong>${Number(summary.professionalOpinionCount ?? professional)}</strong></article></section>
+    <section class="report-section"><header><div><span>01 · REVIEW SCOPE</span><h4>검수 목적과 기준</h4></div><small>전문위원 위촉 범위에 한함</small></header><p class="report-document-memo">위촉 범위의 핵심요약노트·모의고사 원고에 대하여 사실관계, 최신 법령·판례·정책자료, 정답 및 해설의 타당성을 확인하고 원문 위치와 함께 전문 의견을 기록했습니다.</p></section>
+    <section class="report-section"><header><div><span>02 · REVIEW FINDINGS</span><h4>자료별 검수결과</h4></div><small>수정 필요·전문 의견 원문 보존</small></header>${documentMarkup || '<div class="report-empty">검수 자료를 불러오지 못했습니다.</div>'}</section>
+    <section class="report-confirmation"><strong>전문위원 확인</strong><br>본 보고서는 위촉 범위에서 실제로 확인하고 기록한 의견을 원문 위치와 함께 정리한 것입니다. 최종 제출 이후에는 회사 대표 확인을 거쳐 교재 제작 시스템으로 전달되며, 전문위원의 원문 의견은 임의로 변경되지 않습니다.</section><footer class="report-footer-brand"><strong>유한회사 설탕과소금</strong><span>공직시험 연구소 · admin@gyo6.kr · https://gyo6.kr</span></footer></article>`;
+}
+
+function printableReportHtml(report) {
+  const payload = report.json || report.report || {};
+  const css = `*{box-sizing:border-box}body{margin:0;padding:32px;color:#263746;background:#eceae4;font-family:"Noto Sans KR",Arial,sans-serif}.report-sheet{width:210mm;max-width:100%;margin:auto;padding:18mm;border-top:5px solid #102d4d;background:#fffefb;box-shadow:0 12px 34px #0002}.report-sheet-header{padding-bottom:18px;display:grid;grid-template-columns:1fr auto;gap:18px;border-bottom:3px solid #102d4d}.report-brand{color:#b2762e;font-size:10px;font-weight:800;letter-spacing:2px}h3{margin:8px 0 5px;color:#102d4d;font-family:Georgia,serif;font-size:30px;line-height:1.3}.report-sheet-header p{margin:0;color:#6a7984;font-size:12px}.report-seal{width:72px;height:72px;display:grid;place-content:center;text-align:center;border:1px solid #cda86d;border-radius:50%;background:#fbf4e8}.report-seal span{color:#b2762e;font-size:8px}.report-seal strong{color:#102d4d;font-size:14px}.report-meta{margin:18px 0;display:grid;grid-template-columns:1fr 1fr;border:1px solid #dedbd3}.report-meta div{padding:10px 12px;display:grid;grid-template-columns:84px 1fr;gap:8px;border-bottom:1px solid #ece8df;font-size:10px}.report-meta div:nth-child(odd){border-right:1px solid #ece8df}.report-meta span{color:#6a7984;font-size:8px;font-weight:800}.report-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.report-summary article{padding:12px;border:1px solid #dedbd3;border-top:3px solid #668878}.report-summary article.attention{border-top-color:#b74b45}.report-summary span{display:block;color:#6a7984;font-size:8px}.report-summary strong{display:block;margin-top:4px;color:#102d4d;font:22px Georgia}.report-section{margin-top:25px}.report-section>header{padding-bottom:8px;display:flex;justify-content:space-between;border-bottom:1px solid #bbb7ae}.report-section>header span{color:#b2762e;font-size:8px}.report-section h4{margin:3px 0;color:#102d4d;font:18px Georgia}.report-section small{font-size:8px}.report-document{margin-top:14px;padding:14px;border:1px solid #dedbd3;break-inside:avoid}.report-document>header{display:flex;justify-content:space-between}.report-document h5{margin:0;color:#102d4d;font-size:13px}.report-document header span{color:#668878;font-size:8px}.report-document-memo{padding:9px 11px;border-left:3px solid #cda86d;background:#faf7f0;font-size:10px;line-height:1.7}.report-finding{margin-top:9px;padding:12px;border:1px solid #e3e0d8;border-left:4px solid #b2762e;break-inside:avoid}.report-finding[data-severity=critical]{border-left-color:#b74b45}.report-finding-title{display:flex;gap:6px}.report-finding-badge{padding:2px 6px;border-radius:99px;background:#faecd8;font-size:8px}.report-quote{margin:8px 0;padding:8px 10px;border-left:2px solid #c9c4ba;background:#f6f5f1;font:10px/1.6 Georgia}.report-opinion{font-size:11px;line-height:1.7;white-space:pre-wrap}.report-empty{padding:20px;text-align:center;font-size:10px}.report-confirmation{margin-top:25px;padding:15px;border:1px solid #d7c6a7;background:#fbf6ec;font-size:10px;line-height:1.8}.report-footer-brand{margin-top:22px;padding-top:12px;display:flex;justify-content:space-between;border-top:1px solid #cbc7bd;font-size:8px}@page{size:A4;margin:12mm}@media print{body{padding:0;background:#fff}.report-sheet{width:auto;padding:0;border:0;box-shadow:none}}`;
+  return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(payload.assignment?.subject || "검수")} 표준 검수보고서</title><style>${css}</style></head><body>${humanReportMarkup(payload)}</body></html>`;
+}
+
+function saveHumanReport(report) { const payload = report.json || report.report || {}; downloadFile(`${reportFilePart(payload.assignment?.program || "검수")}_${reportFilePart(payload.assignment?.subject || "과목")}_${reportFilePart(payload.reviewer?.name || "전문위원")}_표준_검수보고서.html`, printableReportHtml(report)); }
+function printHumanReport(report) { const popup = window.open("", "_blank"); if (!popup) { toast("팝업 차단을 해제한 뒤 다시 시도해 주세요."); return; } popup.opener = null; popup.document.write(printableReportHtml(report)); popup.document.close(); setTimeout(() => { popup.focus(); popup.print(); }, 250); }
 
 async function downloadReviewReport() {
   const button = $("#download-review-report");
@@ -821,14 +891,14 @@ async function downloadReviewReport() {
       : state.mode === "production"
         ? await api("exportReport", { assignmentId: state.activeAssignmentId })
         : buildDemoReviewReport();
-    downloadTextFile(report.fileName, report.markdown);
-    toast(`표준 검수보고서를 생성했습니다. (${report.reportId})`);
+    saveHumanReport(report);
+    toast(`공식 검수보고서를 생성했습니다. (${report.reportId})`);
     logEvent("review_report_exported", { reportId: report.reportId });
   } catch (error) {
     toast(error.message || "검수보고서를 생성하지 못했습니다.");
   } finally {
     button.disabled = false;
-    button.textContent = "검수보고서 파일 생성";
+    button.textContent = "공식 보고서 저장·인쇄";
   }
 }
 
@@ -1186,11 +1256,8 @@ function focusAnnotation(id) {
 
 function renderReportPreview(report) {
   state.reportPreview = report;
-  $("#report-preview-content").textContent = report.markdown || "보고서 내용을 불러오지 못했습니다.";
-  const documents = report.json?.documents || [];
-  const rows = documents.flatMap((document) => (document.findings || []).filter((finding) => finding.kind !== "highlight").map((finding) => ({ document, finding })));
   const sourceEditAvailable = state.mode !== "manager-preview" && activeAssignment()?.status !== "submitted";
-  $("#report-preview-findings").innerHTML = rows.length ? rows.map(({ document, finding }) => `<article class="report-finding"><div><strong>${escapeHtml(document.title)} · ${escapeHtml(finding.location)}</strong><span>${escapeHtml(finding.reviewerComment || "의견 없음")}</span></div>${sourceEditAvailable ? `<button type="button" data-report-edit="${escapeHtml(finding.id)}" data-report-document="${escapeHtml(document.id)}">원문 위치에서 다듬기</button>` : "<span>읽기 전용</span>"}</article>`).join("") : '<div class="empty-annotations">보고서에 반영된 수정·보완 의견이 없습니다.</div>';
+  $("#report-preview-content").innerHTML = humanReportMarkup(report.json || report.report || {}, { editable: sourceEditAvailable });
   $("#report-preview-dialog").showModal();
 }
 
@@ -1245,8 +1312,9 @@ function bindEvents() {
   $("#logout-button").addEventListener("click", logout);
   $("#report-preview-close").addEventListener("click", () => $("#report-preview-dialog").close());
   $("#report-preview-confirm").addEventListener("click", () => $("#report-preview-dialog").close());
-  $("#report-preview-download").addEventListener("click", () => { if (state.reportPreview) downloadTextFile(state.reportPreview.fileName, state.reportPreview.markdown); });
-  $("#report-preview-findings").addEventListener("click", async (event) => { const button = event.target.closest("[data-report-edit]"); if (!button) return; $("#report-preview-dialog").close(); const documentId = button.dataset.reportDocument; if (documentId && documentId !== state.activeDocumentId) await selectDocument(documentId); const annotation = state.annotations.find((item) => item.id === button.dataset.reportEdit); if (!annotation) { toast("원문 의견을 불러오지 못했습니다. 최신 화면을 다시 확인해 주세요."); return; } focusAnnotation(annotation.id); openAnnotationDialog(annotation.kind, annotation); });
+  $("#report-preview-download").addEventListener("click", () => { if (state.reportPreview) saveHumanReport(state.reportPreview); });
+  $("#report-preview-print").addEventListener("click", () => { if (state.reportPreview) printHumanReport(state.reportPreview); });
+  $("#report-preview-content").addEventListener("click", async (event) => { const button = event.target.closest("[data-report-edit]"); if (!button) return; $("#report-preview-dialog").close(); const documentId = button.dataset.reportDocument; if (documentId && documentId !== state.activeDocumentId) await selectDocument(documentId); const annotation = state.annotations.find((item) => item.id === button.dataset.reportEdit); if (!annotation) { toast("원문 의견을 불러오지 못했습니다. 최신 화면을 다시 확인해 주세요."); return; } focusAnnotation(annotation.id); openAnnotationDialog(annotation.kind, annotation); });
   $("#document-list").addEventListener("click", (event) => {
     const button = event.target.closest("[data-document-id]");
     if (button) selectDocument(button.dataset.documentId);

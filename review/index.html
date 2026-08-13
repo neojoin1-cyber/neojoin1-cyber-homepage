@@ -157,9 +157,9 @@
         <div id="annotation-list" class="annotation-list"></div>
         <div class="report-export">
           <div><span>STANDARD REPORT</span><strong>표준 검수의견 보고서</strong></div>
-          <p>전문위원님의 기본 정보와 자료별 검수의견을 정해진 양식으로 정리하여 교재 제작 시스템에 정확하게 전달합니다.</p>
+          <p>전문위원님의 검수 범위와 고견을 품격 있는 공식 양식으로 정리합니다. 최종 제출 후에는 대표 확인을 거쳐 교재 제작 시스템으로 인계됩니다.</p>
           <button class="button" id="preview-review-report" type="button">보고서 미리보기·보완</button>
-          <button class="button" id="download-review-report" type="button">검수보고서 파일 생성</button>
+          <button class="button" id="download-review-report" type="button">공식 보고서 저장·인쇄</button>
           <div class="report-receipt" id="report-receipt" hidden></div>
         </div>
       </aside>
@@ -185,11 +185,10 @@
   </dialog>
 
   <dialog id="report-preview-dialog" class="report-preview-dialog">
-    <header><div><span>STANDARD REVIEW REPORT</span><h2>표준 검수보고서 미리보기</h2></div><button class="dialog-close" id="report-preview-close" type="button" aria-label="닫기">×</button></header>
-    <p class="report-preview-guide">수정할 항목의 ‘원문 위치에서 다듬기’를 누르면 해당 콘텐츠와 검수의견으로 바로 이동합니다. 원문 기록을 수정한 뒤 다시 열면 보고서에 즉시 반영됩니다.</p>
-    <div id="report-preview-findings" class="report-preview-findings"></div>
-    <pre id="report-preview-content" class="report-preview-content"></pre>
-    <footer><button class="button" id="report-preview-download" type="button">현재 보고서 파일 받기</button><button class="button primary" id="report-preview-confirm" type="button">확인 완료</button></footer>
+    <header><div><span>STANDARD REVIEW REPORT</span><h2>공식 검수보고서 미리보기·보완</h2><p>교수님의 검수기록을 사람이 읽기 좋은 공식 문서로 정리한 화면입니다.</p></div><button class="dialog-close" id="report-preview-close" type="button" aria-label="닫기">×</button></header>
+    <p class="report-preview-guide"><strong>최종 제출 전 확인</strong> 수정할 의견의 ‘원문에서 보완’을 누르면 해당 원고와 의견으로 바로 이동합니다. 저장 후 미리보기를 다시 열면 즉시 반영됩니다.</p>
+    <div id="report-preview-content" class="report-preview-content" aria-live="polite"></div>
+    <footer><button class="button" id="report-preview-download" type="button">보고서 HTML 저장</button><button class="button" id="report-preview-print" type="button">인쇄·PDF 저장</button><button class="button primary" id="report-preview-confirm" type="button">내용 확인 완료</button></footer>
   </dialog>
 
   <dialog id="help-dialog" class="help-dialog">
@@ -211,6 +210,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <noscript>이 검수 워크룸은 안전한 열람과 자동저장을 위해 JavaScript가 필요합니다.</noscript>
-  <script src="review.js?v=20260813-5" defer></script>
+  <script src="review.js?v=20260814-2" defer></script>
 </body>
 </html>

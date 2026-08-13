@@ -18,6 +18,7 @@ const batchSql = read("review/supabase/migrations/20260812000000_review_batch_st
 const historySql = read("review/supabase/migrations/20260813000000_review_change_history.sql");
 const nationalSubjectSql = read("review/supabase/migrations/20260813010000_fix_national_subject_names.sql");
 const runtimeControlSql = read("review/supabase/migrations/20260814000000_review_runtime_controls.sql");
+const reportWorkflowSql = read("review/supabase/migrations/20260814010000_review_report_workflow.sql");
 
 check("page.noindex", html.includes('name="robots" content="noindex, nofollow, noarchive, nosnippet"'), "보호 페이지가 검색에 노출되지 않습니다.");
 check("page.programs", ["국가직 7급 공무원시험 대비", "초등교원임용고사 대비", "중등교원임용고사 대비"].every((value) => js.includes(value)), "세 시험군이 하나의 워크룸 구조에 포함됩니다.");
@@ -25,14 +26,19 @@ check("tools.annotation", ["형광펜", "전문 의견", "수정 필요"].every(
 check("tools.selection-popover", html.includes("selection-popover") && js.includes("showSelectionPopover") && js.includes('(pointer: coarse)'), "선택 즉시 PC 위쪽·터치 기기 아래쪽에 검수 도구가 표시됩니다.");
 check("tools.mobile-layout", css.includes("data-short") && css.includes("max-width: calc(100vw - 16px)") && css.includes("grid-template-columns: 1fr;"), "스마트폰에서도 헤더·제출 버튼·원고가 화면 폭 안에서 정돈됩니다.");
 check("tools.ipad-scroll", css.includes("-webkit-overflow-scrolling: touch") && css.includes("touch-action: pan-y") && css.includes("calc(100dvh - 155px)"), "아이패드에서도 원고 영역이 화면 높이에 맞춰 즉시 터치 스크롤됩니다.");
-check("tools.large-review", html.includes("큰 화면 검수") && html.includes("기본 화면으로") && html.includes("20260813-5") && html.includes('aria-pressed="false"') && js.includes("setFocusMode") && js.includes("readerBaseFontSize") && css.includes("body.focus-mode .app-header") && css.includes("display: none !important") && css.includes("grid-template-columns: minmax(0, 1fr)") && css.includes("width: calc(100% - 56px)"), "큰화면 검수에서는 일반 메뉴와 좌우 패널을 숨기고 원고와 검수 도구만 화면 가득 표시하며 명확한 기본 화면 복귀 버튼을 제공합니다.");
+check("tools.large-review", html.includes("큰 화면 검수") && html.includes("기본 화면으로") && html.includes('aria-pressed="false"') && js.includes("setFocusMode") && js.includes("readerBaseFontSize") && css.includes("body.focus-mode .app-header") && css.includes("display: none !important") && css.includes("grid-template-columns: minmax(0, 1fr)") && css.includes("width: calc(100% - 56px)"), "큰화면 검수에서는 일반 메뉴와 좌우 패널을 숨기고 원고와 검수 도구만 화면 가득 표시하며 명확한 기본 화면 복귀 버튼을 제공합니다.");
 check("tools.autosave", js.includes("scheduleSave") && html.includes("자동으로 저장"), "문단 확인과 전체 의견을 자동저장합니다.");
 check("content.source-tables", js.includes("REVIEW_TABLE_V1") && js.includes("renderTableGroup") && css.includes("review-data-table") && css.includes("review-table-confirm"), "원본 표를 셀별 문장으로 흩뜨리지 않고 전문 검수용 표로 복원합니다.");
 check("content.table-progress", js.includes("data-check-blocks") && js.includes("toggleBlocks") && js.includes("review-table-cell"), "표의 행 확인과 셀별 검수 의견이 기존 진행기록·보고서에 연결됩니다.");
 check("auth.remembered-session", js.includes("AUTH_MAX_AGE_MS") && managerJs.includes("AUTH_MAX_AGE_MS") && html.includes("14일간 인증 상태 유지") && managerHtml.includes("14일간 관리자 인증 유지"), "기기별 14일 인증 유지와 명시적 로그아웃을 제공합니다.");
 check("language.respect", html.includes("전문위원님") && js.includes("귀한 검토에 감사드립니다") && !html.includes("외부 검수자"), "전문위원 화면의 기본 호칭과 안내가 존중 표현을 사용합니다.");
 check("report.standard-file", html.includes("download-review-report") && js.includes("sugar-salt-expert-review/v1") && js.includes("교재 생성 시스템 인계 규칙"), "검수위원 인적사항과 의견을 표준 보고서 파일로 생성합니다.");
-check("report.preview-edit", html.includes("report-preview-dialog") && js.includes("원문 위치에서 다듬기") && js.includes("data-report-document"), "보고서 미리보기에서 해당 원문 의견으로 돌아가 수정할 수 있습니다.");
+check("report.preview-edit", html.includes("report-preview-dialog") && js.includes("원문에서 보완") && js.includes("data-report-document"), "보고서 미리보기에서 해당 원문 의견으로 돌아가 수정할 수 있습니다.");
+check("report.human-format", html.includes("공식 검수보고서 미리보기·보완") && js.includes("humanReportMarkup") && js.includes("printableReportHtml") && !html.includes("report-preview-raw"), "사람이 읽는 미리보기와 저장 파일은 원시 YAML 대신 공식 보고서 양식을 사용합니다.");
+check("manager.report-approval", managerHtml.includes("대표 검토·승인") && managerJs.includes("managerApproveReport") && edge.includes('action === "managerApproveReport"') && reportWorkflowSql.includes("review_manager_reviews"), "전문위원 원문을 보존한 채 대표 검토·승인 기록을 별도 보관합니다.");
+check("manager.ai-supplement", managerHtml.includes("AI 보조검토") && managerJs.includes("managerAiMarkup") && edge.includes("buildAiSupplement") && edge.includes("전문위원의 학문적 판단"), "AI 의견은 누락·우선순위 보조분석으로 분리하고 전문위원 판단을 대체하지 않습니다.");
+check("manager.claude-handoff-gate", managerHtml.includes("Claude Code 인계자료") && managerJs.includes("downloadHandoffPackage") && edge.includes('action === "managerGetHandoffPackage"') && edge.includes('managerReview?.status !== "approved"'), "대표 승인 전에는 Claude Code 인계자료가 생성되지 않습니다.");
+check("manager.report-source-link", managerJs.includes("data-manager-source-document") && js.includes("managerPreviewDocumentId") && js.includes("managerPreviewFindingId"), "대표 검토 화면에서 전문위원 의견의 원문 위치로 이동할 수 있습니다.");
 check("report.receipt", html.includes("report-receipt") && edge.includes("deliveryStatus") && js.includes("교재 제작 시스템 전달 완료"), "제출 접수와 관리자 인계 상태를 전문위원 화면에 지속 표시합니다.");
 check("manager.actual-progress", managerHtml.includes("실제 문단 확인률") || managerHtml.includes("실제 문단 확인") && managerJs.includes("checkedBlocks") && managerJs.includes("completeDocumentCount"), "운영관제가 자기보고가 아닌 서버 기록으로 실제 진도를 계산합니다.");
 check("manager.handoff-stages", ["최종 제출", "보고서 생성", "인계 완료"].every((value) => managerJs.includes(value)) && managerJs.includes("markReportDelivered"), "최종 제출부터 보고서 전달까지 단계별로 관리합니다.");

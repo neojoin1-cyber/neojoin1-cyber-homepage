@@ -69,6 +69,125 @@ function annotationLabel(item: Record<string, unknown>) {
   return `${({ yellow: "노랑", green: "초록", pink: "분홍" } as Record<string, string>)[String(item.color)] || "노랑"} 형광펜`;
 }
 
+function buildAiSupplement(report: any) {
+  const documents = Array.isArray(report?.documents) ? report.documents : [];
+  const allFindings = documents.flatMap((document: any) => (Array.isArray(document.findings) ? document.findings : []).map((finding: any) => ({ ...finding, documentId: document.id, documentTitle: document.title })));
+  const actionable = allFindings.filter((finding: any) => finding.kind !== "highlight");
+  const issues = actionable.filter((finding: any) => finding.kind === "issue");
+  const professionalOpinions = actionable.filter((finding: any) => finding.kind === "memo");
+  const critical = issues.filter((finding: any) => finding.severity === "critical");
+  const major = issues.filter((finding: any) => finding.severity === "major");
+  const minor = issues.filter((finding: any) => finding.severity === "minor");
+  const incompleteDocuments = documents.filter((document: any) => !document.complete);
+  const missingComment = actionable.filter((finding: any) => !cleanText(finding.reviewerComment, 5000));
+  const missingQuote = actionable.filter((finding: any) => !cleanText(finding.selectedText, 5000));
+  const legalUpdates = issues.filter((finding: any) => String(finding.issueType || "").includes("법령") || String(finding.issueType || "").includes("판례"));
+  const priorityItems = [...critical, ...major].slice(0, 12).map((finding: any) => ({
+    findingId: finding.id,
+    documentId: finding.documentId,
+    documentTitle: finding.documentTitle,
+    location: finding.location,
+    level: finding.severity === "critical" ? "필수 수정" : "중요 보완",
+    issueType: finding.issueType || "내용 보완",
+    excerpt: cleanText(finding.selectedText, 500),
+    recommendation: cleanText(finding.reviewerComment, 2000)
+  }));
+  const checks = [
+    { key: "completion", label: "자료 완료성", status: incompleteDocuments.length ? "attention" : "pass", detail: incompleteDocuments.length ? `미완료 자료 ${incompleteDocuments.length}건이 있어 최종 인계 전 확인이 필요합니다.` : `위촉 자료 ${documents.length}건이 모두 완료로 기록되었습니다.` },
+    { key: "traceability", label: "의견 추적성", status: missingQuote.length || missingComment.length ? "attention" : "pass", detail: missingQuote.length || missingComment.length ? `원문 인용 누락 ${missingQuote.length}건, 전문 의견 누락 ${missingComment.length}건을 확인해 주세요.` : "모든 수정·전문 의견이 원문 위치 및 인용문과 연결되어 있습니다." },
+    { key: "priority", label: "수정 우선순위", status: critical.length ? "attention" : "pass", detail: critical.length ? `필수 수정 ${critical.length}건을 교재 수정의 최우선 순서로 전달해야 합니다.` : `필수 수정은 없으며 중요 보완 ${major.length}건, 권고 ${minor.length}건입니다.` },
+    { key: "currency", label: "최신성 재확인", status: legalUpdates.length ? "attention" : "pass", detail: legalUpdates.length ? `법령·판례 변경 관련 의견 ${legalUpdates.length}건은 반영 시점의 최신 원문을 다시 대조하는 것이 안전합니다.` : "법령·판례 변경으로 분류된 의견은 없습니다." }
+  ];
+  const attentionCount = checks.filter((item) => item.status === "attention").length;
+  return {
+    version: "sugar-salt-ai-assist/v1",
+    generatedAt: new Date().toISOString(),
+    title: "AI 보조검토 의견",
+    conclusion: attentionCount
+      ? `교재 제작 시스템 인계 전 ${attentionCount}개 점검 항목을 우선 확인하시기 바랍니다. 전문위원 의견은 그대로 보존하고, 필수 수정과 중요 보완 순으로 반영 여부를 기록하는 방식이 적절합니다.`
+      : "보고서의 완료성·추적성·우선순위 구조가 인계 가능한 상태입니다. 다만 실제 내용의 학문적 타당성은 전문위원 판단을 기준으로 유지해야 합니다.",
+    counts: { actionable: actionable.length, issues: issues.length, professionalOpinions: professionalOpinions.length, critical: critical.length, major: major.length, minor: minor.length, legalUpdates: legalUpdates.length },
+    checks,
+    priorityItems,
+    disclaimer: "본 의견은 검수 기록의 누락·우선순위·추적성을 자동 분석한 보조자료이며, 전문위원의 학문적 판단이나 대표의 최종 승인을 대체하지 않습니다."
+  };
+}
+
+function buildClaudeHandoff(report: any, managerReview: any) {
+  const documents = Array.isArray(report?.documents) ? report.documents : [];
+  const ai = managerReview?.ai_supplement && Object.keys(managerReview.ai_supplement).length ? managerReview.ai_supplement : buildAiSupplement(report);
+  const safeReviewer = {
+    name: report?.reviewer?.name || "전문위원",
+    organization: report?.reviewer?.organization || "",
+    department: report?.reviewer?.department || "",
+    positionTitle: report?.reviewer?.positionTitle || "",
+    roleLabel: report?.reviewer?.roleLabel || "외부 전문위원"
+  };
+  const payload = {
+    schema: "sugar-salt-textbook-handoff/v2",
+    sourceReportId: report?.reportId,
+    approvedAt: managerReview?.approved_at,
+    company: report?.company,
+    assignment: report?.assignment,
+    reviewer: safeReviewer,
+    representativeReview: { notes: managerReview?.manager_notes || "", status: managerReview?.status || "approved" },
+    aiSupplement: ai,
+    documents: documents.map((document: any) => ({
+      id: document.id,
+      title: document.title,
+      version: document.version,
+      complete: document.complete,
+      overallMemo: document.overallMemo || "",
+      findings: (document.findings || []).filter((finding: any) => finding.kind !== "highlight").map((finding: any) => ({
+        id: finding.id,
+        blockId: finding.blockId,
+        location: finding.location,
+        classification: finding.kind === "issue" ? "수정 필요" : "전문 의견",
+        issueType: finding.issueType || null,
+        severity: severityLabel(finding.severity),
+        originalExcerpt: finding.selectedText || "",
+        expertOpinion: finding.reviewerComment || ""
+      }))
+    }))
+  };
+  const lines = [
+    `# ${reportValue(report?.assignment?.program)} · ${reportValue(report?.assignment?.subject)} 교재 수정 인계서`,
+    "",
+    `- 원본 검수보고서: ${reportValue(report?.reportId)}`,
+    `- 대표 승인일: ${reportValue(managerReview?.approved_at)}`,
+    `- 전문위원: ${reportValue(safeReviewer.name)} · ${reportValue(safeReviewer.organization)} ${reportValue(safeReviewer.positionTitle)}`,
+    "",
+    "## 대표 확인 의견",
+    "",
+    reportValue(managerReview?.manager_notes) || "별도 의견 없음",
+    "",
+    "## AI 보조검토",
+    "",
+    reportValue(ai.conclusion),
+    "",
+    ...((ai.checks || []).map((item: any) => `- ${reportValue(item.label)}: ${reportValue(item.detail)}`)),
+    "",
+    "## 전문위원 검수결과 및 수정 지시",
+    ""
+  ];
+  documents.forEach((document: any, documentIndex: number) => {
+    const findings = (document.findings || []).filter((finding: any) => finding.kind !== "highlight");
+    lines.push(`### ${documentIndex + 1}. ${reportValue(document.title)}`, "", `- 자료 전체 의견: ${reportValue(document.overallMemo) || "별도 의견 없음"}`, "");
+    if (!findings.length) lines.push("- 별도 수정·전문 의견 없음", "");
+    findings.forEach((finding: any, findingIndex: number) => lines.push(
+      `#### ${documentIndex + 1}-${findingIndex + 1}. ${finding.kind === "issue" ? severityLabel(finding.severity) : "전문 의견"} · ${reportValue(finding.location)}`,
+      "",
+      `- 의견 ID: ${reportValue(finding.id)}`,
+      `- 원문: ${reportValue(finding.selectedText)}`,
+      `- 전문위원 의견: ${reportValue(finding.reviewerComment)}`,
+      `- 처리 기록: [ ] 반영  [ ] 보완 반영  [ ] 반려(사유 필수)`,
+      ""
+    ));
+  });
+  lines.push("## 처리 원칙", "", "1. 전문위원의 원문 의견은 수정하거나 축약하지 않습니다.", "2. 필수 수정은 반영 또는 반려 사유가 기록되어야 합니다.", "3. 수정 전후의 의견 ID·문서 ID·원문 위치 연결을 유지합니다.", "4. AI 보조검토는 누락·우선순위 점검용이며 전문위원 판단을 대체하지 않습니다.", "");
+  return { json: payload, markdown: lines.join("\n") };
+}
+
 function emailHtml(value: unknown) {
   return String(value ?? "").replace(/[&<>\"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[character] ?? character);
 }
@@ -383,6 +502,8 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
       stage: document.review_stage,
       complete: Boolean(progress?.complete),
       completedAt: progress?.completed_at ?? null,
+      totalBlockCount: (blocks ?? []).filter((block) => block.document_id === document.id).length,
+      checkedBlockCount: new Set(Array.isArray(progress?.checked_blocks) ? progress.checked_blocks : []).size,
       overallMemo: progress?.memo ?? "",
       findings: (annotations ?? []).filter((item) => item.document_id === document.id).map((item) => ({
         id: item.id,
@@ -411,7 +532,18 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
     company: { name: "유한회사 설탕과소금", unit: program.id === "civil" ? "공직시험 연구소" : "교원임용 연구" },
     reviewer: { id: reviewer.user_id, name: reviewer.display_name, email: reviewer.email, mobile: reviewer.mobile, organization: reviewer.organization, department: reviewer.department, positionTitle: reviewer.position_title, roleLabel: reviewer.role_label },
     assignment: { id: assignment.id, program: program.name, subject: subject.name, title: assignment.title, contractReference: assignment.contract_reference, period: `${assignment.starts_at.slice(0, 10)} — ${assignment.ends_at.slice(0, 10)}`, status: assignment.status },
-    summary: { documentCount: detailDocuments.length, completedDocumentCount: detailDocuments.filter((item: any) => item.complete).length, findingCount: findings.length, referenceMarkCount: (annotations ?? []).filter((item) => item.kind === "highlight").length },
+    summary: {
+      documentCount: detailDocuments.length,
+      completedDocumentCount: detailDocuments.filter((item: any) => item.complete).length,
+      totalBlockCount: detailDocuments.reduce((sum: number, item: any) => sum + item.totalBlockCount, 0),
+      checkedBlockCount: detailDocuments.reduce((sum: number, item: any) => sum + item.checkedBlockCount, 0),
+      findingCount: findings.length,
+      referenceMarkCount: (annotations ?? []).filter((item) => item.kind === "highlight").length,
+      criticalCount: findings.filter((item: any) => item.kind === "issue" && item.severity === "critical").length,
+      majorCount: findings.filter((item: any) => item.kind === "issue" && item.severity === "major").length,
+      minorCount: findings.filter((item: any) => item.kind === "issue" && item.severity === "minor").length,
+      professionalOpinionCount: findings.filter((item: any) => item.kind === "memo").length
+    },
     documents: detailDocuments
   };
   const lines = [
@@ -550,6 +682,8 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
   const { data: annotationRows } = assignmentIds.length ? await admin.from("review_annotations").select("assignment_id, id").in("assignment_id", assignmentIds) : { data: [] };
   const { data: eventRows } = assignmentIds.length ? await admin.from("review_events").select("assignment_id, document_id, reviewer_user_id, event_type, occurred_at, payload").in("assignment_id", assignmentIds).order("occurred_at", { ascending: false }) : { data: [] };
   const { data: exportRows } = assignmentIds.length ? await admin.from("review_exports").select("id, assignment_id, report_id, file_name, sha256, delivery_status, created_at, delivered_at").in("assignment_id", assignmentIds) : { data: [] };
+  const exportIds = (exportRows ?? []).map((item) => item.id);
+  const { data: managerReviewRows } = exportIds.length ? await admin.from("review_manager_reviews").select("export_id, status, reviewed_at, approved_at, updated_at").in("export_id", exportIds) : { data: [] };
   const { data: interimRows } = assignmentIds.length ? await admin.from("review_interim_reports").select("id, assignment_id, report_id, file_name, sha256, submitted_at").in("assignment_id", assignmentIds) : { data: [] };
   const reviewerMap = new Map((reviewers ?? []).map((item) => [item.user_id, item]));
   const subjectMap = new Map((subjects ?? []).map((item) => [item.id, item]));
@@ -557,6 +691,7 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
   const documentMap = new Map((documents ?? []).map((item) => [item.id, item]));
   const progressMap = new Map((progressRows ?? []).map((item) => [`${item.assignment_id}:${item.document_id}`, item]));
   const exportMap = new Map((exportRows ?? []).map((item) => [item.assignment_id, item]));
+  const managerReviewMap = new Map((managerReviewRows ?? []).map((item) => [item.export_id, item]));
   const interimMap = new Map((interimRows ?? []).map((item) => [item.assignment_id, item]));
   const blockCounts = new Map<string, number>();
   for (const block of blocks ?? []) blockCounts.set(block.document_id, (blockCounts.get(block.document_id) ?? 0) + 1);
@@ -617,7 +752,7 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
         opinionCount: (annotationRows ?? []).filter((item) => item.assignment_id === assignment.id).length,
         lastActivityAt,
         attention,
-        report: exportMap.get(assignment.id) ? { id: (exportMap.get(assignment.id) as any).id, reportId: (exportMap.get(assignment.id) as any).report_id, fileName: (exportMap.get(assignment.id) as any).file_name, sha256: (exportMap.get(assignment.id) as any).sha256, deliveryStatus: (exportMap.get(assignment.id) as any).delivery_status, createdAt: (exportMap.get(assignment.id) as any).created_at, deliveredAt: (exportMap.get(assignment.id) as any).delivered_at } : null,
+        report: exportMap.get(assignment.id) ? { id: (exportMap.get(assignment.id) as any).id, reportId: (exportMap.get(assignment.id) as any).report_id, fileName: (exportMap.get(assignment.id) as any).file_name, sha256: (exportMap.get(assignment.id) as any).sha256, deliveryStatus: (exportMap.get(assignment.id) as any).delivery_status, createdAt: (exportMap.get(assignment.id) as any).created_at, deliveredAt: (exportMap.get(assignment.id) as any).delivered_at, managerReviewStatus: (managerReviewMap.get((exportMap.get(assignment.id) as any).id) as any)?.status ?? "pending", managerReviewedAt: (managerReviewMap.get((exportMap.get(assignment.id) as any).id) as any)?.reviewed_at ?? null, managerApprovedAt: (managerReviewMap.get((exportMap.get(assignment.id) as any).id) as any)?.approved_at ?? null } : null,
         interimReport: interimMap.get(assignment.id) ? { id: (interimMap.get(assignment.id) as any).id, reportId: (interimMap.get(assignment.id) as any).report_id, fileName: (interimMap.get(assignment.id) as any).file_name, sha256: (interimMap.get(assignment.id) as any).sha256, submittedAt: (interimMap.get(assignment.id) as any).submitted_at } : null,
         documents: detailDocuments
       };
@@ -908,9 +1043,65 @@ Deno.serve(async (request) => {
     if (action === "managerGetReport") {
       await ensureManager(admin, userId);
       const exportId = cleanText(payload.exportId, 80);
-      const { data, error } = await admin.from("review_exports").select("id, report_id, file_name, markdown, sha256, delivery_status").eq("id", exportId).single();
+      const { data, error } = await admin.from("review_exports").select("id, assignment_id, reviewer_user_id, report_id, file_name, json_payload, sha256, delivery_status, created_at, delivered_at").eq("id", exportId).single();
       if (error || !data) throw new Error("표준 검수보고서를 찾지 못했습니다.");
-      return json({ reportId: data.report_id, fileName: data.file_name, markdown: data.markdown, sha256: data.sha256, deliveryStatus: data.delivery_status }, 200, origin);
+      const { data: managerReview } = await admin.from("review_manager_reviews").select("id, status, manager_notes, ai_supplement, reviewed_at, approved_at, updated_at").eq("export_id", exportId).maybeSingle();
+      const aiSupplement = managerReview?.ai_supplement && Object.keys(managerReview.ai_supplement).length ? managerReview.ai_supplement : buildAiSupplement(data.json_payload);
+      return json({
+        reportId: data.report_id,
+        fileName: data.file_name,
+        report: data.json_payload,
+        sha256: data.sha256,
+        deliveryStatus: data.delivery_status,
+        createdAt: data.created_at,
+        deliveredAt: data.delivered_at,
+        managerReview: managerReview ? { id: managerReview.id, status: managerReview.status, notes: managerReview.manager_notes, aiSupplement, reviewedAt: managerReview.reviewed_at, approvedAt: managerReview.approved_at, updatedAt: managerReview.updated_at } : { status: "pending", notes: "", aiSupplement, reviewedAt: null, approvedAt: null, updatedAt: null }
+      }, 200, origin);
+    }
+
+    if (action === "managerSaveReportReview" || action === "managerApproveReport") {
+      const manager = await ensureManager(admin, userId);
+      const exportId = cleanText(payload.exportId, 80);
+      const managerNotes = cleanText(payload.managerNotes, 12000);
+      const { data: report, error: reportError } = await admin.from("review_exports").select("id, assignment_id, reviewer_user_id, report_id, json_payload, delivery_status").eq("id", exportId).single();
+      if (reportError || !report) throw new Error("대표 검토 대상 보고서를 찾지 못했습니다.");
+      if (report.delivery_status === "delivered") throw new Error("이미 교재 제작 시스템에 전달 완료된 보고서입니다.");
+      const aiSupplement = buildAiSupplement(report.json_payload);
+      const now = new Date().toISOString();
+      const approving = action === "managerApproveReport";
+      const reviewRow = {
+        export_id: exportId,
+        assignment_id: report.assignment_id,
+        reviewer_user_id: report.reviewer_user_id,
+        manager_user_id: manager.user_id,
+        status: approving ? "approved" : "reviewing",
+        manager_notes: managerNotes,
+        ai_supplement: aiSupplement,
+        reviewed_at: now,
+        approved_at: approving ? now : null
+      };
+      const { data: saved, error: saveError } = await admin.from("review_manager_reviews").upsert(reviewRow, { onConflict: "export_id" }).select("id, status, manager_notes, ai_supplement, reviewed_at, approved_at, updated_at").single();
+      if (saveError || !saved) throw saveError || new Error("대표 검토 내용을 저장하지 못했습니다.");
+      await admin.from("review_events").insert({ assignment_id: report.assignment_id, reviewer_user_id: userId, event_type: approving ? "report_manager_approved" : "report_manager_review_saved", payload: { exportId, reportId: report.report_id } });
+      return json({ ok: true, managerReview: { id: saved.id, status: saved.status, notes: saved.manager_notes, aiSupplement: saved.ai_supplement, reviewedAt: saved.reviewed_at, approvedAt: saved.approved_at, updatedAt: saved.updated_at } }, 200, origin);
+    }
+
+    if (action === "managerGetHandoffPackage") {
+      await ensureManager(admin, userId);
+      const exportId = cleanText(payload.exportId, 80);
+      const { data: report, error: reportError } = await admin.from("review_exports").select("id, report_id, json_payload").eq("id", exportId).single();
+      if (reportError || !report) throw new Error("교재 수정 인계 대상 보고서를 찾지 못했습니다.");
+      const { data: managerReview, error: reviewError } = await admin.from("review_manager_reviews").select("status, manager_notes, ai_supplement, approved_at").eq("export_id", exportId).single();
+      if (reviewError || managerReview?.status !== "approved") throw new Error("대표 확인과 인계 승인을 먼저 완료해 주세요.");
+      const handoff = buildClaudeHandoff(report.json_payload, managerReview);
+      const subject = reportFilePart(report.json_payload?.assignment?.subject || "검수");
+      return json({
+        reportId: report.report_id,
+        markdownFileName: `${subject}_Claude_Code_교재수정_인계서.md`,
+        jsonFileName: `${subject}_Claude_Code_교재수정_인계자료.json`,
+        markdown: handoff.markdown,
+        json: handoff.json
+      }, 200, origin);
     }
 
     if (action === "managerGetInterimReport") {
@@ -926,6 +1117,8 @@ Deno.serve(async (request) => {
       const exportId = cleanText(payload.exportId, 80);
       const { data: report, error: reportError } = await admin.from("review_exports").select("id, assignment_id, delivery_status").eq("id", exportId).single();
       if (reportError || !report) throw new Error("표준 검수보고서를 찾지 못했습니다.");
+      const { data: managerReview } = await admin.from("review_manager_reviews").select("status").eq("export_id", exportId).maybeSingle();
+      if (managerReview?.status !== "approved") throw new Error("대표 확인과 Claude Code 인계 승인을 먼저 완료해 주세요.");
       const deliveredAt = new Date().toISOString();
       const { data: delivered, error } = await admin.from("review_exports").update({ delivery_status: "delivered", delivered_at: deliveredAt }).eq("id", exportId).eq("delivery_status", "ready").select("id").maybeSingle();
       if (error) throw error;
