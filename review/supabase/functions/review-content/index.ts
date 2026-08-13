@@ -4,12 +4,14 @@ const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ?? "";
 const SUPABASE_ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY") ?? "";
 const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY") ?? "";
+const BREVO_API_KEY = Deno.env.get("BREVO_API_KEY") ?? "";
 const REVIEW_EMAIL_ENABLED = (Deno.env.get("REVIEW_EMAIL_ENABLED") ?? "false").toLowerCase() === "true";
 const REVIEW_ACCESS_ENABLED = (Deno.env.get("REVIEW_ACCESS_ENABLED") ?? "false").toLowerCase() === "true";
 const REVIEW_LAUNCH_ENABLED = (Deno.env.get("REVIEW_LAUNCH_ENABLED") ?? "false").toLowerCase() === "true";
 const REVIEW_EMAIL_FROM = Deno.env.get("REVIEW_EMAIL_FROM") ?? "유한회사 설탕과소금 <review@gyo6.kr>";
 const REVIEW_APP_URL = Deno.env.get("REVIEW_APP_URL") ?? "https://gyo6.kr/review/";
 const REVIEW_OPERATIONS_EMAIL = Deno.env.get("REVIEW_OPERATIONS_EMAIL") ?? "admin@gyo6.kr";
+const REVIEW_EMAIL_PROVIDER = BREVO_API_KEY ? "brevo" : (RESEND_API_KEY ? "resend" : "");
 const ALLOWED_ORIGINS = (Deno.env.get("REVIEW_ALLOWED_ORIGINS") ?? "https://gyo6.kr,http://127.0.0.1:4175,http://localhost:4175")
   .split(",")
   .map((value) => value.trim())
@@ -102,15 +104,32 @@ function safeEventPayload(value: unknown) {
 
 async function sendOperationalEmail(to: string, subject: string, html: string, idempotencyKey: string) {
   if (!REVIEW_EMAIL_ENABLED) return { sent: false, status: "paused", id: null };
-  if (!RESEND_API_KEY) return { sent: false, status: "not_configured", id: null };
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: { "Authorization": `Bearer ${RESEND_API_KEY}`, "Content-Type": "application/json", "Idempotency-Key": idempotencyKey.slice(0, 256) },
-    body: JSON.stringify({ from: REVIEW_EMAIL_FROM, to: [to], subject, html })
-  });
+  if (!REVIEW_EMAIL_PROVIDER) return { sent: false, status: "not_configured", id: null };
+  const fromMatch = REVIEW_EMAIL_FROM.match(/^\s*(.*?)\s*<([^>]+)>\s*$/);
+  const senderName = fromMatch?.[1]?.trim() || "유한회사 설탕과소금";
+  const senderEmail = fromMatch?.[2]?.trim() || REVIEW_EMAIL_FROM.trim();
+  const response = REVIEW_EMAIL_PROVIDER === "brevo"
+    ? await fetch("https://api.brevo.com/v3/smtp/email", {
+        method: "POST",
+        headers: { "api-key": BREVO_API_KEY, "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          sender: { name: senderName, email: senderEmail },
+          to: [{ email: to }],
+          replyTo: { name: "유한회사 설탕과소금 공직시험 연구소", email: REVIEW_OPERATIONS_EMAIL },
+          subject,
+          htmlContent: html,
+          headers: { "X-Review-Idempotency": idempotencyKey.slice(0, 128) },
+          tags: ["expert-review-operations"]
+        })
+      })
+    : await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { "Authorization": `Bearer ${RESEND_API_KEY}`, "Content-Type": "application/json", "Idempotency-Key": idempotencyKey.slice(0, 256) },
+        body: JSON.stringify({ from: REVIEW_EMAIL_FROM, to: [to], subject, html, reply_to: REVIEW_OPERATIONS_EMAIL })
+      });
   const result = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error("안내 이메일 발송 서비스가 요청을 처리하지 못했습니다.");
-  return { sent: true, status: "sent", id: result.id ?? null };
+  return { sent: true, status: "sent", id: result.messageId ?? result.id ?? null, provider: REVIEW_EMAIL_PROVIDER };
 }
 
 async function assignmentFor(admin: ReturnType<typeof createClient>, userId: string, assignmentId: string, requireWritable = false) {
@@ -589,11 +608,12 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
   const { data: documentCatalog } = await admin.from("review_documents").select("id, subject_id, title, kind, version, status, source_sha256").in("status", ["review_ready", "reviewing", "approved"]).order("title");
   return {
     launchReadiness: {
-      enabled: Boolean(REVIEW_LAUNCH_ENABLED && REVIEW_ACCESS_ENABLED && REVIEW_EMAIL_ENABLED && RESEND_API_KEY),
+      enabled: Boolean(REVIEW_LAUNCH_ENABLED && REVIEW_ACCESS_ENABLED && REVIEW_EMAIL_ENABLED && REVIEW_EMAIL_PROVIDER),
       launchEnabled: REVIEW_LAUNCH_ENABLED,
       accessEnabled: REVIEW_ACCESS_ENABLED,
       emailEnabled: REVIEW_EMAIL_ENABLED,
-      emailConfigured: Boolean(RESEND_API_KEY)
+      emailConfigured: Boolean(REVIEW_EMAIL_PROVIDER),
+      emailProvider: REVIEW_EMAIL_PROVIDER || null
     },
     assignments: dashboardAssignments,
     experts: (expertCatalog ?? []).map((item) => ({ id: item.user_id, email: item.email, name: item.display_name, mobile: item.mobile, organization: item.organization, department: item.department, positionTitle: item.position_title, roleLabel: item.role_label, active: item.active })),
@@ -752,7 +772,7 @@ Deno.serve(async (request) => {
 
     if (action === "managerBatchStart") {
       await ensureManager(admin, userId);
-      if (!REVIEW_LAUNCH_ENABLED || !REVIEW_ACCESS_ENABLED || !REVIEW_EMAIL_ENABLED || !RESEND_API_KEY) {
+      if (!REVIEW_LAUNCH_ENABLED || !REVIEW_ACCESS_ENABLED || !REVIEW_EMAIL_ENABLED || !REVIEW_EMAIL_PROVIDER) {
         throw new Error("전문위원 안내 발송 기능이 현재 잠겨 있습니다. 대표님의 최종 발송 승인 후 서버 설정을 해제해 주세요.");
       }
       const assignmentIds: string[] = [...new Set<string>(Array.isArray(payload.assignmentIds) ? payload.assignmentIds.map((item: unknown) => cleanText(item, 80)).filter(Boolean) : [])];
