@@ -132,7 +132,14 @@ async function buildReviewIntegrity(admin: ReturnType<typeof createClient>, user
   const perDocument = documentIds.map((documentId) => {
     const document = documentMap.get(documentId) as any;
     const documentBlocks = blocks.filter((block) => block.document_id === documentId);
-    const checked = new Set(Array.isArray((progressMap.get(documentId) as any)?.checked_blocks) ? (progressMap.get(documentId) as any).checked_blocks : []);
+    const validBlockIds = new Set(documentBlocks.map((block) => String(block.id)));
+    const checked = new Set(
+      (Array.isArray((progressMap.get(documentId) as any)?.checked_blocks)
+        ? (progressMap.get(documentId) as any).checked_blocks
+        : [])
+        .map((id: unknown) => String(id))
+        .filter((id: string) => validBlockIds.has(id))
+    );
     let checkedCharacters = 0;
     let uncheckedCharacters = 0;
     documentBlocks.forEach((block) => {
@@ -1232,25 +1239,66 @@ Deno.serve(async (request) => {
           results.push({assignmentId:assignment.id,started:false,alreadyStarted:false,notificationSent:false,notificationStatus:"failed",notificationRecordStatus:"reviewer_email_missing",error:"전문위원 이메일을 확인해 주세요."});
           continue;
         }
+        const {data:existingStartArchive}=await admin.from("review_notification_archive").select("sent_at,delivery_status").eq("assignment_id",assignment.id).eq("notification_type","assignment_start").eq("recipient_email",expert.email).maybeSingle();
+        if(existingStartArchive?.delivery_status==="service_accepted"&&existingStartArchive.sent_at){
+          const recoveredStartAt=assignment.started_at||existingStartArchive.sent_at;
+          const {error:recoverError}=await admin.from("review_assignments").update({status:"assigned",started_at:recoveredStartAt,notification_sent_at:existingStartArchive.sent_at}).eq("id",assignment.id).eq("status","prepared");
+          if(!recoverError){
+            await admin.from("review_assignment_documents").update({visible_from:recoveredStartAt}).eq("assignment_id",assignment.id);
+            results.push({assignmentId:assignment.id,started:false,alreadyStarted:true,notificationSent:true,notificationStatus:"sent",notificationRecordStatus:"repaired_from_archive"});
+            continue;
+          }
+        }
+        const reservationAt=new Date().toISOString();
+        const {data:reservedRows,error:reservationError}=await admin.from("review_assignments").update({started_at:reservationAt}).eq("id",assignment.id).eq("status","prepared").is("started_at",null).is("notification_sent_at",null).select("id");
+        if(reservationError||!(reservedRows??[]).length){
+          const [{data:latest},{data:archivedStart}]=await Promise.all([
+            admin.from("review_assignments").select("status,started_at,notification_sent_at").eq("id",assignment.id).maybeSingle(),
+            admin.from("review_notification_archive").select("sent_at,delivery_status").eq("assignment_id",assignment.id).eq("notification_type","assignment_start").eq("recipient_email",expert.email).maybeSingle()
+          ]);
+          if(archivedStart?.delivery_status==="service_accepted"&&archivedStart.sent_at){
+            const repairedAt=latest?.started_at||archivedStart.sent_at;
+            const {error:repairError}=await admin.from("review_assignments").update({status:"assigned",started_at:repairedAt,notification_sent_at:archivedStart.sent_at}).eq("id",assignment.id).eq("status","prepared");
+            if(!repairError){
+              await admin.from("review_assignment_documents").update({visible_from:repairedAt}).eq("assignment_id",assignment.id);
+              results.push({assignmentId:assignment.id,started:false,alreadyStarted:true,notificationSent:true,notificationStatus:"sent",notificationRecordStatus:"repaired_from_archive"});
+              continue;
+            }
+          }
+          if(latest?.started_at&&latest?.notification_sent_at&&["assigned","reviewing","submitted","accepted","returned"].includes(latest.status)){
+            results.push({assignmentId:assignment.id,started:false,alreadyStarted:true,notificationSent:true,notificationStatus:"sent",notificationRecordStatus:"already_recorded"});
+            continue;
+          }
+          const reservationAge=latest?.started_at?Date.now()-new Date(latest.started_at).getTime():0;
+          if(latest?.status==="prepared"&&latest.started_at&&!latest.notification_sent_at&&reservationAge>120000){
+            await admin.from("review_assignments").update({started_at:null}).eq("id",assignment.id).eq("status","prepared").eq("started_at",latest.started_at).is("notification_sent_at",null);
+            results.push({assignmentId:assignment.id,started:false,alreadyStarted:false,notificationSent:false,notificationStatus:"retry_required",notificationRecordStatus:"stale_reservation_released",error:"이전 시작 시도가 안전하게 정리되었습니다. 같은 버튼을 한 번 더 눌러 주세요."});
+          }else{
+            results.push({assignmentId:assignment.id,started:false,alreadyStarted:false,notificationSent:false,notificationStatus:"processing",notificationRecordStatus:"start_in_progress",error:"같은 과제의 시작 처리가 이미 진행 중입니다. 잠시 후 최신 기록을 확인해 주세요."});
+          }
+          continue;
+        }
         const notificationSubject=`[유한회사 설탕과소금] ${expert.display_name} 전문위원님 · ${subject?.name??"담당 과목"} 검수 개시 안내`;
         const notificationHtml=buildAssignmentStartEmail(expert.display_name,subject?.name,assignment,(documents??[]) as Array<Record<string, unknown>>);
         let notification={sent:false,status:"failed",id:null as string|null,provider:null as string|null};
         try {
           notification=await sendOperationalEmail(expert.email,notificationSubject,notificationHtml,`assignment-start-${assignment.id}`);
         } catch (error) {
+          await admin.from("review_assignments").update({started_at:null}).eq("id",assignment.id).eq("status","prepared").eq("started_at",reservationAt).is("notification_sent_at",null);
           await admin.from("review_events").insert({assignment_id:assignment.id,reviewer_user_id:userId,event_type:"assignment_start_failed",payload:{phase:"email",notificationStatus:"failed",message:cleanText(error instanceof Error?error.message:"안내 이메일 발송 실패",200)}});
           results.push({assignmentId:assignment.id,started:false,alreadyStarted:false,notificationSent:false,notificationStatus:"failed",notificationRecordStatus:"email_failed",error:"안내 이메일 발송 서비스 접수에 실패했습니다."});
           continue;
         }
         if(!notification.sent){
+          await admin.from("review_assignments").update({started_at:null}).eq("id",assignment.id).eq("status","prepared").eq("started_at",reservationAt).is("notification_sent_at",null);
           results.push({assignmentId:assignment.id,started:false,alreadyStarted:false,notificationSent:false,notificationStatus:notification.status,notificationRecordStatus:"email_not_sent",error:"안내 이메일이 발송 서비스에 접수되지 않았습니다."});
           continue;
         }
         const { error: archiveError } = await admin.from("review_notification_archive").upsert({assignment_id:assignment.id,notification_type:"assignment_start",channel:"email",recipient_email:expert.email,recipient_name:expert.display_name,subject:notificationSubject,html_body:notificationHtml,text_body:null,template_version:"assignment-start-v1",provider:notification.provider,provider_message_id:notification.id,delivery_status:"service_accepted",sent_at:new Date().toISOString(),created_by:userId},{onConflict:"assignment_id,notification_type,recipient_email"});
         await admin.from("review_events").insert({assignment_id:assignment.id,reviewer_user_id:userId,event_type:"notification_dispatched",payload:{channel:"email",recipient:expert.email,subject:notificationSubject,templateVersion:"assignment-start-v1",provider:notification.provider,providerMessageId:notification.id,notificationStatus:notification.status,archiveStored:!archiveError,archiveError:archiveError?cleanText(archiveError.message,160):null}});
-        const startedAt=new Date().toISOString();
+        const startedAt=reservationAt;
         const notificationSentAt=notification.sent?new Date().toISOString():null;
-        const {data:startedRows,error:startError}=await admin.from("review_assignments").update({status:"assigned",started_at:startedAt,notification_sent_at:notificationSentAt}).eq("id",assignment.id).eq("status","prepared").select("id");
+        const {data:startedRows,error:startError}=await admin.from("review_assignments").update({status:"assigned",notification_sent_at:notificationSentAt}).eq("id",assignment.id).eq("status","prepared").eq("started_at",reservationAt).is("notification_sent_at",null).select("id");
         if(startError||!(startedRows??[]).length){
           const {data:latest}=await admin.from("review_assignments").select("status,started_at,notification_sent_at").eq("id",assignment.id).maybeSingle();
           if(latest?.started_at&&latest?.notification_sent_at){
@@ -1590,9 +1638,21 @@ Deno.serve(async (request) => {
       const { data: existingProgress } = await admin.from("review_progress").select("*").eq("assignment_id", assignmentId).eq("document_id", documentId).eq("reviewer_user_id", userId).maybeSingle();
       const { data: validBlocks } = await admin.from("review_blocks").select("id").eq("document_id", documentId);
       const validIds = new Set((validBlocks ?? []).map((block) => block.id));
-      const checkedBlocks = Array.isArray(progress.checkedBlocks) ? progress.checkedBlocks.filter((id: unknown) => validIds.has(String(id))).slice(0, 2000) : [];
+      const checkedBlocks = Array.isArray(progress.checkedBlocks)
+        ? [...new Set<string>(progress.checkedBlocks.map((id: unknown) => String(id)).filter((id: string) => validIds.has(id)))].slice(0, 2000)
+        : [];
       const complete = Boolean(progress.complete) && validIds.size > 0 && checkedBlocks.length === validIds.size;
-      const record = { assignment_id: assignmentId, document_id: documentId, reviewer_user_id: userId, checked_blocks: checkedBlocks, memo: cleanText(progress.memo, 10000), complete, completed_at: complete ? progress.completedAt || new Date().toISOString() : null, updated_at: new Date().toISOString() };
+      const savedAt = new Date().toISOString();
+      const record = {
+        assignment_id: assignmentId,
+        document_id: documentId,
+        reviewer_user_id: userId,
+        checked_blocks: checkedBlocks,
+        memo: cleanText(progress.memo, 10000),
+        complete,
+        completed_at: complete ? existingProgress?.completed_at || savedAt : null,
+        updated_at: savedAt
+      };
       const { error } = await admin.from("review_progress").upsert(record, { onConflict: "assignment_id,document_id,reviewer_user_id" });
       if (error) throw error;
       await admin.from("review_change_history").insert({
@@ -1613,6 +1673,7 @@ Deno.serve(async (request) => {
       const assignmentId = cleanText(payload.assignmentId, 80);
       await assignmentFor(admin, userId, assignmentId, true);
       const integrity = await buildReviewIntegrity(admin, userId, assignmentId);
+      if (!integrity.totalBlockCount) throw new Error("검수할 원고 문단이 준비되지 않아 최종 제출할 수 없습니다. 담당자에게 말씀해 주세요.");
       if (integrity.hasAttention && payload.integrityAcknowledged !== true) throw new Error("미확인 또는 확인 속도 주의기록을 먼저 확인하고 대표 보고 포함에 동의해 주세요.");
       const submittedAt = new Date().toISOString();
       const { data: submitted, error } = await admin.from("review_assignments").update({ status: "submitted", submitted_at: submittedAt }).eq("id", assignmentId).eq("reviewer_user_id", userId).in("status", ["assigned", "reviewing", "returned"]).select("id").maybeSingle();

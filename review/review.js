@@ -142,6 +142,7 @@ const state = {
   pendingAnnotationKind: null,
   saveJobs: new Map(),
   saveTimers: new Map(),
+  saveRetryCounts: new Map(),
   savePromises: new Set(),
   remoteDocumentCache: new Map(),
   remoteDocumentPromises: new Map(),
@@ -153,6 +154,10 @@ const state = {
   recordedBlockViews: new Set(),
   blockViewTimer: null,
   blockViewFlushPromise: null,
+  blockCheckJobs: [],
+  blockCheckTimer: null,
+  blockCheckFlushPromise: null,
+  blockCheckFailureNotified: false,
   submissionIntegrity: null
 };
 
@@ -245,10 +250,17 @@ async function runSaveJob(key) {
   try {
     await savePromise;
     saved = true;
+    state.saveRetryCounts.delete(key);
   } catch (error) {
-    state.saveJobs.set(key, job);
-    setSaveStatus("저장 재시도 필요", "error");
-    toast("작성하신 내용을 저장하지 못했습니다. 인터넷 연결을 확인하신 뒤 다시 시도해 주세요.");
+    if (!state.saveJobs.has(key)) state.saveJobs.set(key, job);
+    const retryCount = Math.min(6, Number(state.saveRetryCounts.get(key) || 0) + 1);
+    state.saveRetryCounts.set(key, retryCount);
+    const retryDelay = Math.min(30000, 1000 * (2 ** (retryCount - 1)));
+    const retryTimer = state.saveTimers.get(key);
+    if (retryTimer) clearTimeout(retryTimer);
+    state.saveTimers.set(key, setTimeout(() => runSaveJob(key).catch(() => {}), retryDelay));
+    setSaveStatus(`저장 재시도 중 · ${Math.ceil(retryDelay / 1000)}초 이내`, "error");
+    if (retryCount === 1) toast("작성하신 내용을 보존했습니다. 연결이 회복되는 대로 자동으로 다시 저장합니다.");
     throw error;
   } finally {
     state.savePromises.delete(savePromise);
@@ -703,7 +715,8 @@ async function flushBlockViews() {
   const batches = [...state.pendingBlockViews.entries()];
   state.pendingBlockViews.clear();
   if (state.mode !== "production" || !batches.length) return;
-  state.blockViewFlushPromise = Promise.all(batches.map(async ([key, ids]) => {
+  let failed = false;
+  state.blockViewFlushPromise = Promise.allSettled(batches.map(async ([key, ids]) => {
     const [assignmentId, documentId] = key.split(":");
     try {
       await api("recordBlockViews", { assignmentId, documentId, blockIds: [...ids] });
@@ -712,7 +725,9 @@ async function flushBlockViews() {
         state.queuedBlockViews.delete(`${key}:${id}`);
       });
     } catch (error) {
-      ids.forEach((id) => state.queuedBlockViews.delete(`${key}:${id}`));
+      failed = true;
+      if (!state.pendingBlockViews.has(key)) state.pendingBlockViews.set(key, new Set());
+      ids.forEach((id) => state.pendingBlockViews.get(key).add(id));
       throw error;
     }
   }));
@@ -721,17 +736,56 @@ async function flushBlockViews() {
   } finally {
     state.blockViewFlushPromise = null;
   }
-  if (state.pendingBlockViews.size) await flushBlockViews();
+  if (state.pendingBlockViews.size) {
+    if (failed) {
+      clearTimeout(state.blockViewTimer);
+      state.blockViewTimer = setTimeout(() => flushBlockViews().catch(() => {}), 3000);
+      throw new Error("문단 열람 기록을 다시 저장하고 있습니다.");
+    } else {
+      await flushBlockViews();
+    }
+  }
 }
 
-async function recordBlockChecks(blockIds, assignmentId, documentId) {
-  if (state.mode !== "production" || !blockIds.length) return;
+function scheduleBlockCheckFlush(delay = 0) {
+  clearTimeout(state.blockCheckTimer);
+  state.blockCheckTimer = setTimeout(() => flushBlockChecks().catch(() => {}), delay);
+}
+
+async function flushBlockChecks() {
+  clearTimeout(state.blockCheckTimer);
+  state.blockCheckTimer = null;
+  if (state.blockCheckFlushPromise) return state.blockCheckFlushPromise;
+  if (state.mode !== "production" || !state.blockCheckJobs.length) return;
+  state.blockCheckFlushPromise = (async () => {
+    while (state.blockCheckJobs.length) {
+      const job = state.blockCheckJobs[0];
+      try {
+        await flushBlockViews();
+        await api("recordBlockChecks", job);
+        state.blockCheckJobs.shift();
+        state.blockCheckFailureNotified = false;
+      } catch (error) {
+        if (!state.blockCheckFailureNotified) {
+          state.blockCheckFailureNotified = true;
+          toast("확인 기록을 보존했습니다. 연결이 회복되는 대로 자동으로 다시 저장합니다.");
+        }
+        scheduleBlockCheckFlush(3000);
+        throw error;
+      }
+    }
+  })();
   try {
-    await flushBlockViews();
-    await api("recordBlockChecks", { assignmentId, documentId, blockIds, bulkCount: blockIds.length });
-  } catch {
-    toast("확인 시각 기록을 저장하지 못했습니다. 확인 표시는 보존되며 제출 전 다시 점검합니다.");
+    await state.blockCheckFlushPromise;
+  } finally {
+    state.blockCheckFlushPromise = null;
   }
+}
+
+function recordBlockChecks(blockIds, assignmentId, documentId) {
+  if (state.mode !== "production" || !blockIds.length) return;
+  state.blockCheckJobs.push({ assignmentId, documentId, blockIds: [...new Set(blockIds)], bulkCount: blockIds.length });
+  scheduleBlockCheckFlush();
 }
 
 function readerBaseFontSize() {
@@ -1233,7 +1287,8 @@ async function selectDocument(documentId) {
   hideSelectionPopover();
   setSaveStatus("자료 불러오는 중…", "saving");
   try {
-    flushPendingSaves().catch(() => {});
+    await flushPendingSaves();
+    await flushBlockChecks();
     state.activeDocumentId = documentId;
     await ensureRemoteDocument(documentId);
     renderAll();
@@ -1331,6 +1386,7 @@ function renderSubmissionIntegrity(integrity) {
 async function openSubmissionIntegrity() {
   await flushPendingSaves();
   await flushBlockViews();
+  await flushBlockChecks();
   const result = state.mode === "production" ? await api("getSubmissionIntegrity", { assignmentId: state.activeAssignmentId }) : { integrity: localSubmissionIntegrity() };
   state.submissionIntegrity = result.integrity;
   renderSubmissionIntegrity(result.integrity);
@@ -1573,8 +1629,22 @@ function bindEvents() {
   window.addEventListener("beforeprint", () => logEvent("print_attempt"));
   window.addEventListener("resize", applyReaderScale, { passive: true });
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden && hasPendingSaves()) flushPendingSaves().catch(() => {});
+    if (document.hidden) {
+      if (hasPendingSaves()) flushPendingSaves().catch(() => {});
+      flushBlockViews().catch(() => {});
+      flushBlockChecks().catch(() => {});
+    }
     logEvent(document.hidden ? "window_hidden" : "window_visible");
+  });
+  window.addEventListener("online", () => {
+    if (hasPendingSaves()) flushPendingSaves().catch(() => {});
+    flushBlockViews().catch(() => {});
+    flushBlockChecks().catch(() => {});
+  });
+  window.addEventListener("beforeunload", (event) => {
+    if (!hasPendingSaves() && !state.blockCheckJobs.length && !state.pendingBlockViews.size) return;
+    event.preventDefault();
+    event.returnValue = "";
   });
 }
 

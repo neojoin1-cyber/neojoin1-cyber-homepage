@@ -21,6 +21,10 @@ const runtimeControlSql = read("review/supabase/migrations/20260814000000_review
 const reportWorkflowSql = read("review/supabase/migrations/20260814010000_review_report_workflow.sql");
 const integritySql = read("review/supabase/migrations/20260814020000_review_integrity_tracking.sql");
 const notificationArchiveSql = read("review/supabase/migrations/20260814040000_review_notification_archive.sql");
+const migrationDirectory = path.join(root, "review/supabase/migrations");
+const migrationFiles = fs.readdirSync(migrationDirectory).sort();
+const migrations = migrationFiles.map((file) => read(`review/supabase/migrations/${file}`)).join("\n");
+const productionInfrastructureVerifier = read("tools/verify_review_production_project.mjs");
 
 check("page.noindex", html.includes('name="robots" content="noindex, nofollow, noarchive, nosnippet"'), "보호 페이지가 검색에 노출되지 않습니다.");
 check("page.programs", ["국가직 7급 공무원시험 대비", "초등교원임용고사 대비", "중등교원임용고사 대비"].every((value) => js.includes(value)), "세 시험군이 하나의 워크룸 구조에 포함됩니다.");
@@ -29,7 +33,7 @@ check("tools.selection-popover", html.includes("selection-popover") && js.includ
 check("tools.mobile-layout", css.includes("data-short") && css.includes("max-width: calc(100vw - 16px)") && css.includes("grid-template-columns: 1fr;"), "스마트폰에서도 헤더·제출 버튼·원고가 화면 폭 안에서 정돈됩니다.");
 check("tools.ipad-scroll", css.includes("-webkit-overflow-scrolling: touch") && css.includes("touch-action: pan-y") && css.includes("calc(100dvh - 155px)"), "아이패드에서도 원고 영역이 화면 높이에 맞춰 즉시 터치 스크롤됩니다.");
 check("tools.large-review", html.includes("큰 화면 검수") && html.includes("기본 화면으로") && html.includes('aria-pressed="false"') && js.includes("setFocusMode") && js.includes("readerBaseFontSize") && css.includes("body.focus-mode .app-header") && css.includes("display: none !important") && css.includes("grid-template-columns: minmax(0, 1fr)") && css.includes("width: calc(100% - 56px)"), "큰화면 검수에서는 일반 메뉴와 좌우 패널을 숨기고 원고와 검수 도구만 화면 가득 표시하며 명확한 기본 화면 복귀 버튼을 제공합니다.");
-check("tools.autosave", js.includes("scheduleSave") && html.includes("자동으로 저장"), "문단 확인과 전체 의견을 자동저장합니다.");
+check("tools.autosave", js.includes("scheduleSave") && js.includes("saveRetryCounts") && js.includes("저장 재시도 중") && js.includes('window.addEventListener("online"') && html.includes("자동으로 저장"), "문단 확인과 전체 의견을 자동저장하고 연결 장애 뒤 자동 재시도합니다.");
 check("content.source-tables", js.includes("REVIEW_TABLE_V1") && js.includes("renderTableGroup") && css.includes("review-data-table") && css.includes("review-table-confirm"), "원본 표를 셀별 문장으로 흩뜨리지 않고 전문 검수용 표로 복원합니다.");
 check("content.table-progress", js.includes("data-check-blocks") && js.includes("toggleBlocks") && js.includes("review-table-cell"), "표의 행 확인과 셀별 검수 의견이 기존 진행기록·보고서에 연결됩니다.");
 check("auth.remembered-session", js.includes("AUTH_MAX_AGE_MS") && managerJs.includes("AUTH_MAX_AGE_MS") && html.includes("14일간 인증 상태 유지") && managerHtml.includes("14일간 관리자 인증 유지"), "기기별 14일 인증 유지와 명시적 로그아웃을 제공합니다.");
@@ -74,7 +78,7 @@ check("manager.batch-start", managerHtml.includes("batch-start-dialog") && manag
 check("manager.single-start", managerHtml.includes('id="start-assignment"') && managerJs.includes("startSingleAssignment") && managerJs.includes("assignmentIds:[assignmentId]"), "계약 완료 시 전문위원별로 검수를 개별 시작하고 안내장을 발송합니다.");
 check("manager.start-tracking", managerJs.includes("개시 승인") && managerJs.includes("워크룸 인증 접속") && managerJs.includes("첫 원고 열람") && managerJs.includes("발송 서비스 접수 완료") && edge.includes("workroomEnteredAt") && edge.includes("firstDocumentOpenedAt") && edge.includes("firstReviewRecordedAt") && edge.includes('event.reviewer_user_id === assignment.reviewer_user_id'), "관리자 시작 이벤트와 전문위원 실제 접속·원고 열람·검수 기록을 분리하여 표시합니다.");
 check("manager.email-event-fallback", edge.includes('startNotificationStatus === "sent" ? startEvent?.occurred_at') && edge.includes('notificationRecordStatus:startEventError?"assignment_record_only"') && edge.includes("notificationSentAt,notificationId:notification.id"), "메일 접수 시각을 과제와 감사 이벤트에 이중 기록하고 기존 발송 성공 이벤트도 소급 인정합니다.");
-check("manager.start-email-before-access", edge.indexOf("notification=await sendOperationalEmail") < edge.indexOf('update({status:"assigned",started_at:startedAt,notification_sent_at:notificationSentAt})') && edge.includes('eq("status","prepared").select("id")'), "이메일 서비스 접수 후에만 과제 접근을 열고 조건부 갱신으로 중복 시작을 막습니다.");
+check("manager.start-email-before-access", edge.includes('update({started_at:reservationAt})') && edge.includes('eq("status","prepared").is("started_at",null)') && edge.indexOf("notification=await sendOperationalEmail") < edge.indexOf('update({status:"assigned",notification_sent_at:notificationSentAt})'), "준비 상태의 원자적 예약으로 중복 발송을 막고 이메일 서비스 접수 후에만 과제 접근을 엽니다.");
 check("manager.start-failure-retry", edge.includes('event_type:"assignment_start_failed"') && edge.includes('notificationRecordStatus:"email_failed"') && edge.includes('started:false'), "발송 실패 시 과제를 준비 상태로 유지하고 실패 기록과 재시도 가능 상태를 반환합니다.");
 check("manager.start-confirmation-dialog", managerHtml.includes('id="start-result-dialog"') && managerJs.includes("showStartResult") && managerJs.includes("서버에서 다시 확인했습니다") && managerJs.includes("발송 서비스 접수 완료"), "짧은 토스트 대신 서버 재조회 결과를 닫기 전까지 유지되는 완료창으로 표시합니다.");
 check("manager.launch-readiness", edge.includes("launchReadiness") && managerJs.includes("state.launchReadiness?.enabled") && managerJs.includes("메일 발송 서비스 연결 필요"), "시작·접근·메일 설정이 모두 준비됐을 때만 개별 시작 버튼을 활성화하고 부족한 설정을 정확히 표시합니다.");
@@ -82,6 +86,7 @@ check("manager.runtime-controls", managerHtml.includes('id="runtime-controls"') 
 check("manager.runtime-start-separation", managerHtml.includes("잠금 해제만으로는 이메일 발송이나 원고 공개가 시작되지 않습니다") && managerJs.includes("아직 이메일과 원고는 전달되지 않았습니다") && edge.includes('action === "managerBatchStart"'), "운영 잠금 해제와 실제 전문위원 일괄 시작을 별도 확인 단계로 유지합니다.");
 check("manager.batch-scale", edge.includes("assignmentIds.length > 50") && edge.includes("1~50건"), "초·중등 전문위원 22명을 포함해 최대 50개 과제를 한 번에 선택하고 서버에서 순차 시작할 수 있습니다.");
 check("manager.email-lock", edge.includes("전문위원 안내 발송 기능이 현재 잠겨 있습니다") && edge.includes("!controls.launchEnabled || !controls.accessEnabled || !REVIEW_EMAIL_ENABLED || !REVIEW_EMAIL_PROVIDER"), "발송·접근·시작 설정 중 하나라도 잠기면 과제 시작과 이메일 발송이 함께 차단됩니다.");
+check("manager.start-idempotency", edge.includes("existingStartArchive") && edge.includes("repaired_from_archive") && edge.includes("start_in_progress") && edge.includes('.is("started_at",null)'), "동시 클릭·일시 장애에도 안내 메일 중복 발송 없이 시작 기록을 복구합니다.");
 check("api.access-lock", edge.includes("전문위원 검수 접근은 대표님의 최종 시작 승인 전까지 안전하게 잠겨 있습니다") && edge.includes("if (!controls.accessEnabled)"), "대표님의 최종 승인 전에는 전문위원 로그인 후에도 검수 자료가 열리지 않습니다.");
 check("manager.interim-report", html.includes("interim-submit") && managerHtml.includes("download-interim-report") && edge.includes('action === "submitInterimReport"') && edge.includes('action === "managerGetInterimReport"'), "전문위원의 중간보고 제출과 관리자 수신·다운로드가 연결됩니다.");
 check("manager.launch-schedule", managerJs.includes('startsAt: "2026-08-13"') && managerJs.includes('interimDueAt: "2026-08-19"') && managerJs.includes('endsAt: "2026-08-22"'), "국가직 위촉·중간보고·최종완료 일정이 확정일로 고정됩니다.");
@@ -93,13 +98,18 @@ check("security.watermark", js.includes("updateWatermark") && html.includes("wat
 check("security.copy-print", js.includes("copy_blocked") && css.includes("@media print"), "복사와 인쇄를 제한합니다.");
 check("security.frame-block", js.includes("window.top !== window.self") && js.includes("Embedded review access blocked"), "외부 사이트의 화면 삽입을 차단합니다.");
 check("security.headers", headers.includes("Cache-Control: no-store") && headers.includes("Content-Security-Policy"), "보호 열람 응답 헤더가 정의되어 있습니다.");
+check("production.paid-project-guard", productionInfrastructureVerifier.includes('ref: "lpxbfggwptsmxdxvnwhy"') && productionInfrastructureVerifier.includes('organizationName: "imyong-service"') && productionInfrastructureVerifier.includes('plan: "Pro"') && productionInfrastructureVerifier.includes('minimumCompute: "Micro"'), "운영 검수 시스템이 유료 Pro 조직·Micro 이상 프로젝트만 허용합니다.");
+check("database.migration-parity", ["20260813000000_review_change_history.sql","20260813010000_fix_national_subject_names.sql","20260813011000_review_assignment_idempotency.sql","20260813020000_restore_unstarted_assignments.sql","20260813024000_owner_reset_review_launch.sql","20260814000000_review_runtime_controls.sql","20260814010000_review_report_workflow.sql","20260814020000_review_integrity_tracking.sql","20260814040000_review_notification_archive.sql","20260814050000_review_block_count_integrity.sql"].every((file) => migrationFiles.includes(file)) && !migrationFiles.includes("20260813003000_review_assignment_idempotency.sql"), "운영 적용 마이그레이션과 정식 소스 이력을 일치시킵니다.");
+check("database.official-subjects", migrations.includes("when 'constitution' then '헌법'") && migrations.includes("when 'economics' then '경제학'") && migrations.includes("when 'administrative-law' then '행정법'") && migrations.includes("when 'public-administration' then '행정학'"), "국가직 7급 공식 과목명 헌법·경제학·행정법·행정학을 고정합니다.");
 check("database.rls", sql.includes("enable row level security") && sql.includes("revoke all on table"), "검수 테이블 직접 접근을 차단합니다.");
 check("database.private-source", sql.includes("review-masters") && sql.includes("public, file_size_limit") && sql.includes("false,"), "원본 저장소가 비공개로 정의됩니다.");
 check("database.report-queue", sql.includes("create table if not exists public.review_exports") && sql.includes("delivery_status"), "최종 보고서가 교재 생성 시스템 인계 대기열에 보관됩니다.");
 check("database.change-history", historySql.includes("review_change_history") && edge.includes("annotation_deleted") && edge.includes("progress_saved") && edge.includes("report_submitted"), "의견 수정·삭제·메모·보고서 제출의 변경 이력을 별도 보존합니다.");
 check("api.auth", edge.includes("auth.getUser") && edge.includes("reviewer_user_id"), "보호 API가 로그인 사용자와 과제 배정을 함께 확인합니다.");
 check("api.annotation-ownership", edge.includes("existingAnnotation.reviewer_user_id !== userId"), "다른 검수위원의 의견 ID를 덮어쓸 수 없습니다.");
-check("api.server-completion", edge.includes("checkedBlocks.length === validIds.size"), "클라이언트에서 검수 완료를 임의로 우회할 수 없습니다.");
+check("api.server-completion", edge.includes("new Set<string>(progress.checkedBlocks") && edge.includes("checkedBlocks.length === validIds.size") && edge.includes("existingProgress?.completed_at || savedAt") && !edge.includes("progress.completedAt ||"), "중복 문단 ID와 클라이언트 시각으로 검수 완료를 위조할 수 없습니다.");
+check("api.integrity-valid-ids", edge.includes("validBlockIds.has(id)") && edge.includes("if (!integrity.totalBlockCount)"), "과거·변조 ID를 집계에서 제외하고 빈 원고 제출을 차단합니다.");
+check("api.check-record-retry", js.includes("blockCheckJobs") && js.includes("flushBlockChecks") && js.includes("연결이 회복되는 대로 자동으로 다시 저장"), "문단 열람·확인 시각 기록도 연결 장애 뒤 자동 복구합니다.");
 check("api.no-store", edge.includes('"Cache-Control": "no-store'), "API 응답을 브라우저 캐시에 남기지 않습니다.");
 check("api.workflow", ["getDocument", "saveAnnotation", "saveProgress", "submitAssignment", "logEvent"].every((value) => edge.includes(`action === "${value}"`)), "열람·검수·제출·감사 흐름이 연결됩니다.");
 check("api.report-export", edge.includes('action === "exportReport"') && edge.includes("createReviewReport") && edge.includes('crypto.subtle.digest("SHA-256"'), "서버가 보고서 원본과 무결성 해시를 생성합니다.");
