@@ -373,7 +373,7 @@ async function sendOperationalEmail(to: string, subject: string, html: string, i
           replyTo: { name: "유한회사 설탕과소금 공직시험 연구소", email: REVIEW_OPERATIONS_EMAIL },
           subject,
           htmlContent: html,
-          headers: { "X-Review-Idempotency": idempotencyKey.slice(0, 128) },
+          headers: { "Idempotency-Key": idempotencyKey.slice(0, 128) },
           tags: ["expert-review-operations"]
         })
       })
