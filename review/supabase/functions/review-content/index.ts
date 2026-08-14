@@ -87,6 +87,26 @@ function reviewSpeedStatus(elapsedSeconds: number | null, estimatedSeconds: numb
   return "normal";
 }
 
+async function fetchAllPages<T>(queryPage: (from: number, to: number) => PromiseLike<{ data: T[] | null; error: any }>, pageSize = 1000) {
+  const rows: T[] = [];
+  for (let from = 0; ; from += pageSize) {
+    const { data, error } = await queryPage(from, from + pageSize - 1);
+    if (error) throw error;
+    const page = data ?? [];
+    rows.push(...page);
+    if (page.length < pageSize) return rows;
+  }
+}
+
+async function reviewBlockCountMap(admin: ReturnType<typeof createClient>, documentIds: string[]) {
+  const counts = new Map<string, number>();
+  if (!documentIds.length) return counts;
+  const { data, error } = await admin.rpc("review_block_counts", { p_document_ids: documentIds });
+  if (error) throw error;
+  for (const row of data ?? []) counts.set(row.document_id, Number(row.block_count ?? 0));
+  return counts;
+}
+
 async function buildReviewIntegrity(admin: ReturnType<typeof createClient>, userId: string, assignmentId: string) {
   const { data: links, error: linkError } = await admin.from("review_assignment_documents").select("document_id, sort_order").eq("assignment_id", assignmentId).order("sort_order");
   if (linkError) throw linkError;
@@ -95,10 +115,9 @@ async function buildReviewIntegrity(admin: ReturnType<typeof createClient>, user
     ? await admin.from("review_documents").select("id, title, kind").in("id", documentIds)
     : { data: [], error: null };
   if (documentError) throw documentError;
-  const { data: blocks, error: blockError } = documentIds.length
-    ? await admin.from("review_blocks").select("id, document_id, heading, body, sort_order").in("document_id", documentIds).order("sort_order")
-    : { data: [], error: null };
-  if (blockError) throw blockError;
+  const blocks = documentIds.length
+    ? await fetchAllPages<any>((from, to) => admin.from("review_blocks").select("id, document_id, heading, body, sort_order").in("document_id", documentIds).order("document_id").order("sort_order").range(from, to))
+    : [];
   const { data: progressRows, error: progressError } = await admin.from("review_progress").select("document_id, checked_blocks, complete").eq("assignment_id", assignmentId).eq("reviewer_user_id", userId);
   if (progressError) throw progressError;
   const { data: checkRows, error: checkError } = await admin.from("review_block_checks").select("*").eq("assignment_id", assignmentId).eq("reviewer_user_id", userId);
@@ -112,7 +131,7 @@ async function buildReviewIntegrity(admin: ReturnType<typeof createClient>, user
   const unknownTiming: any[] = [];
   const perDocument = documentIds.map((documentId) => {
     const document = documentMap.get(documentId) as any;
-    const documentBlocks = (blocks ?? []).filter((block) => block.document_id === documentId);
+    const documentBlocks = blocks.filter((block) => block.document_id === documentId);
     const checked = new Set(Array.isArray((progressMap.get(documentId) as any)?.checked_blocks) ? (progressMap.get(documentId) as any).checked_blocks : []);
     let checkedCharacters = 0;
     let uncheckedCharacters = 0;
@@ -644,10 +663,9 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
     ? await admin.from("review_documents").select("id, kind, title, version, review_stage").in("id", documentIds)
     : { data: [], error: null };
   if (documentError) throw documentError;
-  const { data: blocks, error: blockError } = documentIds.length
-    ? await admin.from("review_blocks").select("id, document_id, heading, body, sort_order").in("document_id", documentIds).order("sort_order")
-    : { data: [], error: null };
-  if (blockError) throw blockError;
+  const blocks = documentIds.length
+    ? await fetchAllPages<any>((from, to) => admin.from("review_blocks").select("id, document_id, heading, body, sort_order").in("document_id", documentIds).order("document_id").order("sort_order").range(from, to))
+    : [];
   const { data: annotations, error: annotationError } = await admin.from("review_annotations").select("*").eq("assignment_id", assignmentId).eq("reviewer_user_id", userId).order("created_at");
   if (annotationError) throw annotationError;
   const { data: progressRows, error: progressError } = await admin.from("review_progress").select("*").eq("assignment_id", assignmentId).eq("reviewer_user_id", userId);
@@ -658,7 +676,7 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
   const reportPrefix = reportKind === "interim" ? "INTERIM" : "REVIEW";
   const reportId = `${reportPrefix}-${assignmentId.slice(0, 8).toUpperCase()}-${generatedAt.replace(/\D/g, "").slice(0, 14)}`;
   const documentMap = new Map((documents ?? []).map((item) => [item.id, item]));
-  const blockMap = new Map((blocks ?? []).map((item) => [item.id, item]));
+  const blockMap = new Map(blocks.map((item) => [item.id, item]));
   const progressMap = new Map((progressRows ?? []).map((item) => [item.document_id, item]));
   const orderedDocuments = (links ?? []).map((link) => documentMap.get(link.document_id)).filter(Boolean);
   const detailDocuments = orderedDocuments.map((document: any) => {
@@ -671,7 +689,7 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
       stage: document.review_stage,
       complete: Boolean(progress?.complete),
       completedAt: progress?.completed_at ?? null,
-      totalBlockCount: (blocks ?? []).filter((block) => block.document_id === document.id).length,
+      totalBlockCount: blocks.filter((block) => block.document_id === document.id).length,
       checkedBlockCount: new Set(Array.isArray(progress?.checked_blocks) ? progress.checked_blocks : []).size,
       overallMemo: progress?.memo ?? "",
       findings: (annotations ?? []).filter((item) => item.document_id === document.id).map((item) => ({
@@ -868,7 +886,7 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
   const { data: links } = assignmentIds.length ? await admin.from("review_assignment_documents").select("assignment_id, document_id, sort_order").in("assignment_id", assignmentIds).order("sort_order") : { data: [] };
   const documentIds = [...new Set((links ?? []).map((item) => item.document_id))];
   const { data: documents } = documentIds.length ? await admin.from("review_documents").select("id, title, kind, version").in("id", documentIds) : { data: [] };
-  const { data: blocks } = documentIds.length ? await admin.from("review_blocks").select("id, document_id").in("document_id", documentIds) : { data: [] };
+  const blockCounts = await reviewBlockCountMap(admin, documentIds);
   const { data: progressRows } = assignmentIds.length ? await admin.from("review_progress").select("assignment_id, document_id, checked_blocks, memo, complete, completed_at, updated_at").in("assignment_id", assignmentIds) : { data: [] };
   const { data: annotationRows } = assignmentIds.length ? await admin.from("review_annotations").select("assignment_id, id").in("assignment_id", assignmentIds) : { data: [] };
   const { data: eventRows } = assignmentIds.length ? await admin.from("review_events").select("assignment_id, document_id, reviewer_user_id, event_type, occurred_at, payload").in("assignment_id", assignmentIds).order("occurred_at", { ascending: false }) : { data: [] };
@@ -884,8 +902,6 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
   const exportMap = new Map((exportRows ?? []).map((item) => [item.assignment_id, item]));
   const managerReviewMap = new Map((managerReviewRows ?? []).map((item) => [item.export_id, item]));
   const interimMap = new Map((interimRows ?? []).map((item) => [item.assignment_id, item]));
-  const blockCounts = new Map<string, number>();
-  for (const block of blocks ?? []) blockCounts.set(block.document_id, (blockCounts.get(block.document_id) ?? 0) + 1);
   const now = Date.now();
   const dashboardAssignments = assignments.map((assignment) => {
       const reviewer = reviewerMap.get(assignment.reviewer_user_id) as any;
@@ -913,7 +929,8 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
       const firstReviewRecordedAt = [...eventTimes(["annotation_created", "document_completed"]), ...progressActivityTimes].sort()[0] ?? null;
       const lastActivityAt = reviewerActivityTimes.at(-1) ?? null;
       let attention: string | null = null;
-      if (new Date(assignment.ends_at).getTime() < now && !["submitted", "accepted"].includes(assignment.status)) attention = "검수 기한 확인 필요";
+      if (detailDocuments.some((item) => item.totalBlocks === 0)) attention = "원고 문단 연결 확인 필요";
+      else if (new Date(assignment.ends_at).getTime() < now && !["submitted", "accepted"].includes(assignment.status)) attention = "검수 기한 확인 필요";
       else if (assignment.status === "reviewing" && (!lastActivityAt || now - new Date(lastActivityAt).getTime() > 72 * 60 * 60 * 1000)) attention = "최근 3일간 검수 기록 없음";
       else if (["submitted", "accepted"].includes(assignment.status) && !exportMap.has(assignment.id)) attention = "최종 제출 후 보고서 생성 확인 필요";
       return {
@@ -1206,6 +1223,9 @@ Deno.serve(async (request) => {
         const documentIds=(links ?? []).map((item)=>item.document_id);
         const { data: documents } = documentIds.length ? await admin.from("review_documents").select("id, title, version, status, source_sha256").in("id", documentIds) : { data: [] };
         if (!documentIds.length || (documents ?? []).length !== documentIds.length || (documents ?? []).some((item)=>item.status!=="review_ready"||!item.source_sha256||examTrackFromTitle(item.title)!=="national")) throw new Error("국가직 최신 활성 원고와 무결성값을 다시 확인해 주세요.");
+        const startBlockCounts = await reviewBlockCountMap(admin, documentIds);
+        const emptyDocumentIds = documentIds.filter((documentId) => (startBlockCounts.get(documentId) ?? 0) === 0);
+        if (emptyDocumentIds.length) throw new Error(`검수 문단이 준비되지 않은 원고 ${emptyDocumentIds.length}건이 있어 시작할 수 없습니다.`);
         const { data: expert }=await admin.from("review_profiles").select("email,display_name").eq("user_id",assignment.reviewer_user_id).single();
         const { data: subject }=await admin.from("review_subjects").select("name").eq("id",assignment.subject_id).single();
         if(!expert?.email){
