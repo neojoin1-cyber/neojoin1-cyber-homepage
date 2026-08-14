@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-14T06:56:46.815Z",
-  "feedGeneratedAt": "2026-08-14T06:56:46.815Z",
+  "generatedAt": "2026-08-14T14:10:29.865Z",
+  "feedGeneratedAt": "2026-08-14T14:10:29.865Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
@@ -11,14 +11,14 @@
     "deadlineSoon": 17,
     "applicationClosed": 0,
     "sourcesChecked": 15,
-    "sourcesConfigured": 6,
+    "sourcesConfigured": 4,
     "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
     "staleFallbackItems": 0,
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 166,
+    "studentRecruitSafetyReview": 170,
     "automatedBriefingReady": 50,
     "automatedBriefingAttempted": 50,
     "automatedBriefingFailed": 0
@@ -28,7 +28,7 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-14T06:56:46.815Z",
+    "generatedAt": "2026-08-14T14:10:29.865Z",
     "attempted": 50,
     "succeeded": 50,
     "failed": 0,
@@ -36,11 +36,11 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-14T06:56:46.815Z",
+    "generatedAt": "2026-08-14T14:10:29.865Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 166,
+    "studentRecruitReviewCount": 170,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -178,26 +178,6 @@
         "signals": [
           "공공·금융·대기업 소스",
           "고졸·특성화고 명시",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "mpm-public-job",
-        "sourceName": "인사혁신처 공공취업정보",
-        "sector": "government",
-        "company": "인사혁신처 공공취업정보",
-        "title": "인사혁신처 공공취업정보 고졸·졸업예정 채용 공고 원문 확인",
-        "deadline": "",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.data.go.kr/data/15156780/openapi.do"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
           "인턴·채용연계",
           "공채 신호",
           "신입·정규직 계열"
@@ -247,12 +227,12 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "국민연금공단",
-        "title": "2026년도 제2차 국민연금공단 기금운용본부 기금운용직 채용공고",
+        "company": "충남대학교병원",
+        "title": "충남대학교병원 [세종] 2026년 8월 업무지원직 직원 채용공고",
         "deadline": "2026-08-28",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.nps.or.kr/pnsgdnc/hiregdnc/getOHAE0004M1.do?menuId=MN24000969&pstId=ZZ202600000000000904&hmpgCd=01&hmpgBbsCd=BS20240138&sortSe=FR&pageIndex=1&searchText=&searchGbu=&pstSeCd="
+        "primaryOfficialUrl": "https://cnuhinsa.recruiter.co.kr/career/home"
       },
       {
         "list": "items",
@@ -260,20 +240,20 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
           "공채 신호",
           "신입·정규직 계열"
         ],
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "한국전력거래소",
-        "title": "한국전력거래소 2026년도 하반기 전력거래소 공개채용(일반직_신입직)",
+        "company": "국민연금공단",
+        "title": "2026년도 제2차 국민연금공단 기금운용본부 기금운용직 채용공고",
         "deadline": "2026-08-28",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://kpx.saramin.co.kr/"
+        "primaryOfficialUrl": "https://www.nps.or.kr/pnsgdnc/hiregdnc/getOHAE0004M1.do?menuId=MN24000969&pstId=ZZ202600000000000904&hmpgCd=01&hmpgBbsCd=BS20240138&sortSe=FR&pageIndex=1&searchText=&searchGbu=&pstSeCd="
       },
       {
         "list": "items",
@@ -292,6 +272,27 @@
         "sector": "public-institution",
         "company": "한국전력거래소",
         "title": "한국전력거래소 2026년도 하반기 전력거래소 공개채용(체험형 청년인턴)",
+        "deadline": "2026-08-28",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://kpx.saramin.co.kr/"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국전력거래소",
+        "title": "한국전력거래소 2026년도 하반기 전력거래소 공개채용(일반직_신입직)",
         "deadline": "2026-08-28",
         "status": "active",
         "processTrack": "exam-formal",
@@ -363,27 +364,6 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국산업안전보건공단",
-        "title": "한국산업안전보건공단 2026년도 하반기 신규직원(신입직 5급) 채용공고",
-        "deadline": "2026-08-24",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://kosha.or.kr/notification/jobncontract/job/jobdata?bbsId=B2025021400005&pstNo=202608060856579OQYZ6"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
         "signals": [
           "공공·금융·대기업 소스",
@@ -400,6 +380,26 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://snubh.recruiter.co.kr/"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 학생추천 부적합 직무 · 분류:학생추천 제외",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "국립광주과학관",
+        "title": "국립광주과학관 2026년도 제5회 직원 공개경쟁 채용공고",
+        "deadline": "2026-08-30",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://sciencecenter.recruiter.co.kr/career/job"
       },
       {
         "list": "items",
