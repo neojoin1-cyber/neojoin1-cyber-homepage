@@ -1,46 +1,55 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-14T05:10:35.218Z",
-  "feedGeneratedAt": "2026-08-14T05:10:35.218Z",
+  "generatedAt": "2026-08-14T06:38:31.496Z",
+  "feedGeneratedAt": "2026-08-14T06:38:31.496Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "ok",
+  "status": "degraded",
   "summary": {
-    "total": 49,
-    "active": 32,
+    "total": 50,
+    "active": 33,
     "deadlineSoon": 17,
     "applicationClosed": 0,
     "sourcesChecked": 15,
-    "sourcesConfigured": 4,
-    "sourcesFailed": 0,
+    "sourcesConfigured": 6,
+    "sourcesFailed": 1,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 0,
-    "sourceFallbackProtected": 0,
+    "staleFallbackItems": 49,
+    "sourceFallbackProtected": 49,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 164,
-    "automatedBriefingReady": 49,
-    "automatedBriefingAttempted": 49,
+    "studentRecruitSafetyReview": 89,
+    "automatedBriefingReady": 50,
+    "automatedBriefingAttempted": 50,
     "automatedBriefingFailed": 0
   },
-  "sourceFailures": [],
+  "sourceFailures": [
+    {
+      "id": "job-alio-openapi",
+      "name": "잡알리오 공공기관 채용",
+      "isolatedFailure": false,
+      "fallbackProtected": true,
+      "fallbackItemCount": 86,
+      "message": "연결 실패: recent-page-1: recent-page-1 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page; recent-page-2: recent-page-2 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page · 직전 정상 공고 86건 보존"
+    }
+  ],
   "aiBriefing": {
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-14T05:10:35.218Z",
-    "attempted": 49,
-    "succeeded": 49,
+    "generatedAt": "2026-08-14T06:38:31.496Z",
+    "attempted": 50,
+    "succeeded": 50,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-14T05:10:35.218Z",
+    "generatedAt": "2026-08-14T06:38:31.496Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 164,
+    "studentRecruitReviewCount": 89,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -170,6 +179,27 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://komir.saramin.co.kr/"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:공채상세 검토대기",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "mpm-public-job",
+        "sourceName": "인사혁신처 공공취업정보",
+        "sector": "government",
+        "company": "인사혁신처 공공취업정보",
+        "title": "인사혁신처 공공취업정보 고졸·졸업예정 채용 공고 원문 확인",
+        "deadline": "",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.data.go.kr/data/15156780/openapi.do"
       },
       {
         "list": "items",
@@ -439,27 +469,6 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.kigepe.or.kr/user/cop/bbs/selectBoardArticle.do?nttId=11085&bbsId=BBSMSTR_000000000033&menuNo=13300"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외 · 필기신호 직접분류 재검토",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "대한장애인체육회",
-        "title": "2026년 대한장애인체육회 제3차 채용",
-        "deadline": "2026-08-25",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://koreanpc.recruiter.co.kr/app/jobnotice/list"
       }
     ]
   },
