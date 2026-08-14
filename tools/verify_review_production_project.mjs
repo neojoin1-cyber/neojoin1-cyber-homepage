@@ -8,6 +8,14 @@ const REQUIRED_PROJECT = Object.freeze({
   plan: "Pro",
   minimumCompute: "Micro",
 });
+const REQUIRED_EMAIL_SECRETS = Object.freeze([
+  "BREVO_API_KEY",
+  "REVIEW_EMAIL_ENABLED",
+  "REVIEW_EMAIL_FROM",
+  "REVIEW_OPERATIONS_EMAIL",
+  "REVIEW_ALLOWED_ORIGINS",
+  "REVIEW_APP_URL",
+]);
 
 function fail(message) {
   console.error(`FAIL review.production-infrastructure - ${message}`);
@@ -16,10 +24,10 @@ function fail(message) {
 
 let result;
 try {
-  const executable = process.platform === "win32" ? (process.env.ComSpec || "cmd.exe") : "supabase";
+  const executable = process.platform === "win32" ? (process.env.ComSpec || "cmd.exe") : "npx";
   const args = process.platform === "win32"
-    ? ["/d", "/s", "/c", "supabase projects list --output-format json"]
-    : ["projects", "list", "--output-format", "json"];
+    ? ["/d", "/s", "/c", "npx --yes supabase@latest projects list --output-format json"]
+    : ["--yes", "supabase@latest", "projects", "list", "--output-format", "json"];
   const output = execFileSync(executable, args, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
   result = JSON.parse(output);
 } catch (error) {
@@ -41,10 +49,27 @@ if (project.status !== "ACTIVE_HEALTHY") {
   fail(`운영 프로젝트 상태가 ${project.status || "UNKNOWN"}입니다. 정상화 전에는 배포하거나 검수를 시작할 수 없습니다.`);
 }
 
+let secretRows;
+try {
+  const executable = process.platform === "win32" ? (process.env.ComSpec || "cmd.exe") : "npx";
+  const args = process.platform === "win32"
+    ? ["/d", "/s", "/c", `npx --yes supabase@latest secrets list --project-ref ${REQUIRED_PROJECT.ref} --output json`]
+    : ["--yes", "supabase@latest", "secrets", "list", "--project-ref", REQUIRED_PROJECT.ref, "--output", "json"];
+  secretRows = JSON.parse(execFileSync(executable, args, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] }));
+} catch (error) {
+  fail(`운영 인증메일 비밀키 구성을 확인할 수 없습니다: ${error.message}`);
+}
+const secretNames = new Set((Array.isArray(secretRows) ? secretRows : []).map((item) => item.name));
+const missingSecrets = REQUIRED_EMAIL_SECRETS.filter((name) => !secretNames.has(name));
+if (missingSecrets.length) fail(`운영 인증메일 필수 비밀키가 누락되었습니다: ${missingSecrets.join(", ")}`);
+
 console.log(
   `PASS review.production-infrastructure - ${REQUIRED_PROJECT.organizationName} ${REQUIRED_PROJECT.plan} 조직 · ` +
   `${project.name} · ${project.status}`,
 );
 console.log(
   `REQUIRED review.production-compute - Supabase Infrastructure에서 ${REQUIRED_PROJECT.minimumCompute} 이상을 확인해야 합니다.`,
+);
+console.log(
+  `PASS review.production-email-secrets - 운영 인증메일 필수 비밀키 ${REQUIRED_EMAIL_SECRETS.length}개가 모두 설정되어 있습니다.`,
 );

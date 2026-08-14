@@ -363,13 +363,16 @@ async function api(action, payload = {}, retried = false) {
 }
 
 async function sendOtp(email) {
-  const response = await fetch(`${config.supabaseUrl}/auth/v1/otp`, {
+  const response = await fetch(`${config.supabaseUrl}/functions/v1/review-content`, {
     method: "POST",
     headers: { "Content-Type": "application/json", apikey: config.anonKey },
-    body: JSON.stringify({ email, create_user: false, email_redirect_to: `${location.origin}${location.pathname}` }),
-    cache: "no-store"
+    body: JSON.stringify({ action: "requestOtp", payload: { email } }),
+    cache: "no-store",
+    credentials: "omit"
   });
-  if (!response.ok) throw new Error("전문위원님께서 계약 시 등록하신 이메일인지 확인해 주세요.");
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(body.error || "인증번호 요청을 처리하지 못했습니다. 잠시 후 다시 시도해 주세요.");
+  return body;
 }
 
 async function verifyOtp(email, token) {
@@ -1491,7 +1494,7 @@ function bindEvents() {
       await sendOtp(email);
       $("#otp-row").hidden = false;
       $("#login-otp").focus();
-      toast("등록된 이메일로 인증번호를 보냈습니다.");
+      toast("인증 요청을 접수했습니다. 등록된 이메일이면 운영 메일로 인증번호가 발송됩니다.");
     } catch (error) {
       toast(error.message);
     } finally {

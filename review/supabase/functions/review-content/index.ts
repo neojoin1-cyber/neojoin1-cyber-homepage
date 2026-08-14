@@ -17,6 +17,11 @@ const ALLOWED_ORIGINS = (Deno.env.get("REVIEW_ALLOWED_ORIGINS") ?? "https://gyo6
   .map((value) => value.trim())
   .filter(Boolean);
 const MAX_REQUEST_CHARS = 200_000;
+const OTP_COOLDOWN_MS = 60_000;
+const OTP_WINDOW_MS = 15 * 60_000;
+const OTP_DAILY_MS = 24 * 60 * 60_000;
+const OTP_WINDOW_LIMIT = 3;
+const OTP_DAILY_LIMIT = 10;
 const ALLOWED_REVIEW_EVENTS = new Set([
   "workroom_enter", "document_open", "assignment_change", "annotation_created",
   "annotation_deleted", "document_completed", "assignment_submitted",
@@ -49,6 +54,23 @@ function bearer(request: Request) {
 
 function cleanText(value: unknown, max = 5000) {
   return String(value ?? "").trim().slice(0, max);
+}
+
+function normalizeEmail(value: unknown) {
+  return cleanText(value, 254).toLowerCase();
+}
+
+async function sha256Hex(value: string) {
+  const bytes = new TextEncoder().encode(value);
+  const digest = await crypto.subtle.digest("SHA-256", bytes);
+  return [...new Uint8Array(digest)].map((item) => item.toString(16).padStart(2, "0")).join("");
+}
+
+async function clientIpHash(request: Request) {
+  const forwarded = request.headers.get("CF-Connecting-IP")
+    ?? request.headers.get("X-Forwarded-For")?.split(",")[0]?.trim()
+    ?? "unknown";
+  return (await sha256Hex(`${SUPABASE_SERVICE_ROLE_KEY}:${forwarded}`)).slice(0, 24);
 }
 
 function reportValue(value: unknown) {
@@ -385,6 +407,110 @@ async function sendOperationalEmail(to: string, subject: string, html: string, i
   const result = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error("안내 이메일 발송 서비스가 요청을 처리하지 못했습니다.");
   return { sent: true, status: "sent", id: result.messageId ?? result.id ?? null, provider: REVIEW_EMAIL_PROVIDER };
+}
+
+function buildOtpEmailHtml(code: string) {
+  const safeCode = emailHtml(code);
+  return `<!doctype html><html lang="ko"><body style="margin:0;padding:0;background:#f3f1ed;color:#27384a;font-family:'Apple SD Gothic Neo','Noto Sans KR',Arial,sans-serif"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f3f1ed"><tr><td align="center" style="padding:32px 12px"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:620px;background:#fff;border:1px solid #ded8cd;border-top:5px solid #173654"><tr><td style="padding:30px 34px 22px;border-bottom:1px solid #e7e1d7"><p style="margin:0 0 8px;color:#b2762e;font-size:11px;font-weight:800;letter-spacing:2px">SUGAR &amp; SALT · SECURE REVIEW</p><h1 style="margin:0;color:#173654;font-family:Georgia,'Noto Serif KR',serif;font-size:26px;line-height:1.35">전문위원 검수 워크룸<br>인증번호 안내</h1></td></tr><tr><td style="padding:30px 34px"><p style="margin:0 0 18px;font-size:14px;line-height:1.9">전문위원 검수 워크룸에서 요청하신 인증번호입니다.</p><div style="margin:0 0 22px;padding:22px;text-align:center;background:#f5f7f8;border:1px solid #d9e0e4"><span style="display:block;margin-bottom:8px;color:#738092;font-size:12px">인증번호</span><strong style="color:#173654;font-family:Georgia,serif;font-size:34px;letter-spacing:8px">${safeCode}</strong></div><p style="margin:0 0 18px;color:#5f6d78;font-size:12px;line-height:1.8">워크룸 화면에 위 번호를 입력해 주십시오. 본인이 요청하지 않으셨다면 이 메일을 무시하셔도 됩니다. 인증번호를 다른 사람에게 전달하지 마십시오.</p><p style="margin:0;font-size:12px;line-height:1.8">이용 문의: <a href="mailto:${emailHtml(REVIEW_OPERATIONS_EMAIL)}" style="color:#173654">${emailHtml(REVIEW_OPERATIONS_EMAIL)}</a></p></td></tr><tr><td style="padding:20px 34px;background:#173654;color:#dce4ec;font-size:12px;line-height:1.75"><strong style="display:block;color:#fff;font-size:14px">유한회사 설탕과소금</strong>공직시험 연구소 · 전문위원 검수 운영</td></tr></table></td></tr></table></body></html>`;
+}
+
+async function recordAuthEvent(admin: ReturnType<typeof createClient>, userId: string, eventType: string, payload: Record<string, unknown>) {
+  const { error } = await admin.from("review_events").insert({
+    reviewer_user_id: userId,
+    event_type: eventType,
+    payload: safeEventPayload(payload),
+    occurred_at: new Date().toISOString()
+  });
+  if (error) console.error("review auth audit insert failed", eventType, error.message);
+}
+
+async function requestReviewOtp(admin: ReturnType<typeof createClient>, request: Request, emailValue: unknown) {
+  const startedAt = Date.now();
+  const email = normalizeEmail(emailValue);
+  const generic = { accepted: true, message: "등록된 이메일이면 인증번호 안내가 발송됩니다." };
+  if (!email || !email.includes("@")) {
+    await new Promise((resolve) => setTimeout(resolve, 350));
+    return generic;
+  }
+
+  const { data: profile } = await admin
+    .from("review_profiles")
+    .select("user_id, email, role, active")
+    .eq("email", email)
+    .maybeSingle();
+  if (!profile?.active || !["reviewer", "manager", "admin"].includes(profile.role)) {
+    await new Promise((resolve) => setTimeout(resolve, Math.max(0, 350 - (Date.now() - startedAt))));
+    return generic;
+  }
+
+  const userId = profile.user_id;
+  if (profile.role === "reviewer") {
+    const { data: activeAssignment } = await admin
+      .from("review_assignments")
+      .select("id")
+      .eq("reviewer_user_id", userId)
+      .in("status", ["assigned", "reviewing", "submitted", "returned", "accepted"])
+      .not("started_at", "is", null)
+      .limit(1)
+      .maybeSingle();
+    if (!activeAssignment) {
+      await new Promise((resolve) => setTimeout(resolve, Math.max(0, 350 - (Date.now() - startedAt))));
+      return generic;
+    }
+  }
+  const now = Date.now();
+  const fifteenMinutesAgo = new Date(now - OTP_WINDOW_MS).toISOString();
+  const oneDayAgo = new Date(now - OTP_DAILY_MS).toISOString();
+  const { data: recentRows, error: recentError } = await admin
+    .from("review_events")
+    .select("event_type, occurred_at")
+    .eq("reviewer_user_id", userId)
+    .in("event_type", ["auth_otp_requested", "auth_otp_sent"])
+    .gte("occurred_at", oneDayAgo)
+    .order("occurred_at", { ascending: false });
+  if (recentError) throw recentError;
+  const requestedRows = (recentRows ?? []).filter((item) => item.event_type === "auth_otp_requested");
+  const latestRequestAt = requestedRows[0]?.occurred_at ? new Date(requestedRows[0].occurred_at).getTime() : 0;
+  const windowCount = requestedRows.filter((item) => item.occurred_at >= fifteenMinutesAgo).length;
+  if ((latestRequestAt && now - latestRequestAt < OTP_COOLDOWN_MS) || windowCount >= OTP_WINDOW_LIMIT || requestedRows.length >= OTP_DAILY_LIMIT) {
+    await recordAuthEvent(admin, userId, "auth_otp_rate_limited", {
+      reason: latestRequestAt && now - latestRequestAt < OTP_COOLDOWN_MS ? "cooldown" : windowCount >= OTP_WINDOW_LIMIT ? "window" : "daily",
+      ipHash: await clientIpHash(request)
+    });
+    return generic;
+  }
+
+  const ipHash = await clientIpHash(request);
+  await recordAuthEvent(admin, userId, "auth_otp_requested", { ipHash, channel: "email", provider: REVIEW_EMAIL_PROVIDER || "unconfigured" });
+  if (!REVIEW_EMAIL_ENABLED || !REVIEW_EMAIL_PROVIDER) {
+    await recordAuthEvent(admin, userId, "auth_otp_failed", { ipHash, phase: "provider_configuration" });
+    throw new Error("인증메일 발송 서비스가 준비되지 않았습니다. 운영담당자에게 연락해 주세요.");
+  }
+
+  const { data: linkData, error: linkError } = await admin.auth.admin.generateLink({
+    type: "magiclink",
+    email: profile.email,
+    options: { redirectTo: REVIEW_APP_URL }
+  });
+  const otp = cleanText(linkData?.properties?.email_otp, 12);
+  if (linkError || !otp) {
+    await recordAuthEvent(admin, userId, "auth_otp_failed", { ipHash, phase: "otp_generation", message: cleanText(linkError?.message, 160) });
+    throw new Error("인증번호 생성이 지연되고 있습니다. 잠시 후 다시 시도해 주세요.");
+  }
+
+  try {
+    const delivery = await sendOperationalEmail(
+      profile.email,
+      "[유한회사 설탕과소금] 전문위원 검수 워크룸 인증번호",
+      buildOtpEmailHtml(otp),
+      `review-auth-${userId}-${now}`
+    );
+    await recordAuthEvent(admin, userId, "auth_otp_sent", { ipHash, channel: "email", provider: delivery.provider, providerMessageId: delivery.id, status: delivery.status });
+  } catch (error) {
+    await recordAuthEvent(admin, userId, "auth_otp_failed", { ipHash, phase: "email_delivery", message: cleanText(error instanceof Error ? error.message : "인증메일 발송 실패", 160) });
+    throw error;
+  }
+  return generic;
 }
 
 function buildSupplementalGuideText(expertName: unknown, subjectName: unknown) {
@@ -897,6 +1023,8 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
   const { data: progressRows } = assignmentIds.length ? await admin.from("review_progress").select("assignment_id, document_id, checked_blocks, memo, complete, completed_at, updated_at").in("assignment_id", assignmentIds) : { data: [] };
   const { data: annotationRows } = assignmentIds.length ? await admin.from("review_annotations").select("assignment_id, id").in("assignment_id", assignmentIds) : { data: [] };
   const { data: eventRows } = assignmentIds.length ? await admin.from("review_events").select("assignment_id, document_id, reviewer_user_id, event_type, occurred_at, payload").in("assignment_id", assignmentIds).order("occurred_at", { ascending: false }) : { data: [] };
+  const authAuditSince = new Date(Date.now() - 90 * 24 * 60 * 60_000).toISOString();
+  const { data: authEventRows } = reviewerIds.length ? await admin.from("review_events").select("reviewer_user_id, event_type, occurred_at, payload").in("reviewer_user_id", reviewerIds).in("event_type", ["auth_otp_requested", "auth_otp_sent", "auth_otp_failed", "auth_otp_rate_limited", "auth_login_succeeded"]).gte("occurred_at", authAuditSince).order("occurred_at", { ascending: false }) : { data: [] };
   const { data: exportRows } = assignmentIds.length ? await admin.from("review_exports").select("id, assignment_id, report_id, file_name, sha256, delivery_status, created_at, delivered_at").in("assignment_id", assignmentIds) : { data: [] };
   const exportIds = (exportRows ?? []).map((item) => item.id);
   const { data: managerReviewRows } = exportIds.length ? await admin.from("review_manager_reviews").select("export_id, status, reviewed_at, approved_at, updated_at").in("export_id", exportIds) : { data: [] };
@@ -925,6 +1053,9 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
       const reviewerEvents = (eventRows ?? []).filter((event) => event.assignment_id === assignment.id && event.reviewer_user_id === assignment.reviewer_user_id);
       const eventTimes = (types: string[]) => reviewerEvents.filter((event) => types.includes(event.event_type)).map((event) => event.occurred_at).filter(Boolean).sort();
       const firstEventAt = (types: string[]) => eventTimes(types)[0] ?? null;
+      const reviewerAuthEvents = (authEventRows ?? []).filter((event) => event.reviewer_user_id === assignment.reviewer_user_id);
+      const firstAuthEventAt = (types: string[]) => reviewerAuthEvents.filter((event) => types.includes(event.event_type)).map((event) => event.occurred_at).filter(Boolean).sort()[0] ?? null;
+      const lastAuthEventAt = (types: string[]) => reviewerAuthEvents.filter((event) => types.includes(event.event_type)).map((event) => event.occurred_at).filter(Boolean).sort().at(-1) ?? null;
       const startEvent = (eventRows ?? []).find((event) => event.assignment_id === assignment.id && event.event_type === "assignment_started");
       const startNotificationStatus = (startEvent?.payload as any)?.notificationStatus;
       const notificationSentAt = assignment.notification_sent_at ?? (startNotificationStatus === "sent" ? startEvent?.occurred_at ?? null : null);
@@ -934,10 +1065,15 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
       const workroomEnteredAt = firstEventAt(["workroom_enter"]);
       const firstDocumentOpenedAt = firstEventAt(["document_open"]);
       const firstReviewRecordedAt = [...eventTimes(["annotation_created", "document_completed"]), ...progressActivityTimes].sort()[0] ?? null;
+      const otpRequestedAt = firstAuthEventAt(["auth_otp_requested"]);
+      const otpSentAt = firstAuthEventAt(["auth_otp_sent"]);
+      const otpFailedAt = lastAuthEventAt(["auth_otp_failed"]);
+      const loginSucceededAt = firstAuthEventAt(["auth_login_succeeded"]);
       const lastActivityAt = reviewerActivityTimes.at(-1) ?? null;
       let attention: string | null = null;
       if (detailDocuments.some((item) => item.totalBlocks === 0)) attention = "원고 문단 연결 확인 필요";
       else if (new Date(assignment.ends_at).getTime() < now && !["submitted", "accepted"].includes(assignment.status)) attention = "검수 기한 확인 필요";
+      else if (otpFailedAt && (!otpSentAt || new Date(otpFailedAt).getTime() > new Date(otpSentAt).getTime())) attention = "최근 인증메일 발송 실패 확인 필요";
       else if (assignment.status === "reviewing" && (!lastActivityAt || now - new Date(lastActivityAt).getTime() > 72 * 60 * 60 * 1000)) attention = "최근 3일간 검수 기록 없음";
       else if (["submitted", "accepted"].includes(assignment.status) && !exportMap.has(assignment.id)) attention = "최종 제출 후 보고서 생성 확인 필요";
       return {
@@ -957,6 +1093,10 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
         workroomEnteredAt,
         firstDocumentOpenedAt,
         firstReviewRecordedAt,
+        otpRequestedAt,
+        otpSentAt,
+        otpFailedAt,
+        loginSucceededAt,
         period: `${assignment.starts_at.slice(0, 10)} — ${assignment.ends_at.slice(0, 10)}`,
         interimDueAt: assignment.interim_due_at?.slice(0, 10) ?? null,
         status: assignment.status,
@@ -1003,13 +1143,6 @@ Deno.serve(async (request) => {
   if (origin && !ALLOWED_ORIGINS.includes(origin)) return json({ error: "허용되지 않은 접속 위치입니다." }, 403, origin);
 
   try {
-    const token = bearer(request);
-    if (!token) return json({ error: "로그인이 필요합니다." }, 401, origin);
-    const auth = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { global: { headers: { Authorization: `Bearer ${token}` } } });
-    const { data: userResult, error: userError } = await auth.auth.getUser(token);
-    if (userError || !userResult.user) return json({ error: "로그인 시간이 만료되었습니다." }, 401, origin);
-    const userId = userResult.user.id;
-    const admin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false, autoRefreshToken: false } });
     const requestText = await request.text();
     if (requestText.length > MAX_REQUEST_CHARS) return json({ error: "요청 내용이 허용 범위를 초과했습니다." }, 413, origin);
     let requestBody: Record<string, unknown>;
@@ -1022,8 +1155,30 @@ Deno.serve(async (request) => {
     const payload = requestBody.payload && typeof requestBody.payload === "object" && !Array.isArray(requestBody.payload)
       ? requestBody.payload as Record<string, any>
       : {};
+    const admin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false, autoRefreshToken: false } });
 
-    if (action === "bootstrap") return json(await bootstrap(admin, userId), 200, origin);
+    if (action === "requestOtp") {
+      if (!origin || !ALLOWED_ORIGINS.includes(origin)) return json({ error: "허용되지 않은 접속 위치입니다." }, 403, origin);
+      try {
+        return json(await requestReviewOtp(admin, request, payload.email), 202, origin);
+      } catch (error) {
+        return json({ error: error instanceof Error ? error.message : "인증번호 요청을 처리하지 못했습니다." }, 503, origin);
+      }
+    }
+
+    const token = bearer(request);
+    if (!token) return json({ error: "로그인이 필요합니다." }, 401, origin);
+    const auth = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { global: { headers: { Authorization: `Bearer ${token}` } } });
+    const { data: userResult, error: userError } = await auth.auth.getUser(token);
+    if (userError || !userResult.user) return json({ error: "로그인 시간이 만료되었습니다." }, 401, origin);
+    const userId = userResult.user.id;
+
+    if (action === "bootstrap") {
+      const thirtyMinutesAgo = new Date(Date.now() - 30 * 60_000).toISOString();
+      const { count } = await admin.from("review_events").select("id", { count: "exact", head: true }).eq("reviewer_user_id", userId).eq("event_type", "auth_login_succeeded").gte("occurred_at", thirtyMinutesAgo);
+      if (!count) await recordAuthEvent(admin, userId, "auth_login_succeeded", { channel: "email_otp", ipHash: await clientIpHash(request) });
+      return json(await bootstrap(admin, userId), 200, origin);
+    }
 
     if (action === "managerDashboard") return json(await managerDashboard(admin, userId), 200, origin);
 
