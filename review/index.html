@@ -10,7 +10,7 @@
   <meta name="review-supabase-anon-key" content="sb_publishable_HRFZW8tOwAQNPR7PQnMMhw_sMY51mqa">
   <title>전문위원 검수 워크룸 | 유한회사 설탕과소금</title>
   <link rel="icon" href="../brand/logo/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="review.css?v=20260815-2">
+  <link rel="stylesheet" href="review.css?v=20260815-3">
 </head>
 <body>
   <a class="skip-link" href="#review-reader">검수 본문으로 바로가기</a>
@@ -60,6 +60,7 @@
       <div class="header-status">
         <span class="security-chip"><i></i> 보호 열람 중</span>
         <span id="save-status" class="save-status" role="status">모든 내용 저장됨</span>
+        <button class="session-button lock-button" id="screen-lock-button" type="button">화면 잠금 설정</button>
         <button class="icon-button" id="help-button" type="button" aria-label="사용 안내">?</button>
         <button class="session-button" id="logout-button" type="button">로그아웃</button>
         <button class="profile-button" id="profile-button" type="button"><span id="reviewer-initial">김</span><b id="reviewer-name">김교수 전문위원님</b></button>
@@ -222,8 +223,35 @@
     </form>
   </dialog>
 
+  <dialog id="pin-setup-dialog" class="pin-dialog">
+    <form method="dialog" id="pin-setup-form">
+      <header><div><span>PRIVATE SCREEN LOCK</span><h2>자리 비움 화면잠금 설정</h2></div><button class="dialog-close" id="pin-setup-close" type="button" aria-label="닫기">×</button></header>
+      <p>14일 인증은 그대로 유지됩니다. 이 기기에서만 사용하는 숫자 6자리를 등록하면 10분 동안 조작이 없을 때 원고 화면을 자동으로 가립니다.</p>
+      <label for="pin-setup-input">새 화면잠금 번호</label>
+      <input id="pin-setup-input" type="password" inputmode="numeric" autocomplete="new-password" maxlength="6" pattern="[0-9]{6}" placeholder="숫자 6자리">
+      <label for="pin-setup-confirm">화면잠금 번호 확인</label>
+      <input id="pin-setup-confirm" type="password" inputmode="numeric" autocomplete="new-password" maxlength="6" pattern="[0-9]{6}" placeholder="같은 번호 다시 입력">
+      <small>이 번호는 서버나 회사에 전송되지 않고 현재 기기에만 안전하게 변환하여 보관됩니다. 잊으신 경우 이메일 인증으로 다시 입장할 수 있습니다.</small>
+      <footer><button class="button" id="pin-setup-cancel" type="button">다음에 설정</button><button class="button primary" type="submit">설정하고 화면 잠그기</button></footer>
+    </form>
+  </dialog>
+
+  <section class="screen-lock" id="screen-lock" aria-labelledby="screen-lock-title" hidden>
+    <div class="screen-lock-card">
+      <img src="../brand/logo/badge.svg" width="58" height="58" alt="">
+      <p>SECURE REVIEW WORKROOM</p>
+      <h2 id="screen-lock-title">검수 화면이 잠겼습니다</h2>
+      <span id="screen-lock-reason">자리 비움 동안 원고와 검수의견을 안전하게 가렸습니다.</span>
+      <label for="screen-lock-pin">화면잠금 번호</label>
+      <input id="screen-lock-pin" type="password" inputmode="numeric" autocomplete="current-password" maxlength="6" pattern="[0-9]{6}" placeholder="숫자 6자리">
+      <button class="button primary" id="screen-unlock-button" type="button">검수 화면으로 돌아가기</button>
+      <button class="screen-lock-reauth" id="screen-lock-reauth" type="button">번호를 잊었습니다 · 이메일로 다시 인증</button>
+      <small>검수 기록과 작성 중인 의견은 서버와 이 기기에 그대로 보존됩니다.</small>
+    </div>
+  </section>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <noscript>이 검수 워크룸은 안전한 열람과 자동저장을 위해 JavaScript가 필요합니다.</noscript>
-  <script src="review.js?v=20260815-6" defer></script>
+  <script src="review.js?v=20260815-7" defer></script>
 </body>
 </html>

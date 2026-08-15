@@ -3,4 +3,5 @@
 !.env.example
 __pycache__/
 *.py[cod]
-supabase/.temp/
+**/supabase/.temp/
+.playwright-cli/

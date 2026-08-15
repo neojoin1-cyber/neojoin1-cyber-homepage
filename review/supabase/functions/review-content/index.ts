@@ -1081,6 +1081,7 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
     : [];
   const { data: annotationRows } = assignmentIds.length ? await admin.from("review_annotations").select("assignment_id, id").in("assignment_id", assignmentIds) : { data: [] };
   const { data: eventRows } = assignmentIds.length ? await admin.from("review_events").select("assignment_id, document_id, reviewer_user_id, event_type, occurred_at, payload").in("assignment_id", assignmentIds).order("occurred_at", { ascending: false }) : { data: [] };
+  const { data: presenceRows } = assignmentIds.length ? await admin.from("review_presence").select("assignment_id, reviewer_user_id, document_id, visibility_state, client_version, last_heartbeat_at").in("assignment_id", assignmentIds) : { data: [] };
   const { data: terminationRows, error: terminationError } = assignmentIds.length
     ? await admin.from("review_assignment_terminations").select("id, assignment_id, reviewer_user_id, reason_code, reason_detail, terminated_by, terminated_at, notice_method, notification_sent, notification_status, access_disabled").in("assignment_id", assignmentIds).order("terminated_at", { ascending: false })
     : { data: [], error: null };
@@ -1103,6 +1104,7 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
   const exportMap = new Map((exportRows ?? []).map((item) => [item.assignment_id, item]));
   const managerReviewMap = new Map((managerReviewRows ?? []).map((item) => [item.export_id, item]));
   const interimMap = new Map((interimRows ?? []).map((item) => [item.assignment_id, item]));
+  const presenceMap = new Map((presenceRows ?? []).map((item) => [`${item.assignment_id}:${item.reviewer_user_id}`, item]));
   const terminationMap = new Map((terminationRows ?? []).map((item) => [item.assignment_id, item]));
   const terminationOperatorMap = new Map((terminationOperators ?? []).map((item) => [item.user_id, item]));
   const now = Date.now();
@@ -1158,6 +1160,13 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
       const lastActivityLabel = latestActivity?.label ?? null;
       const activityStarted = Boolean(loginSucceededAt || workroomEnteredAt || firstDocumentOpenedAt || firstReviewRecordedAt);
       const effectiveStatus = assignment.status === "assigned" && activityStarted ? "reviewing" : assignment.status;
+      const presence = presenceMap.get(`${assignment.id}:${assignment.reviewer_user_id}`) as any;
+      const presenceAgeMs = presence?.last_heartbeat_at ? Math.max(0, now - new Date(presence.last_heartbeat_at).getTime()) : Number.POSITIVE_INFINITY;
+      const presenceStatus = presenceAgeMs <= 90_000 && presence?.visibility_state === "visible"
+        ? "online"
+        : presenceAgeMs <= 5 * 60_000 && ["hidden", "locked"].includes(presence?.visibility_state)
+          ? "away"
+          : "offline";
       const termination = terminationMap.get(assignment.id) as any;
       const terminationOperator = termination ? terminationOperatorMap.get(termination.terminated_by) as any : null;
       const activityReferenceAt = notificationSentAt ?? assignment.started_at;
@@ -1193,6 +1202,11 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
         otpFailedAt,
         loginSucceededAt,
         latestClientVersion,
+        presenceStatus,
+        presenceLastAt: presence?.last_heartbeat_at ?? null,
+        presenceVisibility: presence?.visibility_state ?? null,
+        presenceDocumentId: presence?.document_id ?? null,
+        presenceDocumentTitle: presence?.document_id ? documentMap.get(presence.document_id)?.title ?? null : null,
         period: `${assignment.starts_at.slice(0, 10)} — ${assignment.ends_at.slice(0, 10)}`,
         interimDueAt: assignment.interim_due_at?.slice(0, 10) ?? null,
         status: effectiveStatus,
@@ -1288,6 +1302,28 @@ Deno.serve(async (request) => {
       const { count } = await admin.from("review_events").select("id", { count: "exact", head: true }).eq("reviewer_user_id", userId).eq("event_type", "auth_login_succeeded").gte("occurred_at", thirtyMinutesAgo);
       if (!count) await recordAuthEvent(admin, userId, "auth_login_succeeded", { channel: "email_otp", ipHash: await clientIpHash(request) });
       return json(await bootstrap(admin, userId), 200, origin);
+    }
+
+    if (action === "heartbeat") {
+      const assignmentId = cleanText(payload.assignmentId, 80);
+      const documentId = cleanText(payload.documentId, 80) || null;
+      const visibilityState = ["visible", "hidden", "locked"].includes(cleanText(payload.visibilityState, 20))
+        ? cleanText(payload.visibilityState, 20)
+        : "visible";
+      await assignmentFor(admin, userId, assignmentId);
+      if (documentId) await assertDocumentAccess(admin, assignmentId, documentId);
+      const heartbeatAt = new Date().toISOString();
+      const { error: heartbeatError } = await admin.from("review_presence").upsert({
+        assignment_id: assignmentId,
+        reviewer_user_id: userId,
+        document_id: documentId,
+        visibility_state: visibilityState,
+        client_version: cleanText(payload.clientVersion, 80),
+        last_heartbeat_at: heartbeatAt,
+        updated_at: heartbeatAt
+      }, { onConflict: "assignment_id,reviewer_user_id" });
+      if (heartbeatError) throw heartbeatError;
+      return json({ ok: true, heartbeatAt }, 200, origin);
     }
 
     if (action === "managerDashboard") return json(await managerDashboard(admin, userId), 200, origin);

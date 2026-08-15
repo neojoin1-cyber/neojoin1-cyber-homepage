@@ -8,8 +8,12 @@ if (window.top !== window.self) {
 const STORAGE_KEY = "sugar-salt-review-workroom-demo-v1";
 const AUTH_STORAGE_KEY = "sugar-salt-review-auth-v1";
 const EVENT_QUEUE_STORAGE_KEY = "sugar-salt-review-event-queue-v1";
-const REVIEW_CLIENT_VERSION = "20260815-6";
+const SCREEN_LOCK_STORAGE_KEY = "sugar-salt-review-screen-lock-v1";
+const REVIEW_CLIENT_VERSION = "20260815-7";
 const AUTH_MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000;
+const PRESENCE_HEARTBEAT_MS = 30_000;
+const SCREEN_LOCK_IDLE_MS = 10 * 60_000;
+const SCREEN_LOCK_HIDDEN_MS = 2 * 60_000;
 const reviewQuery = new URLSearchParams(location.search);
 const managerPreviewAssignmentId = reviewQuery.get("managerPreview") || "";
 const managerPreviewDocumentId = reviewQuery.get("document") || "";
@@ -164,7 +168,12 @@ const state = {
   eventTimer: null,
   eventFlushPromise: null,
   eventFailureNotified: false,
-  submissionIntegrity: null
+  submissionIntegrity: null,
+  presenceTimer: null,
+  presencePromise: null,
+  screenLocked: false,
+  screenLockTimer: null,
+  hiddenAt: null
 };
 
 function clone(value) {
@@ -216,6 +225,123 @@ function toast(message) {
   element.classList.add("show");
   clearTimeout(toast.timer);
   toast.timer = setTimeout(() => element.classList.remove("show"), 2600);
+}
+
+function screenLockStorageKey() {
+  return state.reviewer?.id ? `${SCREEN_LOCK_STORAGE_KEY}:${state.reviewer.id}` : SCREEN_LOCK_STORAGE_KEY;
+}
+
+function readScreenLock() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(screenLockStorageKey()) || "null");
+    return stored?.salt && stored?.hash ? stored : null;
+  } catch {
+    return null;
+  }
+}
+
+function bytesToBase64(bytes) {
+  return btoa(String.fromCharCode(...bytes));
+}
+
+function base64ToBytes(value) {
+  return Uint8Array.from(atob(value), (character) => character.charCodeAt(0));
+}
+
+async function pinDigest(pin, salt) {
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(pin), "PBKDF2", false, ["deriveBits"]);
+  const digest = await crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", salt: base64ToBytes(salt), iterations: 180_000 }, key, 256);
+  return bytesToBase64(new Uint8Array(digest));
+}
+
+function updateScreenLockButton() {
+  const button = $("#screen-lock-button");
+  if (!button) return;
+  const configured = Boolean(readScreenLock());
+  button.textContent = configured ? "화면 잠금" : "화면 잠금 설정";
+  button.title = configured ? "자리를 비우기 전에 원고 화면을 즉시 가립니다" : "자리 비움 자동 화면잠금을 설정합니다";
+}
+
+function resetIdleScreenLock() {
+  clearTimeout(state.screenLockTimer);
+  state.screenLockTimer = null;
+  if (state.screenLocked || !readScreenLock() || $("#app-shell")?.hidden) return;
+  state.screenLockTimer = setTimeout(() => lockReviewScreen("10분 동안 조작이 없어 원고 화면을 안전하게 가렸습니다."), SCREEN_LOCK_IDLE_MS);
+}
+
+function lockReviewScreen(reason = "자리 비움 동안 원고와 검수의견을 안전하게 가렸습니다.") {
+  if (state.screenLocked || !readScreenLock() || $("#app-shell")?.hidden) return;
+  state.screenLocked = true;
+  clearTimeout(state.screenLockTimer);
+  state.screenLockTimer = null;
+  hideSelectionPopover(true);
+  $("#screen-lock-reason").textContent = reason;
+  $("#screen-lock").hidden = false;
+  document.body.classList.add("screen-is-locked");
+  $("#screen-lock-pin").value = "";
+  requestAnimationFrame(() => $("#screen-lock-pin").focus());
+  if (hasPendingSaves()) flushPendingSaves().catch(() => {});
+  sendPresence("locked");
+}
+
+async function unlockReviewScreen() {
+  const stored = readScreenLock();
+  if (!stored) return;
+  const pin = $("#screen-lock-pin").value.trim();
+  if (!/^\d{6}$/.test(pin) || await pinDigest(pin, stored.salt) !== stored.hash) {
+    $("#screen-lock-pin").value = "";
+    $("#screen-lock-pin").focus();
+    toast("화면잠금 번호를 다시 확인해 주세요.");
+    return;
+  }
+  state.screenLocked = false;
+  $("#screen-lock").hidden = true;
+  document.body.classList.remove("screen-is-locked");
+  resetIdleScreenLock();
+  sendPresence("visible");
+  toast("검수 화면으로 안전하게 돌아왔습니다.");
+}
+
+async function saveScreenLockPin(event) {
+  event.preventDefault();
+  const pin = $("#pin-setup-input").value.trim();
+  const confirmPin = $("#pin-setup-confirm").value.trim();
+  if (!/^\d{6}$/.test(pin)) { toast("숫자 6자리로 설정해 주세요."); return; }
+  if (pin !== confirmPin) { toast("두 번호가 서로 다릅니다."); return; }
+  const salt = bytesToBase64(crypto.getRandomValues(new Uint8Array(16)));
+  localStorage.setItem(screenLockStorageKey(), JSON.stringify({ version: 1, salt, hash: await pinDigest(pin, salt), createdAt: Date.now() }));
+  $("#pin-setup-input").value = "";
+  $("#pin-setup-confirm").value = "";
+  $("#pin-setup-dialog").close();
+  updateScreenLockButton();
+  lockReviewScreen("화면잠금 설정이 완료되었습니다. 새 번호로 다시 입장해 주세요.");
+}
+
+function openScreenLockSetup() {
+  $("#pin-setup-input").value = "";
+  $("#pin-setup-confirm").value = "";
+  $("#pin-setup-dialog").showModal();
+  requestAnimationFrame(() => $("#pin-setup-input").focus());
+}
+
+function sendPresence(visibilityState = document.hidden ? "hidden" : state.screenLocked ? "locked" : "visible") {
+  if (state.mode !== "production" || !state.activeAssignmentId) return null;
+  const request = api("heartbeat", {
+    assignmentId: state.activeAssignmentId,
+    documentId: state.activeDocumentId,
+    visibilityState,
+    clientVersion: REVIEW_CLIENT_VERSION
+  }).catch(() => null).finally(() => { if (state.presencePromise === request) state.presencePromise = null; });
+  state.presencePromise = request;
+  return request;
+}
+
+function startPresenceHeartbeat() {
+  clearInterval(state.presenceTimer);
+  state.presenceTimer = null;
+  if (state.mode !== "production") return;
+  sendPresence();
+  state.presenceTimer = setInterval(() => sendPresence(), PRESENCE_HEARTBEAT_MS);
 }
 
 function eventQueueStorageKey() {
@@ -540,6 +666,9 @@ function enterApp() {
   setInterval(updateWatermark, 60000);
   logEvent("workroom_enter");
   logEvent("document_open", { documentId: state.activeDocumentId });
+  updateScreenLockButton();
+  resetIdleScreenLock();
+  startPresenceHeartbeat();
 }
 
 async function ensureRemoteDocument(documentId) {
@@ -1375,6 +1504,7 @@ async function selectDocument(documentId) {
     setSaveStatus("모든 내용 저장됨");
     $("#review-reader")?.scrollTo?.({ top: 0, behavior: "smooth" });
     logEvent("document_open", { documentId });
+    sendPresence();
     prefetchAdjacentDocuments(documentId);
   } catch {
     setSaveStatus("자료를 불러오지 못함", "error");
@@ -1393,6 +1523,7 @@ async function changeAssignment(assignmentId) {
   renderAll();
   updateWatermark();
   logEvent("assignment_change", { assignmentId });
+  sendPresence();
 }
 
 function toggleBlock(blockId) {
@@ -1619,6 +1750,17 @@ function bindEvents() {
   $("#download-review-report").addEventListener("click", downloadReviewReport);
   $("#preview-review-report").addEventListener("click", previewReviewReport);
   $("#logout-button").addEventListener("click", logout);
+  $("#screen-lock-button").addEventListener("click", () => readScreenLock() ? lockReviewScreen() : openScreenLockSetup());
+  $("#pin-setup-form").addEventListener("submit", saveScreenLockPin);
+  $("#pin-setup-close").addEventListener("click", () => $("#pin-setup-dialog").close());
+  $("#pin-setup-cancel").addEventListener("click", () => $("#pin-setup-dialog").close());
+  $("#screen-unlock-button").addEventListener("click", unlockReviewScreen);
+  $("#screen-lock-pin").addEventListener("keydown", (event) => { if (event.key === "Enter") unlockReviewScreen(); });
+  $("#screen-lock-reauth").addEventListener("click", async () => {
+    if (hasPendingSaves()) await flushPendingSaves().catch(() => {});
+    localStorage.removeItem(screenLockStorageKey());
+    await logout();
+  });
   $("#report-preview-close").addEventListener("click", () => $("#report-preview-dialog").close());
   $("#report-preview-confirm").addEventListener("click", () => $("#report-preview-dialog").close());
   $("#report-preview-download").addEventListener("click", () => { if (state.reportPreview) saveHumanReport(state.reportPreview); });
@@ -1734,13 +1876,24 @@ function bindEvents() {
   window.addEventListener("resize", applyReaderScale, { passive: true });
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
+      state.hiddenAt = Date.now();
       if (hasPendingSaves()) flushPendingSaves().catch(() => {});
       flushBlockViews().catch(() => {});
       flushBlockChecks().catch(() => {});
       flushEventQueue().catch(() => {});
+      sendPresence("hidden");
+    } else {
+      const hiddenFor = state.hiddenAt ? Date.now() - state.hiddenAt : 0;
+      state.hiddenAt = null;
+      if (hiddenFor >= SCREEN_LOCK_HIDDEN_MS && readScreenLock()) lockReviewScreen("자리를 비운 동안 원고 화면을 안전하게 가렸습니다.");
+      else sendPresence(state.screenLocked ? "locked" : "visible");
+      resetIdleScreenLock();
     }
     logEvent(document.hidden ? "window_hidden" : "window_visible");
   });
+  ["pointerdown", "keydown", "touchstart", "wheel"].forEach((eventName) => document.addEventListener(eventName, () => {
+    if (!state.screenLocked) resetIdleScreenLock();
+  }, { passive: true }));
   window.addEventListener("online", () => {
     if (hasPendingSaves()) flushPendingSaves().catch(() => {});
     flushBlockViews().catch(() => {});
