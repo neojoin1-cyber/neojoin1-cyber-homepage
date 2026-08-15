@@ -9,7 +9,7 @@
   <meta name="review-supabase-url" content="https://lpxbfggwptsmxdxvnwhy.supabase.co">
   <meta name="review-supabase-anon-key" content="sb_publishable_HRFZW8tOwAQNPR7PQnMMhw_sMY51mqa">
   <title>검수 운영관제 | 유한회사 설탕과소금</title>
-  <link rel="stylesheet" href="manage.css?v=20260814-2">
+  <link rel="stylesheet" href="manage.css?v=20260815-5">
 </head>
 <body>
   <section class="manager-login" id="manager-login">
@@ -64,14 +64,14 @@
           <label>진행상태<select id="filter-status"><option value="all">전체 상태</option><option value="attention">확인 필요</option><option value="prepared">시작 전 점검</option><option value="assigned">검수 시작</option><option value="reviewing">검수 진행 중</option><option value="submitted">최종 제출</option><option value="ready">보고서 인계 대기</option><option value="delivered">인계 완료</option><option value="revoked">위촉 종료</option></select></label>
           <label class="search">전문위원·과목 검색<input id="filter-search" type="search" placeholder="성명, 소속 또는 과목"></label>
         </div>
-        <div class="legend"><span><i class="done"></i>완료</span><span><i class="current"></i>진행</span><span><i></i>대기</span><span><i class="attention"></i>확인 필요</span></div>
+        <div class="legend"><span><i class="done"></i>수행 완료</span><span><i class="current"></i>다음 단계</span><span><i></i>대기</span><span><i class="attention"></i>확인 필요</span></div>
       </section>
 
       <section class="table-card">
         <div class="table-heading"><div><span>ASSIGNMENT CONTROL</span><h2>전문위원별 위촉·검수·보고서 현황</h2></div><p id="result-count">0건</p></div>
         <div class="table-scroll">
           <table>
-            <thead><tr><th>전문위원 / 소속</th><th>사업·담당 과목</th><th>실제 검수 진도</th><th>검수·인계 단계</th><th>마지막 활동</th><th>운영 확인</th></tr></thead>
+            <thead><tr><th>전문위원 / 소속</th><th>사업·담당 과목</th><th>실제 검수 진도</th><th>검수·인계 단계<br><small>채움=완료 · 황동 테두리=다음</small></th><th>서버 기준 마지막 활동·접속</th><th>운영 확인</th></tr></thead>
             <tbody id="assignment-rows"></tbody>
           </table>
         </div>
@@ -126,11 +126,38 @@
     <dialog id="expert-directory-dialog" class="form-dialog wide-dialog">
       <div class="detail-head"><div><span>EXPERT DIRECTORY</span><h2>등록 전문위원 명단</h2></div><button data-close-dialog="expert-directory-dialog" type="button" aria-label="닫기">×</button></div>
       <div class="form-body">
+        <div class="directory-filters" role="group" aria-label="전문위원 상태 구분">
+          <button class="active" data-directory-filter="active" type="button">활동 중</button>
+          <button data-directory-filter="terminated" type="button">해촉·비활성</button>
+          <button data-directory-filter="all" type="button">전체</button>
+        </div>
         <label class="directory-search">전문위원 검색<input id="expert-directory-search" type="search" placeholder="성명, 소속, 학과, 이메일 또는 위촉 과목"></label>
         <p class="form-note" id="expert-directory-count">등록 전문위원 0명</p>
         <div class="table-scroll directory-scroll"><table><thead><tr><th>전문위원</th><th>소속·직위</th><th>연락처</th><th>위촉 과목</th><th>상태</th><th>관리</th></tr></thead><tbody id="expert-directory-rows"></tbody></table></div>
       </div>
       <footer><button data-close-dialog="expert-directory-dialog" type="button">닫기</button><button class="primary" id="directory-new-expert" type="button">전문위원 추가 등록</button></footer>
+    </dialog>
+
+    <dialog id="termination-dialog" class="form-dialog">
+      <form id="termination-form">
+        <div class="detail-head"><div><span>APPOINTMENT TERMINATION</span><h2 id="termination-title">전문위원 위촉 종료</h2></div><button data-close-dialog="termination-dialog" type="button" aria-label="닫기">×</button></div>
+        <div class="form-body">
+          <input id="termination-assignment-id" type="hidden">
+          <p class="termination-warning">위촉 종료 시 해당 과제 접근은 즉시 차단됩니다. 다른 진행 과제가 없는 위원은 계정도 비활성화되며, 기존 검수·접속·의견·보고서 기록은 삭제하지 않고 보존합니다.</p>
+          <label>해촉 사유<strong>*</strong><select id="termination-reason" required><option value="">선택해 주세요</option><option value="no_response">연락·자료 제출 요청 불이행</option><option value="performance_impossible">약정 업무 수행 곤란</option><option value="contract_breach">계약·신의성실 의무 위반</option><option value="security">보안·자료보호 사유</option><option value="mutual_agreement">상호 합의 종료</option><option value="other">기타</option></select></label>
+          <label>경과 및 근거<strong>*</strong><textarea id="termination-detail" rows="7" required minlength="10" placeholder="통지 일시, 연락 횟수, 시정 요청 내용, 회신 여부와 최종 판단 근거를 사실 중심으로 기록해 주세요."></textarea></label>
+          <label>통지 방법<strong>*</strong><select id="termination-notice-method" required><option value="sms">문자</option><option value="email">이메일</option><option value="eformsign">이폼사인</option><option value="manual">별도 서면 통지</option><option value="other">기타</option></select></label>
+          <label class="check-label"><input id="termination-send-email" type="checkbox"> 위 내용을 바탕으로 시스템 종료 안내 이메일도 발송합니다.</label>
+          <label class="check-label"><input id="termination-confirm" type="checkbox" required> 기존 활동 기록을 보존하고 위촉 종료·접근 차단을 실행함을 확인했습니다.</label>
+        </div>
+        <footer><button data-close-dialog="termination-dialog" type="button">취소</button><button class="danger-button" type="submit">해촉 기록 저장·접근 차단</button></footer>
+      </form>
+    </dialog>
+
+    <dialog id="termination-history-dialog" class="form-dialog wide-dialog">
+      <div class="detail-head"><div><span>TERMINATION AUDIT</span><h2 id="termination-history-title">해촉 기록</h2></div><button data-close-dialog="termination-history-dialog" type="button" aria-label="닫기">×</button></div>
+      <div class="form-body" id="termination-history-body"></div>
+      <footer><button data-close-dialog="termination-history-dialog" type="button">닫기</button></footer>
     </dialog>
 
     <dialog id="expert-dialog" class="form-dialog">
@@ -223,6 +250,6 @@
     </dialog>
   </div>
   <div class="toast" id="manager-toast" role="status"></div>
-  <script src="manage.js?v=20260815-3"></script>
+  <script src="manage.js?v=20260815-5"></script>
 </body>
 </html>

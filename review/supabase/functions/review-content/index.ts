@@ -1081,6 +1081,14 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
     : [];
   const { data: annotationRows } = assignmentIds.length ? await admin.from("review_annotations").select("assignment_id, id").in("assignment_id", assignmentIds) : { data: [] };
   const { data: eventRows } = assignmentIds.length ? await admin.from("review_events").select("assignment_id, document_id, reviewer_user_id, event_type, occurred_at, payload").in("assignment_id", assignmentIds).order("occurred_at", { ascending: false }) : { data: [] };
+  const { data: terminationRows, error: terminationError } = assignmentIds.length
+    ? await admin.from("review_assignment_terminations").select("id, assignment_id, reviewer_user_id, reason_code, reason_detail, terminated_by, terminated_at, notice_method, notification_sent, notification_status, access_disabled").in("assignment_id", assignmentIds).order("terminated_at", { ascending: false })
+    : { data: [], error: null };
+  if (terminationError) throw terminationError;
+  const terminationOperatorIds = [...new Set((terminationRows ?? []).map((item) => item.terminated_by).filter(Boolean))];
+  const { data: terminationOperators } = terminationOperatorIds.length
+    ? await admin.from("review_profiles").select("user_id, display_name, email").in("user_id", terminationOperatorIds)
+    : { data: [] };
   const authAuditSince = new Date(Date.now() - 90 * 24 * 60 * 60_000).toISOString();
   const { data: authEventRows } = reviewerIds.length ? await admin.from("review_events").select("reviewer_user_id, event_type, occurred_at, payload").in("reviewer_user_id", reviewerIds).in("event_type", ["auth_otp_requested", "auth_otp_sent", "auth_otp_failed", "auth_otp_rate_limited", "auth_login_succeeded"]).gte("occurred_at", authAuditSince).order("occurred_at", { ascending: false }) : { data: [] };
   const { data: exportRows } = assignmentIds.length ? await admin.from("review_exports").select("id, assignment_id, report_id, file_name, sha256, delivery_status, created_at, delivered_at").in("assignment_id", assignmentIds) : { data: [] };
@@ -1095,6 +1103,8 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
   const exportMap = new Map((exportRows ?? []).map((item) => [item.assignment_id, item]));
   const managerReviewMap = new Map((managerReviewRows ?? []).map((item) => [item.export_id, item]));
   const interimMap = new Map((interimRows ?? []).map((item) => [item.assignment_id, item]));
+  const terminationMap = new Map((terminationRows ?? []).map((item) => [item.assignment_id, item]));
+  const terminationOperatorMap = new Map((terminationOperators ?? []).map((item) => [item.user_id, item]));
   const now = Date.now();
   const dashboardAssignments = assignments.map((assignment) => {
       const reviewer = reviewerMap.get(assignment.reviewer_user_id) as any;
@@ -1112,8 +1122,11 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
       });
       const reviewerEvents = (eventRows ?? []).filter((event) => event.assignment_id === assignment.id && event.reviewer_user_id === assignment.reviewer_user_id);
       const reviewerActivityEvents = reviewerEvents.filter((event) => REVIEWER_ACTIVITY_EVENT_TYPES.has(event.event_type));
+      const latestClientEvent = reviewerEvents.filter((event) => (event.payload as any)?.clientVersion).sort((a, b) => new Date(a.occurred_at).getTime() - new Date(b.occurred_at).getTime()).at(-1);
+      const latestClientVersion = cleanText((latestClientEvent?.payload as any)?.clientVersion, 80) || null;
       const eventTimes = (types: string[]) => reviewerEvents.filter((event) => types.includes(event.event_type)).map((event) => event.occurred_at).filter(Boolean).sort();
       const firstEventAt = (types: string[]) => eventTimes(types)[0] ?? null;
+      const lastEventAt = (types: string[]) => eventTimes(types).at(-1) ?? null;
       const reviewerAuthEvents = (authEventRows ?? []).filter((event) => event.reviewer_user_id === assignment.reviewer_user_id);
       const lastAuthEventAt = (types: string[]) => reviewerAuthEvents.filter((event) => types.includes(event.event_type)).map((event) => event.occurred_at).filter(Boolean).sort().at(-1) ?? null;
       const startEvent = (eventRows ?? []).find((event) => event.assignment_id === assignment.id && event.event_type === "assignment_started");
@@ -1126,6 +1139,8 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
       const blockConfirmTimes = assignmentChecks.map((item) => item.first_checked_at ?? item.last_checked_at).filter(Boolean).sort();
       const workroomEnteredAt = firstEventAt(["workroom_enter"]) ?? blockViewTimes[0] ?? null;
       const firstDocumentOpenedAt = firstEventAt(["document_open"]) ?? blockViewTimes[0] ?? null;
+      const lastWorkroomEnteredAt = lastEventAt(["workroom_enter"]) ?? blockViewTimes.at(-1) ?? null;
+      const lastDocumentOpenedAt = lastEventAt(["document_open"]) ?? blockViewTimes.at(-1) ?? null;
       const firstReviewRecordedAt = [...eventTimes(["annotation_created", "document_completed"]), ...progressActivityTimes, ...blockConfirmTimes].sort()[0] ?? null;
       const otpRequestedAt = lastAuthEventAt(["auth_otp_requested"]);
       const otpSentAt = lastAuthEventAt(["auth_otp_sent"]);
@@ -1143,6 +1158,8 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
       const lastActivityLabel = latestActivity?.label ?? null;
       const activityStarted = Boolean(loginSucceededAt || workroomEnteredAt || firstDocumentOpenedAt || firstReviewRecordedAt);
       const effectiveStatus = assignment.status === "assigned" && activityStarted ? "reviewing" : assignment.status;
+      const termination = terminationMap.get(assignment.id) as any;
+      const terminationOperator = termination ? terminationOperatorMap.get(termination.terminated_by) as any : null;
       const activityReferenceAt = notificationSentAt ?? assignment.started_at;
       const inactiveFor24Hours = activityReferenceAt && now - new Date(lastActivityAt ?? activityReferenceAt).getTime() > 24 * 60 * 60 * 1000;
       let attention: string | null = null;
@@ -1167,12 +1184,15 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
         notificationSentAt,
         notificationStatus: notificationSentAt ? "sent" : startNotificationStatus ?? (assignment.started_at ? "unknown" : "not_started"),
         workroomEnteredAt,
+        lastWorkroomEnteredAt,
         firstDocumentOpenedAt,
+        lastDocumentOpenedAt,
         firstReviewRecordedAt,
         otpRequestedAt,
         otpSentAt,
         otpFailedAt,
         loginSucceededAt,
+        latestClientVersion,
         period: `${assignment.starts_at.slice(0, 10)} — ${assignment.ends_at.slice(0, 10)}`,
         interimDueAt: assignment.interim_due_at?.slice(0, 10) ?? null,
         status: effectiveStatus,
@@ -1185,6 +1205,18 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
         lastActivityAt,
         lastActivityLabel,
         attention,
+        termination: termination ? {
+          id: termination.id,
+          reasonCode: termination.reason_code,
+          reasonDetail: termination.reason_detail,
+          terminatedAt: termination.terminated_at,
+          terminatedBy: terminationOperator?.display_name ?? "회사 운영담당자",
+          terminatedByEmail: terminationOperator?.email ?? "",
+          noticeMethod: termination.notice_method,
+          notificationSent: termination.notification_sent,
+          notificationStatus: termination.notification_status,
+          accessDisabled: termination.access_disabled
+        } : null,
         report: exportMap.get(assignment.id) ? { id: (exportMap.get(assignment.id) as any).id, reportId: (exportMap.get(assignment.id) as any).report_id, fileName: (exportMap.get(assignment.id) as any).file_name, sha256: (exportMap.get(assignment.id) as any).sha256, deliveryStatus: (exportMap.get(assignment.id) as any).delivery_status, createdAt: (exportMap.get(assignment.id) as any).created_at, deliveredAt: (exportMap.get(assignment.id) as any).delivered_at, managerReviewStatus: (managerReviewMap.get((exportMap.get(assignment.id) as any).id) as any)?.status ?? "pending", managerReviewedAt: (managerReviewMap.get((exportMap.get(assignment.id) as any).id) as any)?.reviewed_at ?? null, managerApprovedAt: (managerReviewMap.get((exportMap.get(assignment.id) as any).id) as any)?.approved_at ?? null } : null,
         interimReport: interimMap.get(assignment.id) ? { id: (interimMap.get(assignment.id) as any).id, reportId: (interimMap.get(assignment.id) as any).report_id, fileName: (interimMap.get(assignment.id) as any).file_name, sha256: (interimMap.get(assignment.id) as any).sha256, submittedAt: (interimMap.get(assignment.id) as any).submitted_at } : null,
         documents: detailDocuments
@@ -1551,13 +1583,13 @@ Deno.serve(async (request) => {
     }
 
     if (action === "managerChangeAssignmentStatus") {
-      await ensureManager(admin, userId);
+      const manager = await ensureManager(admin, userId);
       const assignmentId = cleanText(payload.assignmentId, 80);
       const command = cleanText(payload.command, 30);
       if (!['rereview', 'revoke'].includes(command)) throw new Error("지원하지 않는 운영 명령입니다.");
       const { data: assignment, error: assignmentError } = await admin.from("review_assignments").select("*").eq("id", assignmentId).single();
       if (assignmentError || !assignment) throw new Error("위촉 과제를 찾지 못했습니다.");
-      const { data: expert } = await admin.from("review_profiles").select("email, display_name").eq("user_id", assignment.reviewer_user_id).single();
+      const { data: expert } = await admin.from("review_profiles").select("email, display_name, active").eq("user_id", assignment.reviewer_user_id).single();
       const { data: subject } = await admin.from("review_subjects").select("name").eq("id", assignment.subject_id).single();
       if (command === "rereview") {
         const { data: report } = await admin.from("review_exports").select("id, delivery_status").eq("assignment_id", assignmentId).maybeSingle();
@@ -1573,8 +1605,50 @@ Deno.serve(async (request) => {
         const { error: progressUpdateError } = await admin.from("review_progress").update({ complete: false, completed_at: null }).eq("assignment_id", assignmentId);
         if (progressUpdateError) throw progressUpdateError;
       } else {
-        const { error: revokeError } = await admin.from("review_assignments").update({ status: "revoked" }).eq("id", assignmentId);
-        if (revokeError) throw revokeError;
+        if (assignment.status === "revoked") throw new Error("이미 위촉 종료된 과제입니다. 해촉 이력에서 기존 기록을 확인해 주세요.");
+        const allowedReasonCodes = new Set(["performance_impossible", "no_response", "contract_breach", "security", "mutual_agreement", "other"]);
+        const reasonCode = cleanText(payload.reasonCode, 40);
+        const reasonDetail = cleanText(payload.reasonDetail, 4000);
+        const noticeMethod = cleanText(payload.noticeMethod, 30) || "manual";
+        if (!allowedReasonCodes.has(reasonCode)) throw new Error("위촉 종료 사유를 선택해 주세요.");
+        if (reasonDetail.length < 10) throw new Error("위촉 종료 근거와 경과를 10자 이상 기록해 주세요.");
+        if (!["manual", "email", "sms", "eformsign", "other"].includes(noticeMethod)) throw new Error("통지 방법을 확인해 주세요.");
+        const { count: otherActiveAssignments, error: activeCountError } = await admin
+          .from("review_assignments")
+          .select("id", { count: "exact", head: true })
+          .eq("reviewer_user_id", assignment.reviewer_user_id)
+          .neq("id", assignmentId)
+          .not("status", "in", '(revoked,accepted)');
+        if (activeCountError) throw activeCountError;
+        const accessDisabled = Number(otherActiveAssignments ?? 0) === 0;
+        const now = new Date().toISOString();
+        const { error: terminationError } = await admin.from("review_assignment_terminations").upsert({
+          assignment_id: assignmentId,
+          reviewer_user_id: assignment.reviewer_user_id,
+          reason_code: reasonCode,
+          reason_detail: reasonDetail,
+          terminated_by: manager.user_id,
+          terminated_at: now,
+          notice_method: noticeMethod,
+          notification_sent: false,
+          notification_status: "pending",
+          access_disabled: accessDisabled,
+          updated_at: now
+        }, { onConflict: "assignment_id" });
+        if (terminationError) throw terminationError;
+        if (accessDisabled) {
+          const { error: profileError } = await admin.from("review_profiles").update({ active: false, updated_at: now }).eq("user_id", assignment.reviewer_user_id);
+          if (profileError) {
+            await admin.from("review_assignment_terminations").delete().eq("assignment_id", assignmentId);
+            throw profileError;
+          }
+        }
+        const { data: revokedAssignment, error: revokeError } = await admin.from("review_assignments").update({ status: "revoked" }).eq("id", assignmentId).neq("status", "revoked").select("id").maybeSingle();
+        if (revokeError || !revokedAssignment) {
+          if (accessDisabled) await admin.from("review_profiles").update({ active: expert?.active !== false, updated_at: new Date().toISOString() }).eq("user_id", assignment.reviewer_user_id);
+          await admin.from("review_assignment_terminations").delete().eq("assignment_id", assignmentId);
+          throw revokeError ?? new Error("위촉 종료 상태 저장이 완료되지 않았습니다. 기존 상태를 복구했습니다.");
+        }
       }
       let notification = { sent: false, status: "skipped", id: null as string | null };
       if (payload.sendNotification && expert?.email) {
@@ -1582,7 +1656,11 @@ Deno.serve(async (request) => {
         const body = command === "rereview" ? `<p>반영 과정에서 전문위원님의 추가 고견이 필요한 부분이 있어 재검토를 정중히 요청드립니다.</p><p>워크룸에서 기존 의견과 보완 자료를 확인해 주시면 감사하겠습니다.</p>` : `<p>${emailHtml(subject?.name ?? "담당 과목")} 검수 위촉 일정이 종료되어 안내드립니다.</p><p>함께해 주신 귀한 전문성과 노고에 깊이 감사드립니다.</p>`;
         notification = await sendOperationalEmail(expert.email, `[설탕과소금] ${expert.display_name} 전문위원님, ${title}`, `<div style="font-family:Arial,sans-serif;line-height:1.8;color:#243746"><h2 style="color:#102d4d">${emailHtml(expert.display_name)} 전문위원님께</h2>${body}<p><a href="${emailHtml(REVIEW_APP_URL)}">전문위원 검수 워크룸</a></p><p>유한회사 설탕과소금 드림</p></div>`, `${command}-${assignmentId}-${new Date().toISOString().slice(0,10)}`);
       }
-      await admin.from("review_events").insert({ assignment_id: assignmentId, reviewer_user_id: userId, event_type: command === "rereview" ? "assignment_rereview_requested" : "assignment_revoked", payload: { notificationStatus: notification.status } });
+      if (command === "revoke") {
+        const { error: terminationUpdateError } = await admin.from("review_assignment_terminations").update({ notification_sent: notification.sent, notification_status: notification.status, updated_at: new Date().toISOString() }).eq("assignment_id", assignmentId);
+        if (terminationUpdateError) throw terminationUpdateError;
+      }
+      await admin.from("review_events").insert({ assignment_id: assignmentId, reviewer_user_id: userId, event_type: command === "rereview" ? "assignment_rereview_requested" : "assignment_revoked", payload: { notificationStatus: notification.status, reasonCode: command === "revoke" ? cleanText(payload.reasonCode, 40) : null, reasonDetail: command === "revoke" ? cleanText(payload.reasonDetail, 4000) : null, noticeMethod: command === "revoke" ? cleanText(payload.noticeMethod, 30) || "manual" : null } });
       return json({ ok: true, notificationSent: notification.sent, notificationStatus: notification.status }, 200, origin);
     }
 

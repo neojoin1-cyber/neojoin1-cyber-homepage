@@ -8,6 +8,7 @@ if (window.top !== window.self) {
 const STORAGE_KEY = "sugar-salt-review-workroom-demo-v1";
 const AUTH_STORAGE_KEY = "sugar-salt-review-auth-v1";
 const EVENT_QUEUE_STORAGE_KEY = "sugar-salt-review-event-queue-v1";
+const REVIEW_CLIENT_VERSION = "20260815-6";
 const AUTH_MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000;
 const reviewQuery = new URLSearchParams(location.search);
 const managerPreviewAssignmentId = reviewQuery.get("managerPreview") || "";
@@ -280,7 +281,7 @@ async function flushEventQueue() {
 function logEvent(type, payload = {}) {
   if (state.mode === "manager-preview") return;
   const occurredAt = nowIso();
-  const event = { type, payload: { ...payload, clientEventId: uid(), clientOccurredAt: occurredAt }, assignmentId: state.activeAssignmentId, documentId: state.activeDocumentId, occurredAt };
+  const event = { type, payload: { ...payload, clientEventId: uid(), clientOccurredAt: occurredAt, clientVersion: REVIEW_CLIENT_VERSION }, assignmentId: state.activeAssignmentId, documentId: state.activeDocumentId, occurredAt };
   if (state.mode === "demo") {
     const saved = restoreDemoState();
     saved.events.push(event);
