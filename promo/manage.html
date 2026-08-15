@@ -9,7 +9,7 @@
   <meta name="promo-supabase-url" content="https://lpxbfggwptsmxdxvnwhy.supabase.co">
   <meta name="promo-supabase-anon-key" content="sb_publishable_HRFZW8tOwAQNPR7PQnMMhw_sMY51mqa">
   <title>홍보실 원격관제 | 유한회사 설탕과소금</title>
-  <link rel="stylesheet" href="manage.css?v=20260815-2">
+  <link rel="stylesheet" href="manage.css?v=20260815-3">
 </head>
 <body>
   <section class="login" id="login">
@@ -43,7 +43,7 @@
 
     <main>
       <section class="hero">
-        <div><p class="eyebrow">PROMOTION CONTROL ROOM</p><h1>대표 승인·자동실행 센터</h1><p>문안과 경로를 확인해 승인하면 실행기가 동일한 승인본만 처리합니다.</p></div>
+        <div><p class="eyebrow">PROMOTION CONTROL ROOM</p><h1>홍보실 자동작업·대표 결재 센터</h1><p>홍보실이 초안·검증·대체경로 탐색을 끝낸 항목만 대표 결재함에 올립니다.</p></div>
         <div class="hero-seal"><span>REMOTE</span><strong>태블릿 관제</strong><small>서버 기록 기준</small></div>
       </section>
 
@@ -54,21 +54,22 @@
 
       <section class="metrics" aria-label="홍보실 운영 요약">
         <article><span>전체 실행항목</span><strong id="metric-total">0</strong><small>무료 홍보 경로</small></article>
-        <article><span>대표 승인 대기</span><strong id="metric-review">0</strong><small>내용 확인 필요</small></article>
+        <article><span>홍보실 작업 중</span><strong id="metric-working">0</strong><small>작성·검증·경로 탐색</small></article>
+        <article><span>대표 승인 대기</span><strong id="metric-review">0</strong><small>조건 완료·결재만 필요</small></article>
         <article class="accent"><span>자동실행 대기</span><strong id="metric-queued">0</strong><small>승인본 잠금 완료</small></article>
         <article><span>외부 실행 완료</span><strong id="metric-done">0</strong><small>발송·게시 결과 기록</small></article>
         <article><span>확인 필요</span><strong id="metric-attention">0</strong><small>인증·규정·실패</small></article>
-        <article><span>유료홍보 집행</span><strong>0원</strong><small>시스템 강제 고정</small></article>
+        <article><span>유료홍보</span><strong>0원</strong><small>시스템 강제 고정</small></article>
       </section>
 
       <section class="controls">
         <label>채널<select id="category"><option value="">전체 채널</option></select></label>
-        <label>상태<select id="status"><option value="">전체 상태</option><option value="draft">초안</option><option value="review">검토중</option><option value="approved">승인</option><option value="hold">보류</option><option value="rejected">반려</option></select></label>
+        <label>상태<select id="status"><option value="">전체 상태</option><option value="ready_for_approval">대표 승인 대기</option><option value="working">홍보실 작업 중</option><option value="waiting_external">외부 답변 대기</option><option value="needs_owner">대표 확인 필요</option><option value="approved">승인·실행</option><option value="rejected">반려·중단</option></select></label>
         <label class="search">항목 검색<input id="query" type="search" placeholder="매체, 제목, 경로"></label>
       </section>
 
       <section class="queue-card">
-        <header><div><p class="eyebrow">APPROVAL QUEUE</p><h2>승인·실행 대기열</h2></div><span id="result-count">0건</span></header>
+        <header><div><p class="eyebrow">PUBLICITY WORK QUEUE</p><h2>홍보실 작업·대표 결재 대기열</h2></div><span id="result-count">0건</span></header>
         <div class="queue" id="queue"></div>
         <div class="empty" id="empty" hidden>조건에 맞는 실행항목이 없습니다.</div>
       </section>
@@ -117,6 +118,6 @@
   </dialog>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="manage.js?v=20260815-1"></script>
+  <script src="manage.js?v=20260815-2"></script>
 </body>
 </html>
