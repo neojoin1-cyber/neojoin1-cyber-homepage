@@ -17,6 +17,8 @@ const ALLOWED_ORIGINS = (Deno.env.get("REVIEW_ALLOWED_ORIGINS") ?? "https://gyo6
   .map((value) => value.trim())
   .filter(Boolean);
 const MAX_REQUEST_CHARS = 200_000;
+const INTEGRITY_DETAIL_LIMIT = 200;
+const INTEGRITY_DOCUMENT_SAMPLE_LIMIT = 3;
 const OTP_COOLDOWN_MS = 60_000;
 const OTP_WINDOW_MS = 15 * 60_000;
 const OTP_DAILY_MS = 24 * 60 * 60_000;
@@ -182,6 +184,8 @@ async function buildReviewIntegrity(admin: ReturnType<typeof createClient>, user
   const unchecked: any[] = [];
   const suspicious: any[] = [];
   const unknownTiming: any[] = [];
+  let suspiciousTotalCount = 0;
+  let unknownTimingTotalCount = 0;
   const perDocument = documentIds.map((documentId) => {
     const document = documentMap.get(documentId) as any;
     const documentBlocks = blocks.filter((block) => block.document_id === documentId);
@@ -190,22 +194,26 @@ async function buildReviewIntegrity(admin: ReturnType<typeof createClient>, user
     const checked = new Set(mergedCheckedBlockIds(progressMap.get(documentId), documentCheckRows, validBlockIds));
     let checkedCharacters = 0;
     let uncheckedCharacters = 0;
+    const uncheckedSamples: any[] = [];
     documentBlocks.forEach((block) => {
       const estimate = reviewReadingEstimate(block.body);
       const base = { documentId, documentTitle: document?.title ?? "검수 자료", blockId: block.id, heading: block.heading, excerpt: cleanText(block.body, 180), characterCount: estimate.characterCount };
       if (!checked.has(block.id)) {
         uncheckedCharacters += estimate.characterCount;
-        unchecked.push(base);
+        if (unchecked.length < INTEGRITY_DETAIL_LIMIT) unchecked.push(base);
+        if (uncheckedSamples.length < INTEGRITY_DOCUMENT_SAMPLE_LIMIT) uncheckedSamples.push(base);
         return;
       }
       checkedCharacters += estimate.characterCount;
       const check = checkMap.get(block.id) as any;
       if (!check) {
-        unknownTiming.push({ ...base, reason: "확인 시각 기록 이전에 완료된 항목" });
+        unknownTimingTotalCount += 1;
+        if (unknownTiming.length < INTEGRITY_DETAIL_LIMIT) unknownTiming.push({ ...base, reason: "확인 시각 기록 이전에 완료된 항목" });
         return;
       }
       if (["fast", "very_fast", "bulk"].includes(check.speed_status)) {
-        suspicious.push({ ...base, elapsedSeconds: check.elapsed_seconds === null ? null : Number(check.elapsed_seconds), estimatedSeconds: Number(check.estimated_seconds || estimate.estimatedSeconds), speedStatus: check.speed_status, bulkCount: Number(check.bulk_count || 1), firstCheckedAt: check.first_checked_at });
+        suspiciousTotalCount += 1;
+        if (suspicious.length < INTEGRITY_DETAIL_LIMIT) suspicious.push({ ...base, elapsedSeconds: check.elapsed_seconds === null ? null : Number(check.elapsed_seconds), estimatedSeconds: Number(check.estimated_seconds || estimate.estimatedSeconds), speedStatus: check.speed_status, bulkCount: Number(check.bulk_count || 1), firstCheckedAt: check.first_checked_at });
       }
     });
     return {
@@ -218,28 +226,38 @@ async function buildReviewIntegrity(admin: ReturnType<typeof createClient>, user
       checkedCharacters,
       uncheckedCharacters,
       uncheckedApproxPages: Number((uncheckedCharacters / 1200).toFixed(1)),
+      firstUncheckedBlockId: uncheckedSamples[0]?.blockId ?? null,
+      firstUncheckedHeading: uncheckedSamples[0]?.heading ?? null,
+      uncheckedSamples,
       complete: Boolean((progressMap.get(documentId) as any)?.complete)
     };
   });
   const totalBlockCount = perDocument.reduce((sum, item) => sum + item.totalBlockCount, 0);
   const checkedBlockCount = perDocument.reduce((sum, item) => sum + item.checkedBlockCount, 0);
   const uncheckedCharacters = perDocument.reduce((sum, item) => sum + item.uncheckedCharacters, 0);
+  const uncheckedBlockCount = Math.max(0, totalBlockCount - checkedBlockCount);
   return {
     policyVersion: "review-integrity-2026-08-v1",
     policyNote: "한글·전문 원고를 초당 10자 이하로 읽는 보수적 기준에서 예상시간을 산정하고, 그 35% 이하 또는 3개 이상 일괄 확인만 주의 기록으로 표시합니다. 이는 부정 판정이 아니라 대표 확인을 위한 검수완전성 자료입니다.",
     pageConversionNote: "분량은 공백 제외 1,200자를 A4 1쪽으로 환산한 참고치입니다.",
     totalBlockCount,
     checkedBlockCount,
-    uncheckedBlockCount: Math.max(0, totalBlockCount - checkedBlockCount),
+    uncheckedBlockCount,
     uncheckedCharacterCount: uncheckedCharacters,
     uncheckedApproxPages: Number((uncheckedCharacters / 1200).toFixed(1)),
-    suspiciousCount: suspicious.length,
-    unknownTimingCount: unknownTiming.length,
-    hasAttention: unchecked.length > 0 || suspicious.length > 0 || unknownTiming.length > 0,
+    suspiciousCount: suspiciousTotalCount,
+    unknownTimingCount: unknownTimingTotalCount,
+    hasAttention: uncheckedBlockCount > 0 || suspiciousTotalCount > 0 || unknownTimingTotalCount > 0,
     perDocument,
     unchecked,
+    uncheckedDetailCount: unchecked.length,
+    uncheckedOmittedCount: Math.max(0, uncheckedBlockCount - unchecked.length),
     suspicious,
-    unknownTiming
+    suspiciousDetailCount: suspicious.length,
+    suspiciousOmittedCount: Math.max(0, suspiciousTotalCount - suspicious.length),
+    unknownTiming,
+    unknownTimingDetailCount: unknownTiming.length,
+    unknownTimingOmittedCount: Math.max(0, unknownTimingTotalCount - unknownTiming.length)
   };
 }
 
@@ -987,9 +1005,15 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
     `- 판정 기준: ${integrity.policyNote}`,
     ""
   );
+  if (integrity.perDocument.length) {
+    lines.push("### 자료별 미확인 범위", "", "| 자료 | 확인 문단 | 미확인 문단 | 미확인 분량 | 첫 미확인 위치 |", "|---|---:|---:|---:|---|");
+    integrity.perDocument.forEach((item: any) => lines.push(`| ${reportValue(item.title)} | ${item.checkedBlockCount}/${item.totalBlockCount} | ${item.uncheckedBlockCount} | 약 ${item.uncheckedApproxPages}쪽 | ${reportValue(item.firstUncheckedHeading) || "없음"} |`));
+    lines.push("");
+  }
   if (integrity.unchecked.length) {
-    lines.push("### 미확인 위치", "");
+    lines.push(`### 미확인 위치 상세(최대 ${INTEGRITY_DETAIL_LIMIT}건)`, "");
     integrity.unchecked.forEach((item: any, index: number) => lines.push(`${index + 1}. ${reportValue(item.documentTitle)} / ${reportValue(item.heading)} · ${item.characterCount}자 · “${reportValue(item.excerpt)}”`));
+    if (integrity.uncheckedOmittedCount) lines.push(`- 나머지 ${integrity.uncheckedOmittedCount}건은 위 자료별 집계에 포함되어 있으며, 해당 자료의 첫 미확인 위치부터 워크룸에서 이어서 확인할 수 있습니다.`);
     lines.push("");
   }
   if (integrity.suspicious.length) {
