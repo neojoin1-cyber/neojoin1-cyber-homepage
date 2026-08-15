@@ -197,7 +197,7 @@ async function buildReviewIntegrity(admin: ReturnType<typeof createClient>, user
     const uncheckedSamples: any[] = [];
     documentBlocks.forEach((block) => {
       const estimate = reviewReadingEstimate(block.body);
-      const base = { documentId, documentTitle: document?.title ?? "검수 자료", blockId: block.id, heading: block.heading, excerpt: cleanText(block.body, 180), characterCount: estimate.characterCount };
+      const base = { documentId, documentTitle: document?.title ?? "검수 자료", blockId: block.id, heading: block.heading, characterCount: estimate.characterCount };
       if (!checked.has(block.id)) {
         uncheckedCharacters += estimate.characterCount;
         if (unchecked.length < INTEGRITY_DETAIL_LIMIT) unchecked.push(base);
@@ -1012,7 +1012,7 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
   }
   if (integrity.unchecked.length) {
     lines.push(`### 미확인 위치 상세(최대 ${INTEGRITY_DETAIL_LIMIT}건)`, "");
-    integrity.unchecked.forEach((item: any, index: number) => lines.push(`${index + 1}. ${reportValue(item.documentTitle)} / ${reportValue(item.heading)} · ${item.characterCount}자 · “${reportValue(item.excerpt)}”`));
+    integrity.unchecked.forEach((item: any, index: number) => lines.push(`${index + 1}. ${reportValue(item.documentTitle)} / ${reportValue(item.heading)} · ${item.characterCount}자`));
     if (integrity.uncheckedOmittedCount) lines.push(`- 나머지 ${integrity.uncheckedOmittedCount}건은 위 자료별 집계에 포함되어 있으며, 해당 자료의 첫 미확인 위치부터 워크룸에서 이어서 확인할 수 있습니다.`);
     lines.push("");
   }

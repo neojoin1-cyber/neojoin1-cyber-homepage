@@ -523,6 +523,7 @@ function enterApp() {
   $("#app-shell").hidden = false;
   $("#reviewer-name").textContent = `${state.reviewer.name} ${state.reviewer.roleLabel || "전문위원"}님`;
   $("#reviewer-initial").textContent = state.reviewer.name?.slice(0, 1) || "검";
+  $("#download-review-report").hidden = !canExportReviewReport();
   if (state.mode === "manager-preview") {
     $("#save-status").textContent = "관리자 읽기 전용 확인";
     $("#assignment-submit").disabled = true;
@@ -1097,7 +1098,7 @@ function humanReportMarkup(payload, { editable = false } = {}) {
   const integrityByDocument = (integrity.perDocument || []).map((item) => `<p><b>${escapeHtml(item.title || "검수 자료")}</b><span>확인 ${Number(item.checkedBlockCount || 0)}/${Number(item.totalBlockCount || 0)} · 미확인 ${Number(item.uncheckedBlockCount || 0)}개 · 약 ${Number(item.uncheckedApproxPages || 0)}쪽</span><small>${item.firstUncheckedHeading ? `첫 미확인 위치: ${escapeHtml(item.firstUncheckedHeading)}` : "모든 문단 확인"}</small></p>`).join("");
   const omittedUnchecked = Number(integrity.uncheckedOmittedCount || 0);
   const omittedSuspicious = Number(integrity.suspiciousOmittedCount || 0);
-  const integrityMarkup = `<section class="report-section report-integrity"><header><div><span>03 · REVIEW INTEGRITY</span><h4>검수완전성 확인 기록</h4></div><small>전문위원·대표 동일 기록</small></header><div class="report-summary integrity-report-summary"><article><span>확인 문단</span><strong>${Number(integrity.checkedBlockCount ?? summary.checkedBlockCount ?? 0)}/${Number(integrity.totalBlockCount ?? summary.totalBlockCount ?? 0)}</strong></article><article class="${integrity.uncheckedBlockCount ? "attention" : ""}"><span>미확인 문단</span><strong>${Number(integrity.uncheckedBlockCount || 0)}</strong><small>약 ${Number(integrity.uncheckedApproxPages || 0)}쪽</small></article><article class="${integrity.suspiciousCount ? "attention" : ""}"><span>속도 주의기록</span><strong>${Number(integrity.suspiciousCount || 0)}</strong></article><article><span>시간판정 불가</span><strong>${Number(integrity.unknownTimingCount || 0)}</strong></article></div><p class="report-document-memo">${escapeHtml(integrity.policyNote || "확인 속도 기록은 부정 판정이 아니라 검수 범위와 완전성을 확인하기 위한 대표 참고자료입니다.")}</p>${integrityByDocument ? `<div class="report-integrity-list"><h5>자료별 확인 범위</h5>${integrityByDocument}</div>` : ""}${(integrity.unchecked || []).length ? `<div class="report-integrity-list"><h5>미확인 위치 상세</h5>${integrity.unchecked.map((item, index) => `<p><b>${index + 1}. ${escapeHtml(item.documentTitle || "검수 자료")}</b><span>${escapeHtml(item.heading || "원문 위치")} · ${Number(item.characterCount || 0)}자</span><small>${escapeHtml(item.excerpt || "")}</small></p>`).join("")}${omittedUnchecked ? `<p><b>나머지 ${omittedUnchecked}건</b><span>위 자료별 집계에 모두 포함되어 있습니다.</span><small>각 자료의 첫 미확인 위치부터 워크룸에서 이어서 확인할 수 있습니다.</small></p>` : ""}</div>` : ""}${(integrity.suspicious || []).length ? `<div class="report-integrity-list warning"><h5>확인 속도 주의 위치</h5>${integrity.suspicious.map((item, index) => `<p><b>${index + 1}. ${escapeHtml(item.documentTitle || "검수 자료")}</b><span>${escapeHtml(item.heading || "원문 위치")} · ${integrityStatusLabel(item.speedStatus)}</span><small>실제 ${item.elapsedSeconds ?? "기록 없음"}초 / 보수적 예상 ${Number(item.estimatedSeconds || 0)}초</small></p>`).join("")}${omittedSuspicious ? `<p><b>나머지 ${omittedSuspicious}건</b><span>전체 주의기록 수에 포함되어 있습니다.</span></p>` : ""}</div>` : ""}</section>`;
+  const integrityMarkup = `<section class="report-section report-integrity"><header><div><span>03 · REVIEW INTEGRITY</span><h4>검수완전성 확인 기록</h4></div><small>전문위원·대표 동일 기록</small></header><div class="report-summary integrity-report-summary"><article><span>확인 문단</span><strong>${Number(integrity.checkedBlockCount ?? summary.checkedBlockCount ?? 0)}/${Number(integrity.totalBlockCount ?? summary.totalBlockCount ?? 0)}</strong></article><article class="${integrity.uncheckedBlockCount ? "attention" : ""}"><span>미확인 문단</span><strong>${Number(integrity.uncheckedBlockCount || 0)}</strong><small>약 ${Number(integrity.uncheckedApproxPages || 0)}쪽</small></article><article class="${integrity.suspiciousCount ? "attention" : ""}"><span>속도 주의기록</span><strong>${Number(integrity.suspiciousCount || 0)}</strong></article><article><span>시간판정 불가</span><strong>${Number(integrity.unknownTimingCount || 0)}</strong></article></div><p class="report-document-memo">${escapeHtml(integrity.policyNote || "확인 속도 기록은 부정 판정이 아니라 검수 범위와 완전성을 확인하기 위한 대표 참고자료입니다.")}</p>${integrityByDocument ? `<div class="report-integrity-list"><h5>자료별 확인 범위</h5>${integrityByDocument}</div>` : ""}${(integrity.unchecked || []).length ? `<div class="report-integrity-list"><h5>미확인 위치 목록</h5>${integrity.unchecked.map((item, index) => `<p><b>${index + 1}. ${escapeHtml(item.documentTitle || "검수 자료")}</b><span>${escapeHtml(item.heading || "원문 위치")} · ${Number(item.characterCount || 0)}자</span></p>`).join("")}${omittedUnchecked ? `<p><b>나머지 ${omittedUnchecked}건</b><span>위 자료별 집계에 모두 포함되어 있습니다.</span><small>각 자료의 첫 미확인 위치부터 워크룸에서 이어서 확인할 수 있습니다.</small></p>` : ""}</div>` : ""}${(integrity.suspicious || []).length ? `<div class="report-integrity-list warning"><h5>확인 속도 주의 위치</h5>${integrity.suspicious.map((item, index) => `<p><b>${index + 1}. ${escapeHtml(item.documentTitle || "검수 자료")}</b><span>${escapeHtml(item.heading || "원문 위치")} · ${integrityStatusLabel(item.speedStatus)}</span><small>실제 ${item.elapsedSeconds ?? "기록 없음"}초 / 보수적 예상 ${Number(item.estimatedSeconds || 0)}초</small></p>`).join("")}${omittedSuspicious ? `<p><b>나머지 ${omittedSuspicious}건</b><span>전체 주의기록 수에 포함되어 있습니다.</span></p>` : ""}</div>` : ""}</section>`;
   return `<article class="report-sheet"><header class="report-sheet-header"><div><div class="report-brand">SUGAR &amp; SALT · EXPERT REVIEW</div><h3>핵심요약노트·모의고사<br>표준 검수의견 보고서</h3><p>${escapeHtml(payload.company?.name || "유한회사 설탕과소금")} · ${escapeHtml(payload.company?.unit || "검수 운영")}</p></div><div class="report-seal"><span>OFFICIAL</span><strong>${escapeHtml(assignment.subject || "검수")}</strong></div></header>
     <section class="report-meta"><div><span>보고서 번호</span><strong>${escapeHtml(payload.reportId || "작성 중")}</strong></div><div><span>작성 상태</span><strong>${escapeHtml(reportStatusLabel(payload.status))}</strong></div><div><span>검수 분야</span><strong>${escapeHtml(assignment.program || "")} · ${escapeHtml(assignment.subject || "")}</strong></div><div><span>검수 기간</span><strong>${escapeHtml(assignment.period || "—")}</strong></div><div><span>전문위원</span><strong>${escapeHtml(reviewer.name || "전문위원")} · ${escapeHtml(reviewer.positionTitle || reviewer.roleLabel || "")}</strong></div><div><span>소속</span><strong>${escapeHtml([reviewer.organization, reviewer.department].filter(Boolean).join(" ") || "—")}</strong></div><div><span>위촉 과제</span><strong>${escapeHtml(assignment.title || "—")}</strong></div><div><span>생성 일시</span><strong>${reportDate(payload.generatedAt)}</strong></div></section>
     <section class="report-summary"><article><span>검수 자료</span><strong>${Number(summary.completedDocumentCount || 0)}/${Number(summary.documentCount || documents.length)}</strong></article><article><span>확인 문단</span><strong>${Number(summary.checkedBlockCount || 0)}/${Number(summary.totalBlockCount || 0)}</strong></article><article class="${critical ? "attention" : ""}"><span>수정·보완 의견</span><strong>${Number(summary.findingCount ?? actionable.length)}</strong></article><article><span>전문 의견</span><strong>${Number(summary.professionalOpinionCount ?? professional)}</strong></article></section>
@@ -1112,11 +1113,13 @@ function printableReportHtml(report) {
   return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(payload.assignment?.subject || "검수")} 표준 검수보고서</title><style>${css}</style></head><body>${humanReportMarkup(payload)}</body></html>`;
 }
 
-function saveHumanReport(report) { const payload = report.json || report.report || {}; downloadFile(`${reportFilePart(payload.assignment?.program || "검수")}_${reportFilePart(payload.assignment?.subject || "과목")}_${reportFilePart(payload.reviewer?.name || "전문위원")}_표준_검수보고서.html`, printableReportHtml(report)); }
-function printHumanReport(report) { const popup = window.open("", "_blank"); if (!popup) { toast("팝업 차단을 해제한 뒤 다시 시도해 주세요."); return; } popup.opener = null; popup.document.write(printableReportHtml(report)); popup.document.close(); setTimeout(() => { popup.focus(); popup.print(); }, 250); }
+function canExportReviewReport() { return state.mode === "manager-preview"; }
+function saveHumanReport(report) { if (!canExportReviewReport()) { toast("보고서 파일 저장과 인쇄는 회사 관리자 확인 화면에서 제공합니다."); return; } const payload = report.json || report.report || {}; downloadFile(`${reportFilePart(payload.assignment?.program || "검수")}_${reportFilePart(payload.assignment?.subject || "과목")}_${reportFilePart(payload.reviewer?.name || "전문위원")}_표준_검수보고서.html`, printableReportHtml(report)); }
+function printHumanReport(report) { if (!canExportReviewReport()) { toast("보고서 파일 저장과 인쇄는 회사 관리자 확인 화면에서 제공합니다."); return; } const popup = window.open("", "_blank"); if (!popup) { toast("팝업 차단을 해제한 뒤 다시 시도해 주세요."); return; } popup.opener = null; popup.document.write(printableReportHtml(report)); popup.document.close(); setTimeout(() => { popup.focus(); popup.print(); }, 250); }
 
 async function downloadReviewReport() {
   const button = $("#download-review-report");
+  if (!canExportReviewReport()) { toast("보고서 파일 저장과 인쇄는 회사 관리자 확인 화면에서 제공합니다."); return; }
   button.disabled = true;
   button.textContent = "보고서 생성 중…";
   try {
@@ -1434,7 +1437,7 @@ function localSubmissionIntegrity() {
   const perDocument = assignment.documents.map((document) => {
     const checked = new Set(progressFor(document.id).checkedBlocks || []);
     const missing = (document.blocks || []).filter((block) => !checked.has(block.id));
-    missing.forEach((block) => unchecked.push({ documentId: document.id, documentTitle: document.title, blockId: block.id, heading: block.heading, excerpt: String(block.text || "").slice(0, 180), characterCount: String(block.text || "").replace(/\s/g, "").length }));
+    missing.forEach((block) => unchecked.push({ documentId: document.id, documentTitle: document.title, blockId: block.id, heading: block.heading, characterCount: String(block.text || "").replace(/\s/g, "").length }));
     return { documentId: document.id, title: document.title, totalBlockCount: document.blocks.length, checkedBlockCount: checked.size, uncheckedBlockCount: missing.length, uncheckedCharacters: missing.reduce((sum, block) => sum + String(block.text || "").replace(/\s/g, "").length, 0) };
   });
   const total = perDocument.reduce((sum, item) => sum + item.totalBlockCount, 0);
@@ -1451,7 +1454,7 @@ function renderSubmissionIntegrity(integrity) {
   const issues = Number(integrity.uncheckedBlockCount || 0) + Number(integrity.suspiciousCount || 0) + Number(integrity.unknownTimingCount || 0);
   $("#integrity-summary").innerHTML = `<article><span>전체 문단</span><strong>${Number(integrity.totalBlockCount || 0)}</strong></article><article><span>확인 기록</span><strong>${Number(integrity.checkedBlockCount || 0)}</strong></article><article class="${integrity.uncheckedBlockCount ? "attention" : ""}"><span>미확인</span><strong>${Number(integrity.uncheckedBlockCount || 0)}</strong><small>약 ${Number(integrity.uncheckedApproxPages || 0)}쪽</small></article><article class="${integrity.suspiciousCount || integrity.unknownTimingCount ? "attention" : ""}"><span>속도 주의</span><strong>${Number(integrity.suspiciousCount || 0)}</strong><small>시간판정 불가 ${Number(integrity.unknownTimingCount || 0)}</small></article>`;
   const perDocumentMarkup = (integrity.perDocument || []).filter((item) => Number(item.uncheckedBlockCount || 0) > 0).map((item) => `<button type="button" class="integrity-location" data-integrity-document="${escapeHtml(item.documentId)}" data-integrity-block="${escapeHtml(item.firstUncheckedBlockId || "")}"><b>${escapeHtml(item.title || "검수 자료")}</b><span>미확인 ${Number(item.uncheckedBlockCount || 0)}개 · 약 ${Number(item.uncheckedApproxPages || 0)}쪽</span><small>${item.firstUncheckedHeading ? `첫 미확인 위치: ${escapeHtml(item.firstUncheckedHeading)}` : "미확인 위치 확인"}</small></button>`).join("");
-  const uncheckedMarkup = (integrity.unchecked || []).map((item, index) => `<button type="button" class="integrity-location" data-integrity-document="${escapeHtml(item.documentId)}" data-integrity-block="${escapeHtml(item.blockId)}"><b>${index + 1}. ${escapeHtml(item.documentTitle)}</b><span>${escapeHtml(item.heading)} · ${Number(item.characterCount || 0)}자</span><small>${escapeHtml(item.excerpt || "")}</small></button>`).join("");
+  const uncheckedMarkup = (integrity.unchecked || []).map((item, index) => `<button type="button" class="integrity-location" data-integrity-document="${escapeHtml(item.documentId)}" data-integrity-block="${escapeHtml(item.blockId)}"><b>${index + 1}. ${escapeHtml(item.documentTitle)}</b><span>${escapeHtml(item.heading)} · ${Number(item.characterCount || 0)}자</span></button>`).join("");
   const suspiciousMarkup = (integrity.suspicious || []).map((item, index) => `<button type="button" class="integrity-location warning" data-integrity-document="${escapeHtml(item.documentId)}" data-integrity-block="${escapeHtml(item.blockId)}"><b>${index + 1}. ${escapeHtml(item.documentTitle)}</b><span>${escapeHtml(item.heading)} · ${integrityStatusLabel(item.speedStatus)}</span><small>실제 ${item.elapsedSeconds ?? "기록 없음"}초 / 보수적 예상 ${Number(item.estimatedSeconds || 0)}초${item.bulkCount > 1 ? ` · ${Number(item.bulkCount)}개 동시 확인` : ""}</small></button>`).join("");
   const uncheckedOmitted = Number(integrity.uncheckedOmittedCount || 0);
   const suspiciousOmitted = Number(integrity.suspiciousOmittedCount || 0);
@@ -1544,7 +1547,12 @@ function renderReportPreview(report) {
   state.reportPreview = report;
   const sourceEditAvailable = state.mode !== "manager-preview" && activeAssignment()?.status !== "submitted";
   $("#report-preview-content").innerHTML = humanReportMarkup(report.json || report.report || {}, { editable: sourceEditAvailable });
+  const canExport = canExportReviewReport();
+  $("#report-preview-download").hidden = !canExport;
+  $("#report-preview-print").hidden = !canExport;
+  $("#report-protection-note").hidden = canExport;
   $("#report-preview-dialog").showModal();
+  logEvent("review_report_previewed", { reportId: report.reportId || report.json?.reportId || null });
 }
 
 async function previewReviewReport() {
@@ -1695,19 +1703,31 @@ function bindEvents() {
     if (event.altKey && event.key.toLowerCase() === "m") { event.preventDefault(); openAnnotationDialog("memo"); }
     if (event.altKey && event.key.toLowerCase() === "e") { event.preventDefault(); openAnnotationDialog("issue"); }
   });
-  document.addEventListener("copy", (event) => {
-    if (event.target.closest?.(".review-paper")) {
-      event.preventDefault();
-      toast("소중한 원고와 전문위원님의 의견 보호를 위해 복사 기능은 제공되지 않습니다.");
-      logEvent("copy_blocked");
-    }
-  });
+  const protectedReviewSurface = ".review-paper, .report-preview-dialog, .submission-integrity-dialog";
+  const elementForSelectionNode = (node) => node?.nodeType === Node.ELEMENT_NODE ? node : node?.parentElement;
+  const selectionWithinProtectedSurface = () => {
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0 || selection.isCollapsed) return false;
+    const anchor = elementForSelectionNode(selection.anchorNode);
+    const focus = elementForSelectionNode(selection.focusNode);
+    const common = elementForSelectionNode(selection.getRangeAt(0).commonAncestorContainer);
+    return Boolean(anchor?.closest?.(protectedReviewSurface) || focus?.closest?.(protectedReviewSurface) || common?.closest?.(protectedReviewSurface));
+  };
+  const eventWithinProtectedSurface = (event) => Boolean(event.target.closest?.(protectedReviewSurface) || selectionWithinProtectedSurface());
+  const blockProtectedTransfer = (event, eventType) => {
+    if (!eventWithinProtectedSurface(event)) return;
+    event.preventDefault();
+    toast("검수 범위 선택과 의견 작성은 그대로 이용할 수 있으며, 원문 복사·반출 기능은 제공되지 않습니다.");
+    logEvent(eventType, { surface: event.target.closest?.(".report-preview-dialog") ? "report_preview" : "review_source" });
+  };
+  document.addEventListener("copy", (event) => blockProtectedTransfer(event, "copy_blocked"));
+  document.addEventListener("cut", (event) => blockProtectedTransfer(event, "cut_blocked"));
+  document.addEventListener("dragstart", (event) => blockProtectedTransfer(event, "text_drag_blocked"));
   document.addEventListener("contextmenu", (event) => {
-    if (event.target.closest?.(".review-paper")) {
-      event.preventDefault();
-      toast("자료보호를 위해 이 화면에서는 마우스 오른쪽 버튼 기능을 제공하지 않습니다.");
-      logEvent("context_menu_blocked");
-    }
+    if (!eventWithinProtectedSurface(event)) return;
+    event.preventDefault();
+    toast("자료보호를 위해 이 화면에서는 마우스 오른쪽 버튼 기능을 제공하지 않습니다.");
+    logEvent("context_menu_blocked", { surface: event.target.closest?.(".report-preview-dialog") ? "report_preview" : "review_source" });
   });
   window.addEventListener("beforeprint", () => logEvent("print_attempt"));
   window.addEventListener("resize", applyReaderScale, { passive: true });
