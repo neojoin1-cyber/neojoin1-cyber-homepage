@@ -456,7 +456,7 @@ async function sendOperationalEmail(to: string, subject: string, html: string, i
 
 function buildOtpEmailHtml(code: string) {
   const safeCode = emailHtml(code);
-  return `<!doctype html><html lang="ko"><body style="margin:0;padding:0;background:#f3f1ed;color:#27384a;font-family:'Apple SD Gothic Neo','Noto Sans KR',Arial,sans-serif"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f3f1ed"><tr><td align="center" style="padding:32px 12px"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:620px;background:#fff;border:1px solid #ded8cd;border-top:5px solid #173654"><tr><td style="padding:30px 34px 22px;border-bottom:1px solid #e7e1d7"><p style="margin:0 0 8px;color:#b2762e;font-size:11px;font-weight:800;letter-spacing:2px">SUGAR &amp; SALT · SECURE REVIEW</p><h1 style="margin:0;color:#173654;font-family:Georgia,'Noto Serif KR',serif;font-size:26px;line-height:1.35">전문위원 검수 워크룸<br>인증번호 안내</h1></td></tr><tr><td style="padding:30px 34px"><p style="margin:0 0 18px;font-size:14px;line-height:1.9">전문위원 검수 워크룸에서 요청하신 인증번호입니다.</p><div style="margin:0 0 22px;padding:22px;text-align:center;background:#f5f7f8;border:1px solid #d9e0e4"><span style="display:block;margin-bottom:8px;color:#738092;font-size:12px">인증번호</span><strong style="color:#173654;font-family:Georgia,serif;font-size:34px;letter-spacing:8px">${safeCode}</strong></div><p style="margin:0 0 18px;color:#5f6d78;font-size:12px;line-height:1.8">워크룸 화면에 위 번호를 입력해 주십시오. 본인이 요청하지 않으셨다면 이 메일을 무시하셔도 됩니다. 인증번호를 다른 사람에게 전달하지 마십시오.</p><p style="margin:0;font-size:12px;line-height:1.8">이용 문의: <a href="mailto:${emailHtml(REVIEW_OPERATIONS_EMAIL)}" style="color:#173654">${emailHtml(REVIEW_OPERATIONS_EMAIL)}</a></p></td></tr><tr><td style="padding:20px 34px;background:#173654;color:#dce4ec;font-size:12px;line-height:1.75"><strong style="display:block;color:#fff;font-size:14px">유한회사 설탕과소금</strong>공직시험 연구소 · 전문위원 검수 운영</td></tr></table></td></tr></table></body></html>`;
+  return `<!doctype html><html lang="ko"><body style="margin:0;padding:0;background:#f3f1ed;color:#27384a;font-family:'Apple SD Gothic Neo','Noto Sans KR',Arial,sans-serif"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f3f1ed"><tr><td align="center" style="padding:32px 12px"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:620px;background:#fff;border:1px solid #ded8cd;border-top:5px solid #173654"><tr><td style="padding:30px 34px 22px;border-bottom:1px solid #e7e1d7"><p style="margin:0 0 8px;color:#b2762e;font-size:11px;font-weight:800;letter-spacing:2px">SUGAR &amp; SALT · SECURE REVIEW</p><h1 style="margin:0;color:#173654;font-family:Georgia,'Noto Serif KR',serif;font-size:26px;line-height:1.35">전문위원 검수 워크룸<br>인증번호 안내</h1></td></tr><tr><td style="padding:30px 34px"><p style="margin:0 0 18px;font-size:14px;line-height:1.9">전문위원 검수 워크룸에서 요청하신 인증번호입니다.</p><div style="margin:0 0 22px;padding:22px;text-align:center;background:#f5f7f8;border:1px solid #d9e0e4"><span style="display:block;margin-bottom:8px;color:#738092;font-size:12px">인증번호</span><strong style="color:#173654;font-family:Georgia,serif;font-size:34px;letter-spacing:8px">${safeCode}</strong></div><p style="margin:0 0 18px;color:#5f6d78;font-size:12px;line-height:1.8">워크룸 화면에 위 번호를 입력해 주십시오. 본인이 요청하지 않으셨다면 이 메일을 무시하셔도 됩니다. 인증번호를 다른 사람에게 전달하지 마십시오.</p><p style="margin:0 0 22px;text-align:center"><a href="${emailHtml(REVIEW_APP_URL)}" style="display:inline-block;padding:12px 24px;background:#173654;color:#fff;text-decoration:none;border-radius:4px;font-size:13px;font-weight:800">검수 워크룸으로 돌아가기</a></p><p style="margin:0 0 18px;color:#738092;font-size:11px;line-height:1.7;word-break:break-all">접속 주소: <a href="${emailHtml(REVIEW_APP_URL)}" style="color:#173654">${emailHtml(REVIEW_APP_URL)}</a></p><p style="margin:0;font-size:12px;line-height:1.8">이용 문의: <a href="mailto:${emailHtml(REVIEW_OPERATIONS_EMAIL)}" style="color:#173654">${emailHtml(REVIEW_OPERATIONS_EMAIL)}</a></p></td></tr><tr><td style="padding:20px 34px;background:#173654;color:#dce4ec;font-size:12px;line-height:1.75"><strong style="display:block;color:#fff;font-size:14px">유한회사 설탕과소금</strong>공직시험 연구소 · 전문위원 검수 운영</td></tr></table></td></tr></table></body></html>`;
 }
 
 async function recordAuthEvent(admin: ReturnType<typeof createClient>, userId: string, eventType: string, payload: Record<string, unknown>) {
@@ -1340,6 +1340,45 @@ Deno.serve(async (request) => {
           text: buildSupplementalGuideText(expert.display_name, subject?.name)
         }
       }, 200, origin);
+    }
+
+    if (action === "managerResendStartNotice") {
+      await ensureManager(admin, userId);
+      const assignmentId = cleanText(payload.assignmentId, 80);
+      if (!assignmentId) throw new Error("복구할 위촉 과제를 선택해 주세요.");
+      const { data: assignment, error: assignmentError } = await admin.from("review_assignments").select("*").eq("id", assignmentId).single();
+      if (assignmentError || !assignment) throw new Error("위촉 과제를 확인하지 못했습니다.");
+      if (!assignment.started_at) throw new Error("검수 개시 전 과제는 일반 개시 절차를 이용해 주세요.");
+      if (assignment.notification_sent_at) return json({ ok: true, alreadyRecorded: true, sentAt: assignment.notification_sent_at }, 200, origin);
+      if (!["assigned", "reviewing", "submitted", "returned", "accepted"].includes(assignment.status)) throw new Error("개시 안내를 복구할 수 있는 진행 상태가 아닙니다.");
+      const [{ data: expert }, { data: subject }, { data: links }, { data: existingArchive }] = await Promise.all([
+        admin.from("review_profiles").select("email, display_name, active").eq("user_id", assignment.reviewer_user_id).single(),
+        admin.from("review_subjects").select("name").eq("id", assignment.subject_id).single(),
+        admin.from("review_assignment_documents").select("document_id, sort_order").eq("assignment_id", assignmentId).order("sort_order"),
+        admin.from("review_notification_archive").select("sent_at").eq("assignment_id", assignmentId).eq("notification_type", "assignment_start").order("sent_at", { ascending: false }).limit(1).maybeSingle()
+      ]);
+      if (!expert?.email || !expert.active) throw new Error("이용 가능한 전문위원 이메일을 확인하지 못했습니다.");
+      if (existingArchive?.sent_at) {
+        const { error: repairError } = await admin.from("review_assignments").update({ notification_sent_at: existingArchive.sent_at }).eq("id", assignmentId).is("notification_sent_at", null);
+        if (repairError) throw new Error("기존 발송 기록을 과제에 연결하지 못했습니다.");
+        await admin.from("review_events").insert({ assignment_id: assignmentId, reviewer_user_id: userId, event_type: "assignment_notice_record_repaired", payload: { source: "notification_archive", sentAt: existingArchive.sent_at } });
+        return json({ ok: true, alreadyRecorded: true, sentAt: existingArchive.sent_at }, 200, origin);
+      }
+      const documentIds = (links ?? []).map((item) => item.document_id);
+      const { data: documents } = documentIds.length ? await admin.from("review_documents").select("id, title, version").in("id", documentIds) : { data: [] };
+      const documentMap = new Map((documents ?? []).map((item) => [item.id, item]));
+      const orderedDocuments = (links ?? []).map((item) => documentMap.get(item.document_id)).filter(Boolean) as Array<Record<string, unknown>>;
+      const notificationSubject = `[유한회사 설탕과소금] ${expert.display_name} 전문위원님 · ${subject?.name ?? "담당 과목"} 검수 개시 안내`;
+      const notificationHtml = buildAssignmentStartEmail(expert.display_name, subject?.name, assignment, orderedDocuments);
+      const notification = await sendOperationalEmail(expert.email, notificationSubject, notificationHtml, `assignment-start-repair-${assignment.id}`);
+      if (!notification.sent) throw new Error("개시 안내 이메일이 발송 서비스에 접수되지 않았습니다.");
+      const sentAt = new Date().toISOString();
+      const { error: archiveError } = await admin.from("review_notification_archive").upsert({ assignment_id: assignment.id, notification_type: "assignment_start", channel: "email", recipient_email: expert.email, recipient_name: expert.display_name, subject: notificationSubject, html_body: notificationHtml, text_body: null, template_version: "assignment-start-v2-repair", provider: notification.provider, provider_message_id: notification.id, delivery_status: "service_accepted", sent_at: sentAt, created_by: userId }, { onConflict: "assignment_id,notification_type,recipient_email" });
+      if (archiveError) throw new Error("발송은 접수됐으나 안내 원문 보관에 실패했습니다. 운영담당자가 발송 서비스 기록을 확인해야 합니다.");
+      const { error: assignmentUpdateError } = await admin.from("review_assignments").update({ notification_sent_at: sentAt }).eq("id", assignmentId).is("notification_sent_at", null);
+      if (assignmentUpdateError) throw new Error("발송은 접수됐으나 과제 발송 시각 연결에 실패했습니다.");
+      await admin.from("review_events").insert({ assignment_id: assignmentId, reviewer_user_id: userId, event_type: "notification_dispatched", payload: { channel: "email", recipient: expert.email, subject: notificationSubject, templateVersion: "assignment-start-v2-repair", provider: notification.provider, providerMessageId: notification.id, notificationStatus: notification.status, repair: true, archiveStored: true } });
+      return json({ ok: true, alreadyRecorded: false, sentAt, provider: notification.provider, providerMessageId: notification.id }, 200, origin);
     }
 
     if (action === "managerSetRuntimeControls") {
