@@ -27,7 +27,8 @@ const OTP_DAILY_LIMIT = 10;
 const ALLOWED_REVIEW_EVENTS = new Set([
   "workroom_enter", "document_open", "assignment_change", "annotation_created",
   "annotation_deleted", "document_completed", "assignment_submitted",
-  "review_report_exported", "copy_blocked", "context_menu_blocked",
+  "review_report_exported", "review_report_previewed", "copy_blocked", "cut_blocked",
+  "text_drag_blocked", "context_menu_blocked",
   "print_attempt", "window_hidden", "window_visible"
 ]);
 const REVIEWER_ACTIVITY_EVENT_TYPES = new Set([
