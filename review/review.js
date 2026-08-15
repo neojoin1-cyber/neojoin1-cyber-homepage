@@ -9,7 +9,7 @@ const STORAGE_KEY = "sugar-salt-review-workroom-demo-v1";
 const AUTH_STORAGE_KEY = "sugar-salt-review-auth-v1";
 const EVENT_QUEUE_STORAGE_KEY = "sugar-salt-review-event-queue-v1";
 const SCREEN_LOCK_STORAGE_KEY = "sugar-salt-review-screen-lock-v1";
-const REVIEW_CLIENT_VERSION = "20260815-7";
+const REVIEW_CLIENT_VERSION = "20260815-8";
 const AUTH_MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000;
 const PRESENCE_HEARTBEAT_MS = 30_000;
 const SCREEN_LOCK_IDLE_MS = 10 * 60_000;
@@ -814,12 +814,44 @@ function groupConsecutiveBlocks(blocks = []) {
   }, []);
 }
 
-function renderGroupedBlock(block, progress) {
-  const checked = progress.checkedBlocks?.includes(block.id);
+const TEXT_CONFIRM_CHUNK_SIZE = 4;
+
+function chunkReviewBlocks(blocks = [], size = TEXT_CONFIRM_CHUNK_SIZE) {
+  return blocks.reduce((chunks, block, index) => {
+    if (index % size === 0) chunks.push([]);
+    chunks.at(-1).push(block);
+    return chunks;
+  }, []);
+}
+
+function renderGroupedBlock(block) {
   return `<article class="review-block" data-block-id="${escapeHtml(block.id)}" role="listitem">
     <p class="review-block-text" data-block-id="${escapeHtml(block.id)}">${annotatedText(block)}</p>
-    <button class="block-check ${checked ? "checked" : ""}" data-check-block="${escapeHtml(block.id)}" type="button" aria-label="${checked ? "확인 완료" : "이 항목 확인"}">${checked ? "✓ 확인됨" : "확인"}</button>
   </article>`;
+}
+
+function renderTextGroup(group, progress) {
+  const chunks = chunkReviewBlocks(group.blocks);
+  return `<section class="review-block-group">
+    <header class="review-block-group-head">
+      <h3>${escapeHtml(group.heading)}</h3>
+      <span>${group.blocks.length}개 원문 · ${chunks.length}회 확인</span>
+    </header>
+    <div class="review-block-list" role="list">
+      ${chunks.map((blocks, chunkIndex) => {
+        const blockIds = blocks.map((block) => block.id);
+        const checked = blockIds.every((id) => progress.checkedBlocks?.includes(id));
+        const rangeLabel = chunks.length > 1 ? `${chunkIndex + 1}/${chunks.length}` : "이 묶음";
+        return `<section class="review-confirm-chunk">
+          <div class="review-confirm-chunk-content">${blocks.map((block) => renderGroupedBlock(block)).join("")}</div>
+          <footer class="review-confirm-chunk-actions">
+            <small>${blocks.length}개 문단을 함께 확인합니다.</small>
+            <button class="block-check ${checked ? "checked" : ""}" data-check-blocks="${escapeHtml(blockIds.join(","))}" type="button" aria-label="${checked ? `${rangeLabel} 확인 완료` : `${rangeLabel} 확인`}">${checked ? "✓ 확인됨" : `${rangeLabel} 확인`}</button>
+          </footer>
+        </section>`;
+      }).join("")}
+    </div>
+  </section>`;
 }
 
 function renderTableGroup(group, progress) {
@@ -830,20 +862,23 @@ function renderTableGroup(group, progress) {
   });
   const tableRows = [...rows.entries()].sort(([a], [b]) => a - b).map(([, cells]) => {
     const ordered = [...cells].sort((a, b) => a.columnIndex - b.columnIndex);
-    const blockIds = ordered.map(({ block }) => block.id);
-    const checked = blockIds.every((id) => progress.checkedBlocks?.includes(id));
     const columns = ordered.map((cell) => {
       const tag = cell.isHeader ? "th" : "td";
       return `<${tag} class="review-table-cell" data-block-id="${escapeHtml(cell.block.id)}" colspan="${cell.colspan}" rowspan="${cell.rowspan}" ${cell.isHeader ? 'scope="col"' : ""}>
         <span class="review-block-text" data-block-id="${escapeHtml(cell.block.id)}">${annotatedText(cell.block)}</span>
       </${tag}>`;
     }).join("");
-    return `<tr>${columns}<td class="review-table-confirm"><button class="block-check ${checked ? "checked" : ""}" data-check-blocks="${escapeHtml(blockIds.join(","))}" type="button" aria-label="${checked ? "이 행 확인 완료" : "이 행 확인"}">${checked ? "✓ 확인됨" : "행 확인"}</button></td></tr>`;
+    return `<tr>${columns}</tr>`;
   }).join("");
+  const blockIds = group.cells.map(({ block }) => block.id);
+  const checked = blockIds.every((id) => progress.checkedBlocks?.includes(id));
   return `<section class="review-block-group review-table-group">
     <header class="review-block-group-head">
       <h3>${escapeHtml(group.heading)}</h3>
-      <span>원문 표 · ${rows.size}행</span>
+      <div class="review-group-actions">
+        <span>원문 표 · ${rows.size}행</span>
+        <button class="block-check ${checked ? "checked" : ""}" data-check-blocks="${escapeHtml(blockIds.join(","))}" type="button" aria-label="${checked ? "표 전체 확인 완료" : "표 전체 확인"}">${checked ? "✓ 확인됨" : "표 전체 확인"}</button>
+      </div>
     </header>
     <div class="review-data-table-wrap" role="region" aria-label="${escapeHtml(group.heading)} 표" tabindex="0">
       <table class="review-data-table"><tbody>${tableRows}</tbody></table>
@@ -862,15 +897,7 @@ function renderDocument() {
   $("#document-memo").value = progress.memo || "";
   $("#complete-document").textContent = progress.complete ? "✓ 이 자료의 검토를 마쳤습니다" : "이 자료의 검토를 마쳤습니다";
   $("#complete-document").classList.toggle("primary", !progress.complete);
-  $("#document-content").innerHTML = groupConsecutiveBlocks(document.blocks).map((group) => group.type === "table" ? renderTableGroup(group, progress) : `<section class="review-block-group">
-    <header class="review-block-group-head">
-      <h3>${escapeHtml(group.heading)}</h3>
-      ${group.blocks.length > 1 ? `<span>${group.blocks.length}개 검수 항목</span>` : ""}
-    </header>
-    <div class="review-block-list" role="list">
-      ${group.blocks.map((block) => renderGroupedBlock(block, progress)).join("")}
-    </div>
-  </section>`).join("");
+  $("#document-content").innerHTML = groupConsecutiveBlocks(document.blocks).map((group) => group.type === "table" ? renderTableGroup(group, progress) : renderTextGroup(group, progress)).join("");
   const index = activeAssignment().documents.findIndex((item) => item.id === document.id);
   $("#previous-document").disabled = index <= 0;
   $("#next-document").disabled = index >= activeAssignment().documents.length - 1;
