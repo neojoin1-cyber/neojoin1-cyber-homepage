@@ -7,6 +7,7 @@ if (window.top !== window.self) {
 
 const STORAGE_KEY = "sugar-salt-review-workroom-demo-v1";
 const AUTH_STORAGE_KEY = "sugar-salt-review-auth-v1";
+const EVENT_QUEUE_STORAGE_KEY = "sugar-salt-review-event-queue-v1";
 const AUTH_MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000;
 const reviewQuery = new URLSearchParams(location.search);
 const managerPreviewAssignmentId = reviewQuery.get("managerPreview") || "";
@@ -158,6 +159,10 @@ const state = {
   blockCheckTimer: null,
   blockCheckFlushPromise: null,
   blockCheckFailureNotified: false,
+  eventJobs: [],
+  eventTimer: null,
+  eventFlushPromise: null,
+  eventFailureNotified: false,
   submissionIntegrity: null
 };
 
@@ -212,9 +217,70 @@ function toast(message) {
   toast.timer = setTimeout(() => element.classList.remove("show"), 2600);
 }
 
+function eventQueueStorageKey() {
+  return state.reviewer?.id ? `${EVENT_QUEUE_STORAGE_KEY}:${state.reviewer.id}` : "";
+}
+
+function persistEventQueue() {
+  const key = eventQueueStorageKey();
+  if (!key) return;
+  try {
+    if (state.eventJobs.length) localStorage.setItem(key, JSON.stringify(state.eventJobs.slice(-120)));
+    else localStorage.removeItem(key);
+  } catch {
+    // 활동 기록 실패가 전문위원님의 본문 검수를 방해하지 않도록 메모리 대기열은 그대로 유지합니다.
+  }
+}
+
+function restoreEventQueue() {
+  const key = eventQueueStorageKey();
+  if (!key) return;
+  try {
+    const saved = JSON.parse(localStorage.getItem(key) || "[]");
+    state.eventJobs = Array.isArray(saved) ? saved.slice(-120) : [];
+  } catch {
+    state.eventJobs = [];
+    localStorage.removeItem(key);
+  }
+}
+
+function scheduleEventFlush(delay = 0) {
+  clearTimeout(state.eventTimer);
+  state.eventTimer = setTimeout(() => flushEventQueue().catch(() => {}), delay);
+}
+
+async function flushEventQueue() {
+  clearTimeout(state.eventTimer);
+  state.eventTimer = null;
+  if (state.eventFlushPromise || state.mode !== "production" || !state.eventJobs.length) return state.eventFlushPromise;
+  state.eventFlushPromise = (async () => {
+    while (state.eventJobs.length) {
+      try {
+        await api("logEvent", state.eventJobs[0]);
+        state.eventJobs.shift();
+        persistEventQueue();
+        state.eventFailureNotified = false;
+      } catch (error) {
+        if (!state.eventFailureNotified) {
+          state.eventFailureNotified = true;
+          toast("접속·열람 기록을 보존했습니다. 연결이 회복되면 자동으로 다시 전달합니다.");
+        }
+        scheduleEventFlush(3000);
+        throw error;
+      }
+    }
+  })();
+  try {
+    await state.eventFlushPromise;
+  } finally {
+    state.eventFlushPromise = null;
+  }
+}
+
 function logEvent(type, payload = {}) {
   if (state.mode === "manager-preview") return;
-  const event = { type, payload, assignmentId: state.activeAssignmentId, documentId: state.activeDocumentId, occurredAt: nowIso() };
+  const occurredAt = nowIso();
+  const event = { type, payload: { ...payload, clientEventId: uid(), clientOccurredAt: occurredAt }, assignmentId: state.activeAssignmentId, documentId: state.activeDocumentId, occurredAt };
   if (state.mode === "demo") {
     const saved = restoreDemoState();
     saved.events.push(event);
@@ -222,7 +288,10 @@ function logEvent(type, payload = {}) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ annotations: state.annotations, progress: state.progress, events: saved.events }));
     return;
   }
-  api("logEvent", event).catch(() => {});
+  state.eventJobs.push(event);
+  state.eventJobs = state.eventJobs.slice(-120);
+  persistEventQueue();
+  scheduleEventFlush();
 }
 
 function persistDemo() {
@@ -407,6 +476,7 @@ async function enterProduction(session) {
   applySession(session);
   const bootstrap = await api(managerPreviewAssignmentId ? "managerPreviewBootstrap" : "bootstrap", managerPreviewAssignmentId ? { assignmentId: managerPreviewAssignmentId } : {});
   state.reviewer = bootstrap.reviewer;
+  restoreEventQueue();
   state.assignments = bootstrap.assignments;
   state.progress = bootstrap.progress || {};
   state.activeAssignmentId = state.assignments[0]?.id || null;
@@ -1636,6 +1706,7 @@ function bindEvents() {
       if (hasPendingSaves()) flushPendingSaves().catch(() => {});
       flushBlockViews().catch(() => {});
       flushBlockChecks().catch(() => {});
+      flushEventQueue().catch(() => {});
     }
     logEvent(document.hidden ? "window_hidden" : "window_visible");
   });
@@ -1643,6 +1714,7 @@ function bindEvents() {
     if (hasPendingSaves()) flushPendingSaves().catch(() => {});
     flushBlockViews().catch(() => {});
     flushBlockChecks().catch(() => {});
+    flushEventQueue().catch(() => {});
   });
   window.addEventListener("beforeunload", (event) => {
     if (!hasPendingSaves() && !state.blockCheckJobs.length && !state.pendingBlockViews.size) return;

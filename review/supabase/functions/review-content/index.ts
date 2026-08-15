@@ -109,6 +109,16 @@ function reviewSpeedStatus(elapsedSeconds: number | null, estimatedSeconds: numb
   return "normal";
 }
 
+function mergedCheckedBlockIds(progress: any, checkRows: any[] = [], validIds?: Set<string>) {
+  const ids = new Set<string>();
+  if (Array.isArray(progress?.checked_blocks)) {
+    progress.checked_blocks.forEach((id: unknown) => ids.add(String(id)));
+  }
+  checkRows.filter((item) => item?.first_checked_at).forEach((item) => ids.add(String(item.block_id)));
+  if (!validIds) return [...ids];
+  return [...ids].filter((id) => validIds.has(id));
+}
+
 async function fetchAllPages<T>(queryPage: (from: number, to: number) => PromiseLike<{ data: T[] | null; error: any }>, pageSize = 1000) {
   const rows: T[] = [];
   for (let from = 0; ; from += pageSize) {
@@ -155,13 +165,8 @@ async function buildReviewIntegrity(admin: ReturnType<typeof createClient>, user
     const document = documentMap.get(documentId) as any;
     const documentBlocks = blocks.filter((block) => block.document_id === documentId);
     const validBlockIds = new Set(documentBlocks.map((block) => String(block.id)));
-    const checked = new Set(
-      (Array.isArray((progressMap.get(documentId) as any)?.checked_blocks)
-        ? (progressMap.get(documentId) as any).checked_blocks
-        : [])
-        .map((id: unknown) => String(id))
-        .filter((id: string) => validBlockIds.has(id))
-    );
+    const documentCheckRows = (checkRows ?? []).filter((item) => item.document_id === documentId);
+    const checked = new Set(mergedCheckedBlockIds(progressMap.get(documentId), documentCheckRows, validBlockIds));
     let checkedCharacters = 0;
     let uncheckedCharacters = 0;
     documentBlocks.forEach((block) => {
@@ -803,6 +808,8 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
   if (annotationError) throw annotationError;
   const { data: progressRows, error: progressError } = await admin.from("review_progress").select("*").eq("assignment_id", assignmentId).eq("reviewer_user_id", userId);
   if (progressError) throw progressError;
+  const { data: reportCheckRows, error: reportCheckError } = await admin.from("review_block_checks").select("document_id, block_id, first_checked_at").eq("assignment_id", assignmentId).eq("reviewer_user_id", userId);
+  if (reportCheckError) throw reportCheckError;
 
   const integrity = await buildReviewIntegrity(admin, userId, assignmentId);
   const generatedAt = new Date().toISOString();
@@ -814,6 +821,8 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
   const orderedDocuments = (links ?? []).map((link) => documentMap.get(link.document_id)).filter(Boolean);
   const detailDocuments = orderedDocuments.map((document: any) => {
     const progress = progressMap.get(document.id) as any;
+    const validIds = new Set(blocks.filter((block) => block.document_id === document.id).map((block) => String(block.id)));
+    const checkedBlockIds = mergedCheckedBlockIds(progress, (reportCheckRows ?? []).filter((item) => item.document_id === document.id), validIds);
     return {
       id: document.id,
       kind: document.kind,
@@ -823,7 +832,7 @@ async function createReviewReport(admin: ReturnType<typeof createClient>, userId
       complete: Boolean(progress?.complete),
       completedAt: progress?.completed_at ?? null,
       totalBlockCount: blocks.filter((block) => block.document_id === document.id).length,
-      checkedBlockCount: new Set(Array.isArray(progress?.checked_blocks) ? progress.checked_blocks : []).size,
+      checkedBlockCount: checkedBlockIds.length,
       overallMemo: progress?.memo ?? "",
       findings: (annotations ?? []).filter((item) => item.document_id === document.id).map((item) => ({
         id: item.id,
@@ -1021,6 +1030,9 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
   const { data: documents } = documentIds.length ? await admin.from("review_documents").select("id, title, kind, version").in("id", documentIds) : { data: [] };
   const blockCounts = await reviewBlockCountMap(admin, documentIds);
   const { data: progressRows } = assignmentIds.length ? await admin.from("review_progress").select("assignment_id, document_id, checked_blocks, memo, complete, completed_at, updated_at").in("assignment_id", assignmentIds) : { data: [] };
+  const blockCheckRows = assignmentIds.length
+    ? await fetchAllPages<any>((from, to) => admin.from("review_block_checks").select("assignment_id, document_id, block_id, reviewer_user_id, first_seen_at, first_checked_at, last_checked_at, updated_at").in("assignment_id", assignmentIds).order("assignment_id").order("document_id").order("block_id").range(from, to))
+    : [];
   const { data: annotationRows } = assignmentIds.length ? await admin.from("review_annotations").select("assignment_id, id").in("assignment_id", assignmentIds) : { data: [] };
   const { data: eventRows } = assignmentIds.length ? await admin.from("review_events").select("assignment_id, document_id, reviewer_user_id, event_type, occurred_at, payload").in("assignment_id", assignmentIds).order("occurred_at", { ascending: false }) : { data: [] };
   const authAuditSince = new Date(Date.now() - 90 * 24 * 60 * 60_000).toISOString();
@@ -1047,8 +1059,10 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
         const document = documentMap.get(link.document_id) as any;
         const progress = progressMap.get(`${assignment.id}:${link.document_id}`) as any;
         const totalBlocks = blockCounts.get(link.document_id) ?? 0;
-        const checkedBlocks = new Set(Array.isArray(progress?.checked_blocks) ? progress.checked_blocks : []).size;
-        return { id: link.document_id, title: document?.title ?? "검수 자료", kind: document?.kind ?? "", version: document?.version ?? "", totalBlocks, checkedBlocks: Math.min(totalBlocks, checkedBlocks), complete: Boolean(progress?.complete), completedAt: progress?.completed_at ?? null };
+        const documentChecks = blockCheckRows.filter((item) => item.assignment_id === assignment.id && item.document_id === link.document_id && item.reviewer_user_id === assignment.reviewer_user_id);
+        const viewedBlocks = new Set(documentChecks.filter((item) => item.first_seen_at).map((item) => String(item.block_id))).size;
+        const checkedBlocks = mergedCheckedBlockIds(progress, documentChecks).length;
+        return { id: link.document_id, title: document?.title ?? "검수 자료", kind: document?.kind ?? "", version: document?.version ?? "", totalBlocks, viewedBlocks: Math.min(totalBlocks, viewedBlocks), checkedBlocks: Math.min(totalBlocks, checkedBlocks), complete: Boolean(progress?.complete), completedAt: progress?.completed_at ?? null };
       });
       const reviewerEvents = (eventRows ?? []).filter((event) => event.assignment_id === assignment.id && event.reviewer_user_id === assignment.reviewer_user_id);
       const eventTimes = (types: string[]) => reviewerEvents.filter((event) => types.includes(event.event_type)).map((event) => event.occurred_at).filter(Boolean).sort();
@@ -1061,20 +1075,29 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
       const notificationSentAt = assignment.notification_sent_at ?? (startNotificationStatus === "sent" ? startEvent?.occurred_at ?? null : null);
       const assignmentProgress = (progressRows ?? []).filter((item) => item.assignment_id === assignment.id);
       const progressActivityTimes = assignmentProgress.filter((item) => (Array.isArray(item.checked_blocks) && item.checked_blocks.length) || item.memo || item.complete).map((item) => item.updated_at).filter(Boolean).sort();
-      const reviewerActivityTimes = [...reviewerEvents.map((event) => event.occurred_at), ...progressActivityTimes].filter(Boolean).sort();
-      const workroomEnteredAt = firstEventAt(["workroom_enter"]);
-      const firstDocumentOpenedAt = firstEventAt(["document_open"]);
-      const firstReviewRecordedAt = [...eventTimes(["annotation_created", "document_completed"]), ...progressActivityTimes].sort()[0] ?? null;
+      const assignmentChecks = blockCheckRows.filter((item) => item.assignment_id === assignment.id && item.reviewer_user_id === assignment.reviewer_user_id);
+      const blockViewTimes = assignmentChecks.map((item) => item.first_seen_at).filter(Boolean).sort();
+      const blockConfirmTimes = assignmentChecks.map((item) => item.first_checked_at ?? item.last_checked_at).filter(Boolean).sort();
+      const blockActivityTimes = assignmentChecks.flatMap((item) => [item.first_seen_at, item.first_checked_at, item.last_checked_at]).filter(Boolean).sort();
+      const reviewerActivityTimes = [...reviewerEvents.map((event) => event.occurred_at), ...progressActivityTimes, ...blockActivityTimes].filter(Boolean).sort();
+      const workroomEnteredAt = firstEventAt(["workroom_enter"]) ?? blockViewTimes[0] ?? null;
+      const firstDocumentOpenedAt = firstEventAt(["document_open"]) ?? blockViewTimes[0] ?? null;
+      const firstReviewRecordedAt = [...eventTimes(["annotation_created", "document_completed"]), ...progressActivityTimes, ...blockConfirmTimes].sort()[0] ?? null;
       const otpRequestedAt = firstAuthEventAt(["auth_otp_requested"]);
       const otpSentAt = firstAuthEventAt(["auth_otp_sent"]);
       const otpFailedAt = lastAuthEventAt(["auth_otp_failed"]);
       const loginSucceededAt = firstAuthEventAt(["auth_login_succeeded"]);
       const lastActivityAt = reviewerActivityTimes.at(-1) ?? null;
+      const activityStarted = Boolean(loginSucceededAt || workroomEnteredAt || firstDocumentOpenedAt || firstReviewRecordedAt);
+      const effectiveStatus = assignment.status === "assigned" && activityStarted ? "reviewing" : assignment.status;
+      const activityReferenceAt = notificationSentAt ?? assignment.started_at;
+      const inactiveFor24Hours = activityReferenceAt && now - new Date(lastActivityAt ?? activityReferenceAt).getTime() > 24 * 60 * 60 * 1000;
       let attention: string | null = null;
       if (detailDocuments.some((item) => item.totalBlocks === 0)) attention = "원고 문단 연결 확인 필요";
       else if (new Date(assignment.ends_at).getTime() < now && !["submitted", "accepted"].includes(assignment.status)) attention = "검수 기한 확인 필요";
       else if (otpFailedAt && (!otpSentAt || new Date(otpFailedAt).getTime() > new Date(otpSentAt).getTime())) attention = "최근 인증메일 발송 실패 확인 필요";
-      else if (assignment.status === "reviewing" && (!lastActivityAt || now - new Date(lastActivityAt).getTime() > 72 * 60 * 60 * 1000)) attention = "최근 3일간 검수 기록 없음";
+      else if (inactiveFor24Hours && !activityStarted) attention = "24시간 인증·접속 기록 없음 · 연락 전 시스템 기록 확인";
+      else if (inactiveFor24Hours) attention = "24시간 새 활동 기록 없음 · 연락 전 시스템 기록 확인";
       else if (["submitted", "accepted"].includes(assignment.status) && !exportMap.has(assignment.id)) attention = "최종 제출 후 보고서 생성 확인 필요";
       return {
         id: assignment.id,
@@ -1099,10 +1122,11 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
         loginSucceededAt,
         period: `${assignment.starts_at.slice(0, 10)} — ${assignment.ends_at.slice(0, 10)}`,
         interimDueAt: assignment.interim_due_at?.slice(0, 10) ?? null,
-        status: assignment.status,
+        status: effectiveStatus,
         documentCount: detailDocuments.length,
         completeDocumentCount: detailDocuments.filter((item) => item.complete).length,
         totalBlocks: detailDocuments.reduce((sum, item) => sum + item.totalBlocks, 0),
+        viewedBlocks: detailDocuments.reduce((sum, item) => sum + item.viewedBlocks, 0),
         checkedBlocks: detailDocuments.reduce((sum, item) => sum + item.checkedBlocks, 0),
         opinionCount: (annotationRows ?? []).filter((item) => item.assignment_id === assignment.id).length,
         lastActivityAt,
@@ -1602,22 +1626,25 @@ Deno.serve(async (request) => {
       const documentId = cleanText(payload.documentId, 80);
       await assignmentFor(admin, userId, assignmentId);
       await assertDocumentAccess(admin, assignmentId, documentId);
-      const [documentResult, blockResult, annotationResult, progressResult] = await Promise.all([
+      const [documentResult, blockResult, annotationResult, progressResult, checkResult] = await Promise.all([
         admin.from("review_documents").select("id, kind, title, version, review_stage").eq("id", documentId).single(),
         admin.from("review_blocks").select("id, block_key, heading, body, sort_order").eq("document_id", documentId).order("sort_order"),
         admin.from("review_annotations").select("*").eq("assignment_id", assignmentId).eq("document_id", documentId).eq("reviewer_user_id", userId).order("created_at"),
-        admin.from("review_progress").select("*").eq("assignment_id", assignmentId).eq("document_id", documentId).eq("reviewer_user_id", userId).maybeSingle()
+        admin.from("review_progress").select("*").eq("assignment_id", assignmentId).eq("document_id", documentId).eq("reviewer_user_id", userId).maybeSingle(),
+        admin.from("review_block_checks").select("block_id, first_checked_at").eq("assignment_id", assignmentId).eq("document_id", documentId).eq("reviewer_user_id", userId)
       ]);
       const { data: document, error: documentError } = documentResult;
       if (documentError || !document) throw new Error("검수 자료를 찾지 못했습니다.");
       const { data: blocks, error: blockError } = blockResult;
       if (blockError) throw blockError;
+      if (checkResult.error) throw checkResult.error;
       const annotations = annotationResult.data;
       const progress = progressResult.data;
+      const checkedBlocks = mergedCheckedBlockIds(progress, checkResult.data ?? [], new Set((blocks ?? []).map((block) => String(block.id))));
       return json({
         document: { id: document.id, kind: document.kind, title: document.title, version: document.version, stage: document.review_stage, blocks: (blocks ?? []).map((block) => ({ id: block.id, key: block.block_key, heading: block.heading, text: block.body })) },
         annotations: (annotations ?? []).map((item) => ({ id: item.id, assignmentId: item.assignment_id, documentId: item.document_id, blockId: item.block_id, kind: item.kind, color: item.color, startOffset: item.start_offset, endOffset: item.end_offset, selectedText: item.selected_text, body: item.body, issueType: item.issue_type, severity: item.severity, status: item.status, createdAt: item.created_at, updatedAt: item.updated_at })),
-        progress: progress ? { checkedBlocks: progress.checked_blocks ?? [], memo: progress.memo ?? "", complete: progress.complete, completedAt: progress.completed_at } : { checkedBlocks: [], memo: "", complete: false }
+        progress: { checkedBlocks, memo: progress?.memo ?? "", complete: Boolean(progress?.complete), completedAt: progress?.completed_at ?? null }
       }, 200, origin);
     }
 
@@ -1639,10 +1666,12 @@ Deno.serve(async (request) => {
       if (blockError) throw blockError;
       const { data: annotations } = await admin.from("review_annotations").select("*").eq("assignment_id", assignmentId).eq("document_id", documentId).eq("reviewer_user_id", assignment.reviewer_user_id).order("created_at");
       const { data: progress } = await admin.from("review_progress").select("*").eq("assignment_id", assignmentId).eq("document_id", documentId).eq("reviewer_user_id", assignment.reviewer_user_id).maybeSingle();
+      const { data: checkRows } = await admin.from("review_block_checks").select("block_id, first_checked_at").eq("assignment_id", assignmentId).eq("document_id", documentId).eq("reviewer_user_id", assignment.reviewer_user_id);
+      const checkedBlocks = mergedCheckedBlockIds(progress, checkRows ?? [], new Set((blocks ?? []).map((block) => String(block.id))));
       return json({
         document: { id: document.id, kind: document.kind, title: document.title, version: document.version, stage: document.review_stage, blocks: (blocks ?? []).map((block) => ({ id: block.id, key: block.block_key, heading: block.heading, text: block.body })) },
         annotations: (annotations ?? []).map((item) => ({ id: item.id, assignmentId: item.assignment_id, documentId: item.document_id, blockId: item.block_id, kind: item.kind, color: item.color, startOffset: item.start_offset, endOffset: item.end_offset, selectedText: item.selected_text, body: item.body, issueType: item.issue_type, severity: item.severity, status: item.status, createdAt: item.created_at, updatedAt: item.updated_at })),
-        progress: progress ? { checkedBlocks: progress.checked_blocks ?? [], memo: progress.memo ?? "", complete: progress.complete, completedAt: progress.completed_at } : { checkedBlocks: [], memo: "", complete: false }
+        progress: { checkedBlocks, memo: progress?.memo ?? "", complete: Boolean(progress?.complete), completedAt: progress?.completed_at ?? null }
       }, 200, origin);
     }
 
@@ -1733,6 +1762,7 @@ Deno.serve(async (request) => {
         const { error } = await admin.from("review_block_checks").insert(records);
         if (error && !String(error.code).includes("23505")) throw error;
       }
+      await markAssignmentReviewing(admin, userId, assignmentId);
       return json({ ok: true, recorded: records.length }, 200, origin);
     }
 
@@ -1775,6 +1805,7 @@ Deno.serve(async (request) => {
       });
       const { error } = await admin.from("review_block_checks").upsert(records, { onConflict: "assignment_id,document_id,block_id,reviewer_user_id" });
       if (error) throw error;
+      await markAssignmentReviewing(admin, userId, assignmentId);
       return json({ ok: true, recorded: records.length }, 200, origin);
     }
 
@@ -1885,11 +1916,18 @@ Deno.serve(async (request) => {
       if (assignmentId) await assignmentFor(admin, userId, assignmentId);
       const eventType = cleanText(payload.type, 120);
       if (!ALLOWED_REVIEW_EVENTS.has(eventType)) throw new Error("허용되지 않은 활동 기록입니다.");
+      const eventPayload = safeEventPayload(payload.payload);
+      const clientEventId = cleanText(eventPayload.clientEventId, 80);
+      if (clientEventId) {
+        const { data: duplicate, error: duplicateError } = await admin.from("review_events").select("id").eq("reviewer_user_id", userId).eq("event_type", eventType).contains("payload", { clientEventId }).limit(1).maybeSingle();
+        if (duplicateError) throw duplicateError;
+        if (duplicate) return json({ ok: true, duplicate: true }, 200, origin);
+      }
       const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
       const { count, error: countError } = await admin.from("review_events").select("id", { count: "exact", head: true }).eq("reviewer_user_id", userId).gte("occurred_at", oneHourAgo);
       if (countError) throw countError;
       if ((count ?? 0) >= 500) throw new Error("활동 기록 요청이 일시적으로 많습니다. 잠시 후 다시 이용해 주세요.");
-      const { error: eventError } = await admin.from("review_events").insert({ assignment_id: assignmentId, document_id: cleanText(payload.documentId, 80) || null, reviewer_user_id: userId, event_type: eventType, payload: safeEventPayload(payload.payload), user_agent: cleanText(request.headers.get("User-Agent"), 500) });
+      const { error: eventError } = await admin.from("review_events").insert({ assignment_id: assignmentId, document_id: cleanText(payload.documentId, 80) || null, reviewer_user_id: userId, event_type: eventType, payload: eventPayload, user_agent: cleanText(request.headers.get("User-Agent"), 500) });
       if (eventError) throw eventError;
       return json({ ok: true }, 200, origin);
     }

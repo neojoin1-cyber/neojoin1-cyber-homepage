@@ -44,7 +44,7 @@ check("auth.operational-email-route", js.includes('action: "requestOtp"') && man
 check("auth.rate-limit-and-enumeration", edge.includes("OTP_COOLDOWN_MS") && edge.includes("OTP_WINDOW_LIMIT") && edge.includes("OTP_DAILY_LIMIT") && edge.includes("auth_otp_rate_limited") && edge.includes("등록된 이메일이면 인증번호 안내가 발송됩니다") && edge.includes("clientIpHash") && edge.includes('.in("status", ["assigned", "reviewing", "submitted", "returned", "accepted"])'), "인증번호 남용을 제한하고 미등록·미개시 계정 여부를 응답으로 노출하지 않습니다.");
 check("auth.audit-trail", ["auth_otp_requested", "auth_otp_sent", "auth_otp_failed", "auth_login_succeeded"].every((value) => edge.includes(value)) && edge.includes("otpRequestedAt") && edge.includes("otpSentAt") && edge.includes("loginSucceededAt") && managerJs.includes("인증메일 운영 발송"), "인증 요청·운영메일 접수·로그인 성공·실패를 관리자 관제에서 분리 확인합니다.");
 check("deployment.edge-source-parity", normalizeLineEndings(edge) === normalizeLineEndings(deploymentEdge), "검증 대상 함수와 저장소 루트에서 실제 CLI로 배포되는 함수가 완전히 동일합니다.");
-check("deployment.review-asset-version", html.includes("review.js?v=20260815-1") && managerHtml.includes("manage.js?v=20260815-1"), "일반 새로고침만으로도 전문위원·관리자 화면이 최신 검수 코드를 받습니다.");
+check("deployment.review-asset-version", html.includes("review.js?v=20260815-2") && managerHtml.includes("manage.js?v=20260815-2"), "일반 새로고침만으로도 전문위원·관리자 화면이 최신 검수 코드를 받습니다.");
 check("language.respect", html.includes("전문위원님") && js.includes("귀한 검토에 감사드립니다") && !html.includes("외부 검수자"), "전문위원 화면의 기본 호칭과 안내가 존중 표현을 사용합니다.");
 check("report.standard-file", html.includes("download-review-report") && js.includes("sugar-salt-expert-review/v1") && js.includes("교재 생성 시스템 인계 규칙"), "검수위원 인적사항과 의견을 표준 보고서 파일로 생성합니다.");
 check("report.preview-edit", html.includes("report-preview-dialog") && js.includes("원문에서 보완") && js.includes("data-report-document"), "보고서 미리보기에서 해당 원문 의견으로 돌아가 수정할 수 있습니다.");
@@ -63,6 +63,8 @@ check("manager.claude-handoff-gate", managerHtml.includes("Claude Code 인계자
 check("manager.report-source-link", managerJs.includes("data-manager-source-document") && js.includes("managerPreviewDocumentId") && js.includes("managerPreviewFindingId"), "대표 검토 화면에서 전문위원 의견의 원문 위치로 이동할 수 있습니다.");
 check("report.receipt", html.includes("report-receipt") && edge.includes("deliveryStatus") && js.includes("교재 제작 시스템 전달 완료"), "제출 접수와 관리자 인계 상태를 전문위원 화면에 지속 표시합니다.");
 check("manager.actual-progress", managerHtml.includes("실제 문단 확인률") || managerHtml.includes("실제 문단 확인") && managerJs.includes("checkedBlocks") && managerJs.includes("completeDocumentCount"), "운영관제가 자기보고가 아닌 서버 기록으로 실제 진도를 계산합니다.");
+check("manager.activity-source-separation", edge.includes('from("review_block_checks")') && edge.includes("viewedBlocks") && managerJs.includes("화면 노출") && managerJs.includes("첫 검수 확인·의견"), "원고 화면 노출과 실제 확인·전문 의견을 분리하여 관제합니다.");
+check("manager.inactivity-24h", edge.includes("24 * 60 * 60 * 1000") && edge.includes("24시간 인증·접속 기록 없음") && edge.includes("연락 전 시스템 기록 확인"), "24시간 무활동은 서버 원기록 확인을 전제로 주의 표시합니다.");
 check("manager.handoff-stages", ["최종 제출", "보고서 생성", "인계 완료"].every((value) => managerJs.includes(value)) && managerJs.includes("markReportDelivered"), "최종 제출부터 보고서 전달까지 단계별로 관리합니다.");
 check("manager.access-control", edge.includes("ensureManager") && edge.includes('action === "managerDashboard"') && edge.includes('action === "managerGetReport"'), "운영관제와 보고서 열람은 회사 관리자 권한으로 제한됩니다.");
 check("manager.readonly-preview", managerHtml.includes("preview-assignment") && managerJs.includes("managerPreview") && edge.includes('action === "managerPreviewBootstrap"') && edge.includes('action === "managerPreviewDocument"') && edge.includes('action === "managerPreviewReport"'), "admin 계정이 전문위원 실제 화면과 보고서를 읽기 전용으로 확인합니다.");
@@ -116,8 +118,10 @@ check("database.change-history", historySql.includes("review_change_history") &&
 check("api.auth", edge.includes("auth.getUser") && edge.includes("reviewer_user_id"), "보호 API가 로그인 사용자와 과제 배정을 함께 확인합니다.");
 check("api.annotation-ownership", edge.includes("existingAnnotation.reviewer_user_id !== userId"), "다른 검수위원의 의견 ID를 덮어쓸 수 없습니다.");
 check("api.server-completion", edge.includes("new Set<string>(progress.checkedBlocks") && edge.includes("checkedBlocks.length === validIds.size") && edge.includes("existingProgress?.completed_at || savedAt") && !edge.includes("progress.completedAt ||"), "중복 문단 ID와 클라이언트 시각으로 검수 완료를 위조할 수 없습니다.");
-check("api.integrity-valid-ids", edge.includes("validBlockIds.has(id)") && edge.includes("if (!integrity.totalBlockCount)"), "과거·변조 ID를 집계에서 제외하고 빈 원고 제출을 차단합니다.");
+check("api.integrity-valid-ids", edge.includes("mergedCheckedBlockIds(progressMap.get(documentId), documentCheckRows, validBlockIds)") && edge.includes("if (!integrity.totalBlockCount)"), "과거·변조 ID를 집계에서 제외하고 빈 원고 제출을 차단합니다.");
 check("api.check-record-retry", js.includes("blockCheckJobs") && js.includes("flushBlockChecks") && js.includes("연결이 회복되는 대로 자동으로 다시 저장"), "문단 열람·확인 시각 기록도 연결 장애 뒤 자동 복구합니다.");
+check("api.event-record-retry", js.includes("EVENT_QUEUE_STORAGE_KEY") && js.includes("flushEventQueue") && js.includes("clientEventId") && edge.includes('contains("payload", { clientEventId })'), "접속·원고 열람 이벤트를 기기별 대기열에 보존하고 중복 없이 자동 재전송합니다.");
+check("api.confirmation-recovery", edge.includes("mergedCheckedBlockIds") && edge.includes("first_checked_at") && edge.includes("checkedBlockIds"), "자동저장과 확인시각 중 한 경로가 중단되어도 실제 확인 문단을 복원하여 보고서·관제에 반영합니다.");
 check("api.no-store", edge.includes('"Cache-Control": "no-store'), "API 응답을 브라우저 캐시에 남기지 않습니다.");
 check("api.workflow", ["getDocument", "saveAnnotation", "saveProgress", "submitAssignment", "logEvent"].every((value) => edge.includes(`action === "${value}"`)), "열람·검수·제출·감사 흐름이 연결됩니다.");
 check("api.report-export", edge.includes('action === "exportReport"') && edge.includes("createReviewReport") && edge.includes('crypto.subtle.digest("SHA-256"'), "서버가 보고서 원본과 무결성 해시를 생성합니다.");
