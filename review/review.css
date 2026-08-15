@@ -362,8 +362,11 @@ body.focus-mode .large-review-button:hover { background: #96602a; }
 .annotation-head span:first-child { color: var(--copper-600); font-size: 9px; font-weight: 900; letter-spacing: .12em; }
 .annotation-head strong { color: var(--navy-900); font-family: var(--serif); font-size: 17px; }
 .count-badge { min-width: 27px; height: 27px; display: grid; place-items: center; border-radius: 50%; color: #fff; background: var(--navy-800); font-size: 11px; font-weight: 900; }
-.annotation-filters { padding: 10px 12px; display: flex; gap: 4px; border-bottom: 1px solid var(--line); }
-.annotation-filters button { flex: 1; padding: 6px 4px; border: 0; border-radius: 7px; color: var(--muted); background: transparent; font-size: 10px; font-weight: 800; }
+.annotation-filter-guide { padding: 10px 14px 4px; display: grid; gap: 2px; background: #fff; }
+.annotation-filter-guide strong { color: var(--navy-900); font-size: 10px; }
+.annotation-filter-guide span { color: var(--muted); font-size: 9px; line-height: 1.45; }
+.annotation-filters { padding: 7px 12px 11px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; border-bottom: 1px solid var(--line); background: #fff; }
+.annotation-filters button { min-height: 31px; padding: 6px 5px; border: 0; border-radius: 7px; color: var(--muted); background: #f4f3ef; font-size: 10px; font-weight: 800; line-height: 1.25; }
 .annotation-filters button.active { color: var(--sage-700); background: var(--sage-100); }
 .document-memo { padding: 14px; border-bottom: 1px solid var(--line); background: #fff; }
 .document-memo label { display: block; margin-bottom: 6px; color: var(--navy-900); font-size: 11px; font-weight: 800; }

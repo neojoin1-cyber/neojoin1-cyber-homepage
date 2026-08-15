@@ -1664,7 +1664,11 @@ function bindEvents() {
   });
   $$("[data-filter]").forEach((button) => button.addEventListener("click", () => {
     state.filter = button.dataset.filter;
-    $$("[data-filter]").forEach((item) => item.classList.toggle("active", item === button));
+    $$("[data-filter]").forEach((item) => {
+      const selected = item === button;
+      item.classList.toggle("active", selected);
+      item.setAttribute("aria-pressed", String(selected));
+    });
     renderAnnotations();
   }));
   $("#document-memo").addEventListener("input", (event) => { if (state.mode !== "manager-preview") updateProgress(state.activeDocumentId, { memo: event.target.value }); });

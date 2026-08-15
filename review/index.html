@@ -10,7 +10,7 @@
   <meta name="review-supabase-anon-key" content="sb_publishable_HRFZW8tOwAQNPR7PQnMMhw_sMY51mqa">
   <title>전문위원 검수 워크룸 | 유한회사 설탕과소금</title>
   <link rel="icon" href="../brand/logo/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="review.css?v=20260814-2">
+  <link rel="stylesheet" href="review.css?v=20260815-1">
 </head>
 <body>
   <a class="skip-link" href="#review-reader">검수 본문으로 바로가기</a>
@@ -143,11 +143,15 @@
           <div><span>REVIEW NOTES</span><strong>전문 검수의견</strong></div>
           <span class="count-badge" id="annotation-count">0</span>
         </div>
-        <div class="annotation-filters" role="group" aria-label="의견 필터">
-          <button class="active" data-filter="all" type="button">전체</button>
-          <button data-filter="issue" type="button">수정 필요</button>
-          <button data-filter="memo" type="button">전문 의견</button>
-          <button data-filter="highlight" type="button">표시</button>
+        <div class="annotation-filter-guide">
+          <strong>기록 종류별 보기</strong>
+          <span>현재 자료에 저장된 기록을 종류별로 골라 봅니다.</span>
+        </div>
+        <div class="annotation-filters" role="group" aria-label="검수 기록 필터">
+          <button class="active" data-filter="all" type="button" aria-pressed="true">전체 기록</button>
+          <button data-filter="issue" type="button" aria-pressed="false">수정 권고</button>
+          <button data-filter="memo" type="button" aria-pressed="false">전문 참고의견</button>
+          <button data-filter="highlight" type="button" aria-pressed="false">형광펜 표시</button>
         </div>
         <div class="document-memo">
           <label for="document-memo">이 자료에 대한 종합 전문 의견</label>
@@ -220,6 +224,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <noscript>이 검수 워크룸은 안전한 열람과 자동저장을 위해 JavaScript가 필요합니다.</noscript>
-  <script src="review.js?v=20260815-3" defer></script>
+  <script src="review.js?v=20260815-4" defer></script>
 </body>
 </html>
