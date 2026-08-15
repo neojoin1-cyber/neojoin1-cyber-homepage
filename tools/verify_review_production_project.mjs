@@ -16,6 +16,8 @@ const REQUIRED_EMAIL_SECRETS = Object.freeze([
   "REVIEW_ALLOWED_ORIGINS",
   "REVIEW_APP_URL",
 ]);
+const REVIEW_FUNCTION_URL = `https://${REQUIRED_PROJECT.ref}.supabase.co/functions/v1/review-content`;
+const REVIEW_ORIGIN = "https://gyo6.kr";
 
 function fail(message) {
   console.error(`FAIL review.production-infrastructure - ${message}`);
@@ -63,6 +65,27 @@ const secretNames = new Set((Array.isArray(secretRows) ? secretRows : []).map((i
 const missingSecrets = REQUIRED_EMAIL_SECRETS.filter((name) => !secretNames.has(name));
 if (missingSecrets.length) fail(`운영 인증메일 필수 비밀키가 누락되었습니다: ${missingSecrets.join(", ")}`);
 
+let publicRouteResponse;
+try {
+  publicRouteResponse = await fetch(REVIEW_FUNCTION_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Origin: REVIEW_ORIGIN },
+    body: JSON.stringify({ action: "deploymentPublicRouteProbe" }),
+    signal: AbortSignal.timeout(10_000),
+  });
+} catch (error) {
+  fail(`로그인 전 인증 함수 경로에 연결할 수 없습니다: ${error.message}`);
+}
+const publicRouteBody = await publicRouteResponse.json().catch(() => ({}));
+const publicRouteOrigin = publicRouteResponse.headers.get("access-control-allow-origin");
+if (publicRouteResponse.status !== 401 || publicRouteBody.error !== "로그인이 필요합니다." || publicRouteOrigin !== REVIEW_ORIGIN) {
+  fail(
+    `로그인 전 인증 경로가 함수 내부에 도달하지 않습니다. ` +
+    `HTTP ${publicRouteResponse.status}, CORS ${publicRouteOrigin || "없음"}. ` +
+    `review-content를 --no-verify-jwt로 다시 배포해야 합니다.`,
+  );
+}
+
 console.log(
   `PASS review.production-infrastructure - ${REQUIRED_PROJECT.organizationName} ${REQUIRED_PROJECT.plan} 조직 · ` +
   `${project.name} · ${project.status}`,
@@ -72,4 +95,7 @@ console.log(
 );
 console.log(
   `PASS review.production-email-secrets - 운영 인증메일 필수 비밀키 ${REQUIRED_EMAIL_SECRETS.length}개가 모두 설정되어 있습니다.`,
+);
+console.log(
+  "PASS review.production-public-auth-route - 로그인 전 인증번호 요청이 Supabase 게이트웨이에 차단되지 않고 함수 내부 보안검사까지 도달합니다.",
 );
