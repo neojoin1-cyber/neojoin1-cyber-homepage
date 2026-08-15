@@ -28,6 +28,27 @@ const ALLOWED_REVIEW_EVENTS = new Set([
   "review_report_exported", "copy_blocked", "context_menu_blocked",
   "print_attempt", "window_hidden", "window_visible"
 ]);
+const REVIEWER_ACTIVITY_EVENT_TYPES = new Set([
+  "workroom_enter", "document_open", "annotation_created", "annotation_deleted",
+  "document_completed", "assignment_submitted", "review_report_exported",
+  "window_hidden", "window_visible"
+]);
+const ACTIVITY_LABELS: Record<string, string> = {
+  auth_otp_requested: "인증번호 요청",
+  auth_otp_sent: "인증메일 발송",
+  auth_otp_failed: "인증메일 발송 실패",
+  auth_otp_rate_limited: "인증요청 제한",
+  auth_login_succeeded: "로그인 성공",
+  workroom_enter: "워크룸 접속",
+  document_open: "원고 화면 표시",
+  annotation_created: "검수 의견 저장",
+  annotation_deleted: "검수 의견 수정",
+  document_completed: "자료 검수 완료",
+  assignment_submitted: "최종 검수 제출",
+  review_report_exported: "검수보고서 생성",
+  window_hidden: "검수 화면 이용",
+  window_visible: "검수 화면 이용"
+};
 
 function cors(origin: string | null) {
   const allowed = origin && ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
@@ -1065,10 +1086,10 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
         return { id: link.document_id, title: document?.title ?? "검수 자료", kind: document?.kind ?? "", version: document?.version ?? "", totalBlocks, viewedBlocks: Math.min(totalBlocks, viewedBlocks), checkedBlocks: Math.min(totalBlocks, checkedBlocks), complete: Boolean(progress?.complete), completedAt: progress?.completed_at ?? null };
       });
       const reviewerEvents = (eventRows ?? []).filter((event) => event.assignment_id === assignment.id && event.reviewer_user_id === assignment.reviewer_user_id);
+      const reviewerActivityEvents = reviewerEvents.filter((event) => REVIEWER_ACTIVITY_EVENT_TYPES.has(event.event_type));
       const eventTimes = (types: string[]) => reviewerEvents.filter((event) => types.includes(event.event_type)).map((event) => event.occurred_at).filter(Boolean).sort();
       const firstEventAt = (types: string[]) => eventTimes(types)[0] ?? null;
       const reviewerAuthEvents = (authEventRows ?? []).filter((event) => event.reviewer_user_id === assignment.reviewer_user_id);
-      const firstAuthEventAt = (types: string[]) => reviewerAuthEvents.filter((event) => types.includes(event.event_type)).map((event) => event.occurred_at).filter(Boolean).sort()[0] ?? null;
       const lastAuthEventAt = (types: string[]) => reviewerAuthEvents.filter((event) => types.includes(event.event_type)).map((event) => event.occurred_at).filter(Boolean).sort().at(-1) ?? null;
       const startEvent = (eventRows ?? []).find((event) => event.assignment_id === assignment.id && event.event_type === "assignment_started");
       const startNotificationStatus = (startEvent?.payload as any)?.notificationStatus;
@@ -1078,16 +1099,23 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
       const assignmentChecks = blockCheckRows.filter((item) => item.assignment_id === assignment.id && item.reviewer_user_id === assignment.reviewer_user_id);
       const blockViewTimes = assignmentChecks.map((item) => item.first_seen_at).filter(Boolean).sort();
       const blockConfirmTimes = assignmentChecks.map((item) => item.first_checked_at ?? item.last_checked_at).filter(Boolean).sort();
-      const blockActivityTimes = assignmentChecks.flatMap((item) => [item.first_seen_at, item.first_checked_at, item.last_checked_at]).filter(Boolean).sort();
-      const reviewerActivityTimes = [...reviewerEvents.map((event) => event.occurred_at), ...progressActivityTimes, ...blockActivityTimes].filter(Boolean).sort();
       const workroomEnteredAt = firstEventAt(["workroom_enter"]) ?? blockViewTimes[0] ?? null;
       const firstDocumentOpenedAt = firstEventAt(["document_open"]) ?? blockViewTimes[0] ?? null;
       const firstReviewRecordedAt = [...eventTimes(["annotation_created", "document_completed"]), ...progressActivityTimes, ...blockConfirmTimes].sort()[0] ?? null;
-      const otpRequestedAt = firstAuthEventAt(["auth_otp_requested"]);
-      const otpSentAt = firstAuthEventAt(["auth_otp_sent"]);
+      const otpRequestedAt = lastAuthEventAt(["auth_otp_requested"]);
+      const otpSentAt = lastAuthEventAt(["auth_otp_sent"]);
       const otpFailedAt = lastAuthEventAt(["auth_otp_failed"]);
-      const loginSucceededAt = firstAuthEventAt(["auth_login_succeeded"]);
-      const lastActivityAt = reviewerActivityTimes.at(-1) ?? null;
+      const loginSucceededAt = lastAuthEventAt(["auth_login_succeeded"]);
+      const activityTimeline = [
+        ...reviewerAuthEvents.map((event) => ({ at: event.occurred_at, label: ACTIVITY_LABELS[event.event_type] ?? "인증 활동" })),
+        ...reviewerActivityEvents.map((event) => ({ at: event.occurred_at, label: ACTIVITY_LABELS[event.event_type] ?? "검수 활동" })),
+        ...progressActivityTimes.map((at) => ({ at, label: "검수 기록 저장" })),
+        ...blockViewTimes.map((at) => ({ at, label: "원고 화면 표시" })),
+        ...blockConfirmTimes.map((at) => ({ at, label: "문단 확인" }))
+      ].filter((item) => item.at).sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime());
+      const latestActivity = activityTimeline.at(-1) ?? null;
+      const lastActivityAt = latestActivity?.at ?? null;
+      const lastActivityLabel = latestActivity?.label ?? null;
       const activityStarted = Boolean(loginSucceededAt || workroomEnteredAt || firstDocumentOpenedAt || firstReviewRecordedAt);
       const effectiveStatus = assignment.status === "assigned" && activityStarted ? "reviewing" : assignment.status;
       const activityReferenceAt = notificationSentAt ?? assignment.started_at;
@@ -1130,6 +1158,7 @@ async function managerDashboard(admin: ReturnType<typeof createClient>, userId: 
         checkedBlocks: detailDocuments.reduce((sum, item) => sum + item.checkedBlocks, 0),
         opinionCount: (annotationRows ?? []).filter((item) => item.assignment_id === assignment.id).length,
         lastActivityAt,
+        lastActivityLabel,
         attention,
         report: exportMap.get(assignment.id) ? { id: (exportMap.get(assignment.id) as any).id, reportId: (exportMap.get(assignment.id) as any).report_id, fileName: (exportMap.get(assignment.id) as any).file_name, sha256: (exportMap.get(assignment.id) as any).sha256, deliveryStatus: (exportMap.get(assignment.id) as any).delivery_status, createdAt: (exportMap.get(assignment.id) as any).created_at, deliveredAt: (exportMap.get(assignment.id) as any).delivered_at, managerReviewStatus: (managerReviewMap.get((exportMap.get(assignment.id) as any).id) as any)?.status ?? "pending", managerReviewedAt: (managerReviewMap.get((exportMap.get(assignment.id) as any).id) as any)?.reviewed_at ?? null, managerApprovedAt: (managerReviewMap.get((exportMap.get(assignment.id) as any).id) as any)?.approved_at ?? null } : null,
         interimReport: interimMap.get(assignment.id) ? { id: (interimMap.get(assignment.id) as any).id, reportId: (interimMap.get(assignment.id) as any).report_id, fileName: (interimMap.get(assignment.id) as any).file_name, sha256: (interimMap.get(assignment.id) as any).sha256, submittedAt: (interimMap.get(assignment.id) as any).submitted_at } : null,
