@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self' https://*.supabase.co; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="promo-supabase-url" content="https://lpxbfggwptsmxdxvnwhy.supabase.co">
+  <meta name="promo-supabase-anon-key" content="sb_publishable_HRFZW8tOwAQNPR7PQnMMhw_sMY51mqa">
+  <title>홍보실 원격관제 | 유한회사 설탕과소금</title>
+  <link rel="stylesheet" href="manage.css?v=20260815-2">
+</head>
+<body>
+  <section class="login" id="login">
+    <div class="login-card">
+      <p class="eyebrow">SUGAR &amp; SALT · INTERNAL</p>
+      <h1>홍보실 원격관제</h1>
+      <p>대표 승인부터 집 PC 실행 결과까지 태블릿에서 확인하는 회사 내부 전용 화면입니다.</p>
+      <form id="login-form">
+        <label>회사 관리자 이메일<input id="email" type="email" autocomplete="email" required placeholder="admin@gyo6.kr"></label>
+        <button class="primary" type="submit">인증번호 받기</button>
+      </form>
+      <div class="otp" id="otp-row" hidden>
+        <label>이메일 인증번호<input id="otp" inputmode="numeric" maxlength="8" autocomplete="one-time-code"></label>
+        <button class="primary" id="otp-submit" type="button">안전하게 로그인</button>
+      </div>
+      <label class="remember"><input id="remember" type="checkbox" checked> 이 기기에서 14일간 관리자 인증 유지</label>
+      <button class="demo" id="demo" type="button">태블릿 화면 먼저 확인하기</button>
+      <small>관리자 또는 운영담당자 권한이 확인된 계정만 실제 데이터에 접근합니다.</small>
+    </div>
+  </section>
+
+  <div class="app" id="app" hidden>
+    <header class="topbar">
+      <a class="brand" href="../index.html"><span>ㅅ</span><div><strong>유한회사 설탕과소금</strong><small>공직시험연구소 · 홍보실</small></div></a>
+      <div class="top-actions">
+        <span class="sync" id="sync" role="status" aria-live="polite"><i></i><span>서버 확인 중</span></span>
+        <button id="refresh" type="button">지금 갱신</button>
+        <button id="logout" type="button">로그아웃</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div><p class="eyebrow">PROMOTION CONTROL ROOM</p><h1>대표 승인·자동실행 센터</h1><p>문안과 경로를 확인해 승인하면 실행기가 동일한 승인본만 처리합니다.</p></div>
+        <div class="hero-seal"><span>REMOTE</span><strong>태블릿 관제</strong><small>서버 기록 기준</small></div>
+      </section>
+
+      <section class="worker-status" id="worker-status">
+        <div><span>HOME EXECUTOR</span><strong id="worker-title">집 PC 실행기 확인 중</strong><small id="worker-copy">승인과 실행을 분리해 외부에서 집 PC 포트를 열지 않습니다.</small></div>
+        <button id="worker-help" type="button">연결 상태 보기</button>
+      </section>
+
+      <section class="metrics" aria-label="홍보실 운영 요약">
+        <article><span>전체 실행항목</span><strong id="metric-total">0</strong><small>무료 홍보 경로</small></article>
+        <article><span>대표 승인 대기</span><strong id="metric-review">0</strong><small>내용 확인 필요</small></article>
+        <article class="accent"><span>자동실행 대기</span><strong id="metric-queued">0</strong><small>승인본 잠금 완료</small></article>
+        <article><span>외부 실행 완료</span><strong id="metric-done">0</strong><small>발송·게시 결과 기록</small></article>
+        <article><span>확인 필요</span><strong id="metric-attention">0</strong><small>인증·규정·실패</small></article>
+        <article><span>유료홍보 집행</span><strong>0원</strong><small>시스템 강제 고정</small></article>
+      </section>
+
+      <section class="controls">
+        <label>채널<select id="category"><option value="">전체 채널</option></select></label>
+        <label>상태<select id="status"><option value="">전체 상태</option><option value="draft">초안</option><option value="review">검토중</option><option value="approved">승인</option><option value="hold">보류</option><option value="rejected">반려</option></select></label>
+        <label class="search">항목 검색<input id="query" type="search" placeholder="매체, 제목, 경로"></label>
+      </section>
+
+      <section class="queue-card">
+        <header><div><p class="eyebrow">APPROVAL QUEUE</p><h2>승인·실행 대기열</h2></div><span id="result-count">0건</span></header>
+        <div class="queue" id="queue"></div>
+        <div class="empty" id="empty" hidden>조건에 맞는 실행항목이 없습니다.</div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="detail">
+    <form method="dialog" class="dialog-head"><div><p class="eyebrow" id="detail-category">PROMOTION</p><h2 id="detail-title">실행항목</h2></div><button class="close" value="cancel" aria-label="닫기">×</button></form>
+    <div class="badges" id="detail-badges"></div>
+    <section class="next"><span>NEXT ACTION</span><strong id="next-title"></strong><p id="next-copy"></p></section>
+
+    <div class="detail-grid">
+      <section>
+        <label class="field">최종 승인 문안<textarea id="content" rows="13"></textarea></label>
+        <label class="field">대표 메모<textarea id="notes" rows="4"></textarea></label>
+      </section>
+      <section>
+        <label class="field">현재 허용 경로<input id="route" type="text"></label>
+        <label class="field">정확한 수신처·공식 게시 URL<input id="destination" type="text" inputmode="url" placeholder="공식 이메일, https:// URL 또는 승인된 어댑터 ID"></label>
+        <div class="two">
+          <label class="field">실행 방식<select id="adapter"><option value="browser">연결 브라우저</option><option value="email_connector">연결 이메일</option><option value="official_api">공식 API</option></select></label>
+          <label class="field">실행 예약<input id="execute-at" type="datetime-local"></label>
+        </div>
+        <label class="field">첨부파일 경로·공개 URL<textarea id="attachments" rows="3" placeholder="한 줄에 하나"></textarea></label>
+        <label class="field">완료 목표일<input id="due" type="date"></label>
+        <div class="source"><span>근거 문서</span><strong id="source-ref"></strong><small>원문은 집 PC 내부 자료이며 서버에는 승인에 필요한 문안과 근거표시만 저장합니다.</small></div>
+      </section>
+    </div>
+
+    <section class="gates"><header><div><p class="eyebrow">RELEASE GATES</p><h3>발행 필수조건</h3></div><small id="gate-count"></small></header><div id="gate-list"></div></section>
+
+    <label class="confirm"><input id="confirm" type="checkbox"><span>회사 관계 표시, 무료·무협찬, 문안, 수신처, 첨부, 실행시각과 비용 0원을 모두 확인했습니다.</span></label>
+    <footer class="dialog-actions">
+      <button id="save" type="button">임시저장</button>
+      <button id="hold" type="button">대표 보류</button>
+      <button id="reject" class="danger" type="button">반려</button>
+      <button id="approve" class="primary" type="button" disabled>확인한 내용으로 실행 승인</button>
+      <button id="revoke" class="danger ghost" type="button" hidden>실행 전 승인 취소</button>
+    </footer>
+  </dialog>
+
+  <dialog id="worker-dialog">
+    <form method="dialog" class="dialog-head"><div><p class="eyebrow">HOME EXECUTOR</p><h2>집 PC 실행기 상태</h2></div><button class="close" value="cancel" aria-label="닫기">×</button></form>
+    <div id="worker-detail" class="worker-detail"></div>
+    <p class="privacy-note">태블릿은 승인과 결과 확인만 담당합니다. 집 PC 인증정보, 브라우저 쿠키, 서비스 역할 키는 웹 화면으로 전송하거나 표시하지 않습니다.</p>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="manage.js?v=20260815-1"></script>
+</body>
+</html>
