@@ -9,7 +9,7 @@
   <meta name="review-supabase-url" content="https://lpxbfggwptsmxdxvnwhy.supabase.co">
   <meta name="review-supabase-anon-key" content="sb_publishable_HRFZW8tOwAQNPR7PQnMMhw_sMY51mqa">
   <title>검수 운영관제 | 유한회사 설탕과소금</title>
-  <link rel="stylesheet" href="manage.css?v=20260815-8">
+  <link rel="stylesheet" href="manage.css?v=20260815-9">
 </head>
 <body>
   <section class="manager-login" id="manager-login">
@@ -108,7 +108,10 @@
           <p>이 화면에서는 발송하지 않습니다. 대표님이 내용을 확인한 뒤 필요한 전문위원님께만 개별 전달할 수 있습니다.</p>
         </section>
       </div>
-      <footer><button data-close-dialog="communication-audit-dialog" type="button">닫기</button><button id="repair-start-notice" class="danger-button" type="button" hidden>누락 안내 복구 발송</button><button id="copy-supplement-subject" type="button" hidden>제목 복사</button><button class="primary" id="copy-supplement-notice" type="button" hidden>보충 안내 복사</button></footer>
+      <footer class="communication-audit-footer">
+        <div id="communication-action-guide" class="communication-action-guide" aria-live="polite" hidden><span>NEXT ACTION</span><strong>수신자와 미리보기를 확인한 뒤 실제 복구를 실행하십시오.</strong></div>
+        <div class="communication-audit-actions"><button data-close-dialog="communication-audit-dialog" type="button">닫기</button><button id="repair-start-notice" class="danger-button" type="button" hidden>실제 메일 발송·기록 복구</button><button id="copy-supplement-subject" type="button" hidden>제목 복사</button><button class="primary" id="copy-supplement-notice" type="button" hidden>보충 안내 복사</button></div>
+      </footer>
     </dialog>
 
     <dialog id="report-review-dialog" class="report-review-dialog">
@@ -251,6 +254,6 @@
     </dialog>
   </div>
   <div class="toast" id="manager-toast" role="status"></div>
-  <script src="manage.js?v=20260815-8"></script>
+  <script src="manage.js?v=20260815-9"></script>
 </body>
 </html>
