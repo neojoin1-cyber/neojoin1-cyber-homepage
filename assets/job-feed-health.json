@@ -1,17 +1,17 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-16T14:53:16.451Z",
-  "feedGeneratedAt": "2026-08-16T14:53:16.451Z",
+  "generatedAt": "2026-08-17T00:10:31.686Z",
+  "feedGeneratedAt": "2026-08-17T00:10:31.686Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
-    "total": 50,
-    "active": 29,
+    "total": 49,
+    "active": 28,
     "deadlineSoon": 21,
     "applicationClosed": 0,
     "sourcesChecked": 15,
-    "sourcesConfigured": 6,
+    "sourcesConfigured": 4,
     "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
     "staleFallbackItems": 0,
@@ -19,8 +19,8 @@
     "publicationBlocked": 0,
     "publicationRepaired": 0,
     "studentRecruitSafetyReview": 168,
-    "automatedBriefingReady": 50,
-    "automatedBriefingAttempted": 50,
+    "automatedBriefingReady": 49,
+    "automatedBriefingAttempted": 49,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -28,15 +28,15 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-16T14:53:16.451Z",
-    "attempted": 50,
-    "succeeded": 50,
+    "generatedAt": "2026-08-17T00:10:31.686Z",
+    "attempted": 49,
+    "succeeded": 49,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-16T14:53:16.451Z",
+    "generatedAt": "2026-08-17T00:10:31.686Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
@@ -174,27 +174,6 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:공채상세 검토대기",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "mpm-public-job",
-        "sourceName": "인사혁신처 공공취업정보",
-        "sector": "government",
-        "company": "인사혁신처 공공취업정보",
-        "title": "인사혁신처 공공취업정보 고졸·졸업예정 채용 공고 원문 확인",
-        "deadline": "",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.data.go.kr/data/15156780/openapi.do"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
@@ -227,12 +206,12 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "분당서울대학교병원",
-        "title": "분당서울대학교병원 신입(업무지원직 장애인) 직원 채용 공고",
+        "company": "서울올림픽기념국민체육진흥공단",
+        "title": "서울올림픽기념국민체육진흥공단 지원직(스포츠단 숙소관리) 채용 공고(재공고)",
         "deadline": "2026-08-24",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://snubh.recruiter.co.kr/"
+        "primaryOfficialUrl": "https://kspo.or.kr/kspo/singl/empmn/view.do?empmnId=773&menuNo=200186&pageIndex=1"
       },
       {
         "list": "items",
@@ -248,12 +227,12 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "서울올림픽기념국민체육진흥공단",
-        "title": "서울올림픽기념국민체육진흥공단 지원직(스포츠단 숙소관리) 채용 공고(재공고)",
+        "company": "분당서울대학교병원",
+        "title": "분당서울대학교병원 신입(업무지원직 장애인) 직원 채용 공고",
         "deadline": "2026-08-24",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://kspo.or.kr/kspo/singl/empmn/view.do?empmnId=773&menuNo=200186&pageIndex=1"
+        "primaryOfficialUrl": "https://snubh.recruiter.co.kr/"
       },
       {
         "list": "items",
@@ -305,7 +284,6 @@
           "공공·금융·대기업 소스",
           "학력무관",
           "필기·NCS 신호",
-          "인턴·채용연계",
           "공채 신호",
           "신입·정규직 계열"
         ],
@@ -313,7 +291,7 @@
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "한국전력거래소",
-        "title": "한국전력거래소 2026년도 하반기 전력거래소 공개채용(체험형 청년인턴)",
+        "title": "한국전력거래소 2026년도 하반기 전력거래소 공개채용(일반직_신입직)",
         "deadline": "2026-08-28",
         "status": "active",
         "processTrack": "exam-formal",
@@ -327,6 +305,7 @@
           "공공·금융·대기업 소스",
           "학력무관",
           "필기·NCS 신호",
+          "인턴·채용연계",
           "공채 신호",
           "신입·정규직 계열"
         ],
@@ -334,7 +313,7 @@
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "한국전력거래소",
-        "title": "한국전력거래소 2026년도 하반기 전력거래소 공개채용(일반직_신입직)",
+        "title": "한국전력거래소 2026년도 하반기 전력거래소 공개채용(체험형 청년인턴)",
         "deadline": "2026-08-28",
         "status": "active",
         "processTrack": "exam-formal",
@@ -460,6 +439,26 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://kodma.recruiter.co.kr/"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국양성평등교육진흥원",
+        "title": "한국양성평등교육진흥원 2026년 제4회 신규직원 채용 공고",
+        "deadline": "2026-08-25",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.kigepe.or.kr/user/cop/bbs/selectBoardArticle.do?nttId=11085&bbsId=BBSMSTR_000000000033&menuNo=13300"
       }
     ]
   },
