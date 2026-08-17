@@ -7,7 +7,7 @@
   <link rel="canonical" href="https://gyo6.kr/exam-service.html">
   <link rel="icon" href="brand/logo/favicon.svg" type="image/svg+xml">
   <style>@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Jua&display=swap');</style>
-  <link rel="stylesheet" href="assets/site.css?v=20260802-2">
+  <link rel="stylesheet" href="assets/site.css?v=20260817-free-mock">
 </head>
 <body class="service-viewer-body">
   <a class="skip" href="#service-frame">시험 서비스 바로가기</a>
@@ -26,7 +26,8 @@
         secondary: { label: "중등교원임용고사", url: "https://imyong.gyo6.kr/" },
         civil: { label: "공무원시험", url: "https://0mu1.gyo6.kr/" }
       };
-      const requested = new URLSearchParams(location.search).get("service");
+      const params = new URLSearchParams(location.search);
+      const requested = params.get("service");
       const key = Object.prototype.hasOwnProperty.call(services, requested) ? requested : "secondary";
       const service = services[key];
       const frame = document.querySelector("#service-frame");
@@ -34,7 +35,16 @@
 
       document.title = `${service.label} | 설탕과소금`;
       frame.title = `${service.label} 서비스 화면`;
-      frame.src = service.url;
+      const destination = new URL(service.url);
+      if (key === "civil" && params.get("free") === "1") {
+        const placement = ["home", "popup", "exams"].includes(params.get("from")) ? params.get("from") : "portal";
+        destination.searchParams.set("utm_source", "gyo6");
+        destination.searchParams.set("utm_medium", "portal_cta");
+        destination.searchParams.set("utm_campaign", "free_mock_202608");
+        destination.searchParams.set("utm_content", placement);
+        destination.hash = "public-free-preview";
+      }
+      frame.src = destination.toString();
       frame.addEventListener("load", () => {
         loading.hidden = true;
         frame.classList.add("is-loaded");

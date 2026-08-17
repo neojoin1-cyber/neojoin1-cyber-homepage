@@ -1,41 +1,30 @@
-const POPUP_API = "https://gyo6-law-info-ai.gyo6.workers.dev/api/boards?room=promotion&popup=1";
-const POPUP_API_ORIGIN = new URL(POPUP_API).origin;
+const CAMPAIGN_ID = "national-7-free-mock-202608";
+const CAMPAIGN_LINK = "exam-service.html?service=civil&free=1&from=popup";
 
-showLatestBoardPopup();
+showFreeMockPopup();
 
-async function showLatestBoardPopup() {
-  try {
-    const response = await fetch(POPUP_API, { headers: { accept: "application/json" }, cache: "no-store" });
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok || data.error) return;
+function showFreeMockPopup() {
+  if (hasSeen()) return;
 
-    const post = (Array.isArray(data.posts) ? data.posts : []).find((item) => {
-      const image = Array.isArray(item.attachments) && item.attachments.find((attachment) => attachment.isImage);
-      return item.isPopup && image && !hasSeen(item);
-    });
-    if (!post) return;
-
-    const image = post.attachments.find((attachment) => attachment.isImage);
-    markSeen(post);
-    renderPopup(post, image);
-  } catch {
-    // The homepage remains fully usable when the optional notice cannot load.
-  }
-}
-
-function renderPopup(post, image) {
   const layer = document.createElement("div");
-  layer.className = "board-home-popup";
+  layer.className = "board-home-popup free-mock-popup";
   layer.setAttribute("role", "dialog");
   layer.setAttribute("aria-modal", "true");
-  layer.setAttribute("aria-label", post.title || "설탕과소금 새 소식");
+  layer.setAttribute("aria-labelledby", "free-mock-popup-title");
   layer.innerHTML = `
     <div class="board-home-popup-dialog">
       <button class="board-home-popup-close" type="button" aria-label="팝업 닫기">×</button>
-      <img class="board-home-popup-image" src="${escapeHtml(new URL(image.url, POPUP_API_ORIGIN).toString())}" alt="${escapeHtml(image.name || post.title || "설탕과소금 새 소식")}">
+      <div class="free-mock-popup-visual" aria-hidden="true"><span>7급</span><i>국가직</i></div>
+      <div class="free-mock-popup-copy">
+        <span class="free-mock-popup-label">로그인 없이 무료</span>
+        <p>2026 국가직 7급 필기시험</p>
+        <h2 id="free-mock-popup-title">실전 모의고사를<br>먼저 풀어보세요.</h2>
+        <div class="free-mock-popup-subjects"><span>헌법</span><span>경제학</span><span>행정학</span><span>행정법</span></div>
+        <small>과목별 표준 모의고사 1회 · 자동 채점과 해설 제공</small>
+      </div>
       <div class="board-home-popup-actions">
-        <a class="btn primary" href="boards.html">게시물 보기</a>
-        <button class="btn" type="button" data-popup-close>닫기</button>
+        <a class="btn primary" href="${CAMPAIGN_LINK}">무료 모의고사 시작하기</a>
+        <button class="btn" type="button" data-popup-close>다음에 보기</button>
       </div>
     </div>`;
 
@@ -54,26 +43,14 @@ function renderPopup(post, image) {
   });
   document.addEventListener("keydown", onKeydown);
   document.body.append(layer);
+  markSeen();
   layer.querySelector(".board-home-popup-close")?.focus();
 }
 
-function popupKey(post) {
-  return `gyo6-board-popup:${post.id}:${post.updatedAt || post.createdAt || "1"}`;
+function hasSeen() {
+  try { return localStorage.getItem(`gyo6-campaign-popup:${CAMPAIGN_ID}`) === "seen"; } catch { return false; }
 }
 
-function hasSeen(post) {
-  try { return localStorage.getItem(popupKey(post)) === "seen"; } catch { return false; }
-}
-
-function markSeen(post) {
-  try { localStorage.setItem(popupKey(post), "seen"); } catch { /* no-op */ }
-}
-
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+function markSeen() {
+  try { localStorage.setItem(`gyo6-campaign-popup:${CAMPAIGN_ID}`, "seen"); } catch { /* no-op */ }
 }
