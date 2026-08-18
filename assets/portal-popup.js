@@ -17,7 +17,7 @@ function showPartnershipPopup() {
       <a class="partnership-popup-art" href="${CAMPAIGN_LINK}" aria-label="설탕과소금 제휴기관 모집 자세히 보기">
         <picture>
           <source media="(max-width: 620px)" srcset="assets/partnership-fair-start-mobile.webp">
-          <img src="assets/partnership-fair-start-desktop.webp" width="1672" height="935" alt="공정한 출발선을 함께 넓히는 설탕과소금 제휴기관 모집. 구매자 10퍼센트 추가 할인, 판매액 20퍼센트 제휴기관 발전금">
+          <img src="assets/partnership-fair-start-desktop.webp" width="1672" height="941" alt="공정한 출발선을 함께 넓히는 설탕과소금 제휴기관 모집. 구매자 10퍼센트 추가 할인, 판매액 20퍼센트 제휴기관 발전금">
         </picture>
       </a>
       <div class="board-home-popup-actions">
