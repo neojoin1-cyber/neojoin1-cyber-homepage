@@ -23,8 +23,18 @@ const objectUrls = new Set();
 const state = { room: "all", q: "", authReady: false };
 
 if (app) {
+  applyQueryDefaults();
   bindEvents();
   loadPosts();
+}
+
+function applyQueryDefaults() {
+  if (!writeForm) return;
+  const params = new URLSearchParams(location.search);
+  const room = params.get("room");
+  const subject = params.get("subject");
+  if (room && ROOM_LABELS[room] && writeForm.elements.room) writeForm.elements.room.value = room;
+  if (subject && writeForm.elements.title) writeForm.elements.title.value = subject.slice(0, 120);
 }
 
 function bindEvents() {

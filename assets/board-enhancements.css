@@ -130,6 +130,22 @@
 .free-mock-popup .board-home-popup-actions { grid-column: 1 / -1; justify-content: stretch; gap: 10px; padding: 14px; border-top: 1px solid #e7e0d4; background: #f8f4eb; }
 .free-mock-popup .board-home-popup-actions .btn { flex: 1; justify-content: center; }
 
+.partnership-popup .board-home-popup-dialog {
+  width: min(940px, 94vw);
+  padding: 8px;
+  overflow: hidden;
+  border-color: rgba(223, 190, 123, .76);
+  background: #f7f0df;
+}
+.partnership-popup-art { display: block; border-radius: 14px; overflow: hidden; }
+.partnership-popup-art picture,
+.partnership-popup-art img { display: block; width: 100%; height: auto; }
+.partnership-popup .board-home-popup-actions {
+  justify-content: center;
+  padding: 10px 4px 3px;
+}
+.partnership-popup .board-home-popup-actions .btn { min-width: 180px; justify-content: center; }
+
 @media (max-width: 620px) {
   .board-attachment-files { grid-template-columns: 1fr; }
   .board-home-popup { padding: 10px; }
@@ -150,4 +166,7 @@
   .free-mock-popup-subjects { margin-top: 15px; }
   .free-mock-popup-copy small { font-size: 9px; }
   .free-mock-popup .board-home-popup-actions { grid-column: 1 / -1; }
+  .partnership-popup .board-home-popup-dialog { width: min(430px, 96vw); padding: 6px; }
+  .partnership-popup .board-home-popup-actions { flex-direction: row; }
+  .partnership-popup .board-home-popup-actions .btn { min-width: 0; width: auto; flex: 1; font-size: 12px; }
 }
