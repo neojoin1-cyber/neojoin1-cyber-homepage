@@ -1,14 +1,14 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-17T14:56:52.063Z",
-  "feedGeneratedAt": "2026-08-17T14:56:52.063Z",
+  "generatedAt": "2026-08-18T00:42:22.716Z",
+  "feedGeneratedAt": "2026-08-18T00:42:22.716Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
-    "total": 50,
+    "total": 48,
     "active": 29,
-    "deadlineSoon": 21,
+    "deadlineSoon": 19,
     "applicationClosed": 0,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
@@ -18,9 +18,9 @@
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 168,
-    "automatedBriefingReady": 50,
-    "automatedBriefingAttempted": 50,
+    "studentRecruitSafetyReview": 165,
+    "automatedBriefingReady": 48,
+    "automatedBriefingAttempted": 48,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -28,23 +28,44 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-17T14:56:52.063Z",
-    "attempted": 50,
-    "succeeded": 50,
+    "generatedAt": "2026-08-18T00:42:22.716Z",
+    "attempted": 48,
+    "succeeded": 48,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-17T14:56:52.063Z",
+    "generatedAt": "2026-08-18T00:42:22.716Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 168,
+    "studentRecruitReviewCount": 165,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
     "studentRecruitReviewSamples": [
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국사회적기업진흥원",
+        "title": "2026년 하반기 한국사회적기업진흥원 일반직(사무행정) 및 기간제근로자(사업계약직, 육아휴직대체인력, 체험형 청년인턴) 채용공고",
+        "deadline": "2026-08-26",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://socialenterprise.or.kr/homepage/bbs/boardView.do?bsIdx=10004&bIdx=252560&page=1&menuId=833&bcIdx=0&searchCondition=SUBJECT&searchKeyword="
+      },
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
@@ -86,46 +107,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303892"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국산업안전보건공단",
-        "title": "한국산업안전보건공단 2026년도 하반기 신규직원(신입직 6급) 채용공고",
-        "deadline": "2026-08-24",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://kosha.or.kr/notification/jobncontract/job/jobdata?bbsId=B2025021400005&pstNo=202608060856579OQYZ6"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "인턴·채용연계",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국사회적기업진흥원",
-        "title": "2026년 하반기 한국사회적기업진흥원 일반직(사무행정) 및 기간제근로자(사업계약직, 육아휴직대체인력, 체험형 청년인턴) 채용공고",
-        "deadline": "2026-08-26",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://socialenterprise.or.kr/homepage/bbs/boardView.do?bsIdx=10004&bIdx=252560&page=1&menuId=833&bcIdx=0&searchCondition=SUBJECT&searchKeyword="
       },
       {
         "list": "items",
@@ -191,27 +172,6 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.data.go.kr/data/15156780/openapi.do"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "주택관리공단(주)",
-        "title": "채용형 인턴 채용공고(주택관리공단 전북지사)",
-        "deadline": "2026-08-20",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EC%A0%84%EB%B6%81%EC%A7%80%EC%82%AC&page=1&rnm_idx=923"
       },
       {
         "list": "items",
@@ -305,6 +265,7 @@
           "공공·금융·대기업 소스",
           "학력무관",
           "필기·NCS 신호",
+          "인턴·채용연계",
           "공채 신호",
           "신입·정규직 계열"
         ],
@@ -312,7 +273,7 @@
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "한국전력거래소",
-        "title": "한국전력거래소 2026년도 하반기 전력거래소 공개채용(일반직_신입직)",
+        "title": "한국전력거래소 2026년도 하반기 전력거래소 공개채용(체험형 청년인턴)",
         "deadline": "2026-08-28",
         "status": "active",
         "processTrack": "exam-formal",
@@ -326,7 +287,6 @@
           "공공·금융·대기업 소스",
           "학력무관",
           "필기·NCS 신호",
-          "인턴·채용연계",
           "공채 신호",
           "신입·정규직 계열"
         ],
@@ -334,7 +294,7 @@
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "한국전력거래소",
-        "title": "한국전력거래소 2026년도 하반기 전력거래소 공개채용(체험형 청년인턴)",
+        "title": "한국전력거래소 2026년도 하반기 전력거래소 공개채용(일반직_신입직)",
         "deadline": "2026-08-28",
         "status": "active",
         "processTrack": "exam-formal",
@@ -360,6 +320,27 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.kspo.or.kr/kspo/singl/empmn/view.do?empmnId=771&menuNo=200186&pageIndex=1"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "주택관리공단(주)",
+        "title": "채용형 인턴 채용공고(주택관리공단 전북지사)",
+        "deadline": "2026-08-20",
+        "status": "deadline_soon",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303787"
       },
       {
         "list": "items",
@@ -460,6 +441,26 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://kodma.recruiter.co.kr/"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국양성평등교육진흥원",
+        "title": "한국양성평등교육진흥원 2026년 제4회 신규직원 채용 공고",
+        "deadline": "2026-08-25",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.kigepe.or.kr/user/cop/bbs/selectBoardArticle.do?nttId=11085&bbsId=BBSMSTR_000000000033&menuNo=13300"
       }
     ]
   },
