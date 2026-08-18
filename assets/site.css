@@ -734,6 +734,10 @@ h3 {
   margin: 18px 0 22px;
 }
 
+.board-campaign-visual picture {
+  display: block;
+}
+
 .board-post-visual img {
   display: block;
   width: min(100%, 760px);
