@@ -1,14 +1,14 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-19T05:59:30.229Z",
-  "feedGeneratedAt": "2026-08-19T05:59:30.229Z",
+  "generatedAt": "2026-08-19T14:54:47.968Z",
+  "feedGeneratedAt": "2026-08-19T14:54:47.968Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
-    "total": 50,
-    "active": 30,
-    "deadlineSoon": 20,
+    "total": 52,
+    "active": 34,
+    "deadlineSoon": 18,
     "applicationClosed": 0,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
@@ -18,9 +18,9 @@
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 157,
-    "automatedBriefingReady": 50,
-    "automatedBriefingAttempted": 50,
+    "studentRecruitSafetyReview": 161,
+    "automatedBriefingReady": 52,
+    "automatedBriefingAttempted": 52,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -28,19 +28,19 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-19T05:59:30.229Z",
-    "attempted": 50,
-    "succeeded": 50,
+    "generatedAt": "2026-08-19T14:54:47.968Z",
+    "attempted": 52,
+    "succeeded": 52,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-19T05:59:30.229Z",
+    "generatedAt": "2026-08-19T14:54:47.968Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 157,
+    "studentRecruitReviewCount": 161,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -132,26 +132,6 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "mpm-public-job",
-        "sourceName": "인사혁신처 공공취업정보",
-        "sector": "government",
-        "company": "인사혁신처 공공취업정보",
-        "title": "인사혁신처 공공취업정보 고졸·졸업예정 채용 공고 원문 확인",
-        "deadline": "",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.data.go.kr/data/15156780/openapi.do"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
         "signals": [
           "공공·금융·대기업 소스",
@@ -173,7 +153,7 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:공채상세 검토대기",
         "signals": [
           "공공·금융·대기업 소스",
           "고졸·특성화고 명시",
@@ -181,15 +161,15 @@
           "공채 신호",
           "신입·정규직 계열"
         ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "분당서울대학교병원",
-        "title": "분당서울대학교병원 신입(업무지원직 장애인) 직원 채용 공고",
-        "deadline": "2026-08-24",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://snubh.recruiter.co.kr/"
+        "source": "mpm-public-job",
+        "sourceName": "인사혁신처 공공취업정보",
+        "sector": "government",
+        "company": "인사혁신처 공공취업정보",
+        "title": "인사혁신처 공공취업정보 고졸·졸업예정 채용 공고 원문 확인",
+        "deadline": "",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.data.go.kr/data/15156780/openapi.do"
       },
       {
         "list": "items",
@@ -211,6 +191,27 @@
         "status": "deadline_soon",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://kspo.or.kr/kspo/singl/empmn/view.do?empmnId=773&menuNo=200186&pageIndex=1"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "분당서울대학교병원",
+        "title": "분당서울대학교병원 신입(업무지원직 장애인) 직원 채용 공고",
+        "deadline": "2026-08-24",
+        "status": "deadline_soon",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://snubh.recruiter.co.kr/"
       },
       {
         "list": "items",
