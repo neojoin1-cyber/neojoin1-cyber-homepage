@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-20T05:59:22.184Z",
-  "feedGeneratedAt": "2026-08-20T05:59:22.184Z",
+  "generatedAt": "2026-08-20T13:55:51.441Z",
+  "feedGeneratedAt": "2026-08-20T13:55:51.441Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
@@ -18,7 +18,7 @@
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 161,
+    "studentRecruitSafetyReview": 158,
     "automatedBriefingReady": 51,
     "automatedBriefingAttempted": 51,
     "automatedBriefingFailed": 0
@@ -28,7 +28,7 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-20T05:59:22.184Z",
+    "generatedAt": "2026-08-20T13:55:51.441Z",
     "attempted": 51,
     "succeeded": 51,
     "failed": 0,
@@ -36,11 +36,11 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-20T05:59:22.184Z",
+    "generatedAt": "2026-08-20T13:55:51.441Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 161,
+    "studentRecruitReviewCount": 158,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -163,12 +163,12 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "분당서울대학교병원",
-        "title": "분당서울대학교병원 신입(업무지원직 장애인) 직원 채용 공고",
+        "company": "서울올림픽기념국민체육진흥공단",
+        "title": "서울올림픽기념국민체육진흥공단 지원직(스포츠단 숙소관리) 채용 공고(재공고)",
         "deadline": "2026-08-24",
         "status": "deadline_soon",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://snubh.recruiter.co.kr/"
+        "primaryOfficialUrl": "https://kspo.or.kr/kspo/singl/empmn/view.do?empmnId=773&menuNo=200186&pageIndex=1"
       },
       {
         "list": "items",
@@ -184,12 +184,12 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "서울올림픽기념국민체육진흥공단",
-        "title": "서울올림픽기념국민체육진흥공단 지원직(스포츠단 숙소관리) 채용 공고(재공고)",
+        "company": "분당서울대학교병원",
+        "title": "분당서울대학교병원 신입(업무지원직 장애인) 직원 채용 공고",
         "deadline": "2026-08-24",
         "status": "deadline_soon",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://kspo.or.kr/kspo/singl/empmn/view.do?empmnId=773&menuNo=200186&pageIndex=1"
+        "primaryOfficialUrl": "https://snubh.recruiter.co.kr/"
       },
       {
         "list": "items",
@@ -227,11 +227,11 @@
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "주택관리공단(주)",
-        "title": "채용형 인턴 채용공고(주택관리공단 경기남부지사)",
+        "title": "채용형 인턴 채용공고(주택관리공단 대구경북지사)",
         "deadline": "2026-08-27",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B2%BD%EA%B8%B0%EB%82%A8%EB%B6%80%EC%A7%80%EC%82%AC&page=1&rnm_idx=916"
+        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EB%8C%80%EA%B5%AC%EA%B2%BD%EB%B6%81%EC%A7%80%EC%82%AC&page=1&rnm_idx=927"
       },
       {
         "list": "items",
@@ -248,11 +248,11 @@
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "주택관리공단(주)",
-        "title": "채용형 인턴 채용공고(주택관리공단 대구경북지사)",
+        "title": "채용형 인턴 채용공고(주택관리공단 경기남부지사)",
         "deadline": "2026-08-27",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EB%8C%80%EA%B5%AC%EA%B2%BD%EB%B6%81%EC%A7%80%EC%82%AC&page=1&rnm_idx=927"
+        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B2%BD%EA%B8%B0%EB%82%A8%EB%B6%80%EC%A7%80%EC%82%AC&page=1&rnm_idx=928"
       },
       {
         "list": "items",
@@ -368,7 +368,6 @@
           "공공·금융·대기업 소스",
           "학력무관",
           "필기·NCS 신호",
-          "인턴·채용연계",
           "공채 신호",
           "신입·정규직 계열"
         ],
@@ -376,7 +375,7 @@
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "한국전력거래소",
-        "title": "한국전력거래소 2026년도 하반기 전력거래소 공개채용(체험형 청년인턴)",
+        "title": "한국전력거래소 2026년도 하반기 전력거래소 공개채용(일반직_신입직)",
         "deadline": "2026-08-28",
         "status": "active",
         "processTrack": "exam-formal",
@@ -390,6 +389,7 @@
           "공공·금융·대기업 소스",
           "학력무관",
           "필기·NCS 신호",
+          "인턴·채용연계",
           "공채 신호",
           "신입·정규직 계열"
         ],
@@ -397,7 +397,7 @@
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "한국전력거래소",
-        "title": "한국전력거래소 2026년도 하반기 전력거래소 공개채용(일반직_신입직)",
+        "title": "한국전력거래소 2026년도 하반기 전력거래소 공개채용(체험형 청년인턴)",
         "deadline": "2026-08-28",
         "status": "active",
         "processTrack": "exam-formal",
