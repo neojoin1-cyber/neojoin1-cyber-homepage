@@ -603,14 +603,14 @@ async function validateHomepage() {
   fail('home.ebook-no-paid-teaser-copy', !hasPaidTeaserCopy(html), '전자책 안내에서 유료 전환처럼 보일 수 있는 맛보기 표현을 쓰지 않습니다.');
   fail(
     'home.hero-brand-copy',
-    html.includes('교육현장 30년 · 정보·컴퓨터 1급 정교사 · AI 협업 설계')
+    html.includes('교육의 공정한 출발선 · 사람과 기술의 균형')
       && html.includes('현장을 아는 사람')
       && html.includes('서로 검증하는 AI')
       && html.includes('더 넓은 기회')
       && (html.includes('src="brand/logo/badge.svg"') || html.includes('class="brand-mark brand-logo-svg"'))
       && html.includes('class="brand-wordmark"')
       && html.includes('gyo6.kr · 교육.한국'),
-    '대표 홈은 공식 법인 로고와 교육현장 30년·정보교육·AI 상호검증의 새 브랜드 방향을 간결하게 전합니다.',
+    '대표 홈은 공식 법인 로고와 사람·기술·교육기회의 새 브랜드 방향을 간결하게 전합니다.',
   );
   fail('home.learning-app-not-ebook', html.includes('href="apps.html') && html.includes('디지털 프로젝트 스튜디오'), '앱·웹·게임·홍보물 프로젝트는 디지털 프로젝트 스튜디오 분기로 안내됩니다.');
   fail('home.today-where-positioning', html.includes('href="apps.html'), '오늘어디가를 포함한 앱 포트폴리오 진입 경로가 유지됩니다.');
