@@ -3,18 +3,6 @@ const BOARD_API_ORIGIN = new URL(BOARD_API).origin;
 const ATTACHMENT_ACCEPT = ".png,.jpg,.jpeg,.webp,.gif,.pdf,.hwp,.hwpx,.doc,.docx,.xls,.xlsx,.ppt,.pptx";
 const ATTACHMENT_MAX_FILES = 5;
 const ATTACHMENT_MAX_BYTES = 15 * 1024 * 1024;
-const PARTNERSHIP_CAMPAIGN_POST_ID = "1";
-const PARTNERSHIP_CAMPAIGN_BODY = `[[campaign:partnership|교육의 공정한 출발선을 함께 넓히는 설탕과소금 제휴기관 모집]]
-
-교육의 공정한 출발선을 함께 넓힐 제휴기관과 파트너를 모집합니다.
-
-- 참여 대상: 학교, 학원, 언론사, 카페, 블로그, 동아리·스터디클럽, 인플루언서, 5명 이상 단체 및 자연인
-- 무료 학습: 비회원은 핵심노트 1개 단원과 표준 모의고사 1회, 무료회원은 기초·표준·심화 모의고사 각 1회를 이용할 수 있습니다.
-- 학습 기능: 무료 공개 범위에서 형광펜·메모·자동채점·해설·오답노트를 해당 시험일까지 횟수 제한 없이 이용할 수 있습니다.
-- 구매자 혜택: 제휴코드 입력 시 출시기념 할인가에서 10%를 추가 할인합니다.
-- 제휴기관 혜택: 제휴코드 판매 실적을 기준으로 실제 판매액의 20%를 발전금으로 나눕니다.
-- 운영 원칙: 제휴코드별 실적을 확인하고 약정된 기준에 따라 투명하게 정산합니다.
-- 신청 방법: 제휴기관 모집 안내를 확인한 뒤 협업문의로 기관·단체명과 담당 연락처를 남겨 주세요.`;
 const ROOM_LABELS = {
   promotion: "설탕과소금 소식",
   collaboration: "협업문의",
@@ -100,24 +88,13 @@ async function loadPosts() {
     const data = await response.json().catch(() => ({}));
     if (!response.ok || data.error) throw new Error(data.error || `HTTP ${response.status}`);
 
-    const posts = Array.isArray(data.posts) ? data.posts.map(normalizeCampaignPost) : [];
+    const posts = Array.isArray(data.posts) ? data.posts : [];
     statusEl.textContent = posts.length ? `${posts.length}개의 게시글을 표시합니다.` : "아직 표시할 게시글이 없습니다.";
     listEl.innerHTML = posts.map(renderPost).join("");
     await hydratePrivateImages(token);
   } catch (error) {
     statusEl.textContent = error.message || "게시글을 불러오지 못했습니다.";
   }
-}
-
-function normalizeCampaignPost(post) {
-  if (String(post?.id || "") !== PARTNERSHIP_CAMPAIGN_POST_ID || post?.room !== "promotion") return post;
-  return {
-    ...post,
-    title: "교육의 공정한 출발선을 함께 넓힐 제휴기관을 모집합니다",
-    body: PARTNERSHIP_CAMPAIGN_BODY,
-    attachments: [],
-    author: { ...(post.author || {}), anonymousName: "유한회사 설탕과소금" }
-  };
 }
 
 async function submitPost(event) {
@@ -426,11 +403,6 @@ function renderAttachmentManagement(items) {
 function renderBoardBody(value, room) {
   const lines = String(value ?? "").split("\n");
   const content = lines.map((line) => {
-    const campaign = room === "promotion" ? line.trim().match(/^\[\[campaign:partnership\|([^\]]{1,160})\]\]$/i) : null;
-    if (campaign) {
-      const alt = escapeHtml(campaign[1].trim());
-      return `<figure class="board-post-visual board-campaign-visual"><picture><source media="(max-width: 620px)" srcset="assets/partnership-fair-start-mobile.webp?v=20260818-partnership-v2"><img src="assets/partnership-fair-start-desktop.webp?v=20260818-partnership-v2" alt="${alt}" loading="lazy" decoding="async"></picture><figcaption>${alt}</figcaption></figure>`;
-    }
     const image = room === "promotion" ? line.trim().match(/^\[\[image:(assets\/news\/[a-z0-9._/-]+\.(?:png|jpe?g|webp))\|([^\]]{1,160})\]\]$/i) : null;
     if (image) {
       const src = escapeHtml(image[1]);
