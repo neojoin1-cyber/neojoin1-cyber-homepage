@@ -13,7 +13,7 @@
     name: "김영희",
     organization: "유한회사 설탕과소금",
     title: "대표 · 이사",
-    phone: "010-3534-7163",
+    phone: "054-772-7576",
     email: "admin@gyo6.kr",
     address: "경북 경주시 원지길12번길 56-5, 1층"
   };
