@@ -603,10 +603,10 @@ async function validateHomepage() {
   fail('home.ebook-no-paid-teaser-copy', !hasPaidTeaserCopy(html), '전자책 안내에서 유료 전환처럼 보일 수 있는 맛보기 표현을 쓰지 않습니다.');
   fail(
     'home.hero-brand-copy',
-    html.includes('교육의 공정한 출발선 · 사람과 기술의 균형')
-      && html.includes('현장을 아는 사람')
+    html.includes('교육의 공정한 출발선 · 오래된 실천과 새로운 도구')
+      && html.includes('학생의 가능성을 믿는 사람')
       && html.includes('서로 검증하는 AI')
-      && html.includes('더 넓은 기회')
+      && html.includes('더 공정한 기회')
       && (html.includes('src="brand/logo/badge.svg"') || html.includes('class="brand-mark brand-logo-svg"'))
       && html.includes('class="brand-wordmark"')
       && html.includes('gyo6.kr · 교육.한국'),
@@ -685,7 +685,7 @@ async function validateCoreContentPages() {
   fail('core.public-service-entrypoints', homePage.includes('class="home-free-mock"') && homePage.includes('service=civil&amp;from=home') && homePage.includes('최근 8개년 기출 전수분석') && exams.includes('class="branch-free-mock"') && exams.includes('service=civil&amp;from=exams') && exams.includes('8개년 기출 × AI 교차검증') && examService.includes('https://0mu1.gyo6.kr/'), '메인과 공직시험 연구소에서 포털 상단을 유지한 채 공무원관의 새 제작 기준으로 바로 연결합니다.');
   fail('core.about-page', about.includes('설탕과소금 소개 · 교육현장 30년') && about.includes('시니어 교육전문가') && about.includes('교육격차') && about.includes('설탕과소금 대표') && about.includes('aria-label="설탕과소금이 지키는 네 방향"') && ['branch-about-experience.webp', 'branch-about-connection.webp', 'branch-about-practice.webp', 'branch-about-technology.webp'].every((asset) => about.includes(asset)), '설탕과소금 소개 페이지가 교육 경험, 교육격차 해소 소신, 세 사업 방향을 네 개의 전용 이미지 카드로 담고 있습니다.');
   fail('core.education-field-thirty-years', host.includes('교육현장 30년') && !host.includes('30년 특성화고'), '30년 기록의 브랜드 명칭이 교육현장 30년으로 통일되어 있습니다.');
-  fail('home.exam-lab-positioning', homePage.includes('<strong>공직시험 연구소</strong>') && homePage.includes('초·중등 교원임용 · 7급 공무원') && homePage.includes('근거 중심 핵심노트 · 실전점검 · 심층면접'), '메인 두 번째 사업 카드가 공직시험 연구소의 시험 범위와 새 근거 중심 학습자료를 정확히 안내합니다.');
+  fail('home.exam-lab-positioning', homePage.includes('<strong>공직시험 연구소</strong>') && homePage.includes('초·중등 교원임용 · 7급 공무원') && homePage.includes('누구나 활용할 수 있는 핵심노트 · 실전점검 · 심층면접'), '메인 두 번째 사업 카드가 공직시험 연구소의 시험 범위와 공정한 학습 기회를 위한 자료를 정확히 안내합니다.');
   fail('home.no-quick-access-duplication', !homePage.includes('Quick Access') && !homePage.includes('바로 이용하기') && !homePage.includes('service-gateway'), '메인 페이지는 중복 바로가기 영역 없이 핵심 사업과 브랜드 내용에 집중합니다.');
   fail('home.greeting-before-identity', homePage.indexOf('id="greeting"') < homePage.indexOf('class="brand-mark-section"'), '메인 페이지는 대표 인사말을 기업 로고 설명보다 먼저 보여 줍니다.');
   fail('home.animated-corporate-logos', (homePage.match(/class="logo-draw-stage/g) || []).length === 2 && homePage.includes('logo-stroke-primary') && css.includes('@keyframes brand-logo-draw') && css.includes('prefers-reduced-motion'), '메인 상단과 기업 정체성 로고가 마우스·키보드 포커스에서 획 그리기 애니메이션을 제공하고 모션 접근성을 지킵니다.');
