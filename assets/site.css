@@ -2623,6 +2623,13 @@ body {
 .about-grid .compact-card-new { display: grid; align-content: start; gap: 14px; }
 .about-grid .compact-card-new > strong { margin-top: 8px; font-family: var(--font-display); font-size: 18px; }
 
+.history-timeline-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.history-timeline-grid .compact-card-new { min-height: 156px; }
+.history-timeline-grid .milestone-card {
+  border-color: rgba(178, 126, 62, 0.48);
+  background: linear-gradient(145deg, rgba(255, 250, 240, 0.98), rgba(238, 244, 237, 0.92));
+}
+
 .brand-mark-section {
   border-bottom: 1px solid var(--line);
   background: linear-gradient(135deg, rgba(255, 253, 248, 0.96), rgba(232, 240, 233, 0.82));
@@ -2832,12 +2839,17 @@ body {
   .service-gateway,
   .role-grid { grid-template-columns: 1fr; }
   .branch-grid.about-grid { grid-template-columns: 1fr; }
+  .history-timeline-grid { grid-template-columns: 1fr; }
   .lean-footer-grid { grid-template-columns: 1fr; }
   .footer-links { justify-content: flex-start; }
   .archive-chapter summary { grid-template-columns: 38px minmax(0, 1fr) 24px; }
   .archive-chapter summary small { grid-column: 2; }
   .archive-chapter summary::after { grid-column: 3; grid-row: 1; }
   .archive-body { padding: 0 18px 20px; }
+}
+
+@media (min-width: 761px) and (max-width: 1080px) {
+  .history-timeline-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 520px) {
