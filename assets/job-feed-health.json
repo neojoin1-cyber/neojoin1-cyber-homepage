@@ -1,26 +1,26 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-21T05:10:45.143Z",
-  "feedGeneratedAt": "2026-08-21T05:10:45.143Z",
+  "generatedAt": "2026-08-21T05:44:56.147Z",
+  "feedGeneratedAt": "2026-08-21T05:44:56.147Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
-    "total": 47,
-    "active": 24,
+    "total": 48,
+    "active": 25,
     "deadlineSoon": 23,
     "applicationClosed": 0,
     "sourcesChecked": 15,
-    "sourcesConfigured": 4,
+    "sourcesConfigured": 6,
     "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
     "staleFallbackItems": 0,
     "sourceFallbackProtected": 0,
-    "publicationBlocked": 0,
+    "publicationBlocked": 1,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 159,
-    "automatedBriefingReady": 47,
-    "automatedBriefingAttempted": 47,
+    "studentRecruitSafetyReview": 161,
+    "automatedBriefingReady": 48,
+    "automatedBriefingAttempted": 48,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -28,22 +28,32 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-21T05:10:45.143Z",
-    "attempted": 47,
-    "succeeded": 47,
+    "generatedAt": "2026-08-21T05:44:56.147Z",
+    "attempted": 48,
+    "succeeded": 48,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-21T05:10:45.143Z",
-    "blockedCount": 0,
+    "generatedAt": "2026-08-21T05:44:56.147Z",
+    "blockedCount": 1,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 159,
-    "blockedByReason": {},
+    "studentRecruitReviewCount": 161,
+    "blockedByReason": {
+      "student-hard-blocked": 1
+    },
     "repairedByReason": {},
-    "blockedSamples": [],
+    "blockedSamples": [
+      {
+        "list": "archiveItems",
+        "reason": "student-hard-blocked",
+        "source": "moef-public-recruit",
+        "company": "국민건강보험공단 일산병원",
+        "title": "국민건강보험공단 일산병원 2026년도 하반기 의과 전공의 레지던트 1년차 모집공고(원서 마감)"
+      }
+    ],
     "studentRecruitReviewSamples": [
       {
         "list": "items",
@@ -107,6 +117,27 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://buly.kr/15RUOxk"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:공채상세 검토대기",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "mpm-public-job",
+        "sourceName": "인사혁신처 공공취업정보",
+        "sector": "government",
+        "company": "인사혁신처 공공취업정보",
+        "title": "인사혁신처 공공취업정보 고졸·졸업예정 채용 공고 원문 확인",
+        "deadline": "",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.data.go.kr/data/15156780/openapi.do"
       },
       {
         "list": "items",
@@ -382,26 +413,6 @@
         "status": "deadline_soon",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303765"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "근로복지공단",
-        "title": "근로복지공단 [태백병원] 공무직(전기기계통신기사-기계분야) 채용 공고",
-        "deadline": "2026-08-26",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
       },
       {
         "list": "items",
