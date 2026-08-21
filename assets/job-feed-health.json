@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-21T05:44:56.147Z",
-  "feedGeneratedAt": "2026-08-21T05:44:56.147Z",
+  "generatedAt": "2026-08-21T11:17:28.573Z",
+  "feedGeneratedAt": "2026-08-21T11:17:28.573Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
-    "total": 48,
-    "active": 25,
+    "total": 51,
+    "active": 28,
     "deadlineSoon": 23,
     "applicationClosed": 0,
     "sourcesChecked": 15,
@@ -16,11 +16,11 @@
     "criticalCoverageMissing": 0,
     "staleFallbackItems": 0,
     "sourceFallbackProtected": 0,
-    "publicationBlocked": 1,
+    "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 161,
-    "automatedBriefingReady": 48,
-    "automatedBriefingAttempted": 48,
+    "studentRecruitSafetyReview": 171,
+    "automatedBriefingReady": 51,
+    "automatedBriefingAttempted": 51,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -28,32 +28,22 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-21T05:44:56.147Z",
-    "attempted": 48,
-    "succeeded": 48,
+    "generatedAt": "2026-08-21T11:17:28.573Z",
+    "attempted": 51,
+    "succeeded": 51,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-21T05:44:56.147Z",
-    "blockedCount": 1,
+    "generatedAt": "2026-08-21T11:17:28.573Z",
+    "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 161,
-    "blockedByReason": {
-      "student-hard-blocked": 1
-    },
+    "studentRecruitReviewCount": 171,
+    "blockedByReason": {},
     "repairedByReason": {},
-    "blockedSamples": [
-      {
-        "list": "archiveItems",
-        "reason": "student-hard-blocked",
-        "source": "moef-public-recruit",
-        "company": "국민건강보험공단 일산병원",
-        "title": "국민건강보험공단 일산병원 2026년도 하반기 의과 전공의 레지던트 1년차 모집공고(원서 마감)"
-      }
-    ],
+    "blockedSamples": [],
     "studentRecruitReviewSamples": [
       {
         "list": "items",
@@ -96,6 +86,27 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303892"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국한의약진흥원",
+        "title": "한국한의약진흥원 제3차 채용(정규직, 계약직 및 청년인턴)공고",
+        "deadline": "2026-09-07",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://nikom.or.kr/nikom/board/view.do?menu_idx=62&manage_idx=45&board_idx=568052&group_depth=0&parent_idx=0&group_idx=0&rowCount=10&search_type=title%2Bcontent&search_text=&viewPage=1"
       },
       {
         "list": "items",
@@ -174,12 +185,12 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "서울올림픽기념국민체육진흥공단",
-        "title": "서울올림픽기념국민체육진흥공단 지원직(스포츠단 숙소관리) 채용 공고(재공고)",
+        "company": "분당서울대학교병원",
+        "title": "분당서울대학교병원 신입(업무지원직 장애인) 직원 채용 공고",
         "deadline": "2026-08-24",
         "status": "deadline_soon",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://kspo.or.kr/kspo/singl/empmn/view.do?empmnId=773&menuNo=200186&pageIndex=1"
+        "primaryOfficialUrl": "https://snubh.recruiter.co.kr/"
       },
       {
         "list": "items",
@@ -195,12 +206,34 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "분당서울대학교병원",
-        "title": "분당서울대학교병원 신입(업무지원직 장애인) 직원 채용 공고",
+        "company": "서울올림픽기념국민체육진흥공단",
+        "title": "서울올림픽기념국민체육진흥공단 지원직(스포츠단 숙소관리) 채용 공고(재공고)",
         "deadline": "2026-08-24",
         "status": "deadline_soon",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://snubh.recruiter.co.kr/"
+        "primaryOfficialUrl": "https://kspo.or.kr/kspo/singl/empmn/view.do?empmnId=773&menuNo=200186&pageIndex=1"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "공간정보품질관리원",
+        "title": "공간정보품질관리원 2026년 제3차 채용(기간제,청년인턴,휴직대체) 공고",
+        "deadline": "2026-09-04",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.siqms.or.kr/M2001000/board_view.do?idx=472065"
       },
       {
         "list": "items",
@@ -337,7 +370,6 @@
           "공공·금융·대기업 소스",
           "학력무관",
           "필기·NCS 신호",
-          "인턴·채용연계",
           "공채 신호",
           "신입·정규직 계열"
         ],
@@ -345,7 +377,7 @@
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "한국전력거래소",
-        "title": "한국전력거래소 2026년도 하반기 전력거래소 공개채용(체험형 청년인턴)",
+        "title": "한국전력거래소 2026년도 하반기 전력거래소 공개채용(일반직_신입직)",
         "deadline": "2026-08-28",
         "status": "active",
         "processTrack": "exam-formal",
@@ -359,6 +391,7 @@
           "공공·금융·대기업 소스",
           "학력무관",
           "필기·NCS 신호",
+          "인턴·채용연계",
           "공채 신호",
           "신입·정규직 계열"
         ],
@@ -366,7 +399,7 @@
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "한국전력거래소",
-        "title": "한국전력거래소 2026년도 하반기 전력거래소 공개채용(일반직_신입직)",
+        "title": "한국전력거래소 2026년도 하반기 전력거래소 공개채용(체험형 청년인턴)",
         "deadline": "2026-08-28",
         "status": "active",
         "processTrack": "exam-formal",
@@ -433,48 +466,6 @@
         "status": "deadline_soon",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://snubh.recruiter.co.kr/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리 · 필기신호 직접분류 재검토",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국보훈복지의료공단",
-        "title": "한국보훈복지의료공단 [대전보훈병원] 정규직(기술직(건축), 보건직(방사선사, 임상병리사), 일반기능직(시설(영선), 시설(기계)) 채용 공고",
-        "deadline": "2026-09-02",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.bohun.or.kr/daejeon/na/ntt/selectNttInfo.do?mi=33414&bbsId=1158&bbsSysId=daejeon&nttSn=188562"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외 · 필기신호 직접분류 재검토",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "건강보험심사평가원",
-        "title": "2026년 하반기 건강보험심사평가원 정규직 채용 공고",
-        "deadline": "2026-09-02",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.hira.or.kr/re/recruit/recruitAdList.do?pgmid=HIRAA040078000000&WT.gnb=%EC%B1%84%EC%9A%A9%EA%B3%B5%EA%B3%A0"
       }
     ]
   },
