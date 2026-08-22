@@ -2594,6 +2594,12 @@ function parseGenericOfficialFeed(body, source, sourceUrl, feedEntry = {}) {
       companyNoticeUrl: feedEntry.builtIn ? cleanUrl(record.url) : '',
       description: normalizeSpace([record.description, feedEntry.tags?.join(' ')].join(' '))
     }));
+    const isHtmlDocument = /<!doctype\s+html|<html\b|<head\b|<body\b/i.test(trimmed);
+
+    // Public OpenAPI XML can contain hundreds of records and URL tags. Treating
+    // that payload as an HTML page creates a synthetic "source page" job card.
+    if (!isHtmlDocument) return xmlRecords;
+
     const htmlRecords = htmlLinkRecords(trimmed, source, sourceUrl, publicSourceUrl, feedEntry);
     const embeddedRecords = embeddedOfficialJobPathRecords(trimmed, source, sourceUrl, publicSourceUrl, feedEntry, {
       builtInFallback: Boolean(feedEntry.builtIn)
@@ -6166,6 +6172,14 @@ function parsePublicDataRecords(body, source, publicSourceUrl) {
 
 function publicJobKeep(item) {
   if (!item.title || !item.company || !item.url) return false;
+  const source = catalogSource(item.source);
+  const title = normalizeSpace(item.title);
+  const company = normalizeSpace(item.company);
+  const primaryUrl = cleanUrl(item.primaryOfficialUrl || item.url || '');
+  const syntheticCatalogTitle = /고졸[·ㆍ.]?졸업예정\s*채용\s*공고\s*원문\s*확인/.test(title);
+  const sourceAsEmployer = company === normalizeSpace(item.sourceName || source?.name || '');
+  const publicDataCatalogUrl = /data\.go\.kr\/data\/\d+\/openapi\.do/i.test(primaryUrl);
+  if (syntheticCatalogTitle || (sourceAsEmployer && publicDataCatalogUrl)) return false;
   if (item.status === 'expired') return false;
   if (isUnresolvedDetailedPublicRecruit(item)) return false;
   if (isUnsuitableForHighSchoolChannel(item)) return false;

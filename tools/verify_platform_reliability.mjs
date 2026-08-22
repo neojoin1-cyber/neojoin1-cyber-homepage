@@ -831,6 +831,7 @@ function validateFeed(feed, label = 'local') {
   const qualityDirectItems = [];
   const publicDetailLeaks = [];
   const officialFileUrlProblems = [];
+  const publicDataCatalogItems = [];
 
   for (const item of items) {
     const prefix = `${item.source || 'source'}:${item.title || item.id || 'untitled'}`;
@@ -842,6 +843,11 @@ function validateFeed(feed, label = 'local') {
     const deadlineProblems = malformedDeadlineFields(item);
     const unresolvedDeadline = unresolvedDeadlineFields(item);
     const unresolvedQualification = unresolvedQualificationFields(item);
+    const itemOfficialUrl = String(item.primaryOfficialUrl || item.url || '');
+    if (/data\.go\.kr\/data\/\d+\/openapi\.do/i.test(itemOfficialUrl)
+      || /고졸[·ㆍ.]?졸업예정\s*채용\s*공고\s*원문\s*확인/.test(String(item.title || ''))) {
+      publicDataCatalogItems.push(`${prefix} ${itemOfficialUrl}`);
+    }
     if (!item.id || !item.title || !item.company || !item.sourceName || (!protectedDetailFeed && !item.url) || !item.verifiedAt) itemProblems.push(prefix);
     if (!protectedDetailFeed && (!isHttpUrl(item.url) || !isHttpUrl(item.primaryOfficialUrl || item.url))) itemProblems.push(`${prefix} URL`);
     if (!protectedDetailFeed && (isLikelyFileUrl(item.primaryOfficialUrl) || isLikelyFileUrl(item.companyNoticeUrl))) officialFileUrlProblems.push(prefix);
@@ -902,6 +908,7 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.items.title-includes-company`, titleCompanyProblems.length === 0, `${label} 채용 공고 제목에는 기관명·기업명이 포함됩니다.`, titleCompanyProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.student-channel-assessment`, assessmentProblems.length === 0, `${label} 모든 공고가 고졸 지원·병역 미필·채널 품질 판정 결과를 갖습니다.`, assessmentProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-hard-blocked-publication`, blockedPublicationProblems.length === 0, `${label} 대학생·학위 전용, 전문자격 전용 등 고졸 학생이 지원할 수 없는 공고는 게시하지 않습니다.`, blockedPublicationProblems.slice(0, 5).join(' | '));
+  fail(`${label}.items.no-public-data-catalog-card`, publicDataCatalogItems.length === 0, `${label} 공공데이터 API 소개 페이지나 합성 임시 제목을 채용공고로 게시하지 않습니다.`, publicDataCatalogItems.slice(0, 5).join(' | '));
   fail(`${label}.items.military-unserved-exam-options`, militaryUnservedExamItems.length >= 3, `${label} 병역 미필 고졸 학생이 실제 도전할 수 있는 진행 중 추천 공채를 3건 이상 확보합니다.`, `eligible=${militaryUnservedExamItems.length}, limited=${militaryLimitedExamItems.length}`);
   fail(`${label}.items.quality-direct-options`, qualityDirectItems.length >= 12, `${label} 병역 미필 일반 고졸 학생에게 고용안정·전공연계·복리후생 가능성이 있는 일반 취업정보를 12건 이상 확보합니다.`, `qualityDirect=${qualityDirectItems.length}`);
   fail(`${label}.items.no-public-detail-leak`, publicDetailLeaks.length === 0, `${label} 공개 목록 JSON에 원문·첨부·상세자격·전형·브리핑이 노출되지 않습니다.`, publicDetailLeaks.slice(0, 5).join(' | '));
