@@ -1599,6 +1599,14 @@ h3 {
   flex-wrap: wrap;
   gap: 8px;
 }
+.job-toolbar-groups {
+  display: grid;
+  gap: 8px;
+}
+.job-toolbar-groups .job-sort-tabs:first-child {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
 .sort-tab {
   min-height: 42px;
   padding: 8px 13px;
