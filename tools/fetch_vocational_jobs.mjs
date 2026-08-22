@@ -6022,7 +6022,7 @@ function fallbackPreviousItems(previousItems) {
   const items = [];
   for (const item of previousItems.values()) {
     if (!item?.id || seen.has(item.id)) continue;
-    if (!shouldKeep(item)) continue;
+    if (!shouldKeep(item) || isPublicDataCatalogCard(item)) continue;
     seen.add(item.id);
     items.push({
       ...item,
@@ -6053,7 +6053,7 @@ function fallbackFailedSourceItems(previousItems, sourceStatusList, freshItems) 
   for (const item of previousItems.values()) {
     if (!failedSources.has(item?.source)) continue;
     if (!item?.id || seen.has(item.id)) continue;
-    if (!shouldKeep(item)) continue;
+    if (!shouldKeep(item) || isPublicDataCatalogCard(item)) continue;
     seen.add(item.id);
     items.push({
       ...item,
@@ -6170,16 +6170,20 @@ function parsePublicDataRecords(body, source, publicSourceUrl) {
   return parseGenericOfficialFeed(body, source, publicSourceUrl);
 }
 
-function publicJobKeep(item) {
-  if (!item.title || !item.company || !item.url) return false;
+function isPublicDataCatalogCard(item) {
   const source = catalogSource(item.source);
-  const title = normalizeSpace(item.title);
-  const company = normalizeSpace(item.company);
+  const title = normalizeSpace(item.title || '');
+  const company = normalizeSpace(item.company || '');
   const primaryUrl = cleanUrl(item.primaryOfficialUrl || item.url || '');
   const syntheticCatalogTitle = /고졸[·ㆍ.]?졸업예정\s*채용\s*공고\s*원문\s*확인/.test(title);
   const sourceAsEmployer = company === normalizeSpace(item.sourceName || source?.name || '');
   const publicDataCatalogUrl = /data\.go\.kr\/data\/\d+\/openapi\.do/i.test(primaryUrl);
-  if (syntheticCatalogTitle || (sourceAsEmployer && publicDataCatalogUrl)) return false;
+  return syntheticCatalogTitle || (sourceAsEmployer && publicDataCatalogUrl);
+}
+
+function publicJobKeep(item) {
+  if (!item.title || !item.company || !item.url) return false;
+  if (isPublicDataCatalogCard(item)) return false;
   if (item.status === 'expired') return false;
   if (isUnresolvedDetailedPublicRecruit(item)) return false;
   if (isUnsuitableForHighSchoolChannel(item)) return false;
