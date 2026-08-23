@@ -38,7 +38,8 @@ requireText("vocational.html", "학생의 취업 준비를", "app-led hero");
 requireText("vocational.html", "취업 우수반의 실전", "advanced employment track");
 requireText("vocational.html", "앱만 건네지 않습니다", "teacher tool narrative");
 requireText("vocational.html", "learning-app.html#trial-accounts", "trial deep link");
-requireText("vocational.html", "branch-apps-learning-v3.webp", "learning app visual");
+requireText("vocational.html", "vocational-app-student-catalog.png", "student catalog capture");
+requireText("vocational.html", "vocational-app-teacher-dashboard.png", "teacher dashboard capture");
 
 for (const account of [
   "demo.student@sugarsalt.kr",
