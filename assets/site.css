@@ -4035,7 +4035,7 @@ a.branch-card:focus-visible { outline: 4px solid #bf7b47; outline-offset: 4px; }
 .app-primary-btn:hover { background: #0f604e; color: #fff !important; }
 .app-hero-points {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1px;
   overflow: hidden;
   margin: 34px 0 0;
@@ -4045,7 +4045,7 @@ a.branch-card:focus-visible { outline: 4px solid #bf7b47; outline-offset: 4px; }
   background: rgba(16, 47, 76, .12);
   list-style: none;
 }
-.app-hero-points li { min-width: 0; padding: 14px 12px; background: rgba(255, 255, 255, .83); }
+.app-hero-points li { min-width: 0; min-height: 76px; padding: 14px 12px; background: rgba(255, 255, 255, .83); }
 .app-hero-points b { display: block; color: var(--app-ink); font-size: 13px; }
 .app-hero-points span { display: block; margin-top: 4px; color: #667571; font-size: 10px; line-height: 1.45; }
 .app-hero-visual {
@@ -4392,8 +4392,8 @@ a.branch-card:focus-visible { outline: 4px solid #bf7b47; outline-offset: 4px; }
   .app-hero-lead { font-size: 14px; line-height: 1.75; }
   .app-hero-actions,
   .app-hero-actions .btn { width: 100%; }
-  .app-hero-points { grid-template-columns: 1fr; }
-  .app-hero-points li { display: grid; grid-template-columns: 88px minmax(0, 1fr); align-items: center; gap: 8px; }
+  .app-hero-points { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .app-hero-points li { min-height: 86px; }
   .app-hero-points span { margin-top: 0; }
   .app-hero-visual { border-radius: 20px; padding: 8px; }
   .app-capture-stage { border-radius: 14px; }
