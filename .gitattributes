@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Keep the externally built learning app byte-for-byte identical to its handoff bundle.
+apps/sugar-salt/** -text

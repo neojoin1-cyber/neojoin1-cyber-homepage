@@ -1,0 +1,1 @@
+var e=[];function t(){return 0}export{e as n,t};

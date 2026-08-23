@@ -1,15 +1,1 @@
-self.addEventListener('install', function install() {
-  self.skipWaiting()
-})
-
-self.addEventListener('activate', function activate(event) {
-  event.waitUntil(
-    self.registration.unregister().then(function refreshOpenClients() {
-      return self.clients.matchAll({ type: 'window' })
-    }).then(function reloadClients(clients) {
-      clients.forEach(function reloadClient(client) {
-        client.navigate(client.url)
-      })
-    }),
-  )
-})
+if(!self.define){let e,s={};const n=(n,i)=>(n=new URL(n+".js",i).href,s[n]||new Promise(s=>{if("document"in self){const e=document.createElement("script");e.src=n,e.onload=s,document.head.appendChild(e)}else e=n,importScripts(n),s()}).then(()=>{let e=s[n];if(!e)throw new Error(`Module ${n} didn’t register its module`);return e}));self.define=(i,c)=>{const o=e||("document"in self?document.currentScript.src:"")||location.href;if(s[o])return;let t={};const r=e=>n(e,o),a={module:{uri:o},exports:t,require:r};s[o]=Promise.all(i.map(e=>a[e]||r(e))).then(e=>(c(...e),t))}}define(["./workbox-63c18b4d"],function(e){"use strict";self.skipWaiting(),e.clientsClaim(),e.precacheAndRoute([{url:"index.html",revision:"ffb4d931a39f61c814c4a98524d9bac0"},{url:"icons/icon-source.svg",revision:"6fb22ed47fc49e1d397b3975f1347900"},{url:"icons/icon-512.png",revision:"b02a91a03487cb6c4c2cf6b444e35c3b"},{url:"icons/icon-512-maskable.png",revision:"b02a91a03487cb6c4c2cf6b444e35c3b"},{url:"icons/icon-192.png",revision:"a8937cd4602c8487843c73eb16de6c0e"},{url:"icons/icon-192-maskable.png",revision:"a8937cd4602c8487843c73eb16de6c0e"},{url:"assets/index-B5ZNcX2Y.css",revision:null},{url:"assets/index-BKl2WvT-.js",revision:null},{url:"registerSW.js",revision:"402b66900e731ca748771b6fc5e7a068"}],{}),e.cleanupOutdatedCaches(),e.registerRoute(new e.NavigationRoute(e.createHandlerBoundToURL("index.html"),{denylist:[/^\/api\//,/\/join\.html$/]})),e.registerRoute(/\/assets\/(textbook-|.*Screen-|jobCommonAreas-|block-inline-).*\.js$/,new e.CacheFirst({cacheName:"gyo6-content",plugins:[new e.ExpirationPlugin({maxEntries:60,maxAgeSeconds:15552e3}),new e.CacheableResponsePlugin({statuses:[0,200]})]}),"GET"),e.registerRoute(/^https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/i,new e.CacheFirst({cacheName:"gyo6-fonts",plugins:[new e.ExpirationPlugin({maxEntries:10,maxAgeSeconds:31536e3}),new e.CacheableResponsePlugin({statuses:[0,200]})]}),"GET"),e.registerRoute(/^https:\/\/.*\.supabase\.co\/.*/i,new e.NetworkFirst({cacheName:"gyo6-api",networkTimeoutSeconds:5,plugins:[new e.ExpirationPlugin({maxEntries:50,maxAgeSeconds:300}),new e.CacheableResponsePlugin({statuses:[0,200]})]}),"GET")});

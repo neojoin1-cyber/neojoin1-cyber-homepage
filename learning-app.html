@@ -2,30 +2,82 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>설탕과소금 학습앱 체험 | 설탕과소금</title>
-  <meta name="description" content="설탕과소금 포털 메뉴를 유지한 채 특성화고 직업역량 학습앱을 10분 동안 체험합니다.">
+  <title>설탕과소금 학습앱 화면 체험 | 설탕과소금</title>
+  <meta name="description" content="학생, 교사, 학교관리자 계정으로 설탕과소금 특성화고 직업역량 학습앱의 주요 화면과 수업 흐름을 살펴봅니다.">
   <link rel="canonical" href="https://gyo6.kr/learning-app.html">
   <link rel="icon" href="brand/logo/favicon.svg" type="image/svg+xml">
   <style>@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Jua&display=swap');</style>
-  <link rel="stylesheet" href="assets/site.css?v=20260802-logo-draw">
+  <link rel="stylesheet" href="assets/site.css?v=20260824-vocational-app">
 </head>
-<body class="service-viewer-body">
-  <a class="skip" href="#service-frame">학습앱 체험 바로가기</a>
-  <header class="site-header"><nav class="nav" aria-label="주요 메뉴"><a class="brand" href="index.html" aria-label="유한회사 설탕과소금 홈"><img class="brand-mark" src="brand/logo/badge.svg" width="46" height="46" alt=""><span class="brand-wordmark"><strong>설탕과소금</strong><small>gyo6.kr · 교육.한국</small></span></a><div class="navlinks"><a class="active" href="vocational.html?v=20260802-navfix1">특성화고 교육지원센터</a><a href="exams.html?v=20260802-navfix1">공직시험 연구소</a><a href="apps.html?v=20260802-navfix1">디지털 프로젝트 스튜디오</a><a href="host.html?v=20260802-navfix1">교육현장 30년</a><a href="boards.html?v=20260802-navfix1">소식·문의</a></div></nav></header>
+<body class="service-viewer-body learning-trial-page">
+  <a class="skip" href="#trial-accounts">체험 계정 안내 바로가기</a>
+  <header class="site-header"><nav class="nav" aria-label="주요 메뉴"><a class="brand" href="index.html" aria-label="유한회사 설탕과소금 홈"><img class="brand-mark" src="brand/logo/badge.svg" width="46" height="46" alt=""><span class="brand-wordmark"><strong>설탕과소금</strong><small>gyo6.kr · 교육.한국</small></span></a><div class="navlinks"><a class="active" href="vocational.html">특성화고 교육지원센터</a><a href="exams.html?v=20260802-navfix1">공직시험 연구소</a><a href="apps.html?v=20260802-navfix1">디지털 프로젝트 스튜디오</a><a href="host.html?v=20260802-navfix1">교육현장 30년</a><a href="boards.html?v=20260802-navfix1">소식·문의</a></div></nav></header>
   <main id="main" class="service-viewer-main">
-    <div class="service-frame-wrap">
-      <div class="service-frame-loading" id="service-loading" role="status">설탕과소금 학습앱 체험을 불러오는 중입니다.</div>
-      <iframe id="service-frame" title="설탕과소금 학습앱 10분 체험" src="apps/sugar-salt/" allow="clipboard-read; clipboard-write; fullscreen" referrerpolicy="same-origin"></iframe>
-    </div>
-    <noscript class="service-viewer-noscript">JavaScript를 사용할 수 없으면 <a href="apps/sugar-salt/">학습앱 체험을 직접 열어 주세요.</a></noscript>
+    <section class="trial-intro" id="trial-accounts" aria-labelledby="trial-title"><div class="wrap">
+      <div class="trial-intro-heading"><div><span>ROLE-BASED APP WALKTHROUGH</span><h1 id="trial-title">학생으로 배우고,<br>교사로 수업해 보세요.</h1></div><p>세 계정은 같은 앱을 서로 다른 역할로 보여줍니다. 먼저 계정을 복사한 뒤 아래 앱 화면에서 로그인해 주세요.</p></div>
+      <div class="trial-table-wrap">
+        <table class="trial-account-table">
+          <caption>학생, 교사, 학교관리자 체험 계정</caption>
+          <thead><tr><th scope="col">역할</th><th scope="col">아이디</th><th scope="col">비밀번호</th><th scope="col">화면에서 확인할 것</th><th scope="col"><span class="sr-only">계정 복사</span></th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><span class="trial-role student">학생</span></th><td data-label="아이디"><code>demo.student@sugarsalt.kr</code></td><td data-label="비밀번호"><code>sugarsalt2026</code></td><td data-label="확인할 것">학습·문제·오답노트·듣기 음성</td><td><button class="trial-copy" type="button" data-account="demo.student@sugarsalt.kr">아이디+비밀번호 복사</button></td></tr>
+            <tr><th scope="row"><span class="trial-role teacher">교사</span></th><td data-label="아이디"><code>demo.teacher@sugarsalt.kr</code></td><td data-label="비밀번호"><code>sugarsalt2026</code></td><td data-label="확인할 것">가로 수업화면·정답 가림·타이머</td><td><button class="trial-copy" type="button" data-account="demo.teacher@sugarsalt.kr">아이디+비밀번호 복사</button></td></tr>
+            <tr><th scope="row"><span class="trial-role admin">학교관리자</span></th><td data-label="아이디"><code>demo.admin@sugarsalt.kr</code></td><td data-label="비밀번호"><code>sugarsalt2026</code></td><td data-label="확인할 것">교사·학급·학생·교재 배정</td><td><button class="trial-copy" type="button" data-account="demo.admin@sugarsalt.kr">아이디+비밀번호 복사</button></td></tr>
+          </tbody>
+        </table>
+        <p class="trial-copy-status" id="copy-status" role="status" aria-live="polite"></p>
+      </div>
+      <div class="trial-guide-grid" aria-label="역할별 체험 순서">
+        <article><span>STUDENT PATH</span><h2>학생 화면</h2><ol><li><b>학습</b>에서 교재·영역·단원 선택</li><li>문제를 풀고 해설과 오답노트 확인</li><li>듣기 문항에서 사람 음성 재생</li></ol></article>
+        <article><span>TEACHER PATH</span><h2>교사 화면</h2><ol><li>로그인 후 우측 상단 <b>가로 화면</b></li><li>수업 시작 후 문항 수업 진행</li><li>Space 정답, 타이머·무작위·지문 접기</li></ol></article>
+        <article><span>ADMIN PATH</span><h2>학교관리자 화면</h2><ol><li>교사 화면으로 입장</li><li>교사와 학급·학생 확인</li><li>학급과 학생에게 교재 배정</li></ol></article>
+      </div>
+      <aside class="trial-caution"><strong>공용 체험 계정 안내</strong><p>여러 명이 동시에 사용할 수 있지만 학습기록은 함께 보이며 주기적으로 초기화됩니다. 실제 학교와 분리된 계정이므로 이름·전화번호 등 개인정보를 입력하지 마세요. 화면이 이전 상태로 보이면 강력 새로고침 후 다시 접속해 주세요.</p></aside>
+    </div></section>
+    <section class="trial-app-stage" aria-labelledby="app-stage-title"><div class="wrap"><div class="trial-stage-heading"><div><span>APP EXPERIENCE</span><h2 id="app-stage-title">설탕과소금 학습앱</h2></div><a href="apps/sugar-salt/" target="_blank" rel="noopener">앱 화면만 크게 열기 ↗</a></div></div>
+      <div class="service-frame-wrap">
+        <div class="service-frame-loading" id="service-loading" role="status">설탕과소금 학습앱 화면을 불러오는 중입니다.</div>
+        <iframe id="service-frame" title="설탕과소금 학습앱 화면 체험" src="apps/sugar-salt/" allow="clipboard-read; clipboard-write; fullscreen" referrerpolicy="same-origin"></iframe>
+      </div>
+    </section>
+    <noscript class="service-viewer-noscript">JavaScript를 사용할 수 없으면 <a href="apps/sugar-salt/">학습앱 화면을 직접 열어 주세요.</a></noscript>
   </main>
   <script>
     (() => {
       const frame = document.querySelector("#service-frame");
       const loading = document.querySelector("#service-loading");
+      const status = document.querySelector("#copy-status");
       frame.addEventListener("load", () => {
         loading.hidden = true;
         frame.classList.add("is-loaded");
+      });
+
+      document.querySelectorAll(".trial-copy").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const text = `아이디: ${button.dataset.account}\n비밀번호: sugarsalt2026`;
+          try {
+            await navigator.clipboard.writeText(text);
+          } catch {
+            const area = document.createElement("textarea");
+            area.value = text;
+            area.setAttribute("readonly", "");
+            area.style.position = "fixed";
+            area.style.opacity = "0";
+            document.body.append(area);
+            area.select();
+            document.execCommand("copy");
+            area.remove();
+          }
+          document.querySelectorAll(".trial-copy").forEach((item) => item.classList.remove("is-copied"));
+          button.classList.add("is-copied");
+          const role = button.closest("tr").querySelector(".trial-role").textContent.trim();
+          button.textContent = "복사됨";
+          status.textContent = `${role} 계정의 아이디와 비밀번호를 복사했습니다.`;
+          window.setTimeout(() => {
+            button.textContent = "아이디+비밀번호 복사";
+            button.classList.remove("is-copied");
+          }, 2200);
+        });
       });
     })();
   </script>
