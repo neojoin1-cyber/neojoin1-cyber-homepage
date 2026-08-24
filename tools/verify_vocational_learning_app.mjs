@@ -34,7 +34,7 @@ for (const file of ["vocational.html", "learning-app.html", "assets/site.css", "
   if (!ok) failures.push("missing " + file);
 }
 
-requireText("vocational.html", "필수 취업교육 4영역", "app-led hero");
+requireText("vocational.html", "설탕과소금앱", "app-led hero");
 requireText("vocational.html", "취업 우수반의 실전", "advanced employment track");
 requireText("vocational.html", "앱만 건네지 않습니다", "teacher tool narrative");
 requireText("vocational.html", "learning-app.html#trial-accounts", "trial deep link");
@@ -42,8 +42,10 @@ requireText("vocational.html", "직업공통능력 인증평가", "MOE job commo
 requireText("vocational.html", "NCS 직업공통능력평가", "NCS common competency");
 requireText("vocational.html", "고졸 채용 면접스킬", "high school interview skills");
 requireText("vocational.html", "모의 인성평가", "mock personality assessment");
-requireText("vocational.html", "vocational-app-student-catalog.png", "student catalog capture");
-requireText("vocational.html", "vocational-app-teacher-dashboard.png", "teacher dashboard capture");
+requireText("vocational.html", "vocational-app-student-library.png", "student library capture");
+requireText("vocational.html", "vocational-app-student-course.png", "student course capture");
+requireText("vocational.html", "vocational-app-teacher-home.png", "teacher dashboard capture");
+requireText("vocational.html", "vocational-app-teacher-lesson.png", "teacher lesson capture");
 
 for (const account of [
   "demo.student@sugarsalt.kr",
