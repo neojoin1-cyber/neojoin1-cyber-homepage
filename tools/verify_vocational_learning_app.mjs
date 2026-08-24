@@ -42,6 +42,11 @@ requireText("vocational.html", "직업공통능력 인증평가", "MOE job commo
 requireText("vocational.html", "NCS 직업공통능력평가", "NCS common competency");
 requireText("vocational.html", "고졸 채용 면접스킬", "high school interview skills");
 requireText("vocational.html", "모의 인성평가", "mock personality assessment");
+requireText("vocational.html", "인증평가 준비가 막막할 때", "teacher certification pain point");
+requireText("vocational.html", "우수 취업처 필기를 제대로 준비하려면", "teacher advanced employment pain point");
+requireText("vocational.html", "고졸 면접을 실전처럼 훈련하려면", "teacher interview pain point");
+requireText("vocational.html", "인성평가가 힘든 학생을 돕고 싶다면", "teacher personality assessment pain point");
+requireText("vocational.html", "vh-product-statement", "restrained app statement");
 requireText("vocational.html", "vocational-app-student-library.png", "student library capture");
 requireText("vocational.html", "vocational-app-student-course.png", "student course capture");
 requireText("vocational.html", "vocational-app-teacher-home.png", "teacher dashboard capture");
