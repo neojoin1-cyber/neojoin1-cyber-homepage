@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-24T07:52:35.262Z",
-  "feedGeneratedAt": "2026-08-24T07:52:35.262Z",
+  "generatedAt": "2026-08-24T08:40:51.474Z",
+  "feedGeneratedAt": "2026-08-24T08:40:51.474Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
-    "total": 46,
-    "active": 18,
+    "total": 47,
+    "active": 19,
     "deadlineSoon": 28,
     "applicationClosed": 0,
     "sourcesChecked": 15,
@@ -19,8 +19,8 @@
     "publicationBlocked": 0,
     "publicationRepaired": 0,
     "studentRecruitSafetyReview": 171,
-    "automatedBriefingReady": 46,
-    "automatedBriefingAttempted": 46,
+    "automatedBriefingReady": 47,
+    "automatedBriefingAttempted": 47,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -28,15 +28,15 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-24T07:52:35.262Z",
-    "attempted": 46,
-    "succeeded": 46,
+    "generatedAt": "2026-08-24T08:40:51.474Z",
+    "attempted": 47,
+    "succeeded": 47,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-24T07:52:35.262Z",
+    "generatedAt": "2026-08-24T08:40:51.474Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
@@ -65,6 +65,28 @@
         "status": "deadline_soon",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://koddi.fairyhr.com/"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외 · 필기신호 직접분류 재검토",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "필기·NCS 신호",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국산업기술시험원",
+        "title": "2026년 한국산업기술시험원 정규직 채용 공고",
+        "deadline": "2026-09-08",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://ktl2026.careerlink.kr/"
       },
       {
         "list": "items",
@@ -444,27 +466,6 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://ksif.fairyhr.com/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리 · 필기신호 직접분류 재검토",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국보훈복지의료공단",
-        "title": "한국보훈복지의료공단 [대전보훈병원] 정규직(기술직(건축), 보건직(방사선사, 임상병리사), 일반기능직(시설(영선), 시설(기계)) 채용 공고",
-        "deadline": "2026-09-02",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.bohun.or.kr/daejeon/na/ntt/selectNttInfo.do?mi=33414&bbsId=1158&bbsSysId=daejeon&nttSn=188562"
       }
     ]
   },
