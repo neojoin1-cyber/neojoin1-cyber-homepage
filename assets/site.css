@@ -79,17 +79,27 @@
 .vh-btn-secondary { border-color: #c9d1ca !important; color: var(--vh-navy) !important; background: rgba(255, 253, 248, .9) !important; }
 .vh-proof-line { display: flex; align-items: center; gap: 9px; margin-top: 13px; color: #53666d; font-family: "IBM Plex Sans KR", sans-serif; font-size: 11px; }
 .vh-proof-line span { color: var(--vh-amber); font-weight: 700; }
-.vh-product-gallery { position: relative; display: block; height: clamp(330px, 30vw, 410px); overflow: hidden; border: 1px solid rgba(16, 47, 77, .14); border-radius: 24px; color: var(--vh-ink); background: linear-gradient(145deg, #f9f4e6, #e7f2ed); box-shadow: 0 20px 42px rgba(20, 48, 61, .13); text-decoration: none; }
+.vh-product-gallery { position: relative; display: block; height: clamp(350px, 31vw, 420px); overflow: hidden; border: 1px solid rgba(16, 47, 77, .14); border-radius: 24px; color: var(--vh-ink); background: linear-gradient(145deg, #f9f4e6, #e7f2ed); box-shadow: 0 20px 42px rgba(20, 48, 61, .13); text-decoration: none; }
 .vh-gallery-head { position: absolute; z-index: 3; top: 12px; left: 16px; display: flex; align-items: baseline; gap: 9px; font-family: "IBM Plex Sans KR", sans-serif; }
 .vh-gallery-head strong { font-size: 15px; }
 .vh-gallery-head span { color: var(--vh-teal); font-size: 10px; font-weight: 700; }
-.vh-gallery-grid { display: grid; grid-template-columns: 1.12fr .94fr .94fr; grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 8px; height: 100%; padding: 44px 13px 13px; }
-.vh-shot { position: relative; overflow: hidden; border: 4px solid rgba(255, 255, 255, .93); border-radius: 13px; background: white; box-shadow: 0 10px 22px rgba(16, 47, 77, .14); }
-.vh-shot-primary { grid-row: 1 / 3; }
-.vh-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform .28s ease; }
-.vh-shot b { position: absolute; right: 7px; bottom: 7px; left: 7px; padding: 6px 7px; overflow: hidden; border-radius: 7px; color: white; background: rgba(16, 47, 77, .9); font-family: "IBM Plex Sans KR", sans-serif; font-size: 9px; line-height: 1.2; text-overflow: ellipsis; white-space: nowrap; }
-.vh-product-gallery:hover .vh-shot img { transform: scale(1.025); }
-.vh-gallery-cta { position: absolute; z-index: 4; right: 17px; bottom: 17px; display: grid; grid-template-columns: auto 24px; gap: 0 13px; min-width: 214px; padding: 10px 12px 10px 14px; border: 1px solid rgba(255, 255, 255, .28); border-radius: 12px; color: white; background: rgba(13, 118, 104, .96); box-shadow: 0 9px 20px rgba(16, 47, 77, .22); font-family: "IBM Plex Sans KR", sans-serif; }
+.vh-gallery-featured { position: relative; height: 100%; padding: 47px 13px 13px; }
+.vh-feature-screen { display: grid; min-width: 0; margin: 0; overflow: hidden; border: 4px solid rgba(255, 255, 255, .94); border-radius: 14px; background: #f5f7f8; box-shadow: 0 11px 24px rgba(16, 47, 77, .14); }
+.vh-feature-teacher { grid-template-rows: auto minmax(0, 1fr); height: 100%; }
+.vh-feature-student { position: absolute; z-index: 2; top: 66px; right: 23px; bottom: 23px; grid-template-rows: auto minmax(0, 1fr); width: clamp(142px, 27%, 184px); border-color: #fff; box-shadow: 0 16px 35px rgba(16, 47, 77, .25); }
+.vh-feature-screen figcaption { position: relative; z-index: 1; padding: 9px 11px 8px; border-bottom: 1px solid rgba(16, 47, 77, .09); background: rgba(255, 255, 255, .97); font-family: "IBM Plex Sans KR", sans-serif; }
+.vh-feature-screen figcaption small,
+.vh-feature-screen figcaption b,
+.vh-feature-screen figcaption span { display: block; }
+.vh-feature-screen figcaption small { margin-bottom: 2px; color: var(--vh-teal); font-size: 8px; font-weight: 700; letter-spacing: .12em; }
+.vh-feature-screen figcaption b { color: var(--vh-navy); font-size: 13px; line-height: 1.35; }
+.vh-feature-screen figcaption span { margin-top: 2px; color: #62747a; font-size: 9px; line-height: 1.4; }
+.vh-feature-screen img { width: 100%; height: 100%; min-height: 0; object-fit: contain; object-position: top center; background: #f4f6f8; transition: transform .28s ease; }
+.vh-feature-teacher img { width: 132%; max-width: none; height: auto; object-fit: initial; object-position: initial; transform-origin: left top; }
+.vh-feature-student img { width: auto; max-width: 100%; margin: 0 auto; }
+.vh-product-gallery:hover .vh-feature-teacher img { transform: scale(1.015); }
+.vh-product-gallery:hover .vh-feature-student { transform: translateY(-3px); }
+.vh-gallery-cta { position: absolute; z-index: 4; top: 10px; right: 12px; display: grid; grid-template-columns: auto 22px; gap: 0 10px; min-width: 196px; padding: 7px 10px 7px 12px; border: 1px solid rgba(255, 255, 255, .28); border-radius: 11px; color: white; background: rgba(13, 118, 104, .96); box-shadow: 0 7px 17px rgba(16, 47, 77, .2); font-family: "IBM Plex Sans KR", sans-serif; }
 .vh-gallery-cta b { font-size: 12px; }
 .vh-gallery-cta small { color: #d8f2eb; font-size: 9px; }
 .vh-gallery-cta i { grid-column: 2; grid-row: 1 / 3; align-self: center; font-size: 18px; font-style: normal; }
@@ -210,14 +220,17 @@
   .vh-product-statement { padding: 14px; border-radius: 14px; }
   .vh-product-statement h2 { font-size: 22px; }
   .vh-product-statement .vh-proof-line { justify-content: flex-start; flex-wrap: wrap; }
-  .vh-product-gallery { height: min(96vw, 380px); border-radius: 18px; }
+  .vh-product-gallery { height: min(112vw, 440px); border-radius: 18px; }
   .vh-gallery-head { top: 10px; left: 12px; }
-  .vh-gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 6px; padding: 40px 8px 8px; }
-  .vh-shot-primary { grid-row: auto; }
-  .vh-shot:nth-child(5) { display: none; }
-  .vh-shot { border-width: 3px; border-radius: 10px; }
-  .vh-shot b { right: 4px; bottom: 4px; left: 4px; padding: 5px; font-size: 8px; }
-  .vh-gallery-cta { right: 14px; bottom: 14px; min-width: 206px; }
+  .vh-gallery-head span { display: none; }
+  .vh-gallery-featured { padding: 41px 8px 8px; }
+  .vh-feature-screen { border-width: 3px; border-radius: 11px; }
+  .vh-feature-screen figcaption { padding: 7px 8px 6px; }
+  .vh-feature-screen figcaption b { font-size: 11px; }
+  .vh-feature-screen figcaption span { font-size: 8px; }
+  .vh-feature-teacher img { width: 160%; }
+  .vh-feature-student { top: 67px; right: 14px; bottom: 17px; width: 104px; }
+  .vh-gallery-cta { top: auto; right: auto; bottom: 13px; left: 13px; min-width: 176px; }
   .vh-subjects { grid-template-columns: repeat(2, minmax(0, 1fr)); border-radius: 14px; }
   .vh-subjects li { align-items: start; padding: 11px 10px; border-right: 1px solid var(--vh-line); border-bottom: 1px solid var(--vh-line); }
   .vh-subjects li:nth-child(2n) { border-right: 0; }

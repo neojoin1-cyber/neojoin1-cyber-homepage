@@ -47,10 +47,10 @@ requireText("vocational.html", "우수 취업처 필기를 제대로 준비하�
 requireText("vocational.html", "고졸 면접을 실전처럼 훈련하려면", "teacher interview pain point");
 requireText("vocational.html", "인성평가가 힘든 학생을 돕고 싶다면", "teacher personality assessment pain point");
 requireText("vocational.html", "vh-product-statement", "restrained app statement");
-requireText("vocational.html", "vocational-app-student-library.png", "student library capture");
-requireText("vocational.html", "vocational-app-student-course.png", "student course capture");
-requireText("vocational.html", "vocational-app-teacher-home.png", "teacher dashboard capture");
-requireText("vocational.html", "vocational-app-teacher-lesson.png", "teacher lesson capture");
+requireText("vocational.html", "vocational-app-student-catalog.png", "readable student catalog capture");
+requireText("vocational.html", "vocational-app-teacher-dashboard.png", "readable teacher dashboard capture");
+requireText("vocational.html", "교사 운영 대시보드", "teacher dashboard caption");
+requireText("vocational.html", "학생 교재 목록", "student catalog caption");
 
 for (const account of [
   "demo.student@sugarsalt.kr",
