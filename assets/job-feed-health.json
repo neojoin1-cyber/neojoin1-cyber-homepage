@@ -1,14 +1,14 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-24T01:54:43.365Z",
-  "feedGeneratedAt": "2026-08-24T01:54:43.365Z",
+  "generatedAt": "2026-08-24T04:51:04.242Z",
+  "feedGeneratedAt": "2026-08-24T04:51:04.242Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
-    "total": 48,
+    "total": 47,
     "active": 16,
-    "deadlineSoon": 32,
+    "deadlineSoon": 31,
     "applicationClosed": 0,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
@@ -18,9 +18,9 @@
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 168,
-    "automatedBriefingReady": 48,
-    "automatedBriefingAttempted": 48,
+    "studentRecruitSafetyReview": 167,
+    "automatedBriefingReady": 47,
+    "automatedBriefingAttempted": 47,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -28,19 +28,19 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-24T01:54:43.365Z",
-    "attempted": 48,
-    "succeeded": 48,
+    "generatedAt": "2026-08-24T04:51:04.242Z",
+    "attempted": 47,
+    "succeeded": 47,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-24T01:54:43.365Z",
+    "generatedAt": "2026-08-24T04:51:04.242Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 168,
+    "studentRecruitReviewCount": 167,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -284,28 +284,6 @@
           "공공·금융·대기업 소스",
           "학력무관",
           "필기·NCS 신호",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국전력거래소",
-        "title": "한국전력거래소 2026년도 하반기 전력거래소 공개채용(체험형 청년인턴)",
-        "deadline": "2026-08-28",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://kpx.saramin.co.kr/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
           "공채 신호",
           "신입·정규직 계열"
         ],
@@ -465,6 +443,27 @@
         "status": "deadline_soon",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://koddicpdd.fairyhr.com/"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외 · 필기신호 직접분류 재검토",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "세종학당재단",
+        "title": "2026년 세종학당재단 하반기 무기계약직, 일반계약직 채용 공고",
+        "deadline": "2026-09-07",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://ksif.fairyhr.com/"
       }
     ]
   },
