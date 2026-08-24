@@ -5,6 +5,8 @@ import process from "node:process";
 const root = process.cwd();
 const failures = [];
 const checks = [];
+const remoteAppUrl = "https://neojoin1-cyber.github.io/gyo6-jobskill/";
+const minimumRemoteVersion = "4.0.2";
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 const requireText = (file, value, label = value) => {
   const ok = read(file).includes(value);
@@ -23,8 +25,8 @@ const bundleFiles = fs.readdirSync(bundleRoot, { recursive: true, withFileTypes:
   .map((entry) => path.join(entry.parentPath ?? entry.path, entry.name));
 const audioFiles = bundleFiles.filter((file) => file.toLowerCase().endsWith(".mp3"));
 
-checks.push({ label: "learning app 4.0.0 bundle contains 175 files", ok: bundleFiles.length === 175 });
-checks.push({ label: "learning app bundle contains 51 MP3 files", ok: audioFiles.length === 51 });
+checks.push({ label: "emergency fallback bundle contains 175 files", ok: bundleFiles.length === 175 });
+checks.push({ label: "emergency fallback contains 51 MP3 files", ok: audioFiles.length === 51 });
 if (bundleFiles.length !== 175) failures.push("bundle file count: " + bundleFiles.length);
 if (audioFiles.length !== 51) failures.push("MP3 count: " + audioFiles.length);
 
@@ -85,6 +87,8 @@ requireText("learning-app.html", "아이디+비밀번호 복사", "copy control"
 requireText("learning-app.html", "trial-workspace", "one-screen trial workspace");
 requireText("learning-app.html", "trial-account-card", "compact role account cards");
 requireText("learning-app.html", "trial-app-panel", "inline live app panel");
+requireText("learning-app.html", `src="${remoteAppUrl}"`, "approved remote app iframe");
+requireText("learning-app.html", `href="${remoteAppUrl}"`, "approved remote app direct link");
 {
   const html = read("learning-app.html");
   const appFirst = html.indexOf('class="trial-app-panel"') < html.indexOf('class="trial-console"');
@@ -105,6 +109,31 @@ for (const file of ["vocational.html", "learning-app.html"]) {
     const resolved = path.resolve(path.dirname(path.join(root, file)), ref);
     if (!fs.existsSync(resolved)) failures.push(file + ": missing local reference " + ref);
   }
+}
+
+const versionAtLeast = (actual, minimum) => {
+  const left = String(actual).split(".").map(Number);
+  const right = String(minimum).split(".").map(Number);
+  for (let index = 0; index < Math.max(left.length, right.length); index += 1) {
+    const difference = (left[index] || 0) - (right[index] || 0);
+    if (difference !== 0) return difference > 0;
+  }
+  return true;
+};
+
+try {
+  const response = await fetch(`${remoteAppUrl}version.json`, {
+    headers: { "Cache-Control": "no-cache" },
+  });
+  const release = response.ok ? await response.json() : {};
+  const validRelease = response.ok
+    && versionAtLeast(release.version, minimumRemoteVersion)
+    && release.supabaseResponseCache === false;
+  checks.push({ label: `remote app ${minimumRemoteVersion}+ is approved and auth response cache is disabled`, ok: validRelease });
+  if (!validRelease) failures.push(`remote release invalid: HTTP ${response.status}, version ${release.version || "unknown"}`);
+} catch (error) {
+  checks.push({ label: "remote app release metadata is reachable", ok: false });
+  failures.push(`remote release check failed: ${error.message}`);
 }
 
 for (const check of checks) console.log((check.ok ? "PASS" : "FAIL") + " " + check.label);
