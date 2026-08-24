@@ -1,14 +1,14 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-24T05:49:28.480Z",
-  "feedGeneratedAt": "2026-08-24T05:49:28.480Z",
+  "generatedAt": "2026-08-24T07:52:35.262Z",
+  "feedGeneratedAt": "2026-08-24T07:52:35.262Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
     "total": 46,
-    "active": 16,
-    "deadlineSoon": 30,
+    "active": 18,
+    "deadlineSoon": 28,
     "applicationClosed": 0,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
@@ -18,7 +18,7 @@
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 167,
+    "studentRecruitSafetyReview": 171,
     "automatedBriefingReady": 46,
     "automatedBriefingAttempted": 46,
     "automatedBriefingFailed": 0
@@ -28,7 +28,7 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-24T05:49:28.480Z",
+    "generatedAt": "2026-08-24T07:52:35.262Z",
     "attempted": 46,
     "succeeded": 46,
     "failed": 0,
@@ -36,11 +36,11 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-24T05:49:28.480Z",
+    "generatedAt": "2026-08-24T07:52:35.262Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 167,
+    "studentRecruitReviewCount": 171,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -65,27 +65,6 @@
         "status": "deadline_soon",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://koddi.fairyhr.com/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국석유공사",
-        "title": "한국석유공사 2026년 하반기 직원(정규직) 채용 공고(8급 고졸수준)",
-        "deadline": "2026-08-28",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=303892"
       },
       {
         "list": "items",
@@ -317,6 +296,28 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://cnuhinsa.recruiter.co.kr/career/home"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국보건산업진흥원",
+        "title": "한국보건산업진흥원 2026년 하반기 신규직원(채용형인턴) 채용 공고",
+        "deadline": "2026-09-07",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.khidi.or.kr/board/view?pageNum=1&rowCnt=10&no1=238&linkId=48949094&menuId=MENU00109&maxIndex=00489490949998&minIndex=00488910539998&schType=0&schText=&schStartDate=&schEndDate=&boardStyle=&categoryId=&continent=&country="
       },
       {
         "list": "items",
