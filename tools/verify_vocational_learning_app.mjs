@@ -61,6 +61,12 @@ requireText("learning-app.html", "아이디+비밀번호 복사", "copy control"
 requireText("learning-app.html", "trial-workspace", "one-screen trial workspace");
 requireText("learning-app.html", "trial-account-card", "compact role account cards");
 requireText("learning-app.html", "trial-app-panel", "inline live app panel");
+{
+  const html = read("learning-app.html");
+  const appFirst = html.indexOf('class="trial-app-panel"') < html.indexOf('class="trial-console"');
+  checks.push({ label: "live app appears before account guidance", ok: appFirst });
+  if (!appFirst) failures.push("learning-app.html: live app must precede account guidance");
+}
 forbidText("vocational.html", "무료 체험");
 forbidText("vocational.html", "무료 가입");
 forbidText("learning-app.html", "무료 체험");

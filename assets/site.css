@@ -4482,7 +4482,7 @@ a.branch-card:focus-visible { outline: 4px solid #bf7b47; outline-offset: 4px; }
 .trial-workspace {
   scroll-margin-top: 84px;
   display: grid;
-  grid-template-columns: minmax(390px, .72fr) minmax(560px, 1.28fr);
+  grid-template-columns: minmax(560px, 1.28fr) minmax(390px, .72fr);
   flex: 1 1 auto;
   min-width: 0;
   min-height: 0;
