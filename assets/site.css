@@ -124,10 +124,15 @@
 .vh-jobs .vh-section-tag { color: #78d0bc; }
 .vh-jobs h2 { margin-bottom: 10px; font-family: "Gowun Batang", serif; font-size: clamp(32px, 3vw, 46px); line-height: 1.18; letter-spacing: -.045em; }
 .vh-jobs h2 em { color: #f3c66d; }
+.vh-jobs-title-button { display: flex; width: fit-content; max-width: 100%; align-items: center; gap: 22px; padding: 13px 18px 14px; border: 1px solid rgba(245, 211, 142, .56); border-radius: 17px; color: #fffaf0; background: rgba(255, 255, 255, .07); box-shadow: 0 15px 32px rgba(0, 0, 0, .16); text-decoration: none; transition: border-color .2s ease, background .2s ease, transform .2s ease; }
+.vh-jobs-title-button span { display: flex; flex-wrap: wrap; gap: 0 .25em; align-items: baseline; }
+.vh-jobs-title-button b { font: inherit; }
+.vh-jobs-title-button i { display: grid; flex: 0 0 38px; width: 38px; height: 38px; place-items: center; border-radius: 50%; color: var(--vh-navy); background: #f5d38e; font-family: "IBM Plex Sans KR", sans-serif; font-size: 20px; font-style: normal; }
+.vh-jobs-title-button:hover { border-color: #f5d38e; background: rgba(255, 255, 255, .12); transform: translateY(-2px); }
+.vh-jobs-title-button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 .vh-jobs-copy > p { max-width: 520px; margin-bottom: 12px; color: #c8d7dd; font-size: 13px; line-height: 1.65; }
 .vh-jobs-copy ul { display: grid; grid-template-columns: repeat(3, auto); gap: 7px 14px; margin: 0 0 14px; padding: 0; color: #d8e3e6; font-size: 11px; list-style: none; }
 .vh-jobs-copy li::before { content: ""; display: inline-block; width: 6px; height: 6px; margin: 0 9px 2px 0; border-radius: 50%; background: #f3c66d; }
-.vh-jobs-button { border-color: #f5d38e !important; color: #122f4b !important; background: #f5d38e !important; }
 .vh-job-radar { overflow: hidden; border: 1px solid rgba(255, 255, 255, .17); border-radius: 22px; background: rgba(255, 255, 255, .07); box-shadow: 0 25px 50px rgba(0, 0, 0, .14); }
 .vh-radar-head { display: flex; align-items: end; justify-content: space-between; gap: 20px; padding: 14px 17px 11px; border-bottom: 1px solid rgba(255, 255, 255, .13); }
 .vh-radar-head div { display: grid; gap: 4px; }
@@ -239,10 +244,11 @@
   .vh-jobs { padding: 25px 0; }
   .vh-jobs-grid { gap: 18px; }
   .vh-jobs-copy { display: block; }
-  .vh-jobs h2 { font-size: 32px; }
+  .vh-jobs h2 { font-size: 28px; }
+  .vh-jobs-title-button { width: 100%; justify-content: space-between; gap: 12px; padding: 12px 14px; }
+  .vh-jobs-title-button i { flex-basis: 34px; width: 34px; height: 34px; }
   .vh-jobs-copy ul { margin-bottom: 18px; }
   .vh-jobs-copy ul { grid-template-columns: 1fr; }
-  .vh-jobs-button { width: 100%; justify-content: center; }
   .vh-radar-head { align-items: start; flex-direction: column; gap: 5px; padding: 16px; }
   .vh-job-list a { padding: 13px 16px; }
   .vh-job-list b { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; white-space: normal; }
