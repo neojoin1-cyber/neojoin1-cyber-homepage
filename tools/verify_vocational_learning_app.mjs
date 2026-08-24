@@ -23,10 +23,29 @@ const bundleFiles = fs.readdirSync(bundleRoot, { recursive: true, withFileTypes:
   .map((entry) => path.join(entry.parentPath ?? entry.path, entry.name));
 const audioFiles = bundleFiles.filter((file) => file.toLowerCase().endsWith(".mp3"));
 
-checks.push({ label: "learning app bundle contains 109 files", ok: bundleFiles.length === 109 });
+checks.push({ label: "learning app 4.0.0 bundle contains 175 files", ok: bundleFiles.length === 175 });
 checks.push({ label: "learning app bundle contains 51 MP3 files", ok: audioFiles.length === 51 });
-if (bundleFiles.length !== 109) failures.push("bundle file count: " + bundleFiles.length);
+if (bundleFiles.length !== 175) failures.push("bundle file count: " + bundleFiles.length);
 if (audioFiles.length !== 51) failures.push("MP3 count: " + audioFiles.length);
+
+for (const file of [
+  "apps/sugar-salt/assets/index-ECreyGAB.js",
+  "apps/sugar-salt/assets/index-CwxqAxyO.css",
+  "apps/sugar-salt/images/campus/skill-campus-map.png",
+]) {
+  const ok = fs.existsSync(path.join(root, file));
+  checks.push({ label: file + " exists", ok });
+  if (!ok) failures.push("missing " + file);
+}
+
+for (const obsoleteFile of [
+  "apps/sugar-salt/assets/index-BKl2WvT-.js",
+  "apps/sugar-salt/assets/trial-responsive.css",
+]) {
+  const ok = !fs.existsSync(path.join(root, obsoleteFile));
+  checks.push({ label: obsoleteFile + " was removed", ok });
+  if (!ok) failures.push("obsolete bundle file remains " + obsoleteFile);
+}
 
 for (const file of ["vocational.html", "learning-app.html", "assets/site.css", "apps/sugar-salt/index.html", "apps/sugar-salt/sw.js"]) {
   const ok = fs.existsSync(path.join(root, file));

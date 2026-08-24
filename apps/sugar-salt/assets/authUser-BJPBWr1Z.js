@@ -1,1 +1,0 @@
-import{n as e}from"./jsx-runtime-DzVy0e61.js";var t=null,n=null,r=!1;function i(){r||(r=!0,e.auth.onAuthStateChange((e,r)=>{t=r?.user?.id??null,n=null}))}async function a(){return i(),t||(n||=e.auth.getSession().then(({data:e})=>(t=e?.session?.user?.id??null,t)).catch(()=>null).finally(()=>{n=null}),n)}export{a as t};
