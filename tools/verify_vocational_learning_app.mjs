@@ -58,6 +58,9 @@ requireText("learning-app.html", "듣기 문항에서 사람 음성 재생", "st
 requireText("learning-app.html", "주기적으로 초기화", "shared record reset caution");
 requireText("learning-app.html", "개인정보를 입력하지 마세요", "personal data caution");
 requireText("learning-app.html", "아이디+비밀번호 복사", "copy control");
+requireText("learning-app.html", "trial-workspace", "one-screen trial workspace");
+requireText("learning-app.html", "trial-account-card", "compact role account cards");
+requireText("learning-app.html", "trial-app-panel", "inline live app panel");
 forbidText("vocational.html", "무료 체험");
 forbidText("vocational.html", "무료 가입");
 forbidText("learning-app.html", "무료 체험");
