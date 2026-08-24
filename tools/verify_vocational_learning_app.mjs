@@ -34,7 +34,7 @@ for (const file of ["vocational.html", "learning-app.html", "assets/site.css", "
   if (!ok) failures.push("missing " + file);
 }
 
-requireText("vocational.html", "학생의 취업 준비를", "app-led hero");
+requireText("vocational.html", "필수 취업교육 4영역", "app-led hero");
 requireText("vocational.html", "취업 우수반의 실전", "advanced employment track");
 requireText("vocational.html", "앱만 건네지 않습니다", "teacher tool narrative");
 requireText("vocational.html", "learning-app.html#trial-accounts", "trial deep link");
