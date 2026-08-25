@@ -1,74 +1,59 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-25T10:59:11.859Z",
-  "feedGeneratedAt": "2026-08-25T10:59:11.859Z",
+  "generatedAt": "2026-08-25T14:59:21.998Z",
+  "feedGeneratedAt": "2026-08-25T14:59:21.998Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "degraded",
+  "status": "ok",
   "summary": {
-    "total": 43,
-    "active": 22,
+    "total": 45,
+    "active": 24,
     "deadlineSoon": 21,
     "applicationClosed": 0,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
-    "sourcesFailed": 3,
+    "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 43,
-    "sourceFallbackProtected": 43,
-    "publicationBlocked": 0,
+    "staleFallbackItems": 0,
+    "sourceFallbackProtected": 0,
+    "publicationBlocked": 1,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 85,
-    "automatedBriefingReady": 43,
-    "automatedBriefingAttempted": 43,
+    "studentRecruitSafetyReview": 178,
+    "automatedBriefingReady": 45,
+    "automatedBriefingAttempted": 45,
     "automatedBriefingFailed": 0
   },
-  "sourceFailures": [
-    {
-      "id": "mpm-public-job",
-      "name": "인사혁신처 공공취업정보",
-      "isolatedFailure": false,
-      "fallbackProtected": false,
-      "fallbackItemCount": 0,
-      "message": "키 확인됨. 공식 호출 URL 확인 필요: https://apis.data.go.kr/1760000/PblJobService/getList: HTTP timeout after 9000ms; https://apis.data.go.kr/1760000/PblJobService/getList: HTTP timeout after 9000ms"
-    },
-    {
-      "id": "moef-public-recruit",
-      "name": "기재부 공공기관 채용정보",
-      "isolatedFailure": false,
-      "fallbackProtected": false,
-      "fallbackItemCount": 0,
-      "message": "연결 실패: HTTP timeout after 9000ms; HTTP timeout after 9000ms"
-    },
-    {
-      "id": "job-alio-openapi",
-      "name": "잡알리오 공공기관 채용",
-      "isolatedFailure": false,
-      "fallbackProtected": true,
-      "fallbackItemCount": 85,
-      "message": "연결 실패: recent-page-2: recent-page-2 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page; recent-page-1: recent-page-1 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page · 직전 정상 공고 85건 보존"
-    }
-  ],
+  "sourceFailures": [],
   "aiBriefing": {
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-25T10:59:11.859Z",
-    "attempted": 43,
-    "succeeded": 43,
+    "generatedAt": "2026-08-25T14:59:21.998Z",
+    "attempted": 45,
+    "succeeded": 45,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-25T10:59:11.859Z",
-    "blockedCount": 0,
+    "generatedAt": "2026-08-25T14:59:21.998Z",
+    "blockedCount": 1,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 85,
-    "blockedByReason": {},
+    "studentRecruitReviewCount": 178,
+    "blockedByReason": {
+      "student-hard-blocked": 1
+    },
     "repairedByReason": {},
-    "blockedSamples": [],
+    "blockedSamples": [
+      {
+        "list": "archiveItems",
+        "reason": "student-hard-blocked",
+        "source": "moef-public-recruit",
+        "company": "한국생명존중희망재단",
+        "title": "[제2026-3호] 한국생명존중희망재단 제3차 직원 채용 (공개, 제한경쟁) 공고(원서 마감)"
+      }
+    ],
     "studentRecruitReviewSamples": [
       {
         "list": "items",
@@ -133,6 +118,24 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://nikom.or.kr/nikom/board/view.do?menu_idx=62&manage_idx=45&board_idx=568052&group_depth=0&parent_idx=0&group_idx=0&rowCount=10&search_type=title%2Bcontent&search_text=&viewPage=1"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "대한적십자사",
+        "title": "2026년도 대한적십자사 충청북도지사 비정규직(육아휴직 대체인력) 사무보조원 채용공고",
+        "deadline": "2026-09-09",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.redcross.or.kr/redrecruit/reMenuAction.do"
       },
       {
         "list": "items",
@@ -280,7 +283,7 @@
         "deadline": "2026-09-07",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.khidi.or.kr/board?menuId=MENU00109"
+        "primaryOfficialUrl": "https://www.khidi.or.kr/board/view?pageNum=1&rowCnt=10&no1=238&linkId=48949094&menuId=MENU00109&maxIndex=00489491169998&minIndex=00488927959998&schType=0&schText=&schStartDate=&schEndDate=&boardStyle=&categoryId=&continent=&country="
       },
       {
         "list": "items",
@@ -432,27 +435,6 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외 · 필기신호 직접분류 재검토",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "건강보험심사평가원",
-        "title": "2026년 하반기 건강보험심사평가원 정규직 채용 공고",
-        "deadline": "2026-09-02",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.hira.or.kr/re/recruit/recruitAdList.do?pgmid=HIRAA040078000000&WT.gnb=%EC%B1%84%EC%9A%A9%EA%B3%B5%EA%B3%A0"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리 · 필기신호 직접분류 재검토",
         "signals": [
           "공공·금융·대기업 소스",
@@ -474,21 +456,23 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외 · 필기신호 직접분류 재검토",
         "signals": [
           "공공·금융·대기업 소스",
-          "학력무관",
+          "고졸·특성화고 명시",
+          "필기·NCS 신호",
+          "공채 신호",
           "신입·정규직 계열"
         ],
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "한국서부발전(주)",
-        "title": "한국서부발전(주) 태안발전본부 기간제 대체인력(4직급) 모집공고",
-        "deadline": "2026-09-03",
+        "company": "건강보험심사평가원",
+        "title": "2026년 하반기 건강보험심사평가원 정규직 채용 공고",
+        "deadline": "2026-09-02",
         "status": "active",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.iwest.co.kr/bbs/iwest/179/25685/artclView.do"
+        "primaryOfficialUrl": "https://www.hira.or.kr/re/recruit/recruitAdList.do?pgmid=HIRAA040078000000&WT.gnb=%EC%B1%84%EC%9A%A9%EA%B3%B5%EA%B3%A0"
       }
     ]
   },
