@@ -73,19 +73,20 @@ requireText("vocational.html", "vocational-app-teacher-dashboard.png", "readable
 requireText("vocational.html", "교사 운영 대시보드", "teacher dashboard caption");
 requireText("vocational.html", "학생 교재 목록", "student catalog caption");
 
-for (const account of [
-  "demo.student@sugarsalt.kr",
-  "demo.teacher@sugarsalt.kr",
-  "demo.admin@sugarsalt.kr",
-]) requireText("learning-app.html", account, account);
-requireText("learning-app.html", "sugarsalt2026", "shared password");
-requireText("learning-app.html", "가로 화면", "teacher landscape guide");
-requireText("learning-app.html", "듣기 문항에서 사람 음성 재생", "student listening guide");
-requireText("learning-app.html", "주기적으로 초기화", "shared record reset caution");
-requireText("learning-app.html", "개인정보를 입력하지 마세요", "personal data caution");
-requireText("learning-app.html", "아이디+비밀번호 복사", "copy control");
+for (const role of ["student", "teacher"]) requireText("learning-app.html", `data-trial="${role}"`, `${role} one-click trial`);
+requireText("learning-app.html", "학생 체험 시작", "student trial label");
+requireText("learning-app.html", "교사 체험 시작", "teacher trial label");
+requireText("learning-app.html", "?trial=${role}&trial_nonce=${Date.now()}", "isolated role trial URL");
+requireText("learning-app.html", "계정 입력 없이 15분간 체험할 수 있습니다.", "15 minute no-account guide");
+requireText("learning-app.html", "체험 내용은 저장되지 않으며 실제 학교 데이터와 분리됩니다.", "no-save isolation guide");
+requireText("learning-app.html", "정규 수업과 학습 기록 저장은 학교 계정에서 이용합니다.", "school account guide");
+forbidText("learning-app.html", "demo.student@sugarsalt.kr");
+forbidText("learning-app.html", "demo.teacher@sugarsalt.kr");
+forbidText("learning-app.html", "demo.admin@sugarsalt.kr");
+forbidText("learning-app.html", "sugarsalt2026");
+forbidText("learning-app.html", "아이디+비밀번호 복사");
 requireText("learning-app.html", "trial-workspace", "one-screen trial workspace");
-requireText("learning-app.html", "trial-account-card", "compact role account cards");
+requireText("learning-app.html", "trial-launcher", "two-button trial launcher");
 requireText("learning-app.html", "trial-app-panel", "inline live app panel");
 requireText("learning-app.html", `src="${remoteAppUrl}"`, "approved remote app iframe");
 requireText("learning-app.html", `href="${remoteAppUrl}"`, "approved remote app direct link");

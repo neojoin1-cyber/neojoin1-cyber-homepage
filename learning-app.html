@@ -3,21 +3,20 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title>설탕과소금 학습앱 화면 체험 | 설탕과소금</title>
-  <meta name="description" content="학생, 교사, 학교관리자 계정으로 설탕과소금 특성화고 직업역량 학습앱의 주요 화면과 수업 흐름을 살펴봅니다.">
+  <meta name="description" content="계정 입력 없이 학생과 교사 화면으로 설탕과소금 특성화고 직업역량 학습앱의 주요 학습·수업 흐름을 15분간 체험합니다.">
   <link rel="canonical" href="https://gyo6.kr/learning-app.html">
   <link rel="icon" href="brand/logo/favicon.svg" type="image/svg+xml">
   <style>@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Jua&display=swap');</style>
-  <link rel="stylesheet" href="assets/site.css?v=20260824-app-first">
+  <link rel="stylesheet" href="assets/site.css?v=20260825-oneclick-trial">
 </head>
 <body class="service-viewer-body learning-trial-page">
-  <a class="skip" href="#trial-accounts">체험 계정 안내 바로가기</a>
+  <a class="skip" href="#trial-accounts">체험 시작 바로가기</a>
   <header class="site-header"><nav class="nav" aria-label="주요 메뉴"><a class="brand" href="index.html" aria-label="유한회사 설탕과소금 홈"><img class="brand-mark" src="brand/logo/badge.svg" width="46" height="46" alt=""><span class="brand-wordmark"><strong>설탕과소금</strong><small>gyo6.kr · 교육.한국</small></span></a><div class="navlinks"><a class="active" href="vocational.html">특성화고 교육지원센터</a><a href="exams.html?v=20260802-navfix1">공직시험 연구소</a><a href="apps.html?v=20260802-navfix1">디지털 프로젝트 스튜디오</a><a href="host.html?v=20260802-navfix1">교육현장 30년</a><a href="boards.html?v=20260802-navfix1">소식·문의</a></div></nav></header>
   <main id="main" class="service-viewer-main">
     <section class="trial-workspace" id="trial-accounts" aria-labelledby="app-stage-title">
       <div class="trial-app-panel" aria-labelledby="app-stage-title">
         <div class="trial-stage-heading">
           <div><span>LIVE APP EXPERIENCE</span><h2 id="app-stage-title">설탕과소금 학습앱</h2></div>
-          <a href="https://neojoin1-cyber.github.io/gyo6-jobskill/" target="_blank" rel="noopener">앱만 크게 열기 ↗</a>
         </div>
         <div class="service-frame-wrap">
           <div class="service-frame-loading" id="service-loading" role="status">설탕과소금 학습앱 화면을 불러오는 중입니다.</div>
@@ -27,36 +26,26 @@
 
       <div class="trial-console">
         <div class="trial-console-heading">
-          <span>10 MINUTE APP WALKTHROUGH</span>
-          <h1 id="trial-title">계정을 고르고, 바로 체험해 보세요.</h1>
-          <p>학생·교사·학교관리자 화면을 한자리에서 비교합니다.</p>
+          <span>15 MINUTE APP WALKTHROUGH</span>
+          <h1 id="trial-title">버튼 한 번으로, 바로 체험해 보세요.</h1>
+          <p>학생의 학습과 교사의 수업 화면을 각각 확인합니다.</p>
         </div>
 
-        <div class="trial-account-list" aria-label="학생, 교사, 학교관리자 체험 계정">
-          <article class="trial-account-card" data-role="학생">
-            <div class="trial-account-head"><span class="trial-role student">학생</span><b>배우고 · 풀고 · 복습</b></div>
-            <div class="trial-credentials"><code>demo.student@sugarsalt.kr</code><code>sugarsalt2026</code></div>
-            <p>교재·문제·오답노트 · 듣기 문항에서 사람 음성 재생</p>
-            <button class="trial-copy" type="button" data-account="demo.student@sugarsalt.kr">아이디+비밀번호 복사</button>
-          </article>
-          <article class="trial-account-card" data-role="교사">
-            <div class="trial-account-head"><span class="trial-role teacher">교사</span><b>가르치고 · 가리고 · 진행</b></div>
-            <div class="trial-credentials"><code>demo.teacher@sugarsalt.kr</code><code>sugarsalt2026</code></div>
-            <p>가로 화면 · 수업 시작 · 정답 가림 · 타이머·무작위</p>
-            <button class="trial-copy" type="button" data-account="demo.teacher@sugarsalt.kr">아이디+비밀번호 복사</button>
-          </article>
-          <article class="trial-account-card" data-role="학교관리자">
-            <div class="trial-account-head"><span class="trial-role admin">학교관리자</span><b>학교 단위 운영</b></div>
-            <div class="trial-credentials"><code>demo.admin@sugarsalt.kr</code><code>sugarsalt2026</code></div>
-            <p>교사·학급·학생 확인 · 학급과 학생에게 교재 배정</p>
-            <button class="trial-copy" type="button" data-account="demo.admin@sugarsalt.kr">아이디+비밀번호 복사</button>
-          </article>
-          <p class="trial-copy-status" id="copy-status" role="status" aria-live="polite"></p>
+        <div class="trial-launcher" aria-label="학생 또는 교사 체험 시작">
+          <button class="trial-launch student" type="button" data-trial="student">
+            <span>STUDENT</span>
+            <strong>학생 체험 시작</strong>
+            <small>학습 · 문제 · 해설 · 복습</small>
+          </button>
+          <button class="trial-launch teacher" type="button" data-trial="teacher">
+            <span>TEACHER</span>
+            <strong>교사 체험 시작</strong>
+            <small>수업 진행 · 정답 가림 · 수업 도구</small>
+          </button>
         </div>
 
-        <aside class="trial-caution" aria-labelledby="trial-caution-title">
-          <strong id="trial-caution-title">공용 계정 안내</strong>
-          <p>여러 학교가 함께 보는 화면 확인용이며 기록은 주기적으로 초기화됩니다. 실명·전화번호 등 개인정보를 입력하지 마세요.</p>
+        <aside class="trial-caution" aria-label="체험 이용 안내">
+          <p>계정 입력 없이 15분간 체험할 수 있습니다.<br>체험 내용은 저장되지 않으며 실제 학교 데이터와 분리됩니다.<br>정규 수업과 학습 기록 저장은 학교 계정에서 이용합니다.</p>
         </aside>
       </div>
 
@@ -67,7 +56,7 @@
     (() => {
       const frame = document.querySelector("#service-frame");
       const loading = document.querySelector("#service-loading");
-      const status = document.querySelector("#copy-status");
+      const APP_URL = "https://neojoin1-cyber.github.io/gyo6-jobskill/";
       const revealFrame = () => {
         loading.hidden = true;
         frame.classList.add("is-loaded");
@@ -76,33 +65,15 @@
       if (frame.contentDocument?.readyState === "complete") revealFrame();
       window.setTimeout(revealFrame, 8000);
 
-      document.querySelectorAll(".trial-copy").forEach((button) => {
-        button.addEventListener("click", async () => {
-          const text = `아이디: ${button.dataset.account}\n비밀번호: sugarsalt2026`;
-          try {
-            await navigator.clipboard.writeText(text);
-          } catch {
-            const area = document.createElement("textarea");
-            area.value = text;
-            area.setAttribute("readonly", "");
-            area.style.position = "fixed";
-            area.style.opacity = "0";
-            document.body.append(area);
-            area.select();
-            document.execCommand("copy");
-            area.remove();
-          }
-          document.querySelectorAll(".trial-copy").forEach((item) => item.classList.remove("is-copied"));
-          button.classList.add("is-copied");
-          const role = button.closest("[data-role]").dataset.role;
-          button.textContent = "복사됨";
-          status.textContent = `${role} 계정의 아이디와 비밀번호를 복사했습니다.`;
-          window.setTimeout(() => {
-            button.textContent = "아이디+비밀번호 복사";
-            button.classList.remove("is-copied");
-          }, 2200);
-        });
-      });
+      const openTrial = (role) => {
+        loading.hidden = false;
+        frame.classList.remove("is-loaded");
+        frame.src = `${APP_URL}?trial=${role}&trial_nonce=${Date.now()}`;
+        frame.scrollIntoView({ behavior: "smooth", block: "start" });
+      };
+
+      document.querySelector('[data-trial="student"]').addEventListener("click", () => openTrial("student"));
+      document.querySelector('[data-trial="teacher"]').addEventListener("click", () => openTrial("teacher"));
     })();
   </script>
 </body>
