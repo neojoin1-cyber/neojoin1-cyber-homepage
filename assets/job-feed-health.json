@@ -1,14 +1,14 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-26T06:05:29.952Z",
-  "feedGeneratedAt": "2026-08-26T06:05:29.952Z",
+  "generatedAt": "2026-08-26T15:04:13.227Z",
+  "feedGeneratedAt": "2026-08-26T15:04:13.227Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
-    "total": 40,
-    "active": 26,
-    "deadlineSoon": 14,
+    "total": 45,
+    "active": 33,
+    "deadlineSoon": 12,
     "applicationClosed": 0,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
@@ -18,9 +18,9 @@
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 180,
-    "automatedBriefingReady": 40,
-    "automatedBriefingAttempted": 40,
+    "studentRecruitSafetyReview": 191,
+    "automatedBriefingReady": 45,
+    "automatedBriefingAttempted": 45,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -28,19 +28,19 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-26T06:05:29.952Z",
-    "attempted": 40,
-    "succeeded": 40,
+    "generatedAt": "2026-08-26T15:04:13.227Z",
+    "attempted": 45,
+    "succeeded": 45,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-26T06:05:29.952Z",
+    "generatedAt": "2026-08-26T15:04:13.227Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 180,
+    "studentRecruitReviewCount": 191,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -196,7 +196,8 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
+          "학력무관",
+          "필기·NCS 신호",
           "인턴·채용연계",
           "공채 신호",
           "신입·정규직 계열"
@@ -204,12 +205,12 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "주택관리공단(주)",
-        "title": "채용형 인턴 채용공고(주택관리공단 부산울산지사)",
-        "deadline": "2026-08-26",
-        "status": "deadline_soon",
+        "company": "분당서울대학교병원",
+        "title": "분당서울대학교병원 신입(사무직) 직원 채용공고",
+        "deadline": "2026-09-07",
+        "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EB%B6%80%EC%82%B0%EC%9A%B8%EC%82%B0%EC%A7%80%EC%82%AC&page=1&rnm_idx=924"
+        "primaryOfficialUrl": "http://snubh.recruiter.co.kr/"
       },
       {
         "list": "items",
@@ -230,7 +231,28 @@
         "deadline": "2026-09-02",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B0%95%EC%9B%90%EC%A7%80%EC%82%AC&page=1&rnm_idx=911"
+        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B0%95%EC%9B%90%EC%A7%80%EC%82%AC&page=1&rnm_idx=929"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "충남대학교병원",
+        "title": "[대전] 충남대학교병원 2026년 9월 공무직 직원 채용공고",
+        "deadline": "2026-09-09",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://cnuhinsa.recruiter.co.kr/career/home"
       },
       {
         "list": "items",
@@ -343,6 +365,67 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "새만금개발공사",
+        "title": "2026년 새만금개발공사 수시채용",
+        "deadline": "2026-09-11",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304268"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리 · 필기신호 직접분류 재검토",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국보훈복지의료공단",
+        "title": "한국보훈복지의료공단 [대구보훈요양원] 2026년 계약직 물리치료사(복지기능직) 공개채용 공고",
+        "deadline": "2026-09-09",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.bohun.or.kr/dgcare/na/ntt/selectNttInfo.do?mi=34010&bbsId=1368&bbsSysId=dgcare&nttSn=188840"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국원산지정보원",
+        "title": "2026년 제2차 한국원산지정보원 직원 채용 공고",
+        "deadline": "2026-09-10",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.origin.or.kr/lay1/program/S1T12C8/people/index.do?page=view&seq=147"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리 · 필기신호 직접분류 재검토",
         "signals": [
           "공공·금융·대기업 소스",
@@ -364,52 +447,10 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 학생추천 부적합 직무 · 분류:학생추천 제외",
         "signals": [
           "공공·금융·대기업 소스",
           "고졸·특성화고 명시",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국국제보건의료재단",
-        "title": "한국국제보건의료재단 [2026-3호] 직원채용",
-        "deadline": "2026-09-08",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.kofih.org/web/lay1/bbs/S1T11C30/A/20/view.do?article_seq=4948&cpage=1&rows=10&condition=&keyword="
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외 · 필기신호 직접분류 재검토",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "세종학당재단",
-        "title": "2026년 세종학당재단 하반기 무기계약직, 일반계약직 채용 공고",
-        "deadline": "2026-09-07",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://ksif.fairyhr.com/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리 · 필기신호 직접분류 재검토",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
           "공채 신호",
           "신입·정규직 계열"
         ],
@@ -417,53 +458,11 @@
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "한국보훈복지의료공단",
-        "title": "한국보훈복지의료공단 [대전보훈병원] 정규직(기술직(건축), 보건직(방사선사, 임상병리사), 일반기능직(시설(영선), 시설(기계)) 채용 공고",
-        "deadline": "2026-09-02",
+        "title": "한국보훈복지의료공단 [부산보훈병원] 업무지원직(급식) 긴급채용공고",
+        "deadline": "2026-09-04",
         "status": "active",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.bohun.or.kr/daejeon/na/ntt/selectNttInfo.do?mi=33414&bbsId=1158&bbsSysId=daejeon&nttSn=188562"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외 · 필기신호 직접분류 재검토",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "건강보험심사평가원",
-        "title": "2026년 하반기 건강보험심사평가원 정규직 채용 공고",
-        "deadline": "2026-09-02",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.hira.or.kr/re/recruit/recruitAdList.do?pgmid=HIRAA040078000000&WT.gnb=%EC%B1%84%EC%9A%A9%EA%B3%B5%EA%B3%A0"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 전문자격·면허 중심 · 분류:학생추천 제외 · 필기신호 직접분류 재검토",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국원자력의학원",
-        "title": "제2026-4회 한국원자력의학원 정기직원채용",
-        "deadline": "2026-09-02",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "http://kirams.recruiter.co.kr/"
+        "primaryOfficialUrl": "https://www.bohun.or.kr/busan/na/ntt/selectNttInfo.do?mi=33215&bbsId=1158&bbsSysId=busan&nttSn=188772"
       }
     ]
   },
