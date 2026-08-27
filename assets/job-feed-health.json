@@ -1,14 +1,14 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-27T10:26:48.917Z",
-  "feedGeneratedAt": "2026-08-27T10:26:48.917Z",
+  "generatedAt": "2026-08-27T23:45:37.102Z",
+  "feedGeneratedAt": "2026-08-27T23:45:37.102Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
-    "total": 46,
-    "active": 33,
-    "deadlineSoon": 13,
+    "total": 44,
+    "active": 28,
+    "deadlineSoon": 16,
     "applicationClosed": 0,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
@@ -18,9 +18,9 @@
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 195,
-    "automatedBriefingReady": 46,
-    "automatedBriefingAttempted": 46,
+    "studentRecruitSafetyReview": 192,
+    "automatedBriefingReady": 44,
+    "automatedBriefingAttempted": 44,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -28,19 +28,19 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-27T10:26:48.917Z",
-    "attempted": 46,
-    "succeeded": 46,
+    "generatedAt": "2026-08-27T23:45:37.102Z",
+    "attempted": 44,
+    "succeeded": 44,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-27T10:26:48.917Z",
+    "generatedAt": "2026-08-27T23:45:37.102Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 195,
+    "studentRecruitReviewCount": 192,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -164,7 +164,7 @@
         "company": "한국문화관광연구원",
         "title": "한국문화관광연구원 2026년 제3차 청년인턴(장애인제한경쟁) 채용(9.2. 접수마감)",
         "deadline": "2026-09-02",
-        "status": "active",
+        "status": "deadline_soon",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://buly.kr/DPWa1Zo"
       },
@@ -185,7 +185,7 @@
         "company": "한국문화관광연구원",
         "title": "한국문화관광연구원 2026년 제2차 청년인턴(장애인제한경쟁) 채용(9.2. 접수마감)",
         "deadline": "2026-09-02",
-        "status": "active",
+        "status": "deadline_soon",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://buly.kr/15RUOxk"
       },
@@ -204,32 +204,11 @@
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "주택관리공단(주)",
-        "title": "채용형 인턴 채용공고(주택관리공단 대구경북지사)",
-        "deadline": "2026-08-27",
+        "title": "채용형 인턴 채용공고(주택관리공단 강원지사)",
+        "deadline": "2026-09-02",
         "status": "deadline_soon",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EB%8C%80%EA%B5%AC%EA%B2%BD%EB%B6%81%EC%A7%80%EC%82%AC&page=1&rnm_idx=927"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "주택관리공단(주)",
-        "title": "채용형 인턴 채용공고(주택관리공단 경기남부지사)",
-        "deadline": "2026-08-27",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B2%BD%EA%B8%B0%EB%82%A8%EB%B6%80%EC%A7%80%EC%82%AC&page=1&rnm_idx=928"
+        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B0%95%EC%9B%90%EC%A7%80%EC%82%AC&page=1&rnm_idx=929"
       },
       {
         "list": "items",
@@ -273,27 +252,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.kic.kr/ko/careers/recruit/cn5ngi"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "주택관리공단(주)",
-        "title": "채용형 인턴 채용공고(주택관리공단 강원지사)",
-        "deadline": "2026-09-02",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B0%95%EC%9B%90%EC%A7%80%EC%82%AC&page=1&rnm_idx=929"
       },
       {
         "list": "items",
@@ -423,6 +381,48 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304268"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리 · 필기신호 직접분류 재검토",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국보훈복지의료공단",
+        "title": "한국보훈복지의료공단 [대전보훈병원] 정규직(기술직(건축), 보건직(방사선사, 임상병리사), 일반기능직(시설(영선), 시설(기계)) 채용 공고",
+        "deadline": "2026-09-02",
+        "status": "deadline_soon",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.bohun.or.kr/daejeon/na/ntt/selectNttInfo.do?mi=33414&bbsId=1158&bbsSysId=daejeon&nttSn=188562"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외 · 필기신호 직접분류 재검토",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "건강보험심사평가원",
+        "title": "2026년 하반기 건강보험심사평가원 정규직 채용 공고",
+        "deadline": "2026-09-02",
+        "status": "deadline_soon",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.hira.or.kr/re/recruit/recruitAdList.do?pgmid=HIRAA040078000000&WT.gnb=%EC%B1%84%EC%9A%A9%EA%B3%B5%EA%B3%A0"
       },
       {
         "list": "items",
