@@ -1,14 +1,14 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-26T16:03:10.614Z",
-  "feedGeneratedAt": "2026-08-26T16:03:10.614Z",
+  "generatedAt": "2026-08-27T08:02:14.282Z",
+  "feedGeneratedAt": "2026-08-27T08:02:14.282Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
-    "total": 45,
-    "active": 33,
-    "deadlineSoon": 12,
+    "total": 43,
+    "active": 30,
+    "deadlineSoon": 13,
     "applicationClosed": 0,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
@@ -18,9 +18,9 @@
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 191,
-    "automatedBriefingReady": 45,
-    "automatedBriefingAttempted": 45,
+    "studentRecruitSafetyReview": 189,
+    "automatedBriefingReady": 43,
+    "automatedBriefingAttempted": 43,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -28,19 +28,19 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-26T16:03:10.614Z",
-    "attempted": 45,
-    "succeeded": 45,
+    "generatedAt": "2026-08-27T08:02:14.282Z",
+    "attempted": 43,
+    "succeeded": 43,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-26T16:03:10.614Z",
+    "generatedAt": "2026-08-27T08:02:14.282Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 191,
+    "studentRecruitReviewCount": 189,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -65,28 +65,6 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.ketep.re.kr/board/view?menuId=MENU002080402000000&boardId=BOARD00026&schType=0&schText=&boardStyle=&categoryId=&continent=&country=&pageNum=1&rowCnt=10&no1=2&titleId=I9oqGowZBy"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외 · 필기신호 직접분류 재검토",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "필기·NCS 신호",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국산업기술시험원",
-        "title": "2026년 한국산업기술시험원 정규직 채용 공고",
-        "deadline": "2026-09-08",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://ktl2026.careerlink.kr/"
       },
       {
         "list": "items",
@@ -126,6 +104,27 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.redcross.or.kr/redrecruit/reMenuAction.do"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국문화관광연구원",
+        "title": "한국문화관광연구원 2026년 제3차 청년인턴(장애인제한경쟁) 채용(9.2. 접수마감)",
+        "deadline": "2026-09-02",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://buly.kr/DPWa1Zo"
       },
       {
         "list": "items",
@@ -189,6 +188,28 @@
         "status": "deadline_soon",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B2%BD%EA%B8%B0%EB%82%A8%EB%B6%80%EC%A7%80%EC%82%AC&page=1&rnm_idx=928"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "분당서울대학교병원",
+        "title": "분당서울대학교병원 신입(사무직) 직원 채용공고",
+        "deadline": "2026-09-07",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "http://snubh.recruiter.co.kr/"
       },
       {
         "list": "items",
@@ -325,49 +346,6 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "국립박물관문화재단",
-        "title": "국립박물관문화재단 2026년 제3차 직원 채용 공고",
-        "deadline": "2026-09-02",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.nmf.or.kr/user/board/20180921110620073100_view.do?article_id=20260818144254427100&page=1&article_category=&conditions=&words="
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "분당서울대학교병원",
-        "title": "분당서울대학교병원 신입(사무직) 직원 채용공고",
-        "deadline": "2026-09-07",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304287"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
           "학력무관",
           "필기·NCS 신호",
           "공채 신호",
@@ -463,6 +441,26 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.bohun.or.kr/busan/na/ntt/selectNttInfo.do?mi=33215&bbsId=1158&bbsSysId=busan&nttSn=188772"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국국제보건의료재단",
+        "title": "한국국제보건의료재단 [2026-3호] 직원채용",
+        "deadline": "2026-09-08",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.kofih.org/web/lay1/bbs/S1T11C30/A/20/view.do?article_seq=4948&cpage=1&rows=10&condition=&keyword="
       }
     ]
   },
