@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-28T11:17:30.016Z",
-  "feedGeneratedAt": "2026-08-28T11:17:30.016Z",
+  "generatedAt": "2026-08-28T12:07:08.805Z",
+  "feedGeneratedAt": "2026-08-28T12:07:08.805Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
@@ -28,7 +28,7 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-28T11:17:30.016Z",
+    "generatedAt": "2026-08-28T12:07:08.805Z",
     "attempted": 40,
     "succeeded": 40,
     "failed": 0,
@@ -36,7 +36,7 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-28T11:17:30.016Z",
+    "generatedAt": "2026-08-28T12:07:08.805Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
@@ -315,7 +315,28 @@
         "deadline": "2026-09-07",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.khidi.or.kr/board/view?pageNum=1&rowCnt=10&no1=238&linkId=48949094&menuId=MENU00109&maxIndex=00489491169998&minIndex=00488927959998&schType=0&schText=&schStartDate=&schEndDate=&boardStyle=&categoryId=&continent=&country="
+        "primaryOfficialUrl": "https://www.khidi.or.kr/board?menuId=MENU00109"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "새만금개발공사",
+        "title": "2026년 새만금개발공사 수시채용",
+        "deadline": "2026-09-11",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304268"
       },
       {
         "list": "items",
@@ -338,27 +359,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.siqms.or.kr/M2001000/board_view.do?idx=472065"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "새만금개발공사",
-        "title": "2026년 새만금개발공사 수시채용",
-        "deadline": "2026-09-11",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304268"
       },
       {
         "list": "items",
