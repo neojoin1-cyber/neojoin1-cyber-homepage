@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title>설탕과소금 학습앱 화면 체험 | 설탕과소금</title>
-  <meta name="description" content="계정 입력 없이 학생과 교사 화면으로 설탕과소금 특성화고 직업역량 학습앱의 주요 학습·수업 흐름을 15분간 체험합니다.">
+  <meta name="description" content="계정 입력 없이 JOB고 스킬캠퍼스의 학생 자율학습·실전 작성과 교사 다학급 수업·첨삭 흐름을 직접 체험합니다.">
   <link rel="canonical" href="https://gyo6.kr/learning-app.html">
   <link rel="icon" href="brand/logo/favicon.svg" type="image/svg+xml">
   <style>@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Jua&display=swap');</style>
-  <link rel="stylesheet" href="assets/site.css?v=20260825-oneclick-trial">
+  <link rel="stylesheet" href="assets/site.css?v=20260830-jobgo-release">
 </head>
 <body class="service-viewer-body learning-trial-page">
   <a class="skip" href="#trial-accounts">체험 시작 바로가기</a>
@@ -20,43 +20,43 @@
         </div>
         <div class="service-frame-wrap">
           <div class="service-frame-loading" id="service-loading" role="status">설탕과소금 학습앱 화면을 불러오는 중입니다.</div>
-          <iframe id="service-frame" title="설탕과소금 학습앱 화면 체험" src="https://neojoin1-cyber.github.io/gyo6-jobskill/" allow="clipboard-read; clipboard-write; fullscreen" referrerpolicy="same-origin"></iframe>
+          <iframe id="service-frame" title="JOB고 스킬캠퍼스 화면 체험" src="apps/sugar-salt/" allow="clipboard-read; clipboard-write; fullscreen" referrerpolicy="same-origin"></iframe>
         </div>
       </div>
 
       <div class="trial-console">
         <div class="trial-console-heading">
-          <span>15 MINUTE APP WALKTHROUGH</span>
+          <span>UNLIMITED REVIEW WALKTHROUGH</span>
           <h1 id="trial-title">버튼 한 번으로, 바로 체험해 보세요.</h1>
-          <p>학생의 학습과 교사의 수업 화면을 각각 확인합니다.</p>
+          <p>학생의 자율학습·실전 작성과 교사의 다학급 지도·첨삭을 각각 확인합니다.</p>
         </div>
 
         <div class="trial-launcher" aria-label="학생 또는 교사 체험 시작">
           <button class="trial-launch student" type="button" data-trial="student">
             <span>STUDENT</span>
             <strong>학생 체험 시작</strong>
-            <small>학습 · 문제 · 해설 · 복습</small>
+            <small>순차 학습 · 진로근거 · 실전 작성 · 복습</small>
           </button>
           <button class="trial-launch teacher" type="button" data-trial="teacher">
             <span>TEACHER</span>
             <strong>교사 체험 시작</strong>
-            <small>수업 진행 · 정답 가림 · 수업 도구</small>
+            <small>다학급 · 수업 진행 · 현황 · 첨삭 지도</small>
           </button>
         </div>
 
         <aside class="trial-caution" aria-label="체험 이용 안내">
-          <p>계정 입력 없이 15분간 체험할 수 있습니다.<br>체험 내용은 저장되지 않으며 실제 학교 데이터와 분리됩니다.<br>정규 수업과 학습 기록 저장은 학교 계정에서 이용합니다.</p>
+          <p>제작·검수 기간에는 시간 제한 없이 체험할 수 있습니다.<br>체험 내용은 저장되지 않으며 실제 학교 데이터와 분리됩니다.<br>정규 수업과 학습 기록 저장·기기 동기화는 학교 계정에서 이용합니다.</p>
         </aside>
       </div>
 
     </section>
-    <noscript class="service-viewer-noscript">JavaScript를 사용할 수 없으면 <a href="https://neojoin1-cyber.github.io/gyo6-jobskill/">학습앱 화면을 직접 열어 주세요.</a></noscript>
+    <noscript class="service-viewer-noscript">JavaScript를 사용할 수 없으면 <a href="apps/sugar-salt/">학습앱 화면을 직접 열어 주세요.</a></noscript>
   </main>
   <script>
     (() => {
       const frame = document.querySelector("#service-frame");
       const loading = document.querySelector("#service-loading");
-      const APP_URL = "https://neojoin1-cyber.github.io/gyo6-jobskill/";
+      const APP_URL = "apps/sugar-salt/";
       const revealFrame = () => {
         loading.hidden = true;
         frame.classList.add("is-loaded");

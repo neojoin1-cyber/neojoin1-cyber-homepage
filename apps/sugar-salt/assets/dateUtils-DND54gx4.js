@@ -1,0 +1,1 @@
+function e(e){return e?new Date(e).toLocaleDateString(`ko`):``}function t(e){return e?new Date(e).toLocaleString(`ko-KR`,{month:`numeric`,day:`numeric`,hour:`2-digit`,minute:`2-digit`}):``}function n(e){if(e==null)return`-`;let t=Math.floor(e/60),n=e%60;return t>0?`${t}분 ${n}초`:`${n}초`}export{t as n,n as r,e as t};

@@ -1,0 +1,1 @@
+import{l as e}from"./userLocalStorage-BAfeErvb.js";var t=`kbs_mastery_v1`;function n(){try{return JSON.parse(e.getItem(t)??`{}`)}catch{return{}}}function r(n){try{e.setItem(t,JSON.stringify(n))}catch{}}function i(e,t){return`${e}:${t}`}function a(e,t,a){if(!e||!t)return;let o=n(),s=i(e,t);o[s]||(o[s]={c:0,t:0}),o[s].t+=1,a&&(o[s].c+=1),r(o)}export{a as t};

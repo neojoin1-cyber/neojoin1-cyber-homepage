@@ -1,0 +1,1 @@
+import{n as e}from"./supabase-DcMeOh5u.js";var t=new Set;async function n(n=`study`){let r=`${n}-${new Date().toISOString().slice(0,10)}`;if(!t.has(r)){t.add(r);try{await e.rpc(`rpc_record_activity`,{p_type:n})}catch{t.delete(r)}}}export{n as t};
