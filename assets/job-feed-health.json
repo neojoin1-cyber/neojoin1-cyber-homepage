@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-28T23:31:38.054Z",
-  "feedGeneratedAt": "2026-08-28T23:31:38.054Z",
+  "generatedAt": "2026-08-29T06:59:24.453Z",
+  "feedGeneratedAt": "2026-08-29T06:59:24.453Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
@@ -28,7 +28,7 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-28T23:31:38.054Z",
+    "generatedAt": "2026-08-29T06:59:24.453Z",
     "attempted": 40,
     "succeeded": 40,
     "failed": 0,
@@ -36,7 +36,7 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-28T23:31:38.054Z",
+    "generatedAt": "2026-08-29T06:59:24.453Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
@@ -424,6 +424,26 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 학생추천 부적합 직무 · 분류:학생추천 제외",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국보훈복지의료공단",
+        "title": "한국보훈복지의료공단 [부산보훈병원] 업무지원직(급식) 긴급채용공고",
+        "deadline": "2026-09-04",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.bohun.or.kr/busan/na/ntt/selectNttInfo.do?mi=33215&bbsId=1158&bbsSysId=busan&nttSn=188772"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
         "signals": [
           "공공·금융·대기업 소스",
@@ -440,27 +460,6 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.kofih.org/web/lay1/bbs/S1T11C30/A/20/view.do?article_seq=4948&cpage=1&rows=10&condition=&keyword="
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외 · 필기신호 직접분류 재검토",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "세종학당재단",
-        "title": "2026년 세종학당재단 하반기 무기계약직, 일반계약직 채용 공고",
-        "deadline": "2026-09-07",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://ksif.fairyhr.com/"
       }
     ]
   },
