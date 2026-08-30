@@ -1,71 +1,46 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-30T10:24:54.232Z",
-  "feedGeneratedAt": "2026-08-30T10:24:54.232Z",
+  "generatedAt": "2026-08-30T18:02:40.227Z",
+  "feedGeneratedAt": "2026-08-30T18:02:40.227Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "degraded",
+  "status": "ok",
   "summary": {
-    "total": 40,
-    "active": 22,
+    "total": 41,
+    "active": 23,
     "deadlineSoon": 18,
     "applicationClosed": 0,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
-    "sourcesFailed": 3,
+    "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 40,
-    "sourceFallbackProtected": 40,
+    "staleFallbackItems": 0,
+    "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 88,
-    "automatedBriefingReady": 40,
-    "automatedBriefingAttempted": 40,
+    "studentRecruitSafetyReview": 188,
+    "automatedBriefingReady": 41,
+    "automatedBriefingAttempted": 41,
     "automatedBriefingFailed": 0
   },
-  "sourceFailures": [
-    {
-      "id": "mpm-public-job",
-      "name": "인사혁신처 공공취업정보",
-      "isolatedFailure": false,
-      "fallbackProtected": false,
-      "fallbackItemCount": 0,
-      "message": "키 확인됨. 공식 호출 URL 확인 필요: https://apis.data.go.kr/1760000/PblJobService/getList: HTTP timeout after 9000ms; https://apis.data.go.kr/1760000/PblJobService/getList: HTTP timeout after 9000ms"
-    },
-    {
-      "id": "moef-public-recruit",
-      "name": "기재부 공공기관 채용정보",
-      "isolatedFailure": false,
-      "fallbackProtected": false,
-      "fallbackItemCount": 0,
-      "message": "연결 실패: HTTP timeout after 9000ms; HTTP timeout after 9000ms"
-    },
-    {
-      "id": "job-alio-openapi",
-      "name": "잡알리오 공공기관 채용",
-      "isolatedFailure": false,
-      "fallbackProtected": true,
-      "fallbackItemCount": 87,
-      "message": "연결 실패: recent-page-1: recent-page-1 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page; recent-page-2: recent-page-2 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page · 직전 정상 공고 87건 보존"
-    }
-  ],
+  "sourceFailures": [],
   "aiBriefing": {
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-30T10:24:54.232Z",
-    "attempted": 40,
-    "succeeded": 40,
+    "generatedAt": "2026-08-30T18:02:40.227Z",
+    "attempted": 41,
+    "succeeded": 41,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-30T10:24:54.232Z",
+    "generatedAt": "2026-08-30T18:02:40.227Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 88,
+    "studentRecruitReviewCount": 188,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -263,6 +238,27 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국지능정보사회진흥원",
+        "title": "2026년 한국지능정보사회진흥원 하반기 정규직 및 무기계약직(일반직) 채용공고",
+        "deadline": "2026-09-14",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://nia.recruiter.co.kr/"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
           "학력무관",
           "필기·NCS 신호",
           "인턴·채용연계",
@@ -278,27 +274,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "http://snubh.recruiter.co.kr/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국투자공사",
-        "title": "한국투자공사 2026년 신입직원 채용",
-        "deadline": "2026-09-18",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kic.kr/ko/careers/recruit/cn5ngi"
       },
       {
         "list": "items",
@@ -362,7 +337,7 @@
         "deadline": "2026-09-07",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.khidi.or.kr/board?menuId=MENU00109"
+        "primaryOfficialUrl": "https://www.khidi.or.kr/board/view?pageNum=1&rowCnt=10&no1=238&linkId=48949094&menuId=MENU00109&maxIndex=00489491169998&minIndex=00488927959998&schType=0&schText=&schStartDate=&schEndDate=&boardStyle=&categoryId=&continent=&country="
       },
       {
         "list": "items",
@@ -384,6 +359,27 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304268"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국투자공사",
+        "title": "한국투자공사 2026년 신입직원 채용",
+        "deadline": "2026-09-18",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.kic.kr/ko/careers/recruit/cn5ngi"
       },
       {
         "list": "items",
@@ -465,26 +461,6 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.keco.or.kr/web/lay1/bbs/S1T1205C1207/A/22/view.do?article_seq=100373&cpage=1&rows=10&condition=&keyword="
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국국제보건의료재단",
-        "title": "한국국제보건의료재단 [2026-3호] 직원채용",
-        "deadline": "2026-09-08",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.kofih.org/web/lay1/bbs/S1T11C30/A/20/view.do?article_seq=4948&cpage=1&rows=10&condition=&keyword="
       }
     ]
   },
