@@ -19,7 +19,14 @@
           <div><span>LIVE APP EXPERIENCE</span><h2 id="app-stage-title">설탕과소금 학습앱</h2></div>
         </div>
         <div class="service-frame-wrap">
-          <div class="service-frame-loading" id="service-loading" role="status">설탕과소금 학습앱 화면을 불러오는 중입니다.</div>
+          <div class="service-frame-loading" id="service-loading" role="status">
+            <div class="service-loading-card">
+              <span class="service-loading-spinner" aria-hidden="true"></span>
+              <strong id="service-loading-title">설탕과소금 학습앱을 준비하고 있습니다.</strong>
+              <p id="service-loading-copy">첫 방문에는 학습 자료를 준비하느라 잠시 더 걸릴 수 있습니다.</p>
+              <button type="button" id="service-retry" hidden>다시 불러오기</button>
+            </div>
+          </div>
           <iframe id="service-frame" title="JOB고 스킬캠퍼스 화면 체험" src="apps/sugar-salt/" allow="clipboard-read; clipboard-write; fullscreen" referrerpolicy="same-origin"></iframe>
         </div>
       </div>
@@ -56,19 +63,68 @@
     (() => {
       const frame = document.querySelector("#service-frame");
       const loading = document.querySelector("#service-loading");
+      const loadingTitle = document.querySelector("#service-loading-title");
+      const loadingCopy = document.querySelector("#service-loading-copy");
+      const retry = document.querySelector("#service-retry");
       const APP_URL = "apps/sugar-salt/";
+      let requestedRole = null;
+      let readyTimer = 0;
+
+      const showLoading = (title, copy) => {
+        window.clearTimeout(readyTimer);
+        loading.hidden = false;
+        frame.classList.remove("is-loaded");
+        loadingTitle.textContent = title;
+        loadingCopy.textContent = copy;
+        retry.hidden = true;
+      };
+
+      const waitForReady = () => {
+        window.clearTimeout(readyTimer);
+        readyTimer = window.setTimeout(() => {
+          loadingTitle.textContent = "학습앱 준비가 평소보다 오래 걸리고 있습니다.";
+          loadingCopy.textContent = "네트워크 연결을 확인한 뒤 다시 불러오면 현재 체험 위치에서 이어집니다.";
+          retry.hidden = false;
+        }, 12000);
+      };
+
       const revealFrame = () => {
+        window.clearTimeout(readyTimer);
         loading.hidden = true;
         frame.classList.add("is-loaded");
       };
-      frame.addEventListener("load", revealFrame);
-      if (frame.contentDocument?.readyState === "complete") revealFrame();
-      window.setTimeout(revealFrame, 8000);
+
+      const loadApp = (role = requestedRole) => {
+        requestedRole = role;
+        showLoading(
+          role ? `${role === "student" ? "학생" : "교사"} 체험 화면을 준비하고 있습니다.` : "설탕과소금 학습앱을 준비하고 있습니다.",
+          "앱의 학습 자료와 화면이 모두 준비되면 자동으로 열립니다.",
+        );
+        const query = role ? `?trial=${role}&trial_nonce=${Date.now()}` : `?trial_nonce=${Date.now()}`;
+        frame.src = `${APP_URL}${query}`;
+        waitForReady();
+      };
+
+      frame.addEventListener("load", () => {
+        if (!frame.classList.contains("is-loaded")) {
+          loadingTitle.textContent = "학습 자료를 화면에 배치하고 있습니다.";
+          loadingCopy.textContent = "잠시만 기다리면 체험 화면이 바로 열립니다.";
+          waitForReady();
+        }
+      });
+
+      window.addEventListener("message", (event) => {
+        if (event.origin !== window.location.origin || event.source !== frame.contentWindow) return;
+        if (event.data?.type !== "SUGAR_SALT_APP_READY") return;
+        if (requestedRole && event.data.trialRole !== requestedRole && event.data.role !== requestedRole) return;
+        revealFrame();
+      });
+
+      retry.addEventListener("click", () => loadApp());
+      waitForReady();
 
       const openTrial = (role) => {
-        loading.hidden = false;
-        frame.classList.remove("is-loaded");
-        frame.src = `${APP_URL}?trial=${role}&trial_nonce=${Date.now()}`;
+        loadApp(role);
         frame.scrollIntoView({ behavior: "smooth", block: "start" });
       };
 
