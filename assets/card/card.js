@@ -13,7 +13,8 @@
     name: "김영희",
     organization: "유한회사 설탕과소금",
     title: "대표 · 이사",
-    phone: "054-772-7576",
+    mobile: "010-3534-7163",
+    officePhone: "054-772-7576",
     email: "admin@gyo6.kr",
     address: "경북 경주시 원지길12번길 56-5, 1층"
   };
@@ -173,6 +174,8 @@
   async function buildVcard() {
     const note = `${MODES[mode].label} | ${MODES[mode].message}`;
     const photo = await loadVcardImage(CONTACT_MEDIA.photo);
+    const mobile = PROFILE.mobile || PROFILE.phone || "";
+    const officePhone = PROFILE.officePhone || "";
     const lines = [
       "BEGIN:VCARD",
       "VERSION:3.0",
@@ -182,7 +185,8 @@
       `TITLE:${escapeVcard(PROFILE.title)}`,
       photo ? `PHOTO;ENCODING=b;TYPE=JPEG:${photo}` : "",
       `LOGO;VALUE=uri:${CONTACT_MEDIA.logo}`,
-      `TEL;TYPE=CELL:${PROFILE.phone.replaceAll("-", "")}`,
+      mobile ? `TEL;TYPE=CELL:${mobile.replaceAll("-", "")}` : "",
+      officePhone ? `TEL;TYPE=WORK,VOICE:${officePhone.replaceAll("-", "")}` : "",
       `EMAIL;TYPE=WORK:${PROFILE.email}`,
       `URL:${PROFILE.website || CARD_URL}`,
       PROFILE.vcardAddress ? `ADR;TYPE=WORK:${PROFILE.vcardAddress}` : `ADR;TYPE=WORK:;;${escapeVcard(PROFILE.address)};;;;대한민국`,
