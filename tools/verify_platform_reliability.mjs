@@ -12,8 +12,8 @@ const DO_LIVE = args.has('--live');
 const DO_EXTERNAL_LINKS = args.has('--external-links');
 const LIVE_HOME = 'https://gyo6.kr/';
 const LIVE_FEED = 'https://gyo6.kr/assets/job-feed.json';
-const LEARNING_APP_REMOTE = 'https://neojoin1-cyber.github.io/gyo6-jobskill/';
-const LEARNING_APP_MIN_VERSION = '4.0.2';
+const LEARNING_APP_PATH = 'apps/sugar-salt/';
+const LEARNING_APP_MIN_VERSION = '4.8.4';
 const MAX_FEED_AGE_HOURS = 48;
 const HIGH_SCHOOL_STRONG_TERMS = ['고졸', '특성화고', '직업계고', '마이스터고', '학교장 추천', '학교장추천'];
 const ENTRY_LEVEL_TERMS = ['고졸', '고등학교', '특성화고', '직업계고', '마이스터고', '졸업예정', '졸업 예정', '학교장 추천', '학교장추천', '고졸제한', '고졸 제한', '사회형평 고졸', '신입', '경력무관', '신입+경력', '신입·경력', '청년인턴', '채용형 인턴', '공무직', '업무지원직', '기간제', '9급', '지역인재', '기능인재'];
@@ -667,6 +667,10 @@ async function validateCoreContentPages() {
   const learningAppViewer = await readText('learning-app.html');
   const learningAppRegister = await readText('apps/sugar-salt/registerSW.js');
   const learningAppWorker = await readText('apps/sugar-salt/sw.js');
+  const learningAppManifest = JSON.parse(await readText('apps/sugar-salt/manifest.json'));
+  const learningAppVersion = JSON.parse(await readText('apps/sugar-salt/version.json'));
+  const learningEntryMatch = learningAppTrial.match(/src="\/apps\/sugar-salt\/(assets\/index-[^"]+\.js)"/);
+  const learningAppEntry = learningEntryMatch ? await readText('apps/sugar-salt/' + learningEntryMatch[1]) : '';
   const portalBoards = await readText('assets/portal-boards.js');
   const portalPopup = '';
   const boardEnhancements = await readText('assets/board-enhancements.css');
@@ -692,7 +696,7 @@ async function validateCoreContentPages() {
   fail('home.greeting-before-identity', homePage.indexOf('id="greeting"') < homePage.indexOf('class="brand-mark-section"'), '메인 페이지는 대표 인사말을 기업 로고 설명보다 먼저 보여 줍니다.');
   fail('home.animated-corporate-logos', (homePage.match(/class="logo-draw-stage/g) || []).length === 2 && homePage.includes('logo-stroke-primary') && css.includes('@keyframes brand-logo-draw') && css.includes('prefers-reduced-motion'), '메인 상단과 기업 정체성 로고가 마우스·키보드 포커스에서 획 그리기 애니메이션을 제공하고 모션 접근성을 지킵니다.');
   fail('core.vocational-content-weight', vocational.includes('href="jobs.html"') && vocational.includes('href="forms.html"') && vocational.includes('href="guides.html"') && vocational.includes('href="counseling-room.html"') && !vocational.includes('href="ebooks.html"'), '특성화고 플랫폼 페이지가 전자책을 제외하고 채용정보·서식창고·업무지침·상담실을 독립 서비스로 연결합니다.');
-  fail('core.vocational-priority-layout', vocational.includes('class="vh-product"') && vocational.includes('설탕과소금앱으로,') && vocational.includes('취업교육의 품질을 높입니다') && vocational.includes('class="vh-teacher-needs"') && vocational.includes('교육부 직업공통능력 인증평가') && vocational.includes('NCS 직업공통능력평가') && vocational.includes('고졸 채용 면접·자소서 스킬') && vocational.includes('고졸 채용 인성평가 훈련') && vocational.includes('모든 학생의 기초') && vocational.includes('취업 우수반의 실전') && vocational.includes('class="vh-product-gallery"') && vocational.includes('class="vh-product-statement"') && vocational.includes('class="vh-classroom"') && vocational.includes('class="vh-jobs-title-button" href="jobs.html"') && vocational.includes('특성화(마이스터)고') && vocational.includes('data-live-jobs') && vocational.indexOf('href="learning-app.html#trial-accounts"') < vocational.indexOf('href="jobs.html"') && ['href="forms.html"', 'href="guides.html"', 'href="counseling-room.html"'].every((link) => vocational.includes(link)), '특성화고 교육지원센터는 선생님의 네 가지 취업교육 어려움과 설탕과소금앱의 실제 학생·교사 화면을 첫 화면에서 연결한 뒤 고졸 채용정보와 서식·지침·상담을 안내합니다.');
+  fail('core.vocational-priority-layout', vocational.includes('class="vh-product"') && vocational.includes('JOB고') && vocational.includes('취업 준비와 학교 지도를 한 흐름으로') && vocational.includes('class="vh-entry-grid"') && vocational.includes('체험관 입장') && vocational.includes('정식사용자 입장') && vocational.includes('class="vh-teacher-needs"') && vocational.includes('교육부 직업공통능력 인증평가') && vocational.includes('NCS 직업공통능력평가') && vocational.includes('고졸 채용 필기시험') && vocational.includes('면접·자기소개서 실전 작성') && vocational.includes('고졸 채용 인성평가 훈련') && vocational.includes('class="vh-product-gallery"') && vocational.includes('class="vh-product-statement"') && vocational.includes('class="vh-classroom"') && vocational.includes('class="vh-jobs-title-button" href="jobs.html"') && vocational.includes('특성화(마이스터)고') && vocational.includes('data-live-jobs') && vocational.indexOf('href="https://gyo6.kr/learning-app.html#trial-accounts"') < vocational.indexOf('href="jobs.html"') && ['href="forms.html"', 'href="guides.html"', 'href="counseling-room.html"'].every((link) => vocational.includes(link)), '특성화고 교육지원센터는 동일한 중요도의 체험관·정식사용자 입장을 첫 화면에 제공하고, 다섯 가지 취업교육 해법과 실제 학생·교사 화면 뒤에 채용정보·서식·지침·상담을 안내합니다.');
   fail('core.exam-service-links', exams.includes('href="exam-service.html?service=elementary"') && exams.includes('href="exam-service.html?service=secondary"') && exams.includes('href="exam-service.html?service=civil"') && examService.includes('https://chodeung.gyo6.kr/') && examService.includes('https://imyong.gyo6.kr/') && examService.includes('https://0mu1.gyo6.kr/') && examService.includes('id="service-frame"') && exams.includes('8개년 전수분석 · 현행 기준') && exams.includes('고난도 실전 모의고사 15회') && exams.includes('49,900원') && exams.includes('T1 · EVIDENCE LAYER') && exams.includes('T3 · ADVERSARIAL LAYER') && !exams.includes('suneung.gyo6.kr') && !exams.includes('수능시험'), '공직시험 연구소가 포털 상단 메뉴를 유지한 내부 화면에서 초등·중등 임용과 8개년 전수분석·단계별 엔진 기반 지방직 7급 시험을 제공하며 수능 메뉴는 제외됩니다.');
   fail('core.civil-service-parking', civilServiceParking.includes('공무원시험') && civilServiceParking.includes('전용 서비스 개발 중') && civilServiceParking.includes('href="https://gyo6.kr/exams.html"'), '공무원시험 전용 파킹 페이지가 개발 상태와 포털 복귀 경로를 안내합니다.');
   fail('core.jobs-content-weight', jobs.includes('특성화고 공채') && jobs.includes('공기업') && jobs.includes('공무원') && jobs.includes('대기업') && jobs.includes('공식 첨부서류'), '채용정보 페이지가 핵심 공채와 공식 첨부서류 기능을 명확히 안내합니다.');
@@ -707,14 +711,14 @@ async function validateCoreContentPages() {
   fail('core.guides-dedicated-page', guides.includes('guides-library-hero-v1.webp') && guides.includes('id="guide-search-form"') && guides.includes('data-guide-topic="operations"') && guides.includes('data-guide-topic="employment"') && guides.includes('id="guide-results"') && guides.includes('public-resource-index-generated.js'), '업무지침이 전용 배경 이미지, 검색, 분야 버튼과 공식자료 목록을 갖춘 독립 화면으로 구성됩니다.');
   fail('core.guides-search-category-list', guidesLibrary.includes("new Set(['guide', 'rule', 'law'])") && guidesLibrary.includes('function groupResources') && guidesLibrary.includes('function inferCategory') && guidesLibrary.includes('function runSearch') && guidesLibrary.includes('forms.html#'), '업무지침은 지침·규정·법령을 중복 정리하고 업무 분야 보정, 검색과 관련 서식 연결을 제공합니다.');
   fail('core.counseling-dedicated-page', counselingRoom.includes('counseling-room-hero-v1.png') && counselingRoom.includes('학생 상담') && counselingRoom.includes('선생님 상담') && counselingRoom.includes('작성자와 관리자만 확인') && counselingRoom.includes('https://gyo6-law-info.web.app/#counselGateway'), '상담실이 학생·교사 상담 안내 이미지와 비공개 원칙, 입장 버튼을 갖춘 독립 화면으로 구성됩니다.');
-  fail('core.learning-app-trial-link', vocational.includes('href="learning-app.html#trial-accounts"') && !vocational.includes('href="learning-app.html#trial-accounts" target="_blank"') && vocational.includes('학생에게는 <em>취업 역량을,</em> 선생님에게는 든든한 교육 도구를.') && vocational.includes('학생·교사 15분 체험하기') && learningAppViewer.includes('class="service-viewer-body learning-trial-page"') && learningAppViewer.includes('id="trial-accounts"') && ['data-trial="student"', 'data-trial="teacher"', '?trial=${role}&trial_nonce=${Date.now()}'].every((marker) => learningAppViewer.includes(marker)) && !['demo.student@sugarsalt.kr', 'demo.teacher@sugarsalt.kr', 'demo.admin@sugarsalt.kr', 'sugarsalt2026'].some((secret) => learningAppViewer.includes(secret)) && learningAppViewer.includes('id="service-frame"') && learningAppViewer.includes(`src="${LEARNING_APP_REMOTE}"`) && learningAppTrial.includes('설탕과소금 - 달콤한 취업 성공을 위한 짭짤한 실력 준비'), '특성화고 교육지원센터는 포털 메뉴 아래에서 승인된 외부 학습앱을 자동 연결하고 계정 노출 없이 학생·교사 15분 원클릭 체험과 로컬 비상 복구본을 함께 유지합니다.');
+  fail('core.learning-app-trial-link', vocational.includes('href="https://gyo6.kr/learning-app.html#trial-accounts"') && vocational.includes('href="https://gyo6.kr/apps/sugar-salt/?entry=member"') && !vocational.includes('href="https://gyo6.kr/learning-app.html#trial-accounts" target=') && !vocational.includes('href="https://gyo6.kr/apps/sugar-salt/?entry=member" target=') && vocational.includes('회원가입 없이 학생·교사 기능 살펴보기') && vocational.includes('로그인하여 학습 기록·학급 지도·기기 간 동기화 사용') && learningAppViewer.includes('class="service-viewer-body learning-trial-page"') && learningAppViewer.includes('id="trial-accounts"') && ['data-trial="student"', 'data-trial="teacher"', '?trial=${role}&trial_nonce=${Date.now()}'].every((marker) => learningAppViewer.includes(marker)) && learningAppViewer.includes('제작·검수 기간에는 시간 제한 없이 체험할 수 있습니다.') && !['demo.student@sugarsalt.kr', 'demo.teacher@sugarsalt.kr', 'demo.admin@sugarsalt.kr', 'sugarsalt2026'].some((secret) => learningAppViewer.includes(secret)) && learningAppViewer.includes('id="service-frame"') && learningAppViewer.includes('src="' + LEARNING_APP_PATH + '"') && learningAppManifest.start_url === './?entry=member' && versionAtLeast(learningAppVersion.version, LEARNING_APP_MIN_VERSION) && learningAppVersion.supabaseResponseCache === false && /entry.{0,24}member/.test(learningAppEntry), '특성화고 교육지원센터는 동일 창에서 무제한·읽기 전용 체험관과 앱 직접 인증 방식의 정식사용자 로그인을 분리해 제공합니다.');
   fail('core.ad-creative-factory-link', appsPage.includes('href="ad-creative-factory.html"') && appsPage.includes('assets/branch-apps-ad-creative-factory.webp') && appsPage.includes('광고홍보물공장 살펴보기 →') && !appsPage.includes('acf-api-usgpvhwdbq-du.a.run.app'), '디지털 프로젝트 스튜디오가 광고홍보물공장을 외부 실행 없이 포털 내부 소개 페이지로 연결합니다.');
   fail('core.ad-creative-factory-preview', ['ad-creative-factory-step-01.webp', 'ad-creative-factory-step-02.webp', 'ad-creative-factory-step-03.webp', 'ad-creative-factory-step-04.webp'].every((asset) => adCreativeFactoryPage.includes(asset)) && adCreativeFactoryPage.includes('출시 준비 · 소개 전용') && adCreativeFactoryPage.includes('실제 제작이나 결제 없이') && !adCreativeFactoryPage.includes('acf-api-usgpvhwdbq-du.a.run.app'), '광고홍보물공장 소개 페이지가 포털 메뉴 아래에서 네 단계 화면만 보여 주고 실제 제작·결제 주소를 노출하지 않습니다.');
   fail('core.bubble-nova-launch-page', appsPage.includes('href="bubble-nova-star.html"') && appsPage.includes('Google Play 정식 출시 · 게임 앱') && bubbleNovaPage.includes('Google Play 정식 출시') && bubbleNovaPage.includes('play.google.com/store/apps/details?id=com.bubblenova.star') && bubbleNovaPage.includes('bubble-nova-star-game.neojoin.chatgpt.site'), '버블 노바 스타가 Google Play 정식 출시작으로 강조되고 내부 소개에서 설치와 웹 실행을 분리해 제공합니다.');
 fail('core.google-play-status-cards', (appsPage.match(/class="google-play-mark"/g) ?? []).length === 4 && (appsPage.match(/Google Play 등록 절차 진행 중 · 비공개 테스트/g) ?? []).length === 3 && appsPage.includes('<strong>Fast Profile</strong>') && appsPage.includes('<strong>미오베라 모험동화</strong>') && appsPage.includes('<strong>오늘어디가</strong>'), 'Fast Profile·미오베라·오늘어디가는 Google Play 비공개 테스트 등록 진행 상태를 표시하고 버블 노바 스타를 포함한 네 앱에 스토어 아이콘을 제공합니다.');
   fail('core.web-production-page', appsPage.includes('href="web-production.html"') && webProductionPage.includes('정보구조부터') && webProductionPage.includes('모든 화면에서') && webProductionPage.includes('공개 이후까지') && webProductionPage.includes('https://ktedu.or.kr/'), '홈페이지 제작·운영이 내부 사례 소개에서 기획·반응형 제작·운영 지원과 실제 사례를 안내합니다.');
   fail('core.learning-app-trial-build', learningAppTrial.includes('manifest.json') && learningAppTrial.includes('registerSW.js') && learningAppTrial.includes('설탕과소금 - 달콤한 취업 성공을 위한 짭짤한 실력 준비'), '설탕과소금 앱 경로가 전달받은 로그인형 PWA 빌드와 설치 구성을 그대로 제공합니다.');
-  fail('core.learning-app-trial-worker-cleanup', learningAppRegister.includes("navigator.serviceWorker.register('./sw.js', { scope: './' })") && learningAppWorker.includes('precacheAndRoute') && learningAppWorker.includes('cleanupOutdatedCaches'), '로그인형 PWA가 해당 앱 경로에서만 서비스워커를 등록하고 새 번들의 사전 캐시와 구 캐시 정리를 수행합니다.');
+  fail('core.learning-app-trial-worker-cleanup', learningAppRegister.includes("navigator.serviceWorker.register('/apps/sugar-salt/sw.js', { scope: '/apps/sugar-salt/' })") && learningAppWorker.includes('precacheAndRoute') && learningAppWorker.includes('cleanupOutdatedCaches'), '로그인형 PWA가 해당 앱 절대 경로에서만 서비스워커를 등록하고 새 번들의 사전 캐시와 구 캐시 정리를 수행합니다.');
 }
 
 async function validateDirectionDocs() {
@@ -1040,16 +1044,18 @@ async function validateLive(localFeed) {
   }
 
   try {
-    const viewer = await fetchText(`${LIVE_HOME}learning-app.html?${cacheBust}`);
-    fail('live.learning-app.viewer-status', viewer.ok, '라이브 학습앱 체험 화면이 HTTP 200 계열로 응답합니다.', `status ${viewer.status}`);
-    fail('live.learning-app.remote-frame', viewer.text.includes(`src="${LEARNING_APP_REMOTE}"`), '라이브 학습앱 iframe이 승인된 외부 릴리스를 불러옵니다.');
+    const viewer = await fetchText(LIVE_HOME + 'learning-app.html?' + cacheBust);
+    fail('live.learning-app.viewer-status', viewer.ok, '라이브 학습앱 체험 화면이 HTTP 200 계열로 응답합니다.', 'status ' + viewer.status);
+    fail('live.learning-app.same-origin-frame', viewer.text.includes('src="' + LEARNING_APP_PATH + '"'), '라이브 체험관 iframe이 홈페이지 내부 앱 릴리스를 불러옵니다.');
 
-    const versionResponse = await fetchText(`${LEARNING_APP_REMOTE}version.json?${cacheBust}`);
+    const versionResponse = await fetchText(LIVE_HOME + LEARNING_APP_PATH + 'version.json?' + cacheBust);
     const release = JSON.parse(versionResponse.text);
-    fail('live.learning-app.release-version', versionResponse.ok && versionAtLeast(release.version, LEARNING_APP_MIN_VERSION), `외부 학습앱이 ${LEARNING_APP_MIN_VERSION} 이상입니다.`, release.version || 'unknown');
-    fail('live.learning-app.no-auth-response-cache', release.supabaseResponseCache === false, '외부 학습앱의 Supabase 인증·데이터 응답 캐시가 비활성화되어 있습니다.');
+    fail('live.learning-app.release-version', versionResponse.ok && versionAtLeast(release.version, LEARNING_APP_MIN_VERSION), '홈페이지 내부 학습앱이 ' + LEARNING_APP_MIN_VERSION + ' 이상입니다.', release.version || 'unknown');
+    fail('live.learning-app.no-auth-response-cache', release.supabaseResponseCache === false, '학습앱의 Supabase 인증·데이터 응답 캐시가 비활성화되어 있습니다.');
+    const memberResponse = await fetchText(LIVE_HOME + LEARNING_APP_PATH + '?entry=member&' + cacheBust);
+    fail('live.learning-app.member-entry-status', memberResponse.ok && memberResponse.text.includes('/apps/sugar-salt/assets/index-'), '정식사용자 진입 URL이 로그인 앱 엔트리를 HTTP 200으로 제공합니다.', 'status ' + memberResponse.status);
   } catch (error) {
-    fail('live.learning-app.release-check', false, '외부 학습앱 릴리스 확인에 실패했습니다.', error.message);
+    fail('live.learning-app.release-check', false, '홈페이지 내부 학습앱 릴리스 확인에 실패했습니다.', error.message);
   }
 }
 
