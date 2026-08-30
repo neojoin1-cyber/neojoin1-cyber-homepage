@@ -5,7 +5,7 @@ import process from "node:process";
 const root = process.cwd();
 const failures = [];
 const checks = [];
-const minimumLocalVersion = "4.8.7";
+const minimumLocalVersion = "4.8.8";
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 const requireText = (file, value, label = value) => {
   const ok = read(file).includes(value);
@@ -78,6 +78,7 @@ if (studentCampusFile) {
 if (campusStyleFile) {
   const campusStyleText = fs.readFileSync(campusStyleFile, "utf8");
   check("mobile recommended learning is compact", /\.mission-dock\.campus-next-step\{[^}]*min-height:76px/.test(campusStyleText));
+  check("student header respects the Android safe area", /\.campus-topbar\{[^}]*min-height:calc\(64px \+ var\(--safe-top\)\)[^}]*padding:calc\(7px \+ var\(--safe-top\)\)/.test(campusStyleText));
 }
 
 requireText("vocational.html", "설탕과소금앱", "app-led hero");
