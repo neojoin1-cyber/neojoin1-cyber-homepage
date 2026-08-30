@@ -87,6 +87,7 @@ requireText("vocational.html", "다학급 운영 대시보드", "teacher dashboa
 requireText("vocational.html", "학생 취업 준비 캠퍼스", "student campus caption");
 {
   const html = read("vocational.html");
+  check("entry dock is inside the app gallery", html.includes('<div class="vh-product-gallery"') && html.indexOf('class="vh-product-gallery"') < html.indexOf('class="vh-entry-grid"') && !html.includes("vh-gallery-cta"));
   for (const href of ["https://gyo6.kr/learning-app.html#trial-accounts", "https://gyo6.kr/apps/sugar-salt/?entry=member"]) {
     const marker = "href=\"" + href + "\"";
     const hrefIndex = html.indexOf(marker);
