@@ -5,7 +5,7 @@ import process from "node:process";
 const root = process.cwd();
 const failures = [];
 const checks = [];
-const minimumLocalVersion = "4.8.6";
+const minimumLocalVersion = "4.8.7";
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 const requireText = (file, value, label = value) => {
   const ok = read(file).includes(value);
@@ -64,6 +64,21 @@ const release = JSON.parse(read("apps/sugar-salt/version.json"));
 check("manifest launches the member entry", manifest.start_url === "./?entry=member", "manifest start_url: " + manifest.start_url);
 check("local app " + minimumLocalVersion + "+ is installed", versionAtLeast(release.version, minimumLocalVersion), "local app version: " + release.version);
 check("auth response cache is disabled", release.supabaseResponseCache === false);
+
+const studentCampusFile = bundleFiles.find((file) => /^StudentCampusHome-[^.]+\.js$/.test(path.basename(file)));
+const campusStyleFile = bundleFiles.find((file) => /^campus-[^.]+\.css$/.test(path.basename(file)));
+check("student campus bundle exists", Boolean(studentCampusFile));
+check("student campus stylesheet exists", Boolean(campusStyleFile));
+if (studentCampusFile) {
+  const studentCampusText = fs.readFileSync(studentCampusFile, "utf8");
+  const mapIndex = studentCampusText.indexOf("className:`campus-map`");
+  const recommendationIndex = studentCampusText.indexOf("className:`mission-dock campus-next-step`");
+  check("campus map precedes recommended learning", mapIndex >= 0 && recommendationIndex > mapIndex);
+}
+if (campusStyleFile) {
+  const campusStyleText = fs.readFileSync(campusStyleFile, "utf8");
+  check("mobile recommended learning is compact", /\.mission-dock\.campus-next-step\{[^}]*min-height:76px/.test(campusStyleText));
+}
 
 requireText("vocational.html", "설탕과소금앱", "app-led hero");
 requireText("vocational.html", "앱만 건네지 않습니다", "teacher tool narrative");
