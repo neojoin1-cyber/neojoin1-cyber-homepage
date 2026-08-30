@@ -5,7 +5,7 @@ import process from "node:process";
 const root = process.cwd();
 const failures = [];
 const checks = [];
-const minimumLocalVersion = "4.8.4";
+const minimumLocalVersion = "4.8.5";
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 const requireText = (file, value, label = value) => {
   const ok = read(file).includes(value);
