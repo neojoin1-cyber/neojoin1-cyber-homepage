@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-30T18:02:40.227Z",
-  "feedGeneratedAt": "2026-08-30T18:02:40.227Z",
+  "generatedAt": "2026-08-31T05:25:26.433Z",
+  "feedGeneratedAt": "2026-08-31T05:25:26.433Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
-    "total": 41,
-    "active": 23,
+    "total": 42,
+    "active": 24,
     "deadlineSoon": 18,
     "applicationClosed": 0,
     "sourcesChecked": 15,
@@ -18,9 +18,9 @@
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 188,
-    "automatedBriefingReady": 41,
-    "automatedBriefingAttempted": 41,
+    "studentRecruitSafetyReview": 191,
+    "automatedBriefingReady": 42,
+    "automatedBriefingAttempted": 42,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -28,19 +28,19 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-30T18:02:40.227Z",
-    "attempted": 41,
-    "succeeded": 41,
+    "generatedAt": "2026-08-31T05:25:26.433Z",
+    "attempted": 42,
+    "succeeded": 42,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-30T18:02:40.227Z",
+    "generatedAt": "2026-08-31T05:25:26.433Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 188,
+    "studentRecruitReviewCount": 191,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -149,6 +149,26 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://nikom.or.kr/nikom/board/view.do?menu_idx=62&manage_idx=45&board_idx=568052&group_depth=0&parent_idx=0&group_idx=0&rowCount=10&search_type=title%2Bcontent&search_text=&viewPage=1"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "국토연구원",
+        "title": "국토연구원 2026년 제3차 청년인턴 공개채용(장애인제한경쟁, 일반경쟁)",
+        "deadline": "2026-09-14",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://recruit.krihs.re.kr/ext/rec/rec_5010.do?ANNC_NO=26082701&SUPT_FLD_CD=0&DEG=0"
       },
       {
         "list": "items",
@@ -281,6 +301,27 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국투자공사",
+        "title": "한국투자공사 2026년 신입직원 채용",
+        "deadline": "2026-09-18",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.kic.kr/ko/careers/recruit/cn5ngi"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
           "고졸·특성화고 명시",
           "인턴·채용연계",
           "공채 신호",
@@ -363,27 +404,6 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국투자공사",
-        "title": "한국투자공사 2026년 신입직원 채용",
-        "deadline": "2026-09-18",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kic.kr/ko/careers/recruit/cn5ngi"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 학생추천 부적합 직무 · 분류:학생추천 제외",
         "signals": [
           "공공·금융·대기업 소스",
@@ -440,27 +460,6 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.origin.or.kr/lay1/program/S1T12C8/people/index.do?page=view&seq=147"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리 · 필기신호 직접분류 재검토",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국환경공단",
-        "title": "2026년도 한국환경공단 신입직원 채용 공고",
-        "deadline": "2026-09-08",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.keco.or.kr/web/lay1/bbs/S1T1205C1207/A/22/view.do?article_seq=100373&cpage=1&rows=10&condition=&keyword="
       }
     ]
   },
