@@ -1,71 +1,46 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-31T06:01:25.010Z",
-  "feedGeneratedAt": "2026-08-31T06:01:25.010Z",
+  "generatedAt": "2026-08-31T19:59:28.686Z",
+  "feedGeneratedAt": "2026-08-31T19:59:28.686Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "degraded",
+  "status": "ok",
   "summary": {
-    "total": 42,
-    "active": 24,
-    "deadlineSoon": 18,
+    "total": 44,
+    "active": 27,
+    "deadlineSoon": 17,
     "applicationClosed": 0,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
-    "sourcesFailed": 3,
+    "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 42,
-    "sourceFallbackProtected": 42,
+    "staleFallbackItems": 0,
+    "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 91,
-    "automatedBriefingReady": 42,
-    "automatedBriefingAttempted": 42,
+    "studentRecruitSafetyReview": 187,
+    "automatedBriefingReady": 44,
+    "automatedBriefingAttempted": 44,
     "automatedBriefingFailed": 0
   },
-  "sourceFailures": [
-    {
-      "id": "mpm-public-job",
-      "name": "인사혁신처 공공취업정보",
-      "isolatedFailure": false,
-      "fallbackProtected": false,
-      "fallbackItemCount": 0,
-      "message": "키 확인됨. 공식 호출 URL 확인 필요: https://apis.data.go.kr/1760000/PblJobService/getList: HTTP timeout after 9000ms; https://apis.data.go.kr/1760000/PblJobService/getList: HTTP timeout after 9000ms"
-    },
-    {
-      "id": "moef-public-recruit",
-      "name": "기재부 공공기관 채용정보",
-      "isolatedFailure": false,
-      "fallbackProtected": false,
-      "fallbackItemCount": 0,
-      "message": "연결 실패: HTTP timeout after 9000ms; HTTP timeout after 9000ms"
-    },
-    {
-      "id": "job-alio-openapi",
-      "name": "잡알리오 공공기관 채용",
-      "isolatedFailure": false,
-      "fallbackProtected": true,
-      "fallbackItemCount": 90,
-      "message": "연결 실패: recent-page-1: recent-page-1 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page; recent-page-2: recent-page-2 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page · 직전 정상 공고 90건 보존"
-    }
-  ],
+  "sourceFailures": [],
   "aiBriefing": {
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-08-31T06:01:25.010Z",
-    "attempted": 42,
-    "succeeded": 42,
+    "generatedAt": "2026-08-31T19:59:28.686Z",
+    "attempted": 44,
+    "succeeded": 44,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-08-31T06:01:25.010Z",
+    "generatedAt": "2026-08-31T19:59:28.686Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 91,
+    "studentRecruitReviewCount": 187,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -301,6 +276,27 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 학생추천 부적합 직무",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국로봇산업진흥원",
+        "title": "2026년 제2차 한국로봇산업진흥원 신규직원 채용",
+        "deadline": "2026-09-15",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://dware.intojob.co.kr/main/kiria.jsp"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
@@ -466,25 +462,6 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.bohun.or.kr/dgcare/na/ntt/selectNttInfo.do?mi=34010&bbsId=1368&bbsSysId=dgcare&nttSn=188840"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국원산지정보원",
-        "title": "2026년 제2차 한국원산지정보원 직원 채용 공고",
-        "deadline": "2026-09-10",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.origin.or.kr/lay1/program/S1T12C8/people/index.do?page=view&seq=147"
       }
     ]
   },
