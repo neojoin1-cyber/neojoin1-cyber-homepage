@@ -1,71 +1,46 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-01T10:01:27.410Z",
-  "feedGeneratedAt": "2026-09-01T10:01:27.410Z",
+  "generatedAt": "2026-09-01T10:23:09.299Z",
+  "feedGeneratedAt": "2026-09-01T10:23:09.299Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "degraded",
+  "status": "ok",
   "summary": {
-    "total": 42,
-    "active": 25,
-    "deadlineSoon": 17,
+    "total": 45,
+    "active": 31,
+    "deadlineSoon": 14,
     "applicationClosed": 0,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
-    "sourcesFailed": 3,
+    "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 42,
-    "sourceFallbackProtected": 42,
+    "staleFallbackItems": 0,
+    "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 91,
-    "automatedBriefingReady": 42,
-    "automatedBriefingAttempted": 42,
+    "studentRecruitSafetyReview": 188,
+    "automatedBriefingReady": 45,
+    "automatedBriefingAttempted": 45,
     "automatedBriefingFailed": 0
   },
-  "sourceFailures": [
-    {
-      "id": "mpm-public-job",
-      "name": "인사혁신처 공공취업정보",
-      "isolatedFailure": false,
-      "fallbackProtected": false,
-      "fallbackItemCount": 0,
-      "message": "키 확인됨. 공식 호출 URL 확인 필요: https://apis.data.go.kr/1760000/PblJobService/getList: HTTP timeout after 9000ms; https://apis.data.go.kr/1760000/PblJobService/getList: HTTP timeout after 9000ms"
-    },
-    {
-      "id": "moef-public-recruit",
-      "name": "기재부 공공기관 채용정보",
-      "isolatedFailure": false,
-      "fallbackProtected": false,
-      "fallbackItemCount": 0,
-      "message": "연결 실패: HTTP timeout after 9000ms; HTTP timeout after 9000ms"
-    },
-    {
-      "id": "job-alio-openapi",
-      "name": "잡알리오 공공기관 채용",
-      "isolatedFailure": false,
-      "fallbackProtected": true,
-      "fallbackItemCount": 90,
-      "message": "연결 실패: recent-page-1: recent-page-1 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page; recent-page-2: recent-page-2 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page · 직전 정상 공고 90건 보존"
-    }
-  ],
+  "sourceFailures": [],
   "aiBriefing": {
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-09-01T10:01:27.410Z",
-    "attempted": 42,
-    "succeeded": 42,
+    "generatedAt": "2026-09-01T10:23:09.299Z",
+    "attempted": 45,
+    "succeeded": 45,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-09-01T10:01:27.410Z",
+    "generatedAt": "2026-09-01T10:23:09.299Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 91,
+    "studentRecruitReviewCount": 188,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -135,10 +110,11 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외 · 필기신호 직접분류 재검토",
         "signals": [
           "공공·금융·대기업 소스",
           "고졸·특성화고 명시",
+          "필기·NCS 신호",
           "인턴·채용연계",
           "공채 신호",
           "신입·정규직 계열"
@@ -146,12 +122,12 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "한국한의약진흥원",
-        "title": "한국한의약진흥원 제3차 채용(정규직, 계약직 및 청년인턴)공고",
-        "deadline": "2026-09-07",
+        "company": "한국산업기술시험원",
+        "title": "2026년 한국산업기술시험원 정규직 채용 공고",
+        "deadline": "2026-09-08",
         "status": "active",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://nikom.or.kr/nikom/board/view.do?menu_idx=62&manage_idx=45&board_idx=568052&group_depth=0&parent_idx=0&group_idx=0&rowCount=10&search_type=title%2Bcontent&search_text=&viewPage=1"
+        "primaryOfficialUrl": "https://ktl2026.careerlink.kr/"
       },
       {
         "list": "items",
@@ -406,28 +382,6 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "공간정보품질관리원",
-        "title": "공간정보품질관리원 2026년 제3차 채용(기간제,청년인턴,휴직대체) 공고",
-        "deadline": "2026-09-04",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.siqms.or.kr/M2001000/board_view.do?idx=472065"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 학생추천 부적합 직무 · 분류:학생추천 제외",
         "signals": [
           "공공·금융·대기업 소스",
@@ -444,6 +398,46 @@
         "status": "deadline_soon",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.bohun.or.kr/busan/na/ntt/selectNttInfo.do?mi=33215&bbsId=1158&bbsSysId=busan&nttSn=188772"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국보훈복지의료공단",
+        "title": "한국보훈복지의료공단 [중앙보훈병원] 업무지원직 직원 채용 공고(9월)",
+        "deadline": "2026-09-15",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.bohun.or.kr/seoul/na/ntt/selectNttInfo.do?mi=32253&bbsId=1158&bbsSysId=seoul&nttSn=189047"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외 · 필기신호 직접분류 재검토",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국가스공사",
+        "title": "한국가스공사 2026년 하반기 일반직(신입, 경력), 연구직 및 별정직 채용공고",
+        "deadline": "2026-09-15",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.kogas.or.kr/"
       },
       {
         "list": "items",
@@ -465,25 +459,6 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.bohun.or.kr/dgcare/na/ntt/selectNttInfo.do?mi=34010&bbsId=1368&bbsSysId=dgcare&nttSn=188840"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국원산지정보원",
-        "title": "2026년 제2차 한국원산지정보원 직원 채용 공고",
-        "deadline": "2026-09-10",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.origin.or.kr/lay1/program/S1T12C8/people/index.do?page=view&seq=147"
       }
     ]
   },
