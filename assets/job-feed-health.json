@@ -1,14 +1,14 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-02T09:52:14.784Z",
-  "feedGeneratedAt": "2026-09-02T09:52:14.784Z",
+  "generatedAt": "2026-09-02T17:52:32.340Z",
+  "feedGeneratedAt": "2026-09-02T17:52:32.340Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
-    "total": 52,
-    "active": 38,
-    "deadlineSoon": 14,
+    "total": 49,
+    "active": 33,
+    "deadlineSoon": 16,
     "applicationClosed": 0,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
@@ -18,9 +18,9 @@
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 193,
-    "automatedBriefingReady": 52,
-    "automatedBriefingAttempted": 52,
+    "studentRecruitSafetyReview": 191,
+    "automatedBriefingReady": 49,
+    "automatedBriefingAttempted": 49,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -28,19 +28,19 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-09-02T09:52:14.784Z",
-    "attempted": 52,
-    "succeeded": 52,
+    "generatedAt": "2026-09-02T17:52:32.340Z",
+    "attempted": 49,
+    "succeeded": 49,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-09-02T09:52:14.784Z",
+    "generatedAt": "2026-09-02T17:52:32.340Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 193,
+    "studentRecruitReviewCount": 191,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -130,27 +130,6 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국문화관광연구원",
-        "title": "한국문화관광연구원 2026년 제3차 청년인턴(장애인제한경쟁) 채용(9.2. 접수마감)",
-        "deadline": "2026-09-02",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://buly.kr/DPWa1Zo"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
         "signals": [
           "공공·금융·대기업 소스",
@@ -188,27 +167,6 @@
         "status": "deadline_soon",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "http://snubh.recruiter.co.kr/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "주택관리공단(주)",
-        "title": "채용형 인턴 채용공고(주택관리공단 강원지사)",
-        "deadline": "2026-09-02",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EA%B0%95%EC%9B%90%EC%A7%80%EC%82%AC&page=1&rnm_idx=929"
       },
       {
         "list": "items",
@@ -461,6 +419,48 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://cnuhinsa.recruiter.co.kr/career/home"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한식진흥원",
+        "title": "2026년 제4차 한식진흥원 공개채용 공고",
+        "deadline": "2026-09-18",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304529"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "새만금개발공사",
+        "title": "2026년 새만금개발공사 수시채용",
+        "deadline": "2026-09-11",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304268"
       }
     ]
   },
