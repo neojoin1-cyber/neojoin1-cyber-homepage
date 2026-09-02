@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-02T04:22:52.342Z",
-  "feedGeneratedAt": "2026-09-02T04:22:52.342Z",
+  "generatedAt": "2026-09-02T04:59:05.256Z",
+  "feedGeneratedAt": "2026-09-02T04:59:05.256Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
@@ -18,7 +18,7 @@
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 181,
+    "studentRecruitSafetyReview": 187,
     "automatedBriefingReady": 48,
     "automatedBriefingAttempted": 48,
     "automatedBriefingFailed": 0
@@ -28,7 +28,7 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-09-02T04:22:52.342Z",
+    "generatedAt": "2026-09-02T04:59:05.256Z",
     "attempted": 48,
     "succeeded": 48,
     "failed": 0,
@@ -36,11 +36,11 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-09-02T04:22:52.342Z",
+    "generatedAt": "2026-09-02T04:59:05.256Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 181,
+    "studentRecruitReviewCount": 187,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -215,27 +215,6 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "충남대학교병원",
-        "title": "[대전] 2026년 8월 충남대학교병원 원무직(취사) 공개채용 공고",
-        "deadline": "2026-09-07",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://cnuhinsa.recruiter.co.kr/career/home"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
           "학력무관",
           "필기·NCS 신호",
           "인턴·채용연계",
@@ -251,6 +230,27 @@
         "status": "deadline_soon",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.khidi.or.kr/board/view?pageNum=1&rowCnt=10&no1=238&linkId=48949094&menuId=MENU00109&maxIndex=00489491169998&minIndex=00488927959998&schType=0&schText=&schStartDate=&schEndDate=&boardStyle=&categoryId=&continent=&country="
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "충남대학교병원",
+        "title": "[대전] 2026년 8월 충남대학교병원 원무직(취사) 공개채용 공고",
+        "deadline": "2026-09-07",
+        "status": "deadline_soon",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://cnuhinsa.recruiter.co.kr/career/home"
       },
       {
         "list": "items",
