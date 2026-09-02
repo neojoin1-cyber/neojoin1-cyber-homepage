@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-02T09:32:23.160Z",
-  "feedGeneratedAt": "2026-09-02T09:32:23.160Z",
+  "generatedAt": "2026-09-02T09:52:14.784Z",
+  "feedGeneratedAt": "2026-09-02T09:52:14.784Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
@@ -28,7 +28,7 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-09-02T09:32:23.160Z",
+    "generatedAt": "2026-09-02T09:52:14.784Z",
     "attempted": 52,
     "succeeded": 52,
     "failed": 0,
@@ -36,7 +36,7 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-09-02T09:32:23.160Z",
+    "generatedAt": "2026-09-02T09:52:14.784Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
@@ -147,6 +147,25 @@
         "status": "deadline_soon",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://buly.kr/DPWa1Zo"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국수목원정원관리원",
+        "title": "한국수목원정원관리원 2026년 제3차 국립정원문화원 기간제 근로자 채용 공고",
+        "deadline": "2026-09-16",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304568"
       },
       {
         "list": "items",
@@ -442,27 +461,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://cnuhinsa.recruiter.co.kr/career/home"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한식진흥원",
-        "title": "2026년 제4차 한식진흥원 공개채용 공고",
-        "deadline": "2026-09-18",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304529"
       }
     ]
   },
