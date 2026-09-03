@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-03T09:41:19.120Z",
-  "feedGeneratedAt": "2026-09-03T09:41:19.120Z",
+  "generatedAt": "2026-09-03T10:03:04.100Z",
+  "feedGeneratedAt": "2026-09-03T10:03:04.100Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "degraded",
@@ -37,7 +37,7 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-09-03T09:41:19.120Z",
+    "generatedAt": "2026-09-03T10:03:04.100Z",
     "attempted": 49,
     "succeeded": 49,
     "failed": 0,
@@ -45,7 +45,7 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-09-03T09:41:19.120Z",
+    "generatedAt": "2026-09-03T10:03:04.100Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
@@ -330,27 +330,6 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "신용보증기금",
-        "title": "2026년도 하반기 신용보증기금 신입직원 채용",
-        "deadline": "2026-09-16",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "http://kodit.saramin.co.kr/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
           "고졸·특성화고 명시",
           "인턴·채용연계",
           "공채 신호",
@@ -470,6 +449,27 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://cnuhinsa.recruiter.co.kr/career/home"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "신용보증기금",
+        "title": "2026년도 하반기 신용보증기금 신입직원 채용",
+        "deadline": "2026-09-16",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304432"
       }
     ]
   },
