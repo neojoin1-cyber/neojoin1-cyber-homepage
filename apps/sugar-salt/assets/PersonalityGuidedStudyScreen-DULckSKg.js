@@ -1,1 +1,0 @@
-import{t as e}from"./jsx-runtime-CIxEorsV.js";import{t}from"./GuidedStudyScreen-RBsj0h00.js";import{t as n}from"./guidedLearningPrograms-BaF6eWV4.js";var r=e();function i(e){return(0,r.jsx)(t,{...e,program:n})}export{i as default};
