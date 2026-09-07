@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-07T10:40:50.601Z",
-  "feedGeneratedAt": "2026-09-07T10:40:50.601Z",
+  "generatedAt": "2026-09-07T18:42:45.426Z",
+  "feedGeneratedAt": "2026-09-07T18:42:45.426Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
-    "total": 56,
-    "active": 38,
+    "total": 57,
+    "active": 39,
     "deadlineSoon": 18,
     "applicationClosed": 0,
     "sourcesChecked": 15,
@@ -18,9 +18,9 @@
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 225,
-    "automatedBriefingReady": 56,
-    "automatedBriefingAttempted": 56,
+    "studentRecruitSafetyReview": 221,
+    "automatedBriefingReady": 57,
+    "automatedBriefingAttempted": 57,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -28,19 +28,19 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-09-07T10:40:50.601Z",
-    "attempted": 56,
-    "succeeded": 56,
+    "generatedAt": "2026-09-07T18:42:45.426Z",
+    "attempted": 57,
+    "succeeded": 57,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-09-07T10:40:50.601Z",
+    "generatedAt": "2026-09-07T18:42:45.426Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 225,
+    "studentRecruitReviewCount": 221,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -107,6 +107,27 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://fowi.or.kr/user/bbs/bbsView.do?bbsManageId=22&bbsId=9165"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외 · 필기신호 직접분류 재검토",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국전력기술주식회사",
+        "title": "한국전력기술주식회사 2026년도 하반기 정규직(신입사원) 채용공고",
+        "deadline": "2026-09-22",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://kepco-enc.cairos.co.kr/kepco-enc/"
       },
       {
         "list": "items",
@@ -229,6 +250,27 @@
         "status": "deadline_soon",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.jejunuh.co.kr/prog/rcrutPbanc/main/sub05_03_03_01/view.do?rcrutPbancNo=2649"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "인턴·채용연계",
+          "공채 신호"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국여성과학기술인육성재단",
+        "title": "한국여성과학기술인육성재단 2026년도 제5차 하반기 체험형 청년인턴 채용 공고",
+        "deadline": "2026-09-22",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://wiset.or.kr/bbs/BBSMSTR_000000000305/view.do"
       },
       {
         "list": "items",
@@ -418,48 +460,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://nia.recruiter.co.kr/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 학생추천 부적합 직무",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국로봇산업진흥원",
-        "title": "2026년 제2차 한국로봇산업진흥원 신규직원 채용",
-        "deadline": "2026-09-15",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://dware.intojob.co.kr/main/kiria.jsp"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "근로복지공단",
-        "title": "[근로복지공단] 기술기능직(기술) 5급 채용 공고",
-        "deadline": "2026-09-21",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
       }
     ]
   },
