@@ -1,46 +1,71 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-07T05:09:17.179Z",
-  "feedGeneratedAt": "2026-09-07T05:09:17.179Z",
+  "generatedAt": "2026-09-07T05:42:37.221Z",
+  "feedGeneratedAt": "2026-09-07T05:42:37.221Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "ok",
+  "status": "degraded",
   "summary": {
-    "total": 52,
-    "active": 32,
-    "deadlineSoon": 20,
+    "total": 51,
+    "active": 30,
+    "deadlineSoon": 21,
     "applicationClosed": 0,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
-    "sourcesFailed": 0,
+    "sourcesFailed": 3,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 0,
-    "sourceFallbackProtected": 0,
+    "staleFallbackItems": 51,
+    "sourceFallbackProtected": 51,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 213,
-    "automatedBriefingReady": 52,
-    "automatedBriefingAttempted": 52,
+    "studentRecruitSafetyReview": 106,
+    "automatedBriefingReady": 51,
+    "automatedBriefingAttempted": 51,
     "automatedBriefingFailed": 0
   },
-  "sourceFailures": [],
+  "sourceFailures": [
+    {
+      "id": "mpm-public-job",
+      "name": "인사혁신처 공공취업정보",
+      "isolatedFailure": false,
+      "fallbackProtected": false,
+      "fallbackItemCount": 0,
+      "message": "키 확인됨. 공식 호출 URL 확인 필요: https://apis.data.go.kr/1760000/PblJobService/getList: HTTP timeout after 9000ms; https://apis.data.go.kr/1760000/PblJobService/getList: HTTP timeout after 9000ms"
+    },
+    {
+      "id": "moef-public-recruit",
+      "name": "기재부 공공기관 채용정보",
+      "isolatedFailure": false,
+      "fallbackProtected": false,
+      "fallbackItemCount": 0,
+      "message": "연결 실패: HTTP timeout after 9000ms; HTTP timeout after 9000ms"
+    },
+    {
+      "id": "job-alio-openapi",
+      "name": "잡알리오 공공기관 채용",
+      "isolatedFailure": false,
+      "fallbackProtected": true,
+      "fallbackItemCount": 102,
+      "message": "연결 실패: recent-page-1: recent-page-1 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page; recent-page-2: recent-page-2 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page · 직전 정상 공고 102건 보존"
+    }
+  ],
   "aiBriefing": {
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-09-07T05:09:17.179Z",
-    "attempted": 52,
-    "succeeded": 52,
+    "generatedAt": "2026-09-07T05:42:37.221Z",
+    "attempted": 51,
+    "succeeded": 51,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-09-07T05:09:17.179Z",
+    "generatedAt": "2026-09-07T05:42:37.221Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 213,
+    "studentRecruitReviewCount": 106,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -62,9 +87,29 @@
         "company": "예금보험공사",
         "title": "2026년도 예금보험공사 신입직원 채용안내",
         "deadline": "2026-09-11",
-        "status": "deadline_soon",
+        "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.kdic.or.kr/"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국여성인권진흥원",
+        "title": "2026년 한국여성인권진흥원 제5차 채용 공고",
+        "deadline": "2026-09-10",
+        "status": "deadline_soon",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://stop.or.kr/home/kor/M810741449/board.do?deleteAt=N&act=detail&idx=cb00d1a0008a85e71a41b8741facbffed28a63532175ad23eaed3c4c6273d187&searchValue1=0&searchKeyword=&searchDate5=&searchDate6=&pageIndex=1"
       },
       {
         "list": "items",
@@ -161,12 +206,12 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "주택관리공단(주)",
-        "title": "채용형 인턴 채용공고(주택관리공단 대구경북지사)",
-        "deadline": "2026-09-10",
+        "company": "제주대학교병원",
+        "title": "제주대학교병원 원무직(업무보조) 모집공고",
+        "deadline": "2026-09-09",
         "status": "deadline_soon",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EB%8C%80%EA%B5%AC%EA%B2%BD%EB%B6%81%EC%A7%80%EC%82%AC&page=1&rnm_idx=932"
+        "primaryOfficialUrl": "https://www.jejunuh.co.kr/prog/rcrutPbanc/main/sub05_03_03_01/view.do?rcrutPbancNo=2649"
       },
       {
         "list": "items",
@@ -195,7 +240,8 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
+          "학력무관",
+          "필기·NCS 신호",
           "인턴·채용연계",
           "공채 신호",
           "신입·정규직 계열"
@@ -203,33 +249,12 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "제주대학교병원",
-        "title": "제주대학교병원 원무직(업무보조) 모집공고",
-        "deadline": "2026-09-09",
+        "company": "분당서울대학교병원",
+        "title": "분당서울대학교병원 신입(사무직) 직원 채용공고",
+        "deadline": "2026-09-07",
         "status": "deadline_soon",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.jejunuh.co.kr/prog/rcrutPbanc/main/sub05_03_03_01/view.do?rcrutPbancNo=2649"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "인턴·채용연계",
-          "공채 신호"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국여성과학기술인육성재단",
-        "title": "한국여성과학기술인육성재단 2026년도 제5차 하반기 체험형 청년인턴 채용 공고",
-        "deadline": "2026-09-22",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://wiset.or.kr/bbs/BBSMSTR_000000000305/view.do"
+        "primaryOfficialUrl": "http://snubh.recruiter.co.kr/"
       },
       {
         "list": "items",
@@ -426,27 +451,6 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "근로복지공단",
-        "title": "[근로복지공단] 기술기능직(기술) 5급 채용 공고",
-        "deadline": "2026-09-21",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
           "학력무관",
           "필기·NCS 신호",
           "공채 신호",
@@ -455,12 +459,33 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "한국수력원자력(주)",
-        "title": "한국수력원자력(주) 2026년도 제8차 경력사원(5(을)직급·공무직근로자) 선발",
-        "deadline": "2026-09-22",
+        "company": "한국투자공사",
+        "title": "한국투자공사 2026년 신입직원 채용",
+        "deadline": "2026-09-18",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.khnp.co.kr/recruit"
+        "primaryOfficialUrl": "https://www.kic.kr/ko/careers/recruit/cn5ngi"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "주택관리공단(주)",
+        "title": "채용형 인턴 채용공고(주택관리공단 대구경북지사)",
+        "deadline": "2026-09-10",
+        "status": "deadline_soon",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304587"
       }
     ]
   },
