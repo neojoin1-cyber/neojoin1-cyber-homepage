@@ -1,71 +1,46 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-08T10:02:46.903Z",
-  "feedGeneratedAt": "2026-09-08T10:02:46.903Z",
+  "generatedAt": "2026-09-08T17:53:30.709Z",
+  "feedGeneratedAt": "2026-09-08T17:53:30.709Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "degraded",
+  "status": "ok",
   "summary": {
-    "total": 62,
+    "total": 61,
     "active": 49,
-    "deadlineSoon": 13,
+    "deadlineSoon": 12,
     "applicationClosed": 0,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
-    "sourcesFailed": 3,
+    "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 62,
-    "sourceFallbackProtected": 62,
+    "staleFallbackItems": 0,
+    "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 118,
-    "automatedBriefingReady": 62,
-    "automatedBriefingAttempted": 62,
+    "studentRecruitSafetyReview": 231,
+    "automatedBriefingReady": 61,
+    "automatedBriefingAttempted": 61,
     "automatedBriefingFailed": 0
   },
-  "sourceFailures": [
-    {
-      "id": "mpm-public-job",
-      "name": "인사혁신처 공공취업정보",
-      "isolatedFailure": false,
-      "fallbackProtected": false,
-      "fallbackItemCount": 0,
-      "message": "키 확인됨. 공식 호출 URL 확인 필요: https://apis.data.go.kr/1760000/PblJobService/getList: HTTP timeout after 9000ms; https://apis.data.go.kr/1760000/PblJobService/getList: HTTP timeout after 9000ms"
-    },
-    {
-      "id": "moef-public-recruit",
-      "name": "기재부 공공기관 채용정보",
-      "isolatedFailure": false,
-      "fallbackProtected": false,
-      "fallbackItemCount": 0,
-      "message": "연결 실패: HTTP timeout after 9000ms; HTTP timeout after 9000ms"
-    },
-    {
-      "id": "job-alio-openapi",
-      "name": "잡알리오 공공기관 채용",
-      "isolatedFailure": false,
-      "fallbackProtected": true,
-      "fallbackItemCount": 113,
-      "message": "연결 실패: recent-page-1: recent-page-1 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page; recent-page-2: recent-page-2 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page · 직전 정상 공고 113건 보존"
-    }
-  ],
+  "sourceFailures": [],
   "aiBriefing": {
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-09-08T10:02:46.903Z",
-    "attempted": 62,
-    "succeeded": 62,
+    "generatedAt": "2026-09-08T17:53:30.709Z",
+    "attempted": 61,
+    "succeeded": 61,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-09-08T10:02:46.903Z",
+    "generatedAt": "2026-09-08T17:53:30.709Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 118,
+    "studentRecruitReviewCount": 231,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -192,7 +167,7 @@
         "company": "국립호남권생물자원관",
         "title": "국립호남권생물자원관 기간제ㆍ단시간 근로자(급식종사자) 채용공고",
         "deadline": "2026-09-14",
-        "status": "active",
+        "status": "deadline_soon",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://hnibr.re.kr/ko/M000000515/bbs/view?pstNo=33713&pageUnit=10&pageIndex=1&searchCnd=01&searchWrd=&searchPstClCdId="
       },
@@ -472,20 +447,20 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
+          "학력무관",
+          "필기·NCS 신호",
           "공채 신호",
           "신입·정규직 계열"
         ],
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "서울올림픽기념국민체육진흥공단",
-        "title": "서울올림픽기념국민체육진흥공단 파크텔 지원직(호텔지원(식음서비스)) 채용 공고",
+        "company": "신용보증기금",
+        "title": "2026년도 하반기 신용보증기금 신입직원 채용",
         "deadline": "2026-09-16",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kspo.or.kr/kspo/singl/empmn/view.do?empmnId=774&menuNo=200186&pageIndex=1"
+        "primaryOfficialUrl": "http://kodit.saramin.co.kr/"
       }
     ]
   },
