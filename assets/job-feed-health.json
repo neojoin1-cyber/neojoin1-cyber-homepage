@@ -1,14 +1,14 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-08T05:07:28.248Z",
-  "feedGeneratedAt": "2026-09-08T05:07:28.248Z",
+  "generatedAt": "2026-09-08T09:35:44.134Z",
+  "feedGeneratedAt": "2026-09-08T09:35:44.134Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "ok",
   "summary": {
-    "total": 58,
-    "active": 43,
-    "deadlineSoon": 15,
+    "total": 62,
+    "active": 49,
+    "deadlineSoon": 13,
     "applicationClosed": 0,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
@@ -18,9 +18,9 @@
     "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 230,
-    "automatedBriefingReady": 58,
-    "automatedBriefingAttempted": 58,
+    "studentRecruitSafetyReview": 236,
+    "automatedBriefingReady": 62,
+    "automatedBriefingAttempted": 62,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -28,23 +28,45 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-09-08T05:07:28.248Z",
-    "attempted": 58,
-    "succeeded": 58,
+    "generatedAt": "2026-09-08T09:35:44.134Z",
+    "attempted": 62,
+    "succeeded": 62,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-09-08T05:07:28.248Z",
+    "generatedAt": "2026-09-08T09:35:44.134Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 230,
+    "studentRecruitReviewCount": 236,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
     "studentRecruitReviewSamples": [
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국도로공사",
+        "title": "2026년 하반기 한국도로공사 일반직 신입(인턴)사원 채용 공고",
+        "deadline": "2026-09-22",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304761"
+      },
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
@@ -132,22 +154,43 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 학생추천 부적합 직무 · 전문자격·면허 중심 · 분류:학생추천 제외",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "국립호남권생물자원관",
+        "title": "국립호남권생물자원관 기간제ㆍ단시간 근로자(급식종사자) 채용공고",
+        "deadline": "2026-09-14",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://hnibr.re.kr/ko/M000000515/bbs/view?pstNo=33713&pageUnit=10&pageIndex=1&searchCnd=01&searchWrd=&searchPstClCdId="
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
         "signals": [
           "공공·금융·대기업 소스",
           "고졸·특성화고 명시",
           "인턴·채용연계",
-          "공채 신호"
+          "공채 신호",
+          "신입·정규직 계열"
         ],
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "국토연구원",
-        "title": "국토연구원 2026년 제3차 청년인턴 공개채용(장애인제한경쟁, 일반경쟁)",
-        "deadline": "2026-09-14",
+        "company": "산업연구원",
+        "title": "산업연구원 2026년 제6차 청년인턴 채용공고(장애인 제한경쟁)",
+        "deadline": "2026-09-23",
         "status": "active",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://recruit.krihs.re.kr/ext/rec/rec_5010.do?ANNC_NO=26082701&SUPT_FLD_CD=0&DEG=0"
+        "primaryOfficialUrl": "https://www.kiet.re.kr/communicate/ntcView?ntc_no=10736"
       },
       {
         "list": "items",
@@ -418,48 +461,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.kspo.or.kr/kspo/singl/empmn/view.do?empmnId=774&menuNo=200186&pageIndex=1"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국콘텐츠진흥원",
-        "title": "2026년 4분기 한국콘텐츠진흥원 신입직원 채용 공고",
-        "deadline": "2026-09-28",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kocca.kr/kocca/bbs/view/B0159004/2012483.do?searchCnd=&searchWrd=&cateTp1=&cateTp2=&useYn=&menuNo=204803&categorys=0&subcate=0&cateCode=&type=&instNo=0&questionTp=&ufSetting=&recovery=&option1=&option2=&year=&morePage=&qtp=&domainId=&sortCode=&pageIndex=1"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국지능정보사회진흥원",
-        "title": "2026년 한국지능정보사회진흥원 하반기 정규직 및 무기계약직(일반직) 채용공고",
-        "deadline": "2026-09-14",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://nia.recruiter.co.kr/"
       }
     ]
   },
