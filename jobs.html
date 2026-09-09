@@ -266,6 +266,10 @@
     }
 
     function bestOfficialUrl(item) {
+      if (item.reviewedAttachment && item.source === 'job-alio-openapi') {
+        const notice = item.sourceDetailUrl || item.sourceVerification?.sourceOfficialUrl;
+        if (/^https:\/\/job\.alio\.go\.kr\/recruitview\.do\?idx=\d+$/.test(notice || '')) return notice;
+      }
       const pageCandidates = [
         item.companyNoticeUrl,
         item.sourceDetailUrl,
