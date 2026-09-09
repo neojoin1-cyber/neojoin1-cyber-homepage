@@ -2458,13 +2458,6 @@ h3 {
 .exam-frontier-standard small { color: #e3bd70; }
 .exam-frontier-standard strong { color: #fffaf0; }
 .exam-frontier-standard span { color: #c9d7d2; }
-.exam-access-offer { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(180px, .72fr) minmax(210px, .9fr) minmax(0, 1.8fr); align-items: center; gap: 22px; border: 1px solid rgba(166, 103, 48, .35); border-radius: 16px; padding: 19px 22px; background: linear-gradient(115deg, rgba(255, 252, 244, .96), rgba(242, 249, 245, .88)); box-shadow: 0 12px 28px rgba(35, 60, 55, .07); }
-.exam-access-offer > div span { display: block; color: #17634f; font-size: 10px; font-weight: 800; letter-spacing: .08em; }
-.exam-access-offer > div strong { display: block; margin-top: 5px; color: #16344a; font: 700 clamp(31px, 4.1vw, 48px)/1.05 var(--font-display); letter-spacing: -.045em; white-space: nowrap; }
-.exam-access-offer ul { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; color: #17364a; font-size: 13px; font-weight: 700; line-height: 1.5; }
-.exam-access-offer li::before { content: "✓"; margin-right: 7px; color: #19715d; }
-.exam-access-offer p { margin: 0; color: #5c6c67; font-size: 11px; line-height: 1.75; word-break: keep-all; }
-
 .history-design-origin {
   display: grid;
   grid-template-columns: minmax(240px, .72fr) minmax(0, 1.55fr);
@@ -2546,8 +2539,6 @@ h3 {
   .exam-frontier-proof > *:nth-child(2) { border-right: 0; }
   .exam-frontier-proof > *:nth-child(-n+2) { border-bottom: 1px solid rgba(31, 67, 72, .14); }
   .exam-frontier-proof > .exam-frontier-standard { grid-column: 1 / -1; }
-  .exam-access-offer { grid-template-columns: 1fr; gap: 13px; padding: 18px; }
-  .exam-access-offer > div strong { font-size: 36px; }
   .exam-tool-disclosure { display: grid; gap: 4px; }
   .exam-research-record::after { right: 18px; bottom: 8px; font-size: 7px; }
 }
