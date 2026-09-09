@@ -75,6 +75,10 @@
           </label>
         </div>
         <div class="job-status-line" id="feed-health">오늘 확인할 채용정보를 불러오고 있습니다.</div>
+        <details id="job-collection-check" style="margin:0 0 16px; font-size:13px; overflow-wrap:anywhere">
+          <summary style="cursor:pointer; color:#0b766c">수집 범위·누락 점검 보기</summary>
+          <div id="job-collection-check-body" role="status" style="padding:12px 0">펼치면 최근 수집 점검 결과를 불러옵니다.</div>
+        </details>
         <div class="feed-list" id="feed-list">
           <article class="feed-item">
             <h3>채용공고를 불러오고 있습니다.</h3>
@@ -117,6 +121,34 @@
     let currentViewMode = "active";
     let currentSortMode = "new";
     let currentSearchTerm = "";
+
+    document.getElementById('job-collection-check').addEventListener('toggle', async (event) => {
+      if (!event.target.open) return;
+      const output = document.getElementById('job-collection-check-body');
+      output.textContent = '수집 점검 결과를 확인하고 있습니다.';
+      try {
+        const response = await fetch('assets/job-collection-audit.json', { cache: 'no-store' });
+        if (!response.ok) throw new Error('audit unavailable');
+        const audit = await response.json();
+        if (audit.generatedAt !== latestJobFeed?.generatedAt) {
+          output.textContent = '공고와 점검 기록의 갱신 시각이 다릅니다. 배포 중이거나 재점검이 필요합니다.';
+          return;
+        }
+        const labels = { published: '게시', duplicate: '중복 통합', ineligible: '자격 미충족', 'needs-review': '자격 확인 대기',
+          closed: '마감', 'detail-failed': '상세 조회 실패', deferred: '다음 회차 점검',
+          'policy-excluded': '학생 추천 기준 제외', 'publication-review': '게시 단계 재검토', unexplained: '처리 누락' };
+        const counts = Object.entries(audit.summary.counts).map(([key, count]) => `${labels[key] || key} ${Number(count)}건`).join(' · ');
+        const unconnected = audit.sources.filter((source) => !source.configured).length;
+        const problems = audit.sources.filter((source) => source.configured && (!source.ok || source.failedUrlCount || source.pagination && !source.pagination.complete));
+        const priority = audit.records.filter((row) => row.priority === 'high' && row.unresolvedSince).slice(0, 8);
+        output.innerHTML = `<p><strong>발견 ${Number(audit.summary.discovered)}건 처리 대조</strong><br>${escapeHtml(counts)}</p>
+          <p>미연결 수집원 ${unconnected}곳 · 부분 실패/미완료 ${problems.length}곳 · 이전 회차 대비 재확인 대상 ${Number(audit.summary.disappearedActive)}건<br>공식 목록에서 발견한 공고의 처리 내역입니다. 전국 모든 공고의 수집을 보장하는 수치는 아닙니다.</p>
+          ${priority.length ? `<p><strong>고졸 관련 우선 점검 대상 (추천 공고가 아닙니다)</strong></p><ul>${priority.map((row) => `<li>${escapeHtml(row.title)}: ${escapeHtml(labels[row.disposition] || row.disposition)}</li>`).join('')}</ul>` : ''}
+          <a href="assets/job-collection-audit.json">전체 점검 기록(JSON) 보기</a>`;
+      } catch {
+        output.textContent = '수집 점검 기록을 불러오지 못했습니다. 이를 정상 수집으로 판단하지 마세요. 잠시 후 다시 펼쳐 확인해 주세요.';
+      }
+    });
 
     function escapeHtml(value) {
       return String(value ?? "")

@@ -620,6 +620,9 @@ const FINANCE_LARGE_COMPANY_EXPANDED_WATCHLIST = [
 ];
 
 const REGIONAL_EDUCATION_OFFICIAL_WATCHLIST = [
+  { employer: '전북특별자치도교육청 취업지원센터', group: 'education-office', url: 'https://www.jbe.go.kr/job/index.jbe?menuCd=DOM_000001408000000000', tags: ['교육청', '직업계고', '고졸채용'] },
+  { employer: '광주지역 교육청 취업지원센터', group: 'education-office', url: 'https://jpl.gen.go.kr/xboard/board.php?tbnum=33', tags: ['교육청', '직업계고', '지역기업채용'] },
+  { employer: '전남지역 교육청 취업지원센터', group: 'education-office', url: 'https://www.jne.go.kr/job/na/ntt/selectNttList.do?mi=647&bbsId=331', tags: ['교육청', '직업계고', '고졸채용'] },
   { employer: '인천광역시교육청 직업계고 취업지원센터', group: 'education-office', url: 'https://www.ice.go.kr/jci/main.do', tags: ['교육청', '직업계고', '채용정보'] },
   { employer: '경기도교육청 취창업지원센터', group: 'education-office', url: 'https://more.goe.go.kr/gajago/index.do', tags: ['교육청', '직업계고', '취창업지원'] },
   { employer: '울산광역시교육청 취업지원센터', group: 'education-office', url: 'https://use.go.kr/jobgo/index.do', tags: ['교육청', '직업계고', '채용정보'] },
@@ -5073,6 +5076,8 @@ function hasResolvedApplicationDeadline(item = {}) {
 }
 
 function hasResolvedRecruitQualification(item = {}) {
+  const qualification = item.studentChannelAssessment?.qualificationAssessment;
+  if (qualification?.status === 'eligible' && qualification.completeEvidence) return true;
   const unresolvedPattern = /^원문\s*확인(?:\s*·|$)/;
   const fields = [
     item.education,

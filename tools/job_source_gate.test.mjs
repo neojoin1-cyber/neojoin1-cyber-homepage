@@ -1,9 +1,28 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { freshPrimarySource, preflight } from './job_source_gate.mjs';
+import { freshPrimarySource, preflight, reconciledCollection } from './job_source_gate.mjs';
+import { buildCollectionAudit } from './job_collection_audit.mjs';
 const started = '2026-09-10T00:00:00Z';
 const feed = () => ({ generatedAt: started, sourceStatus: [{ id: 'job-alio-openapi', ok: true, checkedAt: started, scannedCount: 300, scanTargetCount: 30, rawItemCount: 200 }] });
 test('fresh live rows pass', () => assert.equal(freshPrimarySource(feed(), started), true));
+test('fully paginated independent official API can survive ALIO outage, not partial or stale API', () => {
+  const value = feed(); value.sourceStatus[0].ok = false;
+  const api = { id: 'moef-public-recruit', ok: true, checkedAt: started, rawItemCount: 500, pagination: { complete: true, expectedTotal: 500 } };
+  value.sourceStatus.push(api);
+  assert.equal(freshPrimarySource(value, started), true);
+  api.pagination.complete = false;
+  assert.equal(freshPrimarySource(value, started), false);
+  api.pagination.complete = true; api.checkedAt = '2026-09-09T00:00:00Z';
+  assert.equal(freshPrimarySource(value, started), false);
+});
+test('collection audit must match this feed and this run, not an older successful artifact', () => {
+  const audit = buildCollectionAudit({ discovered: [{ source: 'a', sourceId: '1', collectionDisposition: 'detail-failed' }],
+    assessed: [], candidates: [], published: [], sources: [], generatedAt: started });
+  const value = { generatedAt: started, collectionReconciliation: audit.summary };
+  assert.equal(reconciledCollection(value, audit, started), true);
+  assert.equal(reconciledCollection(value, audit, '2026-09-11T00:00:00Z'), false);
+  assert.equal(reconciledCollection({ ...value, generatedAt: '2026-09-09T00:00:00Z' }, audit, started), false);
+});
 test('preserved previous data cannot pass as new collection', () => {
   const value = feed(); value.sourceStatus[0].ok = false; value.sourceStatus[0].fallbackItemCount = 97;
   assert.equal(freshPrimarySource(value, started), false);
