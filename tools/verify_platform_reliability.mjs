@@ -3,6 +3,7 @@ import path from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
+import { assessStudentEligibility } from './student_job_eligibility.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(__dirname, '..');
@@ -871,10 +872,12 @@ function validateFeed(feed, label = 'local') {
       unresolvedQualificationProblems.push(`${prefix} ${unresolvedQualification.slice(0, 2).join(', ')}`);
     }
     if (!titleIncludesCompanyName(item)) titleCompanyProblems.push(`${prefix} company=${item.company}`);
-    if (!assessment || assessment.version !== 1 || typeof assessment.highSchoolEligible !== 'boolean' || typeof assessment.militaryUnservedEligible !== 'boolean') {
+    if (!assessment || assessment.version !== 2 || typeof assessment.highSchoolEligible !== 'boolean' || typeof assessment.militaryUnservedEligible !== 'boolean') {
       assessmentProblems.push(prefix);
     } else {
       if (assessment.hardBlocked) blockedPublicationProblems.push(`${prefix} ${assessment.reasons?.join(', ') || ''}`);
+      const qualification = assessStudentEligibility(item);
+      if (qualification.status !== 'eligible') blockedPublicationProblems.push(`${prefix} ${qualification.reasons.join(', ')}`);
       if (item.processTrack === 'exam-formal' && item.status !== 'application_closed') {
         if (assessment.militaryUnservedEligible) militaryUnservedExamItems.push(item);
         if (assessment.militaryCompletionRequired) militaryLimitedExamItems.push(item);

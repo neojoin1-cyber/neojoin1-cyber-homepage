@@ -12,6 +12,9 @@ on:
     paths:
       - ".github/workflows/job-feed.yml"
       - "tools/fetch_vocational_jobs.mjs"
+      - "tools/student_job_eligibility.mjs"
+      - "tools/student_job_eligibility.test.mjs"
+      - "tools/extract_job_attachment.py"
       - "tools/verify_platform_reliability.mjs"
       - "index.html"
       - "docs/JOB_FEED_AUTOMATION.md"
@@ -41,6 +44,17 @@ jobs:
 
       - name: Check job feed script syntax
         run: node --check tools/fetch_vocational_jobs.mjs
+
+      - name: Verify student eligibility regressions
+        run: node --test tools/student_job_eligibility.test.mjs
+
+      - name: Use Python for official attachments
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install PDF text reader
+        run: python -m pip install 'pypdf==6.14.2'
 
       - name: Build official API job feed
         run: node tools/fetch_vocational_jobs.mjs
