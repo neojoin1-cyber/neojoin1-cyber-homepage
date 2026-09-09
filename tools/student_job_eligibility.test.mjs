@@ -105,6 +105,14 @@ test('military no-evasion clause cannot override mandatory completed service', (
   assert.equal(result.militaryCompletionRequired, true);
   assert.equal(result.militaryUnservedEligible, false);
 });
+test('parenthetical grade exception cannot cut off shared requirements', () => {
+  const raw = { ...base, recruitField: '사무직,심사직', qualification: '(공통) 학력(사무직 6급보 제외) 제한 없음. 대한민국 국적 필수. 남자는 병역필 또는 면제자. (6급 사무직 일반) 공통 지원자격 외 별도의 응시자격 없음 (6급 심사직) 간호사 면허 소지자, 관련 업무 1년 이상 경력자' };
+  const proof = assessStudentEligibility(raw);
+  assert.match(proof.eligibleEvidence, /대한민국 국적 필수/);
+  assert.equal(buildStudentChannelAssessment(raw, {}).militaryCompletionRequired, true);
+  const restricted = { ...raw, qualification: raw.qualification.replace('대한민국 국적 필수', '관련 업무 2년 이상 경력 필수') };
+  assert.notEqual(assessStudentEligibility(restricted).status, 'eligible');
+});
 test('missing military requirements are not positive evidence of unserved eligibility', () => {
   assert.equal(buildStudentChannelAssessment(base, {}).militaryUnservedEligible, false);
 });

@@ -83,6 +83,10 @@ export function assessStudentEligibility(raw = {}) {
     const rolePattern = role.split(/\s+/).map(escape).join('[\\s()]*');
     const pattern = new RegExp(`${rolePattern}\\)?(?=\\s*(?:[:：(（]|\\d+\\s*급|지원자격|응시자격))`, 'g');
     for (const match of evidence.matchAll(pattern)) {
+      // A qualification parenthesis such as "학력(사무직 6급보 제외)" is not a new role.
+      const before = evidence.slice(0, match.index);
+      if (before.lastIndexOf('(') > before.lastIndexOf(')')
+        && /^[^)]{0,60}제외\)/.test(evidence.slice(match.index))) continue;
       if (!boundaries.some((b) => match.index >= b.index && match.index < b.end)) boundaries.push({ index: match.index, role });
     }
   }
