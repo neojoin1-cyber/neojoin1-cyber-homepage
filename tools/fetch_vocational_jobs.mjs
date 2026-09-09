@@ -3970,7 +3970,7 @@ function buildSourceVerification(raw, process, displayUrl) {
   const companyNoticeUrl = firstNonFileUrl(explicitCompanyNoticeUrl);
   const check = raw.companyNoticeCheck || {};
   const hasCompanyNotice = Boolean(companyNoticeUrl);
-  const hasSpecificCompanyNotice = hasCompanyNotice && (check.status === 'content_matched' || !isHomepageUrl(companyNoticeUrl));
+  const hasSpecificCompanyNotice = hasCompanyNotice && !isHomepageUrl(companyNoticeUrl);
   const hasJobAlioOfficialDetail = /job\.alio\.go\.kr\/recruitview\.do/i.test(sourceOfficialUrl || displayOfficialUrl);
   const isPublicRecruit = process.processTrack === 'exam-formal';
   const isRegionalEducationRecruit = isRegionalEducationConcreteRecruit(raw);
@@ -6331,10 +6331,12 @@ async function fetchPublicDataEndpoint(url, source, publicSourceUrl) {
 
 export function moefRecordToRaw(record, source = catalogSource('moef-public-recruit')) {
   const raw = genericRecordToRaw(record, source, MOEF_PUBLIC_RECRUIT_DATA_URL);
+  const institutionUrl = cleanUrl(record.srcUrl);
   return { ...raw, sourceId: String(record.recrutPblntSn),
     sourceDetailUrl: `https://job.alio.go.kr/recruitview.do?idx=${encodeURIComponent(record.recrutPblntSn)}`,
     originalUrl: `https://job.alio.go.kr/recruitview.do?idx=${encodeURIComponent(record.recrutPblntSn)}`,
-    companyNoticeUrl: cleanUrl(record.srcUrl) || `https://job.alio.go.kr/recruitview.do?idx=${encodeURIComponent(record.recrutPblntSn)}`,
+    companyNoticeUrl: institutionUrl && !isHomepageUrl(institutionUrl) ? institutionUrl
+      : `https://job.alio.go.kr/recruitview.do?idx=${encodeURIComponent(record.recrutPblntSn)}`,
     region: record.workRgnNmLst || '', education: record.acbgCondNmLst || '',
     career: record.recrutSeNm || '', employmentType: record.hireTypeNmLst || '',
     qualification: htmlText(record.aplyQlfcCn || ''),

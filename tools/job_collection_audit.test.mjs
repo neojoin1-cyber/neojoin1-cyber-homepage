@@ -95,6 +95,17 @@ test('MOEF high-school beginner evidence is usable without fictitious credential
   assert.equal(normalizeItem(raw).sourceVerification.companyNoticeCheckStatus, 'link_found');
   assert.notEqual(normalizeItem(raw).sourceVerification.doubleCheckStatus, 'job_alio_detail_confirmed');
 });
+
+test('an institution homepage is not a specific verified recruitment notice', () => {
+  const raw = moefRecordToRaw({ recrutPblntSn: 123, recrutPbancTtl: '고졸 신입 채용', instNm: '기관',
+    acbgCondNmLst: '고졸', recrutSeNm: '신입', aplyQlfcCn: '고등학교 졸업예정자 지원 가능. 경력 무관.',
+    srcUrl: 'https://www.kps.co.kr/' });
+  assert.equal(raw.companyNoticeUrl, 'https://job.alio.go.kr/recruitview.do?idx=123');
+  const item = normalizeItem({ ...raw, companyNoticeUrl: 'https://www.kps.co.kr/',
+    companyNoticeCheck: { status: 'content_matched', reachable: true, companyMatched: true } });
+  assert.equal(item.sourceVerification.primaryOfficialUrl, raw.sourceDetailUrl);
+  assert.notEqual(item.sourceVerification.doubleCheckStatus, 'company_notice_confirmed');
+});
 test('employer eligibility keeps restrictions beyond the 780-character summary', () => {
   const raw = recruiterJobflexRecordToRaw({ positionSn: 1, title: '고졸 채용', careerType: 'NEW' },
     { jobDescription: `<p>고졸 신입 지원 가능.</p>${'업무 안내입니다. '.repeat(150)}<p>필수자격: 관련 경력 3년 이상</p>` },
