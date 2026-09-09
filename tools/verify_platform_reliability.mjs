@@ -452,13 +452,14 @@ function highSchoolSuitabilityProblem(item) {
   const strongHighSchool = hasStrongHighSchoolSignal(item);
   const entryLevel = hasEntryLevelSignal(item);
   const educationOpen = hasEducationOpenSignal(item);
-  const hasEligibleMixedRole = Boolean(item.roleEligibility?.mixed && item.roleEligibility?.eligibleRoles?.length);
+  const hasEligibleMixedRole = Boolean(item.roleEligibility?.eligibleRoles?.length
+    && assessStudentEligibility(item).status === 'eligible');
   if (CANCELED_RECRUIT_PATTERN.test(text)) return 'canceled-recruit';
   if (EXPLICIT_COLLEGE_LEVEL_RECRUIT_PATTERN.test(headline) && !MIXED_HIGH_SCHOOL_RECRUIT_PATTERN.test(headline)) return 'college-level-headline';
   if (hasCollegeOnlyApplicantSignal(item) && !hasEligibleMixedRole) return 'college-or-degree-only';
   if (hasStudentRecommendationMismatchSignal(item)) return 'student-recommendation-mismatch';
   if (STUDENT_UNSUITABLE_HEALTHCARE_ROLE_PATTERN.test(text) && !hasEligibleMixedRole) return 'student-unsuitable-professional-healthcare';
-  if (SENIOR_ROLE_PATTERN.test(text)) return 'senior-role';
+  if (SENIOR_ROLE_PATTERN.test([item.title, item.baseTitle, item.recruitField].filter(Boolean).join(' ').replace(/학교장\s*추천/g, ''))) return 'senior-role';
   if (!strongHighSchool && PROFESSIONAL_ONLY_PATTERN.test(text) && !hasEligibleMixedRole) return 'professional-only';
   if (!strongHighSchool && !educationOpen && ADVANCED_EDU_PATTERN.test(text)) return 'advanced-education-only';
   if (!strongHighSchool && !entryLevel && !educationOpen && RESTRICTED_ROLE_PATTERN.test(text)) return 'restricted-role';
