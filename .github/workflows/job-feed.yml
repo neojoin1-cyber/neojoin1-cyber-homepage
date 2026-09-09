@@ -17,6 +17,8 @@ on:
       - "tools/reviewed_job_evidence.mjs"
       - "tools/extract_job_attachment.test.py"
       - "tools/extract_job_attachment.py"
+      - "tools/job_source_gate.mjs"
+      - "tools/job_source_gate.test.mjs"
       - "tools/verify_platform_reliability.mjs"
       - "index.html"
       - "docs/JOB_FEED_AUTOMATION.md"
@@ -49,6 +51,15 @@ jobs:
 
       - name: Check job feed script syntax
         run: node --check tools/fetch_vocational_jobs.mjs
+
+      - name: Record collection start
+        run: node -e "require('fs').appendFileSync(process.env.GITHUB_ENV, 'JOB_FEED_RUN_STARTED_AT=' + new Date().toISOString() + '\n')"
+
+      - name: Verify source gate regressions
+        run: node --test tools/job_source_gate.test.mjs
+
+      - name: Official source preflight
+        run: node tools/job_source_gate.mjs preflight
 
       - name: Verify student eligibility regressions
         run: node --test tools/student_job_eligibility.test.mjs
@@ -102,6 +113,9 @@ jobs:
 
       - name: Verify platform reliability gate
         run: node tools/verify_platform_reliability.mjs
+
+      - name: Verify primary source freshness
+        run: node tools/job_source_gate.mjs freshness
 
       - name: Commit updated feed
         run: |
