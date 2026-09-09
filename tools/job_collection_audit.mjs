@@ -42,6 +42,7 @@ export async function collectPages({ fetchPage, recordKey, pageSize = 100, maxPa
 
 export const recordIdentity = (x) => `${x.source}:${x.sourceId || x.id}`;
 const duplicateKey = (x) => [x.baseTitle || x.title, x.company, x.deadline || ''].join('|').toLowerCase();
+const canonicalDate = (value) => String(value || '').replace(/^(\d{4})(\d{2})(\d{2})$/, '$1-$2-$3').slice(0, 10);
 
 export function buildCollectionAudit({ discovered, assessed, candidates, published, sources, previous = {}, generatedAt }) {
   const assessment = new Map(assessed.map((x) => [recordIdentity(x), x]));
@@ -73,7 +74,8 @@ export function buildCollectionAudit({ discovered, assessed, candidates, publish
     const unresolved = ['unexplained', 'needs-review', 'detail-failed', 'deferred', 'publication-review'].includes(disposition);
     const old = prior.get(key);
     return { key, source: row.source, sourceId: String(row.sourceId || row.id), title: row.title, company: row.company,
-      url: row.originalUrl || row.url || '', deadline: row.deadline || '', disposition, reasons,
+      url: row.originalUrl || row.url || '', deadline: canonicalDate(row.deadline), disposition, reasons,
+      retrievalDisposition: row.collectionDisposition || (item ? 'assessed' : 'unprocessed'),
       publishedId: match?.id || null, firstSeenAt: old?.firstSeenAt || generatedAt, checkedAt: generatedAt,
       unresolvedSince: unresolved ? old?.unresolvedSince || generatedAt : null,
       consecutiveUnresolved: unresolved ? (old?.consecutiveUnresolved || 0) + 1 : 0,
@@ -81,8 +83,11 @@ export function buildCollectionAudit({ discovered, assessed, candidates, publish
   });
   const counts = {};
   for (const row of records) counts[row.disposition] = (counts[row.disposition] || 0) + 1;
-  const sourceCoverage = sources.map((source) => ({ id: source.id, configured: source.configured, ok: source.ok,
+  const sourceCoverage = sources.map((source) => ({ id: source.id, name: source.name, configured: source.configured, ok: source.ok,
     pagination: source.pagination || null, failedUrlCount: source.failedUrlCount || 0,
+    discoveryIncompleteCount: source.discoveryIncompleteCount || 0,
+    watchFailures: source.watchFailures || [],
+    reachabilityOnlyEmployers: source.reachabilityOnlyEmployers || [],
     scope: source.collectionScope || 'Configured discovery/parser scope; not an exhaustive site crawl',
     discovered: records.filter((x) => x.source === source.id).length }));
   const missingFromCurrentDiscovery = (previous.records || []).filter((x) => !inventory.has(x.key)

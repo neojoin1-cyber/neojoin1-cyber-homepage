@@ -139,7 +139,7 @@
           'policy-excluded': '학생 추천 기준 제외', 'publication-review': '게시 단계 재검토', unexplained: '처리 누락' };
         const counts = Object.entries(audit.summary.counts).map(([key, count]) => `${labels[key] || key} ${Number(count)}건`).join(' · ');
         const unconnected = audit.sources.filter((source) => !source.configured).length;
-        const problems = audit.sources.filter((source) => source.configured && (!source.ok || source.failedUrlCount || source.pagination && !source.pagination.complete));
+        const problems = audit.sources.filter((source) => source.configured && (!source.ok || source.failedUrlCount || source.discoveryIncompleteCount || source.pagination && !source.pagination.complete));
         const priority = audit.records.filter((row) => row.priority === 'high' && row.unresolvedSince).slice(0, 8);
         output.innerHTML = `<p><strong>발견 ${Number(audit.summary.discovered)}건 처리 대조</strong><br>${escapeHtml(counts)}</p>
           <p>미연결 수집원 ${unconnected}곳 · 부분 실패/미완료 ${problems.length}곳 · 이전 회차 대비 재확인 대상 ${Number(audit.summary.disappearedActive)}건<br>공식 목록에서 발견한 공고의 처리 내역입니다. 전국 모든 공고의 수집을 보장하는 수치는 아닙니다.</p>

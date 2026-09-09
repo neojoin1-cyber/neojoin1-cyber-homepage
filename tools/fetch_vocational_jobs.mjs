@@ -2838,7 +2838,7 @@ function recruiterJobflexAttachments(detail = {}) {
     .filter((file) => file.url);
 }
 
-function recruiterJobflexRecordToRaw(record, detail, source, sourceUrl, feedEntry, prefix) {
+export function recruiterJobflexRecordToRaw(record, detail, source, sourceUrl, feedEntry, prefix) {
   const text = recruiterJobflexText(record, detail);
   const knownDetails = recruiterJobflexKnownOfficialDetails(record, detail);
   const positionSn = detail.positionSn || record.positionSn;
@@ -2872,6 +2872,8 @@ function recruiterJobflexRecordToRaw(record, detail, source, sourceUrl, feedEntr
     sourceDetailUrl: sourceUrl,
     companyNoticeUrl: publicUrl,
     processText: knownDetails?.processText || keywordSnippet(text, ['서류', '필기', 'NCS', '인적성', '면접', '전형', '합격자'], '전형절차 원문 확인', 260),
+    qualification: htmlText(detail.jobDescription || ''),
+    qualificationEvidenceIncomplete: !htmlText(detail.jobDescription || ''),
     description: shortText(knownDetails?.description || text, '채용대행 공식 페이지에서 지원 가능 신호가 확인되었습니다.', 780),
     attachments: recruiterJobflexAttachments(detail)
   };
@@ -2880,22 +2882,28 @@ function recruiterJobflexRecordToRaw(record, detail, source, sourceUrl, feedEntr
 async function fetchRecruiterJobflexRecords(source, sourceUrl, feedEntry = {}) {
   const prefix = recruiterJobflexPrefixFromUrl(sourceUrl);
   if (!prefix) return { checked: false, records: [] };
-  const listBody = await fetchWithTimeout(RECRUITER_JOBFLEX_LIST_URL, {
-    method: 'POST',
-    timeoutMs: OFFICIAL_WATCH_TIMEOUT_MS,
-    headers: recruiterJobflexHeaders(prefix),
-    body: JSON.stringify({
-      pageableRq: { page: 1, size: RECRUITER_JOBFLEX_PAGE_SIZE },
-      filter: { resumeLanguageTypeList: ['KOR'] }
-    })
+  const inventory = await collectPages({ pageSize: RECRUITER_JOBFLEX_PAGE_SIZE, maxPages: 10,
+    recordKey: (row) => row.positionSn,
+    fetchPage: async (page, size) => {
+      const body = await fetchWithTimeout(RECRUITER_JOBFLEX_LIST_URL, {
+        method: 'POST', timeoutMs: OFFICIAL_WATCH_TIMEOUT_MS, headers: recruiterJobflexHeaders(prefix),
+        body: JSON.stringify({ pageableRq: { page, size }, filter: { resumeLanguageTypeList: ['KOR'] } })
+      });
+      const payload = JSON.parse(body);
+      if (!Array.isArray(payload.list)) throw new Error('Missing recruiter list');
+      return { records: payload.list, totalCount: payload.pagination?.totalCount ?? null };
+    }
   });
-  const payload = JSON.parse(listBody);
-  const list = Array.isArray(payload.list) ? payload.list : [];
-  const currentList = list
-    .filter((record) => recruiterJobflexIsCurrent(record))
-    .slice(0, RECRUITER_JOBFLEX_PAGE_SIZE);
-  const detailResults = await mapWithConcurrency(currentList, RECRUITER_JOBFLEX_DETAIL_CONCURRENCY, async (record) => {
-    if (!record?.positionSn) return { record, detail: {} };
+  if (!inventory.pages.length) throw new Error('Recruiter list unavailable');
+  const currentList = inventory.records.filter((record) => recruiterJobflexIsCurrent(record));
+  const discovery = (record, disposition) => {
+    const raw = recruiterJobflexRecordToRaw(record, {}, source, sourceUrl, feedEntry, prefix);
+    COLLECTION_DISCOVERED.set(`${source.id}:${raw.sourceId}`, { ...raw, collectionDisposition: disposition });
+  };
+  for (const record of inventory.records) if (!recruiterJobflexIsCurrent(record)) discovery(record, 'closed');
+  for (const record of currentList.slice(160)) discovery(record, 'deferred');
+  let detailFailures = 0;
+  const detailResults = await mapWithConcurrency(currentList.slice(0, 160), RECRUITER_JOBFLEX_DETAIL_CONCURRENCY, async (record) => {
     try {
       const detailBody = await fetchWithTimeout(`${RECRUITER_JOBFLEX_DETAIL_BASE_URL}/${encodeURIComponent(String(record.positionSn))}`, {
         timeoutMs: OFFICIAL_WATCH_TIMEOUT_MS,
@@ -2903,16 +2911,19 @@ async function fetchRecruiterJobflexRecords(source, sourceUrl, feedEntry = {}) {
       });
       return { record, detail: JSON.parse(detailBody) };
     } catch {
-      return { record, detail: {} };
+      detailFailures += 1;
+      discovery(record, 'detail-failed');
+      return null;
     }
   });
-  const records = detailResults
-    .filter(({ record, detail }) => recruiterJobflexLooksRelevant(record, detail))
+  // All fetched details enter eligibility assessment, including obvious non-student jobs.
+  const records = detailResults.filter(Boolean)
     .map(({ record, detail }) => recruiterJobflexRecordToRaw(record, detail, source, sourceUrl, feedEntry, prefix));
   return {
     checked: true,
-    totalCount: Number(payload.pagination?.totalCount || list.length || 0),
+    totalCount: inventory.expectedTotal ?? inventory.records.length,
     currentCount: currentList.length,
+    pagination: { ...inventory, records: undefined, detailFailures, detailDeferred: Math.max(0, currentList.length - 160) },
     records
   };
 }
@@ -5911,7 +5922,8 @@ function buildFeedHealth(payload, safetyReport = null, statusOverride = '') {
   const sources = Array.isArray(payload.sourceStatus) ? payload.sourceStatus : [];
   const configuredSources = sources.filter((source) => source.configured);
   const failedConfiguredSources = configuredSources.filter((source) => !source.ok);
-  const partialSources = configuredSources.filter((source) => source.failedUrlCount > 0);
+  const partialSources = configuredSources.filter((source) => source.failedUrlCount > 0
+    || source.discoveryIncompleteCount > 0 || source.pagination && !source.pagination.complete);
   const unconfiguredSources = sources.filter((source) => !source.configured);
   const status = statusOverride
     || (summary.total > 0 && !summary.criticalCoverageMissing && !failedConfiguredSources.length && !partialSources.length
@@ -7523,6 +7535,7 @@ async function fetchGenericConfiguredSource(id) {
   let recruiterApiRecordCount = 0;
   const reachabilityOnlyEmployers = [];
   const recruiterApiFailures = [];
+  const providerPagination = [];
   const results = await mapWithConcurrency(entries, GENERIC_OFFICIAL_FEED_CONCURRENCY, async (entry) => {
     try {
       let { body, sourceUrl } = await fetchEntryBody(entry);
@@ -7557,6 +7570,7 @@ async function fetchGenericConfiguredSource(id) {
         recruiterApiTotalCount: recruiterApiResult.totalCount || 0,
         recruiterApiCurrentCount: recruiterApiResult.currentCount || 0,
         recruiterApiRecordCount: recruiterApiResult.records?.length || 0,
+        recruiterPagination: recruiterApiResult.pagination,
         recruiterApiError
       };
     } catch (error) {
@@ -7573,6 +7587,7 @@ async function fetchGenericConfiguredSource(id) {
             recruiterApiTotalCount: recruiterApiResult.totalCount || 0,
             recruiterApiCurrentCount: recruiterApiResult.currentCount || 0,
             recruiterApiRecordCount: recruiterApiResult.records?.length || 0,
+            recruiterPagination: recruiterApiResult.pagination,
             recruiterApiError: '',
             htmlFetchError: sanitizeFetchErrorMessage(error.message)
           };
@@ -7620,6 +7635,7 @@ async function fetchGenericConfiguredSource(id) {
         recruiterApiTotalCount += result.recruiterApiTotalCount || 0;
         recruiterApiCurrentCount += result.recruiterApiCurrentCount || 0;
         recruiterApiRecordCount += result.recruiterApiRecordCount || 0;
+        if (result.recruiterPagination) providerPagination.push({ employer: result.entry.employer, ...result.recruiterPagination });
       }
       if (result.recruiterApiError) {
         recruiterApiFailures.push(`${result.entry.employer || result.url}: ${result.recruiterApiError}`);
@@ -7662,6 +7678,12 @@ async function fetchGenericConfiguredSource(id) {
       recruiterApiRecordCount,
       recruiterApiFailures: recruiterApiFailures.slice(0, 12),
       failedUrlCount: errors.length,
+      discoveryIncompleteCount: reachabilityOnlyCount + recruiterApiFailures.length
+        + providerPagination.reduce((n, scan) => n + scan.detailFailures + scan.detailDeferred + Number(!scan.complete), 0),
+      pagination: providerPagination.length ? { complete: providerPagination.every((scan) => scan.complete), providers: providerPagination } : undefined,
+      collectionScope: verificationOnlyRegionalEducation
+        ? 'Configured education-office board pages; secondary verification only, not employer-original recommendations'
+        : 'Configured employer watch pages and paginated recruiter API lists; HTML-only sites may need dedicated adapters',
       watchFailures: errors.slice(0, 12),
       message: ok
         ? `공식 채용 페이지 ${checkedUrlCount}/${entries.length}개 감시, 채용대행 API ${recruiterApiCheckedCount}개 추가확인, 표시후보 ${normalized.length}건, 보조검증 후보 ${verificationItems.length}건, 접속확인전용 ${reachabilityOnlyCount}개, 실패 ${errors.length}개`
@@ -7943,6 +7965,14 @@ async function main() {
     runSource('saramin-job-search', fetchSaraminJobSearch)
   ]);
   results.push(...await pendingCatalogSources());
+  for (const [key, row] of QUALIFICATION_REVIEW) {
+    const refreshedNativeApi = ['mpm-public-job', 'moef-public-recruit'].includes(row.source)
+      && results.some((result) => result.status.id === row.source && result.status.ok);
+    const discovery = COLLECTION_DISCOVERED.get(key);
+    if (refreshedNativeApi && (!/^\d+$/.test(String(row.sourceId || '')) || discovery?.collectionDisposition === 'closed')) {
+      QUALIFICATION_REVIEW.delete(key);
+    }
+  }
 
   const initialSourceStatusList = results.map((result) => result.status);
   const freshItems = results.flatMap((result) => result.items || []);

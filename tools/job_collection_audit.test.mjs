@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { collectPages, buildCollectionAudit, assertCollectionAudit } from './job_collection_audit.mjs';
-import { moefRecordToRaw } from './fetch_vocational_jobs.mjs';
+import { moefRecordToRaw, recruiterJobflexRecordToRaw } from './fetch_vocational_jobs.mjs';
 import { assessStudentEligibility } from './student_job_eligibility.mjs';
 
 const pager = (pages, overrides = {}) => collectPages({ fetchPage: async (n) => pages[n - 1] || { records: [] },
@@ -79,4 +79,17 @@ test('MOEF high-school beginner evidence is usable without fictitious credential
   const raw = moefRecordToRaw({ recrutPblntSn: 1, recrutPbancTtl: '고졸 신입 채용', instNm: '기관',
     acbgCondNmLst: '고졸', recrutSeNm: '신입', aplyQlfcCn: '고등학교 졸업예정자 지원 가능. 경력 무관.' });
   assert.equal(assessStudentEligibility(raw).status, 'eligible');
+});
+test('employer eligibility keeps restrictions beyond the 780-character summary', () => {
+  const raw = recruiterJobflexRecordToRaw({ positionSn: 1, title: '고졸 채용', careerType: 'NEW' },
+    { jobDescription: `<p>고졸 신입 지원 가능.</p>${'업무 안내입니다. '.repeat(150)}<p>필수자격: 관련 경력 3년 이상</p>` },
+    { id: 'finance-large-company-recruit', name: '공식기업' }, 'https://example.recruiter.co.kr/', { employer: '기업' }, 'example.recruiter.co.kr');
+  assert.ok(raw.qualification.length > 780);
+  assert.equal(assessStudentEligibility(raw).status, 'ineligible');
+});
+test('employer list metadata cannot masquerade as a fetched qualification', () => {
+  const raw = recruiterJobflexRecordToRaw({ positionSn: 1, title: '고졸 신입 채용', careerType: 'NEW' }, {},
+    { id: 'finance-large-company-recruit', name: '공식기업' }, 'https://example.recruiter.co.kr/', { employer: '기업' }, 'example.recruiter.co.kr');
+  assert.equal(raw.qualificationEvidenceIncomplete, true);
+  assert.notEqual(assessStudentEligibility(raw).status, 'eligible');
 });
