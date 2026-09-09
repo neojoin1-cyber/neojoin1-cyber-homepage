@@ -1,0 +1,3415 @@
+{
+  "version": 1,
+  "generatedAt": "2026-09-09T18:20:42.175Z",
+  "scope": {
+    "lookbackDays": 120,
+    "maxPagesPerBoard": 12,
+    "nationwideCompletenessGuaranteed": false
+  },
+  "sources": [
+    {
+      "id": "busan-highschool",
+      "name": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?bbsId=2756&mi=31898",
+      "pages": 10,
+      "stopReason": "last-page",
+      "error": "",
+      "ok": true,
+      "listed": 96,
+      "candidates": 96,
+      "detailsRead": 96,
+      "detailsFailed": 0
+    },
+    {
+      "id": "incheon-highschool",
+      "name": "인천교육청 취업지원센터",
+      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttList.do?mi=10427&bbsId=1616",
+      "pages": 3,
+      "stopReason": "lookback-reached",
+      "error": "",
+      "ok": true,
+      "listed": 15,
+      "candidates": 15,
+      "detailsRead": 15,
+      "detailsFailed": 0
+    },
+    {
+      "id": "gwangju-public",
+      "name": "광주교육청 공공기관·추천채용",
+      "url": "https://jpl.gen.go.kr/xboard/board.php?tbnum=1",
+      "pages": 2,
+      "stopReason": "lookback-reached",
+      "error": "",
+      "ok": true,
+      "listed": 9,
+      "candidates": 7,
+      "detailsRead": 7,
+      "detailsFailed": 0
+    },
+    {
+      "id": "hifive-central",
+      "name": "HIFIVE 중앙 취업지원 공지",
+      "url": "https://www.hifive.go.kr/front/bbs/bbsList.do?bbs_id=1&menuId=0501&rootMenuId=05",
+      "pages": 3,
+      "stopReason": "lookback-reached",
+      "error": "",
+      "ok": true,
+      "listed": 18,
+      "candidates": 5,
+      "detailsRead": 5,
+      "detailsFailed": 0
+    },
+    {
+      "id": "jeju-highschool",
+      "name": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/list.jje?boardId=BBS_0000266&contentsSid=531&menuCd=DOM_000000301001000000&paging=ok",
+      "pages": 5,
+      "stopReason": "lookback-reached",
+      "error": "",
+      "ok": true,
+      "listed": 37,
+      "candidates": 24,
+      "detailsRead": 23,
+      "detailsFailed": 1
+    }
+  ],
+  "records": [
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1179829&bbsId=2756",
+      "title": "2026년 하반기 일반직 8급 신입(인턴)사원 채용공고[고졸전형 포함]",
+      "company": "한국도로공사",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-09-15",
+      "deadline": "2026-09-22",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "http://www.ex.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "published-match",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": [
+        {
+          "id": "3838ed24f7262a4696",
+          "company": "한국도로공사",
+          "title": "2026년 하반기 한국도로공사 일반직 신입(인턴)사원 채용 공고",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304761",
+          "published": true,
+          "qualification": "eligible",
+          "roles": [
+            "8급공채"
+          ]
+        },
+        {
+          "id": "2292a0cc5e717476e6",
+          "company": "한국도로공사",
+          "title": "2026년 하반기 한국도로공사 일반직 신입(인턴)사원 채용",
+          "url": "https://www.gojobs.go.kr/apmView.do?empmnsn=303108",
+          "published": false,
+          "qualification": "review",
+          "roles": []
+        },
+        {
+          "id": "a1167545911b97e93a",
+          "company": "한국도로공사",
+          "title": "2026년 하반기 한국도로공사 일반직 신입(인턴)사원 채용 공고",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304761",
+          "published": false,
+          "qualification": "eligible",
+          "roles": [
+            "8급공채"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1179827&bbsId=2756",
+      "title": "2026년 채용형 인턴 채용공고",
+      "company": "한국전기안전공사",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-09-14",
+      "deadline": "2026-09-22",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kesco.scout.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "published-match",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": [
+        {
+          "id": "ec501e70b0cc3f05b9",
+          "company": "한국전기안전공사",
+          "title": "한국전기안전공사 2026년 하반기 공무직원 채용",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304764",
+          "published": false,
+          "qualification": "ineligible",
+          "roles": []
+        },
+        {
+          "id": "521d5590ac6819b5f7",
+          "company": "한국전기안전공사",
+          "title": "한국전기안전공사 2026년 하반기 경력직원 채용",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304763",
+          "published": false,
+          "qualification": "ineligible",
+          "roles": []
+        },
+        {
+          "id": "87feb1214969616474",
+          "company": "한국전기안전공사",
+          "title": "한국전기안전공사 2026년 하반기 채용형 인턴 채용",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304762",
+          "published": true,
+          "qualification": "eligible",
+          "roles": [
+            "경영관리(일반)",
+            "기술(일반)"
+          ]
+        },
+        {
+          "id": "454597032b0f7bbe95",
+          "company": "한국전기안전공사",
+          "title": "한국전기안전공사 2026년 하반기 경력직원 채용",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304763",
+          "published": false,
+          "qualification": "ineligible",
+          "roles": []
+        },
+        {
+          "id": "b265f44acf1450dc80",
+          "company": "한국전기안전공사",
+          "title": "한국전기안전공사 2026년 하반기 공무직원 채용",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304764",
+          "published": false,
+          "qualification": "ineligible",
+          "roles": []
+        },
+        {
+          "id": "2a31263bc7e961f6bd",
+          "company": "한국전기안전공사",
+          "title": "한국전기안전공사 2026년 하반기 채용형 인턴 채용",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304762",
+          "published": false,
+          "qualification": "eligible",
+          "roles": [
+            "경영관리(일반)",
+            "기술(일반)"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1179706&bbsId=2756",
+      "title": "2026년 하반기 정규직(5급, 6급) 채용공고[자립준비청년/고졸)",
+      "company": "한국산림복지진흥원",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-09-08",
+      "deadline": "2026-09-21",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://www.fowi.or.kr/user/bbs/bbsList.do?bbsManageId=22"
+      ],
+      "detailStatus": "read",
+      "outcome": "qualification-or-policy-review",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": [
+        {
+          "id": "de3cca184fa6deb7ff",
+          "company": "한국산림복지진흥원",
+          "title": "2026년도 하반기 한국산림복지진흥원 공무직 채용 공고",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304615",
+          "published": true,
+          "qualification": "eligible",
+          "roles": [
+            "공개경쟁채용"
+          ]
+        },
+        {
+          "id": "8fe83e6e396c85f374",
+          "company": "한국산림복지진흥원",
+          "title": "2026년도 하반기 한국산림복지진흥원 정규직(5급, 6급) 채용 공고",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304612",
+          "published": true,
+          "qualification": "eligible",
+          "roles": [
+            "공개경쟁채용"
+          ]
+        },
+        {
+          "id": "0295ae7d66b4627a67",
+          "company": "한국산림복지진흥원",
+          "title": "2026년도 하반기 한국산림복지진흥원 공무직 채용 공고",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304615",
+          "published": false,
+          "qualification": "eligible",
+          "roles": [
+            "공개경쟁채용"
+          ]
+        },
+        {
+          "id": "3c60430d824be19bc1",
+          "company": "한국산림복지진흥원",
+          "title": "2026년도 하반기 한국산림복지진흥원 정규직(5급, 6급) 채용 공고",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304612",
+          "published": false,
+          "qualification": "eligible",
+          "roles": [
+            "공개경쟁채용"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1179702&bbsId=2756",
+      "title": "2026년 하반기 신입직원 채용공고[고졸전형 포함]",
+      "company": "국민연금공단",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-09-04",
+      "deadline": "2026-09-18",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://www.nps.or.kr/pnsgdnc/hiregdnc/getOHAE0004M0List.do?menuId=MN24000969"
+      ],
+      "detailStatus": "read",
+      "outcome": "published-match",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": [
+        {
+          "id": "5e15eb45e30ad1491c",
+          "company": "국민연금공단",
+          "title": "국민연금공단 2026년도 하반기 일반직 신입직원 공개채용 공고",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304656",
+          "published": true,
+          "qualification": "eligible",
+          "roles": [
+            "6급 사무직 일반",
+            "6급보 사무직 일반"
+          ]
+        },
+        {
+          "id": "ebfaff38e2358297c6",
+          "company": "국민연금공단",
+          "title": "국민연금공단 2026년도 하반기 일반직 신입직원 공개채용 공고",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304656",
+          "published": false,
+          "qualification": "eligible",
+          "roles": [
+            "6급 사무직 일반",
+            "6급보 사무직 일반"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1179399&bbsId=2756",
+      "title": "정규직(신입) 채용공고[고졸전형 포함]",
+      "company": "부산항만공사",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-09-09",
+      "deadline": "2026-09-17",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "http://www.busanpa.com/"
+      ],
+      "detailStatus": "read",
+      "outcome": "published-match",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": [
+        {
+          "id": "6e948715f165a14c52",
+          "company": "부산항만공사",
+          "title": "부산항만공사 정규직(신입) 채용 공고",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304555",
+          "published": true,
+          "qualification": "eligible",
+          "roles": [
+            "사무(고졸)"
+          ]
+        },
+        {
+          "id": "99f053b8f989a61201",
+          "company": "부산항만공사",
+          "title": "부산항만공사 정규직(신입) 채용 공고",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304555",
+          "published": false,
+          "qualification": "eligible",
+          "roles": [
+            "사무(고졸)"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1179312&bbsId=2756",
+      "title": "2026년 하반기 신입직원 채용공고[고졸전형 포함]",
+      "company": "신용보증기금",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-09-02",
+      "deadline": "2026-09-16",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "http://kodit.saramin.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "published-match",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": [
+        {
+          "id": "2ce78b917c92b75ee9",
+          "company": "신용보증기금",
+          "title": "2026년도 하반기 신용보증기금 신입직원 채용",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304432",
+          "published": false,
+          "qualification": "review",
+          "roles": []
+        },
+        {
+          "id": "695bc38d561a631943",
+          "company": "신용보증기금",
+          "title": "2026년도 하반기 신용보증기금 신입직원 채용",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304432",
+          "published": true,
+          "qualification": "eligible",
+          "roles": [
+            "고교 경영금융",
+            "고교 정보통신"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1179047&bbsId=2756",
+      "title": "2026년 신입직원 채용공고[고졸전형 포함]",
+      "company": "예금보험공사",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-08-28",
+      "deadline": "2026-09-11",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://www.kdic.or.kr/di/empm/selectPbcrEmpmPbancList.do"
+      ],
+      "detailStatus": "read",
+      "outcome": "published-match",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": [
+        {
+          "id": "bb8ea0f9e9e26197b1",
+          "company": "예금보험공사",
+          "title": "2026년도 예금보험공사 신입직원 채용안내",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304400",
+          "published": true,
+          "qualification": "eligible",
+          "roles": []
+        },
+        {
+          "id": "ddf71f61ed97d678f1",
+          "company": "예금보험공사",
+          "title": "2026년도 예금보험공사 신입직원 채용안내",
+          "url": "https://www.gojobs.go.kr/apmView.do?empmnsn=302351",
+          "published": false,
+          "qualification": "eligible",
+          "roles": [
+            "모집분야",
+            "고용형태",
+            "접수기간",
+            "전형절차"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1178777&bbsId=2756",
+      "title": "2026년 신입직원 채용공고[고졸전형 포함]",
+      "company": "한국환경공단",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-08-28",
+      "deadline": "2026-09-08",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://keco.applyin.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1178669&bbsId=2756",
+      "title": "26년 3차 점포직군 신입/경력(정규직 매니저) 공개채용",
+      "company": "투썸플레이스",
+      "category": "일반기업",
+      "postedAt": "",
+      "start": "2026-08-25",
+      "deadline": "2026-09-06",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://twosomeplace.recruiter.co.kr/app/jobnotice/view?systemKindCode=MRS2&jobnoticeSn=263758"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1178663&bbsId=2756",
+      "title": "26년 8월 창원공장 계약직(생산직/시설직) 채용",
+      "company": "세방전지(주)",
+      "category": "일반기업",
+      "postedAt": "",
+      "start": "2026-08-21",
+      "deadline": "2026-08-30",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://www.cretop.com/ET/BR/ETBR080M1?h=1787618784239"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1178660&bbsId=2756",
+      "title": "2026년 구미공장 기능직 경력사원 채용공고",
+      "company": "도레이첨단소재(주)",
+      "category": "일반기업",
+      "postedAt": "",
+      "start": "2026-08-24",
+      "deadline": "2026-09-06",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://toray.recruiter.co.kr/app/jobnotice/view?systemKindCode=MRS2&jobnoticeSn=263813"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1178462&bbsId=2756",
+      "title": "2026년 하반기 업무직 신입사원 채용공고[직업계고]",
+      "company": "NH투자증권",
+      "category": "대기업",
+      "postedAt": "",
+      "start": "2026-08-18",
+      "deadline": "2026-08-31",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://nhqv.recruiter.co.kr/career/jobs/125127"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1178386&bbsId=2756",
+      "title": "2026년 하반기 신규직원 채용공고[고졸전형 포함]",
+      "company": "서울대학교병원",
+      "category": "일반기업",
+      "postedAt": "",
+      "start": "2026-08-19",
+      "deadline": "2026-09-02",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://recruit.snuh.org/joining/recruit/view.do?notice_type=E&recruit_id=26110"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1178383&bbsId=2756",
+      "title": "2026년 하반기 신입직원 채용공고[고졸전형 포함]",
+      "company": "한국산업단지공단",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-08-27",
+      "deadline": "2026-09-03",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kicox.saramin.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1178256&bbsId=2756",
+      "title": "2026년 경영지원부 사회형평적(고졸) 체험형 청년인턴 채용공",
+      "company": "한국장애인개발원",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-08-14",
+      "deadline": "2026-08-28",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://koddi.fairyhr.com/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1178020&bbsId=2756",
+      "title": "2026년 하반기 체험형 청년인턴 공개채용",
+      "company": "한국전력거래소",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-08-13",
+      "deadline": "2026-08-28",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "http://kpx.saramin.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1177999&bbsId=2756",
+      "title": "2026년 하반기 직원(정규직) 채용공고[고졸전형 포함]",
+      "company": "한국석유공사",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-08-19",
+      "deadline": "2026-08-28",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://knoc.recruitlab.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1177993&bbsId=2756",
+      "title": "2026년 사무직[고졸] 신입사원 채용공고",
+      "company": "한국무역보험공사",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-08-21",
+      "deadline": "2026-08-28",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://ksure-i.incruit.com/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1177881&bbsId=2756",
+      "title": "장비정비 신입사원 채용",
+      "company": "한국공항",
+      "category": "대기업",
+      "postedAt": "",
+      "start": "2026-08-13",
+      "deadline": "2026-08-19",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kas.recruiter.co.kr/career/jobs/124743"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1177803&bbsId=2756",
+      "title": "제조직(기간제) 채용",
+      "company": "코닝정밀소재",
+      "category": "일반기업",
+      "postedAt": "",
+      "start": "2026-08-10",
+      "deadline": "2026-08-24",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://materials.careerlink.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1177800&bbsId=2756",
+      "title": "특수공정(케미컬) 계약직 채용",
+      "company": "한국항공우주산업(주)",
+      "category": "일반기업",
+      "postedAt": "",
+      "start": "2026-08-10",
+      "deadline": "2026-08-17",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://koreaaero.recruiter.co.kr/career/jobs/124566"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1177798&bbsId=2756",
+      "title": "생산팀(제조) 신입사원 채용",
+      "company": "코스맥스(주)",
+      "category": "일반기업",
+      "postedAt": "",
+      "start": "2026-08-12",
+      "deadline": "2026-08-18",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://cosmax.recruiter.co.kr/career/jobs/124652"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1177689&bbsId=2756",
+      "title": "신입사원(요금담당) 채용",
+      "company": "참빛충북도시가스(주)",
+      "category": "일반기업",
+      "postedAt": "",
+      "start": "2026-08-11",
+      "deadline": "2026-08-22",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://cvcorp.recruiter.co.kr/career/jobs/124523"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1177685&bbsId=2756",
+      "title": "2026년 하반기 기능직 신입사원 채용",
+      "company": "롯데정밀화학",
+      "category": "대기업",
+      "postedAt": "",
+      "start": "2026-08-10",
+      "deadline": "2026-08-17",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://recruit.lotte.co.kr/apply/announcement/detail/21930525?compcd=?id=bookmark1002"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1177591&bbsId=2756",
+      "title": "2026년 하반기 신입사원 채용공고[고졸전형 포함]",
+      "company": "한국철도공사",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-08-18",
+      "deadline": "2026-08-21",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://info.korail.com/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1177439&bbsId=2756",
+      "title": "2026년 하반기 채용공고[고졸전형 포함]",
+      "company": "한국산업안전보건공단",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-08-12",
+      "deadline": "2026-08-24",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kosha.career.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1177382&bbsId=2756",
+      "title": "2026년 하반기 체험형 청년인턴 채용공고",
+      "company": "한국산림복지진흥원",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-08-10",
+      "deadline": "2026-08-20",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "http://recruit.incruit.com/fowi"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1177370&bbsId=2756",
+      "title": "2026년 2차 신규직원(행정직) 채용공고[고졸전형 포함]",
+      "company": "근로복지공단",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-08-12",
+      "deadline": "2026-08-19",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://comwel.saramin.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1177142&bbsId=2756",
+      "title": "2026년 하반기 신입직원 공개채용",
+      "company": "새마을금고중앙회",
+      "category": "일반기업",
+      "postedAt": "",
+      "start": "2026-08-03",
+      "deadline": "2026-08-10",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://recruit.kfcc.co.kr/enga/smgFxtrmBody.do?engaOfcaMngno=S202600699&engaOfcaGbcd=01"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1177124&bbsId=2756",
+      "title": "뉴서울컨트리클럽 직원 채용공고",
+      "company": "한국문화진흥(주)",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-08-01",
+      "deadline": "2026-08-18",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://www.newseoulgolf.co.kr/board/list16.asp"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1177103&bbsId=2756",
+      "title": "2026년 하반기 신입사원 채용공고[고졸전형 포함]",
+      "company": "한국남동발전(주)",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-08-10",
+      "deadline": "2026-08-18",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "http://koenergy.saramin.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1177018&bbsId=2756",
+      "title": "26년 엔지니어(생산직) 채용 사전공고",
+      "company": "기아",
+      "category": "대기업",
+      "postedAt": "",
+      "start": "2026-08-10",
+      "deadline": "2026-08-21",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://career.kia.com/apply/applyView.kc?recuYy=2026&recuType=N4&recuCls=5"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1177017&bbsId=2756",
+      "title": "방산 품질검사(QM) 채용",
+      "company": "한국카본",
+      "category": "일반기업",
+      "postedAt": "",
+      "start": "2026-07-24",
+      "deadline": "2026-08-09",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://www.hcarbon.com/ko/recruit/jobDetail.do?idx=374"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1177002&bbsId=2756",
+      "title": "2026년 하반기 채용형 인턴(7급) 채용공고[고졸전형]",
+      "company": "한국가스공사",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-08-07",
+      "deadline": "2026-08-14",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kogas.incruit.com/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1176993&bbsId=2756",
+      "title": "직무능력 평가기반 신입직원 채용공고[고졸전형]",
+      "company": "한국주택금융공사",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-07-31",
+      "deadline": "2026-08-20",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://hf.recruitlab.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1176801&bbsId=2756",
+      "title": "신입 및 경력직원 채용공고[고졸전형 포함]",
+      "company": "한국부동산원",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-07-29",
+      "deadline": "2026-08-13",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://www.reb.or.kr/recruit"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1176797&bbsId=2756",
+      "title": "2026년 하반기 일반직 신규직원 채용공고[고졸전형 포함]",
+      "company": "한국산업인력공단",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-08-05",
+      "deadline": "2026-08-13",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://www.hrdkorea.or.kr/3/1/2/2"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1176644&bbsId=2756",
+      "title": "2026년 채용연계형 인턴사원 모집[고졸전형]",
+      "company": "하나캐피탈(주)",
+      "category": "일반기업",
+      "postedAt": "",
+      "start": "2026-07-20",
+      "deadline": "2026-08-03",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://hanacapital.incruit.com/main/main.asp"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1176614&bbsId=2756",
+      "title": "2026년 하반기 체험형 청년인턴 채용공고",
+      "company": "한국도로공사",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-08-03",
+      "deadline": "2026-08-10",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "http://www.ex.co.kr/",
+        "https://www.ex.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1176603&bbsId=2756",
+      "title": "2026년 체험형 인천 공개채용[고졸전형]",
+      "company": "한국공항공사",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-07-29",
+      "deadline": "2026-08-10",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kac.careerlink.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1176364&bbsId=2756",
+      "title": "논산지점 PI 생산전문직 신입사원 채용",
+      "company": "(주)대림",
+      "category": "대기업",
+      "postedAt": "",
+      "start": "2026-07-23",
+      "deadline": "2026-08-02",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://daelim.recruiter.co.kr/app/jobnotice/view?systemKindCode=MRS2&jobnoticeSn=260904"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1176349&bbsId=2756",
+      "title": "2026년 채용형 인턴 채용공고[고졸전형 포함]",
+      "company": "한국석유관리원",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-07-22",
+      "deadline": "2026-08-06",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://www.kpetro.or.kr/lay1/bbs/S1T91C685/F/72/view.do?article_seq=14802&cpage=1&rows=10&condition=&keyword=&show=&cat="
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1176337&bbsId=2756",
+      "title": "2026년 제4차 신입사원 채용[고졸수준]",
+      "company": "한국수력원자력(주)",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-07-23",
+      "deadline": "2026-08-07",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "http://www.khnp.co.kr/recruit"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1176261&bbsId=2756",
+      "title": "2026년 7월 각 부문 채용",
+      "company": "(주)테크윙",
+      "category": "일반기업",
+      "postedAt": "",
+      "start": "2026-07-16",
+      "deadline": "2026-07-29",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://techwing.careerlink.kr/jobs/RC20260714032101"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1176259&bbsId=2756",
+      "title": "신규직원 채용공고",
+      "company": "한국해양교통안전공단",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-07-22",
+      "deadline": "2026-08-07",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://komsa.ncsplus.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1176141&bbsId=2756",
+      "title": "항공보안직 신규 공개채용",
+      "company": "한국공항보안(주)",
+      "category": "일반기업",
+      "postedAt": "",
+      "start": "2026-07-16",
+      "deadline": "2026-07-29",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kasc.kpcice.kr/Include/PackageAppo.html?rRound=0"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1175780&bbsId=2756",
+      "title": "2026년 채용형 청년인턴(일반직 8급 전환형) 채용공고[고졸전형 포함]",
+      "company": "서울올림픽기념국민체육진흥공단",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-07-14",
+      "deadline": "2026-07-28",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kspo.or.kr/kspo/singl/empmn/view.do?empmnId=763&menuNo=200186"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1175765&bbsId=2756",
+      "title": "(예비공고)2026년 직무능력 평가기반 신입직원 채용[고졸전형 포함]",
+      "company": "한국주택금융공사",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-07-27",
+      "deadline": "2026-07-31",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://www.hf.go.kr/ko/sub05/sub05_07_03.do"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1175503&bbsId=2756",
+      "title": "제 29기 체험형 청년인턴 홍보분야 모집",
+      "company": "[KOICA]한국국제협력단",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-07-07",
+      "deadline": "2026-07-22",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://koica.recruiter.co.kr/career/jobs/120486",
+        "https://koica.recruiter.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1175501&bbsId=2756",
+      "title": "2026년 사립학교교직원연금공단 체험형 청년인턴 채용공고",
+      "company": "사립학교교직원연금공단",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-07-10",
+      "deadline": "2026-07-25",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "http://tp.careerlink.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1174932&bbsId=2756",
+      "title": "2026년 제2차 4직급 신입직원 채용공고[고졸전형 포함]",
+      "company": "한국중부발전(주)",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-07-15",
+      "deadline": "2026-07-22",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://www.komipo.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1174693&bbsId=2756",
+      "title": "2026년 제3차 공무직 사원 채용공고",
+      "company": "코레일테크(주)",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-06-25",
+      "deadline": "2026-07-09",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://korailtech.cairos.co.kr/korailtech/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1174680&bbsId=2756",
+      "title": "2026년 공개모집형 청년인턴[고졸 또는 사회적배려대상자] 2차 채용",
+      "company": "한전KDN",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-07-03",
+      "deadline": "2026-07-13",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kdn.incruit.com/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1174577&bbsId=2756",
+      "title": "KOTRA 행정직 채용 공고(사무직 고졸 분야)",
+      "company": "KOTRA(대한무역투자진흥공사)",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-06-24",
+      "deadline": "2026-07-10",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kotra.careerlink.kr/jobs/RC20260623031281"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1173756&bbsId=2756",
+      "title": "2026년 정규직 채용공고[고졸전형 포함]",
+      "company": "주택도시보증공사",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-06-23",
+      "deadline": "2026-07-08",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://www.khug.or.kr/hug/web/ci/re/cire000051.jsp"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1173623&bbsId=2756",
+      "title": "[케미칼]울산공장 생산직 인턴사원 채용공고",
+      "company": "한화솔루션",
+      "category": "대기업",
+      "postedAt": "",
+      "start": "2026-06-18",
+      "deadline": "2026-06-24",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://www.hanwhain.com/portal/apply/recruit/detail?rtSeq=19033"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1173415&bbsId=2756",
+      "title": "논산지점 Polimide 생산직 채용",
+      "company": "(주)대림",
+      "category": "대기업",
+      "postedAt": "",
+      "start": "2026-06-16",
+      "deadline": "2026-06-24",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://daelim.recruiter.co.kr/app/jobnotice/view?systemKindCode=MRS2&jobnoticeSn=256448"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1173411&bbsId=2756",
+      "title": "2026년 하계 체험형 청년인턴 채용",
+      "company": "신한은행",
+      "category": "대기업",
+      "postedAt": "",
+      "start": "2026-06-12",
+      "deadline": "2026-06-21",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://shinhan.recruiter.co.kr/career/jobs/118360"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1173408&bbsId=2756",
+      "title": "(6월)Talent hy-way 신입(이천/분당/청주) 채용",
+      "company": "SK하이닉스",
+      "category": "대기업",
+      "postedAt": "",
+      "start": "2026-06-17",
+      "deadline": "2026-06-23",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://talent.skhynix.com/hub/ko/apply/job"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1173369&bbsId=2756",
+      "title": "2026년 제2차 정규직 채용공고",
+      "company": "가축위생방역지원본부",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-06-16",
+      "deadline": "2026-06-30",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://www.lhca.or.kr/business/front/recruit/recruitList.do?boardId=recruit"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1173366&bbsId=2756",
+      "title": "체험형 청년인턴 채용공고[고졸전형 포함]",
+      "company": "농업정책보험금융원",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-06-16",
+      "deadline": "2026-07-01",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://apfs.recruiter.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1173362&bbsId=2756",
+      "title": "2026년 3기 체험형 청년인턴 모집",
+      "company": "대한무역투자진흥공사",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-06-17",
+      "deadline": "2026-06-30",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kotra.applyin.co.kr/jobs/22410"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1173117&bbsId=2756",
+      "title": "공무직(사무원) 채용",
+      "company": "근로복지공단",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-06-11",
+      "deadline": "2026-06-18",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://www.comwel.or.kr/recruit/hp/pblanc/pblancView.do?annc_no=R05-20260605-0006&emyt_plan_no=R03-20260605-0002&page_current=1&page_rows=12&searchCondition=01&searchKeyword="
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1173105&bbsId=2756",
+      "title": "뉴서울컨트리클럽 정규직, 체험형 청년인턴 채용",
+      "company": "한국문화진흥(주)",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-06-12",
+      "deadline": "2026-06-27",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://newseoulgolf.co.kr/board/view16.asp?idx=5748"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1173102&bbsId=2756",
+      "title": "모빌리티 기술인력 채용",
+      "company": "현대자동차",
+      "category": "대기업",
+      "postedAt": "",
+      "start": "2026-06-15",
+      "deadline": "2026-06-24",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://technician-talent-hyundai-now.com/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1172900&bbsId=2756",
+      "title": "2026년 일반직B 신입행원(특성화고) 채용공고",
+      "company": "한국산업은행",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-06-10",
+      "deadline": "2026-06-24",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kdb.incruit.com/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1172505&bbsId=2756",
+      "title": "2026년 신입직원 채용공고[고졸전형 포함]",
+      "company": "한국지역난방공사",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-06-13",
+      "deadline": "2026-06-20",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kdhc.scout.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1172338&bbsId=2756",
+      "title": "2026년 1차 체험형 인턴 채용공고[사회형평(고졸) 포함]",
+      "company": "한국서부발전(주)",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-06-04",
+      "deadline": "2026-06-18",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://iwest.machuda.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1172303&bbsId=2756",
+      "title": "2026년 1차 신입직 채용공고[고졸전형 포함]",
+      "company": "(주)강원랜드",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-06-04",
+      "deadline": "2026-06-19",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kangwon.cairos.co.kr/kangwon"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1172027&bbsId=2756",
+      "title": "2026년 하반기 채용형 청년인턴(정규직 전환형) 채용공고[사회형평(고졸)제한]",
+      "company": "해양환경공단",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-06-01",
+      "deadline": "2026-06-15",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://recruit.incruit.com/koem"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1171895&bbsId=2756",
+      "title": "2026년 4직급 고졸 신입사원 채용공고[고졸전형]",
+      "company": "한국전력공사",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-06-04",
+      "deadline": "2026-06-12",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://recruit.kepco.co.kr:444/frt/main.do"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1171640&bbsId=2756",
+      "title": "체험형 청년인턴 공개채용",
+      "company": "극지연구소",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-05-27",
+      "deadline": "2026-06-10",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kopri.recruiter.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1171632&bbsId=2756",
+      "title": "신입직원 채용공고",
+      "company": "한국방송통신전파진흥원",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-05-28",
+      "deadline": "2026-06-11",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kcarecruit.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1171525&bbsId=2756",
+      "title": "2026년 신입행원(지역인재) 채용",
+      "company": "우리은행",
+      "category": "대기업",
+      "postedAt": "",
+      "start": "2026-05-26",
+      "deadline": "2026-06-08",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://jrs.jobkorea.co.kr/wooribank"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1171369&bbsId=2756",
+      "title": "체험형 인턴 채용공고",
+      "company": "한국가스공사",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-05-29",
+      "deadline": "2026-06-05",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "http://www.kogas.saramin.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1171242&bbsId=2756",
+      "title": "화성공장 생산직 채용",
+      "company": "국도화학",
+      "category": "일반기업",
+      "postedAt": "",
+      "start": "2026-05-21",
+      "deadline": "2026-06-01",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kukdo.recruiter.co.kr/career/jobs/114228"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1171223&bbsId=2756",
+      "title": "2026년 제조직 신입사원 채용",
+      "company": "해성디에스",
+      "category": "일반기업",
+      "postedAt": "",
+      "start": "2026-05-19",
+      "deadline": "2026-05-25",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://haesunggroup.select-in.co.kr/recruit/apply/recruitDefault?comp_idx=145&recruit_idx=912"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1171220&bbsId=2756",
+      "title": "신입사원(포항) 채용",
+      "company": "영남에너지서비스",
+      "category": "대기업",
+      "postedAt": "",
+      "start": "2026-05-20",
+      "deadline": "2026-05-31",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://www.skcareers.com/Recruit/Detail/R261135"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1171168&bbsId=2756",
+      "title": "기술 정규직 신입 채용",
+      "company": "현대트랜시스",
+      "category": "대기업",
+      "postedAt": "",
+      "start": "2026-05-18",
+      "deadline": "2026-06-01",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://hyundai-transys.recruiter.co.kr/career/jobs/113649"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1171154&bbsId=2756",
+      "title": "정규직 채용",
+      "company": "키움금융센터",
+      "category": "대기업",
+      "postedAt": "",
+      "start": "2026-05-11",
+      "deadline": "2026-05-25",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kiwoom1.saramin.co.kr/service/kiwoom1/3838/applicant/apply/index.asp"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1171150&bbsId=2756",
+      "title": "조제원 고졸 정규직 채용",
+      "company": "제이더블유생명과학",
+      "category": "일반기업",
+      "postedAt": "",
+      "start": "2026-05-20",
+      "deadline": "2026-05-31",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://jwholdings.recruiter.co.kr/app/jobnotice/view?systemKindCode=MRS2&jobnoticeSn=253768"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1171148&bbsId=2756",
+      "title": "기술직(생산직) 신입 채용",
+      "company": "현대로템",
+      "category": "대기업",
+      "postedAt": "",
+      "start": "2026-05-20",
+      "deadline": "2026-05-31",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://hyundai-rotem.recruiter.co.kr/career/jobs/113719"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1170946&bbsId=2756",
+      "title": "채용연계형 인턴(업무직) 공개채용",
+      "company": "교보증권",
+      "category": "대기업",
+      "postedAt": "",
+      "start": "2026-05-18",
+      "deadline": "2026-05-31",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://iprovest.recruiter.co.kr/app/jobnotice/view?systemKindCode=MRS2&jobnoticeSn=253899"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1170921&bbsId=2756",
+      "title": "2026년 체험형 청년인턴 채용공고[고졸전형]",
+      "company": "한국전력거래소",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-05-15",
+      "deadline": "2026-05-29",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://www.work24.go.kr/wk/a/b/1500/empDetailAuthView.do?wantedAuthNo=K160092605150004&infoTypeCd=VALIDATION&infoTypeGroup=tb_workinfoworknet"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1170786&bbsId=2756",
+      "title": "기계가공 신입사원 채용",
+      "company": "볼보그룹코리아",
+      "category": "일반기업",
+      "postedAt": "",
+      "start": "2026-05-15",
+      "deadline": "2026-05-28",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://volvo.recruiter.co.kr/app/jobnotice/view?systemKindCode=MRS2&jobnoticeSn=253947"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1170781&bbsId=2756",
+      "title": "생산팀(제조) 신입사원 채용",
+      "company": "코스맥스",
+      "category": "일반기업",
+      "postedAt": "",
+      "start": "2026-05-15",
+      "deadline": "2026-05-22",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://cosmax.recruiter.co.kr/career/jobs/112743"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1170709&bbsId=2756",
+      "title": "2026년 직원 채용[고졸전형 포함]",
+      "company": "국립공원공단",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-05-18",
+      "deadline": "2026-05-27",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019168"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1170705&bbsId=2756",
+      "title": "2026년 제2차 직원(기간제_경력) 채용공고",
+      "company": "한국사회보장정보원",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-05-14",
+      "deadline": "2026-05-28",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://ssis.recruiter.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1170454&bbsId=2756",
+      "title": "2026년 체험형 청년인턴(장애 포함) 채용공고",
+      "company": "한국마사회",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-05-01",
+      "deadline": "2026-05-15",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kra.careerlink.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1170451&bbsId=2756",
+      "title": "체험형 인턴(장애 포함) 채용",
+      "company": "한국해양진흥공사",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-05-06",
+      "deadline": "2026-05-20",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kobc.scout.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1170450&bbsId=2756",
+      "title": "2026년 제2차 계약직 및 체험형 청년인턴 채용",
+      "company": "한국산업단지공단",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-05-14",
+      "deadline": "2026-05-21",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kicox.saramin.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1170435&bbsId=2756",
+      "title": "5급 계약직(제조) 채용",
+      "company": "삼성전기",
+      "category": "대기업",
+      "postedAt": "",
+      "start": "2026-05-06",
+      "deadline": "2026-05-14",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://www.samsungcareers.com/hr/?no=22259"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1170432&bbsId=2756",
+      "title": "2026년 대전공장 기능직 신입사원 채용",
+      "company": "한온시스템",
+      "category": "대기업",
+      "postedAt": "",
+      "start": "2026-05-08",
+      "deadline": "2026-05-14",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://hanonsystems.recruiter.co.kr/career/jobs/112865"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1170288&bbsId=2756",
+      "title": "2026년 상반기 신규직원 채용공고[고졸인재]",
+      "company": "서울에너지공사",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-04-24",
+      "deadline": "2026-05-14",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://recruit.incruit.com/i-se/job/2604210003"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1170269&bbsId=2756",
+      "title": "2026년 바이오공정지원직 5급 신입사원 채용",
+      "company": "삼성바이오로직스",
+      "category": "대기업",
+      "postedAt": "",
+      "start": "2026-05-07",
+      "deadline": "2026-05-14",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://www.samsungcareers.com/hr/?no=22304"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1170228&bbsId=2756",
+      "title": "2026년 제2차 체험형 청년인턴 채용공고[고졸인재]",
+      "company": "한국관광공사",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-05-12",
+      "deadline": "2026-05-21",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kto.recruit-zone.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "incheon-highschool",
+      "sourceName": "인천교육청 취업지원센터",
+      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3380304",
+      "title": "한국산업인력공단",
+      "company": "한국산업인력공단",
+      "category": "",
+      "postedAt": "",
+      "start": "2026-08-05",
+      "deadline": "2026-08-13",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://hrdkorea.jobnlab.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "incheon-highschool",
+      "sourceName": "인천교육청 취업지원센터",
+      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3380302",
+      "title": "한국주택금융공사",
+      "company": "한국주택금융공사",
+      "category": "",
+      "postedAt": "",
+      "start": "2026-07-31",
+      "deadline": "2026-08-20",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://hf.recruitlab.co.kr/app/recruitment-announcement/view/986"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "incheon-highschool",
+      "sourceName": "인천교육청 취업지원센터",
+      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3379686",
+      "title": "하나캐피탈(주)",
+      "company": "하나캐피탈(주)",
+      "category": "",
+      "postedAt": "",
+      "start": "2026-07-20",
+      "deadline": "2026-08-03",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://hanacapital.incruit.com/hire/viewhire.asp?projectid=103"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "incheon-highschool",
+      "sourceName": "인천교육청 취업지원센터",
+      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3377729",
+      "title": "사립학교교직원연금공단",
+      "company": "사립학교교직원연금공단",
+      "category": "",
+      "postedAt": "",
+      "start": "2026-07-10",
+      "deadline": "2026-07-25",
+      "recruitment": true,
+      "highSchoolSignal": false,
+      "externalLinks": [],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "incheon-highschool",
+      "sourceName": "인천교육청 취업지원센터",
+      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3377569",
+      "title": "한국국제협력단",
+      "company": "한국국제협력단",
+      "category": "",
+      "postedAt": "",
+      "start": "2026-07-07",
+      "deadline": "2026-07-22",
+      "recruitment": true,
+      "highSchoolSignal": false,
+      "externalLinks": [
+        "https://koica.recruiter.co.kr/career/jobs/120486",
+        "http://koica.recruiter.co.kr/",
+        "https://koica.recruiter.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "incheon-highschool",
+      "sourceName": "인천교육청 취업지원센터",
+      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3377567",
+      "title": "한국중부발전(주)",
+      "company": "한국중부발전(주)",
+      "category": "",
+      "postedAt": "",
+      "start": "2026-07-07",
+      "deadline": "2026-07-22",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "http://komipo.saramin.co.kr/",
+        "https://komipo.saramin.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "incheon-highschool",
+      "sourceName": "인천교육청 취업지원센터",
+      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3376278",
+      "title": "대한무역투자진흥공사",
+      "company": "대한무역투자진흥공사",
+      "category": "",
+      "postedAt": "",
+      "start": "2026-06-24",
+      "deadline": "2026-07-10",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "incheon-highschool",
+      "sourceName": "인천교육청 취업지원센터",
+      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3370628",
+      "title": "한국산업단지공단",
+      "company": "한국산업단지공단",
+      "category": "",
+      "postedAt": "",
+      "start": "2026-05-14",
+      "deadline": "2026-05-21",
+      "recruitment": true,
+      "highSchoolSignal": false,
+      "externalLinks": [
+        "https://kicox.saramin.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "incheon-highschool",
+      "sourceName": "인천교육청 취업지원센터",
+      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3370627",
+      "title": "한국해양진흥공사",
+      "company": "한국해양진흥공사",
+      "category": "",
+      "postedAt": "",
+      "start": "2026-05-06",
+      "deadline": "2026-05-20",
+      "recruitment": true,
+      "highSchoolSignal": false,
+      "externalLinks": [
+        "https://kobc.scout.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "incheon-highschool",
+      "sourceName": "인천교육청 취업지원센터",
+      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3370626",
+      "title": "한국관광공사",
+      "company": "한국관광공사",
+      "category": "",
+      "postedAt": "",
+      "start": "2026-05-12",
+      "deadline": "2026-05-21",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kto.recruit-zone.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "incheon-highschool",
+      "sourceName": "인천교육청 취업지원센터",
+      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3370625",
+      "title": "한국마사회",
+      "company": "한국마사회",
+      "category": "",
+      "postedAt": "",
+      "start": "2026-05-01",
+      "deadline": "2026-05-15",
+      "recruitment": true,
+      "highSchoolSignal": false,
+      "externalLinks": [
+        "https://kra.careerlink.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "incheon-highschool",
+      "sourceName": "인천교육청 취업지원센터",
+      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3370623",
+      "title": "서울에너지공사",
+      "company": "서울에너지공사",
+      "category": "",
+      "postedAt": "",
+      "start": "2026-04-24",
+      "deadline": "2026-05-14",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://recruit.incruit.com/i-se"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "incheon-highschool",
+      "sourceName": "인천교육청 취업지원센터",
+      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3369969",
+      "title": "한국청소년상담복지개발원",
+      "company": "한국청소년상담복지개발원",
+      "category": "",
+      "postedAt": "",
+      "start": "2026-04-30",
+      "deadline": "2026-05-14",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kyci.fairyhr.com/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "incheon-highschool",
+      "sourceName": "인천교육청 취업지원센터",
+      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3369967",
+      "title": "한국해양과학기술원",
+      "company": "한국해양과학기술원",
+      "category": "",
+      "postedAt": "",
+      "start": "2026-04-30",
+      "deadline": "2026-05-13",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kiost.fairyhr.com/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "incheon-highschool",
+      "sourceName": "인천교육청 취업지원센터",
+      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3369962",
+      "title": "중소기업은행",
+      "company": "중소기업은행",
+      "category": "",
+      "postedAt": "",
+      "start": "2026-04-23",
+      "deadline": "2026-05-13",
+      "recruitment": true,
+      "highSchoolSignal": false,
+      "externalLinks": [
+        "https://ibk.incruit.com/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "gwangju-public",
+      "sourceName": "광주교육청 공공기관·추천채용",
+      "url": "https://jpl.gen.go.kr/xboard/board.php?mode=view&number=3156&tbnum=1&sCat=0&page=1&keyset=&searchword=",
+      "title": "[중앙취업지원센터] 2026년 이화다이아몬드공업 채용 안내 ..",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-08-21",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://ehwadia-insa.co.kr/?page_id=14919"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "gwangju-public",
+      "sourceName": "광주교육청 공공기관·추천채용",
+      "url": "https://jpl.gen.go.kr/xboard/board.php?mode=view&number=3150&tbnum=1&sCat=0&page=1&keyset=&searchword=",
+      "title": "사립학교교직원연금공단 체험형 청년인턴(학력무관) 채용..",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-07-13",
+      "start": "2026-07-10",
+      "deadline": "2026-07-25",
+      "recruitment": true,
+      "highSchoolSignal": false,
+      "externalLinks": [
+        "https://tp.careerlink.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "gwangju-public",
+      "sourceName": "광주교육청 공공기관·추천채용",
+      "url": "https://jpl.gen.go.kr/xboard/board.php?mode=view&number=3149&tbnum=1&sCat=0&page=1&keyset=&searchword=",
+      "title": "한국중부발전(주)(고졸채용), 한국국제협력단(학력무관)",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-07-10",
+      "start": "2026-07-07",
+      "deadline": "2026-07-22",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://komipo.saramin.co.kr/",
+        "https://koica.recruiter.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "gwangju-public",
+      "sourceName": "광주교육청 공공기관·추천채용",
+      "url": "https://jpl.gen.go.kr/xboard/board.php?mode=view&number=3147&tbnum=1&sCat=0&page=1&keyset=&searchword=",
+      "title": "2026년 이화다이아몬드공업 채용 안내 및 인재 추천",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-06-25",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://ehwadia-insa.co.kr/?page_id=14919"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "gwangju-public",
+      "sourceName": "광주교육청 공공기관·추천채용",
+      "url": "https://jpl.gen.go.kr/xboard/board.php?mode=view&number=3143&tbnum=1&sCat=0&page=1&keyset=&searchword=",
+      "title": "[알림] 금융감독원 종합직(6급)채용",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-06-11",
+      "start": "2026-06-12",
+      "deadline": "2026-06-26",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://www.fss.or.kr/emp"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "gwangju-public",
+      "sourceName": "광주교육청 공공기관·추천채용",
+      "url": "https://jpl.gen.go.kr/xboard/board.php?mode=view&number=3142&tbnum=1&sCat=0&page=1&keyset=&searchword=",
+      "title": "2026년 일반직B 신입행원(특성화고) 채용공고",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-06-11",
+      "start": "2026-06-10",
+      "deadline": "2026-06-24",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "http://www./",
+        "https://kdb.incruit.com/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "gwangju-public",
+      "sourceName": "광주교육청 공공기관·추천채용",
+      "url": "https://jpl.gen.go.kr/xboard/board.php?mode=view&number=3140&tbnum=1&sCat=0&page=1&keyset=&searchword=",
+      "title": "2026년도 한국전력공사 고졸 공채 모집",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-06-04",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "http://recruit.kepco.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "hifive-central",
+      "sourceName": "HIFIVE 중앙 취업지원 공지",
+      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=145990",
+      "title": "[한국광해광업공단] 고졸 채용형 인턴 공고(고졸제한)",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-08-10",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "http://komir.saramin.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "hifive-central",
+      "sourceName": "HIFIVE 중앙 취업지원 공지",
+      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=145918",
+      "title": "[한국주택금융공사] 한국주택금융공사 신입직원 채용(고졸전형)",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-08-05",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "hifive-central",
+      "sourceName": "HIFIVE 중앙 취업지원 공지",
+      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=145635",
+      "title": "[한국산업인력공단] 2027년도 과정평가형 국가기술자격 교육훈련과정 모집공고",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-07-06",
+      "start": "2026-07-13",
+      "deadline": "2026-08-14",
+      "recruitment": true,
+      "highSchoolSignal": false,
+      "externalLinks": [],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "hifive-central",
+      "sourceName": "HIFIVE 중앙 취업지원 공지",
+      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=145617",
+      "title": "[주택도시보증공사] 2026년도 정규직(관리7급-금융, 전산) 채용",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-07-01",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://khug.kpcice.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "hifive-central",
+      "sourceName": "HIFIVE 중앙 취업지원 공지",
+      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=145579",
+      "title": "[KOTRA] 행정직 채용 공고(사무직 행정 6직급)",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-06-24",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=1&dataSid=1479097",
+      "title": "[채용공고] 2026년도 하반기 신용보증기금 신입직원 채용 공고",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-09-04",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "http://kodit.saramin.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=1&dataSid=1478900",
+      "title": "[채용] 2026년 IBK기업은행 신입행원 채용",
+      "company": "중소기업은행",
+      "category": "",
+      "postedAt": "2026-09-02",
+      "start": "2026-08-28",
+      "deadline": "2026-09-14",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://www.ibk.co.kr/",
+        "https://www.ibk.incruit.com/"
+      ],
+      "detailStatus": "read",
+      "outcome": "published-match",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": [
+        {
+          "id": "b48e8555b3842239d0",
+          "company": "중소기업은행",
+          "title": "중소기업은행 2026년 하반기 IBK기업은행 신입행원 채용공고",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304338",
+          "published": true,
+          "qualification": "eligible",
+          "roles": [
+            "고졸인재 분야"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=1&dataSid=1478154",
+      "title": "[채용공고] 2026년도 서울대학교병원 하반기 신규 직원(운영 기능직 사무보조-고졸인재) 채용 공고",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-08-27",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://recruit.incruit.com/snuh/job/"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=1&dataSid=1478150",
+      "title": "[채용공고] 2026년 하반기 신입직원(5급-고졸인재) 및 경력직원 채용 공고",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-08-27",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kicox.saramin.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=1&dataSid=1477107",
+      "title": "[채용공고] 2026년도 한국산업안전보건공단 하반기(고졸-기계, 전기, 화공, 위생, 환경, 건축, 토목, 경영) 채용공고",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-08-11",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kosha.career.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=1&dataSid=1477088",
+      "title": "[채용공고] 2026년 하반기 한국철도공사 신입사원(고졸제한-사무영업, 차량, 토목, 전기통신) 채용공고",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-08-11",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://korail.findeet.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=1&dataSid=1476690",
+      "title": "[채용공고] 한국남동발전 2026년 하반기 신입사원(고졸수준-기계, 전기, 화학) 채용공고",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-08-04",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "detailStatus": "failed",
+      "detailError": "Detail schema missing: boardViewWrap",
+      "externalLinks": [],
+      "highSchoolSignal": true,
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=2&dataSid=1476591",
+      "title": "[채용공고] 2026년도 한국주택금융공사 직무능력 평가기반 신입직원(고졸-행정, IT) 채용공고",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-08-03",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://hf.recruitlab.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=2&dataSid=1476378",
+      "title": "[채용공고] 한국산업인력공단 2026년 하반기 일반직 신규직원(일반직 6급-고졸인재) 채용공고",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-07-30",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://hrdkorea.jobnlab.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=2&dataSid=1476307",
+      "title": "하나캐피탈(주)(고졸채용)",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-07-28",
+      "start": "2026-07-20",
+      "deadline": "2026-08-03",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://hanacapital.incruit.com/hire/viewhire.asp?projectid=103"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=2&dataSid=1476186",
+      "title": "[채용공고] 한국수력원자력(주) 2026년도 제4차 신입사원(고졸수준-기계, 전기·전자) 채용공고",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-07-27",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "http://www.khnp.co.kr/recruit"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=2&dataSid=1475658",
+      "title": "[채용공고] 한국사회보장정보원 2026년도 제3차 직원(고졸-행정, 전산) 채용공고",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-07-20",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://ssis.recruiter.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=2&dataSid=1475052",
+      "title": "[채용] 사립학교교직원연금공단(학력무관)",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-07-10",
+      "start": "2026-07-10",
+      "deadline": "2026-07-25",
+      "recruitment": true,
+      "highSchoolSignal": false,
+      "externalLinks": [],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=2&dataSid=1475051",
+      "title": "[채용] 한국국제협력단(학력무관)",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-07-10",
+      "start": "2026-07-07",
+      "deadline": "2026-07-22",
+      "recruitment": true,
+      "highSchoolSignal": false,
+      "externalLinks": [
+        "http://koica.recruiter.co.kr/",
+        "https://koica.recruiter.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=3&dataSid=1475049",
+      "title": "[채용] 한국중부발전(주)(고졸채용)",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-07-10",
+      "start": "2026-07-07",
+      "deadline": "2026-07-22",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "http://komipo.saramin.co.kr/",
+        "https://komipo.saramin.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=3&dataSid=1473136",
+      "title": "[채용공고] 2026년 KOTRA 행정직(사무-고졸) 채용 공고",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-06-25",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=3&dataSid=1471574",
+      "title": "[채용공고] 2027년도 금융감독원 종합직원(고졸-6급)",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-06-11",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://www.fss.or.kr/emp"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=3&dataSid=1471506",
+      "title": "[채용공고] 2026년 한국국제협력단 일반직 및 사회형평적 신입직원(고졸 6급) 채용 공고",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-06-11",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://koica2026.recruiter.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=3&dataSid=1471497",
+      "title": "[채용공고] 2026년 한국지역난방공사 신입직원(채용형 인턴-고졸인재 7급) 채용공고",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-06-11",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kdhc.scout.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=4&dataSid=1471489",
+      "title": "[채용공고] 한국산업은행 2026년 일반직B 신입행원(특성화고) 채용공고",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-06-11",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kdb.incruit.com/"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=4&dataSid=1470417",
+      "title": "[채용공고] 한국전력공사 2026년도 4직급 고졸 신입사원 채용공고",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-06-01",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "http://recruit.kepco.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=4&dataSid=1469247",
+      "title": "[채용공고] 2026년 한국장애인고용공단 직원(고졸-일반직6급) 채용 공고",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-05-20",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kead.careerlink.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=4&dataSid=1468983",
+      "title": "[채용공고] 국립공원공단 직원(고졸-8급, 레인저) 채용 공고",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-05-18",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://knps.kpcice.kr/Include/"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "jeju-highschool",
+      "sourceName": "제주교육청 취업지원센터",
+      "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=4&dataSid=1468459",
+      "title": "[채용공고] 2026년도 서울에너지공사 상반기 신규직원(고졸인재-일반직 8급, 전기) 채용 공고",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-05-12",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://recruit.incruit.com/i-se"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    }
+  ],
+  "summary": {
+    "discovered": 147,
+    "publishedMatches": 7,
+    "closed": 113,
+    "unresolved": 27,
+    "activeDatedUnresolved": 1,
+    "unknownDeadlineUnresolved": 26,
+    "highSchoolUnresolved": 27,
+    "sourceFailures": 0,
+    "detailFailures": 1
+  }
+}
