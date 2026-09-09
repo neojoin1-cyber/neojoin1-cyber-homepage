@@ -23,6 +23,7 @@ const cases = [
   ['고졸 신입', { ...base, education: '고졸', qualification: '고등학교 졸업예정자 신입 채용' }, 'eligible'],
   ['학력무관 신입', base, 'eligible'],
   ['학력 체크리스트만 존재', { ...base, education: nibp.education, career: '신입+경력', qualification: '', title: '직원 채용' }, 'review'],
+  ['혼합 학력 체크리스트와 근무일만으로 지원 가능 판정 금지', { ...base, education: nibp.education, qualification: '채용 예정일 즉시 근무 가능한 자' }, 'review'],
   ['학력무관이 경력 필수를 무효화하지 않음', { ...base, qualification: '학력무관. 해당 직무 경력 1년 이상 경력자' }, 'ineligible'],
   ['고졸 경력 필수', { ...base, education: '고졸', qualification: '고졸 이상, 2년 이상 업무 경력자' }, 'ineligible'],
   ['고졸 후 교육 또는 실무경력', { ...base, education: '고졸', qualification: '고등학교 졸업 후 4년 이상 교육 또는 해당 분야 실무 경력 가진 사람' }, 'ineligible'],
@@ -39,6 +40,8 @@ const cases = [
   ['잘린 자격', { ...base, qualification: '학력무관 신입. 세부 자격…' }, 'review'],
   ['기능사 취득 학생 허용', { ...base, qualification: '고졸 신입. 전기기능사 자격증 소지자' }, 'eligible'],
   ['기사 제한', { ...base, qualification: '전기기사 자격증 소지자' }, 'ineligible'],
+  ['기사 자격증 등 소지자', { ...base, qualification: '해당 분야 기사 자격증 등 소지자' }, 'ineligible'],
+  ['공통 첨부 참조를 직렬명으로 우회할 수 없음', { ...base, qualification: '※ 응시자격은 첨부 공고문 참조. 행정직(6급): 해당 직급 응시자격 충족자' }, 'review'],
   ['자격증 목록 앞에 소지 조건이 있는 경우', { ...base, qualification: '아래 자격증 중 하나 이상 소지자: 전기기사, 전기공사기사' }, 'ineligible'],
   ['경력직 필드 제한', { ...base, career: '경력', qualification: '학력무관' }, 'ineligible'],
   ['혼합 직렬의 고졸 신입을 보존', { ...base, career: '신입+경력', recruitField: '연구직,행정직', qualification: '연구직: 석사학위 소지자. 행정직: 고졸 신입, 경력무관' }, 'eligible'],
@@ -67,6 +70,13 @@ test('a restricted high-school position cannot lend its core badge to another op
 test('same-name positions are not all advertised when only one is eligible', () => {
   const proof = assessStudentEligibility({ ...base, qualification: '행정직(A01): 고졸 신입. 행정직(A02): 학사학위 소지자' });
   assert.deepEqual(proof.eligibleRoles, []);
+});
+
+test('mixed fifth/eighth-grade recruitment keeps the actual high-school track only', () => {
+  const proof = assessStudentEligibility({ ...base, education: nibp.education, qualification: '○ 5급 공채 학력무관 신입. 해당 분야 기사 자격증 등 소지자. ○ 8급공채 고등학교 졸업예정자, 기능사 이상 자격증 소지자' });
+  assert.equal(proof.status, 'eligible');
+  assert.deepEqual(proof.eligibleRoles, ['8급공채']);
+  assert.equal(proof.explicitHighSchool, true);
 });
 test('cached false positive is rechecked before publication', () => {
   const item = { ...nibp, id: 'legacy', sourceName: '잡알리오', url: 'https://job.alio.go.kr/', verifiedAt: new Date().toISOString(), status: 'active', processTrack: 'direct-interview', studentChannelAssessment: { hardBlocked: false }, studentPriority: { tier: 0 } };

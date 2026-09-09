@@ -7811,7 +7811,7 @@ function buildCollectionReview(items, sourceStatusList, criticalCoverage = build
   };
 }
 
-export { normalizeItem, buildStudentChannelAssessment, studentRecruitPriority, assessRecruitRoles, fetchJobAlioDetail, applyPublicationSafetyGuards, validateRecruitRoleFixtures, validateStudentPriorityFixtures };
+export { normalizeItem, buildStudentChannelAssessment, studentRecruitPriority, assessRecruitRoles, fetchJobAlioDetail, applyPublicationSafetyGuards, validateRecruitRoleFixtures, validateStudentPriorityFixtures, buildProtectedJobArtifacts, buildFeedHealth };
 
 async function main() {
   validateRecruitRoleFixtures();

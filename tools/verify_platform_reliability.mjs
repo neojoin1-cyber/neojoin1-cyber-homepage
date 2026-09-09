@@ -919,8 +919,9 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.items.student-channel-assessment`, assessmentProblems.length === 0, `${label} 모든 공고가 고졸 지원·병역 미필·채널 품질 판정 결과를 갖습니다.`, assessmentProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-hard-blocked-publication`, blockedPublicationProblems.length === 0, `${label} 대학생·학위 전용, 전문자격 전용 등 고졸 학생이 지원할 수 없는 공고는 게시하지 않습니다.`, blockedPublicationProblems.slice(0, 5).join(' | '));
   fail(`${label}.items.no-public-data-catalog-card`, publicDataCatalogItems.length === 0, `${label} 공공데이터 API 소개 페이지나 합성 임시 제목을 채용공고로 게시하지 않습니다.`, publicDataCatalogItems.slice(0, 5).join(' | '));
-  fail(`${label}.items.military-unserved-exam-options`, militaryUnservedExamItems.length >= 3, `${label} 병역 미필 고졸 학생이 실제 도전할 수 있는 진행 중 추천 공채를 3건 이상 확보합니다.`, `eligible=${militaryUnservedExamItems.length}, limited=${militaryLimitedExamItems.length}`);
-  fail(`${label}.items.quality-direct-options`, qualityDirectItems.length >= 12, `${label} 병역 미필 일반 고졸 학생에게 고용안정·전공연계·복리후생 가능성이 있는 일반 취업정보를 12건 이상 확보합니다.`, `qualityDirect=${qualityDirectItems.length}`);
+  // Coverage targets must never prevent removing ineligible jobs from the live feed.
+  warn(`${label}.items.military-unserved-exam-options`, militaryUnservedExamItems.length >= 3, `${label} 병역 미필 고졸 학생 추천 공채 확보 목표를 점검합니다.`, `eligible=${militaryUnservedExamItems.length}, target=3, limited=${militaryLimitedExamItems.length}`);
+  warn(`${label}.items.quality-direct-options`, qualityDirectItems.length >= 12, `${label} 학생 지원 자격을 확인한 일반 취업정보 확보 목표를 점검합니다.`, `qualityDirect=${qualityDirectItems.length}, target=12`);
   fail(`${label}.items.no-public-detail-leak`, publicDetailLeaks.length === 0, `${label} 공개 목록 JSON에 원문·첨부·상세자격·전형·브리핑이 노출되지 않습니다.`, publicDetailLeaks.slice(0, 5).join(' | '));
   warn(`${label}.items.official-double-check`, weakOfficialPublicRecruit.length === 0, `${label} 공채 상세 정보 항목은 회사·기관·채용대행 또는 잡알리오 상세 공식 공고 확인이 필요합니다.`, weakOfficialPublicRecruit.slice(0, 5).join(' | '));
 
