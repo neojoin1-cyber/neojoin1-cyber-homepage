@@ -125,6 +125,16 @@ for (const qualification of ['디젤엔진 정비 경력 보유 및 단독작업
 test('missing military requirements are not positive evidence of unserved eligibility', () => {
   assert.equal(buildStudentChannelAssessment(base, {}).militaryUnservedEligible, false);
 });
+test('completed service written with the Korean object particle is mandatory', () => {
+  for (const clause of ['남성의 경우 병역을 필하였거나 면제된 자', '남자의 경우 병역을 필하거나 면제된 자']) {
+    const result = buildStudentChannelAssessment({ ...base, qualification: `학력무관 신입. 병역기피 사실이 없는 자. ${clause}` }, {});
+    assert.equal(result.militaryCompletionRequired, true);
+    assert.equal(result.militaryUnservedEligible, false);
+  }
+});
+test('age extension for veterans does not imply mandatory military service', () => {
+  assert.equal(buildStudentChannelAssessment({ ...base, qualification: '학력무관 신입. 만19세 이상 만34세 이하. 군필자는 해당 법률에 따라 연령 연장.' }, {}).militaryCompletionRequired, false);
+});
 test('process paragraph survives the word notice before the written test', () => {
   assert.match(extractJobAlioSection('<h4>전형절차/방법</h4><p>공고문 확인. 서류전형 다음 필기시험(NCS), 면접</p><h4>공고문</h4>', '전형절차/방법'), /필기시험/);
 });

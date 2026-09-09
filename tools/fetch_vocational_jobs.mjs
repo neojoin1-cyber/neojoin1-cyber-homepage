@@ -3471,7 +3471,8 @@ function hasStudentUnsuitableRecruitSignal(value) {
 
 function hasMilitaryServiceCompletionRequirement(value) {
   const text = normalizeSpace(value).replace(MILITARY_NO_LIMIT_PATTERN, ' ');
-  return MILITARY_SERVICE_COMPLETION_PATTERN.test(text);
+  return MILITARY_SERVICE_COMPLETION_PATTERN.test(text)
+    || /병역을\s*(?:필하였거나|필하거나|마쳤거나|마친|완료한)/.test(text);
 }
 
 function hasMilitaryNoLimitSignal(value) {
