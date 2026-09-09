@@ -1,71 +1,46 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-09T09:38:45.140Z",
-  "feedGeneratedAt": "2026-09-09T09:38:45.140Z",
+  "generatedAt": "2026-09-09T10:03:53.963Z",
+  "feedGeneratedAt": "2026-09-09T10:03:53.963Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "degraded",
+  "status": "ok",
   "summary": {
-    "total": 60,
-    "active": 49,
-    "deadlineSoon": 11,
+    "total": 63,
+    "active": 51,
+    "deadlineSoon": 12,
     "applicationClosed": 0,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
-    "sourcesFailed": 3,
+    "sourcesFailed": 0,
     "criticalCoverageMissing": 0,
-    "staleFallbackItems": 60,
-    "sourceFallbackProtected": 60,
+    "staleFallbackItems": 0,
+    "sourceFallbackProtected": 0,
     "publicationBlocked": 0,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 116,
-    "automatedBriefingReady": 60,
-    "automatedBriefingAttempted": 60,
+    "studentRecruitSafetyReview": 237,
+    "automatedBriefingReady": 63,
+    "automatedBriefingAttempted": 63,
     "automatedBriefingFailed": 0
   },
-  "sourceFailures": [
-    {
-      "id": "mpm-public-job",
-      "name": "인사혁신처 공공취업정보",
-      "isolatedFailure": false,
-      "fallbackProtected": false,
-      "fallbackItemCount": 0,
-      "message": "키 확인됨. 공식 호출 URL 확인 필요: https://apis.data.go.kr/1760000/PblJobService/getList: HTTP timeout after 9000ms; https://apis.data.go.kr/1760000/PblJobService/getList: HTTP timeout after 9000ms"
-    },
-    {
-      "id": "moef-public-recruit",
-      "name": "기재부 공공기관 채용정보",
-      "isolatedFailure": false,
-      "fallbackProtected": false,
-      "fallbackItemCount": 0,
-      "message": "연결 실패: HTTP timeout after 9000ms; HTTP timeout after 9000ms"
-    },
-    {
-      "id": "job-alio-openapi",
-      "name": "잡알리오 공공기관 채용",
-      "isolatedFailure": false,
-      "fallbackProtected": true,
-      "fallbackItemCount": 111,
-      "message": "연결 실패: recent-page-1: recent-page-1 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page; recent-page-2: recent-page-2 failed after 2 attempts: HTTP timeout after 16000ms; node fallback after HTTP timeout; fetch fallback after UND_ERR_CONNECT_TIMEOUT; mobile fallback after recent-page · 직전 정상 공고 111건 보존"
-    }
-  ],
+  "sourceFailures": [],
   "aiBriefing": {
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-09-09T09:38:45.140Z",
-    "attempted": 60,
-    "succeeded": 60,
+    "generatedAt": "2026-09-09T10:03:53.963Z",
+    "attempted": 63,
+    "succeeded": 63,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-09-09T09:38:45.140Z",
+    "generatedAt": "2026-09-09T10:03:53.963Z",
     "blockedCount": 0,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 116,
+    "studentRecruitReviewCount": 237,
     "blockedByReason": {},
     "repairedByReason": {},
     "blockedSamples": [],
@@ -121,6 +96,28 @@
           "공공·금융·대기업 소스",
           "고졸·특성화고 명시",
           "필기·NCS 신호",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국가스안전공사",
+        "title": "2026년 하반기 한국가스안전공사 정규직(채용형인턴) 채용 공고",
+        "deadline": "2026-09-28",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://kgs.saramin.co.kr/"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외 · 필기신호 직접분류 재검토",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "필기·NCS 신호",
           "공채 신호",
           "신입·정규직 계열"
         ],
@@ -154,6 +151,26 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://fowi.or.kr/user/bbs/bbsView.do?bbsManageId=22&bbsId=9165"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 분류:학생추천 제외",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "국가생명윤리정책원",
+        "title": "국가생명윤리정책원 제2026-3차 직원 채용 공고",
+        "deadline": "2026-09-23",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://recruit.incruit.com/nibp/"
       },
       {
         "list": "items",
@@ -443,48 +460,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.aks.ac.kr/cop/bbs/selectBoardArticle.do?nttId=323398&bbsId=BBSMSTR_000000000082"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "서울올림픽기념국민체육진흥공단",
-        "title": "서울올림픽기념국민체육진흥공단 파크텔 지원직(호텔지원(식음서비스)) 채용 공고",
-        "deadline": "2026-09-16",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kspo.or.kr/kspo/singl/empmn/view.do?empmnId=774&menuNo=200186&pageIndex=1"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "신용보증기금",
-        "title": "2026년도 하반기 신용보증기금 신입직원 채용",
-        "deadline": "2026-09-16",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "http://kodit.saramin.co.kr/"
       }
     ]
   },
