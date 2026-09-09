@@ -138,6 +138,25 @@ test('partial source failures and missing integrations remain visible', () => {
   assert.equal(health.coverage.qualificationPending, 1);
   assert.equal(health.coverage.unconfiguredSources.length, 1);
 });
+test('education heading cannot become an eligible role', () => {
+  const proof = assessStudentEligibility({ ...base, qualification: '□ 학력 : 제한없음 □ 지원자격 ○ 전기 : 산업기사 이상' });
+  assert.notEqual(proof.status, 'eligible');
+  assert.ok(!proof.eligibleRoles.includes('학력'));
+});
+test('unresolved role qualifications and exceptions remain held', () => {
+  for (const qualification of ['학력무관. 직종별 자격 및 상세 사항은 모집공고 지원자격 참조', '학력 제한 없음. 단 채용분야별 응시요건에 따라 일부 예외']) {
+    assert.equal(assessStudentEligibility({ ...base, qualification }).status, 'review');
+  }
+});
+test('disability-only opportunity remains available but never receives a general core badge', () => {
+  const item = normalizeItem({ ...base, source: 'job-alio-openapi', sourceName: '잡알리오', sourceId: 'conditional',
+    title: '고졸 신입 채용', qualification: '고졸 신입. 장애인복지법에 따른 장애인. 병역 제한 없음.',
+    url: 'https://job.alio.go.kr/', deadline: '2099-09-28', employmentType: '정규직' });
+  assert.equal(item.studentChannelAssessment.qualificationAssessment.status, 'eligible');
+  assert.equal(item.studentPriority.tier, 8);
+  assert.match(item.studentPriority.label, /자격제한/);
+  assert.ok(item.studentConditions.length);
+});
 
 const officialNotices = JSON.parse(fs.readFileSync(new URL('./fixtures/official-highschool-notices.json', import.meta.url)));
 const restrictedNotices = JSON.parse(fs.readFileSync(new URL('./fixtures/official-restricted-notices.json', import.meta.url)));

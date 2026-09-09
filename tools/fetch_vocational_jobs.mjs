@@ -4972,7 +4972,8 @@ function normalizeItem(raw) {
     qualificationEvidenceIncomplete: !studentChannelAssessment.qualificationAssessment.completeEvidence,
     qualificationAttachments: raw.qualificationAttachments || [],
     reviewedAttachment: raw.reviewedAttachment || null,
-    studentConditions: raw.studentConditions || [],
+    studentConditions: raw.studentConditions || (studentChannelAssessment.qualificationAssessment.limitedEligibility
+      ? ['장애·보훈·자립지원 등 해당 자격 보유자만 지원: 원문 확인 필수'] : []),
     recruitNumber: normalizeSpace(raw.recruitNumber || raw.hiringCount || raw.recruitCount).slice(0, 80),
     applicationMethod: normalizeSpace(raw.applicationMethod || raw.application || raw.applyMethod).slice(0, 180),
     contact: normalizeSpace(raw.contact || raw.contactInfo || raw.inquiry).slice(0, 120),
@@ -5148,6 +5149,9 @@ function studentRecruitPriority(item = {}) {
   } else if (item.status === 'application_closed') {
     tier = 9;
     label = '마감 공고';
+  } else if (qualificationAssessment.limitedEligibility) {
+    tier = 8;
+    label = '장애·보훈 등 자격제한 전형';
   } else if (militaryRestricted) {
     tier = 8;
     label = '병역필·면제 조건 · 졸업예정자 제한';
@@ -5802,6 +5806,9 @@ function normalizePublicationItem(item = {}) {
   }, { processTrack: next.processTrack });
   next.roleEligibility = next.studentChannelAssessment.roleEligibility;
   next.studentPriority = studentRecruitPriority(next);
+  if (next.studentChannelAssessment.qualificationAssessment.limitedEligibility && !next.studentConditions?.length) {
+    next.studentConditions = ['장애·보훈·자립지원 등 해당 자격 보유자만 지원: 원문 확인 필수'];
+  }
 
   if (!titleIncludesCompanyName(next)) {
     const title = titleWithCompanyName(next.title || next.baseTitle, next.company);

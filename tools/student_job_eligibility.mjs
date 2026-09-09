@@ -9,7 +9,7 @@ const beginner = /신입|경력\s*(?:무관|제한\s*없|불문)|경험\s*무관
 const degree = /(?:전문학사|학사|석사|박사)\s*(?:학위|이상|소지|취득|졸업|수준)|(?:전문대|대학(?:교)?)\s*졸업(?:자|이상|예정)|대졸\s*(?:이상|수준)|[석박]사/;
 const experience = /(?:\d+|[일이삼사오육칠팔구십한두세네])\s*(?:년|개월)\s*(?:이상\s*)?(?:의\s*)?(?:[가-힣·/]+\s*){0,8}(?:경력|경험|근무한|재직)|(?:경력|경험).{0,24}(?:\d+|[일이삼사오육칠팔구십한두세네])\s*(?:년|개월)\s*이상|경력직\s*(?:채용|모집)|경력자\s*(?:에\s*한|만\s*지원)/;
 const license = /(?:산업기사|(?<!산업)기사|기능장|기술사|간호사|방사선사|임상병리사|물리치료사|작업치료사|약사|의사|변호사|회계사|정교사|교원)\s*(?:자격(?:증)?|면허(?:증)?)?\s*(?:등\s*)?(?:소지|보유|취득|필수|이상)/;
-const unresolved = /첨부.{0,30}(?:참조|참고|확인)|공고문.{0,30}(?:참조|참고|확인)|별첨|세부.{0,15}별도|자격.{0,10}원문\s*확인/;
+const unresolved = /첨부.{0,30}(?:참조|참고|확인)|(?:공고문|모집공고|지원자격).{0,30}(?:참조|참고|확인)|별첨|세부.{0,15}별도|자격.{0,10}원문\s*확인|채용분야별.{0,25}일부\s*예외/;
 
 export function qualificationEvidence(raw = {}) {
   if (raw.qualificationText || raw.qualification) return clean(raw.qualificationText || raw.qualification);
@@ -31,6 +31,7 @@ function restrictions(value) {
   if (degree.test(text)) result.push('대학 학위 요구');
   if (experience.test(text) || /경력\s*\(?\s*\d+\s*년\s*이상|(?:실무|현장|정비|수행|관련).{0,30}경력\s*(?:보유|소지|필수)|(?:정비|업무|분야|실무)\s*유경험자/.test(text)) result.push('실무 경력 요구');
   if (license.test(text)) result.push('학생 취득이 어려운 자격·면허 요구');
+  else if (/사회복지사\s*[12]급\s*자격증?\s*(?:소지|보유)/.test(text)) result.push('학생 취득이 어려운 자격·면허 요구');
   else if (/자격증.{0,24}(?:소지|보유)자.{0,300}(?:기사|기술사|기능장)/.test(text)) result.push('학생 취득이 어려운 자격·면허 요구');
   return result;
 }
@@ -71,12 +72,13 @@ export function assessStudentEligibility(raw = {}) {
     /(?:\d+\.\s*)?(공개경쟁채용)\s*[:：]/g,
     /[○□]\s*(\d+급\s*공채)/g,
     /\d+\.\s*([가-힣]+\([가-힣]+\))\s*[:：]/g,
+    /\d+\)\s*([가-힣]+(?:\([^)]{1,40}\))?)\s*[:：]/g,
     /\((\d+급(?:보)?\s+[^)]{2,50})\)/g,
     /(?:[가-하]\.\s*)?(\d+급(?:보)?\s*\([^)]{2,50}\))\s*[:：]/g,
     /[○□]\s*((?:\d+급)?[가-힣·]+(?:\([^)]{1,40}\))?)\s*(?=[:：-]|[○□])/g
   ]) {
     for (const match of evidence.matchAll(pattern)) {
-      if (!/공통|지원자격|응시자격|기타|성별|병역|연령/.test(match[1])) boundaries.push({ index: match.index, end: match.index + match[0].length, role: match[1] });
+      if (!/공통|지원자격|응시자격|기타|성별|병역|연령|학력|전공|자격사항|근무조건/.test(match[1])) boundaries.push({ index: match.index, end: match.index + match[0].length, role: match[1] });
     }
   }
   for (const role of roles) {
@@ -130,8 +132,9 @@ export function assessStudentEligibility(raw = {}) {
   if (roleEvidence.length && !eligibleRoles.length && status === 'eligible') status = 'review';
   if (!completeEvidence) reasons.push('자격 원문 누락 또는 잘림');
   if (status === 'eligible') reasons.push(individuallyEligible.length && barriers.length ? '직렬별 지원 가능 근거 확인' : '고졸·학력무관 및 신입 지원 근거 확인');
+  const limitedEligibility = !eligibleRoles.length && /(?:의한|따른|해당하는)\s*장애인|장애인\s*(?:증명서|에\s*해당|으로\s*응시제한)|복지카드.{0,10}소지|취업지원대상자.{0,25}(?:해당|증명서)|자립지원\s*대상자/.test(mandatory);
   return {
-    version: ELIGIBILITY_VERSION, status, reasons: [...new Set(reasons)],
+    version: ELIGIBILITY_VERSION, status, limitedEligibility, reasons: [...new Set(reasons)],
     explicitHighSchool: status === 'eligible' && (roleEvidence.length
       ? individuallyEligible.some((entry) => school.test(mandatoryText(entry.text))) : explicitSchool),
     educationChecklist, completeEvidence, eligibleRoles,
