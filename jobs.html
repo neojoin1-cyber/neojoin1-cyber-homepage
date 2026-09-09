@@ -427,9 +427,11 @@
       `;
     }
 
+    let jobDetailOpener = null;
     function openJobDetailByKey(key) {
       const item = latestJobFeedItems.find((candidate, index) => itemKey(candidate, index) === key);
       if (!item) return;
+      jobDetailOpener = document.activeElement;
       const modal = document.getElementById("job-detail-modal");
       const titleEl = document.getElementById("job-detail-title");
       const metaEl = document.getElementById("job-detail-meta");
@@ -455,11 +457,14 @@
       modal.hidden = false;
       modal.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
+      modal.querySelector('[data-job-detail-close]')?.focus();
     }
 
     function closeJobDetail() {
       const modal = document.getElementById("job-detail-modal");
       if (!modal) return;
+      if (jobDetailOpener?.isConnected) jobDetailOpener.focus();
+      if (modal.contains(document.activeElement)) searchInputEl.focus();
       modal.hidden = true;
       modal.setAttribute("aria-hidden", "true");
       document.body.style.overflow = "";
