@@ -1,5 +1,15 @@
 import fs from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
+import { assertCollectionAudit } from './job_collection_audit.mjs';
+
+export function reconciledCollection(feed, audit, startedAt) {
+  try {
+    assertCollectionAudit(audit);
+    return Number.isFinite(Date.parse(startedAt)) && Date.parse(audit.generatedAt) >= Date.parse(startedAt)
+      && audit.generatedAt === feed.generatedAt
+      && JSON.stringify(audit.summary) === JSON.stringify(feed.collectionReconciliation);
+  } catch { return false; }
+}
 
 export function freshPrimarySource(feed, startedAt) {
   const start = Date.parse(startedAt);
@@ -30,7 +40,10 @@ async function main() {
     ? await preflight()
     : mode === 'freshness'
       ? freshPrimarySource(JSON.parse(await fs.readFile('assets/job-feed.json', 'utf8')), process.env.JOB_FEED_RUN_STARTED_AT)
-      : false;
+      : mode === 'reconciliation'
+        ? reconciledCollection(JSON.parse(await fs.readFile('assets/job-feed.json', 'utf8')),
+          JSON.parse(await fs.readFile('assets/job-collection-audit.json', 'utf8')), process.env.JOB_FEED_RUN_STARTED_AT)
+        : false;
   console.log(JSON.stringify({ gate: mode, ready, checkedAt: new Date().toISOString() }));
   if (!ready) process.exitCode = 1;
 }

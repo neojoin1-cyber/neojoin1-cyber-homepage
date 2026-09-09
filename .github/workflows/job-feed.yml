@@ -19,6 +19,8 @@ on:
       - "tools/extract_job_attachment.py"
       - "tools/job_source_gate.mjs"
       - "tools/job_source_gate.test.mjs"
+      - "tools/job_collection_audit.mjs"
+      - "tools/job_collection_audit.test.mjs"
       - "tools/verify_platform_reliability.mjs"
       - "index.html"
       - "docs/JOB_FEED_AUTOMATION.md"
@@ -56,7 +58,7 @@ jobs:
         run: node -e "require('fs').appendFileSync(process.env.GITHUB_ENV, 'JOB_FEED_RUN_STARTED_AT=' + new Date().toISOString() + '\n')"
 
       - name: Verify source gate regressions
-        run: node --test tools/job_source_gate.test.mjs
+        run: node --test tools/job_source_gate.test.mjs tools/job_collection_audit.test.mjs
 
       - name: Official source preflight
         run: node tools/job_source_gate.mjs preflight
@@ -111,20 +113,34 @@ jobs:
           NONPROFIT_RECRUIT_API_KEY: ${{ secrets.NONPROFIT_RECRUIT_API_KEY }}
           NONPROFIT_RECRUIT_API_URL: ${{ secrets.NONPROFIT_RECRUIT_API_URL }}
 
+      - name: Preserve public collection diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: job-collection-diagnostics
+          path: |
+            assets/job-collection-audit.json
+            assets/job-feed-health.json
+            assets/job-feed.json
+          retention-days: 7
+
       - name: Verify platform reliability gate
         run: node tools/verify_platform_reliability.mjs
 
       - name: Verify primary source freshness
         run: node tools/job_source_gate.mjs freshness
 
+      - name: Verify collection reconciliation
+        run: node tools/job_source_gate.mjs reconciliation
+
       - name: Commit updated feed
         run: |
           git fetch origin "${GITHUB_REF_NAME}"
-          if ! git diff --quiet HEAD FETCH_HEAD -- tools/fetch_vocational_jobs.mjs tools/student_job_eligibility.mjs tools/reviewed_job_evidence.mjs tools/extract_job_attachment.py; then
+          if ! git diff --quiet HEAD FETCH_HEAD -- tools/fetch_vocational_jobs.mjs tools/student_job_eligibility.mjs tools/reviewed_job_evidence.mjs tools/extract_job_attachment.py tools/job_collection_audit.mjs tools/job_source_gate.mjs; then
             echo "::warning::Collector rules changed during this run. Do not publish results from the older engine."
             exit 0
           fi
-          if [ -z "$(git status --short -- assets/job-feed.json assets/job-detail-vault.json assets/job-feed-health.json assets/job-attachment-files)" ]; then
+          if [ -z "$(git status --short -- assets/job-feed.json assets/job-detail-vault.json assets/job-feed-health.json assets/job-collection-audit.json assets/job-attachment-files)" ]; then
             echo "No job feed, health, or attachment changes."
             exit 0
           fi
@@ -133,6 +149,7 @@ jobs:
           git add assets/job-feed.json
           git add assets/job-detail-vault.json
           git add assets/job-feed-health.json
+          git add assets/job-collection-audit.json
           if [ -d assets/job-attachment-files ]; then
             git add assets/job-attachment-files
           fi
@@ -143,7 +160,7 @@ jobs:
             fi
             echo "::warning::Job feed push was rejected, likely because another feed run published first. Rebasing and retrying (${attempt}/3)."
             git fetch origin "${GITHUB_REF_NAME}"
-            if ! git diff --quiet HEAD FETCH_HEAD -- tools/fetch_vocational_jobs.mjs tools/student_job_eligibility.mjs tools/reviewed_job_evidence.mjs tools/extract_job_attachment.py; then
+            if ! git diff --quiet HEAD FETCH_HEAD -- tools/fetch_vocational_jobs.mjs tools/student_job_eligibility.mjs tools/reviewed_job_evidence.mjs tools/extract_job_attachment.py tools/job_collection_audit.mjs tools/job_source_gate.mjs; then
               echo "::warning::Newer collector rules exist. Discard this obsolete publication attempt."
               exit 0
             fi
@@ -160,7 +177,7 @@ jobs:
         if: failure()
         run: |
           git fetch origin "${GITHUB_REF_NAME}"
-          if ! git diff --quiet HEAD FETCH_HEAD -- tools/fetch_vocational_jobs.mjs tools/student_job_eligibility.mjs tools/reviewed_job_evidence.mjs tools/extract_job_attachment.py; then
+          if ! git diff --quiet HEAD FETCH_HEAD -- tools/fetch_vocational_jobs.mjs tools/student_job_eligibility.mjs tools/reviewed_job_evidence.mjs tools/extract_job_attachment.py tools/job_collection_audit.mjs tools/job_source_gate.mjs; then
             echo "::warning::Obsolete run: preserve the newer engine's health diagnostics."
             exit 0
           fi
@@ -178,7 +195,7 @@ jobs:
             fi
             echo "::warning::Diagnostics push was rejected, likely because another run published first. Rebasing and retrying (${attempt}/3)."
             git fetch origin "${GITHUB_REF_NAME}"
-            if ! git diff --quiet HEAD FETCH_HEAD -- tools/fetch_vocational_jobs.mjs tools/student_job_eligibility.mjs tools/reviewed_job_evidence.mjs tools/extract_job_attachment.py; then
+            if ! git diff --quiet HEAD FETCH_HEAD -- tools/fetch_vocational_jobs.mjs tools/student_job_eligibility.mjs tools/reviewed_job_evidence.mjs tools/extract_job_attachment.py tools/job_collection_audit.mjs tools/job_source_gate.mjs; then
               echo "::warning::Do not replace health diagnostics from a newer collector."
               exit 0
             fi
