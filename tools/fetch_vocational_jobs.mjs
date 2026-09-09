@@ -5943,6 +5943,8 @@ async function fileExists(filePath) {
 
 function publicFeedHoldReason(payload, previousItems) {
   if (!previousItems?.size) return '';
+  // An old recommendation that fails today's eligibility rules is not a safe fallback.
+  if ([...new Set(previousItems.values())].some((item) => assessStudentEligibility(item).status !== 'eligible')) return '';
   const sources = Array.isArray(payload.sourceStatus) ? payload.sourceStatus : [];
   const failedCoreSources = sources.filter((source) =>
     CORE_PUBLICATION_SOURCE_IDS.has(source.id)

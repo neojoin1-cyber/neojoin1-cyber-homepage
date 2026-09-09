@@ -128,6 +128,9 @@ async function readText(relativePath) {
 }
 
 async function readJson(relativePath) {
+  if (process.env.JOB_FEED_VERIFY_DIR && /^assets\/job-(feed|feed-health|detail-vault)\.json$/.test(relativePath)) {
+    return JSON.parse(await fs.readFile(path.join(path.resolve(process.env.JOB_FEED_VERIFY_DIR), path.basename(relativePath)), 'utf8'));
+  }
   return JSON.parse(await readText(relativePath));
 }
 
