@@ -94,9 +94,13 @@ export function parsePriorityDetail(html, row, source) {
   const fields = {};
   for (const pair of body.matchAll(/<th\b[^>]*>([\s\S]*?)<\/th>\s*<td\b[^>]*>([\s\S]*?)<\/td>/gi)) fields[boardText(pair[1])] = boardText(pair[2]);
   const links = [...body.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>/gi)].map((m) => absolute(m[1], row.url)).filter(Boolean);
+  for (const match of text.matchAll(/(?:https?:\/\/|www\.)[a-zA-Z0-9.-]+(?:\/[a-zA-Z0-9_/?=&%#.+-]*)?/g)) {
+    const url = absolute(match[0].startsWith('www.') ? `https://${match[0]}` : match[0], row.url);
+    if (url) links.push(url);
+  }
   const externalLinks = [...new Set(links.filter((u) => new URL(u).hostname !== new URL(row.url).hostname))];
   const period = boardDates(fields['접수기간'] || text.match(/(?:접수기간|접수 기간|공고기간)\s*[:：]?\s*(.{0,140})/)?.[1] || '');
-  return { ...row, company: fields['기관(기업)명'] || row.company,
+  return { ...row, company: fields['기관(기업)명'] || row.company || (/IBK기업은행/.test(row.title) ? '중소기업은행' : ''),
     title: fields['공고명'] || row.title,
     deadline: row.deadline || period.end, start: row.start || period.start,
     highSchoolSignal: /고졸|고등학교|특성화고|마이스터고|직업계고|고교/.test(row.title + ' ' + text),

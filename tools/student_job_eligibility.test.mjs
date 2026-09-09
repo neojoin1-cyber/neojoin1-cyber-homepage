@@ -29,6 +29,15 @@ test('MPM headcount rows do not prove role eligibility when qualifications are i
   assert.equal(a.eligibleRoles.length, 0);
   assert.notEqual(assessStudentEligibility({ ...base, qualification: '고졸 신입. 분야별 자격은 붙임 참조' }).status, 'eligible');
 });
+test('IBK 304338: high-school track is independent of regional/general track references', () => {
+  const raw = { title: '2026년 하반기 IBK기업은행 신입행원 채용공고', company: '중소기업은행', career: '신입',
+    qualification: 'ㅇ 금융일반, 디지털, IT 분야 - 학력, 연령, 성별 등 제한사항 없음 - 남성의 경우 병역필 또는 면제자. 고졸인재 분야 지원자는 해당 없음 ※ 지역인재의 경우, 공고문 참조 ㅇ 고졸인재 분야 - 고등학교 졸업 예정자 (졸업 예정월: 27년 2월) - 채용 확정 후 전일 근무 가능한 자 - 당행 인사규정 「채용의 제한」 대상자 등(공고문 內 “유의사항” 참조)이 아닌 자' };
+  const proof = assessStudentEligibility(raw);
+  assert.equal(proof.status, 'eligible'); assert.equal(proof.explicitHighSchool, true);
+  assert.deepEqual(proof.eligibleRoles, ['고졸인재 분야']);
+  assert.doesNotMatch(proof.eligibleEvidence, /병역필|지역인재/);
+  assert.notEqual(assessStudentEligibility({ ...raw, qualification: raw.qualification.replace('고등학교 졸업 예정자', '지원자격은 첨부 공고문 참조') }).status, 'eligible');
+});
 
 const cases = [
   ['고졸 신입', { ...base, education: '고졸', qualification: '고등학교 졸업예정자 신입 채용' }, 'eligible'],

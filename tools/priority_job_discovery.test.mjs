@@ -42,6 +42,12 @@ test('invalid and non-adjacent short dates are never invented as deadlines', () 
   assert.equal(boardDates('2026.8.10 접수 ~ 별도 안내 입사 5.1').end, '');
   assert.deepEqual(boardDates('2026.12.20 ~ 1.5'), { start: '2026-12-20', end: '2027-01-05' });
 });
+test('plain employer URLs and the IBK legal entity are retained', () => {
+  const row = parsePriorityDetail('<div class="boardViewWrap">고졸인재전형 접수기간 2026.8.28 ~ 9.14 홈페이지 www.ibk.incruit.com</div>',
+    { title: '2026년 IBK기업은행 신입행원 채용', url: PRIORITY_BOARDS[4].url }, PRIORITY_BOARDS[4]);
+  assert.equal(row.company, '중소기업은행'); assert.equal(row.deadline, '2026-09-14');
+  assert.ok(row.externalLinks.includes('https://www.ibk.incruit.com/'));
+});
 test('page cap and repeated inventory remain explicitly incomplete', async () => {
   const html = table(Array.from({ length: 10 }, (_, i) => penRow(String(1234 + i))));
   const fetchHtml = async (url) => url.includes('selectNttList') ? html : '<div class="bbs_ViewA">고졸 신입</div>';
