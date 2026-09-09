@@ -182,6 +182,7 @@ jobs:
             echo "::warning::Obsolete run: preserve the newer engine's health diagnostics."
             exit 0
           fi
+          node tools/record_job_publication_hold.mjs
           if [ -z "$(git status --short -- assets/job-feed-health.json)" ]; then
             echo "No automation health diagnostics to publish."
             exit 0

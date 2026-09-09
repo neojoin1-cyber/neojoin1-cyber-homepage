@@ -1,41 +1,22 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-09T16:24:44.553Z",
-  "feedGeneratedAt": "2026-09-09T16:24:44.553Z",
+  "generatedAt": "2026-09-09T16:46:21.997Z",
+  "feedGeneratedAt": "2026-09-09T15:41:20.522Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "degraded",
+  "status": "degraded-held",
   "coverage": {
     "exhaustive": false,
-    "reconciliation": {
-      "discovered": 9498,
-      "counts": {
-        "policy-excluded": 103,
-        "published": 132,
-        "needs-review": 193,
-        "ineligible": 364,
-        "duplicate": 100,
-        "closed": 8596,
-        "publication-review": 10
-      },
-      "unexplained": 0,
-      "highPriorityReview": 1,
-      "disappearedActive": 0,
-      "incompletePagination": 1
-    },
+    "reconciliation": null,
     "auditUrl": "assets/job-collection-audit.json",
     "partialSources": [
       {
-        "id": "mpm-public-job",
-        "failedUrlCount": 8
-      },
-      {
         "id": "finance-large-company-recruit",
-        "failedUrlCount": 20
+        "failedUrlCount": 2
       },
       {
         "id": "regional-education-job",
-        "failedUrlCount": 2
+        "failedUrlCount": 1
       }
     ],
     "unconfiguredSources": [
@@ -76,13 +57,13 @@
         "name": "비영리·공익기관 채용"
       }
     ],
-    "qualificationPending": 235,
+    "qualificationPending": 756,
     "note": "연결된 공식 수집원 범위의 검증 결과입니다. 미연결 수집원·첨부 판독 보류·부분 실패가 있어 전국 공고 무누락을 보장하지 않습니다."
   },
   "summary": {
-    "total": 43,
-    "active": 20,
-    "deadlineSoon": 23,
+    "total": 38,
+    "active": 21,
+    "deadlineSoon": 17,
     "applicationClosed": 0,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
@@ -92,9 +73,9 @@
     "sourceFallbackProtected": 0,
     "publicationBlocked": 2,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 134,
-    "automatedBriefingReady": 43,
-    "automatedBriefingAttempted": 43,
+    "studentRecruitSafetyReview": 101,
+    "automatedBriefingReady": 38,
+    "automatedBriefingAttempted": 38,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -102,19 +83,19 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-09-09T16:24:44.553Z",
-    "attempted": 43,
-    "succeeded": 43,
+    "generatedAt": "2026-09-09T15:41:20.522Z",
+    "attempted": 38,
+    "succeeded": 38,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-09-09T16:24:44.553Z",
+    "generatedAt": "2026-09-09T15:41:20.522Z",
     "blockedCount": 2,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 134,
+    "studentRecruitReviewCount": 101,
     "blockedByReason": {
       "student-hard-blocked": 2
     },
@@ -125,14 +106,14 @@
         "reason": "student-hard-blocked",
         "source": "job-alio-openapi",
         "company": "한국학중앙연구원",
-        "title": "한국학중앙연구원 비정규직(휴직 대체인력) 채용 공고"
+        "title": "한국학중앙연구원 행정직 채용 공고"
       },
       {
         "list": "items",
         "reason": "student-hard-blocked",
         "source": "job-alio-openapi",
         "company": "한국학중앙연구원",
-        "title": "한국학중앙연구원 행정직 채용 공고"
+        "title": "한국학중앙연구원 비정규직(휴직 대체인력) 채용 공고"
       }
     ],
     "studentRecruitReviewSamples": [
@@ -226,27 +207,6 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "예금보험공사",
-        "title": "2026년도 예금보험공사 신입직원 채용안내",
-        "deadline": "2026-09-11",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kdic.or.kr/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심",
         "signals": [
           "공공·금융·대기업 소스",
@@ -271,19 +231,19 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호"
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
         ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "대한무역투자진흥공사",
-        "title": "대한무역투자진흥공사 2026년 하반기 체험형 청년인턴(장애인 전형) 모집",
-        "deadline": "2026-12-31",
+        "company": "한국전력기술주식회사",
+        "title": "한국전력기술주식회사 2026년도 하반기 정규직(신입사원) 채용공고",
+        "deadline": "2026-09-22",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://kotra.applyin.co.kr/jobs/22547"
+        "primaryOfficialUrl": "https://kepco-enc.cairos.co.kr/kepco-enc/"
       },
       {
         "list": "items",
@@ -292,18 +252,17 @@
         "signals": [
           "공공·금융·대기업 소스",
           "학력무관",
-          "공채 신호",
           "신입·정규직 계열"
         ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "한국수목원정원관리원",
         "title": "한국수목원정원관리원 2026년 제3차 국립정원문화원 기간제 근로자 채용 공고",
         "deadline": "2026-09-16",
         "status": "active",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://koagi.or.kr/www/user/bbs/BD_selectBbs.do?q_bbsSn=1009&q_clsfNo=&q_bbsDocNo=20260902181642722&q_searchKeyTy=&q_searchVal=&q_currPage=1&q_sortName=&q_sortOrder=&q_rowPerPage=10"
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304568"
       },
       {
         "list": "items",
@@ -383,11 +342,11 @@
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "한국학중앙연구원",
-        "title": "한국학중앙연구원 비정규직(휴직 대체인력) 채용 공고",
+        "title": "한국학중앙연구원 행정직 채용 공고",
         "deadline": "2026-09-17",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.aks.ac.kr/cop/bbs/selectBoardArticle.do?nttId=323398&bbsId=BBSMSTR_000000000082"
+        "primaryOfficialUrl": "https://www.aks.ac.kr/cop/bbs/selectBoardArticle.do?nttId=323395&bbsId=BBSMSTR_000000000082&menuNo=4010110000&sessionUniqId=USRCNFRM_00000000734"
       },
       {
         "list": "items",
@@ -404,11 +363,11 @@
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "한국학중앙연구원",
-        "title": "한국학중앙연구원 행정직 채용 공고",
+        "title": "한국학중앙연구원 비정규직(휴직 대체인력) 채용 공고",
         "deadline": "2026-09-17",
         "status": "active",
         "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.aks.ac.kr/cop/bbs/selectBoardArticle.do?nttId=323395&bbsId=BBSMSTR_000000000082&menuNo=4010110000&sessionUniqId=USRCNFRM_00000000734"
+        "primaryOfficialUrl": "https://www.aks.ac.kr/cop/bbs/selectBoardArticle.do?nttId=323398&bbsId=BBSMSTR_000000000082"
       },
       {
         "list": "items",
@@ -451,27 +410,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.kocca.kr/kocca/bbs/view/B0159004/2012483.do?searchCnd=&searchWrd=&cateTp1=&cateTp2=&useYn=&menuNo=204803&categorys=0&subcate=0&cateCode=&type=&instNo=0&questionTp=&ufSetting=&recovery=&option1=&option2=&year=&morePage=&qtp=&domainId=&sortCode=&pageIndex=1"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한국투자공사",
-        "title": "한국투자공사 2026년 신입직원 채용",
-        "deadline": "2026-09-18",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kic.kr/ko/careers/recruit/cn5ngi"
       },
       {
         "list": "items",
@@ -524,28 +462,6 @@
           "공공·금융·대기업 소스",
           "학력무관",
           "필기·NCS 신호",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한국산업은행",
-        "title": "한국산업은행 2027년 5급 신입행원(일반) 채용공고",
-        "deadline": "2026-09-14",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://kdb.incruit.com/hire/viewhire.asp?projectid=126"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
           "공채 신호",
           "신입·정규직 계열"
         ],
@@ -558,47 +474,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304802"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "근로복지공단",
-        "title": "근로복지공단 [산재심사위원회] 공무직(사무원) 채용 공고",
-        "deadline": "2026-12-02",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 학생추천 부적합 직무 · 분류:학생추천 제외",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한국방송통신전파진흥원",
-        "title": "한국방송통신전파진흥원 경력·신입 직원 채용 공고",
-        "deadline": "2026-09-10",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.kca.kr/boardList.do?pageId=www48&boardId=CAREERS"
       },
       {
         "list": "items",
@@ -709,26 +584,6 @@
           "공공·금융·대기업 소스",
           "고졸·특성화고 명시",
           "인턴·채용연계",
-          "공채 신호"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "국립공원공단",
-        "title": "국립공원공단 자원보전·AI 직무 체험형 청년인턴 채용",
-        "deadline": "2026-09-10",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019705"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
           "공채 신호",
           "신입·정규직 계열"
         ],
@@ -741,26 +596,6 @@
         "status": "deadline_soon",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://semas.plusrecruit.co.kr/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한국방송통신전파진흥원",
-        "title": "한국방송통신전파진흥원 체험형 청년인턴 채용 공고",
-        "deadline": "2026-09-10",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.kca.kr/boardList.do?pageId=www48&boardId=CAREERS"
       },
       {
         "list": "items",
@@ -807,26 +642,6 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한국중부발전(주)",
-        "title": "한국중부발전(주) 2026년도 3차 체험형 인턴 채용공고",
-        "deadline": "2026-09-16",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.data.go.kr/data/15125273/openapi.do"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
         "signals": [
           "공공·금융·대기업 소스",
@@ -837,7 +652,7 @@
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "한전KPS(주)",
-        "title": "한전KPS(주) 대외사업센터 단기노무원 채용 공고(인천 포스코인터내셔널)",
+        "title": "한전KPS(주) 대외사업센터 조속기엔지니어링팀 단기노무원 채용 공고",
         "deadline": "2026-09-11",
         "status": "deadline_soon",
         "processTrack": "direct-interview",
@@ -875,7 +690,7 @@
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "한전KPS(주)",
-        "title": "한전KPS(주) 대외사업센터 조속기엔지니어링팀 단기노무원 채용 공고",
+        "title": "한전KPS(주) 대외사업센터 단기노무원 채용 공고(인천 포스코인터내셔널)",
         "deadline": "2026-09-11",
         "status": "deadline_soon",
         "processTrack": "direct-interview",
@@ -942,26 +757,6 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한전KPS(주)",
-        "title": "한전KPS(주)부산경남전력지사 창원지점 단기노무원(상주감시) 모집",
-        "deadline": "2026-09-15",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.kps.co.kr/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
         "signals": [
           "공공·금융·대기업 소스",
@@ -1005,11 +800,10 @@
         "signals": [
           "공공·금융·대기업 소스",
           "학력무관",
-          "공채 신호",
           "신입·정규직 계열"
         ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "한전KPS(주)",
         "title": "한전KPS(주) 서울경기전력지사 고양지점 단기노무원(부지정리) 모집",
@@ -1040,6 +834,82 @@
       {
         "list": "items",
         "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한전KPS(주)",
+        "title": "한전KPS(주) 서울경기전력지사 군포지점 단기노무원(부지정리) 모집",
+        "deadline": "2026-09-11",
+        "status": "deadline_soon",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.kps.co.kr/"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "국립공원공단",
+        "title": "국립공원공단 [보전원] 국립공원야생생물보전원 기간제(한시인력_연구복원)직원 채용",
+        "deadline": "2026-09-18",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019735"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국문화진흥주식회사",
+        "title": "한국문화진흥(주) 뉴서울컨트리클럽 기간제(경기진행) 채용 공고",
+        "deadline": "2026-09-24",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://newseoulgolf.co.kr/board/list16.asp"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국보훈복지의료공단",
+        "title": "한국보훈복지의료공단 [광주보훈병원] 계약직 업무지원직(고객지원_간병지원) 직원 채용 공고",
+        "deadline": "2026-09-18",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.bohun.or.kr/gwangju/na/ntt/selectNttInfo.do?mi=32890&bbsId=1158&bbsSysId=gwangju&nttSn=189275"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 학생추천 부적합 직무 · 분류:학생추천 제외",
         "signals": [
           "공공·금융·대기업 소스",
@@ -1050,12 +920,12 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "한전KPS(주)",
-        "title": "한전KPS(주)서인천사업처 신인천 4CC 계획예방정비공사 청소세탁 단기노무원 채용공고",
-        "deadline": "2026-09-10",
-        "status": "deadline_soon",
+        "company": "한국특허기술진흥원",
+        "title": "한국특허기술진흥원 기간제계약직(영문에디터(휴직대체), 청소원(장애인제한경쟁, 재공고)) 채용 안내",
+        "deadline": "2026-09-22",
+        "status": "active",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.kps.co.kr/"
+        "primaryOfficialUrl": "https://www.kipro.or.kr/board/recruitment/view/194"
       },
       {
         "list": "archiveItems",
@@ -1085,164 +955,6 @@
         "signals": [
           "공공·금융·대기업 소스",
           "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한전KPS(주)",
-        "title": "한전KPS(주) 서울경기전력지사 군포지점 단기노무원(부지정리) 모집",
-        "deadline": "2026-09-11",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.kps.co.kr/"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리 · 필기신호 직접분류 재검토",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한국로봇산업진흥원",
-        "title": "2026년 제2차 한국로봇산업진흥원 신규직원 채용",
-        "deadline": "2026-09-15",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://dware.intojob.co.kr/main/kiria.jsp"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "대한적십자사",
-        "title": "대한적십자사 (경남혈액원) 비정규직 초단시간 헌혈권장원 채용 공고",
-        "deadline": "2026-09-10",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.redcross.or.kr/redrecruit"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "대한적십자사",
-        "title": "대한적십자사 [강원혈액원] 2026년 대체인력(사무보조) 채용 공고(2)",
-        "deadline": "2026-09-14",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.redcross.or.kr/redrecruit"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "대한적십자사",
-        "title": "대한적십자사 [강원혈액원] 2026년 대체인력(사무보조) 채용 공고(1)",
-        "deadline": "2026-09-14",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.redcross.or.kr/redrecruit"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "국립공원공단",
-        "title": "국립공원공단 [보전원] 국립공원야생생물보전원 기간제(한시인력_연구복원)직원 채용",
-        "deadline": "2026-09-18",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019735"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국문화진흥주식회사",
-        "title": "한국문화진흥(주) 뉴서울컨트리클럽 기간제(경기진행) 채용 공고",
-        "deadline": "2026-09-24",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://newseoulgolf.co.kr/board/list16.asp"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국보훈복지의료공단",
-        "title": "한국보훈복지의료공단 [광주보훈병원] 계약직 업무지원직(고객지원_간병지원) 직원 채용 공고",
-        "deadline": "2026-09-18",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.bohun.or.kr/gwangju/na/ntt/selectNttInfo.do?mi=32890&bbsId=1158&bbsSysId=gwangju&nttSn=189275"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
           "신입·정규직 계열"
         ],
         "source": "job-alio-openapi",
@@ -1254,26 +966,6 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.albamon.com/jobs/detail/119069727?searchRow=3&searchKeyword=%ED%95%9C%EA%B5%AD%EC%9A%B0%ED%8E%B8%EC%82%AC%EC%97%85%EC%A7%84%ED%9D%A5%EC%9B%90&productCount=1&logpath=1&sc=508"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 학생추천 부적합 직무 · 분류:학생추천 제외",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국특허기술진흥원",
-        "title": "한국특허기술진흥원 기간제계약직(영문에디터(휴직대체), 청소원(장애인제한경쟁, 재공고)) 채용 안내",
-        "deadline": "2026-09-22",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.kipro.or.kr/board/recruitment/view/194"
       },
       {
         "list": "supplementalItems",
@@ -1294,6 +986,25 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://kdischool.recruiter.co.kr/"
+      },
+      {
+        "list": "supplementalItems",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한전KPS(주)",
+        "title": "한전KPS(주) 한울1사업처 한울1호기 제27차 계획예방정비공사 단기노무원 채용 공고(2차)",
+        "deadline": "2026-09-16",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.kps.co.kr/"
       },
       {
         "list": "supplementalItems",
@@ -1355,26 +1066,6 @@
       {
         "list": "supplementalItems",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한국수력원자력(주)",
-        "title": "한국수력원자력(주) 2026년도 무주양수발전소 기간제근로자(영양사) 채용",
-        "deadline": "2026-09-16",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.khnp.co.kr/recruit_te"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
         "signals": [
           "공공·금융·대기업 소스",
@@ -1390,66 +1081,6 @@
         "status": "deadline_soon",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한국등산·트레킹지원센터",
-        "title": "2026년도 한국등산트레킹지원센터 기간제근로자(보훈 제한경쟁) 채용 공고",
-        "deadline": "2026-09-15",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://komount.or.kr/board/view.do?boardCode=B02&selectedId=2160&pageIndex=1"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한국마사회",
-        "title": "2026년도 한국마사회 위촉직(비서) 채용공고",
-        "deadline": "2026-09-14",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://recruit.incruit.com/kra/"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한국법무보호복지공단",
-        "title": "2026년 한국법무보호복지공단 경기남부지부 보호직(육아휴직대체직) 공개경쟁채용시험 공고",
-        "deadline": "2026-09-11",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://recruit.incruit.com/koreha/"
       },
       {
         "list": "supplementalItems",
@@ -1488,6 +1119,25 @@
         "status": "deadline_soon",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304734"
+      },
+      {
+        "list": "supplementalItems",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한전KPS(주)",
+        "title": "한전KPS(주)부산경남전력지사 창원지점 단기노무원(상주감시) 모집",
+        "deadline": "2026-09-15",
+        "status": "deadline_soon",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304718"
       },
       {
         "list": "supplementalItems",
@@ -1568,6 +1218,26 @@
       {
         "list": "supplementalItems",
         "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호 · 학생추천 부적합 직무 · 분류:학생추천 제외",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한전KPS(주)",
+        "title": "한전KPS(주)서인천사업처 신인천 4CC 계획예방정비공사 청소세탁 단기노무원 채용공고",
+        "deadline": "2026-09-10",
+        "status": "deadline_soon",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304579"
+      },
+      {
+        "list": "supplementalItems",
+        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
         "signals": [
           "공공·금융·대기업 소스",
@@ -1606,87 +1276,6 @@
       {
         "list": "supplementalItems",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리 · 필기신호 직접분류 재검토",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한국장학재단",
-        "title": "한국장학재단 2026년 하반기 종합직 채용 공고(일반행정, IT 개발운영, 시설관리(경력))",
-        "deadline": "2026-09-15",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.data.go.kr/data/15125273/openapi.do"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "(재)우체국물류지원단",
-        "title": "(재)우체국물류지원단 우체국물류지원단 서울지사 동서울·의정부·성남·원주·강릉 사업소 추석 특별소통 단기 기간제(운전직, 운송직) 채용 공고",
-        "deadline": "2026-09-10",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.data.go.kr/data/15125273/openapi.do"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "(재)우체국물류지원단",
-        "title": "(재)우체국물류지원단 우체국물류지원단 경인지사 부천,고양,안양,수원사업소 추석 특별소통 단기 기간제(운전직, 운송직) 채용 공고",
-        "deadline": "2026-09-10",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.data.go.kr/data/15125273/openapi.do"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한전KDN",
-        "title": "한전KDN(주) 대전충남본부 천안지사 AMI분야 작업원 모집공고",
-        "deadline": "2026-09-14",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.data.go.kr/data/15125273/openapi.do"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
         "signals": [
           "공공·금융·대기업 소스",
@@ -1702,26 +1291,6 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304726"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한전KDN",
-        "title": "한전KDN(주) 경남사업처 AMI 분야 비정규직 모집공고",
-        "deadline": "2026-09-22",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.data.go.kr/data/15125273/openapi.do"
       },
       {
         "list": "supplementalItems",
@@ -1755,11 +1324,11 @@
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "한국교통안전공단",
-        "title": "2026년 제4차 한국교통안전공단 철도기술처 기간제근로자 채용 공고",
+        "title": "2026년 제4차 한국교통안전공단 결함정책처 기간제근로자 채용 공고",
         "deadline": "2026-09-22",
         "status": "active",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304596"
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304583"
       },
       {
         "list": "supplementalItems",
@@ -1793,90 +1362,11 @@
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "한국교통안전공단",
-        "title": "2026년 제4차 한국교통안전공단 결함정책처 기간제근로자 채용 공고",
+        "title": "2026년 제4차 한국교통안전공단 철도기술처 기간제근로자 채용 공고",
         "deadline": "2026-09-22",
         "status": "active",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304583"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한전KPS(주)",
-        "title": "한전KPS(주) 한울1사업처 한울1호기 제27차 계획예방정비공사 단기노무원 채용 공고(2차)",
-        "deadline": "2026-09-16",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304580"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한전KDN",
-        "title": "한전KDN(주) 전북사업처 AMI분야 일용근로자 모집 공고",
-        "deadline": "2026-09-17",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.data.go.kr/data/15125273/openapi.do"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "(재)우체국물류지원단",
-        "title": "(재)우체국물류지원단 우체국물류지원단 경인지사 안양,부평물류사업소 기간제(일용직_우편물구분) 채용 공고",
-        "deadline": "2026-09-30",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.data.go.kr/data/15125273/openapi.do"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "(재)우체국물류지원단",
-        "title": "(재)우체국물류지원단 우체국물류지원단 서울지사 동서울물류사업소 기간제(일용직_우편물구분) 채용 공고",
-        "deadline": "2026-09-30",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.data.go.kr/data/15125273/openapi.do"
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304596"
       },
       {
         "list": "supplementalItems",
@@ -1937,47 +1427,6 @@
         "status": "deadline_soon",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.bohun.or.kr/jjcare/na/ntt/selectNttInfo.do?mi=34249&bbsId=1259&bbsSysId=jjcare&nttSn=189170#none"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한국소방산업기술원",
-        "title": "2026년 제2차 한국소방산업기술원 체험형 청년인턴 채용",
-        "deadline": "2026-09-14",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://kfi.or.kr/portal/bbs/B0000037/view.do?nttId=57158&menuNo=500065&pageIndex=1"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "국립암센터",
-        "title": "국립암센터 정규직 사무직 채용공고",
-        "deadline": "2026-09-11",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://ncc.recruiter.co.kr/app/jobnotice/view?systemKindCode=MRS2&jobnoticeSn=264010"
       },
       {
         "list": "supplementalItems",
@@ -2057,6 +1506,27 @@
         "source": "job-alio-openapi",
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
+        "company": "해양환경공단",
+        "title": "2026년 하반기 해양환경공단 체험형 청년인턴(장애인 제한) 채용 공고",
+        "deadline": "2026-09-22",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.koem.or.kr/site/insa/ex/board/View.do?cbIdx=478&bcIdx=36379"
+      },
+      {
+        "list": "supplementalItems",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
         "company": "한국장애인개발원",
         "title": "한국장애인개발원 [제2026-98호]2026년도 제4차 전남광주통합특별시전남장애아동·발달장애인지원센터 청년인턴 채용 공고",
         "deadline": "2026-09-22",
@@ -2083,27 +1553,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://www.bohun.or.kr/incheon/na/ntt/selectNttInfo.do?mi=33641&bbsId=1158&bbsSysId=incheon&nttSn=189290"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "인턴·채용연계",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "해양환경공단",
-        "title": "2026년 하반기 해양환경공단 체험형 청년인턴(장애인 제한) 채용 공고",
-        "deadline": "2026-09-22",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.koem.or.kr/site/insa/ex/board/View.do?cbIdx=478&bcIdx=36379"
       },
       {
         "list": "supplementalItems",
@@ -2253,25 +1702,6 @@
       {
         "list": "supplementalItems",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "공채 신호"
-        ],
-        "source": "finance-large-company-recruit",
-        "sourceName": "금융권·상장기업 고졸 공채 공식 피드",
-        "sector": "finance-large-company",
-        "company": "BNK경남은행",
-        "title": "BNK경남은행 계약직(사무행원) 신규 채용",
-        "deadline": "2026-09-13",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://knbank.recruiter.co.kr/career/jobs/127515"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
         "signals": [
           "공공·금융·대기업 소스",
@@ -2288,66 +1718,6 @@
         "status": "deadline_soon",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.kopo.ac.kr/semi/board.do?menu=3303&mode=view&post=784158"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "학교법인한국폴리텍",
-        "title": "학교법인한국폴리텍 한국폴리텍대학 전남캠퍼스 업무직(조리원) 채용(6차) 공고",
-        "deadline": "2026-09-13",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.kopo.ac.kr/jeonnam/board.do?menu=10543&mode=view&post=783942"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "서울대학교치과병원",
-        "title": "서울대학교치과병원 단시간근무자(장애인 제한경쟁) 채용 공고",
-        "deadline": "2026-09-14",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://snudh.recruiter.co.kr/app/jobnotice/view?systemKindCode=MRS2&jobnoticeSn=264861"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 학생추천 부적합 직무 · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한국수자원공사",
-        "title": "[한국수자원공사] (2차 재공고) 한강경영처 사회형평적 인재 단기계약근로자(시설관리) 채용 공고(장애인 제한채용)",
-        "deadline": "2026-09-14",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.kwater.or.kr/recr/sub02/notiList.do?s_mid=123"
       },
       {
         "list": "supplementalItems",
@@ -2473,26 +1843,6 @@
         "signals": [
           "공공·금융·대기업 소스",
           "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한국전력기술주식회사",
-        "title": "한국전력기술주식회사 2026년도 장애인 별도직무(DDCC 문서관리) 기간제 근로자 채용공고",
-        "deadline": "2026-09-15",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://kepco-enc-jobs.cairos.co.kr/kepco-enc-jobs"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
           "신입·정규직 계열"
         ],
         "source": "job-alio-openapi",
@@ -2550,38 +1900,17 @@
         "signals": [
           "공공·금융·대기업 소스",
           "학력무관",
-          "공채 신호",
           "신입·정규직 계열"
         ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
-        "company": "한전KDN",
-        "title": "한전KDN(주) 광주전남본부 AMI분야 비정규직 모집공고",
-        "deadline": "2026-09-15",
-        "status": "deadline_soon",
+        "company": "한국수자원공사",
+        "title": "[한국수자원공사] 파주수도지사 특수직(기술관리_건설사업) 채용 공고",
+        "deadline": "2026-09-23",
+        "status": "active",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.data.go.kr/data/15125273/openapi.do"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한전KDN",
-        "title": "한전KDN(주) 강원사업처 강릉지사 AMI분야 비정규직(장애인) 모집공고",
-        "deadline": "2026-09-14",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.data.go.kr/data/15125273/openapi.do"
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304787"
       },
       {
         "list": "supplementalItems",
@@ -2601,25 +1930,6 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304792"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국수자원공사",
-        "title": "[한국수자원공사] 파주수도지사 특수직(기술관리_건설사업) 채용 공고",
-        "deadline": "2026-09-23",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304787"
       },
       {
         "list": "supplementalItems",
@@ -2710,11 +2020,11 @@
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "한국수자원공사",
-        "title": "[한국수자원공사] 영·섬유역협력단 진안현대화사업소 '26년 노후 상수관망 정비사업 특수직(기술관리_건설사업) 채용 공고",
+        "title": "[한국수자원공사] (재공고) 전남북부권지사 실무직(사무관리_고객관리) 채용 공고",
         "deadline": "2026-09-16",
         "status": "active",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304522"
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304515"
       },
       {
         "list": "supplementalItems",
@@ -2748,25 +2058,6 @@
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "한국수자원공사",
-        "title": "[한국수자원공사] 영·섬유역협력단 익산현대화사업소 '26년 노후 상수관망 정비사업 특수직(기술관리_건설사업) 채용 공고",
-        "deadline": "2026-09-16",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304519"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국수자원공사",
         "title": "[한국수자원공사] 영·섬유역협력단 남원현대화사업소 노후 상수관망 정비사업 특수직(기술관리_건설사업) 채용 공고",
         "deadline": "2026-09-16",
         "status": "active",
@@ -2786,11 +2077,30 @@
         "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "한국수자원공사",
-        "title": "[한국수자원공사] (재공고) 전남북부권지사 실무직(사무관리_고객관리) 채용 공고",
+        "title": "[한국수자원공사] 영·섬유역협력단 익산현대화사업소 '26년 노후 상수관망 정비사업 특수직(기술관리_건설사업) 채용 공고",
         "deadline": "2026-09-16",
         "status": "active",
         "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304515"
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304519"
+      },
+      {
+        "list": "supplementalItems",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "한국수자원공사",
+        "title": "[한국수자원공사] 영·섬유역협력단 진안현대화사업소 '26년 노후 상수관망 정비사업 특수직(기술관리_건설사업) 채용 공고",
+        "deadline": "2026-09-16",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304522"
       },
       {
         "list": "supplementalItems",
@@ -2819,5 +2129,29 @@
     "publicationSafety.blockedSamples가 있으면 해당 공식 원문에서 마감·자격·URL을 보강한다.",
     "publicationSafety.studentRecruitReviewSamples가 있으면 중요한 공채 후보가 제외·직접분류된 이유와 원문을 확인한다.",
     "sourceFailures의 isolatedFailure가 true인 수집원은 다음 예약 실행에서도 반복되는지 확인한다."
-  ]
+  ],
+  "publicationHold": {
+    "heldAt": "2026-09-09T16:46:22.354Z",
+    "previousFeedPreserved": true,
+    "reason": "Collection or publication verification failed; the last accepted public feed is retained.",
+    "attemptedFeedGeneratedAt": "2026-09-09T16:24:44.553Z",
+    "attemptedSummary": {
+      "total": 43,
+      "active": 20,
+      "deadlineSoon": 23,
+      "applicationClosed": 0,
+      "sourcesChecked": 15,
+      "sourcesConfigured": 6,
+      "sourcesFailed": 0,
+      "criticalCoverageMissing": 0,
+      "staleFallbackItems": 0,
+      "sourceFallbackProtected": 0,
+      "publicationBlocked": 2,
+      "publicationRepaired": 0,
+      "studentRecruitSafetyReview": 134,
+      "automatedBriefingReady": 43,
+      "automatedBriefingAttempted": 43,
+      "automatedBriefingFailed": 0
+    }
+  }
 }
