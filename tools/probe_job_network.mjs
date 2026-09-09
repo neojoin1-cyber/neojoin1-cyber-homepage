@@ -26,12 +26,17 @@ for (const host of [...new Set(targets.map(([,url])=>new URL(url).hostname))]) {
 }
 for (const [id, raw, key] of targets) {
   const url = key ? raw + '&serviceKey=' + (/%[0-9a-f]{2}/i.test(key) ? key : encodeURIComponent(key)) : raw;
-  for (const transport of ['fetch','https-ipv4','curl-ipv4']) {
+  for (const transport of ['fetch','fetch-collector-headers','https-ipv4','curl-ipv4']) {
     const start = Date.now();
     try {
       let status, body;
-      if (transport === 'fetch') {
-        const response = await fetch(url,{signal:AbortSignal.timeout(8000)});
+      if (transport.startsWith('fetch')) {
+        const headers = transport === 'fetch-collector-headers' ? {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/125 Safari/537.36',
+          Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,application/json;q=0.8,*/*;q=0.7',
+          'Accept-Language': 'ko-KR,ko;q=0.9,en;q=0.6'
+        } : {};
+        const response = await fetch(url,{headers,signal:AbortSignal.timeout(8000)});
         status=response.status; body=await response.text();
       } else if (transport === 'https-ipv4') {
         const response = await new Promise((resolve,reject)=>{
