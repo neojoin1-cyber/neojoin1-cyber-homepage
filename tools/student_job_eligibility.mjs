@@ -1,6 +1,6 @@
 // Eligibility is decided from requirements, never from a job title or an API's education checklist.
 import { verifiedAttachmentReview } from './reviewed_job_evidence.mjs';
-export const ELIGIBILITY_VERSION = 3;
+export const ELIGIBILITY_VERSION = 4;
 const clean = (value) => String(value || '').normalize('NFKC').replace(/ᄋ/g, 'ㅇ').replace(/\s+/g, ' ').trim();
 const escape = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const school = /고졸|고등학교|특성화고|마이스터고|직업계고|고교/;
@@ -75,7 +75,7 @@ export function assessStudentEligibility(raw = {}) {
     /\d+\)\s*([가-힣]+(?:\([^)]{1,40}\))?)\s*[:：]/g,
     /\((\d+급(?:보)?\s+[^)]{2,50})\)/g,
     /(?:[가-하]\.\s*)?(\d+급(?:보)?\s*\([^)]{2,50}\))\s*[:：]/g,
-    /[○□]\s*((?:\d+급)?[가-힣·]+(?:\([^)]{1,40}\))?)\s*(?=[:：-]|[○□])/g
+    /[○□ㅇ]\s*((?:\d+급)?[가-힣·]+(?:\([^)]{1,40}\))?)\s*(?=[:：-]|[○□])/g
   ]) {
     for (const match of evidence.matchAll(pattern)) {
       if (!/공통|지원자격|응시자격|기타|성별|병역|연령|학력|전공|자격사항|근무조건/.test(match[1])) boundaries.push({ index: match.index, end: match.index + match[0].length, role: match[1] });

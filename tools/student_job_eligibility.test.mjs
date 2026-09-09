@@ -59,6 +59,23 @@ const cases = [
   ['혼합 직렬의 고졸 신입을 보존', { ...base, career: '신입+경력', recruitField: '연구직,행정직', qualification: '연구직: 석사학위 소지자. 행정직: 고졸 신입, 경력무관' }, 'eligible'],
   ['혼합 직렬의 이름만으로 구제 금지', { ...base, career: '신입+경력', recruitField: '연구직,행정직', qualification: '연구직: 석사학위 소지자. 행정직: 별첨 자격요건 참조' }, 'ineligible'],
 ];
+test('Busan Port Authority: Korean bullet roles keep technical licenses out of high-school office requirements', () => {
+  const raw = { ...base, company: '부산항만공사', recruitField: '경영·회계·사무,건설', education: nibp.education,
+    qualification: '[공통] ○ 학력ㆍ성별ㆍ전공 등 제한 없음 ○ 남성 병역필 또는 면제자, 고졸 분야 지원 시 병역 미필자 가능 ○ 한국사능력검정시험 3급 이상 합격자 [사무] ㅇ 사무(고졸) : 최종학력이 고등학교 졸업 또는 졸업예정인 자 ㅇ 사무(취업지원) : 보훈관계법률에 의한 취업지원 대상자 [기술] ㅇ 기술(토목) : 토목산업기사 이상 자격증 보유자 ㅇ 기술(건축) : 건축산업기사 이상 자격증 보유자' };
+  const proof = assessStudentEligibility(raw);
+  assert.equal(proof.status, 'eligible');
+  assert.deepEqual(proof.eligibleRoles, ['사무(고졸)']);
+  assert.equal(proof.explicitHighSchool, true);
+  assert.doesNotMatch(proof.eligibleEvidence, /산업기사/);
+  const assessment = buildStudentChannelAssessment(raw, { processTrack: 'exam-formal' });
+  assert.equal(assessment.militaryCompletionRequired, false);
+  assert.equal(assessment.militaryUnservedEligible, true);
+  assert.equal(assessment.explicitHighSchoolGraduateCandidate, true);
+  const withoutException = buildStudentChannelAssessment({ ...raw, qualification: raw.qualification.replace(', 고졸 분야 지원 시 병역 미필자 가능', '') }, { processTrack: 'exam-formal' });
+  assert.equal(withoutException.militaryCompletionRequired, true);
+  assert.notEqual(assessStudentEligibility({ ...raw, qualification: raw.qualification.replace('[공통]', '[공통] 관련 업무 경력 2년 이상 필수.') }).status, 'eligible');
+  assert.notEqual(assessStudentEligibility({ ...raw, qualification: raw.qualification.replace('최종학력이 고등학교 졸업 또는 졸업예정인 자', '고졸 신입, 해당 업무 경력 1년 이상 필수') }).status, 'eligible');
+});
 for (const [name, raw, status] of cases) test(name, () => assert.equal(assessStudentEligibility(raw).status, status));
 
 test('mixed education checklist never earns a core high-school badge', () => {

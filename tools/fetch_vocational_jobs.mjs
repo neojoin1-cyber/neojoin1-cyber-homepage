@@ -10,6 +10,7 @@ import { inflateRawSync } from 'node:zlib';
 import { assessStudentEligibility, qualificationEvidence } from './student_job_eligibility.mjs';
 import { applyReviewedAttachment } from './reviewed_job_evidence.mjs';
 import { collectPages, buildCollectionAudit as reconcileCollection, assertCollectionAudit } from './job_collection_audit.mjs';
+import { discoverPriorityJobs, discoveredRecruiterEntries, reconcilePriorityDiscovery } from './priority_job_discovery.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(__dirname, '..');
@@ -34,6 +35,7 @@ const QUALIFICATION_REVIEW = new Map();
 const COLLECTION_ASSESSED = new Map();
 const COLLECTION_DISCOVERED = new Map();
 const COLLECTION_PREVIOUS_KEYS = new Set();
+let priorityDiscovery = { sources: [], records: [] };
 const MAX_ITEMS = 120;
 const REQUEST_TIMEOUT_MS = 18000;
 const JOB_ALIO_LIST_RETRY_TIMEOUTS_MS = [10000, 16000];
@@ -1778,10 +1780,12 @@ function officialFeedEntriesForSource(id, config) {
   const seen = new Set();
   const entries = [
     ...builtInOfficialFeedEntriesForSource(id),
+    ...(id === 'finance-large-company-recruit' ? discoveredRecruiterEntries(priorityDiscovery) : []),
     ...configuredOfficialFeedEntriesForSource(config)
   ];
   return entries.filter((entry) => {
-    const key = normalizeSpace(entry.url).toLowerCase();
+    const urlKey = normalizeSpace(entry.url).toLowerCase();
+    const key = urlKey.match(/^https?:\/\/([a-z0-9-]+\.recruiter\.co\.kr)(?:\/|$)/)?.[1] || urlKey;
     if (!key || seen.has(key)) return false;
     seen.add(key);
     return true;
@@ -3669,9 +3673,14 @@ function buildStudentChannelAssessment(raw, process) {
   const professionalOnly = hasStudentUnsuitableProfessionalRole(text) && !roleLevelException;
   const recommendationMismatch = hasStudentUnsuitableRecruitSignal(text) && !roleLevelException;
   const applicableQualification = qualificationAssessment.eligibleEvidence || verifiedText;
-  const militaryCompletionRequired = hasMilitaryServiceCompletionRequirement(applicableQualification);
-  const militaryNoLimit = !militaryCompletionRequired && hasMilitaryNoLimitSignal(applicableQualification);
-  const explicitHighSchoolGraduateCandidate = hasExplicitHighSchoolGraduateCandidateSignal(applicableQualification);
+  const highSchoolMilitaryException = qualificationAssessment.status === 'eligible'
+    && qualificationAssessment.eligibleRoles.length > 0
+    && qualificationAssessment.eligibleRoles.every((role) => /고졸|고등학교|고교/.test(role))
+    && /고졸\s*(?:분야|전형|부문)?\s*(?:지원\s*시|지원자|은|는|의\s*경우)?\s*병역\s*미필자?\s*(?:지원\s*)?가능/.test(applicableQualification);
+  const militaryCompletionRequired = !highSchoolMilitaryException && hasMilitaryServiceCompletionRequirement(applicableQualification);
+  const militaryNoLimit = highSchoolMilitaryException || !militaryCompletionRequired && hasMilitaryNoLimitSignal(applicableQualification);
+  const explicitHighSchoolGraduateCandidate = hasExplicitHighSchoolGraduateCandidateSignal(applicableQualification)
+    || qualificationAssessment.status === 'eligible' && /고등학교\s*졸업\s*또는\s*졸업예정/.test(applicableQualification);
   const advancedRoleMismatch = ADVANCED_ROLE_WITHOUT_HIGH_SCHOOL_PATTERN.test(roleText)
     && !/(고졸|고등학교|특성화고|직업계고|마이스터고)/.test(roleText)
     && !/(고졸|고등학교|특성화고|직업계고|마이스터고).{0,40}(연구직군|연구개발|R&D|연구원)|(연구직군|연구개발|R&D|연구원).{0,40}(고졸|고등학교|특성화고|직업계고|마이스터고)/i.test(verifiedText);
@@ -5928,6 +5937,7 @@ function buildFeedHealth(payload, safetyReport = null, statusOverride = '') {
   const unconfiguredSources = sources.filter((source) => !source.configured);
   const status = statusOverride
     || (summary.total > 0 && !summary.criticalCoverageMissing && !failedConfiguredSources.length && !partialSources.length
+      && !payload.priorityDiscovery?.sourceFailures && !payload.priorityDiscovery?.detailFailures && !payload.priorityDiscovery?.activeDatedUnresolved
       ? 'ok'
       : summary.total > 0 ? 'degraded' : 'failed');
   return {
@@ -5940,6 +5950,7 @@ function buildFeedHealth(payload, safetyReport = null, statusOverride = '') {
     coverage: {
       exhaustive: false,
       reconciliation: payload.collectionReconciliation || null,
+      priorityDiscovery: payload.priorityDiscovery || null,
       auditUrl: 'assets/job-collection-audit.json',
       partialSources: partialSources.map(({ id, failedUrlCount }) => ({ id, failedUrlCount })),
       unconfiguredSources: unconfiguredSources.map(({ id, name }) => ({ id, name })),
@@ -7075,6 +7086,20 @@ async function fetchJobAlioRecruit() {
     });
   }
 
+  // A second discovery path can rescue older postings outside the recent-detail window.
+  for (const lead of priorityDiscovery.records) {
+    if (lead.deadline && lead.deadline < CHECKED_AT.slice(0, 10)) continue;
+    for (const row of rowsByIdx.values()) {
+      if (lead.company && normalizeSpace(lead.company) === normalizeSpace(row.company)) row.priority = Math.min(row.priority, 1);
+    }
+    for (const link of lead.externalLinks || []) {
+      const url = new URL(link);
+      if (url.hostname !== 'job.alio.go.kr' || !/^\d+$/.test(url.searchParams.get('idx') || '')) continue;
+      upsertJobAlioRow(rowsByIdx, { idx: url.searchParams.get('idx'), title: lead.title, company: lead.company,
+        deadline: lead.deadline, priority: 1, scanReason: `independent:${lead.source}` });
+    }
+  }
+
   const rowSelection = selectJobAlioRowsForDetail(rowsByIdx);
   const rows = rowSelection.rows;
   const selectedIds = new Set(rows.map((row) => String(row.idx)));
@@ -7972,6 +7997,8 @@ async function main() {
     if (error.code !== 'ENOENT') console.warn('Previous qualification review ledger could not be restored.');
   }
   const previousItems = await readPreviousItems();
+  priorityDiscovery = await discoverPriorityJobs({ now: NOW });
+  console.log('Independent high-school discovery:', priorityDiscovery.sources.map((s) => `${s.id} ${s.detailsRead}/${s.candidates} ${s.stopReason}`).join('; '));
   const results = await Promise.all([
     runSource('mpm-public-job', fetchMpmPublicJob),
     runSource('moef-public-recruit', fetchMoefPublicRecruit),
@@ -8165,6 +8192,13 @@ async function main() {
       publicationBlockReason(normalizePublicationItem(item).item) || (!shouldKeep(item) ? 'student-channel-policy' : '')])),
     sources: sourceStatusList, previous: previousCollectionAudit, generatedAt: CHECKED_AT
   });
+  let previousPriorityAudit = {};
+  try { previousPriorityAudit = JSON.parse(await fs.readFile(path.join(OUTPUT_DIR, 'job-priority-coverage.json'), 'utf8')); }
+  catch (error) { if (error.code !== 'ENOENT') console.warn('Previous priority coverage could not be restored'); }
+  const priorityAudit = reconcilePriorityDiscovery(priorityDiscovery, [...COLLECTION_ASSESSED.values()], [...items, ...supplementalItems], NOW, previousPriorityAudit);
+  await writeJsonAtomic(path.join(OUTPUT_DIR, 'job-priority-coverage.json'), priorityAudit);
+  collectionAudit.priorityDiscovery = priorityAudit.summary;
+  payload.priorityDiscovery = { ...priorityAudit.summary, auditUrl: 'assets/job-priority-coverage.json' };
   await writeJsonAtomic(COLLECTION_AUDIT_FILE, collectionAudit);
   assertCollectionAudit(collectionAudit);
   payload.collectionReconciliation = collectionAudit.summary;
