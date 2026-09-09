@@ -102,6 +102,11 @@ jobs:
 
       - name: Commit updated feed
         run: |
+          git fetch origin "${GITHUB_REF_NAME}"
+          if ! git diff --quiet HEAD FETCH_HEAD -- tools/fetch_vocational_jobs.mjs tools/student_job_eligibility.mjs tools/reviewed_job_evidence.mjs tools/extract_job_attachment.py; then
+            echo "::warning::Collector rules changed during this run. Do not publish results from the older engine."
+            exit 0
+          fi
           if [ -z "$(git status --short -- assets/job-feed.json assets/job-detail-vault.json assets/job-feed-health.json assets/job-attachment-files)" ]; then
             echo "No job feed, health, or attachment changes."
             exit 0
@@ -120,8 +125,12 @@ jobs:
               exit 0
             fi
             echo "::warning::Job feed push was rejected, likely because another feed run published first. Rebasing and retrying (${attempt}/3)."
-            git fetch origin main
-            if git rebase origin/main; then
+            git fetch origin "${GITHUB_REF_NAME}"
+            if ! git diff --quiet HEAD FETCH_HEAD -- tools/fetch_vocational_jobs.mjs tools/student_job_eligibility.mjs tools/reviewed_job_evidence.mjs tools/extract_job_attachment.py; then
+              echo "::warning::Newer collector rules exist. Discard this obsolete publication attempt."
+              exit 0
+            fi
+            if git rebase "origin/${GITHUB_REF_NAME}"; then
               continue
             fi
             git rebase --abort || true
