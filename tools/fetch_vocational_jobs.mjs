@@ -6509,12 +6509,15 @@ async function fetchMpmPublicJob() {
   activeRows.sort((a, b) => Number(/고졸|특성화|마이스터|지역인재/.test(b.title)) - Number(/고졸|특성화|마이스터|지역인재/.test(a.title))
     || Number(COLLECTION_PREVIOUS_KEYS.has(`${base.id}:${a.sourceId}`)) - Number(COLLECTION_PREVIOUS_KEYS.has(`${base.id}:${b.sourceId}`))
     || String(b.publishedAt).localeCompare(String(a.publishedAt)));
-  for (const row of activeRows.slice(300)) row.collectionDisposition = 'deferred';
+  const detailLimit = 750;
+  const detailDeadline = Date.now() + 20 * 60 * 1000;
+  for (const row of activeRows.slice(detailLimit)) row.collectionDisposition = 'deferred';
   let detailFailed = 0;
-  const details = await mapWithConcurrency(activeRows.slice(0, 300), 4, async (row) => {
+  const details = await mapWithConcurrency(activeRows.slice(0, detailLimit), 4, async (row) => {
+    if (Date.now() >= detailDeadline) { row.collectionDisposition = 'deferred'; return null; }
     try {
-      const body = await fetchWithTimeout(buildPublicDataUrl(MPM_PUBLIC_JOB_LIST_URL.replace('/getList', '/getItem'), key,
-        { idx: row.sourceId }), { timeoutMs: PUBLIC_API_TIMEOUT_MS });
+      const body = await fetchTextWithRetries(buildPublicDataUrl(MPM_PUBLIC_JOB_LIST_URL.replace('/getList', '/getItem'), key,
+        { idx: row.sourceId }), {}, [PUBLIC_API_TIMEOUT_MS, PUBLIC_API_TIMEOUT_MS], 'MPM detail');
       if (getXmlText(body, 'resultCode') !== '00' || getXmlText(body, 'idx') !== String(row.sourceId)) throw new Error('MPM detail mismatch');
       const qualification = htmlText(getXmlText(body, 'contents'));
       if (!qualification) throw new Error('MPM empty detail');
@@ -6532,7 +6535,8 @@ async function fetchMpmPublicJob() {
   const pagination = { complete: scans.every((scan) => scan.complete),
     partitions: scans.map(({ records, ...scan }) => scan),
     expectedTotal: scans.reduce((n, scan) => n + (scan.expectedTotal || 0), 0),
-    uniqueCount: list.size, detailFetched: rawItems.length, detailFailed, detailDeferred: Math.max(0, activeRows.length - 300) };
+    uniqueCount: list.size, detailFetched: rawItems.length, detailFailed,
+    detailDeferred: activeRows.filter((row) => row.collectionDisposition === 'deferred').length };
 
   const normalized = rawItems.map((item) => normalizeItem({
     ...item,
@@ -6554,7 +6558,7 @@ async function fetchMpmPublicJob() {
       rawItemCount: rawItems.length,
       pagination,
       failedUrlCount: detailFailed + scans.reduce((n, scan) => n + scan.issues.length, 0),
-      collectionScope: `MPM/Narailter official API, registered since ${beginDate}; four institution classes, seven notice classes; 300 active details/run`,
+      collectionScope: `MPM/Narailter official API, registered since ${beginDate}; four institution classes, seven notice classes; ${detailLimit} active details/run, 20-minute detail budget`,
       firstDayCandidates,
       missedReviewNeeded: missedReview,
       resolvedEndpoint: MPM_PUBLIC_JOB_LIST_URL,
