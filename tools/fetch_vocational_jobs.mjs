@@ -3646,9 +3646,10 @@ function buildStudentChannelAssessment(raw, process) {
   const collegeOnly = explicitCollegeLevel || (hasCollegeOnlyApplicantSignal(text) && !roleLevelException);
   const professionalOnly = hasStudentUnsuitableProfessionalRole(text) && !roleLevelException;
   const recommendationMismatch = hasStudentUnsuitableRecruitSignal(text) && !roleLevelException;
-  const militaryNoLimit = hasMilitaryNoLimitSignal(verifiedText);
-  const militaryCompletionRequired = !militaryNoLimit && hasMilitaryServiceCompletionRequirement(text);
-  const explicitHighSchoolGraduateCandidate = hasExplicitHighSchoolGraduateCandidateSignal(verifiedText);
+  const applicableQualification = qualificationAssessment.eligibleEvidence || verifiedText;
+  const militaryNoLimit = hasMilitaryNoLimitSignal(applicableQualification);
+  const militaryCompletionRequired = !militaryNoLimit && hasMilitaryServiceCompletionRequirement(applicableQualification);
+  const explicitHighSchoolGraduateCandidate = hasExplicitHighSchoolGraduateCandidateSignal(applicableQualification);
   const advancedRoleMismatch = ADVANCED_ROLE_WITHOUT_HIGH_SCHOOL_PATTERN.test(roleText)
     && !/(고졸|고등학교|특성화고|직업계고|마이스터고)/.test(roleText)
     && !/(고졸|고등학교|특성화고|직업계고|마이스터고).{0,40}(연구직군|연구개발|R&D|연구원)|(연구직군|연구개발|R&D|연구원).{0,40}(고졸|고등학교|특성화고|직업계고|마이스터고)/i.test(verifiedText);
@@ -5127,8 +5128,7 @@ function studentRecruitPriority(item = {}) {
   const roleLevelEligible = hasRoleLevelEligibilityException(item);
   const fieldDirect = hasHardFieldDirectRecruitSignal(headlineText);
   const assessment = item.studentChannelAssessment || {};
-  const explicitGraduateCandidate = assessment.explicitHighSchoolGraduateCandidate
-    || hasExplicitHighSchoolGraduateCandidateSignal(text);
+  const explicitGraduateCandidate = Boolean(assessment.explicitHighSchoolGraduateCandidate);
   const militaryRestricted = assessment.militaryCompletionRequired === true;
   const militaryOpen = assessment.militaryNoLimit === true;
   let tier = 7;

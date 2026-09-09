@@ -117,6 +117,7 @@ export function assessStudentEligibility(raw = {}) {
     explicitHighSchool: status === 'eligible' && (roleEvidence.length
       ? individuallyEligible.some((entry) => school.test(mandatoryText(entry.text))) : explicitSchool),
     educationChecklist, completeEvidence, eligibleRoles,
+    eligibleEvidence: roleEvidence.length ? [shared, ...individuallyEligible.filter((entry) => eligibleRoles.includes(entry.role)).map((entry) => entry.text)].join(' ') : evidence,
     roleEvidence, evidence, evidenceUrl: raw.sourceDetailUrl || raw.sourceOfficialUrl || raw.originalUrl || raw.url || ''
   };
 }

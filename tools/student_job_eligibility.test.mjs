@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { assessStudentEligibility } from './student_job_eligibility.mjs';
-import { normalizeItem, studentRecruitPriority, applyPublicationSafetyGuards, validateRecruitRoleFixtures, validateStudentPriorityFixtures, extractJobAlioQualification } from './fetch_vocational_jobs.mjs';
+import { normalizeItem, buildStudentChannelAssessment, studentRecruitPriority, applyPublicationSafetyGuards, validateRecruitRoleFixtures, validateStudentPriorityFixtures, extractJobAlioQualification } from './fetch_vocational_jobs.mjs';
 
 const base = { title: '신입직원 채용', education: '학력무관', career: '신입', recruitField: '행정직', qualification: '학력 및 경력 제한 없음. 신입 지원 가능.' };
 const nibp = { ...base, title: '국가생명윤리정책원 제2026-3차 직원 채용 공고', company: '국가생명윤리정책원',
@@ -78,6 +78,12 @@ test('mixed fifth/eighth-grade recruitment keeps the actual high-school track on
   assert.equal(proof.status, 'eligible');
   assert.deepEqual(proof.eligibleRoles, ['8급공채']);
   assert.equal(proof.explicitHighSchool, true);
+});
+
+test('another grade cannot impose its military-service restriction on the high-school track', () => {
+  const assessment = buildStudentChannelAssessment({ ...base, education: nibp.education, qualification: '○ 5급 공채 학력무관 신입. 기사 자격증 등 소지자. 남자는 병역필 또는 면제자. ○ 8급공채 고등학교 졸업예정자. 기능사 이상. 병역 제한 없음.' }, { processTrack: 'exam-formal' });
+  assert.equal(assessment.militaryCompletionRequired, false);
+  assert.equal(assessment.militaryUnservedEligible, true);
 });
 test('cached false positive is rechecked before publication', () => {
   const item = { ...nibp, id: 'legacy', sourceName: '잡알리오', url: 'https://job.alio.go.kr/', verifiedAt: new Date().toISOString(), status: 'active', processTrack: 'direct-interview', studentChannelAssessment: { hardBlocked: false }, studentPriority: { tier: 0 } };
