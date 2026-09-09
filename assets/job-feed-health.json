@@ -1,27 +1,27 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-09T17:25:58.530Z",
-  "feedGeneratedAt": "2026-09-09T17:25:58.530Z",
+  "generatedAt": "2026-09-09T17:44:27.021Z",
+  "feedGeneratedAt": "2026-09-09T17:44:27.021Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "degraded",
   "coverage": {
     "exhaustive": false,
     "reconciliation": {
-      "discovered": 7520,
+      "discovered": 7462,
       "counts": {
-        "policy-excluded": 101,
-        "duplicate": 113,
-        "published": 140,
-        "needs-review": 755,
-        "ineligible": 403,
-        "closed": 6002,
+        "policy-excluded": 95,
+        "duplicate": 109,
+        "published": 132,
+        "needs-review": 772,
+        "ineligible": 404,
+        "closed": 5944,
         "detail-failed": 6
       },
       "unexplained": 0,
       "highPriorityReview": 2,
       "disappearedActive": 0,
-      "incompletePagination": 0
+      "incompletePagination": 1
     },
     "auditUrl": "assets/job-collection-audit.json",
     "partialSources": [
@@ -76,12 +76,12 @@
         "name": "비영리·공익기관 채용"
       }
     ],
-    "qualificationPending": 799,
+    "qualificationPending": 821,
     "note": "연결된 공식 수집원 범위의 검증 결과입니다. 미연결 수집원·첨부 판독 보류·부분 실패가 있어 전국 공고 무누락을 보장하지 않습니다."
   },
   "summary": {
-    "total": 48,
-    "active": 24,
+    "total": 47,
+    "active": 23,
     "deadlineSoon": 24,
     "applicationClosed": 0,
     "sourcesChecked": 15,
@@ -92,9 +92,9 @@
     "sourceFallbackProtected": 0,
     "publicationBlocked": 2,
     "publicationRepaired": 0,
-    "studentRecruitSafetyReview": 142,
-    "automatedBriefingReady": 48,
-    "automatedBriefingAttempted": 48,
+    "studentRecruitSafetyReview": 134,
+    "automatedBriefingReady": 47,
+    "automatedBriefingAttempted": 47,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -102,19 +102,19 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-09-09T17:25:58.530Z",
-    "attempted": 48,
-    "succeeded": 48,
+    "generatedAt": "2026-09-09T17:44:27.021Z",
+    "attempted": 47,
+    "succeeded": 47,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-09-09T17:25:58.530Z",
+    "generatedAt": "2026-09-09T17:44:27.021Z",
     "blockedCount": 2,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
-    "studentRecruitReviewCount": 142,
+    "studentRecruitReviewCount": 134,
     "blockedByReason": {
       "student-hard-blocked": 2
     },
@@ -283,26 +283,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://kepco-enc.cairos.co.kr/kepco-enc/"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 대학생·학위 전용 제외신호",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "mpm-public-job",
-        "sourceName": "인사혁신처 공공취업정보",
-        "sector": "government",
-        "company": "한국전력기술(주)",
-        "title": "한국전력기술(주) 2026년도 하반기 정규직(신입사원) 채용공고",
-        "deadline": "2026-09-22",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.gojobs.go.kr/apmView.do?empmnsn=303052"
       },
       {
         "list": "items",
@@ -1409,26 +1389,6 @@
       {
         "list": "supplementalItems",
         "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한전KDN",
-        "title": "한전KDN(주) 대전충남본부 천안지사 AMI분야 작업원 모집공고",
-        "deadline": "2026-09-14",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304326"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리 · 필기신호 직접분류 재검토",
         "signals": [
           "공공·금융·대기업 소스",
@@ -1463,46 +1423,6 @@
         "company": "대한적십자사",
         "title": "대한적십자사 (경남혈액원) 비정규직 초단시간 헌혈권장원 채용 공고",
         "deadline": "2026-09-10",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.redcross.or.kr/redrecruit"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "대한적십자사",
-        "title": "대한적십자사 [강원혈액원] 2026년 대체인력(사무보조) 채용 공고(2)",
-        "deadline": "2026-09-14",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.redcross.or.kr/redrecruit"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "대한적십자사",
-        "title": "대한적십자사 [강원혈액원] 2026년 대체인력(사무보조) 채용 공고(1)",
-        "deadline": "2026-09-14",
         "status": "deadline_soon",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.redcross.or.kr/redrecruit"
@@ -1674,46 +1594,6 @@
         "signals": [
           "공공·금융·대기업 소스",
           "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한전KDN",
-        "title": "한전KDN(주) 부산본부 전력통신팀 정보통신설비 작업원(현장보조원) 모집공고",
-        "deadline": "2026-09-21",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304666"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한전KDN",
-        "title": "한전KDN(주) 울산지사 26년 AMI 통신망 보강공사 일용근로자 모집공고",
-        "deadline": "2026-09-21",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304663"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
           "인턴·채용연계",
           "공채 신호",
           "신입·정규직 계열"
@@ -1867,26 +1747,6 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019713"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한전KDN",
-        "title": "한전KDN(주) 울산지사 배전분야 일용원 모집공고",
-        "deadline": "2026-09-17",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304573"
       },
       {
         "list": "supplementalItems",
@@ -2066,6 +1926,46 @@
         "status": "deadline_soon",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://recruit.incruit.com/koreha/"
+      },
+      {
+        "list": "supplementalItems",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "moef-public-recruit",
+        "sourceName": "기재부 공공기관 채용정보",
+        "sector": "public-institution",
+        "company": "대한적십자사",
+        "title": "대한적십자사 [강원혈액원] 2026년 대체인력(사무보조) 채용 공고(2)",
+        "deadline": "2026-09-14",
+        "status": "deadline_soon",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.redcross.or.kr/redrecruit"
+      },
+      {
+        "list": "supplementalItems",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "moef-public-recruit",
+        "sourceName": "기재부 공공기관 채용정보",
+        "sector": "public-institution",
+        "company": "대한적십자사",
+        "title": "대한적십자사 [강원혈액원] 2026년 대체인력(사무보조) 채용 공고(1)",
+        "deadline": "2026-09-14",
+        "status": "deadline_soon",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://www.redcross.or.kr/redrecruit"
       },
       {
         "list": "supplementalItems",
@@ -2582,26 +2482,6 @@
         "source": "moef-public-recruit",
         "sourceName": "기재부 공공기관 채용정보",
         "sector": "public-institution",
-        "company": "한전KDN",
-        "title": "한전KDN(주) 광주전남본부 AMI분야 비정규직 모집공고",
-        "deadline": "2026-09-15",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304414"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
         "company": "서울대학교치과병원",
         "title": "서울대학교치과병원 단시간근무자(장애인 제한경쟁) 채용 공고",
         "deadline": "2026-09-14",
@@ -2628,26 +2508,6 @@
         "status": "deadline_soon",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.kwater.or.kr/recr/sub02/notiList.do?s_mid=123"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한전KDN",
-        "title": "한전KDN(주) 강원사업처 강릉지사 AMI분야 비정규직(장애인) 모집공고",
-        "deadline": "2026-09-14",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304361"
       },
       {
         "list": "supplementalItems",
@@ -2747,26 +2607,6 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.kiet.re.kr/communicate/ntcView?ntc_no=10736"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한전KDN",
-        "title": "한전KDN(주) 광주전남본부 전력통신분야 비정규직 모집공고(재공고)",
-        "deadline": "2026-09-21",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304715"
       },
       {
         "list": "supplementalItems",
