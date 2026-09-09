@@ -83,6 +83,7 @@ test('MOEF maps original eligibility rather than education checkbox into evidenc
     acbgCondNmLst: '고졸, 학사, 석사', aplyQlfcCn: '석사학위 소지자 또는 학사학위 취득 전후 2년 이상 경력자',
     recrutSeNm: '신입', scrnprcdrMthdExpln: '서류전형 및 면접' });
   assert.equal(raw.sourceId, '304793');
+  assert.equal(raw.companyNoticeUrl, 'https://job.alio.go.kr/recruitview.do?idx=304793');
   assert.match(normalizeItem(raw).originalUrl, /job\.alio\.go\.kr\/recruitview\.do\?idx=304793/);
   assert.equal(raw.processText, '서류전형 및 면접');
   assert.notEqual(assessStudentEligibility(raw).status, 'eligible');
@@ -91,6 +92,8 @@ test('MOEF high-school beginner evidence is usable without fictitious credential
   const raw = moefRecordToRaw({ recrutPblntSn: 1, recrutPbancTtl: '고졸 신입 채용', instNm: '기관',
     acbgCondNmLst: '고졸', recrutSeNm: '신입', aplyQlfcCn: '고등학교 졸업예정자 지원 가능. 경력 무관.' });
   assert.equal(assessStudentEligibility(raw).status, 'eligible');
+  assert.equal(normalizeItem(raw).sourceVerification.companyNoticeCheckStatus, 'link_found');
+  assert.notEqual(normalizeItem(raw).sourceVerification.doubleCheckStatus, 'job_alio_detail_confirmed');
 });
 test('employer eligibility keeps restrictions beyond the 780-character summary', () => {
   const raw = recruiterJobflexRecordToRaw({ positionSn: 1, title: '고졸 채용', careerType: 'NEW' },

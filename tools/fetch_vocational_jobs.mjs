@@ -6334,6 +6334,7 @@ export function moefRecordToRaw(record, source = catalogSource('moef-public-recr
   return { ...raw, sourceId: String(record.recrutPblntSn),
     sourceDetailUrl: `https://job.alio.go.kr/recruitview.do?idx=${encodeURIComponent(record.recrutPblntSn)}`,
     originalUrl: `https://job.alio.go.kr/recruitview.do?idx=${encodeURIComponent(record.recrutPblntSn)}`,
+    companyNoticeUrl: cleanUrl(record.srcUrl) || `https://job.alio.go.kr/recruitview.do?idx=${encodeURIComponent(record.recrutPblntSn)}`,
     region: record.workRgnNmLst || '', education: record.acbgCondNmLst || '',
     career: record.recrutSeNm || '', employmentType: record.hireTypeNmLst || '',
     qualification: htmlText(record.aplyQlfcCn || ''),
