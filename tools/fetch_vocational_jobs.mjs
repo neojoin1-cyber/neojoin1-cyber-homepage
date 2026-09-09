@@ -8,6 +8,7 @@ import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { inflateRawSync } from 'node:zlib';
 import { assessStudentEligibility, qualificationEvidence } from './student_job_eligibility.mjs';
+import { applyReviewedAttachment } from './reviewed_job_evidence.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(__dirname, '..');
@@ -3474,7 +3475,7 @@ function hasMilitaryServiceCompletionRequirement(value) {
 }
 
 function hasMilitaryNoLimitSignal(value) {
-  return MILITARY_NO_LIMIT_PATTERN.test(normalizeSpace(value));
+  return MILITARY_NO_LIMIT_PATTERN.test(normalizeSpace(value)) || /병역\s*(?:제한\s*없|무관|불문)/.test(normalizeSpace(value));
 }
 
 function hasExplicitHighSchoolGraduateCandidateSignal(value) {
@@ -3575,7 +3576,8 @@ function assessRecruitRoles(raw = {}, verifiedText = '') {
 }
 
 function hasRoleLevelEligibilityException(item = {}) {
-  return Boolean(item.roleEligibility?.mixed && item.roleEligibility?.hasEligibleRole);
+  return Boolean(item.roleEligibility?.hasEligibleRole
+    && (item.roleEligibility?.mixed || item.studentChannelAssessment?.qualificationAssessment?.status === 'eligible'));
 }
 
 function validateRecruitRoleFixtures() {
@@ -3639,7 +3641,7 @@ function buildStudentChannelAssessment(raw, process) {
   const verifiedText = text.replace(/고졸·특성화고\s*관련\s*원문\s*확인/g, ' ');
   const roleText = normalizeSpace([raw.title, raw.recruitField, raw.jobField, raw.workField, raw.position].filter(Boolean).join(' '));
   const roleEligibility = assessRecruitRoles(raw, verifiedText);
-  const roleLevelException = roleEligibility.mixed && roleEligibility.hasEligibleRole;
+  const roleLevelException = qualificationAssessment.status === 'eligible' && roleEligibility.hasEligibleRole;
   const highSchoolEligible = hasVerifiedStudentEligibilitySignal(verifiedText);
   const explicitCollegeLevel = EXPLICIT_COLLEGE_LEVEL_RECRUIT_PATTERN.test(normalizeSpace([raw.title, raw.baseTitle].filter(Boolean).join(' ')))
     && !MIXED_HIGH_SCHOOL_RECRUIT_PATTERN.test(normalizeSpace([raw.title, raw.baseTitle].filter(Boolean).join(' ')));
@@ -3647,8 +3649,8 @@ function buildStudentChannelAssessment(raw, process) {
   const professionalOnly = hasStudentUnsuitableProfessionalRole(text) && !roleLevelException;
   const recommendationMismatch = hasStudentUnsuitableRecruitSignal(text) && !roleLevelException;
   const applicableQualification = qualificationAssessment.eligibleEvidence || verifiedText;
-  const militaryNoLimit = hasMilitaryNoLimitSignal(applicableQualification);
-  const militaryCompletionRequired = !militaryNoLimit && hasMilitaryServiceCompletionRequirement(applicableQualification);
+  const militaryCompletionRequired = hasMilitaryServiceCompletionRequirement(applicableQualification);
+  const militaryNoLimit = !militaryCompletionRequired && hasMilitaryNoLimitSignal(applicableQualification);
   const explicitHighSchoolGraduateCandidate = hasExplicitHighSchoolGraduateCandidateSignal(applicableQualification);
   const advancedRoleMismatch = ADVANCED_ROLE_WITHOUT_HIGH_SCHOOL_PATTERN.test(roleText)
     && !/(고졸|고등학교|특성화고|직업계고|마이스터고)/.test(roleText)
@@ -3684,7 +3686,7 @@ function buildStudentChannelAssessment(raw, process) {
     version: 2,
     qualificationAssessment,
     highSchoolEligible,
-    militaryUnservedEligible: highSchoolEligible && !militaryCompletionRequired,
+    militaryUnservedEligible: highSchoolEligible && militaryNoLimit,
     militaryCompletionRequired,
     militaryNoLimit,
     explicitHighSchoolGraduateCandidate,
@@ -3834,14 +3836,17 @@ function classifyProcess(raw) {
     raw.sourceName
   ].join(' ');
   const hasExam = hasWrittenExamSignal(haystack);
+  const eligibility = assessStudentEligibility(raw);
+  const suitabilityText = eligibility.status === 'eligible' && eligibility.eligibleRoles.length
+    ? [raw.title, eligibility.eligibleRoles.join(' '), eligibility.eligibleEvidence].join(' ') : haystack;
   const hasDirect = includesAny(haystack, DIRECT_TERMS);
   const sector = classifySector(raw, haystack);
   const criticalProtectedRecruit = criticalCurrentPriority(raw) < 99;
   const isRegionalEducationRecruit = isRegionalEducationConcreteRecruit(raw);
   const privateLargeUnverified = ['finance-large-company', 'large-company', 'private-platform'].includes(sector)
     && !hasVerifiedStudentEligibilitySignal(haystack);
-  const studentRecommendBlocked = hasCollegeOnlyApplicantSignal(haystack)
-    || hasStudentUnsuitableRecruitSignal(haystack)
+  const studentRecommendBlocked = (eligibility.status !== 'eligible' && hasCollegeOnlyApplicantSignal(suitabilityText))
+    || hasStudentUnsuitableRecruitSignal(suitabilityText)
     || hasCanceledRecruitSignal(haystack)
     || privateLargeUnverified;
   const limitedTemporaryDirect = !hasExam
@@ -3850,7 +3855,7 @@ function classifyProcess(raw) {
     && !hasExplicitHighSchoolRecruitSignal(haystack)
     && !hasCareerLadderInternshipSignal(haystack);
   const forceFieldDirect = shouldForceFieldDirectRecruit(raw, sector, haystack, hasExam);
-  const unsuitableProfessionalRole = hasStudentUnsuitableProfessionalRole(haystack);
+  const unsuitableProfessionalRole = hasStudentUnsuitableProfessionalRole(suitabilityText);
   const formalPublicStudentRecruit = hasFormalPublicStudentRecruitSignal(haystack, sector, source);
   const recommendedPublicRecruit = hasRecommendedPublicRecruitSignal(haystack, hasExam, sector, source);
   const labels = [sectorLabel(sector)];
@@ -4844,7 +4849,7 @@ function isUnsuitableForHighSchoolChannel(item) {
   if (hasCollegeOnlyApplicantSignal(text) && !roleLevelException) return true;
   if (hasStudentUnsuitableRecruitSignal(text) && !roleLevelException) return true;
   if (hasStudentUnsuitableProfessionalRole(text) && !roleLevelException) return true;
-  if (SENIOR_ROLE_PATTERN.test(text)) return true;
+  if (SENIOR_ROLE_PATTERN.test([headline, item.recruitField].join(' ').replace(/학교장\s*추천/g, ''))) return true;
   if (!strongHighSchool && !entryLevel && !educationOpen && RESTRICTED_ROLE_PATTERN.test(text)) return true;
   if (!strongHighSchool && !roleLevelException && PROFESSIONAL_ONLY_TERMS.some((term) => text.includes(term))) return true;
   if (hasAdvancedEducationOnly(item)) return true;
@@ -4870,6 +4875,7 @@ function titleWithCompanyName(title, company) {
 }
 
 function normalizeItem(raw) {
+  raw = applyReviewedAttachment(raw);
   const company = normalizeSpace(raw.company);
   const baseTitle = titleWithCompanyName(raw.title, company);
   const deadlineDate = parseDate(raw.deadline || raw.deadlineTimestamp);
@@ -4965,6 +4971,8 @@ function normalizeItem(raw) {
     qualificationText: qualificationEvidence(raw),
     qualificationEvidenceIncomplete: !studentChannelAssessment.qualificationAssessment.completeEvidence,
     qualificationAttachments: raw.qualificationAttachments || [],
+    reviewedAttachment: raw.reviewedAttachment || null,
+    studentConditions: raw.studentConditions || [],
     recruitNumber: normalizeSpace(raw.recruitNumber || raw.hiringCount || raw.recruitCount).slice(0, 80),
     applicationMethod: normalizeSpace(raw.applicationMethod || raw.application || raw.applyMethod).slice(0, 180),
     contact: normalizeSpace(raw.contact || raw.contactInfo || raw.inquiry).slice(0, 120),
@@ -5569,7 +5577,7 @@ const PUBLIC_JOB_ITEM_FIELDS = new Set([
   'staleSourceFallback', 'url', 'originalUrl', 'sourceDetailUrl', 'detailText', 'contactAdvice',
   'sourceVerification', 'regionalEducationVerification', 'publicRecruitDetails', 'teacherBriefing', 'attachments',
   'primaryOfficialUrl', 'companyNoticeUrl', 'sourceOfficialUrl', 'officialUrl',
-  'attachmentLines', 'supplementarySourceUrls', 'qualificationText', 'qualificationEvidenceIncomplete', 'qualificationAttachments'
+  'attachmentLines', 'supplementarySourceUrls', 'qualificationText', 'qualificationEvidenceIncomplete', 'qualificationAttachments', 'reviewedAttachment', 'studentConditions'
 ]);
 
 function publicJobListItem(item = {}) {
@@ -5884,8 +5892,10 @@ function buildFeedHealth(payload, safetyReport = null, statusOverride = '') {
   const sources = Array.isArray(payload.sourceStatus) ? payload.sourceStatus : [];
   const configuredSources = sources.filter((source) => source.configured);
   const failedConfiguredSources = configuredSources.filter((source) => !source.ok);
+  const partialSources = configuredSources.filter((source) => source.failedUrlCount > 0);
+  const unconfiguredSources = sources.filter((source) => !source.configured);
   const status = statusOverride
-    || (summary.total > 0 && !summary.criticalCoverageMissing && !failedConfiguredSources.length
+    || (summary.total > 0 && !summary.criticalCoverageMissing && !failedConfiguredSources.length && !partialSources.length
       ? 'ok'
       : summary.total > 0 ? 'degraded' : 'failed');
   return {
@@ -5895,6 +5905,13 @@ function buildFeedHealth(payload, safetyReport = null, statusOverride = '') {
     timezone: payload.timezone || 'Asia/Seoul',
     schedule: payload.schedule || '09:10, 14:10, 23:10 KST',
     status,
+    coverage: {
+      exhaustive: false,
+      partialSources: partialSources.map(({ id, failedUrlCount }) => ({ id, failedUrlCount })),
+      unconfiguredSources: unconfiguredSources.map(({ id, name }) => ({ id, name })),
+      qualificationPending: (payload.qualificationReview || []).filter((item) => item.status === 'review').length,
+      note: '연결된 공식 수집원 범위의 검증 결과입니다. 미연결 수집원·첨부 판독 보류·부분 실패가 있어 전국 공고 무누락을 보장하지 않습니다.'
+    },
     summary: {
       total: summary.total || 0,
       active: summary.active || 0,
@@ -6790,30 +6807,38 @@ function extractJobAlioAttachments(html) {
 }
 
 export function extractJobAlioQualification(html) {
-  const section = String(html).match(/<h4\b[^>]*>\s*응시자격\s*<\/h4>\s*<p\b[^>]*>([\s\S]*?)<\/p>/i);
+  return extractJobAlioSection(html, '응시자격');
+}
+
+export function extractJobAlioSection(html, heading) {
+  const escaped = heading.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const section = String(html).match(new RegExp(`<h4\\b[^>]*>\\s*${escaped}\\s*<\\/h4>\\s*<p\\b[^>]*>([\\s\\S]*?)<\\/p>`, 'i'));
   return section ? htmlText(section[1]) : '';
 }
 
 async function inspectQualificationAttachments(attachments, qualification) {
   if (!/첨부|공고문\s*(?:참조|참고)|별첨|별도/.test(qualification)) return [];
-  const candidates = attachments.filter((a) => /\.(pdf|hwpx)(?:$|\b)/i.test(a.title)
+  const candidates = attachments.filter((a) => /\.(pdf|hwpx|zip)(?:$|\b)/i.test(a.title)
     && !/입사지원|직무기술|동의서|양식/.test(a.title)).slice(0, 2);
-  return mapWithConcurrency(candidates, 2, async (attachment) => {
+  const results = await mapWithConcurrency(candidates, 2, async (attachment) => {
     try {
-      const extension = attachment.title.match(/\.(pdf|hwpx)/i)[1].toLowerCase();
+      const extension = attachment.title.match(/\.(pdf|hwpx|zip)/i)[1].toLowerCase();
       const directory = path.join(OUTPUT_DIR, '.qualification-cache');
       await fs.mkdir(directory, { recursive: true });
       const filename = path.join(directory, `${sha(attachment.url)}.${extension}`);
       const buffer = await fetchBinaryWithTimeout(attachment.url, { timeoutMs: 18000, maxBytes: 12 * 1024 * 1024 });
       await fs.writeFile(filename, buffer);
       const { stdout } = await execFileAsync(process.env.JOB_FEED_PYTHON || 'python',
-        [path.join(__dirname, 'extract_job_attachment.py'), filename], { timeout: 20000, maxBuffer: 2 * 1024 * 1024, windowsHide: true });
+        [path.join(__dirname, 'extract_job_attachment.py'), filename], { timeout: 40000, maxBuffer: 8 * 1024 * 1024, windowsHide: true });
       const extracted = JSON.parse(stdout);
-      return { title: attachment.title, url: attachment.url, status: extracted.complete ? 'text-extracted-needs-role-review' : 'unreadable-or-truncated', text: extracted.text };
+      return extracted.documents.map((document) => ({ title: attachment.title, entryName: document.name,
+        url: attachment.url, sha256: document.sha256 || '',
+        status: document.complete ? 'text-extracted-needs-role-review' : 'unreadable-or-truncated', text: document.text }));
     } catch (error) {
-      return { title: attachment.title, url: attachment.url, status: 'extraction-failed', error: shortText(error.message, '첨부 추출 실패', 180) };
+      return [{ title: attachment.title, url: attachment.url, status: 'extraction-failed', error: shortText(error.message, '첨부 추출 실패', 180) }];
     }
   });
+  return results.flat();
 }
 
 async function fetchJobAlioDetail(row) {
@@ -6835,8 +6860,8 @@ async function fetchJobAlioDetail(row) {
   const employmentType = extractBetween(text, '고용형태', '대체인력여부') || row.employmentType;
   const region = extractBetween(text, '근무지', '급여정보') || row.region;
   const qualification = extractJobAlioQualification(html);
-  const preference = extractBetween(text, '우대내용', '전형절차/방법');
-  const processText = extractBetween(text, '전형절차/방법', '공고문');
+  const preference = extractJobAlioSection(html, '우대내용');
+  const processText = extractJobAlioSection(html, '전형절차/방법');
   const deadline = String(row.deadline || '').match(/\d{2}\.\d{2}\.\d{2}|\d{4}\.\d{2}\.\d{2}/)?.[0] || period?.[2] || row.deadline;
   const publishedAt = row.registeredAt || period?.[1] || text.match(/등록일\s*(\d{4}\.\d{2}\.\d{2}|\d{2}\.\d{2}\.\d{2})/)?.[1] || '';
   const companyNoticeUrl = row.eligibilityAuditOnly ? '' : await resolveOfficialNoticeUrl(originalUrl ? cleanUrl(originalUrl[1]) : '', row.title, row.company);

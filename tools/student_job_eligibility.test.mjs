@@ -1,5 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import { applyReviewedAttachment } from './reviewed_job_evidence.mjs';
+import { buildFeedHealth, extractJobAlioSection } from './fetch_vocational_jobs.mjs';
 import { assessStudentEligibility } from './student_job_eligibility.mjs';
 import { normalizeItem, buildStudentChannelAssessment, studentRecruitPriority, applyPublicationSafetyGuards, validateRecruitRoleFixtures, validateStudentPriorityFixtures, extractJobAlioQualification } from './fetch_vocational_jobs.mjs';
 
@@ -96,3 +99,48 @@ test('qualification section is not cut at words inside its paragraph', () => {
   assert.match(text, /업무 경력 1년 이상/);
   assert.doesNotMatch(text, /별도 제외/);
 });
+
+test('military no-evasion clause cannot override mandatory completed service', () => {
+  const result = buildStudentChannelAssessment({ ...base, qualification: '학력무관 신입. 병역기피 사실이 없는 자. 남자는 병역필 또는 면제자.' }, {});
+  assert.equal(result.militaryCompletionRequired, true);
+  assert.equal(result.militaryUnservedEligible, false);
+});
+test('missing military requirements are not positive evidence of unserved eligibility', () => {
+  assert.equal(buildStudentChannelAssessment(base, {}).militaryUnservedEligible, false);
+});
+test('process paragraph survives the word notice before the written test', () => {
+  assert.match(extractJobAlioSection('<h4>전형절차/방법</h4><p>공고문 확인. 서류전형 다음 필기시험(NCS), 면접</p><h4>공고문</h4>', '전형절차/방법'), /필기시험/);
+});
+test('partial source failures and missing integrations remain visible', () => {
+  const health = buildFeedHealth({ summary: { total: 3 }, sourceStatus: [
+    { id: 'partial', configured: true, ok: true, failedUrlCount: 2 },
+    { id: 'missing', configured: false }
+  ], qualificationReview: [{ status: 'review' }] });
+  assert.equal(health.status, 'degraded');
+  assert.equal(health.coverage.exhaustive, false);
+  assert.equal(health.coverage.qualificationPending, 1);
+  assert.equal(health.coverage.unconfiguredSources.length, 1);
+});
+
+const officialNotices = JSON.parse(fs.readFileSync(new URL('./fixtures/official-highschool-notices.json', import.meta.url)));
+for (const original of officialNotices) {
+  test(`official attachment gold case: ${original.company}`, () => {
+    const raw = { ...original, deadline: '2099-09-28' };
+    const item = normalizeItem(raw);
+    const result = applyPublicationSafetyGuards([item]);
+    assert.equal(result.items.length, 1, JSON.stringify(result.report.blockedByReason));
+    assert.equal(item.processTrack, 'exam-formal');
+    assert.ok(item.studentConditions.length >= 3);
+    assert.ok(item.roleEligibility.eligibleRoles.length);
+    assert.ok(item.roleEligibility.eligibleRoles.every((role) => /고졸|고교/.test(role)));
+    assert.doesNotMatch(item.processLabels.join(' '), /학생추천 제외/);
+    const changed = structuredClone(applyReviewedAttachment(raw));
+    changed.qualificationAttachments[0].sha256 = 'changed';
+    assert.equal(assessStudentEligibility(changed).status, 'review');
+    assert.equal(applyPublicationSafetyGuards([normalizeItem(changed)]).items.length, 0);
+    const missing = { ...raw, qualificationAttachments: [] };
+    assert.notEqual(assessStudentEligibility(missing).status, 'eligible');
+    const swapped = { ...raw, sourceId: '304793' };
+    assert.notEqual(assessStudentEligibility(swapped).status, 'eligible');
+  });
+}

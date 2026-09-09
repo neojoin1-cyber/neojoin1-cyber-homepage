@@ -14,6 +14,8 @@ on:
       - "tools/fetch_vocational_jobs.mjs"
       - "tools/student_job_eligibility.mjs"
       - "tools/student_job_eligibility.test.mjs"
+      - "tools/reviewed_job_evidence.mjs"
+      - "tools/extract_job_attachment.test.py"
       - "tools/extract_job_attachment.py"
       - "tools/verify_platform_reliability.mjs"
       - "index.html"
@@ -55,6 +57,9 @@ jobs:
 
       - name: Install PDF text reader
         run: python -m pip install 'pypdf==6.14.2'
+
+      - name: Verify bounded attachment extraction
+        run: python tools/extract_job_attachment.test.py
 
       - name: Build official API job feed
         run: node tools/fetch_vocational_jobs.mjs

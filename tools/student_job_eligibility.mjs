@@ -1,5 +1,6 @@
 // Eligibility is decided from requirements, never from a job title or an API's education checklist.
-export const ELIGIBILITY_VERSION = 2;
+import { verifiedAttachmentReview } from './reviewed_job_evidence.mjs';
+export const ELIGIBILITY_VERSION = 3;
 const clean = (value) => String(value || '').normalize('NFKC').replace(/ᄋ/g, 'ㅇ').replace(/\s+/g, ' ').trim();
 const escape = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const school = /고졸|고등학교|특성화고|마이스터고|직업계고|고교/;
@@ -35,6 +36,19 @@ function restrictions(value) {
 }
 
 export function assessStudentEligibility(raw = {}) {
+  const reviewed = verifiedAttachmentReview(raw);
+  if (reviewed) return {
+    version: ELIGIBILITY_VERSION, status: 'eligible', completeEvidence: true,
+    reasons: ['공식 첨부문서 지문·직렬별 자격 대조 완료'], explicitHighSchool: true,
+    educationChecklist: false, eligibleRoles: reviewed.roles, eligibleEvidence: reviewed.qualification,
+    roleEvidence: reviewed.roles.map((role) => ({ role, status: 'eligible', reasons: [], text: reviewed.qualification })),
+    evidence: reviewed.qualification, evidenceUrl: reviewed.url
+  };
+  if (raw.reviewedAttachment) return {
+    version: ELIGIBILITY_VERSION, status: 'review', completeEvidence: false,
+    reasons: ['검토된 첨부문서 변경 또는 근거 누락'], explicitHighSchool: false,
+    eligibleRoles: [], eligibleEvidence: '', roleEvidence: [], evidence: '', evidenceUrl: ''
+  };
   const title = clean(raw.baseTitle || raw.title);
   const education = clean(raw.education);
   const career = clean(raw.career);

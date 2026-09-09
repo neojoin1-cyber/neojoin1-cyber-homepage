@@ -398,6 +398,7 @@
       ];
       const roleEligibility = item.roleEligibility || item.studentChannelAssessment?.roleEligibility || {};
       const roleLines = [
+        ...(item.studentConditions || []),
         ...(roleEligibility.eligibleRoles?.length ? [`학생 지원 가능: ${roleEligibility.eligibleRoles.join(" · ")}`] : []),
         ...(roleEligibility.reviewRoles?.length ? [`자격 확인 필요: ${roleEligibility.reviewRoles.join(" · ")}`] : []),
         ...(roleEligibility.excludedRoles?.length ? [`학생 채널 제외: ${roleEligibility.excludedRoles.join(" · ")}`] : [])
@@ -407,6 +408,7 @@
           <section class="job-detail-section"><h4>채용 요약</h4><ul>${compactLines(summaryLines)}</ul></section>
           <section class="job-detail-section"><h4>전형 일정</h4><ul>${compactLines(briefing.scheduleLines, scheduleFallback.join(" / ")) || compactLines(scheduleFallback)}</ul></section>
           ${roleLines.length ? `<section class="job-detail-section wide"><h4>직렬별 자격 판정</h4><ul>${compactLines(roleLines)}</ul><p class="job-detail-note">자동 판정은 탐색을 돕기 위한 분류이며 최종 지원 자격은 공식 공고문을 확인해야 합니다.</p></section>` : ""}
+          <section class="job-detail-section wide"><h4>지원 전 반드시 확인</h4><p>${escapeHtml(item.studentChannelAssessment?.qualificationAssessment?.eligibleEvidence || item.qualificationText || '공식 원문 자격 확인 필요')}</p><p class="job-detail-note">${item.studentChannelAssessment?.militaryCompletionRequired ? '병역필·면제 조건이 있습니다. 미필 학생은 지원 가능 여부를 반드시 확인하세요.' : item.studentChannelAssessment?.militaryNoLimit ? '병역기피·불이행 제한과 복무 중 전역기한을 확인하세요.' : '병역 미필 지원 가능 여부는 원문에서 별도 확인하세요.'}</p></section>
           <section class="job-detail-section wide"><h4>첨부자료 바로 확인</h4>${renderAttachments(item)}</section>
           <section class="job-detail-section wide"><h4>학교 체크</h4>${renderSchoolCheckSections(briefing)}</section>
           <section class="job-detail-section"><h4>학생 준비</h4><ul>${compactLines(briefing.studentActionItems, "지원 자격, 제출서류, 필기·면접 일정, 자기소개서 준비 항목을 확인합니다.")}</ul></section>
@@ -544,6 +546,7 @@
             </button>
             <p>${company}</p>
             ${eligibleRoles.length ? `<p class="job-role-summary"><b>학생 지원 가능 직렬</b> ${escapeHtml(eligibleRoles.join(" · "))}</p>` : ""}
+            ${item.studentConditions?.length ? `<p class="muted">${escapeHtml(item.studentConditions.join(' · '))}</p>` : item.studentChannelAssessment?.militaryCompletionRequired ? '<p class="muted">병역필·면제 조건: 미필 학생 지원 제한 확인</p>' : ''}
             <p class="muted">출처: ${sourceName}${processTrack !== "-" ? ` · 분류: ${processTrack}` : ""}${attachmentCount ? ` · 첨부 ${attachmentCount}건` : ""}</p>
             <div class="actions">
               <button class="btn job-detail-open" type="button" data-job-key="${detailKey}" aria-haspopup="dialog">요약본 보기</button>
