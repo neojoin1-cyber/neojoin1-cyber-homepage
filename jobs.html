@@ -158,7 +158,8 @@
     }
 
     function isClosedJob(item) {
-      return item.status === "application_closed"
+      return deadlineValue(item) <= Date.now()
+        || item.status === "application_closed"
         || item.status === "expired"
         || /마감|종료|closed|expired/i.test(String(item.statusLabel || item.status || ""));
     }
@@ -465,30 +466,33 @@
     }
 
     function renderSummary(feed) {
-      const summary = feed.summary || {};
-      const archiveCount = Array.isArray(feed.archiveItems) ? feed.archiveItems.length : 0;
+      const main = (feed.items || []).filter((item) => !isClosedJob(item));
+      const archiveCount = new Set([...(feed.archiveItems || []), ...(feed.items || []), ...(feed.supplementalItems || [])]
+        .filter(isClosedJob).map((item) => item.id)).size;
       summaryEl.innerHTML = `
-        <span>전체 <b>${summary.total ?? "-"}</b>건</span>
-        <span>진행 <b>${summary.active ?? "-"}</b>건</span>
-        <span>마감임박 <b>${summary.deadlineSoon ?? "-"}</b>건</span>
+        <span>전체 <b>${main.length}</b>건</span>
+        <span>진행 <b>${main.filter((item) => item.status === 'active').length}</b>건</span>
+        <span>마감임박 <b>${main.filter((item) => item.status === 'deadline_soon').length}</b>건</span>
         <span>지난 공고 <b>${archiveCount}</b>건</span>
       `;
 
       const archiveButton = viewButtons.find((button) => button.dataset.viewMode === "archive");
       if (archiveButton) archiveButton.textContent = `지난 공고 보기 ${archiveCount}건`;
 
-      healthEl.innerHTML = `
-        하루 3회 업데이트 · 공식 소스 ${summary.sourcesReady ?? summary.sourcesConfigured ?? "-"}개 확인 · 최근 수집 ${escapeHtml(feed.generatedAt || "-")}
-      `;
+      const configured = (feed.sourceStatus || []).filter((source) => source.configured);
+      const failed = configured.filter((source) => !source.ok).length;
+      const partial = configured.filter((source) => source.ok && source.failedUrlCount > 0).length;
+      healthEl.textContent = `하루 3회 수집 시도 · 연결 성공 ${configured.length - failed}/${configured.length}곳${failed ? ` · 접속 실패 ${failed}곳: 이전 공고 재검증·보존` : ''}${partial ? ` · 일부 조회 실패 ${partial}곳` : ''} · 최근 실행 ${feed.generatedAt || '-'}`;
     }
 
     function renderItems(feed) {
       const items = Array.isArray(feed.items) ? feed.items : [];
       const supplementalItems = Array.isArray(feed.supplementalItems) ? feed.supplementalItems : [];
-      const archiveItems = Array.isArray(feed.archiveItems) ? feed.archiveItems : [];
+      const archiveItems = [...new Map([...(feed.archiveItems || []), ...items, ...supplementalItems]
+        .filter(isClosedJob).map((item) => [item.id, item])).values()];
       const searchPool = currentViewMode === "archive"
         ? archiveItems
-        : currentSearchTerm ? [...items, ...supplementalItems] : items;
+        : (currentSearchTerm ? [...items, ...supplementalItems] : items).filter((item) => !isClosedJob(item));
       const displayItems = visibleItems(searchPool);
       latestJobFeedItems = displayItems;
       const coreCount = displayItems.filter(isCorePublicRecruit).length;
@@ -522,7 +526,7 @@
         const title = escapeHtml(item.title || "제목 없음");
         const company = escapeHtml(item.company || "기관명 없음");
         const deadline = escapeHtml(item.deadline || "-");
-        const status = escapeHtml(labelForStatus(item.status));
+        const status = escapeHtml(isClosedJob(item) ? '마감' : labelForStatus(item.status));
         const sourceName = escapeHtml(item.sourceName || item.source || "출처 미상");
         const url = bestOfficialUrl(item);
         const processTrack = escapeHtml(item.processTrack || "-");
