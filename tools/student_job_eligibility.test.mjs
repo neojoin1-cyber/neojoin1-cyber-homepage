@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { applyReviewedAttachment } from './reviewed_job_evidence.mjs';
-import { buildFeedHealth, extractJobAlioSection } from './fetch_vocational_jobs.mjs';
+import { buildFeedHealth, extractJobAlioSection, dedupeAndSortAll } from './fetch_vocational_jobs.mjs';
 import { assessStudentEligibility } from './student_job_eligibility.mjs';
 import { normalizeItem, buildStudentChannelAssessment, studentRecruitPriority, applyPublicationSafetyGuards, validateRecruitRoleFixtures, validateStudentPriorityFixtures, extractJobAlioQualification } from './fetch_vocational_jobs.mjs';
 
@@ -188,6 +188,13 @@ for (const original of officialNotices) {
     assert.ok(item.roleEligibility.eligibleRoles.length);
     assert.ok(item.roleEligibility.eligibleRoles.every((role) => /고졸|고교/.test(role)));
     assert.doesNotMatch(item.processLabels.join(' '), /학생추천 제외/);
+    const coarseApi = { ...item, source: 'moef-public-recruit', id: `coarse-${item.id}`, reviewedAttachment: null,
+      fitScore: 100, sourceVerification: { doubleCheckStatus: 'company_notice_confirmed' },
+      qualificationText: '석사학위 이상 또는 관련 경력 2년 이상',
+      studentChannelAssessment: { qualificationAssessment: { status: 'ineligible' } } };
+    for (const candidates of [[coarseApi, item], [item, coarseApi]]) {
+      assert.equal(dedupeAndSortAll(candidates)[0].id, item.id, 'verified role-specific attachment must survive cross-source deduplication');
+    }
     const changed = structuredClone(applyReviewedAttachment(raw));
     changed.qualificationAttachments[0].sha256 = 'changed';
     assert.equal(assessStudentEligibility(changed).status, 'review');

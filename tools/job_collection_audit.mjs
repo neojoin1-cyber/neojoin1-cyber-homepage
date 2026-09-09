@@ -44,7 +44,7 @@ export const recordIdentity = (x) => `${x.source}:${x.sourceId || x.id}`;
 const duplicateKey = (x) => [x.baseTitle || x.title, x.company, x.deadline || ''].join('|').toLowerCase();
 const canonicalDate = (value) => String(value || '').replace(/^(\d{4})(\d{2})(\d{2})$/, '$1-$2-$3').slice(0, 10);
 
-export function buildCollectionAudit({ discovered, assessed, candidates, published, sources, previous = {}, generatedAt }) {
+export function buildCollectionAudit({ discovered, assessed, candidates, published, sources, publicationReasons = {}, previous = {}, generatedAt }) {
   const assessment = new Map(assessed.map((x) => [recordIdentity(x), x]));
   const publishedIds = new Map(published.map((x) => [recordIdentity(x), x]));
   const equivalent = new Map(published.map((x) => [duplicateKey(x), x]));
@@ -67,6 +67,10 @@ export function buildCollectionAudit({ discovered, assessed, candidates, publish
     else if (['expired', 'application_closed'].includes(item.status)) disposition = 'closed';
     else if (decision?.status === 'ineligible') disposition = 'ineligible';
     else if (decision?.status !== 'eligible') disposition = 'needs-review';
+    else if (publicationReasons[key]) {
+      disposition = 'policy-excluded';
+      reasons = [...reasons, publicationReasons[key]];
+    }
     else if (item.studentChannelAssessment?.hardBlocked || !candidateIds.has(key)) {
       disposition = 'policy-excluded';
       reasons = [...reasons, 'Student-channel/source publication rules'];
@@ -104,6 +108,6 @@ export function buildCollectionAudit({ discovered, assessed, candidates, publish
 export function assertCollectionAudit(audit) {
   if (!audit?.records?.length) throw new Error('Collection inventory is empty');
   if (new Set(audit.records.map((x) => x.key)).size !== audit.records.length) throw new Error('Duplicate audit identities');
-  if (audit.records.some((x) => !x.disposition || x.disposition === 'unexplained')) throw new Error('Unaccounted discovered notices');
+  if (audit.records.some((x) => !x.disposition || x.disposition === 'unexplained' || x.disposition === 'publication-review')) throw new Error('Unaccounted discovered notices');
   if (Object.values(audit.summary.counts).reduce((a, b) => a + b, 0) !== audit.records.length) throw new Error('Collection reconciliation mismatch');
 }

@@ -1,11 +1,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { collectPages, buildCollectionAudit, assertCollectionAudit } from './job_collection_audit.mjs';
-import { moefRecordToRaw, recruiterJobflexRecordToRaw } from './fetch_vocational_jobs.mjs';
+import { moefRecordToRaw, recruiterJobflexRecordToRaw, normalizeItem, mpmPageParams } from './fetch_vocational_jobs.mjs';
 import { assessStudentEligibility } from './student_job_eligibility.mjs';
 
 const pager = (pages, overrides = {}) => collectPages({ fetchPage: async (n) => pages[n - 1] || { records: [] },
   recordKey: (x) => x.id, pageSize: 100, maxPages: 10, ...overrides });
+test('MPM uses the live-verified descending code and both date endpoints in Korea time', () => {
+  const params = mpmPageParams({ Instt_se: 'g01', Pblanc_ty: 'e01' }, 2, 100, new Date('2026-09-09T16:00:00Z'));
+  assert.equal(params.Sort_order, 2);
+  assert.equal(params.End_de, '2026-09-10');
+  assert.match(params.Begin_de, /^2026-06-/);
+  assert.equal(params.pageNo, 2);
+});
 test('reads server-clamped pages until declared total, not requested page size', async () => {
   const result = await pager([{ records: [{ id: 1 }], totalCount: 2 }, { records: [{ id: 2 }], totalCount: 2 }]);
   assert.equal(result.complete, true); assert.equal(result.pages.length, 2);
@@ -59,6 +66,10 @@ test('cross-source duplicates are not silently lost', () => {
 test('publication loss is visible, not counted as qualification rejection', () => {
   const a = item('1');
   assert.equal(audit({ assessed: [a], candidates: [a] }).records[0].disposition, 'publication-review');
+  assert.throws(() => assertCollectionAudit(audit({ assessed: [a], candidates: [a] })), /Unaccounted/);
+  const known = audit({ assessed: [a], candidates: [a], publicationReasons: { 'test:1': 'invalid-url' } });
+  assertCollectionAudit(known);
+  assert.ok(known.records[0].reasons.includes('invalid-url'));
 });
 test('repeat unresolved and disappeared active records are retained for operators', () => {
   const a = item('1', 'review');
@@ -72,6 +83,7 @@ test('MOEF maps original eligibility rather than education checkbox into evidenc
     acbgCondNmLst: '고졸, 학사, 석사', aplyQlfcCn: '석사학위 소지자 또는 학사학위 취득 전후 2년 이상 경력자',
     recrutSeNm: '신입', scrnprcdrMthdExpln: '서류전형 및 면접' });
   assert.equal(raw.sourceId, '304793');
+  assert.match(normalizeItem(raw).originalUrl, /job\.alio\.go\.kr\/recruitview\.do\?idx=304793/);
   assert.equal(raw.processText, '서류전형 및 면접');
   assert.notEqual(assessStudentEligibility(raw).status, 'eligible');
 });

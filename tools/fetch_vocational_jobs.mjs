@@ -5264,7 +5264,7 @@ function validateStudentPriorityFixtures() {
   }
 }
 
-function dedupeAndSortAll(items) {
+export function dedupeAndSortAll(items) {
   const seen = new Map();
   for (const item of items) {
     const key = [
@@ -5354,6 +5354,7 @@ function balanceTrackItems(sortedItems) {
 }
 
 function itemDedupeQuality(item) {
+  const reviewedEvidenceWeight = item.reviewedAttachment && assessStudentEligibility(item).status === 'eligible' ? 10000 : 0;
   const verificationWeight = {
     company_notice_confirmed: 50,
     company_notice_reachable: 42,
@@ -5370,7 +5371,7 @@ function itemDedupeQuality(item) {
   const detailWeight = item.detailLevel === 'detailed-public-recruit' ? 12
     : item.detailLevel === 'brief-company-contact' ? 8
     : 4;
-  return verificationWeight + sourceWeight + detailWeight + (item.fitScore || 0);
+  return reviewedEvidenceWeight + verificationWeight + sourceWeight + detailWeight + (item.fitScore || 0);
 }
 
 function mergeDuplicateItem(preferred, other) {
@@ -6331,6 +6332,8 @@ async function fetchPublicDataEndpoint(url, source, publicSourceUrl) {
 export function moefRecordToRaw(record, source = catalogSource('moef-public-recruit')) {
   const raw = genericRecordToRaw(record, source, MOEF_PUBLIC_RECRUIT_DATA_URL);
   return { ...raw, sourceId: String(record.recrutPblntSn),
+    sourceDetailUrl: `https://job.alio.go.kr/recruitview.do?idx=${encodeURIComponent(record.recrutPblntSn)}`,
+    originalUrl: `https://job.alio.go.kr/recruitview.do?idx=${encodeURIComponent(record.recrutPblntSn)}`,
     region: record.workRgnNmLst || '', education: record.acbgCondNmLst || '',
     career: record.recrutSeNm || '', employmentType: record.hireTypeNmLst || '',
     qualification: htmlText(record.aplyQlfcCn || ''),
@@ -6372,7 +6375,7 @@ async function fetchMoefPublicRecruit() {
     ...item,
     source: base.id,
     sourceName: base.name,
-    sourceDetailUrl: MOEF_PUBLIC_RECRUIT_DATA_URL,
+    sourceDetailUrl: item.sourceDetailUrl,
     ...(companyNoticeCheck ? { companyNoticeCheck } : {}),
     description: [item.description, '기재부 공공기관 채용공시 공공기관 잡알리오 공개채용'].join(' ')
   });
@@ -6457,6 +6460,12 @@ function mpmPublicJobRecordKey(record) {
     || sha([record.title, record.company, record.deadline, record.publishedAt, record.url].join('|'));
 }
 
+export function mpmPageParams(params, pageNo, numOfRows, now = NOW) {
+  // Live API verification: order=2 is descending; date filtering requires BOTH endpoints.
+  return { ...params, pageNo, numOfRows, Sort_order: 2,
+    Begin_de: formatDate(new Date(now.getTime() - 90 * 86400000)), End_de: formatDate(now) };
+}
+
 async function fetchMpmPublicJob() {
   const key = publicDataKey('MPM_PUBLIC_JOB_SERVICE_KEY', 'MPM_PUBLIC_JOB_API_KEY', 'NARAILTER_API_KEY');
   const base = { ...catalogSource('mpm-public-job'), configured: Boolean(key) };
@@ -6467,15 +6476,15 @@ async function fetchMpmPublicJob() {
     };
   }
 
-  const beginDate = new Date(NOW.getTime() - 90 * 86400000).toISOString().slice(0, 10);
+  const beginDate = formatDate(new Date(NOW.getTime() - 90 * 86400000));
   const partitions = ['g01', 'g02', 'g03', 'g04'].flatMap((Instt_se) =>
     MPM_PUBLIC_JOB_NOTICE_TYPES.map((Pblanc_ty) => ({ Instt_se, Pblanc_ty })));
   const scans = await mapWithConcurrency(partitions, 4, async (params) => {
-    const inventory = await collectPages({ pageSize: 100, maxPages: 10,
+    const inventory = await collectPages({ pageSize: 100, maxPages: 60,
       recordKey: (row) => row.sourceId,
       fetchPage: async (pageNo, numOfRows) => {
         const body = await fetchWithTimeout(buildPublicDataUrl(MPM_PUBLIC_JOB_LIST_URL, key,
-          { ...params, pageNo, numOfRows, Sort_order: 1, Begin_de: beginDate }), { timeoutMs: PUBLIC_API_TIMEOUT_MS });
+          mpmPageParams(params, pageNo, numOfRows)), { timeoutMs: PUBLIC_API_TIMEOUT_MS });
         const code = getXmlText(body, 'resultCode');
         if (code !== '00') throw new Error('MPM list response code');
         return { records: collectXmlRecords(body, MPM_PUBLIC_JOB_DATA_URL), totalCount: getXmlText(body, 'totalCount') || null };
@@ -6526,7 +6535,7 @@ async function fetchMpmPublicJob() {
     ...item,
     source: base.id,
     sourceName: base.name,
-    sourceDetailUrl: MPM_PUBLIC_JOB_DATA_URL,
+    sourceDetailUrl: item.url,
     description: [item.description, '인사혁신처 나라일터 공공취업정보 공무원 지방자치단체 교육청 공공기관 공무직'].join(' ')
   })).filter(publicJobKeep);
   const ok = successScans > 0;
@@ -8145,11 +8154,13 @@ async function main() {
   const collectionAudit = reconcileCollection({
     discovered: [...COLLECTION_DISCOVERED.values()], assessed: [...COLLECTION_ASSESSED.values()],
     candidates: freshItems, published: [...items, ...supplementalItems, ...archiveItems],
+    publicationReasons: Object.fromEntries(freshItems.map((item) => [`${item.source}:${item.sourceId || item.id}`,
+      publicationBlockReason(normalizePublicationItem(item).item) || (!shouldKeep(item) ? 'student-channel-policy' : '')])),
     sources: sourceStatusList, previous: previousCollectionAudit, generatedAt: CHECKED_AT
   });
+  await writeJsonAtomic(COLLECTION_AUDIT_FILE, collectionAudit);
   assertCollectionAudit(collectionAudit);
   payload.collectionReconciliation = collectionAudit.summary;
-  await writeJsonAtomic(COLLECTION_AUDIT_FILE, collectionAudit);
   const holdReason = publicFeedHoldReason(payload, previousItems);
   if (holdReason) {
     await writeJsonAtomic(HEALTH_FILE, withPublicationHold(buildFeedHealth(payload, publicationSafety.report, 'degraded-held'), holdReason));
