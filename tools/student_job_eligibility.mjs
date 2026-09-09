@@ -49,7 +49,7 @@ export function assessStudentEligibility(raw = {}) {
   const entryAllowed = beginner.test(title + ' ' + mandatory) || /신입|경력\s*무관/.test(career);
   const barriers = restrictions(evidence);
   if (/^경력(?:직)?$/.test(career)) barriers.push('경력직 전용');
-  if (!educationChecklist && degree.test(education) && !openEducation.test(education)) barriers.push('학력 조건 제한');
+  if (!educationChecklist && /대졸|전문대|학사|석사|박사/.test(education) && !openEducation.test(education)) barriers.push('학력 조건 제한');
 
   // Keep same-name jobs (e.g. A08 and B10) separate. A safe role must have its own evidence.
   const boundaries = [];

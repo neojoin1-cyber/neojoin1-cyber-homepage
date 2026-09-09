@@ -24,6 +24,7 @@ const cases = [
   ['학력무관 신입', base, 'eligible'],
   ['학력 체크리스트만 존재', { ...base, education: nibp.education, career: '신입+경력', qualification: '', title: '직원 채용' }, 'review'],
   ['혼합 학력 체크리스트와 근무일만으로 지원 가능 판정 금지', { ...base, education: nibp.education, qualification: '채용 예정일 즉시 근무 가능한 자' }, 'review'],
+  ['대졸 단독 학력 필드는 고졸 제목보다 우선', { ...base, title: '고졸 관련 신입 채용', education: '대졸(4년)' }, 'ineligible'],
   ['학력무관이 경력 필수를 무효화하지 않음', { ...base, qualification: '학력무관. 해당 직무 경력 1년 이상 경력자' }, 'ineligible'],
   ['고졸 경력 필수', { ...base, education: '고졸', qualification: '고졸 이상, 2년 이상 업무 경력자' }, 'ineligible'],
   ['고졸 후 교육 또는 실무경력', { ...base, education: '고졸', qualification: '고등학교 졸업 후 4년 이상 교육 또는 해당 분야 실무 경력 가진 사람' }, 'ineligible'],
