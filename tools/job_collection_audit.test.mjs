@@ -77,6 +77,12 @@ test('repeat unresolved and disappeared active records are retained for operator
   const next = audit({ assessed: [a], previous });
   assert.equal(next.records[0].consecutiveUnresolved, 2);
   assert.equal(next.summary.disappearedActive, 1);
+  const again = audit({ assessed: [a], previous: next });
+  assert.equal(again.summary.disappearedActive, 1);
+  assert.equal(again.disappearedActive[0].consecutiveMissing, 2);
+  assert.equal(again.disappearedActive[0].missingSince, next.generatedAt);
+  assert.equal(audit({ assessed: [a, item('2')], previous: again }).summary.disappearedActive, 0);
+  assert.equal(audit({ assessed: [a], previous: again, generatedAt: '2026-12-02T00:00:00.000Z' }).summary.disappearedActive, 0);
 });
 test('MOEF maps original eligibility rather than education checkbox into evidence', () => {
   const raw = moefRecordToRaw({ recrutPblntSn: 304793, recrutPbancTtl: '직원 채용', instNm: '국가생명윤리정책원',

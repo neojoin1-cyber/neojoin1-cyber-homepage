@@ -94,15 +94,19 @@ export function buildCollectionAudit({ discovered, assessed, candidates, publish
     reachabilityOnlyEmployers: source.reachabilityOnlyEmployers || [],
     scope: source.collectionScope || 'Configured discovery/parser scope; not an exhaustive site crawl',
     discovered: records.filter((x) => x.source === source.id).length }));
-  const missingFromCurrentDiscovery = (previous.records || []).filter((x) => !inventory.has(x.key)
-    && x.deadline && x.deadline.slice(0, 10) >= generatedAt.slice(0, 10));
+  // Keep unresolved disappearances across runs, until rediscovered or the deadline passes.
+  const priorInventory = new Map([...(previous.records || []), ...(previous.disappearedActive || [])].map((x) => [x.key, x]));
+  const missingFromCurrentDiscovery = [...priorInventory.values()].filter((x) => !inventory.has(x.key)
+    && x.deadline && canonicalDate(x.deadline) >= generatedAt.slice(0, 10));
   return { version: 1, generatedAt, exhaustive: false,
     summary: { discovered: records.length, counts,
       unexplained: counts.unexplained || 0,
       highPriorityReview: records.filter((x) => x.priority === 'high' && x.unresolvedSince).length,
       disappearedActive: missingFromCurrentDiscovery.length,
       incompletePagination: sourceCoverage.filter((x) => x.pagination && !x.pagination.complete).length },
-    sources: sourceCoverage, disappearedActive: missingFromCurrentDiscovery.map(({ key, title, url, deadline }) => ({ key, title, url, deadline })), records };
+    sources: sourceCoverage, disappearedActive: missingFromCurrentDiscovery.map((x) => ({ key: x.key,
+      title: x.title, url: x.url, deadline: canonicalDate(x.deadline),
+      missingSince: x.missingSince || generatedAt, consecutiveMissing: (x.consecutiveMissing || 0) + 1 })), records };
 }
 
 export function assertCollectionAudit(audit) {
