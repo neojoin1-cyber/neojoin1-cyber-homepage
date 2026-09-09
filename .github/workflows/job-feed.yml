@@ -142,6 +142,11 @@ jobs:
       - name: Commit automation health diagnostics
         if: failure()
         run: |
+          git fetch origin "${GITHUB_REF_NAME}"
+          if ! git diff --quiet HEAD FETCH_HEAD -- tools/fetch_vocational_jobs.mjs tools/student_job_eligibility.mjs tools/reviewed_job_evidence.mjs tools/extract_job_attachment.py; then
+            echo "::warning::Obsolete run: preserve the newer engine's health diagnostics."
+            exit 0
+          fi
           if [ -z "$(git status --short -- assets/job-feed-health.json)" ]; then
             echo "No automation health diagnostics to publish."
             exit 0
@@ -155,8 +160,12 @@ jobs:
               exit 0
             fi
             echo "::warning::Diagnostics push was rejected, likely because another run published first. Rebasing and retrying (${attempt}/3)."
-            git fetch origin main
-            if git rebase origin/main; then
+            git fetch origin "${GITHUB_REF_NAME}"
+            if ! git diff --quiet HEAD FETCH_HEAD -- tools/fetch_vocational_jobs.mjs tools/student_job_eligibility.mjs tools/reviewed_job_evidence.mjs tools/extract_job_attachment.py; then
+              echo "::warning::Do not replace health diagnostics from a newer collector."
+              exit 0
+            fi
+            if git rebase "origin/${GITHUB_REF_NAME}"; then
               continue
             fi
             git rebase --abort || true
