@@ -1,0 +1,18 @@
+name: Check public job API contracts
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: windows-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Probe public list ordering and date filtering
+        run: node tools/probe_job_api_contracts.mjs
+        env:
+          MPM_PUBLIC_JOB_SERVICE_KEY: ${{ secrets.MPM_PUBLIC_JOB_SERVICE_KEY }}
