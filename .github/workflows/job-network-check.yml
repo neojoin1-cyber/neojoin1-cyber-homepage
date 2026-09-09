@@ -1,0 +1,24 @@
+name: Diagnose official job source connectivity
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Probe official origins without publishing data
+        run: node tools/probe_job_network.mjs
+        env:
+          DATA_GO_KR_SERVICE_KEY: ${{ secrets.DATA_GO_KR_SERVICE_KEY }}
+          MOEF_PUBLIC_RECRUIT_SERVICE_KEY: ${{ secrets.MOEF_PUBLIC_RECRUIT_SERVICE_KEY }}
+          MPM_PUBLIC_JOB_SERVICE_KEY: ${{ secrets.MPM_PUBLIC_JOB_SERVICE_KEY }}
