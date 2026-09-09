@@ -38,6 +38,11 @@ test('IBK 304338: high-school track is independent of regional/general track ref
   assert.doesNotMatch(proof.eligibleEvidence, /병역필|지역인재/);
   assert.notEqual(assessStudentEligibility({ ...raw, qualification: raw.qualification.replace('고등학교 졸업 예정자', '지원자격은 첨부 공고문 참조') }).status, 'eligible');
 });
+test('compact track headings are not split twice by overlapping patterns', () => {
+  const proof = assessStudentEligibility({ title: '신입 채용', qualification: 'ㅇ 고졸전형: 고등학교 졸업예정자 신입 ㅇ 연구직: 석사학위 소지자' });
+  assert.equal(proof.status, 'eligible'); assert.deepEqual(proof.eligibleRoles, ['고졸전형']);
+  assert.equal(proof.roleEvidence.length, 2); assert.ok(proof.roleEvidence.every((r) => r.text));
+});
 
 const cases = [
   ['고졸 신입', { ...base, education: '고졸', qualification: '고등학교 졸업예정자 신입 채용' }, 'eligible'],

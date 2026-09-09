@@ -71,7 +71,7 @@ export function assessStudentEligibility(raw = {}) {
   const boundaries = [];
   for (const pattern of [
     /(?:\d+\.\s*)?(공개경쟁채용)\s*[:：]/g,
-    /[○□ㅇ]\s*([가-힣A-Za-z·, /]{2,70}?(?:분야|전형))\s*[-:：]/g,
+    /[○□ㅇ]\s*([가-힣A-Za-z·, /]{2,70}?\s+(?:분야|전형))\s*[-:：]/g,
     /[○□]\s*(\d+급\s*공채)/g,
     /\d+\.\s*([가-힣]+\([가-힣]+\))\s*[:：]/g,
     /\d+\)\s*([가-힣]+(?:\([^)]{1,40}\))?)\s*[:：]/g,
