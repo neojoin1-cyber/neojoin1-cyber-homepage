@@ -9,7 +9,7 @@ const beginner = /신입|경력\s*(?:무관|제한\s*없|불문)|경험\s*무관
 const degree = /(?:전문학사|학사|석사|박사)\s*(?:학위|이상|소지|취득|졸업|수준)|(?:전문대|대학(?:교)?)\s*졸업(?:자|이상|예정)|대졸\s*(?:이상|수준)|[석박]사/;
 const experience = /(?:\d+|[일이삼사오육칠팔구십한두세네])\s*(?:년|개월)\s*(?:이상\s*)?(?:의\s*)?(?:[가-힣·/]+\s*){0,8}(?:경력|경험|근무한|재직)|(?:경력|경험).{0,24}(?:\d+|[일이삼사오육칠팔구십한두세네])\s*(?:년|개월)\s*이상|경력직\s*(?:채용|모집)|경력자\s*(?:에\s*한|만\s*지원)/;
 const license = /(?:산업기사|(?<!산업)기사|기능장|기술사|간호사|방사선사|임상병리사|물리치료사|작업치료사|약사|의사|변호사|회계사|정교사|교원)\s*(?:자격(?:증)?|면허(?:증)?)?\s*(?:등\s*)?(?:소지|보유|취득|필수|이상)/;
-const unresolved = /첨부.{0,30}(?:참조|참고|확인)|(?:공고문|모집공고|지원자격).{0,30}(?:참조|참고|확인)|별첨|세부.{0,15}별도|자격.{0,10}원문\s*확인|채용분야별.{0,25}일부\s*예외/;
+const unresolved = /(?:첨부|붙임).{0,30}(?:참조|참고|확인)|(?:공고문|모집공고|지원자격).{0,30}(?:참조|참고|확인)|별첨|세부.{0,15}별도|자격.{0,10}원문\s*확인|채용분야별.{0,25}일부\s*예외/;
 
 export function qualificationEvidence(raw = {}) {
   if (raw.qualificationText || raw.qualification) return clean(raw.qualificationText || raw.qualification);
@@ -106,7 +106,8 @@ export function assessStudentEligibility(raw = {}) {
     const safeShared = !barriers.length && educationAllowed && entryAllowed
       && !/(?:아래|다음).{0,20}(?:하나|해당|자격)|소지자|대상자/.test(local);
     const limitedRole = /보훈|장애|사회형평|자립준비|국가유공자/.test(boundary.role);
-    const eligible = !blockedBy.length && !limitedRole && !unresolved.test(shared) && !unresolved.test(local)
+    const headcountOnly = /^[:：\s]*\d+\s*명[.\s]*$/.test(text.slice(boundary.role.length + text.indexOf(boundary.role)));
+    const eligible = !headcountOnly && !blockedBy.length && !limitedRole && !unresolved.test(shared) && !unresolved.test(local)
       && (localAccess && (localEntry || entryAllowed) || safeShared);
     return { role: boundary.role, status: eligible ? 'eligible' : blockedBy.length ? 'ineligible' : 'review', reasons: blockedBy, text };
   });

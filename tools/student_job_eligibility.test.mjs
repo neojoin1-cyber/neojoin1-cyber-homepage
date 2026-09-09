@@ -22,6 +22,14 @@ test('real regression: six degree/experienced positions cannot become a high-sch
   assert.equal(applyPublicationSafetyGuards([item]).items.length, 0);
 });
 
+test('MPM headcount rows do not prove role eligibility when qualifications are in attachments', () => {
+  const a = assessStudentEligibility({ title: '한국전력기술(주) 정규직 신입사원 채용공고',
+    qualification: '1. 채용인원 : 총 109명 ○ 대졸수준 : 90명 ○ 고졸 : 5명 ○ 보훈 : 12명 ○ 장애인 : 2명 2. 채용공고문 및 직무기술서 : 붙임 참조 5. 응시자격 ○ (공통) 입사 예정일에 근무가 가능한 자 ○ (분야별) 붙임 참조' });
+  assert.notEqual(a.status, 'eligible');
+  assert.equal(a.eligibleRoles.length, 0);
+  assert.notEqual(assessStudentEligibility({ ...base, qualification: '고졸 신입. 분야별 자격은 붙임 참조' }).status, 'eligible');
+});
+
 const cases = [
   ['고졸 신입', { ...base, education: '고졸', qualification: '고등학교 졸업예정자 신입 채용' }, 'eligible'],
   ['학력무관 신입', base, 'eligible'],
