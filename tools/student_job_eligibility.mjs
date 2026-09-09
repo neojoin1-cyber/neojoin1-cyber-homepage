@@ -8,7 +8,7 @@ const openEducation = /학력.{0,40}(?:무관|제한\s*없|불문)/;
 const beginner = /신입|경력\s*(?:무관|제한\s*없|불문)|경험\s*무관|자격\s*(?:무관|제한\s*없)|졸업\s*예정/;
 const degree = /(?:전문학사|학사|석사|박사)\s*(?:학위|이상|소지|취득|졸업|수준)|(?:전문대|대학(?:교)?)\s*졸업(?:자|이상|예정)|대졸\s*(?:이상|수준)|[석박]사/;
 const experience = /(?:\d+|[일이삼사오육칠팔구십한두세네])\s*(?:년|개월)\s*(?:이상\s*)?(?:의\s*)?(?:[가-힣·/]+\s*){0,8}(?:경력|경험|근무한|재직)|(?:경력|경험).{0,24}(?:\d+|[일이삼사오육칠팔구십한두세네])\s*(?:년|개월)\s*이상|경력직\s*(?:채용|모집)|경력자\s*(?:에\s*한|만\s*지원)/;
-const license = /(?:산업기사|(?<!산업)기사|기능장|기술사|간호사|약사|의사|변호사|회계사|정교사|교원)\s*(?:자격(?:증)?|면허(?:증)?)?\s*(?:등\s*)?(?:소지|보유|취득|필수|이상)/;
+const license = /(?:산업기사|(?<!산업)기사|기능장|기술사|간호사|방사선사|임상병리사|물리치료사|작업치료사|약사|의사|변호사|회계사|정교사|교원)\s*(?:자격(?:증)?|면허(?:증)?)?\s*(?:등\s*)?(?:소지|보유|취득|필수|이상)/;
 const unresolved = /첨부.{0,30}(?:참조|참고|확인)|공고문.{0,30}(?:참조|참고|확인)|별첨|세부.{0,15}별도|자격.{0,10}원문\s*확인/;
 
 export function qualificationEvidence(raw = {}) {
@@ -20,7 +20,7 @@ export function qualificationEvidence(raw = {}) {
 function mandatoryText(value) {
   // Preference and disqualification sections are not minimum entry requirements.
   return clean(value)
-    .replace(/(?:※\s*)?(?:우대사항|우대조건|우대내용|가점사항)\s*[:：]?[\s\S]*?(?=(?:지원자격|응시자격|필수자격|자격요건)\s*[:：]|$)/g, ' ')
+    .replace(/(?:※\s*)?(?:우대사항|우대조건|우대내용|가점사항)\s*[:：]?[\s\S]*?(?=(?:지원자격|응시자격|필수자격|자격요건|필수)\s*[:：]|$)/g, ' ')
     .replace(/[^.。;○ㅇ▪■□]*?(?:우대|가점)[^.。;○ㅇ▪■□]*(?:[.。;]|$)/g, (clause) =>
       /지원자격|응시자격|필수|요건/.test(clause) ? clause : ' ');
 }
@@ -29,7 +29,7 @@ function restrictions(value) {
   const text = mandatoryText(value);
   const result = [];
   if (degree.test(text)) result.push('대학 학위 요구');
-  if (experience.test(text)) result.push('실무 경력 요구');
+  if (experience.test(text) || /경력\s*\(?\s*\d+\s*년\s*이상|(?:실무|현장|정비|수행|관련).{0,30}경력\s*(?:보유|소지|필수)|(?:정비|업무|분야|실무)\s*유경험자/.test(text)) result.push('실무 경력 요구');
   if (license.test(text)) result.push('학생 취득이 어려운 자격·면허 요구');
   else if (/자격증.{0,24}(?:소지|보유)자.{0,300}(?:기사|기술사|기능장)/.test(text)) result.push('학생 취득이 어려운 자격·면허 요구');
   return result;

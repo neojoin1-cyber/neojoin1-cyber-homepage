@@ -113,6 +113,15 @@ test('parenthetical grade exception cannot cut off shared requirements', () => {
   const restricted = { ...raw, qualification: raw.qualification.replace('대한민국 국적 필수', '관련 업무 2년 이상 경력 필수') };
   assert.notEqual(assessStudentEligibility(restricted).status, 'eligible');
 });
+test('mandatory experience after preference section is not erased (KEPCO KDN regression)', () => {
+  const raw = { ...base, qualification: '학력, 연령 제한없음. 3. 우대사항: 컴퓨터 관련 경력자, 자격증 소지자. 4. 자격 · 필수 : OA설비 유지보수 또는 통신공사 현장 실무 경력 (1년 이상, 경력증명서)' };
+  assert.equal(assessStudentEligibility(raw).status, 'ineligible');
+});
+for (const qualification of ['디젤엔진 정비 경력 보유 및 단독작업 수행 가능자', '플랜트설비 분야 정비 유경험자', '원자력발전소 정비공사 수행 경력 보유자', '경력 (1년 이상)', '방사선사 면허증 소지자', '임상병리사 면허증 소지자']) {
+  test(`non-numeric/parenthesized experience and professional license: ${qualification}`, () => {
+    assert.equal(assessStudentEligibility({ ...base, qualification }).status, 'ineligible');
+  });
+}
 test('missing military requirements are not positive evidence of unserved eligibility', () => {
   assert.equal(buildStudentChannelAssessment(base, {}).militaryUnservedEligible, false);
 });
@@ -131,6 +140,14 @@ test('partial source failures and missing integrations remain visible', () => {
 });
 
 const officialNotices = JSON.parse(fs.readFileSync(new URL('./fixtures/official-highschool-notices.json', import.meta.url)));
+const restrictedNotices = JSON.parse(fs.readFileSync(new URL('./fixtures/official-restricted-notices.json', import.meta.url)));
+for (const raw of restrictedNotices) {
+  test(`official experience/license regression: ${raw.company} ${raw.sourceId}`, () => {
+    assert.notEqual(assessStudentEligibility(raw).status, 'eligible');
+    const result = applyPublicationSafetyGuards([normalizeItem({ ...raw, deadline: '2099-09-28' })]);
+    assert.equal(result.items.length, 0);
+  });
+}
 for (const original of officialNotices) {
   test(`official attachment gold case: ${original.company}`, () => {
     const raw = { ...original, deadline: '2099-09-28' };
