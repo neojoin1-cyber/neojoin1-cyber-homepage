@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-10T02:03:35.894Z",
+  "generatedAt": "2026-09-10T05:29:36.101Z",
   "scope": {
     "lookbackDays": 120,
     "maxPagesPerBoard": 12,
@@ -15,22 +15,22 @@
       "stopReason": "last-page",
       "error": "",
       "ok": true,
-      "listed": 96,
-      "candidates": 96,
-      "detailsRead": 96,
+      "listed": 98,
+      "candidates": 98,
+      "detailsRead": 98,
       "detailsFailed": 0
     },
     {
       "id": "incheon-highschool",
       "name": "인천교육청 취업지원센터",
       "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttList.do?mi=10427&bbsId=1616",
-      "pages": 3,
-      "stopReason": "lookback-reached",
-      "error": "",
-      "ok": true,
-      "listed": 14,
-      "candidates": 14,
-      "detailsRead": 14,
+      "pages": 0,
+      "stopReason": "failed",
+      "error": "Recruitment row schema not recognized",
+      "ok": false,
+      "listed": 0,
+      "candidates": 0,
+      "detailsRead": 0,
       "detailsFailed": 0
     },
     {
@@ -50,13 +50,13 @@
       "id": "hifive-central",
       "name": "HIFIVE 중앙 취업지원 공지",
       "url": "https://www.hifive.go.kr/front/bbs/bbsList.do?bbs_id=1&menuId=0501&rootMenuId=05",
-      "pages": 3,
-      "stopReason": "lookback-reached",
-      "error": "",
-      "ok": true,
-      "listed": 18,
-      "candidates": 5,
-      "detailsRead": 5,
+      "pages": 0,
+      "stopReason": "failed",
+      "error": "fetch failed",
+      "ok": false,
+      "listed": 0,
+      "candidates": 0,
+      "detailsRead": 0,
       "detailsFailed": 0
     },
     {
@@ -69,11 +69,102 @@
       "ok": true,
       "listed": 36,
       "candidates": 23,
-      "detailsRead": 22,
-      "detailsFailed": 1
+      "detailsRead": 23,
+      "detailsFailed": 0
     }
   ],
   "records": [
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1179928&bbsId=2756",
+      "title": "2026년 하반기 정규직[고졸] 채용공고",
+      "company": "한국전력기술주식회사",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-09-14",
+      "deadline": "2026-09-22",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://kepco-enc.cairos.co.kr/kepco-enc"
+      ],
+      "detailStatus": "read",
+      "outcome": "published-match",
+      "firstSeenAt": "2026-09-10T05:29:36.101Z",
+      "unresolvedRuns": 0,
+      "matches": [
+        {
+          "id": "a6f622ae4c7bcd4c46",
+          "company": "한국전력기술주식회사",
+          "title": "한국전력기술주식회사 2026년도 하반기 정규직(신입사원) 채용공고",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304717",
+          "published": false,
+          "qualification": "review",
+          "roles": []
+        },
+        {
+          "id": "ab820e96f5a5c01527",
+          "company": "한국전력기술(주)",
+          "title": "한국전력기술(주) 2026년도 하반기 정규직(신입사원) 채용공고",
+          "url": "https://www.gojobs.go.kr/apmView.do?empmnsn=303052",
+          "published": false,
+          "qualification": "ineligible",
+          "roles": []
+        },
+        {
+          "id": "102e53449cafc5d075",
+          "company": "한국전력기술주식회사",
+          "title": "한국전력기술주식회사 2026년도 하반기 정규직(신입사원) 채용공고",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304717",
+          "published": true,
+          "qualification": "eligible",
+          "roles": [
+            "고졸 사무"
+          ]
+        }
+      ]
+    },
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1179917&bbsId=2756",
+      "title": "2026년 제3차 신규직원 채용공고[고졸전형 포함]",
+      "company": "한국수목원정원관리원",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-09-07",
+      "deadline": "2026-09-21",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://koagi.plusrecruit.co.kr/#/"
+      ],
+      "detailStatus": "read",
+      "outcome": "qualification-or-policy-review",
+      "firstSeenAt": "2026-09-10T05:29:36.101Z",
+      "unresolvedRuns": 1,
+      "matches": [
+        {
+          "id": "fedebe6e3a38cbf15d",
+          "company": "한국수목원정원관리원",
+          "title": "한국수목원정원관리원 2026년 제3차 신규직원 채용 공고",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304713",
+          "published": false,
+          "qualification": "ineligible",
+          "roles": []
+        },
+        {
+          "id": "4b57b5ccadbeffd6c9",
+          "company": "한국수목원정원관리원",
+          "title": "한국수목원정원관리원 2026년 제3차 신규직원 채용 공고",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304713",
+          "published": false,
+          "qualification": "ineligible",
+          "roles": []
+        }
+      ]
+    },
     {
       "source": "busan-highschool",
       "sourceName": "부산교육청 고졸채용",
@@ -227,14 +318,14 @@
       "detailStatus": "read",
       "outcome": "qualification-or-policy-review",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": [
         {
           "id": "de3cca184fa6deb7ff",
           "company": "한국산림복지진흥원",
           "title": "2026년도 하반기 한국산림복지진흥원 공무직 채용 공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=304615",
-          "published": true,
+          "published": false,
           "qualification": "eligible",
           "roles": [
             "공개경쟁채용"
@@ -245,7 +336,7 @@
           "company": "한국산림복지진흥원",
           "title": "2026년도 하반기 한국산림복지진흥원 정규직(5급, 6급) 채용 공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=304612",
-          "published": true,
+          "published": false,
           "qualification": "eligible",
           "roles": [
             "공개경쟁채용"
@@ -256,7 +347,7 @@
           "company": "한국산림복지진흥원",
           "title": "2026년도 하반기 한국산림복지진흥원 공무직 채용 공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=304615",
-          "published": false,
+          "published": true,
           "qualification": "eligible",
           "roles": [
             "공개경쟁채용"
@@ -267,7 +358,7 @@
           "company": "한국산림복지진흥원",
           "title": "2026년도 하반기 한국산림복지진흥원 정규직(5급, 6급) 채용 공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=304612",
-          "published": false,
+          "published": true,
           "qualification": "eligible",
           "roles": [
             "공개경쟁채용"
@@ -2325,299 +2416,6 @@
       "matches": []
     },
     {
-      "source": "incheon-highschool",
-      "sourceName": "인천교육청 취업지원센터",
-      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3380304",
-      "title": "한국산업인력공단",
-      "company": "한국산업인력공단",
-      "category": "",
-      "postedAt": "",
-      "start": "2026-08-05",
-      "deadline": "2026-08-13",
-      "recruitment": true,
-      "highSchoolSignal": true,
-      "externalLinks": [
-        "https://hrdkorea.jobnlab.co.kr/"
-      ],
-      "detailStatus": "read",
-      "outcome": "closed",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 0,
-      "matches": []
-    },
-    {
-      "source": "incheon-highschool",
-      "sourceName": "인천교육청 취업지원센터",
-      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3380302",
-      "title": "한국주택금융공사",
-      "company": "한국주택금융공사",
-      "category": "",
-      "postedAt": "",
-      "start": "2026-07-31",
-      "deadline": "2026-08-20",
-      "recruitment": true,
-      "highSchoolSignal": true,
-      "externalLinks": [
-        "https://hf.recruitlab.co.kr/app/recruitment-announcement/view/986"
-      ],
-      "detailStatus": "read",
-      "outcome": "closed",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 0,
-      "matches": []
-    },
-    {
-      "source": "incheon-highschool",
-      "sourceName": "인천교육청 취업지원센터",
-      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3379686",
-      "title": "하나캐피탈(주)",
-      "company": "하나캐피탈(주)",
-      "category": "",
-      "postedAt": "",
-      "start": "2026-07-20",
-      "deadline": "2026-08-03",
-      "recruitment": true,
-      "highSchoolSignal": true,
-      "externalLinks": [
-        "https://hanacapital.incruit.com/hire/viewhire.asp?projectid=103"
-      ],
-      "detailStatus": "read",
-      "outcome": "closed",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 0,
-      "matches": []
-    },
-    {
-      "source": "incheon-highschool",
-      "sourceName": "인천교육청 취업지원센터",
-      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3377729",
-      "title": "사립학교교직원연금공단",
-      "company": "사립학교교직원연금공단",
-      "category": "",
-      "postedAt": "",
-      "start": "2026-07-10",
-      "deadline": "2026-07-25",
-      "recruitment": true,
-      "highSchoolSignal": false,
-      "externalLinks": [],
-      "detailStatus": "read",
-      "outcome": "closed",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 0,
-      "matches": []
-    },
-    {
-      "source": "incheon-highschool",
-      "sourceName": "인천교육청 취업지원센터",
-      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3377569",
-      "title": "한국국제협력단",
-      "company": "한국국제협력단",
-      "category": "",
-      "postedAt": "",
-      "start": "2026-07-07",
-      "deadline": "2026-07-22",
-      "recruitment": true,
-      "highSchoolSignal": false,
-      "externalLinks": [
-        "https://koica.recruiter.co.kr/career/jobs/120486",
-        "http://koica.recruiter.co.kr/",
-        "https://koica.recruiter.co.kr/"
-      ],
-      "detailStatus": "read",
-      "outcome": "closed",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 0,
-      "matches": []
-    },
-    {
-      "source": "incheon-highschool",
-      "sourceName": "인천교육청 취업지원센터",
-      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3377567",
-      "title": "한국중부발전(주)",
-      "company": "한국중부발전(주)",
-      "category": "",
-      "postedAt": "",
-      "start": "2026-07-07",
-      "deadline": "2026-07-22",
-      "recruitment": true,
-      "highSchoolSignal": true,
-      "externalLinks": [
-        "http://komipo.saramin.co.kr/",
-        "https://komipo.saramin.co.kr/"
-      ],
-      "detailStatus": "read",
-      "outcome": "closed",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 0,
-      "matches": []
-    },
-    {
-      "source": "incheon-highschool",
-      "sourceName": "인천교육청 취업지원센터",
-      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3376278",
-      "title": "대한무역투자진흥공사",
-      "company": "대한무역투자진흥공사",
-      "category": "",
-      "postedAt": "",
-      "start": "2026-06-24",
-      "deadline": "2026-07-10",
-      "recruitment": true,
-      "highSchoolSignal": true,
-      "externalLinks": [],
-      "detailStatus": "read",
-      "outcome": "closed",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 0,
-      "matches": []
-    },
-    {
-      "source": "incheon-highschool",
-      "sourceName": "인천교육청 취업지원센터",
-      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3370628",
-      "title": "한국산업단지공단",
-      "company": "한국산업단지공단",
-      "category": "",
-      "postedAt": "",
-      "start": "2026-05-14",
-      "deadline": "2026-05-21",
-      "recruitment": true,
-      "highSchoolSignal": false,
-      "externalLinks": [
-        "https://kicox.saramin.co.kr/"
-      ],
-      "detailStatus": "read",
-      "outcome": "closed",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 0,
-      "matches": []
-    },
-    {
-      "source": "incheon-highschool",
-      "sourceName": "인천교육청 취업지원센터",
-      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3370627",
-      "title": "한국해양진흥공사",
-      "company": "한국해양진흥공사",
-      "category": "",
-      "postedAt": "",
-      "start": "2026-05-06",
-      "deadline": "2026-05-20",
-      "recruitment": true,
-      "highSchoolSignal": false,
-      "externalLinks": [
-        "https://kobc.scout.co.kr/"
-      ],
-      "detailStatus": "read",
-      "outcome": "closed",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 0,
-      "matches": []
-    },
-    {
-      "source": "incheon-highschool",
-      "sourceName": "인천교육청 취업지원센터",
-      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3370625",
-      "title": "한국마사회",
-      "company": "한국마사회",
-      "category": "",
-      "postedAt": "",
-      "start": "2026-05-01",
-      "deadline": "2026-05-15",
-      "recruitment": true,
-      "highSchoolSignal": false,
-      "externalLinks": [
-        "https://kra.careerlink.kr/"
-      ],
-      "detailStatus": "read",
-      "outcome": "closed",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 0,
-      "matches": []
-    },
-    {
-      "source": "incheon-highschool",
-      "sourceName": "인천교육청 취업지원센터",
-      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3370623",
-      "title": "서울에너지공사",
-      "company": "서울에너지공사",
-      "category": "",
-      "postedAt": "",
-      "start": "2026-04-24",
-      "deadline": "2026-05-14",
-      "recruitment": true,
-      "highSchoolSignal": true,
-      "externalLinks": [
-        "https://recruit.incruit.com/i-se"
-      ],
-      "detailStatus": "read",
-      "outcome": "closed",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 0,
-      "matches": []
-    },
-    {
-      "source": "incheon-highschool",
-      "sourceName": "인천교육청 취업지원센터",
-      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3369969",
-      "title": "한국청소년상담복지개발원",
-      "company": "한국청소년상담복지개발원",
-      "category": "",
-      "postedAt": "",
-      "start": "2026-04-30",
-      "deadline": "2026-05-14",
-      "recruitment": true,
-      "highSchoolSignal": true,
-      "externalLinks": [
-        "https://kyci.fairyhr.com/"
-      ],
-      "detailStatus": "read",
-      "outcome": "closed",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 0,
-      "matches": []
-    },
-    {
-      "source": "incheon-highschool",
-      "sourceName": "인천교육청 취업지원센터",
-      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3369967",
-      "title": "한국해양과학기술원",
-      "company": "한국해양과학기술원",
-      "category": "",
-      "postedAt": "",
-      "start": "2026-04-30",
-      "deadline": "2026-05-13",
-      "recruitment": true,
-      "highSchoolSignal": true,
-      "externalLinks": [
-        "https://kiost.fairyhr.com/"
-      ],
-      "detailStatus": "read",
-      "outcome": "closed",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 0,
-      "matches": []
-    },
-    {
-      "source": "incheon-highschool",
-      "sourceName": "인천교육청 취업지원센터",
-      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3369962",
-      "title": "중소기업은행",
-      "company": "중소기업은행",
-      "category": "",
-      "postedAt": "",
-      "start": "2026-04-23",
-      "deadline": "2026-05-13",
-      "recruitment": true,
-      "highSchoolSignal": false,
-      "externalLinks": [
-        "https://ibk.incruit.com/"
-      ],
-      "detailStatus": "read",
-      "outcome": "closed",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 0,
-      "matches": []
-    },
-    {
       "source": "gwangju-public",
       "sourceName": "광주교육청 공공기관·추천채용",
       "url": "https://jpl.gen.go.kr/xboard/board.php?mode=view&number=3156&tbnum=1&sCat=0&page=1&keyset=&searchword=",
@@ -2635,7 +2433,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -2699,7 +2497,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -2763,106 +2561,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
-      "matches": []
-    },
-    {
-      "source": "hifive-central",
-      "sourceName": "HIFIVE 중앙 취업지원 공지",
-      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=145990",
-      "title": "[한국광해광업공단] 고졸 채용형 인턴 공고(고졸제한)",
-      "company": "",
-      "category": "",
-      "postedAt": "2026-08-10",
-      "start": "",
-      "deadline": "",
-      "recruitment": true,
-      "highSchoolSignal": true,
-      "externalLinks": [
-        "http://komir.saramin.co.kr/"
-      ],
-      "detailStatus": "read",
-      "outcome": "unmatched-discovery",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
-      "matches": []
-    },
-    {
-      "source": "hifive-central",
-      "sourceName": "HIFIVE 중앙 취업지원 공지",
-      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=145918",
-      "title": "[한국주택금융공사] 한국주택금융공사 신입직원 채용(고졸전형)",
-      "company": "",
-      "category": "",
-      "postedAt": "2026-08-05",
-      "start": "",
-      "deadline": "",
-      "recruitment": true,
-      "highSchoolSignal": true,
-      "externalLinks": [],
-      "detailStatus": "read",
-      "outcome": "unmatched-discovery",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
-      "matches": []
-    },
-    {
-      "source": "hifive-central",
-      "sourceName": "HIFIVE 중앙 취업지원 공지",
-      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=145635",
-      "title": "[한국산업인력공단] 2027년도 과정평가형 국가기술자격 교육훈련과정 모집공고",
-      "company": "",
-      "category": "",
-      "postedAt": "2026-07-06",
-      "start": "2026-07-13",
-      "deadline": "2026-08-14",
-      "recruitment": true,
-      "highSchoolSignal": false,
-      "externalLinks": [],
-      "detailStatus": "read",
-      "outcome": "closed",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 0,
-      "matches": []
-    },
-    {
-      "source": "hifive-central",
-      "sourceName": "HIFIVE 중앙 취업지원 공지",
-      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=145617",
-      "title": "[주택도시보증공사] 2026년도 정규직(관리7급-금융, 전산) 채용",
-      "company": "",
-      "category": "",
-      "postedAt": "2026-07-01",
-      "start": "",
-      "deadline": "",
-      "recruitment": true,
-      "highSchoolSignal": true,
-      "externalLinks": [
-        "https://khug.kpcice.kr/"
-      ],
-      "detailStatus": "read",
-      "outcome": "unmatched-discovery",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
-      "matches": []
-    },
-    {
-      "source": "hifive-central",
-      "sourceName": "HIFIVE 중앙 취업지원 공지",
-      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=145579",
-      "title": "[KOTRA] 행정직 채용 공고(사무직 행정 6직급)",
-      "company": "",
-      "category": "",
-      "postedAt": "2026-06-24",
-      "start": "",
-      "deadline": "",
-      "recruitment": true,
-      "highSchoolSignal": true,
-      "externalLinks": [],
-      "detailStatus": "read",
-      "outcome": "unmatched-discovery",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -2883,7 +2582,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -2938,7 +2637,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -2959,7 +2658,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -2980,7 +2679,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -3001,7 +2700,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -3022,7 +2721,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -3043,7 +2742,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -3064,7 +2763,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -3106,7 +2805,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -3127,7 +2826,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -3204,13 +2903,12 @@
       "start": "",
       "deadline": "",
       "recruitment": true,
-      "detailStatus": "failed",
-      "detailError": "Detail schema missing: boardViewWrap",
-      "externalLinks": [],
       "highSchoolSignal": true,
+      "externalLinks": [],
+      "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -3231,7 +2929,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -3252,7 +2950,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -3273,7 +2971,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -3294,7 +2992,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -3315,7 +3013,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -3336,7 +3034,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -3357,8 +3055,92 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
+    },
+    {
+      "source": "hifive-central",
+      "sourceName": "HIFIVE 중앙 취업지원 공지",
+      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=145990",
+      "title": "[한국광해광업공단] 고졸 채용형 인턴 공고(고졸제한)",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-08-10",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "http://komir.saramin.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 3,
+      "matches": [],
+      "missingFromCurrentScan": true
+    },
+    {
+      "source": "hifive-central",
+      "sourceName": "HIFIVE 중앙 취업지원 공지",
+      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=145918",
+      "title": "[한국주택금융공사] 한국주택금융공사 신입직원 채용(고졸전형)",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-08-05",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 3,
+      "matches": [],
+      "missingFromCurrentScan": true
+    },
+    {
+      "source": "hifive-central",
+      "sourceName": "HIFIVE 중앙 취업지원 공지",
+      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=145617",
+      "title": "[주택도시보증공사] 2026년도 정규직(관리7급-금융, 전산) 채용",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-07-01",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://khug.kpcice.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 3,
+      "matches": [],
+      "missingFromCurrentScan": true
+    },
+    {
+      "source": "hifive-central",
+      "sourceName": "HIFIVE 중앙 취업지원 공지",
+      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=145579",
+      "title": "[KOTRA] 행정직 채용 공고(사무직 행정 6직급)",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-06-24",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 3,
+      "matches": [],
+      "missingFromCurrentScan": true
     },
     {
       "source": "jeju-highschool",
@@ -3378,20 +3160,20 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": [],
       "missingFromCurrentScan": true
     }
   ],
   "summary": {
-    "discovered": 146,
-    "publishedMatches": 7,
-    "closed": 112,
-    "unresolved": 27,
-    "activeDatedUnresolved": 1,
+    "discovered": 133,
+    "publishedMatches": 8,
+    "closed": 97,
+    "unresolved": 28,
+    "activeDatedUnresolved": 2,
     "unknownDeadlineUnresolved": 26,
-    "highSchoolUnresolved": 27,
-    "sourceFailures": 0,
-    "detailFailures": 1
+    "highSchoolUnresolved": 28,
+    "sourceFailures": 2,
+    "detailFailures": 0
   }
 }
