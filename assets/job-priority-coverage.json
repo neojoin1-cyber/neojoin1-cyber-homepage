@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-09T18:20:42.175Z",
+  "generatedAt": "2026-09-10T02:03:35.894Z",
   "scope": {
     "lookbackDays": 120,
     "maxPagesPerBoard": 12,
@@ -28,9 +28,9 @@
       "stopReason": "lookback-reached",
       "error": "",
       "ok": true,
-      "listed": 15,
-      "candidates": 15,
-      "detailsRead": 15,
+      "listed": 14,
+      "candidates": 14,
+      "detailsRead": 14,
       "detailsFailed": 0
     },
     {
@@ -67,9 +67,9 @@
       "stopReason": "lookback-reached",
       "error": "",
       "ok": true,
-      "listed": 37,
-      "candidates": 24,
-      "detailsRead": 23,
+      "listed": 36,
+      "candidates": 23,
+      "detailsRead": 22,
       "detailsFailed": 1
     }
   ],
@@ -115,7 +115,7 @@
           "roles": []
         },
         {
-          "id": "a1167545911b97e93a",
+          "id": "36b7a0cbf127e121d6",
           "company": "한국도로공사",
           "title": "2026년 하반기 한국도로공사 일반직 신입(인턴)사원 채용 공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=304761",
@@ -178,7 +178,7 @@
           ]
         },
         {
-          "id": "454597032b0f7bbe95",
+          "id": "8a697b097b8f84abd5",
           "company": "한국전기안전공사",
           "title": "한국전기안전공사 2026년 하반기 경력직원 채용",
           "url": "https://job.alio.go.kr/recruitview.do?idx=304763",
@@ -187,7 +187,7 @@
           "roles": []
         },
         {
-          "id": "b265f44acf1450dc80",
+          "id": "3c73d13368fe6809ba",
           "company": "한국전기안전공사",
           "title": "한국전기안전공사 2026년 하반기 공무직원 채용",
           "url": "https://job.alio.go.kr/recruitview.do?idx=304764",
@@ -196,7 +196,7 @@
           "roles": []
         },
         {
-          "id": "2a31263bc7e961f6bd",
+          "id": "0bf24ffb9d6e6732a4",
           "company": "한국전기안전공사",
           "title": "한국전기안전공사 2026년 하반기 채용형 인턴 채용",
           "url": "https://job.alio.go.kr/recruitview.do?idx=304762",
@@ -227,7 +227,7 @@
       "detailStatus": "read",
       "outcome": "qualification-or-policy-review",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": [
         {
           "id": "de3cca184fa6deb7ff",
@@ -395,7 +395,7 @@
           "roles": []
         },
         {
-          "id": "695bc38d561a631943",
+          "id": "84b89306b745064e26",
           "company": "신용보증기금",
           "title": "2026년도 하반기 신용보증기금 신입직원 채용",
           "url": "https://job.alio.go.kr/recruitview.do?idx=304432",
@@ -2515,27 +2515,6 @@
     {
       "source": "incheon-highschool",
       "sourceName": "인천교육청 취업지원센터",
-      "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3370626",
-      "title": "한국관광공사",
-      "company": "한국관광공사",
-      "category": "",
-      "postedAt": "",
-      "start": "2026-05-12",
-      "deadline": "2026-05-21",
-      "recruitment": true,
-      "highSchoolSignal": true,
-      "externalLinks": [
-        "https://kto.recruit-zone.co.kr/"
-      ],
-      "detailStatus": "read",
-      "outcome": "closed",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 0,
-      "matches": []
-    },
-    {
-      "source": "incheon-highschool",
-      "sourceName": "인천교육청 취업지원센터",
       "url": "https://jci.ice.go.kr/jci/na/ntt/selectNttInfo.do?mi=10427&bbsId=1616&nttSn=3370625",
       "title": "한국마사회",
       "company": "한국마사회",
@@ -2656,7 +2635,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -2720,7 +2699,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -2784,7 +2763,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -2805,7 +2784,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -2824,7 +2803,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -2864,7 +2843,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -2883,7 +2862,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -2904,7 +2883,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -2959,7 +2938,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -2980,7 +2959,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3001,7 +2980,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3022,7 +3001,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3036,13 +3015,14 @@
       "start": "",
       "deadline": "",
       "recruitment": true,
-      "detailStatus": "failed",
-      "detailError": "Detail schema missing: boardViewWrap",
-      "externalLinks": [],
       "highSchoolSignal": true,
+      "externalLinks": [
+        "https://koenergy.saramin.co.kr/"
+      ],
+      "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3063,7 +3043,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3084,7 +3064,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3126,7 +3106,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3147,7 +3127,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3224,12 +3204,13 @@
       "start": "",
       "deadline": "",
       "recruitment": true,
-      "highSchoolSignal": true,
+      "detailStatus": "failed",
+      "detailError": "Detail schema missing: boardViewWrap",
       "externalLinks": [],
-      "detailStatus": "read",
+      "highSchoolSignal": true,
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3250,7 +3231,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3271,7 +3252,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3292,7 +3273,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3313,7 +3294,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3334,7 +3315,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3355,7 +3336,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3376,7 +3357,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3397,14 +3378,15 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 1,
-      "matches": []
+      "unresolvedRuns": 2,
+      "matches": [],
+      "missingFromCurrentScan": true
     }
   ],
   "summary": {
-    "discovered": 147,
+    "discovered": 146,
     "publishedMatches": 7,
-    "closed": 113,
+    "closed": 112,
     "unresolved": 27,
     "activeDatedUnresolved": 1,
     "unknownDeadlineUnresolved": 26,
