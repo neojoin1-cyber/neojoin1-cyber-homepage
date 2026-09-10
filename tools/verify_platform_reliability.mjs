@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { assessStudentEligibility } from './student_job_eligibility.mjs';
 import { employerNoticeUrl, isEmployerDetailUrl } from '../assets/job-official-links.mjs';
 import { assertAttachmentAudit } from './job_attachment_audit.mjs';
+import { assertCachedAttachments } from './job_attachment_cache.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(__dirname, '..');
@@ -1177,6 +1178,12 @@ async function main() {
   await validateDirectionDocs();
   const localFeed = await readJson('assets/job-feed.json');
   const localHealth = await readJson('assets/job-feed-health.json');
+  if (localFeed.attachmentCache) {
+    let error = '';
+    try { await assertCachedAttachments(['items', 'supplementalItems', 'archiveItems'].flatMap((key) => localFeed[key] || []), localFeed.attachmentCache); }
+    catch (failure) { error = failure.message; }
+    fail('local.attachments.full-file-integrity', !error, '직접 제공하는 모든 첨부의 실제 파일·크기·SHA-256·출처를 대조합니다.', error);
+  }
   await validateProtectedJobVault(localFeed);
   const { items } = validateFeed(localFeed, 'local');
   validateFeedHealth(localHealth, localFeed, 'local');

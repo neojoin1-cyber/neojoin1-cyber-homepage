@@ -46,6 +46,12 @@ const item = { company: '부산항만공사', title: '부산항만공사 정규�
 const detail = 'https://www.busanpa.com/board/view.bpa?boardId=BBS_0000046&dataSid=36757';
 const body = `<h2>${item.title}</h2><p>등록일 2026.09.02</p><p>접수마감 2026.09.17</p>`;
 
+test('IBK-style extensionless buttons discover filenames from actual attachment URLs', () => {
+  const files = noticeAttachments('<a href="https://raspfiles2.incruit.com/ibk/data/128/SuccessData/addFile/(별첨1)%20학교장%20추천서.hwp">학교장 추천서</a>', 'http://ibk.incruit.com/hire/viewhire.asp?projectid=128');
+  assert.equal(files.length, 1);
+  assert.equal(files[0].title, '(별첨1) 학교장 추천서.hwp');
+});
+
 test('BPA attachment downloads are extracted from the verified notice, not replaced by its page URL', async () => {
   const names = ['채용 공고.hwp', '붙임 1. 직무기술서.zip', '입사지원서.hwp', '채용 이의신청서.hwp', '채용서류 반환청구서.hwp'];
   const html = body + names.map((name, n) => `<a href="/board/download.bpa?dataSid=36757&amp;fileSid=${43296 + n}"><span>${name}</span><span>(151 kb)</span></a>`).join('');

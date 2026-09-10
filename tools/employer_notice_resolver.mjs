@@ -139,10 +139,16 @@ export function noticeAttachments(html, base) {
   const content = html.replace(/<(?:header|footer|nav)\b[^>]*>[\s\S]*?<\/(?:header|footer|nav)>/gi, '');
   const files = new Map();
   for (const link of noticeLinks(content, base)) {
-    if (!/\.(?:pdf|hwpx?|docx?|xlsx?|zip|pptx?|png|jpe?g)(?:\b|$)/i.test(link.title)) continue;
+    let label = link.title;
+    if (!/\.(?:pdf|hwpx?|docx?|xlsx?|zip|pptx?|png|jpe?g)(?:\b|$)/i.test(label)) {
+      let name = '';
+      try { name = decodeURIComponent(new URL(link.url).pathname.split('/').pop()); } catch { /* Invalid URL encoding. */ }
+      if (!/\.(?:pdf|hwpx?|docx?|xlsx?|zip|pptx?)$/i.test(name)) continue;
+      label = name;
+    }
     if (!/(?:download|filedown|fileSn=|fileSid=|fileNo=|atchFile|\.pdf|\.hwp|\.zip|\.doc|\.xls|\.png|\.jpg)/i.test(link.url)) continue;
     if (/\/preview\./i.test(new URL(link.url).pathname)) continue;
-    const title = link.title.replace(/\s*[([][\d.,]+\s*(?:k|m|g)?b[)\]]\s*$/i, '').trim();
+    const title = label.replace(/\s*[([][\d.,]+\s*(?:k|m|g)?b[)\]]\s*$/i, '').trim();
     const url = link.url.replace(/;jsessionid=[^?&#/]*/gi, '');
     if (!files.has(url)) files.set(url, { title, url, sourceNoticeUrl: base });
   }

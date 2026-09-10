@@ -13,6 +13,7 @@ import { collectPages, buildCollectionAudit as reconcileCollection, assertCollec
 import { discoverPriorityJobs, discoveredRecruiterEntries, reconcilePriorityDiscovery } from './priority_job_discovery.mjs';
 import { enrichEmployerNotices } from './employer_notice_resolver.mjs';
 import { auditJobAttachments } from './job_attachment_audit.mjs';
+import { cacheJobAttachments } from './job_attachment_cache.mjs';
 import { isEmployerDetailUrl } from '../assets/job-official-links.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -8047,6 +8048,8 @@ async function main() {
   const attachmentAudit = await auditJobAttachments([...items, ...supplementalItems, ...archiveItems],
     { previousItems: new Set(previousItems.values()) });
   const previousZipDetailsByUrl = buildPreviousZipDetailsByUrl(previousItems);
+  const attachmentCache = await cacheJobAttachments([...items, ...supplementalItems, ...archiveItems],
+    { directory: path.join(OUTPUT_DIR, 'job-attachment-files', 'originals') });
   const zipAttachmentSummary = await enhanceZipAttachmentsForItems([...items, ...supplementalItems, ...archiveItems], previousZipDetailsByUrl);
   const briefingAutomation = officialSourceBriefingStatus(items);
   const active = items.filter((item) => item.status === 'active').length;
@@ -8213,6 +8216,7 @@ async function main() {
 
   payload.employerNoticeResolution = employerNoticeResolution;
   payload.attachmentAudit = attachmentAudit;
+  payload.attachmentCache = attachmentCache;
   payload.summary.companyNoticeChecked = items.filter((item) => item.employerNotice?.status === 'verified').length;
   const protectedArtifacts = buildProtectedJobArtifacts(payload);
   await writeJsonAtomic(JOB_DETAIL_VAULT_FILE, protectedArtifacts.vault);

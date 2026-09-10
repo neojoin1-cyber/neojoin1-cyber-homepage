@@ -43,7 +43,10 @@ export async function auditJobAttachments(items, { previousItems = [], fetchPage
       const exactSource = /^https:\/\/job\.alio\.go\.kr\/(?:mobile2021\/recruit\/recruitView|recruitview)\.do\?idx=\d+$/i.test(source)
         || isEmployerDetailUrl(source);
       const page = exactSource ? await get(pages, source, fetchPage) : null;
-      const discovered = page ? noticeAttachments(page.html, page.url) : [];
+      const employerUrl = item.employerNotice?.status === 'verified' && isEmployerDetailUrl(item.employerNotice.url)
+        ? item.employerNotice.url : '';
+      const employerPage = employerUrl && employerUrl !== source ? await get(pages, employerUrl, fetchPage) : null;
+      const discovered = [page, employerPage].filter(Boolean).flatMap((p) => noticeAttachments(p.html, p.url));
       for (const file of discovered) files.set(file.url, { ...files.get(file.url), ...file });
       const failures = [];
       for (const [url, file] of files) {

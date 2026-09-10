@@ -25,16 +25,21 @@ export function collectJobAttachments(item, base) {
   const visit = (input, parent = '') => {
     const file = typeof input === 'string' ? parseLine(input) : input || {};
     const title = file.title || file.name || file.fileName || file.label || '공식 첨부자료';
-    const url = attachmentUrl(file.url || file.href || file.downloadUrl || file.publicUrl || file.localUrl, base);
+    const originalUrl = attachmentUrl(file.url || file.href || file.downloadUrl || file.publicUrl || file.localUrl, base);
+    const cachedUrl = /^assets\/job-attachment-files\/originals\/[a-f0-9]{64}\.[a-z0-9]+$/.test(file.cachedUrl || '')
+      ? attachmentUrl(file.cachedUrl, base) : '';
+    const url = cachedUrl || originalUrl;
     if (!url && title === '회사·기관 공식 공고문') return;
-    const key = url || title;
+    const key = originalUrl || title;
     if (!files.has(key)) files.set(key, { title, url, kind: kindOf(title), parent,
-      downloadName: file.downloadName || title });
+      downloadName: file.downloadName || title, cached: Boolean(cachedUrl), originalUrl });
     for (const child of file.archiveEntries || file.zipEntries || []) visit(child, title);
   };
   for (const file of [
     ...(item.attachments || []), ...(item.publicRecruitDetails?.attachments || []),
     ...(item.attachmentLines || []), ...(item.teacherBriefing?.attachmentLines || [])
   ]) visit(file);
-  return [...files.values()];
+  const result = [...files.values()];
+  const storedTitles = new Set(result.filter((f) => f.cached).map((f) => f.title));
+  return result.filter((f) => f.cached || !storedTitles.has(f.title)).sort((a, b) => Number(b.cached) - Number(a.cached));
 }
