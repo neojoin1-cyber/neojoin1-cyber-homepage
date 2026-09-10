@@ -48,6 +48,7 @@ test('observed institution JavaScript links retain the exact post identifier', (
   const cases = [
     ['https://www.ex.co.kr/portal/selectBoardList.do?bbsId=X', `<a href="javascript:fn_egov_inqire_notice('30395');">공고</a>`, 'nttId=30395'],
     ['https://kgs.or.kr/kgs/adgb/board.do', '<a href="javascript:fn_egov_boardDetail(102684)">공고</a>', 'searchBoardSn=102684'],
+    ['https://www.comwel.or.kr/recruit/hp/pblanc/pblancList.do?menuId=97', `<a href="#" onclick="fn_pblancDetail('97','R05-20260909-0001')">공고</a>`, 'annc_no=R05-20260909-0001'],
     ['https://www.kodit.or.kr/kodit/na/ntt/selectNttList.do?bbsId=407', '<a href="javascript:" data-id="5137098">공고</a>', 'nttSn=5137098'],
     ['https://kepco-enc.com/board.es?bid=0002', `<a href="#none" onclick="goView3('45062', '/board.es?act=view&list_no=45062'); return false;">공고</a>`, 'list_no=45062'],
   ];
@@ -78,6 +79,7 @@ test('failed or ambiguous lookup remains unresolved and preserves accessible ref
   assert.equal(items[0].companyNoticeUrl, '');
   assert.equal(items[0].referenceNoticeUrl, item.sourceDetailUrl);
   assert.equal(items[0].sourceVerification.companyNoticeMatched, false);
+  assert.equal(items[0].sourceVerification.doubleCheckStatus, 'employer_notice_pending');
 });
 
 test('institution-designated ALIO reference is reported explicitly, never an employer detail', async () => {
@@ -99,4 +101,15 @@ test('briefing and synthetic attachment links cannot retain an obsolete board UR
   assert.equal(items[0].teacherBriefing.officialUrl, detail);
   assert.ok(!items[0].teacherBriefing.teacherShareText.includes(old));
   assert.equal(items[0].attachments.length, 0);
+});
+
+test('a cached direct URL can be rechecked with its subsequently discovered board title', async () => {
+  const target = { ...item, company: '기관A', title: '기관A 고졸 신입직원 채용',
+    companyNoticeUrl: 'https://example.org/notice?nttId=7' };
+  const board = 'https://example.org/board';
+  const resolve = createNoticeResolver({ fetchPage: async (url) => ({ url, html: url.includes('alio')
+    ? `<p>공고 URL : <a href="${board}">${board}</a></p>` : url === board
+      ? `<a href="${target.companyNoticeUrl}">${target.title}</a>`
+      : '<h1>기관A</h1><p>2026.09.02</p>' }) });
+  assert.equal((await resolve(target)).status, 'verified');
 });

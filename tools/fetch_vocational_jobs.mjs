@@ -3440,8 +3440,9 @@ function hasStudentUnsuitableProfessionalRole(value) {
   const text = normalizeSpace(value);
   if (!text) return false;
   return STUDENT_UNSUITABLE_HEALTHCARE_ROLE_PATTERN.test(text)
-    || (/자격증\s*소지자|면허(?:증)?\s*소지자|면허\s*소지|전문자격|전문\s*자격/.test(text)
-      && /(의료|병원|병동|요양|간호|보건|치과|진료|치료|재활|환자)/.test(text));
+    // An office certificate and a distant patient-benefit law are not a medical license.
+    || /(?:의료|병원|병동|요양|간호|보건|치과|진료|치료|재활|환자)[^.!?。;:]{0,48}(?:자격증\s*소지자|면허(?:증)?\s*소지|전문\s*자격)/.test(text)
+    || /(?:자격증\s*소지자|면허(?:증)?\s*소지자|전문\s*자격)[^.!?。;:]{0,48}(?:의료|병원|병동|요양|간호|보건|치과|진료|치료|재활|환자)/.test(text);
 }
 
 function hasCollegeOnlyApplicantSignal(value) {
@@ -8207,6 +8208,7 @@ async function main() {
   }
 
   payload.employerNoticeResolution = await enrichEmployerNotices([...items, ...supplementalItems, ...archiveItems]);
+  payload.summary.companyNoticeChecked = items.filter((item) => item.employerNotice?.status === 'verified').length;
   const protectedArtifacts = buildProtectedJobArtifacts(payload);
   await writeJsonAtomic(JOB_DETAIL_VAULT_FILE, protectedArtifacts.vault);
   await writeJsonAtomic(OUT_FILE, protectedArtifacts.publicPayload);

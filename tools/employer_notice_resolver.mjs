@@ -7,12 +7,15 @@ const BOARDS = [
   ['한국가스안전공사', 'https://kgs.or.kr/kgs/adgb/board.do'],
   ['한국전력기술', 'https://kepco-enc.com/board.es?bid=0002&mid=a10106020100'],
   ['한국도로공사', 'https://www.ex.co.kr/portal/biz/bbs/layout1/selectBoardList.do?bbsId=BBSMSTR_000000000182'],
+  ['한국도로공사', 'https://www.ex.co.kr/portal/biz/bbs/layout1/selectBoardList.do?bbsId=BBSMSTR_000000000211'],
   ['주택관리공단', 'https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=list'],
   ['중소기업은행', 'https://ibk.incruit.com/'],
   ['예금보험공사', 'https://www.kdic.or.kr/di/empm/selectPbcrEmpmPbancList.do'],
   ['한전KPS', 'https://www.kps.co.kr/web/company/recruit/posting/rolling.do'],
   ['한국중부발전', 'https://www.komipo.co.kr/kor/board/BRD_000053/boardMain.do?mnCd=FN100204&pageSize=10'],
   ['한국산업은행', 'https://kdb.incruit.com/hire/hirelist.asp'],
+  ['경북대학교치과병원', 'https://www.knudh.kr/content/05info/02_01.php'],
+  ['근로복지공단', 'https://www.comwel.or.kr/recruit/hp/pblanc/pblancList.do?menuId=97'],
 ];
 
 export function textOf(html = '') {
@@ -112,6 +115,12 @@ export function noticeLinks(html, base) {
       b.pathname = '/di/empm/selectPbcrEmpmPbancDtl.do';
       b.searchParams.set('empmPbancRegSn', kdic[1]); url = b.href;
     }
+    const comwel = attrs.match(/fn_pblancDetail\(['"](\d+)['"],\s*['"]([\w-]+)['"]\)/);
+    if (!url && comwel && /(^|\.)comwel\.or\.kr$/.test(b.hostname)) {
+      b.pathname = '/recruit/hp/pblanc/pblancView.do';
+      b.search = new URLSearchParams({ menuId: comwel[1], annc_no: comwel[2] }).toString();
+      url = b.href;
+    }
     const literal = attrs.match(/goView3\('[^']+',\s*'([^']+)'\)/)?.[1];
     const jsUrl = literal || attrs.match(/(?:location(?:\.href)?\s*=|window\.open\()\s*['"]([^'"]+)['"]/i)?.[1];
     if (!url && jsUrl) url = absolute(jsUrl, base);
@@ -185,8 +194,9 @@ export function createNoticeResolver({ fetchPage = fetchNoticePage, now = () => 
     }
     while (queue.length && visited.size < 10) {
       const { url, depth, anchorTitle } = queue.shift();
-      if (visited.has(url) || isReferenceUrl(url)) continue;
-      visited.add(url);
+      const visitKey = `${url}|${Boolean(anchorTitle)}`;
+      if (visited.has(visitKey) || isReferenceUrl(url)) continue;
+      visited.add(visitKey);
       try {
         const page = await get(url);
         const proof = verifyNoticePage(page.html, page.url, item, anchorTitle);
@@ -239,6 +249,8 @@ export async function enrichEmployerNotices(items, options = {}) {
       else { summary.unresolved++; }
       item.sourceVerification = { ...item.sourceVerification,
         primaryOfficialUrl: proof.url || reference,
+        doubleCheckStatus: proof.status === 'verified' ? 'company_notice_confirmed'
+          : proof.status === 'reference_designated' ? 'employer_reference_designated' : 'employer_notice_pending',
         companyNoticeUrl: proof.url, companyNoticeReachable: proof.status === 'verified',
         companyNoticeMatched: proof.status === 'verified', companyNoticeCheckedAt: proof.checkedAt,
         companyNoticeCheckStatus: proof.status,

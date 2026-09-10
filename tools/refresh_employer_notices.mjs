@@ -9,6 +9,7 @@ const feed = JSON.parse(await fs.readFile(path.join(directory, 'job-feed.json'),
 const items = ['items', 'supplementalItems', 'archiveItems'].flatMap((key) => feed[key] || []);
 feed.employerNoticeResolution = await enrichEmployerNotices(items);
 feed.employerNoticeResolution.checkedAt = new Date().toISOString();
+feed.summary.companyNoticeChecked = feed.items.filter((item) => item.employerNotice?.status === 'verified').length;
 const artifacts = buildProtectedJobArtifacts(feed);
 for (const [name, data] of [['job-feed.json', artifacts.publicPayload], ['job-detail-vault.json', artifacts.vault]]) {
   const file = path.join(directory, name);

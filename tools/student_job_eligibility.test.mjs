@@ -7,6 +7,14 @@ import { assessStudentEligibility } from './student_job_eligibility.mjs';
 import { normalizeItem, buildStudentChannelAssessment, studentRecruitPriority, applyPublicationSafetyGuards, validateRecruitRoleFixtures, validateStudentPriorityFixtures, extractJobAlioQualification } from './fetch_vocational_jobs.mjs';
 
 const base = { title: '신입직원 채용', education: '학력무관', career: '신입', recruitField: '행정직', qualification: '학력 및 경력 제한 없음. 신입 지원 가능.' };
+
+test('office certificates and unrelated patient-benefit laws do not imply a medical license', () => {
+  const raw = { ...base, title: '대한적십자사 사무보조원 채용', company: '대한적십자사',
+    description: '서류심사 가산점: 컴퓨터활용능력 등 정보사무 자격증 소지자. 운전면허증, 사회봉사활동 경험, RCY경력, 표창 등을 반영. 전형별 가점은 고엽제후유의증 등 환자지원 및 단체설립에 관한 법률에 따름.' };
+  assert.equal(buildStudentChannelAssessment(raw, {}).professionalOnly, false);
+  assert.equal(buildStudentChannelAssessment(raw, {}).hardBlocked, false);
+  assert.equal(buildStudentChannelAssessment({ ...raw, title: '간호사 채용', qualification: '간호사 면허증 소지자' }, {}).hardBlocked, true);
+});
 const nibp = { ...base, title: '국가생명윤리정책원 제2026-3차 직원 채용 공고', company: '국가생명윤리정책원',
   education: '학력무관,중졸이하,고졸,대졸(2~3년),대졸(4년),석사,박사', career: '신입+경력', recruitField: '행정직,연구직,전산직',
   qualification: 'ㅇ 연구직(정규직) 5급(A07) - 생명윤리 관련분야 석사학위 소지자 또는 학사학위 취득 전·후 2년 이상 업무 경력자 ㅇ 행정직(정규직) 5급(A08) - 채용 예정 직무 경력 1년 이상 경력자 ㅇ 전산직(정규직) 5급(A09) - 채용 예정 직무 경력 1년 이상 경력자 ㅇ 행정직(계약직) 5급(B10) - 채용 예정 직무 경력 1년 이상 경력자 ㅇ 행정직(계약직) 5급(B11) - 채용 예정 직무 경력 1년 이상 경력자 ㅇ 전산직(계약직) 5급(B12) - 채용 예정 직무 경력 1년 이상 경력자' };
