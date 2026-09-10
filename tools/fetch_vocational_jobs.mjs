@@ -11,6 +11,8 @@ import { assessStudentEligibility, qualificationEvidence } from './student_job_e
 import { applyReviewedAttachment } from './reviewed_job_evidence.mjs';
 import { collectPages, buildCollectionAudit as reconcileCollection, assertCollectionAudit } from './job_collection_audit.mjs';
 import { discoverPriorityJobs, discoveredRecruiterEntries, reconcilePriorityDiscovery } from './priority_job_discovery.mjs';
+import { enrichEmployerNotices } from './employer_notice_resolver.mjs';
+import { isEmployerDetailUrl } from '../assets/job-official-links.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(__dirname, '..');
@@ -3138,7 +3140,7 @@ function findOfficialNoticeDetailUrl(html, baseUrl, title, company = '') {
 
 async function resolveOfficialNoticeUrl(candidateUrl, title, company = '') {
   const cleanCandidateUrl = cleanUrl(candidateUrl);
-  if (cleanCandidateUrl && !isLikelyFileUrl(cleanCandidateUrl) && isLikelyNoticeDetailUrl(cleanCandidateUrl)) {
+  if (cleanCandidateUrl && isEmployerDetailUrl(cleanCandidateUrl)) {
     return cleanCandidateUrl;
   }
   const searchUrls = officialNoticeSearchUrls(cleanCandidateUrl, title, company);
@@ -3147,17 +3149,12 @@ async function resolveOfficialNoticeUrl(candidateUrl, title, company = '') {
     try {
       const html = await fetchWithTimeout(searchUrl, { timeoutMs: COMPANY_NOTICE_TIMEOUT_MS });
       const detailUrl = findOfficialNoticeDetailUrl(html, searchUrl, title, company);
-      if (detailUrl) return detailUrl;
-      const text = htmlText(html).slice(0, 70000);
-      const terms = noticeSearchTerms(title, company);
-      const titleMatched = matchNoticeTermCount(text, terms) >= Math.min(3, terms.length);
-      const processMatched = includesAny(text, COMPANY_NOTICE_TERMS);
-      if (titleMatched && processMatched) return searchUrl;
+      if (detailUrl && isEmployerDetailUrl(detailUrl)) return detailUrl;
     } catch {
       // Try the next official search URL before giving up.
     }
   }
-  return cleanCandidateUrl;
+  return '';
 }
 
 async function enrichCompanyNoticeChecks(rawItems, limit = 40) {
@@ -5614,6 +5611,7 @@ const PUBLIC_JOB_ITEM_FIELDS = new Set([
   'staleSourceFallback', 'url', 'originalUrl', 'sourceDetailUrl', 'detailText', 'contactAdvice',
   'sourceVerification', 'regionalEducationVerification', 'publicRecruitDetails', 'teacherBriefing', 'attachments',
   'primaryOfficialUrl', 'companyNoticeUrl', 'sourceOfficialUrl', 'officialUrl',
+  'employerNotice', 'referenceNoticeUrl',
   'attachmentLines', 'supplementarySourceUrls', 'qualificationText', 'qualificationEvidenceIncomplete', 'qualificationAttachments', 'reviewedAttachment', 'studentConditions'
 ]);
 
@@ -6346,8 +6344,7 @@ export function moefRecordToRaw(record, source = catalogSource('moef-public-recr
   return { ...raw, sourceId: String(record.recrutPblntSn),
     sourceDetailUrl: `https://job.alio.go.kr/recruitview.do?idx=${encodeURIComponent(record.recrutPblntSn)}`,
     originalUrl: `https://job.alio.go.kr/recruitview.do?idx=${encodeURIComponent(record.recrutPblntSn)}`,
-    companyNoticeUrl: institutionUrl && !isHomepageUrl(institutionUrl) ? institutionUrl
-      : `https://job.alio.go.kr/recruitview.do?idx=${encodeURIComponent(record.recrutPblntSn)}`,
+    companyNoticeUrl: institutionUrl,
     region: record.workRgnNmLst || '', education: record.acbgCondNmLst || '',
     career: record.recrutSeNm || '', employmentType: record.hireTypeNmLst || '',
     qualification: htmlText(record.aplyQlfcCn || ''),
@@ -8209,6 +8206,7 @@ async function main() {
     return;
   }
 
+  payload.employerNoticeResolution = await enrichEmployerNotices([...items, ...supplementalItems, ...archiveItems]);
   const protectedArtifacts = buildProtectedJobArtifacts(payload);
   await writeJsonAtomic(JOB_DETAIL_VAULT_FILE, protectedArtifacts.vault);
   await writeJsonAtomic(OUT_FILE, protectedArtifacts.publicPayload);

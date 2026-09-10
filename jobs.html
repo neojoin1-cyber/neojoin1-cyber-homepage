@@ -105,7 +105,8 @@
 
   <footer class="lean-footer"><div class="wrap lean-footer-grid"><div><strong>설탕과소금</strong><div>특성화고 교육지원센터 · 채용정보</div></div><div class="footer-links"><a href="vocational.html?v=20260802-navfix1">교육지원센터 홈</a><a href="forms.html">서식창고</a><a href="guides.html">업무지침</a><a href="counseling-room.html">상담실</a><a href="boards.html?v=20260802-navfix1">소식·문의</a></div></div></footer>
 
-  <script>
+  <script type="module">
+    import { employerNoticeUrl, referenceNoticeUrl } from './assets/job-official-links.mjs';
     const summaryEl = document.getElementById("feed-summary");
     const listEl = document.getElementById("feed-list");
     const headingEl = document.getElementById("feed-heading");
@@ -300,21 +301,7 @@
     }
 
     function bestOfficialUrl(item) {
-      if (item.reviewedAttachment && item.source === 'job-alio-openapi') {
-        const notice = item.sourceDetailUrl || item.sourceVerification?.sourceOfficialUrl;
-        if (/^https:\/\/job\.alio\.go\.kr\/recruitview\.do\?idx=\d+$/.test(notice || '')) return notice;
-      }
-      const pageCandidates = [
-        item.companyNoticeUrl,
-        item.sourceDetailUrl,
-        item.originalUrl,
-        item.sourceOfficialUrl,
-        item.primaryOfficialUrl,
-        item.officialUrl,
-        item.url
-      ].filter((url) => isHttpUrl(url) && !isLikelyFileUrl(url));
-      if (pageCandidates.length) return pageCandidates[0];
-      return [item.originalUrl, item.sourceDetailUrl, item.sourceOfficialUrl, item.companyNoticeUrl].find(isHttpUrl) || "";
+      return employerNoticeUrl(item);
     }
 
     function itemKey(item, index) {
@@ -470,6 +457,7 @@
       const metaEl = document.getElementById("job-detail-meta");
       const bodyEl = document.getElementById("job-detail-body");
       const officialUrl = bestOfficialUrl(item);
+      const referenceUrl = referenceNoticeUrl(item);
       titleEl.textContent = item.title || "채용공고명 확인 필요";
       metaEl.textContent = [
         item.sourceName || "공식 원문",
@@ -480,7 +468,8 @@
       ].filter(Boolean).join(" · ");
       bodyEl.innerHTML = `
         <div class="job-detail-actions">
-          ${officialUrl ? `<a class="job-official-link" href="${escapeHtml(officialUrl)}" target="_blank" rel="noopener noreferrer">공식 공고 원문 열기</a>` : `<span class="job-file-missing">공식 공고 URL 자동 탐색 대기</span>`}
+          ${officialUrl ? `<a class="job-official-link" href="${escapeHtml(officialUrl)}" target="_blank" rel="noopener noreferrer">공식 공고 원문 열기</a>` : `<span class="job-file-missing">채용기관의 해당 공고 상세 주소 확인 중</span>`}
+          ${referenceUrl && referenceUrl !== officialUrl ? `<a class="btn" href="${escapeHtml(referenceUrl)}" target="_blank" rel="noopener noreferrer">참조한 채용정보 보기</a>` : ""}
         </div>
         ${renderDetailSections(item)}
         <div class="job-detail-actions bottom">

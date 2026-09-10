@@ -4,6 +4,7 @@ import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { assessStudentEligibility } from './student_job_eligibility.mjs';
+import { employerNoticeUrl, isEmployerDetailUrl } from '../assets/job-official-links.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(__dirname, '..');
@@ -710,7 +711,11 @@ async function validateCoreContentPages() {
   fail('core.jobs-role-priority-ui', jobs.includes('studentPriority?.tier') && jobs.includes('special-student-recruit') && jobs.includes('military-restricted') && jobs.includes('학생 지원 가능 직렬') && jobs.includes('직렬별 자격 판정') && jobs.includes('학생 채널 제외'), '채용정보 화면이 졸업예정자 특별추천과 병역 제한을 구분하고 직렬별 학생 지원 가능 여부를 표시합니다.');
   fail('core.jobs-daily-work-ui', jobs.includes('isDailyWorkerRecruit') && jobs.includes('priority-label') && jobs.includes('daily-work') && css.includes('.label.daily-work') && css.includes('.feed-meta .label.priority-label'), '핵심 추천 배지를 반응형으로 강조하고 일용직 공고를 목록과 요약에서 분명하게 표시합니다.');
   fail('core.jobs-supplemental-search', jobs.includes('feed.supplementalItems') && jobs.includes('기본 추천 목록과 검색 전용 보조 목록을 함께 검색'), '기본 화면에서 덜 중요한 공고를 줄이되 검색하면 보조 목록까지 빠짐없이 찾습니다.');
-  fail('core.jobs-official-page-link', jobs.includes('function isLikelyFileUrl') && jobs.includes('pageCandidates') && jobs.includes('!isLikelyFileUrl(url)'), '채용정보 공식 공고 버튼은 첨부파일 다운로드가 아니라 공고 상세 페이지를 우선 연결합니다.');
+  fail('core.jobs-official-page-link', jobs.includes("import { employerNoticeUrl, referenceNoticeUrl }")
+    && jobs.includes('return employerNoticeUrl(item);') && jobs.includes('참조한 채용정보 보기')
+    && !employerNoticeUrl({ reviewedAttachment: {}, companyNoticeUrl: 'https://job.alio.go.kr/recruitview.do?idx=1' })
+    && !isEmployerDetailUrl('https://www.busanpa.com/board/list.bpa?boardId=BBS_0000046'),
+  '공식 원문 버튼은 검증된 기관 상세 공고만 열고 잡알리오·목록·홈 주소는 참조 링크로 구분합니다.');
   fail('core.resources-compatibility-route', resources.includes("location.hash === '#counseling'") && resources.includes("location.hash === '#guides'") && resources.includes("'counseling-room.html'") && resources.includes("'guides.html'") && resources.includes("'forms.html'"), '기존 자료실 주소가 서식창고·업무지침·상담실의 독립 화면으로 안전하게 이동합니다.');
   fail('core.forms-dedicated-page', forms.includes('forms-vault-hero-v1.png') && forms.includes('data-form-topic="operations"') && forms.includes('data-form-topic="employment"') && forms.includes('id="form-results"') && forms.includes('public-resource-form-vault-generated.js'), '서식창고가 전용 배경 이미지, 분야 버튼, 실제 서식 목록 영역을 갖춘 독립 화면으로 구성됩니다.');
   fail('core.forms-direct-category-list', formsLibrary.includes("entry.status === 'ready'") && formsLibrary.includes('renderTopic') && formsLibrary.includes('scrollIntoView') && formsLibrary.includes("categories: ['fieldTraining', 'staffLabor']") && formsLibrary.includes("categories: ['careerEmployment']"), '서식창고는 실제 제공 가능한 서식만 분야별로 분류하고 버튼 클릭 즉시 해당 목록을 표시합니다.');
@@ -733,6 +738,16 @@ async function validateDirectionDocs() {
 
 function validateFeed(feed, label = 'local') {
   const items = Array.isArray(feed.items) ? feed.items : [];
+  if (feed.employerNoticeResolution) {
+    const all = [...items, ...(feed.supplementalItems || []), ...(feed.archiveItems || [])];
+    fail(`${label}.feed.employer-notice-proof`, all.every((item) => item.employerNotice
+      && (item.employerNotice.status !== 'verified' || (employerNoticeUrl(item)
+        && item.employerNotice.titleMatched === true && item.employerNotice.dateMatched === true))),
+    '기관 원문으로 표시하는 모든 주소에 상세 공고·제목·모집 시기 대조 근거가 있습니다.');
+    fail(`${label}.feed.employer-notice-inventory`, feed.employerNoticeResolution.total === all.length
+      && feed.employerNoticeResolution.verified === all.filter((item) => item.employerNotice?.status === 'verified').length,
+    '기관 상세 공고 대조 건수와 실제 전체 공고 수가 일치합니다.');
+  }
   const sourceStatus = Array.isArray(feed.sourceStatus) ? feed.sourceStatus : [];
   const summary = feed.summary || {};
   const secretReadiness = feed.secretReadiness || {};

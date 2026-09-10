@@ -23,6 +23,9 @@ on:
       - "tools/job_collection_audit.test.mjs"
       - "tools/priority_job_discovery.mjs"
       - "tools/priority_job_discovery.test.mjs"
+      - "tools/employer_notice_resolver.mjs"
+      - "tools/employer_notice_resolver.test.mjs"
+      - "assets/job-official-links.mjs"
       - "tools/verify_platform_reliability.mjs"
       - "index.html"
       - "docs/JOB_FEED_AUTOMATION.md"
@@ -60,7 +63,7 @@ jobs:
         run: node -e "require('fs').appendFileSync(process.env.GITHUB_ENV, 'JOB_FEED_RUN_STARTED_AT=' + new Date().toISOString() + '\n')"
 
       - name: Verify source gate regressions
-        run: node --test tools/job_source_gate.test.mjs tools/job_collection_audit.test.mjs tools/priority_job_discovery.test.mjs
+        run: node --test tools/job_source_gate.test.mjs tools/job_collection_audit.test.mjs tools/priority_job_discovery.test.mjs tools/employer_notice_resolver.test.mjs
 
       - name: Official source preflight
         continue-on-error: true
@@ -140,7 +143,7 @@ jobs:
       - name: Commit updated feed
         run: |
           git fetch origin "${GITHUB_REF_NAME}"
-          if ! git diff --quiet HEAD FETCH_HEAD -- tools/fetch_vocational_jobs.mjs tools/student_job_eligibility.mjs tools/reviewed_job_evidence.mjs tools/extract_job_attachment.py tools/job_collection_audit.mjs tools/job_source_gate.mjs tools/priority_job_discovery.mjs; then
+          if ! git diff --quiet HEAD FETCH_HEAD -- tools/fetch_vocational_jobs.mjs tools/student_job_eligibility.mjs tools/reviewed_job_evidence.mjs tools/extract_job_attachment.py tools/job_collection_audit.mjs tools/job_source_gate.mjs tools/priority_job_discovery.mjs tools/employer_notice_resolver.mjs assets/job-official-links.mjs; then
             echo "::warning::Collector rules changed during this run. Do not publish results from the older engine."
             exit 0
           fi
@@ -165,7 +168,7 @@ jobs:
             fi
             echo "::warning::Job feed push was rejected, likely because another feed run published first. Rebasing and retrying (${attempt}/3)."
             git fetch origin "${GITHUB_REF_NAME}"
-            if ! git diff --quiet HEAD FETCH_HEAD -- tools/fetch_vocational_jobs.mjs tools/student_job_eligibility.mjs tools/reviewed_job_evidence.mjs tools/extract_job_attachment.py tools/job_collection_audit.mjs tools/job_source_gate.mjs tools/priority_job_discovery.mjs; then
+            if ! git diff --quiet HEAD FETCH_HEAD -- tools/fetch_vocational_jobs.mjs tools/student_job_eligibility.mjs tools/reviewed_job_evidence.mjs tools/extract_job_attachment.py tools/job_collection_audit.mjs tools/job_source_gate.mjs tools/priority_job_discovery.mjs tools/employer_notice_resolver.mjs assets/job-official-links.mjs; then
               echo "::warning::Newer collector rules exist. Discard this obsolete publication attempt."
               exit 0
             fi
@@ -182,7 +185,7 @@ jobs:
         if: failure()
         run: |
           git fetch origin "${GITHUB_REF_NAME}"
-          if ! git diff --quiet HEAD FETCH_HEAD -- tools/fetch_vocational_jobs.mjs tools/student_job_eligibility.mjs tools/reviewed_job_evidence.mjs tools/extract_job_attachment.py tools/job_collection_audit.mjs tools/job_source_gate.mjs tools/priority_job_discovery.mjs; then
+          if ! git diff --quiet HEAD FETCH_HEAD -- tools/fetch_vocational_jobs.mjs tools/student_job_eligibility.mjs tools/reviewed_job_evidence.mjs tools/extract_job_attachment.py tools/job_collection_audit.mjs tools/job_source_gate.mjs tools/priority_job_discovery.mjs tools/employer_notice_resolver.mjs assets/job-official-links.mjs; then
             echo "::warning::Obsolete run: preserve the newer engine's health diagnostics."
             exit 0
           fi
@@ -201,7 +204,7 @@ jobs:
             fi
             echo "::warning::Diagnostics push was rejected, likely because another run published first. Rebasing and retrying (${attempt}/3)."
             git fetch origin "${GITHUB_REF_NAME}"
-            if ! git diff --quiet HEAD FETCH_HEAD -- tools/fetch_vocational_jobs.mjs tools/student_job_eligibility.mjs tools/reviewed_job_evidence.mjs tools/extract_job_attachment.py tools/job_collection_audit.mjs tools/job_source_gate.mjs tools/priority_job_discovery.mjs; then
+            if ! git diff --quiet HEAD FETCH_HEAD -- tools/fetch_vocational_jobs.mjs tools/student_job_eligibility.mjs tools/reviewed_job_evidence.mjs tools/extract_job_attachment.py tools/job_collection_audit.mjs tools/job_source_gate.mjs tools/priority_job_discovery.mjs tools/employer_notice_resolver.mjs assets/job-official-links.mjs; then
               echo "::warning::Do not replace health diagnostics from a newer collector."
               exit 0
             fi
