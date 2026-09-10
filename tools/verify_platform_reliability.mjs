@@ -5,6 +5,7 @@ import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { assessStudentEligibility } from './student_job_eligibility.mjs';
 import { employerNoticeUrl, isEmployerDetailUrl } from '../assets/job-official-links.mjs';
+import { assertAttachmentAudit } from './job_attachment_audit.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(__dirname, '..');
@@ -739,6 +740,12 @@ async function validateDirectionDocs() {
 function validateFeed(feed, label = 'local') {
   const items = Array.isArray(feed.items) ? feed.items : [];
   if (feed.employerNoticeResolution) {
+    if (feed.attachmentAudit) {
+      let valid = true;
+      try { assertAttachmentAudit([...(feed.items || []), ...(feed.supplementalItems || []), ...(feed.archiveItems || [])], feed.attachmentAudit); }
+      catch { valid = false; }
+      fail(`${label}.feed.attachment-reconciliation`, valid, '첨부 검증 상태와 전체 공고 수를 대조합니다.');
+    }
     const all = [...items, ...(feed.supplementalItems || []), ...(feed.archiveItems || [])];
     fail(`${label}.feed.employer-notice-proof`, all.every((item) => item.employerNotice
       && (item.employerNotice.status !== 'verified' || (employerNoticeUrl(item)

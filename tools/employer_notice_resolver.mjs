@@ -141,8 +141,10 @@ export function noticeAttachments(html, base) {
   for (const link of noticeLinks(content, base)) {
     if (!/\.(?:pdf|hwpx?|docx?|xlsx?|zip|pptx?|png|jpe?g)(?:\b|$)/i.test(link.title)) continue;
     if (!/(?:download|filedown|fileSn=|fileSid=|fileNo=|atchFile|\.pdf|\.hwp|\.zip|\.doc|\.xls|\.png|\.jpg)/i.test(link.url)) continue;
-    const title = link.title.replace(/\s*\([\d.,]+\s*(?:k|m|g)?b\)\s*$/i, '').trim();
-    if (!files.has(link.url)) files.set(link.url, { title, url: link.url, sourceNoticeUrl: base });
+    if (/\/preview\./i.test(new URL(link.url).pathname)) continue;
+    const title = link.title.replace(/\s*[([][\d.,]+\s*(?:k|m|g)?b[)\]]\s*$/i, '').trim();
+    const url = link.url.replace(/;jsessionid=[^?&#/]*/gi, '');
+    if (!files.has(url)) files.set(url, { title, url, sourceNoticeUrl: base });
   }
   return [...files.values()];
 }

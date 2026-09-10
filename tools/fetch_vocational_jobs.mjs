@@ -12,6 +12,7 @@ import { applyReviewedAttachment } from './reviewed_job_evidence.mjs';
 import { collectPages, buildCollectionAudit as reconcileCollection, assertCollectionAudit } from './job_collection_audit.mjs';
 import { discoverPriorityJobs, discoveredRecruiterEntries, reconcilePriorityDiscovery } from './priority_job_discovery.mjs';
 import { enrichEmployerNotices } from './employer_notice_resolver.mjs';
+import { auditJobAttachments } from './job_attachment_audit.mjs';
 import { isEmployerDetailUrl } from '../assets/job-official-links.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -5612,7 +5613,7 @@ const PUBLIC_JOB_ITEM_FIELDS = new Set([
   'staleSourceFallback', 'url', 'originalUrl', 'sourceDetailUrl', 'detailText', 'contactAdvice',
   'sourceVerification', 'regionalEducationVerification', 'publicRecruitDetails', 'teacherBriefing', 'attachments',
   'primaryOfficialUrl', 'companyNoticeUrl', 'sourceOfficialUrl', 'officialUrl',
-  'employerNotice', 'referenceNoticeUrl',
+  'employerNotice', 'referenceNoticeUrl', 'attachmentAudit',
   'attachmentLines', 'supplementarySourceUrls', 'qualificationText', 'qualificationEvidenceIncomplete', 'qualificationAttachments', 'reviewedAttachment', 'studentConditions'
 ]);
 
@@ -8043,6 +8044,8 @@ async function main() {
   const supplementalItems = publicationSafety.supplementalItems.map(normalizeLegacyProcessTrackCopy).map(removeLegacyAiBriefing);
   const archiveItems = publicationSafety.archiveItems.map(normalizeLegacyProcessTrackCopy).map(removeLegacyAiBriefing);
   const employerNoticeResolution = await enrichEmployerNotices([...items, ...supplementalItems, ...archiveItems]);
+  const attachmentAudit = await auditJobAttachments([...items, ...supplementalItems, ...archiveItems],
+    { previousItems: new Set(previousItems.values()) });
   const previousZipDetailsByUrl = buildPreviousZipDetailsByUrl(previousItems);
   const zipAttachmentSummary = await enhanceZipAttachmentsForItems([...items, ...supplementalItems, ...archiveItems], previousZipDetailsByUrl);
   const briefingAutomation = officialSourceBriefingStatus(items);
@@ -8209,6 +8212,7 @@ async function main() {
   }
 
   payload.employerNoticeResolution = employerNoticeResolution;
+  payload.attachmentAudit = attachmentAudit;
   payload.summary.companyNoticeChecked = items.filter((item) => item.employerNotice?.status === 'verified').length;
   const protectedArtifacts = buildProtectedJobArtifacts(payload);
   await writeJsonAtomic(JOB_DETAIL_VAULT_FILE, protectedArtifacts.vault);

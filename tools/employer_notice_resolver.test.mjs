@@ -3,6 +3,43 @@ import assert from 'node:assert/strict';
 import { isEmployerDetailUrl, employerNoticeUrl } from '../assets/job-official-links.mjs';
 import { noticeLinks, noticeAttachments, sameNoticeTitle, verifyNoticePage, createNoticeResolver, enrichEmployerNotices } from './employer_notice_resolver.mjs';
 import { collectJobAttachments, attachmentUrl } from '../assets/job-attachments.mjs';
+import { auditJobAttachments, assertAttachmentAudit } from './job_attachment_audit.mjs';
+
+test('recent verified downloads are reused and expired verification is checked again', async () => {
+  let calls = 0;
+  const file = { title: '공고.pdf', url: 'https://employer.example/file.pdf',
+    downloadCheck: { status: 'verified', checkedAt: '2026-09-10T00:00:00Z' } };
+  const rows = [{ attachments: [file] }];
+  await auditJobAttachments(rows, { now: () => '2026-09-10T01:00:00Z', probe: async () => { calls++; return { ok: true }; } });
+  assert.equal(calls, 0);
+  await auditJobAttachments(rows, { now: () => '2026-09-11T01:00:00Z', probe: async () => { calls++; return { ok: true }; } });
+  assert.equal(calls, 1);
+});
+
+test('reference attachments supplement employer links without replacing the notice URL', async () => {
+  const rows = [{ source: 'alio', sourceId: '1', deadline: '2026-09-30', attachments: [],
+    url: 'https://employer.example/post?idx=1', referenceNoticeUrl: 'https://job.alio.go.kr/recruitview.do?idx=1' }];
+  const result = await auditJobAttachments(rows, { fetchPage: async (url) => ({ url,
+    html: '<a href="https://www.alio.go.kr/download/download.json?fileNo=1">공고문.hwp</a>' }),
+    probe: async () => ({ ok: true, httpStatus: 200 }) });
+  assert.equal(result.verified, 1);
+  assert.equal(rows[0].attachments.length, 1);
+  assert.equal(rows[0].url, 'https://employer.example/post?idx=1');
+});
+
+test('temporary failure preserves prior files only for the same posting and records a retry', async () => {
+  const previous = { source: 'alio', sourceId: '1', deadline: '2026-09-30', attachments: [
+    { title: '공고.pdf', url: 'https://employer.example/file.pdf', downloadCheck: { status: 'verified', checkedAt: '2026-09-10' } }] };
+  const rows = [{ ...previous, attachments: [] }, { ...previous, sourceId: '2', attachments: [] }];
+  const result = await auditJobAttachments(rows, { previousItems: [previous], now: () => '2026-09-12T00:00:00Z', fetchPage: async () => { throw Error('offline'); },
+    probe: async () => ({ ok: false }) });
+  assert.equal(rows[0].attachments.length, 1);
+  assert.equal(rows[1].attachments.length, 0);
+  assert.equal(result.retryRequired, 1);
+  assert.equal(result.missingReview, 1);
+  rows[1].attachmentAudit.status = 'verified';
+  assert.throws(() => assertAttachmentAudit(rows, result), /Unverified/);
+});
 
 const item = { company: '부산항만공사', title: '부산항만공사 정규직(신입) 채용 공고',
   publishedDate: '2026-09-02', deadline: '2026-09-17', sourceDetailUrl: 'https://job.alio.go.kr/recruitview.do?idx=304555' };
