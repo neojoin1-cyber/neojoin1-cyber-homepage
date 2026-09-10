@@ -4363,7 +4363,7 @@ function zipDetailsFromAttachment(attachment) {
   };
 }
 
-function buildPreviousZipDetailsByUrl(previousItems) {
+export function buildPreviousZipDetailsByUrl(previousItems) {
   const zipDetailsByUrl = new Map();
   const uniqueItems = new Set(previousItems instanceof Map ? previousItems.values() : Array.isArray(previousItems) ? previousItems : []);
   for (const item of uniqueItems) {
@@ -4434,7 +4434,7 @@ function enhanceAttachmentArrayWithZipEntries(attachments, zipDetailsByUrl) {
   });
 }
 
-async function enhanceZipAttachmentsForItems(items, cachedZipDetailsByUrl = new Map()) {
+export async function enhanceZipAttachmentsForItems(items, cachedZipDetailsByUrl = new Map()) {
   const zipTargets = new Map();
   for (const item of items) {
     const attachmentGroups = [
@@ -8042,6 +8042,7 @@ async function main() {
   const items = publicationSafety.items.map(normalizeLegacyProcessTrackCopy).map(removeLegacyAiBriefing);
   const supplementalItems = publicationSafety.supplementalItems.map(normalizeLegacyProcessTrackCopy).map(removeLegacyAiBriefing);
   const archiveItems = publicationSafety.archiveItems.map(normalizeLegacyProcessTrackCopy).map(removeLegacyAiBriefing);
+  const employerNoticeResolution = await enrichEmployerNotices([...items, ...supplementalItems, ...archiveItems]);
   const previousZipDetailsByUrl = buildPreviousZipDetailsByUrl(previousItems);
   const zipAttachmentSummary = await enhanceZipAttachmentsForItems([...items, ...supplementalItems, ...archiveItems], previousZipDetailsByUrl);
   const briefingAutomation = officialSourceBriefingStatus(items);
@@ -8207,7 +8208,7 @@ async function main() {
     return;
   }
 
-  payload.employerNoticeResolution = await enrichEmployerNotices([...items, ...supplementalItems, ...archiveItems]);
+  payload.employerNoticeResolution = employerNoticeResolution;
   payload.summary.companyNoticeChecked = items.filter((item) => item.employerNotice?.status === 'verified').length;
   const protectedArtifacts = buildProtectedJobArtifacts(payload);
   await writeJsonAtomic(JOB_DETAIL_VAULT_FILE, protectedArtifacts.vault);

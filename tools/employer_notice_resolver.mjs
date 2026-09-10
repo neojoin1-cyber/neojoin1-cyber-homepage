@@ -135,6 +135,18 @@ export function noticeLinks(html, base) {
   return links;
 }
 
+export function noticeAttachments(html, base) {
+  const content = html.replace(/<(?:header|footer|nav)\b[^>]*>[\s\S]*?<\/(?:header|footer|nav)>/gi, '');
+  const files = new Map();
+  for (const link of noticeLinks(content, base)) {
+    if (!/\.(?:pdf|hwpx?|docx?|xlsx?|zip|pptx?|png|jpe?g)(?:\b|$)/i.test(link.title)) continue;
+    if (!/(?:download|filedown|fileSn=|fileSid=|fileNo=|atchFile|\.pdf|\.hwp|\.zip|\.doc|\.xls|\.png|\.jpg)/i.test(link.url)) continue;
+    const title = link.title.replace(/\s*\([\d.,]+\s*(?:k|m|g)?b\)\s*$/i, '').trim();
+    if (!files.has(link.url)) files.set(link.url, { title, url: link.url, sourceNoticeUrl: base });
+  }
+  return [...files.values()];
+}
+
 export async function fetchNoticePage(url) {
   let current = url;
   let cookie = '';
@@ -202,6 +214,7 @@ export function createNoticeResolver({ fetchPage = fetchNoticePage, now = () => 
         const proof = verifyNoticePage(page.html, page.url, item, anchorTitle);
         attempted.push({ url: page.url, reason: proof.reason });
         if (proof.matched) return { status: 'verified', url: page.url, checkedAt: now(),
+          attachments: noticeAttachments(page.html, page.url),
           titleMatched: true, dateMatched: true, method: 'employer-detail-title-and-date', attempts: attempted };
         const links = noticeLinks(page.html, page.url);
         const designated = links.find((link) => link.url === reference && isReferenceUrl(link.url) && sameNoticeTitle(link.title, item));
@@ -261,6 +274,10 @@ export async function enrichEmployerNotices(items, options = {}) {
         ...(reference ? [`참조 공고: ${reference}`] : []), label];
       item.attachments = (item.attachments || []).filter((file) =>
         !(file.url === oldPrimary && file.title === '회사·기관 공식 공고문'));
+      const knownFiles = new Set(item.attachments.map((file) => file.url));
+      for (const file of proof.attachments || []) {
+        if (!knownFiles.has(file.url)) { item.attachments.push(file); knownFiles.add(file.url); }
+      }
       const brief = item.teacherBriefing;
       if (brief) {
         brief.officialUrl = proof.url;
@@ -268,6 +285,9 @@ export async function enrichEmployerNotices(items, options = {}) {
         brief.officialBasis = label;
         brief.attachmentLines = (brief.attachmentLines || []).filter((line) =>
           !(line.startsWith('회사·기관 공식 공고문:') && line.includes(oldPrimary)));
+        for (const file of proof.attachments || []) {
+          if (!brief.attachmentLines.some((line) => line.includes(file.url))) brief.attachmentLines.push(`${file.title}: ${file.url}`);
+        }
         if (brief.teacherShareText?.includes('[원문·첨부]')) {
           brief.teacherShareText = brief.teacherShareText.split('[원문·첨부]')[0]
             + '[원문·첨부]\n' + [...sourceLines, ...brief.attachmentLines].map((line) => `- ${line}`).join('\n');

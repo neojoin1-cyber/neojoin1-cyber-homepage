@@ -26,6 +26,7 @@ on:
       - "tools/employer_notice_resolver.mjs"
       - "tools/employer_notice_resolver.test.mjs"
       - "assets/job-official-links.mjs"
+      - "assets/job-attachments.mjs"
       - "tools/verify_platform_reliability.mjs"
       - "index.html"
       - "docs/JOB_FEED_AUTOMATION.md"

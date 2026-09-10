@@ -107,6 +107,7 @@
 
   <script type="module">
     import { employerNoticeUrl, referenceNoticeUrl } from './assets/job-official-links.mjs';
+    import { collectJobAttachments } from './assets/job-attachments.mjs';
     const summaryEl = document.getElementById("feed-summary");
     const listEl = document.getElementById("feed-list");
     const headingEl = document.getElementById("feed-heading");
@@ -319,53 +320,8 @@
       return verification.doubleCheckLabel || item.displayNote || (item.processTrack === "exam-formal" ? "공식 공고 확인" : "공식 소스 요약");
     }
 
-    function parseAttachmentLine(line) {
-      const value = String(line || "").trim();
-      const urlMatch = value.match(/https?:\/\/\S+/i);
-      if (!urlMatch) return { title: value, url: "" };
-      const url = urlMatch[0].replace(/[),.;]+$/, "");
-      const title = value.slice(0, urlMatch.index).replace(/[:：\s]+$/, "") || "공식 첨부자료";
-      return { title, url };
-    }
-
-    function attachmentTitle(file) {
-      if (typeof file === "string") return parseAttachmentLine(file).title;
-      return file?.title || file?.name || file?.fileName || file?.label || "공식 첨부자료";
-    }
-
-    function attachmentUrl(file) {
-      if (typeof file === "string") return parseAttachmentLine(file).url;
-      return file?.url || file?.href || file?.downloadUrl || file?.publicUrl || file?.localUrl || "";
-    }
-
-    function attachmentKind(title) {
-      const text = String(title || "");
-      if (/지원서|입사지원|응시원서|자기소개|이력서|동의서|서류|양식/.test(text)) return "서류양식";
-      if (/공고|모집|채용|요강/.test(text)) return "공고문";
-      if (/직무|NCS|기술서/.test(text)) return "직무자료";
-      return "첨부자료";
-    }
-
     function collectAttachments(item) {
-      const detailAttachments = Array.isArray(item.publicRecruitDetails?.attachments)
-        ? item.publicRecruitDetails.attachments
-        : [];
-      const raw = []
-        .concat(Array.isArray(item.attachments) ? item.attachments : [])
-        .concat(detailAttachments)
-        .concat(Array.isArray(item.attachmentLines) ? item.attachmentLines.map(parseAttachmentLine) : []);
-      const byTitle = new Map();
-      raw.forEach((file) => {
-        const title = attachmentTitle(file);
-        const url = attachmentUrl(file);
-        if (!title) return;
-        const key = title.replace(/^공고문:\s*/, "").trim();
-        const current = byTitle.get(key);
-        if (!current || (!current.url && url)) {
-          byTitle.set(key, { title, url, kind: attachmentKind(title) });
-        }
-      });
-      return Array.from(byTitle.values()).slice(0, 12);
+      return collectJobAttachments(item, location.href);
     }
 
     function renderAttachments(item) {
@@ -381,7 +337,7 @@
       return `
         <div class="job-attachment-grid">
           ${files.map((file) => file.url && isHttpUrl(file.url)
-            ? `<a class="job-file-link" href="${escapeHtml(file.url)}" target="_blank" rel="noopener noreferrer"><span>${escapeHtml(file.kind)}</span>${escapeHtml(file.title)}</a>`
+            ? `<a class="job-file-link" href="${escapeHtml(file.url)}" ${/\.pdf$/i.test(file.downloadName) ? "" : `download="${escapeHtml(file.downloadName)}"`} target="_blank" rel="noopener noreferrer"><span>${escapeHtml(file.kind)}${file.parent ? " · ZIP 내부 파일" : ""} · 열기/다운로드</span>${escapeHtml(file.title)}</a>`
             : `<div class="job-file-missing"><span>${escapeHtml(file.kind)}</span>${escapeHtml(file.title)}</div>`
           ).join("")}
         </div>

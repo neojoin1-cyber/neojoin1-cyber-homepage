@@ -2,12 +2,16 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { enrichEmployerNotices } from './employer_notice_resolver.mjs';
-import { buildProtectedJobArtifacts } from './fetch_vocational_jobs.mjs';
+import { buildProtectedJobArtifacts, buildPreviousZipDetailsByUrl, enhanceZipAttachmentsForItems } from './fetch_vocational_jobs.mjs';
 
 const directory = path.resolve(process.argv[2] || 'assets');
 const feed = JSON.parse(await fs.readFile(path.join(directory, 'job-feed.json'), 'utf8'));
 const items = ['items', 'supplementalItems', 'archiveItems'].flatMap((key) => feed[key] || []);
+const zipCache = buildPreviousZipDetailsByUrl(items);
 feed.employerNoticeResolution = await enrichEmployerNotices(items);
+const zipSummary = await enhanceZipAttachmentsForItems(items, zipCache);
+Object.assign(feed.summary, { zipAttachmentsScanned: zipSummary.scanned, zipAttachmentEntries: zipSummary.entryCount,
+  zipAttachmentScanFailures: zipSummary.failed, zipAttachmentCachedScans: zipSummary.cached });
 feed.employerNoticeResolution.checkedAt = new Date().toISOString();
 feed.summary.companyNoticeChecked = feed.items.filter((item) => item.employerNotice?.status === 'verified').length;
 const artifacts = buildProtectedJobArtifacts(feed);
