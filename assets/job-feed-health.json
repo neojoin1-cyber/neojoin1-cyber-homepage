@@ -1,10 +1,10 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-11T09:35:57.556Z",
+  "generatedAt": "2026-09-11T10:25:47.988Z",
   "feedGeneratedAt": "2026-09-11T09:35:57.556Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "degraded",
+  "status": "degraded-held",
   "coverage": {
     "exhaustive": false,
     "reconciliation": {
@@ -3069,5 +3069,29 @@
     "publicationSafety.blockedSamples가 있으면 해당 공식 원문에서 마감·자격·URL을 보강한다.",
     "publicationSafety.studentRecruitReviewSamples가 있으면 중요한 공채 후보가 제외·직접분류된 이유와 원문을 확인한다.",
     "sourceFailures의 isolatedFailure가 true인 수집원은 다음 예약 실행에서도 반복되는지 확인한다."
-  ]
+  ],
+  "publicationHold": {
+    "heldAt": "2026-09-11T10:25:48.127Z",
+    "previousFeedPreserved": true,
+    "reason": "Collection or publication verification failed; the last accepted public feed is retained.",
+    "attemptedFeedGeneratedAt": "2026-09-11T09:59:15.473Z",
+    "attemptedSummary": {
+      "total": 48,
+      "active": 25,
+      "deadlineSoon": 23,
+      "applicationClosed": 0,
+      "sourcesChecked": 15,
+      "sourcesConfigured": 6,
+      "sourcesFailed": 3,
+      "criticalCoverageMissing": 0,
+      "staleFallbackItems": 48,
+      "sourceFallbackProtected": 48,
+      "publicationBlocked": 0,
+      "publicationRepaired": 0,
+      "studentRecruitSafetyReview": 143,
+      "automatedBriefingReady": 48,
+      "automatedBriefingAttempted": 48,
+      "automatedBriefingFailed": 0
+    }
+  }
 }
