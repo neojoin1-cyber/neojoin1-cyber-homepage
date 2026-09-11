@@ -1,36 +1,36 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-11T05:39:57.118Z",
-  "feedGeneratedAt": "2026-09-11T04:31:33.950Z",
+  "generatedAt": "2026-09-11T09:35:57.556Z",
+  "feedGeneratedAt": "2026-09-11T09:35:57.556Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
-  "status": "degraded-held",
+  "status": "degraded",
   "coverage": {
     "exhaustive": false,
     "reconciliation": {
-      "discovered": 7675,
+      "discovered": 7749,
       "counts": {
-        "duplicate": 114,
-        "ineligible": 414,
-        "policy-excluded": 98,
+        "policy-excluded": 115,
+        "duplicate": 108,
+        "ineligible": 433,
         "published": 141,
-        "needs-review": 830,
-        "closed": 6074,
+        "needs-review": 883,
+        "closed": 6065,
         "detail-failed": 4
       },
       "unexplained": 0,
-      "highPriorityReview": 1,
-      "disappearedActive": 33,
+      "highPriorityReview": 3,
+      "disappearedActive": 53,
       "incompletePagination": 0
     },
     "priorityDiscovery": {
-      "discovered": 138,
-      "publishedMatches": 9,
+      "discovered": 139,
+      "publishedMatches": 8,
       "closed": 98,
-      "unresolved": 31,
-      "activeDatedUnresolved": 5,
+      "unresolved": 33,
+      "activeDatedUnresolved": 7,
       "unknownDeadlineUnresolved": 26,
-      "highSchoolUnresolved": 31,
+      "highSchoolUnresolved": 33,
       "sourceFailures": 1,
       "detailFailures": 0,
       "auditUrl": "assets/job-priority-coverage.json"
@@ -47,7 +47,7 @@
       },
       {
         "id": "regional-education-job",
-        "failedUrlCount": 3
+        "failedUrlCount": 2
       }
     ],
     "unconfiguredSources": [
@@ -88,13 +88,13 @@
         "name": "비영리·공익기관 채용"
       }
     ],
-    "qualificationPending": 881,
+    "qualificationPending": 934,
     "note": "연결된 공식 수집원 범위의 검증 결과입니다. 미연결 수집원·첨부 판독 보류·부분 실패가 있어 전국 공고 무누락을 보장하지 않습니다."
   },
   "summary": {
-    "total": 47,
-    "active": 27,
-    "deadlineSoon": 20,
+    "total": 48,
+    "active": 29,
+    "deadlineSoon": 19,
     "applicationClosed": 0,
     "sourcesChecked": 15,
     "sourcesConfigured": 6,
@@ -102,11 +102,11 @@
     "criticalCoverageMissing": 0,
     "staleFallbackItems": 0,
     "sourceFallbackProtected": 0,
-    "publicationBlocked": 2,
+    "publicationBlocked": 1,
     "publicationRepaired": 0,
     "studentRecruitSafetyReview": 144,
-    "automatedBriefingReady": 47,
-    "automatedBriefingAttempted": 47,
+    "automatedBriefingReady": 48,
+    "automatedBriefingAttempted": 48,
     "automatedBriefingFailed": 0
   },
   "sourceFailures": [],
@@ -114,31 +114,24 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-09-11T04:31:33.950Z",
-    "attempted": 47,
-    "succeeded": 47,
+    "generatedAt": "2026-09-11T09:35:57.556Z",
+    "attempted": 48,
+    "succeeded": 48,
     "failed": 0,
     "status": "ok"
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-09-11T04:31:33.950Z",
-    "blockedCount": 2,
+    "generatedAt": "2026-09-11T09:35:57.556Z",
+    "blockedCount": 1,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
     "studentRecruitReviewCount": 144,
     "blockedByReason": {
-      "student-hard-blocked": 2
+      "student-hard-blocked": 1
     },
     "repairedByReason": {},
     "blockedSamples": [
-      {
-        "list": "items",
-        "reason": "student-hard-blocked",
-        "source": "job-alio-openapi",
-        "company": "한국학중앙연구원",
-        "title": "한국학중앙연구원 행정직 채용 공고"
-      },
       {
         "list": "items",
         "reason": "student-hard-blocked",
@@ -211,27 +204,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304761"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "신용보증기금",
-        "title": "2026년도 하반기 신용보증기금 신입직원 채용",
-        "deadline": "2026-09-16",
-        "status": "deadline_soon",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304432"
       },
       {
         "list": "items",
@@ -446,6 +418,28 @@
         "reason": "게시차단:student-recommendation-classification-review",
         "signals": [
           "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "인턴·채용연계",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
+        "sector": "public-institution",
+        "company": "주택관리공단(주)",
+        "title": "채용형 인턴 채용공고(주택관리공단 제주지사)",
+        "deadline": "2026-09-18",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://www.kohom.or.kr/web/mainComm/HM005008005.do?mode=view&schCon=0&schStr=%EC%A0%9C%EC%A3%BC%EC%A7%80%EC%82%AC&page=1&rnm_idx=935"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
           "고졸·특성화고 명시",
           "인턴·채용연계",
           "공채 신호",
@@ -493,8 +487,8 @@
           "공채 신호",
           "신입·정규직 계열"
         ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "한국산림복지진흥원",
         "title": "2026년도 하반기 한국산림복지진흥원 공무직 채용 공고",
@@ -502,27 +496,6 @@
         "status": "active",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://fowi.or.kr/user/bbs/bbsView.do?bbsManageId=22&bbsId=9166"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-hard-blocked",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "고졸·특성화고 명시",
-          "필기·NCS 신호",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "한국학중앙연구원",
-        "title": "한국학중앙연구원 행정직 채용 공고",
-        "deadline": "2026-09-17",
-        "status": "active",
-        "processTrack": "exam-formal",
-        "primaryOfficialUrl": "https://www.aks.ac.kr/cop/bbs/selectBoardArticle.do?nttId=323395&bbsId=BBSMSTR_000000000082&menuNo=4010110000&sessionUniqId=USRCNFRM_00000000734"
       },
       {
         "list": "items",
@@ -724,8 +697,8 @@
           "공채 신호",
           "신입·정규직 계열"
         ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
+        "source": "job-alio-openapi",
+        "sourceName": "잡알리오 공공기관 채용",
         "sector": "public-institution",
         "company": "한국산림복지진흥원",
         "title": "2026년도 하반기 한국산림복지진흥원 정규직(5급, 6급) 채용 공고",
@@ -775,6 +748,27 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.redcross.or.kr/redrecruit/sharing.do?reNo=14597&seqNo=1"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 전문자격·면허 중심 · 분류:전문자격 분리 · 필기신호 직접분류 재검토",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "필기·NCS 신호",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "moef-public-recruit",
+        "sourceName": "기재부 공공기관 채용정보",
+        "sector": "public-institution",
+        "company": "국민연금공단",
+        "title": "국민연금공단 2026년 하반기 공무직 공개채용 공고",
+        "deadline": "2026-09-28",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304886"
       },
       {
         "list": "items",
@@ -895,25 +889,6 @@
         "status": "deadline_soon",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.bohun.or.kr/gwangju/na/ntt/selectNttInfo.do?mi=32890&bbsId=1158&bbsSysId=gwangju&nttSn=189167"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "신입·정규직 계열"
-        ],
-        "source": "job-alio-openapi",
-        "sourceName": "잡알리오 공공기관 채용",
-        "sector": "public-institution",
-        "company": "국립공원공단",
-        "title": "국립공원공단 [한려동부] 2026년 한려해상국립공원동부사무소 한시인력(국립공원지킴이) 직원 채용",
-        "deadline": "2026-09-16",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://www.knps.or.kr/front/portal/recruit/recruitDtl.do?menuNo=7070064&emplyId=EMPM019710"
       },
       {
         "list": "items",
@@ -1157,6 +1132,26 @@
         "primaryOfficialUrl": "https://www.comwel.or.kr/recruit/hp/main.do"
       },
       {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "moef-public-recruit",
+        "sourceName": "기재부 공공기관 채용정보",
+        "sector": "public-institution",
+        "company": "한국등산·트레킹지원센터",
+        "title": "2026년도 한국등산트레킹지원센터 기간제근로자(보훈 제한경쟁) 채용 공고",
+        "deadline": "2026-09-15",
+        "status": "deadline_soon",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://komount.or.kr/board/view.do?boardCode=B02&selectedId=2160&pageIndex=1"
+      },
+      {
         "list": "archiveItems",
         "reviewType": "중요 공채 후보 안전검토",
         "reason": "게시차단:student-recommendation-classification-review",
@@ -1239,26 +1234,6 @@
         "status": "application_closed",
         "processTrack": "exam-formal",
         "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304462"
-      },
-      {
-        "list": "supplementalItems",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
-        "company": "한국등산·트레킹지원센터",
-        "title": "2026년도 한국등산트레킹지원센터 기간제근로자(보훈 제한경쟁) 채용 공고",
-        "deadline": "2026-09-15",
-        "status": "deadline_soon",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://komount.or.kr/board/view.do?boardCode=B02&selectedId=2160&pageIndex=1"
       },
       {
         "list": "supplementalItems",
@@ -2316,6 +2291,26 @@
         "sourceName": "기재부 공공기관 채용정보",
         "sector": "public-institution",
         "company": "한국장애인개발원",
+        "title": "한국장애인개발원 [제2026-108호]2026년도 제5차 경상남도장애아동·발달장애인지원센터(장애아동지원팀) 체험형 청년인턴(장애인 제한경쟁)채용 공고",
+        "deadline": "2026-09-28",
+        "status": "active",
+        "processTrack": "exam-formal",
+        "primaryOfficialUrl": "https://job.alio.go.kr/recruitview.do?idx=304881"
+      },
+      {
+        "list": "supplementalItems",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "고졸·특성화고 명시",
+          "인턴·채용연계",
+          "공채 신호"
+        ],
+        "source": "moef-public-recruit",
+        "sourceName": "기재부 공공기관 채용정보",
+        "sector": "public-institution",
+        "company": "한국장애인개발원",
         "title": "한국장애인개발원 [제2026-103호] 2026년도 제5차 서울시장애아동·발달장애인지원센터(장애아동지원팀) 체험형 청년인턴(장애인 제한경쟁) 채용 공고",
         "deadline": "2026-09-28",
         "status": "active",
@@ -3074,29 +3069,5 @@
     "publicationSafety.blockedSamples가 있으면 해당 공식 원문에서 마감·자격·URL을 보강한다.",
     "publicationSafety.studentRecruitReviewSamples가 있으면 중요한 공채 후보가 제외·직접분류된 이유와 원문을 확인한다.",
     "sourceFailures의 isolatedFailure가 true인 수집원은 다음 예약 실행에서도 반복되는지 확인한다."
-  ],
-  "publicationHold": {
-    "heldAt": "2026-09-11T05:39:57.261Z",
-    "previousFeedPreserved": true,
-    "reason": "Collection or publication verification failed; the last accepted public feed is retained.",
-    "attemptedFeedGeneratedAt": "2026-09-11T05:08:31.525Z",
-    "attemptedSummary": {
-      "total": 47,
-      "active": 23,
-      "deadlineSoon": 24,
-      "applicationClosed": 0,
-      "sourcesChecked": 15,
-      "sourcesConfigured": 6,
-      "sourcesFailed": 3,
-      "criticalCoverageMissing": 0,
-      "staleFallbackItems": 47,
-      "sourceFallbackProtected": 47,
-      "publicationBlocked": 0,
-      "publicationRepaired": 0,
-      "studentRecruitSafetyReview": 142,
-      "automatedBriefingReady": 47,
-      "automatedBriefingAttempted": 47,
-      "automatedBriefingFailed": 0
-    }
-  }
+  ]
 }

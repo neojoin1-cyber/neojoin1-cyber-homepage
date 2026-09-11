@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-11T04:31:33.950Z",
+  "generatedAt": "2026-09-11T09:35:57.556Z",
   "scope": {
     "lookbackDays": 120,
     "maxPagesPerBoard": 12,
@@ -41,9 +41,9 @@
       "stopReason": "lookback-reached",
       "error": "",
       "ok": true,
-      "listed": 9,
-      "candidates": 7,
-      "detailsRead": 7,
+      "listed": 10,
+      "candidates": 8,
+      "detailsRead": 8,
       "detailsFailed": 0
     },
     {
@@ -92,7 +92,7 @@
       "detailStatus": "read",
       "outcome": "qualification-or-policy-review",
       "firstSeenAt": "2026-09-11T04:31:33.950Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": [
         {
           "id": "7575c987ce0d8ac645",
@@ -192,7 +192,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-11T04:31:33.950Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -213,7 +213,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-11T04:31:33.950Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -285,7 +285,7 @@
       "detailStatus": "read",
       "outcome": "qualification-or-policy-review",
       "firstSeenAt": "2026-09-10T05:29:36.101Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": [
         {
           "id": "fedebe6e3a38cbf15d",
@@ -460,14 +460,14 @@
       "detailStatus": "read",
       "outcome": "qualification-or-policy-review",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": [
         {
           "id": "de3cca184fa6deb7ff",
           "company": "한국산림복지진흥원",
           "title": "2026년도 하반기 한국산림복지진흥원 공무직 채용 공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=304615",
-          "published": true,
+          "published": false,
           "qualification": "eligible",
           "roles": [
             "공개경쟁채용"
@@ -478,7 +478,7 @@
           "company": "한국산림복지진흥원",
           "title": "2026년도 하반기 한국산림복지진흥원 정규직(5급, 6급) 채용 공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=304612",
-          "published": true,
+          "published": false,
           "qualification": "eligible",
           "roles": [
             "공개경쟁채용"
@@ -489,7 +489,7 @@
           "company": "한국산림복지진흥원",
           "title": "2026년도 하반기 한국산림복지진흥원 공무직 채용 공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=304615",
-          "published": false,
+          "published": true,
           "qualification": "eligible",
           "roles": [
             "공개경쟁채용"
@@ -500,7 +500,7 @@
           "company": "한국산림복지진흥원",
           "title": "2026년도 하반기 한국산림복지진흥원 정규직(5급, 6급) 채용 공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=304612",
-          "published": false,
+          "published": true,
           "qualification": "eligible",
           "roles": [
             "공개경쟁채용"
@@ -603,9 +603,9 @@
         "http://kodit.saramin.co.kr/"
       ],
       "detailStatus": "read",
-      "outcome": "published-match",
+      "outcome": "qualification-or-policy-review",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 0,
+      "unresolvedRuns": 1,
       "matches": [
         {
           "id": "2ce78b917c92b75ee9",
@@ -615,18 +615,6 @@
           "published": false,
           "qualification": "review",
           "roles": []
-        },
-        {
-          "id": "84b89306b745064e26",
-          "company": "신용보증기금",
-          "title": "2026년도 하반기 신용보증기금 신입직원 채용",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=304432",
-          "published": true,
-          "qualification": "eligible",
-          "roles": [
-            "고교 경영금융",
-            "고교 정보통신"
-          ]
         }
       ]
     },
@@ -2549,6 +2537,30 @@
     {
       "source": "gwangju-public",
       "sourceName": "광주교육청 공공기관·추천채용",
+      "url": "https://jpl.gen.go.kr/xboard/board.php?mode=view&number=3160&tbnum=1&sCat=0&page=1&keyset=&searchword=",
+      "title": "국민연금공단(학력무관, 고졸채용), NH농협은행(학력무..",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-09-11",
+      "start": "2026-09-04",
+      "deadline": "2026-09-18",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://nps.saramin.co.kr/",
+        "https://nhbank.incruit.com/",
+        "https://koagi.plusrecruit.co.kr/",
+        "https://shinhan.recruiter.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-11T09:35:57.556Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "gwangju-public",
+      "sourceName": "광주교육청 공공기관·추천채용",
       "url": "https://jpl.gen.go.kr/xboard/board.php?mode=view&number=3156&tbnum=1&sCat=0&page=1&keyset=&searchword=",
       "title": "[중앙취업지원센터] 2026년 이화다이아몬드공업 채용 안내 ..",
       "company": "",
@@ -2564,7 +2576,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -2628,7 +2640,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -2692,7 +2704,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -2713,7 +2725,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -2732,7 +2744,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -2772,7 +2784,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -2791,7 +2803,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -2812,7 +2824,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -2867,7 +2879,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -2888,7 +2900,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -2909,7 +2921,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -2930,7 +2942,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -2951,7 +2963,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -2972,7 +2984,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -2993,7 +3005,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -3035,7 +3047,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -3056,7 +3068,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -3138,7 +3150,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -3159,7 +3171,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -3180,7 +3192,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -3201,7 +3213,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -3222,7 +3234,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -3243,7 +3255,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -3264,7 +3276,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -3285,7 +3297,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -3306,19 +3318,19 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": [],
       "missingFromCurrentScan": true
     }
   ],
   "summary": {
-    "discovered": 138,
-    "publishedMatches": 9,
+    "discovered": 139,
+    "publishedMatches": 8,
     "closed": 98,
-    "unresolved": 31,
-    "activeDatedUnresolved": 5,
+    "unresolved": 33,
+    "activeDatedUnresolved": 7,
     "unknownDeadlineUnresolved": 26,
-    "highSchoolUnresolved": 31,
+    "highSchoolUnresolved": 33,
     "sourceFailures": 1,
     "detailFailures": 0
   }
