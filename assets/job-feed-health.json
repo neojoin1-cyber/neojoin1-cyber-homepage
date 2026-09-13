@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-13T11:15:55.538Z",
+  "generatedAt": "2026-09-13T18:04:49.801Z",
   "feedGeneratedAt": "2026-09-11T09:35:57.556Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
@@ -3071,10 +3071,10 @@
     "sourceFailures의 isolatedFailure가 true인 수집원은 다음 예약 실행에서도 반복되는지 확인한다."
   ],
   "publicationHold": {
-    "heldAt": "2026-09-13T11:15:55.654Z",
+    "heldAt": "2026-09-13T18:04:49.916Z",
     "previousFeedPreserved": true,
     "reason": "Collection or publication verification failed; the last accepted public feed is retained.",
-    "attemptedFeedGeneratedAt": "2026-09-13T10:35:25.411Z",
+    "attemptedFeedGeneratedAt": "2026-09-13T17:23:56.699Z",
     "attemptedSummary": {
       "total": 48,
       "active": 25,
@@ -3088,7 +3088,7 @@
       "sourceFallbackProtected": 48,
       "publicationBlocked": 0,
       "publicationRepaired": 0,
-      "studentRecruitSafetyReview": 141,
+      "studentRecruitSafetyReview": 140,
       "automatedBriefingReady": 48,
       "automatedBriefingAttempted": 48,
       "automatedBriefingFailed": 0
