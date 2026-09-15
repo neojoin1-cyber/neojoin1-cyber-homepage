@@ -1,0 +1,18 @@
+.vocational-renewal-page .vr-entry-trial { background: #106c60; border-color: #106c60; color: #fff; }
+.vocational-renewal-page .vr-entry-trial small { color: #e1f5ef; }
+.vocational-renewal-page .vr-entry-member { background: #fffdf7; border-color: #d2dcd8; }
+.vocational-renewal-page .vr-entry small { white-space: normal; font-size: 11px; line-height: 1.45; }
+.vocational-renewal-page .vr-entry-note { order: 4; margin: 4px 0 0; color: #526761; font-size: 12px; line-height: 1.5; }
+.learning-trial-page .jobgo-trial-status { flex-shrink: 0; margin: 0; padding: 11px 13px; border-left: 3px solid #b27928; background: #fff4df; color: #694914; font-size: 13px; line-height: 1.6; }
+.learning-trial-page .jobgo-trial-status strong { display: block; }
+.learning-trial-page .trial-school-access { padding: 14px; border: 1px solid #c7dcd5; border-radius: 13px; background: #f5faf7; color: #173d34; }
+.learning-trial-page .trial-school-access p { margin: 6px 0 10px; font-size: 13px; line-height: 1.6; }
+.learning-trial-page .trial-school-access > div { display: flex; flex-wrap: wrap; gap: 10px 16px; }
+.learning-trial-page .trial-school-access a { color: #126650; font-size: 13px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.learning-trial-page .trial-stage-heading a { flex-shrink: 0; }
+@media (max-width: 600px) {
+  .vocational-renewal-page .vr-entry { grid-template-columns: minmax(0, 1fr) 21px; padding: 10px; }
+  .vocational-renewal-page .vr-entry > span:first-child { display: none; }
+  .vocational-renewal-page .vr-entry strong { font-size: 15px; }
+  .learning-trial-page .trial-stage-heading { flex-wrap: wrap; }
+}
