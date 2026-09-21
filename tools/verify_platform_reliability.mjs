@@ -470,9 +470,12 @@ function highSchoolSuitabilityProblem(item) {
   return '';
 }
 
-function validateProjectScope() {
+async function validateProjectScope() {
   const normalized = ROOT_DIR.toLowerCase().replaceAll('\\', '/');
-  const isHomepageProject = normalized.endsWith('/neojoin1-cyber-homepage')
+  let origin = '';
+  try { origin = (await execFileAsync('git', ['remote', 'get-url', 'origin'], { cwd: ROOT_DIR })).stdout.trim(); } catch {}
+  const homepageRemote = /(?:github\.com[:/]neojoin1-cyber\/neojoin1-cyber-homepage)(?:\.git)?$/i.test(origin);
+  const isHomepageProject = homepageRemote || normalized.endsWith('/neojoin1-cyber-homepage')
     || normalized.endsWith('/_audit_neojoin1-cyber-homepage')
     || normalized.endsWith('/neojoin-job-feed-publish')
     || normalized.endsWith('/meister-platform/portal')
@@ -556,6 +559,8 @@ async function validateWorkflow() {
   fail('workflow.no-cancel-in-progress', workflow.includes('cancel-in-progress: false'), '진행 중인 자동 수집을 새 실행이 취소하지 않고 순차 처리합니다.');
   fail('workflow.manual-dispatch', workflow.includes('workflow_dispatch'), '수동 재실행 트리거가 있습니다.');
   fail('workflow.syntax-gate', workflow.includes('node --check tools/fetch_vocational_jobs.mjs'), '수집 전 문법 검사를 실행합니다.');
+  fail('workflow.school-scan-syntax-gate', workflow.includes('node --check tools/job_alio_highschool_scan.mjs'), '고졸 공고 독립 검색기의 문법을 수집 시작 전에 검사합니다.');
+  fail('workflow.school-scan-drift-guard', workflow.includes('tools/job_alio_highschool_scan.mjs'), '고졸 공고 독립 수집기 변경도 자동수집 트리거와 운영 중 코드변경 대조에 포함됩니다.');
   fail('workflow.health-commit', workflow.includes('assets/job-feed-health.json') && workflow.includes('Commit automation health diagnostics'), '자동수집 건강 상태 파일을 정상·실패 경로 모두에서 게시할 수 있습니다.');
   fail('workflow.encrypted-detail-vault', workflow.includes('assets/job-detail-vault.json'), '자동수집이 암호화 채용 상세 저장소를 공개 피드와 함께 게시합니다.');
   for (const name of ['DATA_GO_KR_SERVICE_KEY', 'MPM_PUBLIC_JOB_SERVICE_KEY', 'MOEF_PUBLIC_RECRUIT_SERVICE_KEY', 'SARAMIN_ACCESS_KEY', 'JOB_ALIO_EXTRA_WATCH_ORGS', 'EDU_JOB_CENTER_FEEDS', 'FINANCE_RECRUIT_FEEDS', 'LARGE_COMPANY_RECRUIT_FEEDS']) {
@@ -565,6 +570,8 @@ async function validateWorkflow() {
 
 async function validateJobFetcherRules() {
   const fetcher = await readText('tools/fetch_vocational_jobs.mjs');
+  const audit = await readText('tools/job_collection_audit.mjs');
+  const jobs = await readText('jobs.html');
   const localRunner = await readText('tools/run_local_job_feed.ps1');
   const localTaskInstaller = await readText('tools/install_local_job_feed_task.ps1');
   const workflow = await readText('.github/workflows/job-feed.yml');
@@ -588,6 +595,9 @@ async function validateJobFetcherRules() {
   fail('fetcher.deadline-text-sanitizer', fetcher.includes('function safeDeadlineDisplayText') && fetcher.includes('function kstDateFromParts') && fetcher.includes('containsStructuredDatePattern'), '자동 수집 단계에서 불가능한 마감일 숫자를 원문 확인 문구로 정제합니다.');
   fail('fetcher.official-url-not-file-download', fetcher.includes('function isLikelyFileUrl') && fetcher.includes('function firstNonFileUrl') && fetcher.includes('function isLikelyNoticeDetailUrl') && fetcher.includes('primaryPageUrl'), '자동 수집 단계에서 공고문 파일 다운로드 URL을 공식 공고 버튼 URL로 승격하지 않고 기관 상세 공고 URL을 보존합니다.');
   fail('fetcher.job-alio-dynamic-current-scan', fetcher.includes('JOB_ALIO_RECENT_DETAIL_DAYS') && fetcher.includes('function selectJobAlioRowsForDetail') && fetcher.includes('function buildJobAlioDynamicDiscovery') && fetcher.includes('dynamic-current-job-alio-detail-scan'), '잡알리오 최근 등록 공고는 기관 화이트리스트나 제목 키워드와 무관하게 상세 원문을 열어 오늘 기준 후보 누락을 점검합니다.');
+  fail('fetcher.job-alio-highschool-education-filter', fetcher.includes('fetchJobAlioHighSchoolRows') && fetcher.includes('JOB_ALIO_HIGH_SCHOOL_EDUCATION_FILTER') && fetcher.includes('educationFilterScan') && fetcher.includes('institutionRestricted: false'), '잡알리오 공식 고졸 학력 필터를 단일·복수 유형과 전체 기관 대상으로 별도 검색하고 상세 자격을 확인합니다.');
+  fail('fetcher.job-alio-highschool-signal-preserved', fetcher.includes('educationFilterMatch: row.educationFilterMatch === true') && fetcher.includes('highSchoolEducationFilterMatch: raw.educationFilterMatch === true') && fetcher.includes("qualificationAssessment.status === 'eligible' && item.highSchoolEducationFilterMatch === true") && jobs.includes('item.highSchoolEducationFilterMatch === true'), '기관명과 무관한 공식 고졸 전형 검색 신호를 상세·정규화·학생 목록까지 전달하되 자격 확인을 통과한 공고만 우선 추천합니다.');
+  fail('fetcher.publication-review-keeps-feed-moving', fetcher.includes('누락방지 대기열') && jobs.includes('고졸·졸업예정 채용 누락방지 대기열') && audit.includes("x.disposition === 'publication-review'") && audit.includes('x.url ||'), '후보 하나의 게시 대조 실패로 전체 갱신을 멈추지 않고 원문 링크가 있는 누락방지 대기열에 보존합니다.');
   fail('fetcher.job-alio-paced-list-scan', fetcher.includes('const JOB_ALIO_LIST_FETCH_CONCURRENCY = 2') && fetcher.includes('function fetchJobAlioListTarget') && fetcher.includes('await sleep(250'), '잡알리오 목록은 호스팅 실행기의 순간 요청 폭주를 피하도록 저속 병렬로 수집합니다.');
   fail('fetcher.job-alio-mobile-list-fallback', fetcher.includes('function jobAlioMobileListUrl') && fetcher.includes('mobile fallback after'), '잡알리오 PC 목록 접속 실패 시 공식 모바일 목록으로 한 번 더 수집합니다.');
   fail('fetcher.isolated-audit-output', fetcher.includes('JOB_FEED_OUTPUT_DIR') && fetcher.includes('const OUTPUT_DIR'), '운영 피드를 덮어쓰지 않는 분리 출력 경로에서 수집기를 실운전 검증할 수 있습니다.');
@@ -712,7 +722,7 @@ async function validateCoreContentPages() {
   fail('core.jobs-sort-search', jobs.includes('data-sort-mode="new"') && jobs.includes('data-sort-mode="deadline"') && jobs.includes('job-search-input') && jobs.includes('job-search-button') && jobs.includes('isCorePublicRecruit') && jobs.includes('core-recruit'), '채용정보 페이지가 신규순·마감일자순·검색·핵심 공채 강조 UI를 제공합니다.');
   fail('core.jobs-role-priority-ui', jobs.includes('studentPriority?.tier') && jobs.includes('special-student-recruit') && jobs.includes('military-restricted') && jobs.includes('학생 지원 가능 직렬') && jobs.includes('직렬별 자격 판정') && jobs.includes('학생 채널 제외'), '채용정보 화면이 졸업예정자 특별추천과 병역 제한을 구분하고 직렬별 학생 지원 가능 여부를 표시합니다.');
   fail('core.jobs-daily-work-ui', jobs.includes('isDailyWorkerRecruit') && jobs.includes('priority-label') && jobs.includes('daily-work') && css.includes('.label.daily-work') && css.includes('.feed-meta .label.priority-label'), '핵심 추천 배지를 반응형으로 강조하고 일용직 공고를 목록과 요약에서 분명하게 표시합니다.');
-  fail('core.jobs-supplemental-search', jobs.includes('feed.supplementalItems') && jobs.includes('기본 추천 목록과 검색 전용 보조 목록을 함께 검색'), '기본 화면에서 덜 중요한 공고를 줄이되 검색하면 보조 목록까지 빠짐없이 찾습니다.');
+  fail('core.jobs-supplemental-search', jobs.includes('feed.supplementalItems') && jobs.includes('isExplicitHighSchoolRecruit') && jobs.includes('기본 추천 목록과 검색 전용 보조 목록을 함께 검색'), '기본 추천과 고졸·졸업예정 보조 공고를 첫 화면에 함께 보여주고, 나머지 보조 목록도 검색할 수 있습니다.');
   fail('core.jobs-official-page-link', jobs.includes("import { employerNoticeUrl, referenceNoticeUrl }")
     && jobs.includes('return employerNoticeUrl(item);') && jobs.includes('참조한 채용정보 보기')
     && !employerNoticeUrl({ reviewedAttachment: {}, companyNoticeUrl: 'https://job.alio.go.kr/recruitview.do?idx=1' })
@@ -1168,7 +1178,7 @@ async function validateExternalLinks(items) {
 }
 
 async function main() {
-  validateProjectScope();
+  await validateProjectScope();
   await validateStaticFiles();
   await validateSecretSafety();
   await validateWorkflow();

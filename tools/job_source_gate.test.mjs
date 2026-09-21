@@ -15,6 +15,17 @@ test('fully paginated independent official API can survive ALIO outage, not part
   api.pagination.complete = true; api.checkedAt = '2026-09-09T00:00:00Z';
   assert.equal(freshPrimarySource(value, started), false);
 });
+test('complete institution-agnostic high-school search can refresh when general ALIO lists are unreachable', () => {
+  const value = feed();
+  const source = value.sourceStatus[0];
+  source.scannedCount = 0; source.scanTargetCount = 0; source.ok = true;
+  source.educationFilterScan = { complete: true, discovered: 37, queries: [
+    { eduType: 'single', pages: 4, complete: true }, { eduType: 'multi', pages: 17, complete: true }
+  ] };
+  assert.equal(freshPrimarySource(value, started), true);
+  source.educationFilterScan.queries[1].complete = false;
+  assert.equal(freshPrimarySource(value, started), false);
+});
 test('collection audit must match this feed and this run, not an older successful artifact', () => {
   const audit = buildCollectionAudit({ discovered: [{ source: 'a', sourceId: '1', collectionDisposition: 'detail-failed' }],
     assessed: [], candidates: [], published: [], sources: [], generatedAt: started });

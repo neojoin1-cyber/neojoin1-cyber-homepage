@@ -142,10 +142,14 @@
         const counts = Object.entries(audit.summary.counts).map(([key, count]) => `${labels[key] || key} ${Number(count)}건`).join(' · ');
         const unconnected = audit.sources.filter((source) => !source.configured).length;
         const problems = audit.sources.filter((source) => source.configured && (!source.ok || source.failedUrlCount || source.discoveryIncompleteCount || source.pagination && !source.pagination.complete));
-        const priority = audit.records.filter((row) => row.priority === 'high' && row.unresolvedSince).slice(0, 8);
+        const priority = audit.records.filter((row) => row.priority === 'high' && row.unresolvedSince
+          && (!row.deadline || Date.parse(`${row.deadline}T23:59:59+09:00`) >= Date.now())).slice(0, 12);
         output.innerHTML = `<p><strong>발견 ${Number(audit.summary.discovered)}건 처리 대조</strong><br>${escapeHtml(counts)}</p>
           <p>미연결 수집원 ${unconnected}곳 · 부분 실패/미완료 ${problems.length}곳 · 이전 회차 대비 재확인 대상 ${Number(audit.summary.disappearedActive)}건<br>공식 목록에서 발견한 공고의 처리 내역입니다. 전국 모든 공고의 수집을 보장하는 수치는 아닙니다.</p>
-          ${priority.length ? `<p><strong>고졸 관련 우선 점검 대상 (추천 공고가 아닙니다)</strong></p><ul>${priority.map((row) => `<li>${escapeHtml(row.title)}: ${escapeHtml(labels[row.disposition] || row.disposition)}</li>`).join('')}</ul>` : ''}
+          ${priority.length ? `<p><strong>고졸·졸업예정 채용 누락방지 대기열</strong><br>아래 항목은 일반 추천과 별도입니다. 지원 자격·게시 상태를 확인할 수 있도록 원문 링크를 보존했습니다.</p><ul>${priority.map((row) => {
+            const sourceUrl = /^https?:\/\//i.test(row.url || '') ? row.url : '';
+            return `<li>${sourceUrl ? `<a href="${escapeHtml(sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(row.title)}</a>` : escapeHtml(row.title)} · ${escapeHtml(row.company || '')} · ${escapeHtml(labels[row.disposition] || row.disposition)}${row.deadline ? ` · 마감 ${escapeHtml(row.deadline)}` : ''}</li>`;
+          }).join('')}</ul>` : ''}
           ${audit.priorityDiscovery ? `<p><strong>고졸채용 독립 탐색 대조</strong><br>교육청·중앙 취업지원 공지 ${Number(audit.priorityDiscovery.discovered)}건 · 고졸 전형 게시 대조 ${Number(audit.priorityDiscovery.publishedMatches)}건 · 접수기간 내 재확인 ${Number(audit.priorityDiscovery.activeDatedUnresolved)}건 · 마감일 확인 대기 ${Number(audit.priorityDiscovery.unknownDeadlineUnresolved)}건<br><a href="assets/job-priority-coverage.json">독립 탐색 출처·미해결 공고 보기(JSON)</a></p>` : ''}
           <a href="assets/job-collection-audit.json">전체 점검 기록(JSON) 보기</a>`;
       } catch {
@@ -244,6 +248,14 @@
       return item.processTrack === "exam-formal"
         && (item.detailLevel === "detailed-public-recruit" || sourceSignal)
         && recruitSignal;
+    }
+
+    function isExplicitHighSchoolRecruit(item) {
+      return item.highSchoolEducationFilterMatch === true
+        || item.studentChannelAssessment?.qualificationAssessment?.explicitHighSchool === true
+        || /(고졸|고등학교|고교|특성화고|직업계고|마이스터고|졸업\s*예정|학교장\s*추천)/.test([
+          item.title, item.education, item.recruitField, item.publicRecruitDetails?.eligibility
+        ].filter(Boolean).join(' '));
     }
 
     function coreRecruitLabel(item) {
@@ -449,7 +461,8 @@
     }
 
     function renderSummary(feed) {
-      const main = (feed.items || []).filter((item) => !isClosedJob(item));
+      const main = [...(feed.items || []), ...(feed.supplementalItems || []).filter(isExplicitHighSchoolRecruit)]
+        .filter((item) => !isClosedJob(item));
       const archiveCount = new Set([...(feed.archiveItems || []), ...(feed.items || []), ...(feed.supplementalItems || [])]
         .filter(isClosedJob).map((item) => item.id)).size;
       summaryEl.innerHTML = `
@@ -475,7 +488,9 @@
         .filter(isClosedJob).map((item) => [item.id, item])).values()];
       const searchPool = currentViewMode === "archive"
         ? archiveItems
-        : (currentSearchTerm ? [...items, ...supplementalItems] : items).filter((item) => !isClosedJob(item));
+        : (currentSearchTerm ? [...items, ...supplementalItems]
+          : [...items, ...supplementalItems.filter(isExplicitHighSchoolRecruit)])
+          .filter((item) => !isClosedJob(item));
       const displayItems = visibleItems(searchPool);
       latestJobFeedItems = displayItems;
       const coreCount = displayItems.filter(isCorePublicRecruit).length;
@@ -492,7 +507,7 @@
           : `전체 채용공고 ${displayItems.length}건`;
         noteEl.textContent = currentSearchTerm
           ? `기본 추천 목록과 검색 전용 보조 목록을 함께 검색했습니다. 결과 ${displayItems.length}건입니다.`
-          : `추천 공채 ${coreCount}건을 먼저 보여드립니다. 제목을 누르면 요약, 공식 공고문, 제출서류 링크가 팝업으로 열립니다.`;
+          : `추천 공채와 고졸·졸업예정 전형 ${displayItems.filter(isExplicitHighSchoolRecruit).length}건을 함께 보여드립니다. 제목을 누르면 요약, 공식 공고문, 제출서류 링크가 팝업으로 열립니다.`;
       }
 
       if (!displayItems.length) {
@@ -516,6 +531,7 @@
         const detailKey = itemKey(item, index);
         const attachmentCount = collectAttachments(item).length;
         const coreRecruit = isCorePublicRecruit(item);
+        const explicitHighSchoolRecruit = isExplicitHighSchoolRecruit(item);
         const priorityLabel = item.studentPriority?.label || (coreRecruit ? coreRecruitLabel(item) : "");
         const specialRecommendation = item.studentPriority?.specialRecommendation === true;
         const militaryOpenRecommendation = item.studentPriority?.militaryOpenRecommendation === true;
@@ -527,6 +543,7 @@
           <article class="feed-item ${coreRecruit ? "core-recruit" : ""} ${specialRecommendation ? "special-student-recruit" : ""} ${militaryRestricted ? "military-restricted" : ""} ${dailyWork ? "daily-work-recruit" : ""}">
             <div class="feed-meta">
               ${priorityLabel ? `<span class="label priority-label ${specialRecommendation ? "special" : militaryOpenRecommendation ? "military-open" : militaryRestricted ? "military-limit" : "hot"}">${escapeHtml(priorityLabel)}</span>` : ""}
+              ${explicitHighSchoolRecruit ? `<span class="label teal">고졸·특성화고 전형</span>` : ""}
               ${dailyWork ? `<span class="label daily-work">일용직</span>` : ""}
               <span class="label teal">${status}</span>
               <span class="label gold">마감 ${deadline}</span>

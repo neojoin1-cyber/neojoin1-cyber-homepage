@@ -10,6 +10,7 @@ import { inflateRawSync } from 'node:zlib';
 import { assessStudentEligibility, qualificationEvidence } from './student_job_eligibility.mjs';
 import { applyReviewedAttachment } from './reviewed_job_evidence.mjs';
 import { collectPages, buildCollectionAudit as reconcileCollection, assertCollectionAudit } from './job_collection_audit.mjs';
+import { fetchJobAlioHighSchoolRows, JOB_ALIO_HIGH_SCHOOL_EDUCATION_FILTER, parseJobAlioRows } from './job_alio_highschool_scan.mjs';
 import { discoverPriorityJobs, discoveredRecruiterEntries, reconcilePriorityDiscovery } from './priority_job_discovery.mjs';
 import { enrichEmployerNotices } from './employer_notice_resolver.mjs';
 import { auditJobAttachments } from './job_attachment_audit.mjs';
@@ -150,27 +151,6 @@ const MPM_PUBLIC_JOB_ENDPOINT_CANDIDATES = [
 const MPM_PUBLIC_JOB_NOTICE_TYPES = ['e01', 'e02', 'e03', 'e04', 'e06', 'e07', 'e08'];
 const MPM_PUBLIC_JOB_INSTITUTION_TYPES = ['g01', 'g02', 'g03', 'g04', 'g05', 'g06', 'g07', 'g08'];
 const PUBLIC_DATA_PAGE_SIZE = 60;
-const JOB_ALIO_KEYWORD_QUERIES = [
-  { searchType: 'title', keyword: '고졸' },
-  { searchType: 'title', keyword: '특성화고' },
-  { searchType: 'title', keyword: '직업계고' },
-  { searchType: 'title', keyword: '마이스터고' },
-  { searchType: 'title', keyword: '졸업예정' },
-  { searchType: 'title', keyword: '학력무관' },
-  { searchType: 'title', keyword: '청년인턴' },
-  { searchType: 'title', keyword: '채용형 인턴' },
-  { searchType: 'title', keyword: '기능인재' },
-  { searchType: 'title', keyword: '지역인재' },
-  { searchType: 'elig', keyword: '고졸' },
-  { searchType: 'elig', keyword: '고등학교' },
-  { searchType: 'elig', keyword: '고교' },
-  { searchType: 'elig', keyword: '졸업예정' },
-  { searchType: 'elig', keyword: '특성화고' },
-  { searchType: 'elig', keyword: '직업계고' },
-  { searchType: 'elig', keyword: '학력무관' },
-  { searchType: 'elig', keyword: '기술직' },
-  { searchType: 'elig', keyword: '업무지원직' }
-];
 const CRITICAL_JOB_ALIO_ORGS = [
   { orgCode: 'C0247', orgName: '한국전력공사', aliases: ['한전', 'KEPCO'] },
   { orgCode: 'C0187', orgName: '한국방송통신전파진흥원', aliases: ['KCA'] },
@@ -4988,6 +4968,8 @@ function normalizeItem(raw) {
     source: raw.source,
     sourceName: raw.sourceName,
     sourceId: normalizeSpace(raw.sourceId),
+    highSchoolEducationFilterMatch: raw.educationFilterMatch === true,
+    discoveryScanReasons: compactTags(raw.scanReasons || []),
     title,
     baseTitle,
     company,
@@ -5161,7 +5143,8 @@ function studentRecruitPriority(item = {}) {
   const source = catalogSource(item.source);
   const formalSource = isFormalPublicRecruitSource(item.sector, source, text);
   const qualificationAssessment = item.studentChannelAssessment?.qualificationAssessment || assessStudentEligibility(item);
-  const explicitHighSchool = qualificationAssessment.explicitHighSchool === true;
+  const explicitHighSchool = qualificationAssessment.explicitHighSchool === true
+    || (qualificationAssessment.status === 'eligible' && item.highSchoolEducationFilterMatch === true);
   const educationOpen = /학력\s*무관/.test(headlineText);
   const careerLadder = hasCareerLadderEmploymentSignal(headlineText) || hasCareerLadderInternshipSignal(headlineText);
   const writtenSelection = hasWrittenExamSignal(text);
@@ -5268,8 +5251,30 @@ function validateStudentPriorityFixtures() {
       militaryNoLimit: false
     }
   });
-  if (graduateCandidate.tier !== -2 || militaryOpen.tier !== -1 || militaryRestricted.tier !== 8) {
-    throw new Error(`Student priority fixture failed: ${JSON.stringify({ graduateCandidate, militaryOpen, militaryRestricted })}`);
+  const educationFilterMatch = studentRecruitPriority({
+    ...base,
+    title: '2026년 신입직원 공개채용',
+    education: '지원자격 확인',
+    highSchoolEducationFilterMatch: true,
+    studentChannelAssessment: {
+      qualificationAssessment: { status: 'eligible', explicitHighSchool: false },
+      explicitHighSchoolGraduateCandidate: false,
+      militaryCompletionRequired: false,
+      militaryNoLimit: false
+    }
+  });
+  const unverifiedEducationFilterMatch = studentRecruitPriority({
+    ...base,
+    title: '2026년 신입직원 공개채용',
+    highSchoolEducationFilterMatch: true,
+    studentChannelAssessment: {
+      qualificationAssessment: { status: 'review', explicitHighSchool: false },
+      explicitHighSchoolGraduateCandidate: false
+    }
+  });
+  if (graduateCandidate.tier !== -2 || militaryOpen.tier !== -1 || militaryRestricted.tier !== 8
+    || educationFilterMatch.tier >= 7 || unverifiedEducationFilterMatch.tier !== 10) {
+    throw new Error(`Student priority fixture failed: ${JSON.stringify({ graduateCandidate, militaryOpen, militaryRestricted, educationFilterMatch, unverifiedEducationFilterMatch })}`);
   }
 }
 
@@ -6651,27 +6656,6 @@ async function fetchWork24OpenRecruit() {
   };
 }
 
-function parseJobAlioRows(html) {
-  const rows = Array.from(html.matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/gi), (match) => match[1]);
-  return rows
-    .map((row) => {
-      const link = row.match(/href=["']\/?recruitview\.do\?idx=(\d+)["'][^>]*\/?>([\s\S]*?)<\/a>/i);
-      if (!link) return null;
-      const cells = Array.from(row.matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/gi), (match) => htmlText(match[1]));
-      return {
-        idx: link[1],
-        title: htmlText(link[2]),
-        company: cells[3] || '',
-        region: cells[4] || '',
-        employmentType: cells[5] || '',
-        registeredAt: cells[6] || '',
-        deadline: cells[7] || '',
-        status: cells[8] || ''
-      };
-    })
-    .filter(Boolean);
-}
-
 function jobAlioListUrl(params = {}) {
   return buildUrl(JOB_ALIO_RECRUIT_URL, params).toString();
 }
@@ -6728,7 +6712,7 @@ function upsertJobAlioRow(rowsByIdx, row) {
   if (!existing) {
     rowsByIdx.set(row.idx, {
       ...row,
-      scanReasons: compactTags([row.scanReason]),
+      scanReasons: compactTags([...(row.scanReasons || []), row.scanReason]),
       priority: row.priority ?? 99
     });
     return;
@@ -6746,6 +6730,7 @@ function upsertJobAlioRow(rowsByIdx, row) {
     status: existing.status || row.status,
     scanReasons: compactTags([
       ...(existing.scanReasons || []),
+      ...(row.scanReasons || []),
       row.scanReason
     ]),
     priority: Math.min(existing.priority ?? 99, row.priority ?? 99)
@@ -6772,13 +6757,13 @@ function isJobAlioRecentDetailRow(row = {}) {
 }
 
 function compareJobAlioRowsForDetail(a = {}, b = {}) {
+  const priorityDiff = (a.priority ?? 99) - (b.priority ?? 99);
+  if (priorityDiff !== 0) return priorityDiff;
   const aAge = jobAlioRowAgeDays(a);
   const bAge = jobAlioRowAgeDays(b);
   const aRecent = aAge !== null && aAge >= 0 && aAge <= JOB_ALIO_RECENT_DETAIL_DAYS ? aAge : 999;
   const bRecent = bAge !== null && bAge >= 0 && bAge <= JOB_ALIO_RECENT_DETAIL_DAYS ? bAge : 999;
   if (aRecent !== bRecent) return aRecent - bRecent;
-  const priorityDiff = (a.priority ?? 99) - (b.priority ?? 99);
-  if (priorityDiff !== 0) return priorityDiff;
   const aDeadline = daysUntil(parseDate(a.deadline || ''));
   const bDeadline = daysUntil(parseDate(b.deadline || ''));
   const deadlineDiff = (aDeadline ?? 999) - (bDeadline ?? 999);
@@ -6974,6 +6959,8 @@ async function fetchJobAlioDetail(row) {
     source: 'job-alio-openapi',
     sourceName: '잡알리오 공공기관 채용',
     sourceId: row.idx,
+    educationFilterMatch: row.educationFilterMatch === true,
+    scanReasons: row.scanReasons || [],
     title: row.title,
     company: row.company,
     region,
@@ -7055,6 +7042,17 @@ async function fetchJobAlioRecruit() {
   const rowsByIdx = new Map();
   let scannedCount = 0;
   let scanTargetCount = 0;
+  const educationFilterScan = await fetchJobAlioHighSchoolRows();
+  for (const row of educationFilterScan.rows) {
+    upsertJobAlioRow(rowsByIdx, {
+      ...row,
+      scanReason: 'high-school-education-filter',
+      priority: 0
+    });
+  }
+  for (const issue of educationFilterScan.pagination.issues) {
+    errors.push(`high-school-filter:${issue.type}`);
+  }
 
   await mapWithConcurrency(makeJobAlioScanTargets(), JOB_ALIO_LIST_FETCH_CONCURRENCY, async (target, index) => {
     try {
@@ -7129,7 +7127,8 @@ async function fetchJobAlioRecruit() {
   const normalizedAll = rawItems.map(normalizeItem);
   const normalized = normalizedAll.filter(shouldKeep);
   const dynamicDiscovery = buildJobAlioDynamicDiscovery(normalizedAll, normalized, rowsByIdx, rows);
-  const ok = scanTargetCount > 0 && rawItems.length > 0;
+  const highSchoolFilterComplete = educationFilterScan.pagination.complete && educationFilterScan.rows.length > 0;
+  const ok = (scanTargetCount > 0 || highSchoolFilterComplete) && rawItems.length > 0;
   const companyChecked = normalized.filter((item) => [
     'company_notice_confirmed',
     'company_notice_reachable',
@@ -7149,14 +7148,16 @@ async function fetchJobAlioRecruit() {
       rawItemCount: rawItems.length,
       recentDetailRows: rowSelection.recentRows.length,
       failedUrlCount: errors.length,
-      collectionScope: `Latest ${JOB_ALIO_SCAN_PAGES} list pages plus critical watch records; MOEF ongoing inventory independently reconciled`,
+      discoveryIncompleteCount: educationFilterScan.pagination.issues.length,
+      educationFilterScan: educationFilterScan.pagination,
+      collectionScope: `모든 기관 공통 고졸 학력필터(single·multi, 최근 ${educationFilterScan.pagination.lookbackDays}일)와 최근 ${JOB_ALIO_SCAN_PAGES}개 목록 페이지 및 보조 감시; 기재부 공고 API 별도 대조`,
       selectedRecentDetailRows: rowSelection.selectedRecentCount,
       dynamicDiscovery,
       criticalCoverage,
       firstDayCandidates,
       missedReviewNeeded: missedReview,
       message: ok
-        ? `공식 공개 원문 ${scannedCount}건/${rowsByIdx.size}후보 점검, 목록 ${scanTargetCount}/${JOB_ALIO_SCAN_PAGES}페이지 확인, 최근 ${JOB_ALIO_RECENT_DETAIL_DAYS}일 상세 ${dynamicDiscovery.recentRowsDetailed}/${dynamicDiscovery.recentRowsScanned}건, 표시누락 ${dynamicDiscovery.missingCandidateCount}건, 공식 공고 확인 ${companyChecked}건${errors.length ? `, 부분 실패 ${errors.length}건` : ''}`
+        ? `공식 공개 원문 ${scannedCount}건과 고졸 학력필터 ${educationFilterScan.rows.length}건/${educationFilterScan.pagination.queries.reduce((sum, query) => sum + query.pages, 0)}페이지 확인, 최근 상세 ${dynamicDiscovery.recentRowsDetailed}/${dynamicDiscovery.recentRowsScanned}건, 표시누락 ${dynamicDiscovery.missingCandidateCount}건${errors.length ? `, 부분 실패 ${errors.length}건` : ''}`
         : `연결 실패: ${errors.slice(0, 2).join('; ')}`
     })
   };
@@ -8149,8 +8150,14 @@ async function main() {
       jobAlioRecentDetailDays: JOB_ALIO_RECENT_DETAIL_DAYS,
       jobAlioRecentDetailLimit: JOB_ALIO_RECENT_DETAIL_LIMIT,
       jobAlioDynamicDiscoveryRule: '최근 등록 잡알리오 공고는 기관 화이트리스트·제목 키워드와 무관하게 상세 원문을 열어 학력정보, 응시자격, 전형절차의 고졸·학력무관 신호를 판정한다.',
-      studentRecruitSafetyReviewRule: '좌측 추천에서 제외되거나 게시 직전 차단된 후보라도 공공·금융·대기업·필기/NCS·고졸·학력무관·정규직 신호가 있으면 publicationSafety.studentRecruitReviewSamples에 남겨 중요 공채 후보 누락을 점검한다.',
-      jobAlioKeywordQueries: JOB_ALIO_KEYWORD_QUERIES.map((query) => `${query.searchType}:${query.keyword}`),
+      studentRecruitSafetyReviewRule: '추천이나 게시 검증에서 빠진 고졸·졸업예정자 채용 후보는 기관명과 무관하게 공식 원문 링크가 있는 job-collection-audit.json 누락방지 대기열에 남기며, 이를 이유로 전체 피드 갱신을 중단하지 않는다.',
+      jobAlioHighSchoolEducationFilter: {
+        education: JOB_ALIO_HIGH_SCHOOL_EDUCATION_FILTER.education,
+        eduTypes: JOB_ALIO_HIGH_SCHOOL_EDUCATION_FILTER.eduTypes,
+        lookbackDays: JOB_ALIO_HIGH_SCHOOL_EDUCATION_FILTER.lookbackDays,
+        institutionRestricted: false,
+        selectionRule: 'official education filter; each row detail and applicant qualifications are independently verified before recommendation'
+      },
       jobAlioCriticalWatchInstitutions: jobAlioWatchOrgs.map((org) => org.orgName),
       jobAlioBaseWatchInstitutions: CRITICAL_JOB_ALIO_ORGS.map((org) => org.orgName),
       jobAlioExtraWatchInstitutions: extraJobAlioWatchOrgList.map((org) => org.orgName),

@@ -42,7 +42,25 @@ export async function collectPages({ fetchPage, recordKey, pageSize = 100, maxPa
 
 export const recordIdentity = (x) => `${x.source}:${x.sourceId || x.id}`;
 const duplicateKey = (x) => [x.baseTitle || x.title, x.company, x.deadline || ''].join('|').toLowerCase();
-const canonicalDate = (value) => String(value || '').replace(/^(\d{4})(\d{2})(\d{2})$/, '$1-$2-$3').slice(0, 10);
+export const canonicalDate = (value) => {
+  const text = String(value || '').trim();
+  const full = text.match(/(?:^|\D)(20\d{2})\D?(\d{1,2})\D?(\d{1,2})(?:\D|$)/);
+  const short = full ? null : text.match(/(?:^|\D)(\d{2})[.\-/년]\s*(\d{1,2})[.\-/월]\s*(\d{1,2})/);
+  const match = full || short;
+  if (!match) return '';
+  const year = full ? Number(match[1]) : 2000 + Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  return date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day
+    ? `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}` : '';
+};
+const highSchoolSignal = (row) => row.educationFilterMatch === true
+  || row.scanReasons?.some((reason) => String(reason).startsWith('education-high-school-'))
+  || row.studentChannelAssessment?.qualificationAssessment?.explicitHighSchool === true
+  || /(고졸|고등학교|고교|특성화고|직업계고|마이스터고|졸업\s*예정|학교장\s*추천)/.test([
+    row.title, row.education, row.recruitField, row.qualification, row.description
+  ].filter(Boolean).join(' '));
 
 export function buildCollectionAudit({ discovered, assessed, candidates, published, sources, publicationReasons = {}, previous = {}, generatedAt }) {
   const assessment = new Map(assessed.map((x) => [recordIdentity(x), x]));
@@ -83,7 +101,7 @@ export function buildCollectionAudit({ discovered, assessed, candidates, publish
       publishedId: match?.id || null, firstSeenAt: old?.firstSeenAt || generatedAt, checkedAt: generatedAt,
       unresolvedSince: unresolved ? old?.unresolvedSince || generatedAt : null,
       consecutiveUnresolved: unresolved ? (old?.consecutiveUnresolved || 0) + 1 : 0,
-      priority: /고졸|고등학교|특성화|마이스터|학교장|지역인재/.test(row.title || '') ? 'high' : 'normal' };
+      priority: highSchoolSignal(row) ? 'high' : 'normal' };
   });
   const counts = {};
   for (const row of records) counts[row.disposition] = (counts[row.disposition] || 0) + 1;
@@ -112,6 +130,9 @@ export function buildCollectionAudit({ discovered, assessed, candidates, publish
 export function assertCollectionAudit(audit) {
   if (!audit?.records?.length) throw new Error('Collection inventory is empty');
   if (new Set(audit.records.map((x) => x.key)).size !== audit.records.length) throw new Error('Duplicate audit identities');
-  if (audit.records.some((x) => !x.disposition || x.disposition === 'unexplained' || x.disposition === 'publication-review')) throw new Error('Unaccounted discovered notices');
+  if (audit.records.some((x) => !x.disposition || x.disposition === 'unexplained'
+    || (x.disposition === 'publication-review' && !/^https?:\/\//i.test(x.url || '')))) {
+    throw new Error('Unaccounted discovered notices');
+  }
   if (Object.values(audit.summary.counts).reduce((a, b) => a + b, 0) !== audit.records.length) throw new Error('Collection reconciliation mismatch');
 }

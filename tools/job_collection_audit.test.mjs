@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { collectPages, buildCollectionAudit, assertCollectionAudit } from './job_collection_audit.mjs';
-import { moefRecordToRaw, recruiterJobflexRecordToRaw, normalizeItem, mpmPageParams } from './fetch_vocational_jobs.mjs';
+import { collectPages, buildCollectionAudit, assertCollectionAudit, canonicalDate } from './job_collection_audit.mjs';
+import { fetchJobAlioHighSchoolRows, parseJobAlioRows } from './job_alio_highschool_scan.mjs';
+import { moefRecordToRaw, recruiterJobflexRecordToRaw, normalizeItem, mpmPageParams, studentRecruitPriority } from './fetch_vocational_jobs.mjs';
 import { assessStudentEligibility } from './student_job_eligibility.mjs';
 
 const pager = (pages, overrides = {}) => collectPages({ fetchPage: async (n) => pages[n - 1] || { records: [] },
@@ -44,7 +45,7 @@ test('invalid identities and changing totals cannot pass', async () => {
 });
 
 const item = (sourceId, status = 'eligible') => ({ source: 'test', sourceId, id: `id-${sourceId}`,
-  title: `Notice ${sourceId}`, company: 'Employer', deadline: '2026-12-01',
+  title: `Notice ${sourceId}`, company: 'Employer', deadline: '2026-12-01', url: 'https://example.com/notice',
   studentChannelAssessment: { qualificationAssessment: { status, reasons: [] } } });
 const audit = (options) => buildCollectionAudit({ discovered: [], assessed: [], candidates: [], published: [], sources: [],
   generatedAt: '2026-09-10T00:00:00.000Z', ...options });
@@ -66,10 +67,94 @@ test('cross-source duplicates are not silently lost', () => {
 test('publication loss is visible, not counted as qualification rejection', () => {
   const a = item('1');
   assert.equal(audit({ assessed: [a], candidates: [a] }).records[0].disposition, 'publication-review');
-  assert.throws(() => assertCollectionAudit(audit({ assessed: [a], candidates: [a] })), /Unaccounted/);
+  assertCollectionAudit(audit({ assessed: [a], candidates: [a] }));
+  const missingLink = { ...item('2'), url: '' };
+  assert.throws(() => assertCollectionAudit(audit({ assessed: [missingLink], candidates: [missingLink],
+    discovered: [missingLink] })), /Unaccounted/);
   const known = audit({ assessed: [a], candidates: [a], publicationReasons: { 'test:1': 'invalid-url' } });
   assertCollectionAudit(known);
   assert.ok(known.records[0].reasons.includes('invalid-url'));
+});
+test('high-school eligibility evidence marks an omitted notice for the visible review queue', () => {
+  const candidate = { ...item('hs'), title: '신입 채용', education: '고등학교 졸업예정자 지원 가능',
+    studentChannelAssessment: { qualificationAssessment: { status: 'eligible', explicitHighSchool: true, reasons: [] } } };
+  const result = audit({ assessed: [candidate], candidates: [candidate] });
+  assert.equal(result.records[0].priority, 'high');
+  assert.equal(result.summary.highPriorityReview, 1);
+});
+test('all-employer ALIO school-filter evidence survives normalization without bypassing qualification checks', () => {
+  const verified = normalizeItem({
+    source: 'job-alio-openapi', sourceName: '잡알리오 공공기관 채용', sourceId: 'hs-filter-1',
+    title: '2026년 신입직원 공개채용', company: '기관 A', education: '지원자격 확인', career: '신입',
+    employmentType: '정규직', url: 'https://job.alio.go.kr/recruitview.do?idx=101',
+    educationFilterMatch: true, scanReasons: ['education-high-school-single'],
+    qualification: '고등학교 졸업자 또는 졸업예정자 지원 가능. 경력 무관.'
+  });
+  assert.equal(verified.highSchoolEducationFilterMatch, true);
+  assert.deepEqual(verified.discoveryScanReasons, ['education-high-school-single']);
+  assert.ok(verified.studentPriority.tier < 7);
+
+  const review = normalizeItem({
+    source: 'job-alio-openapi', sourceName: '잡알리오 공공기관 채용', sourceId: 'hs-filter-2',
+    title: '2026년 신입직원 공개채용', company: '기관 B', education: '지원자격 확인', career: '신입',
+    employmentType: '정규직', url: 'https://job.alio.go.kr/recruitview.do?idx=102',
+    educationFilterMatch: true, qualificationEvidenceIncomplete: true
+  });
+  assert.equal(review.highSchoolEducationFilterMatch, true);
+  assert.equal(review.studentChannelAssessment.qualificationAssessment.status, 'review');
+  assert.equal(studentRecruitPriority({ ...review, status: 'active' }).tier, 10);
+});
+test('audit normalizes two-digit official list dates before active-posting checks', () => {
+  assert.equal(canonicalDate('26.09.29 D-7'), '2026-09-29');
+  assert.equal(canonicalDate('20260929'), '2026-09-29');
+  assert.equal(canonicalDate('2026-02-30'), '');
+});
+const alioRow = (idx, title, company) => `<tr><td>1</td><td>2026</td><td>${title}</td><td>${company}</td><td>전국</td><td>정규직</td><td>2026.09.10</td><td>2026.09.30</td><td>접수중</td><td><a href="/recruitview.do?idx=${idx}">${title}</a></td></tr>`;
+const alioResponse = (html, cookie = 'JSESSIONID=scan-session; Path=/') => ({ ok: true, status: 200, text: async () => html,
+  headers: { getSetCookie: () => [cookie], get: () => cookie } });
+test('ALIO high-school education filters scan every employer and both single/mixed education types', async () => {
+  const requests = [];
+  const pages = {
+    'single:1': alioRow('101', '고졸 신입사원 채용', '공기업 A'),
+    'single:2': '',
+    'multi:1': alioRow('101', '고졸 신입사원 채용', '공기업 A') + alioRow('202', '하반기 신입 공채', '금융기관 B'),
+    'multi:2': ''
+  };
+  const result = await fetchJobAlioHighSchoolRows({
+    now: new Date('2026-09-20T18:00:00.000Z'), pause: async () => {},
+    fetchImpl: async (url, init = {}) => {
+      requests.push({ url, init });
+      if (!init.method) return alioResponse('<input name="_csrf" value="test-token">');
+      const form = new URLSearchParams(init.body);
+      assert.equal(init.headers.Cookie, 'JSESSIONID=scan-session');
+      assert.equal(form.get('_csrf'), 'test-token');
+      assert.equal(form.get('education'), 'R7030');
+      assert.equal(['single', 'multi'].includes(form.get('eduType')), true);
+      assert.equal(form.has('org_type') || form.has('org_name'), false);
+      assert.equal(form.get('s_date'), '2026.06.23');
+      assert.equal(form.get('e_date'), '2026.09.21');
+      return alioResponse(`<table>${pages[`${form.get('eduType')}:${form.get('pageNo')}`] || ''}</table>`);
+    }
+  });
+  assert.equal(requests.length, 5);
+  assert.equal(result.pagination.complete, true);
+  assert.deepEqual(result.rows.map((row) => row.idx), ['101', '202']);
+  assert.deepEqual(result.rows[0].scanReasons, ['education-high-school-single', 'education-high-school-multi']);
+  assert.equal(result.rows[1].company, '금융기관 B');
+  assert.equal(parseJobAlioRows(alioRow('303', '제목', '기관'))[0].idx, '303');
+});
+test('ALIO filter pagination repetition is reported as incomplete rather than silent success', async () => {
+  const repeated = alioRow('101', '고졸 신입사원 채용', '공기업 A');
+  const result = await fetchJobAlioHighSchoolRows({
+    maxPagesPerType: 3, pause: async () => {},
+    fetchImpl: async (_url, init = {}) => {
+      if (!init.method) return alioResponse('<input name="_csrf" value="">');
+      const form = new URLSearchParams(init.body);
+      return alioResponse(`<table>${form.get('eduType') === 'single' ? repeated : ''}</table>`);
+    }
+  });
+  assert.equal(result.pagination.complete, false);
+  assert.ok(result.pagination.issues.some((issue) => issue.type === 'repeated-page' && issue.eduType === 'single'));
 });
 test('repeat unresolved and disappeared active records are retained for operators', () => {
   const a = item('1', 'review');

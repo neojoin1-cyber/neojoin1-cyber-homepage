@@ -17,11 +17,16 @@ export function freshPrimarySource(feed, startedAt) {
   if (!Number.isFinite(start) || !(Date.parse(feed?.generatedAt) >= start)) return false;
   const alioFresh = source?.ok === true && Date.parse(source.checkedAt) >= start
     && source.scannedCount > 0 && source.scanTargetCount > 0 && source.rawItemCount > 0;
+  const schoolScan = source?.educationFilterScan;
+  const educationFilterFresh = source?.ok === true && Date.parse(source.checkedAt) >= start
+    && schoolScan?.complete === true && schoolScan.discovered > 0
+    && schoolScan.queries?.length === 2 && schoolScan.queries.every(query => query.pages > 0 && query.complete)
+    && source.rawItemCount > 0;
   const api = feed?.sourceStatus?.find(item => item.id === 'moef-public-recruit');
   const apiFresh = api?.ok === true && Date.parse(api.checkedAt) >= start
     && api.pagination?.complete === true && api.rawItemCount > 0
     && api.rawItemCount >= api.pagination.expectedTotal;
-  return alioFresh || apiFresh;
+  return alioFresh || educationFilterFresh || apiFresh;
 }
 
 export async function preflight(fetcher = fetch, delay = ms => new Promise(resolve => setTimeout(resolve, ms))) {
