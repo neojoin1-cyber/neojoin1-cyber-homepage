@@ -4,10 +4,31 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { cacheJobAttachments, validateAttachment, downloadAttachment, assertCachedAttachments } from './job_attachment_cache.mjs';
-import { collectJobAttachments } from '../assets/job-attachments.mjs';
+import { collectJobAttachments, resolveAttachmentShareText } from '../assets/job-attachments.mjs';
 import http from 'node:http';
 
 const pdf = Buffer.from('%PDF-1.4\n1 0 obj\n<<>>\nendobj\n%%EOF\n');
+test('published IBK notice and recommendation resolve to complete local files, not ALIO', async (t) => {
+  const root = new URL('../', import.meta.url);
+  const feed = JSON.parse(await fs.readFile(new URL('assets/job-feed.json', root), 'utf8'));
+  const rows = [...feed.items, ...(feed.archiveItems || []), ...(feed.supplementalItems || [])];
+  const notice = rows.find((row) => row.id === 'b48e8555b3842239d0');
+  // A rolling feed may eventually retire this notice; keep the synthetic tests below as well.
+  if (!notice) { t.skip('Notice retired from rolling feed'); return; }
+  const links = collectJobAttachments(notice);
+  for (const pattern of [/IBK기업은행.*채용공고문\.pdf$/, /학교장 추천서\.hwp$/]) {
+    const matches = links.filter((file) => pattern.test(file.title));
+    assert.ok(matches.length, `Missing IBK document: ${pattern}`);
+    for (const file of matches) {
+      assert.equal(file.cached, true, `${file.title} must not send users to ALIO`);
+      assert.equal(new URL(file.url).origin, 'https://gyo6.kr');
+      const bytes = await fs.readFile(new URL(new URL(file.url).pathname.slice(1), root));
+      validateAttachment(bytes, file.title);
+      assert.ok(!resolveAttachmentShareText(notice).includes(file.originalUrl));
+    }
+  }
+});
+
 test('reject HTML errors, wrong extension and truncated full-file downloads', () => {
   assert.throws(() => validateAttachment(Buffer.from('<html>maintenance</html>'), '공고.pdf'));
   assert.throws(() => validateAttachment(Buffer.from('%PDF-1.4 truncated'), '공고.pdf'));
@@ -30,6 +51,8 @@ test('store full files even after successful probes; prefer cache and deduplicat
   assert.equal(links.length, 1);
   assert.match(links[0].url, /^https:\/\/gyo6.kr\/assets\/job-attachment-files\/originals\//);
   assert.equal(links[0].originalUrl, url);
+  rows[0].teacherBriefing.teacherShareText = `공고.pdf: ${url}\n원문: https://example.org/notice`;
+  assert.equal(resolveAttachmentShareText(rows[0]), `공고.pdf: ${links[0].url}\n원문: https://example.org/notice`);
   const duplicate = collectJobAttachments({ attachments: [...rows[0].attachments,
     { title: '공고.pdf', url: 'https://employer.example/other-download' }] });
   assert.equal(duplicate.length, 1);
@@ -44,6 +67,7 @@ test('store full files even after successful probes; prefer cache and deduplicat
   const failed = await cacheJobAttachments(rows, { directory, download: async () => { throw Error('offline'); } });
   assert.equal(failed.stored, 0);
   assert.equal(collectJobAttachments(rows[0])[0].url, url);
+  assert.equal(resolveAttachmentShareText(rows[0]), `공고.pdf: ${url}\n원문: https://example.org/notice`);
 });
 
 test('full downloader refuses partial responses and HTML, accepts binary 200', async (t) => {

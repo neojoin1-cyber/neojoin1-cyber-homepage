@@ -43,3 +43,12 @@ export function collectJobAttachments(item, base) {
   const storedTitles = new Set(result.filter((f) => f.cached).map((f) => f.title));
   return result.filter((f) => f.cached || !storedTitles.has(f.title)).sort((a, b) => Number(b.cached) - Number(a.cached));
 }
+
+export function resolveAttachmentShareText(item, base) {
+  const links = new Map(collectJobAttachments(item, base)
+    .filter((file) => file.cached && file.originalUrl)
+    .map((file) => [file.originalUrl, file.url]));
+  // Shared briefings must use the same working files as the download buttons.
+  return String(item.teacherBriefing?.teacherShareText || '')
+    .replace(/https?:\/\/\S+/g, (url) => links.get(url) || url);
+}

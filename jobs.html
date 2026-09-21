@@ -107,7 +107,7 @@
 
   <script type="module">
     import { employerNoticeUrl, referenceNoticeUrl } from './assets/job-official-links.mjs';
-    import { collectJobAttachments } from './assets/job-attachments.mjs';
+    import { collectJobAttachments, resolveAttachmentShareText } from './assets/job-attachments.mjs?v=20260921-cached-downloads';
     const summaryEl = document.getElementById("feed-summary");
     const listEl = document.getElementById("feed-list");
     const headingEl = document.getElementById("feed-heading");
@@ -398,7 +398,7 @@
             item.displayNote,
             item.collectionAudit?.note
           ].filter(Boolean), "공식 채용 소스 기준으로 자동 수집했습니다.")}</ul></section>
-          ${briefing.teacherShareText ? `<section class="job-detail-section wide"><h4>취업부 공유 문안</h4><pre class="job-briefing-share">${escapeHtml(briefing.teacherShareText)}</pre></section>` : ""}
+          ${briefing.teacherShareText ? `<section class="job-detail-section wide"><h4>취업부 공유 문안</h4><pre class="job-briefing-share">${escapeHtml(resolveAttachmentShareText(item, location.href))}</pre></section>` : ""}
         </div>
       `;
     }
