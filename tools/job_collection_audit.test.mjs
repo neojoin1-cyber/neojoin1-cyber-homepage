@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { collectPages, buildCollectionAudit, assertCollectionAudit, canonicalDate } from './job_collection_audit.mjs';
 import { fetchJobAlioHighSchoolRows, parseJobAlioRows } from './job_alio_highschool_scan.mjs';
-import { moefRecordToRaw, recruiterJobflexRecordToRaw, normalizeItem, mpmPageParams, studentRecruitPriority, buildJobAlioDynamicDiscovery } from './fetch_vocational_jobs.mjs';
+import { moefRecordToRaw, recruiterJobflexRecordToRaw, normalizeItem, mpmPageParams, studentRecruitPriority, buildJobAlioDynamicDiscovery, selectJobAlioEmployerNoticeCheckCandidates } from './fetch_vocational_jobs.mjs';
 import { assessStudentEligibility } from './student_job_eligibility.mjs';
 
 const pager = (pages, overrides = {}) => collectPages({ fetchPage: async (n) => pages[n - 1] || { records: [] },
@@ -110,6 +110,21 @@ test('unpublished recent ALIO candidates with official links are queued instead 
     new Map([[row.idx, row]]), [row]);
   assert.equal(noLink.reviewQueueCount, 0);
   assert.equal(noLink.unaccountedCandidateCount, 1);
+});
+test('ALIO employer-page reachability checks are limited to kept student-channel candidates', () => {
+  const candidate = {
+    source: 'job-alio-openapi', sourceName: '잡알리오 공공기관 채용', sourceId: 'eligible-check',
+    title: '2026년 신입직원 채용', company: '공기업 A', education: '고졸', career: '신입',
+    employmentType: '정규직', qualification: '고등학교 졸업자 또는 졸업예정자 지원 가능. 경력 무관.',
+    url: 'https://job.alio.go.kr/recruitview.do?idx=101',
+    companyNoticeUrl: 'https://agency.example/recruit/view/101', deadline: '2099-12-31'
+  };
+  const graduateOnly = {
+    ...candidate, sourceId: 'graduate-only', title: '석사 연구직 채용', education: '석사 이상',
+    qualification: '석사학위 소지자 필수.'
+  };
+  assert.deepEqual(selectJobAlioEmployerNoticeCheckCandidates([graduateOnly, candidate]), [candidate]);
+  assert.deepEqual(selectJobAlioEmployerNoticeCheckCandidates([candidate, { ...candidate, sourceId: 'second' }], 1), [candidate]);
 });
 test('all-employer ALIO school-filter evidence survives normalization without bypassing qualification checks', () => {
   const verified = normalizeItem({

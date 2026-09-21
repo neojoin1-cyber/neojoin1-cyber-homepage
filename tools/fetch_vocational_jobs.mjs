@@ -47,6 +47,8 @@ const JOB_ALIO_LIST_RETRY_TIMEOUTS_MS = [10000, 16000];
 const JOB_ALIO_CRITICAL_LIST_RETRY_TIMEOUTS_MS = [12000, 18000, 24000];
 const JOB_ALIO_DETAIL_TIMEOUT_MS = 12000;
 const JOB_ALIO_CRITICAL_DETAIL_RETRY_TIMEOUTS_MS = [15000, 22000];
+const JOB_ALIO_DETAIL_CONCURRENCY = 5;
+const JOB_ALIO_EMPLOYER_CHECK_LIMIT = 40;
 const PUBLIC_API_TIMEOUT_MS = 9000;
 const DETAIL_FETCH_CONCURRENCY = 3;
 const JOB_ALIO_LIST_FETCH_CONCURRENCY = 2;
@@ -5117,6 +5119,17 @@ function shouldKeep(item) {
     || hasEntryLevelSignal(item);
 }
 
+function selectJobAlioEmployerNoticeCheckCandidates(rawItems, limit = JOB_ALIO_EMPLOYER_CHECK_LIMIT) {
+  const candidates = [];
+  for (const raw of rawItems) {
+    if (!raw.companyNoticeUrl || raw.companyNoticeCheck) continue;
+    if (!shouldKeep(normalizeItem(raw))) continue;
+    candidates.push(raw);
+    if (candidates.length >= limit) break;
+  }
+  return candidates;
+}
+
 function shouldKeepRegionalEducationVerificationItem(item) {
   if (!item.title || !item.company || !item.url) return false;
   if (!isRegionalEducationDisplaySuppressed(item)) return false;
@@ -5593,11 +5606,17 @@ function sourceFailureResult(sourceId, error) {
 }
 
 async function runSource(sourceId, fetcher) {
+  const startedAt = Date.now();
+  console.log(`[job-feed] source start: ${sourceId}`);
   try {
     const result = await fetcher();
-    if (result?.status) return result;
+    if (result?.status) {
+      console.log(`[job-feed] source done: ${sourceId} ${Math.round((Date.now() - startedAt) / 1000)}s, ok=${Boolean(result.status.ok)}, items=${Number(result.status.itemCount || 0)}`);
+      return result;
+    }
     throw new Error('수집원이 status를 반환하지 않았습니다.');
   } catch (error) {
+    console.error(`[job-feed] source failed: ${sourceId} ${Math.round((Date.now() - startedAt) / 1000)}s`);
     return sourceFailureResult(sourceId, error);
   }
 }
@@ -6974,7 +6993,6 @@ async function fetchJobAlioDetail(row) {
   const deadline = String(row.deadline || '').match(/\d{2}\.\d{2}\.\d{2}|\d{4}\.\d{2}\.\d{2}/)?.[0] || period?.[2] || row.deadline;
   const publishedAt = row.registeredAt || period?.[1] || text.match(/등록일\s*(\d{4}\.\d{2}\.\d{2}|\d{2}\.\d{2}\.\d{2})/)?.[1] || '';
   const companyNoticeUrl = row.eligibilityAuditOnly ? '' : await resolveOfficialNoticeUrl(originalUrl ? cleanUrl(originalUrl[1]) : '', row.title, row.company);
-  const companyNoticeCheck = row.eligibilityAuditOnly ? null : await checkCompanyNoticeUrl(companyNoticeUrl, row.company, row.title);
   const attachments = extractJobAlioAttachments(html);
   const qualificationAttachments = row.eligibilityAuditOnly ? [] : await inspectQualificationAttachments(attachments, qualification);
 
@@ -7001,7 +7019,6 @@ async function fetchJobAlioDetail(row) {
     originalUrl: detailUrl,
     sourceDetailUrl: detailUrl,
     companyNoticeUrl,
-    companyNoticeCheck,
     attachments,
     processText,
     description: [
@@ -7130,17 +7147,29 @@ async function fetchJobAlioRecruit() {
     ...(selectedIds.has(String(row.idx)) ? {} : { collectionDisposition: 'deferred' })
   });
 
-  const details = await mapWithConcurrency(rows, DETAIL_FETCH_CONCURRENCY, async (row) => {
+  console.log(`[job-alio] details selected=${rows.length}, recent=${rowSelection.selectedRecentCount}, school-filter=${educationFilterScan.rows.length}`);
+  let detailCompleted = 0;
+  const details = await mapWithConcurrency(rows, JOB_ALIO_DETAIL_CONCURRENCY, async (row) => {
     try {
       return await fetchJobAlioDetail(row);
     } catch (error) {
       errors.push(`${row.idx}: ${sanitizeFetchErrorMessage(error.message)}`);
       COLLECTION_DISCOVERED.get(`job-alio-openapi:${row.idx}`).collectionDisposition = 'detail-failed';
       return null;
+    } finally {
+      detailCompleted += 1;
+      if (detailCompleted % 50 === 0 || detailCompleted === rows.length) {
+        console.log(`[job-alio] detail progress=${detailCompleted}/${rows.length}`);
+      }
     }
   });
   const detailItems = details.filter(Boolean);
   rawItems.push(...detailItems);
+  const employerCheckCandidates = selectJobAlioEmployerNoticeCheckCandidates(rawItems);
+  await mapWithConcurrency(employerCheckCandidates, JOB_ALIO_DETAIL_CONCURRENCY, async (item) => {
+    item.companyNoticeCheck = await checkCompanyNoticeUrl(item.companyNoticeUrl, item.company, item.title);
+  });
+  console.log(`[job-alio] employer notice checks=${employerCheckCandidates.length}/${rawItems.length}`);
   const keptDetailIds = new Set(rawItems.map(normalizeItem).filter(shouldKeep).map((item) => String(item.sourceId || '')));
   const criticalFallbackItems = activeCriticalJobAlioItems()
     .filter((critical) => !keptDetailIds.has(String(critical.idx || '')))
@@ -7999,7 +8028,7 @@ function buildCollectionReview(items, sourceStatusList, criticalCoverage = build
   };
 }
 
-export { normalizeItem, buildStudentChannelAssessment, studentRecruitPriority, assessRecruitRoles, fetchJobAlioDetail, buildJobAlioDynamicDiscovery, applyPublicationSafetyGuards, validateRecruitRoleFixtures, validateStudentPriorityFixtures, buildProtectedJobArtifacts, buildFeedHealth };
+export { normalizeItem, buildStudentChannelAssessment, studentRecruitPriority, assessRecruitRoles, fetchJobAlioDetail, buildJobAlioDynamicDiscovery, selectJobAlioEmployerNoticeCheckCandidates, applyPublicationSafetyGuards, validateRecruitRoleFixtures, validateStudentPriorityFixtures, buildProtectedJobArtifacts, buildFeedHealth };
 
 async function main() {
   validateRecruitRoleFixtures();
