@@ -5579,6 +5579,19 @@ function sourceStatus(base, overrides = {}) {
   };
 }
 
+function buildJobAlioHighSchoolEducationPolicy(jobAlioStatus = {}) {
+  const scan = jobAlioStatus.educationFilterScan || {};
+  return {
+    education: JOB_ALIO_HIGH_SCHOOL_EDUCATION_FILTER.education,
+    eduTypes: JOB_ALIO_HIGH_SCHOOL_EDUCATION_FILTER.eduTypes,
+    lookbackDays: scan.lookbackDays ?? JOB_ALIO_HIGH_SCHOOL_EDUCATION_FILTER.lookbackDays,
+    institutionRestricted: false,
+    selectionRule: 'official education filter plus all-employer eligibility-keyword fallback; each row detail and applicant qualifications are independently verified before recommendation',
+    fallbackKeywords: Array.isArray(scan.keywordQueries) ? scan.keywordQueries.map((query) => query.keyword).filter(Boolean) : [],
+    fallbackComplete: scan.keywordSearchComplete === true
+  };
+}
+
 function sanitizedErrorMessage(error) {
   return normalizeSpace(error?.message || String(error || 'unknown error'))
     .replace(/[A-Za-z0-9_./+=:-]{48,}/g, '[redacted]')
@@ -8081,7 +8094,7 @@ function buildCollectionReview(items, sourceStatusList, criticalCoverage = build
   };
 }
 
-export { normalizeItem, buildStudentChannelAssessment, studentRecruitPriority, assessRecruitRoles, fetchJobAlioDetail, buildJobAlioDynamicDiscovery, selectJobAlioEmployerNoticeCheckCandidates, applyPublicationSafetyGuards, validateRecruitRoleFixtures, validateStudentPriorityFixtures, buildProtectedJobArtifacts, buildFeedHealth };
+export { normalizeItem, buildStudentChannelAssessment, studentRecruitPriority, assessRecruitRoles, fetchJobAlioDetail, buildJobAlioDynamicDiscovery, selectJobAlioEmployerNoticeCheckCandidates, applyPublicationSafetyGuards, validateRecruitRoleFixtures, validateStudentPriorityFixtures, buildProtectedJobArtifacts, buildFeedHealth, buildJobAlioHighSchoolEducationPolicy };
 
 async function main() {
   validateRecruitRoleFixtures();
@@ -8185,6 +8198,7 @@ async function main() {
   const criticalCoverage = buildCriticalJobAlioCoverage(items);
   const collectionReview = buildCollectionReview(items, sourceStatusList, criticalCoverage, publicationSafety.report.studentRecruitReviewSamples);
   const secretReadiness = buildSecretReadinessReport(sourceStatusList);
+  const jobAlioSourceStatus = sourceStatusList.find((source) => source.id === 'job-alio-openapi') || {};
   const jobAlioWatchOrgs = allJobAlioWatchOrgs();
   const extraJobAlioWatchOrgList = extraJobAlioWatchOrgs();
 
@@ -8259,15 +8273,7 @@ async function main() {
       jobAlioRecentDetailLimit: JOB_ALIO_RECENT_DETAIL_LIMIT,
       jobAlioDynamicDiscoveryRule: '최근 등록 잡알리오 공고는 기관 화이트리스트·제목 키워드와 무관하게 상세 원문을 열어 학력정보, 응시자격, 전형절차의 고졸·학력무관 신호를 판정한다.',
       studentRecruitSafetyReviewRule: '추천이나 게시 검증에서 빠진 고졸·졸업예정자 채용 후보는 기관명과 무관하게 공식 원문 링크가 있는 job-collection-audit.json 누락방지 대기열에 남기며, 이를 이유로 전체 피드 갱신을 중단하지 않는다.',
-      jobAlioHighSchoolEducationFilter: {
-        education: JOB_ALIO_HIGH_SCHOOL_EDUCATION_FILTER.education,
-        eduTypes: JOB_ALIO_HIGH_SCHOOL_EDUCATION_FILTER.eduTypes,
-        lookbackDays: JOB_ALIO_HIGH_SCHOOL_EDUCATION_FILTER.lookbackDays,
-        institutionRestricted: false,
-        selectionRule: 'official education filter plus all-employer eligibility-keyword fallback; each row detail and applicant qualifications are independently verified before recommendation',
-        fallbackKeywords: educationFilterScan.pagination.keywordQueries?.map((query) => query.keyword) || [],
-        fallbackComplete: educationFilterScan.pagination.keywordSearchComplete === true
-      },
+      jobAlioHighSchoolEducationFilter: buildJobAlioHighSchoolEducationPolicy(jobAlioSourceStatus),
       jobAlioCriticalWatchInstitutions: jobAlioWatchOrgs.map((org) => org.orgName),
       jobAlioBaseWatchInstitutions: CRITICAL_JOB_ALIO_ORGS.map((org) => org.orgName),
       jobAlioExtraWatchInstitutions: extraJobAlioWatchOrgList.map((org) => org.orgName),

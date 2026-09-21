@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { collectPages, buildCollectionAudit, assertCollectionAudit, canonicalDate } from './job_collection_audit.mjs';
 import { fetchJobAlioHighSchoolRows, parseJobAlioRows } from './job_alio_highschool_scan.mjs';
-import { moefRecordToRaw, recruiterJobflexRecordToRaw, normalizeItem, mpmPageParams, studentRecruitPriority, buildJobAlioDynamicDiscovery, selectJobAlioEmployerNoticeCheckCandidates } from './fetch_vocational_jobs.mjs';
+import { moefRecordToRaw, recruiterJobflexRecordToRaw, normalizeItem, mpmPageParams, studentRecruitPriority, buildJobAlioDynamicDiscovery, selectJobAlioEmployerNoticeCheckCandidates, buildJobAlioHighSchoolEducationPolicy } from './fetch_vocational_jobs.mjs';
 import { assessStudentEligibility } from './student_job_eligibility.mjs';
 
 const pager = (pages, overrides = {}) => collectPages({ fetchPage: async (n) => pages[n - 1] || { records: [] },
@@ -192,6 +192,17 @@ test('ALIO high-school education filters scan every employer and both single/mix
   assert.deepEqual(result.rows[0].scanReasons, ['education-high-school-single', 'education-high-school-multi']);
   assert.equal(result.rows[1].company, '금융기관 B');
   assert.equal(parseJobAlioRows(alioRow('303', '제목', '기관'))[0].idx, '303');
+});
+test('ALIO fallback search policy reads its metadata from the collected source status', () => {
+  const policy = buildJobAlioHighSchoolEducationPolicy({ educationFilterScan: {
+    lookbackDays: 90,
+    keywordSearchComplete: true,
+    keywordQueries: [{ keyword: '고졸' }, { keyword: '특성화고' }]
+  } });
+  assert.equal(policy.institutionRestricted, false);
+  assert.deepEqual(policy.fallbackKeywords, ['고졸', '특성화고']);
+  assert.equal(policy.fallbackComplete, true);
+  assert.equal(buildJobAlioHighSchoolEducationPolicy({}).fallbackComplete, false);
 });
 test('ALIO filter pagination repetition is reported as incomplete rather than silent success', async () => {
   const repeated = alioRow('101', '고졸 신입사원 채용', '공기업 A');
