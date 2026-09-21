@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-21T19:22:24.314Z",
-  "feedGeneratedAt": "2026-09-21T19:22:24.314Z",
+  "generatedAt": "2026-09-21T19:42:30.962Z",
+  "feedGeneratedAt": "2026-09-21T19:42:30.962Z",
   "timezone": "Asia/Seoul",
   "schedule": "09:10, 14:10, 23:10 KST",
   "status": "degraded",
@@ -47,7 +47,7 @@
       },
       {
         "id": "finance-large-company-recruit",
-        "failedUrlCount": 20
+        "failedUrlCount": 18
       },
       {
         "id": "regional-education-job",
@@ -118,7 +118,7 @@
     "enabled": true,
     "required": true,
     "engine": "official-source-rules",
-    "generatedAt": "2026-09-21T19:22:24.314Z",
+    "generatedAt": "2026-09-21T19:42:30.962Z",
     "attempted": 43,
     "succeeded": 43,
     "failed": 0,
@@ -126,7 +126,7 @@
   },
   "publicationSafety": {
     "policy": "pre-publication-safety-guard-v1",
-    "generatedAt": "2026-09-21T19:22:24.314Z",
+    "generatedAt": "2026-09-21T19:42:30.962Z",
     "blockedCount": 26,
     "repairedCount": 0,
     "studentRecruitReviewPolicy": "student-important-recruit-review-queue-v1",
@@ -963,26 +963,6 @@
         "source": "moef-public-recruit",
         "sourceName": "기재부 공공기관 채용정보",
         "sector": "public-institution",
-        "company": "중소기업기술정보진흥원",
-        "title": "중소기업기술정보진흥원 2026년 인공지능혁신추진단장 채용 공고",
-        "deadline": "2026-10-07",
-        "status": "active",
-        "processTrack": "direct-interview",
-        "primaryOfficialUrl": "https://tipa.or.kr/s040401/view/id/17745"
-      },
-      {
-        "list": "items",
-        "reviewType": "중요 공채 후보 안전검토",
-        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
-        "signals": [
-          "공공·금융·대기업 소스",
-          "학력무관",
-          "공채 신호",
-          "신입·정규직 계열"
-        ],
-        "source": "moef-public-recruit",
-        "sourceName": "기재부 공공기관 채용정보",
-        "sector": "public-institution",
         "company": "한국기술교육대학교",
         "title": "한국기술교육대학교 직업능력심사평가원 대체인력 채용(5차) 공고",
         "deadline": "2026-10-07",
@@ -1129,6 +1109,26 @@
         "status": "active",
         "processTrack": "direct-interview",
         "primaryOfficialUrl": "https://www.khnp.co.kr/recruit_te"
+      },
+      {
+        "list": "items",
+        "reviewType": "중요 공채 후보 안전검토",
+        "reason": "게시차단:student-recommendation-classification-review · 분류:현장형 분리",
+        "signals": [
+          "공공·금융·대기업 소스",
+          "학력무관",
+          "공채 신호",
+          "신입·정규직 계열"
+        ],
+        "source": "moef-public-recruit",
+        "sourceName": "기재부 공공기관 채용정보",
+        "sector": "public-institution",
+        "company": "중소기업기술정보진흥원",
+        "title": "중소기업기술정보진흥원 2026년 인공지능혁신추진단장 채용 공고",
+        "deadline": "2026-10-07",
+        "status": "active",
+        "processTrack": "direct-interview",
+        "primaryOfficialUrl": "https://tipa.or.kr/s040401/view/id/17745"
       },
       {
         "list": "archiveItems",

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-21T19:22:24.314Z",
+  "generatedAt": "2026-09-21T19:42:30.962Z",
   "scope": {
     "lookbackDays": 120,
     "maxPagesPerBoard": 12,
@@ -210,7 +210,7 @@
       "detailStatus": "read",
       "outcome": "qualification-or-policy-review",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 3,
+      "unresolvedRuns": 4,
       "matches": [
         {
           "id": "11bb178937c27e1878",
@@ -252,7 +252,7 @@
       "detailStatus": "read",
       "outcome": "qualification-or-policy-review",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 3,
+      "unresolvedRuns": 4,
       "matches": [
         {
           "id": "ec32e3ef07ab3f7f78",
@@ -297,7 +297,7 @@
       "detailStatus": "read",
       "outcome": "qualification-or-policy-review",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 3,
+      "unresolvedRuns": 4,
       "matches": [
         {
           "id": "066cdca36729b34854",
@@ -391,7 +391,7 @@
       "detailStatus": "read",
       "outcome": "qualification-or-policy-review",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 3,
+      "unresolvedRuns": 4,
       "matches": [
         {
           "id": "df5c846a0ebaa0df91",
@@ -613,7 +613,7 @@
       "detailStatus": "read",
       "outcome": "qualification-or-policy-review",
       "firstSeenAt": "2026-09-11T04:31:33.950Z",
-      "unresolvedRuns": 6,
+      "unresolvedRuns": 7,
       "matches": [
         {
           "id": "7575c987ce0d8ac645",
@@ -709,7 +709,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-11T04:31:33.950Z",
-      "unresolvedRuns": 6,
+      "unresolvedRuns": 7,
       "matches": []
     },
     {
@@ -730,7 +730,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-11T04:31:33.950Z",
-      "unresolvedRuns": 6,
+      "unresolvedRuns": 7,
       "matches": []
     },
     {
@@ -805,7 +805,7 @@
       "detailStatus": "read",
       "outcome": "qualification-or-policy-review",
       "firstSeenAt": "2026-09-10T05:29:36.101Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
       "matches": [
         {
           "id": "4b57b5ccadbeffd6c9",
@@ -981,7 +981,7 @@
       "detailStatus": "read",
       "outcome": "qualification-or-policy-review",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": [
         {
           "id": "3c60430d824be19bc1",
@@ -3106,7 +3106,7 @@
       "detailStatus": "read",
       "outcome": "qualification-or-policy-review",
       "firstSeenAt": "2026-09-14T04:49:05.485Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": [
         {
           "id": "4b57b5ccadbeffd6c9",
@@ -3435,7 +3435,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": []
     },
     {
@@ -3499,7 +3499,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": []
     },
     {
@@ -3563,7 +3563,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": []
     },
     {
@@ -3584,7 +3584,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T08:49:35.928Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -3605,7 +3605,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": []
     },
     {
@@ -3624,7 +3624,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": []
     },
     {
@@ -3664,7 +3664,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": []
     },
     {
@@ -3683,7 +3683,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": []
     },
     {
@@ -3704,7 +3704,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 3,
+      "unresolvedRuns": 4,
       "matches": []
     },
     {
@@ -3725,7 +3725,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 3,
+      "unresolvedRuns": 4,
       "matches": []
     },
     {
@@ -3746,7 +3746,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 3,
+      "unresolvedRuns": 4,
       "matches": []
     },
     {
@@ -3767,7 +3767,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 3,
+      "unresolvedRuns": 4,
       "matches": []
     },
     {
@@ -3832,7 +3832,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-14T04:49:05.485Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -3853,7 +3853,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-14T04:49:05.485Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -3874,7 +3874,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-14T04:49:05.485Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -3895,7 +3895,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": []
     },
     {
@@ -3931,14 +3931,13 @@
       "start": "",
       "deadline": "",
       "recruitment": true,
+      "detailStatus": "failed",
+      "detailError": "Detail schema missing: boardViewWrap",
+      "externalLinks": [],
       "highSchoolSignal": true,
-      "externalLinks": [
-        "https://recruit.incruit.com/snuh/job/"
-      ],
-      "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 3,
+      "unresolvedRuns": 4,
       "matches": []
     },
     {
@@ -3959,7 +3958,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 3,
+      "unresolvedRuns": 4,
       "matches": []
     },
     {
@@ -3980,7 +3979,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 3,
+      "unresolvedRuns": 4,
       "matches": []
     },
     {
@@ -3994,13 +3993,14 @@
       "start": "",
       "deadline": "",
       "recruitment": true,
-      "detailStatus": "failed",
-      "detailError": "Detail schema missing: boardViewWrap",
-      "externalLinks": [],
       "highSchoolSignal": true,
+      "externalLinks": [
+        "https://korail.findeet.co.kr/"
+      ],
+      "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 3,
+      "unresolvedRuns": 4,
       "matches": []
     },
     {
@@ -4021,7 +4021,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-14T04:49:05.485Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -4042,7 +4042,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": []
     },
     {
@@ -4063,7 +4063,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T19:22:24.314Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -4105,7 +4105,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 3,
+      "unresolvedRuns": 4,
       "matches": []
     },
     {
@@ -4126,7 +4126,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 3,
+      "unresolvedRuns": 4,
       "matches": []
     },
     {
@@ -4208,7 +4208,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 3,
+      "unresolvedRuns": 4,
       "matches": []
     },
     {
@@ -4229,7 +4229,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-14T04:49:05.485Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -4250,7 +4250,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-14T04:49:05.485Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -4271,7 +4271,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-14T04:49:05.485Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -4292,7 +4292,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": []
     },
     {
@@ -4313,7 +4313,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 3,
+      "unresolvedRuns": 4,
       "matches": []
     },
     {
@@ -4334,7 +4334,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4356,7 +4356,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4378,7 +4378,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4400,7 +4400,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4422,7 +4422,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4444,7 +4444,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4466,7 +4466,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4486,7 +4486,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4508,7 +4508,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4530,7 +4530,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4552,7 +4552,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4574,7 +4574,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4596,7 +4596,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4618,7 +4618,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4640,7 +4640,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4662,7 +4662,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 9,
+      "unresolvedRuns": 10,
       "matches": [],
       "missingFromCurrentScan": true
     }
