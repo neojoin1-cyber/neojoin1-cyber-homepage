@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { collectPages, buildCollectionAudit, assertCollectionAudit, canonicalDate } from './job_collection_audit.mjs';
 import { fetchJobAlioHighSchoolRows, parseJobAlioRows } from './job_alio_highschool_scan.mjs';
-import { moefRecordToRaw, recruiterJobflexRecordToRaw, normalizeItem, mpmPageParams, studentRecruitPriority } from './fetch_vocational_jobs.mjs';
+import { moefRecordToRaw, recruiterJobflexRecordToRaw, normalizeItem, mpmPageParams, studentRecruitPriority, buildJobAlioDynamicDiscovery } from './fetch_vocational_jobs.mjs';
 import { assessStudentEligibility } from './student_job_eligibility.mjs';
 
 const pager = (pages, overrides = {}) => collectPages({ fetchPage: async (n) => pages[n - 1] || { records: [] },
@@ -81,6 +81,35 @@ test('high-school eligibility evidence marks an omitted notice for the visible r
   const result = audit({ assessed: [candidate], candidates: [candidate] });
   assert.equal(result.records[0].priority, 'high');
   assert.equal(result.summary.highPriorityReview, 1);
+});
+test('education-open public vacancy stays in the high-priority audit queue when qualification requires review', () => {
+  const candidate = { ...item('open-education'), source: 'job-alio-openapi', title: '직원 채용 공고',
+    education: '학력무관', studentChannelAssessment: { qualificationAssessment: { status: 'review', reasons: [] } } };
+  const result = audit({ discovered: [candidate], assessed: [candidate], candidates: [], published: [] });
+  assert.equal(result.records[0].disposition, 'needs-review');
+  assert.equal(result.records[0].priority, 'high');
+  assert.ok(result.records[0].unresolvedSince);
+});
+test('unpublished recent ALIO candidates with official links are queued instead of blocking the feed', () => {
+  const candidate = { source: 'job-alio-openapi', sourceId: '304899',
+    title: '[세계김치연구소] 2026년 제8차 직원 채용 공고', baseTitle: '[세계김치연구소] 2026년 제8차 직원 채용 공고',
+    company: '세계김치연구소', status: 'active', publishedDate: '2026-09-11', education: '학력무관',
+    career: '신입+경력', employmentType: '무기계약직,비정규직', recruitField: '행정직,공무직',
+    detailText: '공통 응시자격', deadline: '2026-09-28', url: 'https://job.alio.go.kr/recruitview.do?idx=304899',
+    originalUrl: 'https://job.alio.go.kr/recruitview.do?idx=304899',
+    studentChannelAssessment: { qualificationAssessment: { status: 'review', reasons: [] } } };
+  const row = { idx: '304899', registeredAt: '2026.09.11', deadline: '26.09.28' };
+  const result = buildJobAlioDynamicDiscovery([candidate], [], new Map([[row.idx, row]]), [row]);
+  assert.equal(result.missingCandidateCount, 1);
+  assert.equal(result.reviewQueueCount, 1);
+  assert.equal(result.unaccountedCandidateCount, 0);
+  assert.equal(result.reviewQueue[0].sourceId, '304899');
+  assert.match(result.reviewQueue[0].url, /^https:\/\/job\.alio\.go\.kr\//);
+
+  const noLink = buildJobAlioDynamicDiscovery([{ ...candidate, url: '', originalUrl: '' }], [],
+    new Map([[row.idx, row]]), [row]);
+  assert.equal(noLink.reviewQueueCount, 0);
+  assert.equal(noLink.unaccountedCandidateCount, 1);
 });
 test('all-employer ALIO school-filter evidence survives normalization without bypassing qualification checks', () => {
   const verified = normalizeItem({

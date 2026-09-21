@@ -58,7 +58,7 @@ export const canonicalDate = (value) => {
 const highSchoolSignal = (row) => row.educationFilterMatch === true
   || row.scanReasons?.some((reason) => String(reason).startsWith('education-high-school-'))
   || row.studentChannelAssessment?.qualificationAssessment?.explicitHighSchool === true
-  || /(고졸|고등학교|고교|특성화고|직업계고|마이스터고|졸업\s*예정|학교장\s*추천)/.test([
+  || /(고졸|고등학교|고교|특성화고|직업계고|마이스터고|졸업\s*예정|학교장\s*추천|학력\s*무관)/.test([
     row.title, row.education, row.recruitField, row.qualification, row.description
   ].filter(Boolean).join(' '));
 

@@ -597,6 +597,7 @@ async function validateJobFetcherRules() {
   fail('fetcher.job-alio-dynamic-current-scan', fetcher.includes('JOB_ALIO_RECENT_DETAIL_DAYS') && fetcher.includes('function selectJobAlioRowsForDetail') && fetcher.includes('function buildJobAlioDynamicDiscovery') && fetcher.includes('dynamic-current-job-alio-detail-scan'), '잡알리오 최근 등록 공고는 기관 화이트리스트나 제목 키워드와 무관하게 상세 원문을 열어 오늘 기준 후보 누락을 점검합니다.');
   fail('fetcher.job-alio-highschool-education-filter', fetcher.includes('fetchJobAlioHighSchoolRows') && fetcher.includes('JOB_ALIO_HIGH_SCHOOL_EDUCATION_FILTER') && fetcher.includes('educationFilterScan') && fetcher.includes('institutionRestricted: false'), '잡알리오 공식 고졸 학력 필터를 단일·복수 유형과 전체 기관 대상으로 별도 검색하고 상세 자격을 확인합니다.');
   fail('fetcher.job-alio-highschool-signal-preserved', fetcher.includes('educationFilterMatch: row.educationFilterMatch === true') && fetcher.includes('highSchoolEducationFilterMatch: raw.educationFilterMatch === true') && fetcher.includes("qualificationAssessment.status === 'eligible' && item.highSchoolEducationFilterMatch === true") && jobs.includes('item.highSchoolEducationFilterMatch === true'), '기관명과 무관한 공식 고졸 전형 검색 신호를 상세·정규화·학생 목록까지 전달하되 자격 확인을 통과한 공고만 우선 추천합니다.');
+  fail('fetcher.job-alio-review-queue-nonblocking', fetcher.includes('unaccountedCandidateCount') && fetcher.includes('reviewQueueCount') && jobs.includes('jobAlioDynamicDiscovery?.reviewQueue'), '추천 보류 후보는 링크가 있는 대기열에 보존하고 개별 후보 때문에 전체 피드 갱신을 중단하지 않습니다.');
   fail('fetcher.publication-review-keeps-feed-moving', fetcher.includes('누락방지 대기열') && jobs.includes('고졸·졸업예정 채용 누락방지 대기열') && audit.includes("x.disposition === 'publication-review'") && audit.includes('x.url ||'), '후보 하나의 게시 대조 실패로 전체 갱신을 멈추지 않고 원문 링크가 있는 누락방지 대기열에 보존합니다.');
   fail('fetcher.job-alio-paced-list-scan', fetcher.includes('const JOB_ALIO_LIST_FETCH_CONCURRENCY = 2') && fetcher.includes('function fetchJobAlioListTarget') && fetcher.includes('await sleep(250'), '잡알리오 목록은 호스팅 실행기의 순간 요청 폭주를 피하도록 저속 병렬로 수집합니다.');
   fail('fetcher.job-alio-mobile-list-fallback', fetcher.includes('function jobAlioMobileListUrl') && fetcher.includes('mobile fallback after'), '잡알리오 PC 목록 접속 실패 시 공식 모바일 목록으로 한 번 더 수집합니다.');
@@ -786,7 +787,11 @@ function validateFeed(feed, label = 'local') {
   fail(`${label}.feed.review-next-actions`, Array.isArray(collectionReview.nextActions) && collectionReview.nextActions.length > 0, `${label} 누락·공식공고·소스보강 다음 조치가 기록됩니다.`);
   fail(`${label}.feed.critical-review-field`, collectionReview.criticalCoverage && Array.isArray(collectionReview.criticalCoverage.missingCurrent), `${label} 핵심 공기업 고졸 공채 감시 결과가 기록됩니다.`);
   fail(`${label}.feed.dynamic-job-alio-review-field`, collectionReview.jobAlioDynamicDiscovery?.policy === 'dynamic-current-job-alio-detail-scan', `${label} 잡알리오 최근 상세 원문 기반 동적 누락 점검 결과가 기록됩니다.`);
-  fail(`${label}.feed.dynamic-job-alio-no-gap`, Number(collectionReview.dynamicJobAlioGapCount || 0) === 0 && Number(collectionReview.jobAlioDynamicDiscovery?.missingCandidateCount || 0) === 0, `${label} 잡알리오 최근 상세에서 확인된 고졸·학력무관 후보가 최종 피드에서 빠지지 않았습니다.`, (collectionReview.jobAlioDynamicDiscovery?.missingCandidates || []).map((item) => `${item.company}:${item.title}`).join(' | '));
+  const jobAlioDiscovery = collectionReview.jobAlioDynamicDiscovery || {};
+  const jobAlioReviewQueueCount = Array.isArray(jobAlioDiscovery.reviewQueue) ? jobAlioDiscovery.reviewQueue.length : 0;
+  fail(`${label}.feed.dynamic-job-alio-no-unaccounted-candidate`, Number(collectionReview.dynamicJobAlioGapCount || 0) === 0
+    && Number(jobAlioDiscovery.unaccountedCandidateCount ?? jobAlioDiscovery.missingCandidateCount ?? 0) === 0
+    && jobAlioReviewQueueCount === Number(jobAlioDiscovery.missingCandidateCount || 0), `${label} 게시하지 않은 잡알리오 후보도 모두 원문 링크와 함께 누락방지 대기열에 남습니다.`, (jobAlioDiscovery.missingCandidates || []).map((item) => `${item.company}:${item.title}`).join(' | '));
 
   const age = hoursSince(feed.generatedAt);
   fail(`${label}.feed.generated-at-valid`, age !== null, `${label} generatedAt이 유효한 날짜입니다.`, feed.generatedAt || '');
@@ -984,8 +989,9 @@ function validateFeed(feed, label = 'local') {
     : jobAlioFallbackProtected, `${label} 잡알리오는 검색어·핵심기관 경로를 훑거나 일시 장애 시 기존 정상 공고를 보존합니다.`, `scanTarget=${jobAlioStatus?.scanTargetCount || 0}, candidate=${jobAlioStatus?.candidateRowCount || 0}, preserved=${jobAlioFallbackCount || jobAlioItemCount}`);
   fail(`${label}.sources.job-alio-dynamic-current-scan`, jobAlioLiveOk
     ? Number(jobAlioStatus?.dynamicDiscovery?.recentRowsDetailed || 0) > 0
-      && Number(jobAlioStatus?.dynamicDiscovery?.missingCandidateCount || 0) === 0
-    : jobAlioFallbackProtected, `${label} 잡알리오는 오늘 기준 최근 등록 공고 상세를 열어 고졸·학력무관 후보 누락을 자동 점검합니다.`, `recentDetailed=${jobAlioStatus?.dynamicDiscovery?.recentRowsDetailed || 0}, missing=${jobAlioStatus?.dynamicDiscovery?.missingCandidateCount || 0}`);
+      && Number(jobAlioStatus?.dynamicDiscovery?.unaccountedCandidateCount ?? jobAlioStatus?.dynamicDiscovery?.missingCandidateCount ?? 0) === 0
+      && Number(jobAlioStatus?.dynamicDiscovery?.reviewQueueCount || 0) === Number(jobAlioStatus?.dynamicDiscovery?.missingCandidateCount || 0)
+    : jobAlioFallbackProtected, `${label} 잡알리오는 최근 상세 후보를 게시하거나 원문 링크가 있는 대기열에 계상합니다.`, `recentDetailed=${jobAlioStatus?.dynamicDiscovery?.recentRowsDetailed || 0}, displayedGap=${jobAlioStatus?.dynamicDiscovery?.missingCandidateCount || 0}, queued=${jobAlioStatus?.dynamicDiscovery?.reviewQueueCount || 0}, unaccounted=${jobAlioStatus?.dynamicDiscovery?.unaccountedCandidateCount || 0}`);
   fail(`${label}.sources.job-alio-critical-coverage`, jobAlioLiveOk ? jobAlioMissingCurrent.length === 0 : (jobAlioFallbackProtected || jobAlioMissingCurrent.length === 0), `${label} 잡알리오 핵심 공고 감시 대상 누락이 없습니다.`, jobAlioMissingCurrent.map((job) => `${job.company}:${job.idx}`).join(', '));
   const financeLargeCompanyProtected = sourceFallbackProtected(items, financeLargeCompanyStatus, 'finance-large-company-recruit');
   fail(`${label}.sources.finance-large-company-ok`, Boolean(financeLargeCompanyStatus?.ok) || financeLargeCompanyProtected, `${label} 금융권·대기업 공식 채용 페이지 감시원이 정상 동작하거나 직전 정상 공고를 보존합니다.`, financeLargeCompanyStatus?.message || '');

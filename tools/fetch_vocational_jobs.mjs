@@ -6842,6 +6842,21 @@ function buildJobAlioDynamicDiscovery(normalizedAll, normalizedKept, rowsByIdx, 
   const keptIds = new Set(normalizedKept.map((item) => String(item.sourceId || '')));
   const currentCandidates = normalizedAll.filter(isJobAlioDynamicCurrentCandidate);
   const missingCandidates = currentCandidates.filter((item) => !keptIds.has(String(item.sourceId || '')));
+  const reviewQueue = missingCandidates
+    .map((item) => ({
+      source: item.source,
+      sourceId: String(item.sourceId || ''),
+      title: item.title,
+      company: item.company,
+      url: item.originalUrl || item.sourceOfficialUrl || item.url || '',
+      deadline: item.deadline || '',
+      disposition: item.studentChannelAssessment?.qualificationAssessment?.status === 'review'
+        ? 'needs-review'
+        : 'publication-review',
+      reason: item.studentChannelAssessment?.qualificationAssessment?.reasons?.join(' · ')
+        || '지원 자격·게시 기준 추가 확인 필요'
+    }))
+    .filter((item) => /^https?:\/\//i.test(item.url));
 
   return {
     policy: 'dynamic-current-job-alio-detail-scan',
@@ -6855,7 +6870,15 @@ function buildJobAlioDynamicDiscovery(normalizedAll, normalizedKept, rowsByIdx, 
     currentCandidateCount: currentCandidates.length,
     displayedCandidateCount: currentCandidates.filter((item) => keptIds.has(String(item.sourceId || ''))).length,
     missingCandidateCount: missingCandidates.length,
-    missingCandidates: missingCandidates.map(reviewItem).slice(0, 12)
+    reviewQueueCount: reviewQueue.length,
+    unaccountedCandidateCount: missingCandidates.length - reviewQueue.length,
+    reviewQueue,
+    missingCandidates: missingCandidates.map((item) => ({
+      ...reviewItem(item),
+      source: item.source,
+      sourceId: String(item.sourceId || ''),
+      url: item.originalUrl || item.sourceOfficialUrl || item.url || ''
+    })).slice(0, 12)
   };
 }
 
@@ -7935,13 +7958,15 @@ function buildCollectionReview(items, sourceStatusList, criticalCoverage = build
       message: source.message || '연결 상태 확인 필요'
     }));
   const criticalGapCount = criticalCoverage.missingCurrent.length;
-  const dynamicJobAlioGapCount = Number(jobAlioDynamicDiscovery?.missingCandidateCount || 0);
+  const dynamicJobAlioGapCount = Number(jobAlioDynamicDiscovery?.unaccountedCandidateCount
+    ?? jobAlioDynamicDiscovery?.missingCandidateCount ?? 0);
+  const dynamicJobAlioReviewQueueCount = Number(jobAlioDynamicDiscovery?.reviewQueueCount || 0);
   const studentRecruitSafetyReviewItems = Array.isArray(studentRecruitReviewSamples)
     ? studentRecruitReviewSamples.slice(0, 20)
     : [];
 
   return {
-    status: missedReviewItems.length || officialNoticePendingItems.length || sourceGaps.length || criticalGapCount || dynamicJobAlioGapCount || studentRecruitSafetyReviewItems.length ? 'review_needed' : 'normal',
+    status: missedReviewItems.length || officialNoticePendingItems.length || sourceGaps.length || criticalGapCount || dynamicJobAlioGapCount || dynamicJobAlioReviewQueueCount || studentRecruitSafetyReviewItems.length ? 'review_needed' : 'normal',
     generatedAt: CHECKED_AT,
     firstDayGoal: '공채는 게시 첫날 수집을 목표로 하며, 늦게 발견된 공고는 누락 점검 대상으로 기록한다.',
     dynamicJobAlioGoal: '잡알리오 최근 등록 공고는 기관 화이트리스트나 제목 키워드와 무관하게 상세 원문을 열어 고졸·학력무관 후보를 판정한다.',
@@ -7953,6 +7978,7 @@ function buildCollectionReview(items, sourceStatusList, criticalCoverage = build
     sourceGapCount: sourceGaps.length,
     criticalGapCount,
     dynamicJobAlioGapCount,
+    dynamicJobAlioReviewQueueCount,
     studentRecruitSafetyReviewCount: studentRecruitSafetyReviewItems.length,
     jobAlioDynamicDiscovery,
     missedReviewItems,
@@ -7962,7 +7988,7 @@ function buildCollectionReview(items, sourceStatusList, criticalCoverage = build
     sourceGaps,
     criticalCoverage,
     nextActions: [
-      '잡알리오 최근 등록 공고 상세 스캔에서 고졸·학력무관 후보가 보이면 기관 화이트리스트 없이 최종 피드 포함 여부를 대조한다.',
+      '잡알리오 최근 등록 공고 상세 스캔에서 찾은 후보는 자격 확인 후 게시하고, 미게시 후보도 원문 링크가 있는 누락방지 대기열에 남겨 전체 갱신은 계속한다.',
       '핵심 공기업 고졸 공채 감시 대상은 보조 안전망으로만 유지하고, 최근 상세 스캔이 1차 누락 방지망이 된다.',
       '중요 공채 후보 안전검토 큐는 제외 신호와 추천 가치 신호를 함께 기록하므로, 좌측 추천 복귀가 필요한지 공식 원문으로 확인한다.',
       '누락점검 공고는 게시일 기준 공식 소스 연결 주기를 확인한다.',
@@ -7973,7 +7999,7 @@ function buildCollectionReview(items, sourceStatusList, criticalCoverage = build
   };
 }
 
-export { normalizeItem, buildStudentChannelAssessment, studentRecruitPriority, assessRecruitRoles, fetchJobAlioDetail, applyPublicationSafetyGuards, validateRecruitRoleFixtures, validateStudentPriorityFixtures, buildProtectedJobArtifacts, buildFeedHealth };
+export { normalizeItem, buildStudentChannelAssessment, studentRecruitPriority, assessRecruitRoles, fetchJobAlioDetail, buildJobAlioDynamicDiscovery, applyPublicationSafetyGuards, validateRecruitRoleFixtures, validateStudentPriorityFixtures, buildProtectedJobArtifacts, buildFeedHealth };
 
 async function main() {
   validateRecruitRoleFixtures();
