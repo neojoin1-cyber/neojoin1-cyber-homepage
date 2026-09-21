@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-21T06:34:21.110Z",
+  "generatedAt": "2026-09-21T08:49:35.928Z",
   "scope": {
     "lookbackDays": 120,
     "maxPagesPerBoard": 12,
@@ -11,13 +11,13 @@
       "id": "busan-highschool",
       "name": "부산교육청 고졸채용",
       "url": "https://www.pen.go.kr/main/na/ntt/selectNttList.do?bbsId=2756&mi=31898",
-      "pages": 11,
-      "stopReason": "last-page",
+      "pages": 12,
+      "stopReason": "empty",
       "error": "",
       "ok": true,
-      "listed": 100,
-      "candidates": 100,
-      "detailsRead": 100,
+      "listed": 101,
+      "candidates": 101,
+      "detailsRead": 101,
       "detailsFailed": 0
     },
     {
@@ -50,13 +50,13 @@
       "id": "hifive-central",
       "name": "HIFIVE 중앙 취업지원 공지",
       "url": "https://www.hifive.go.kr/front/bbs/bbsList.do?bbs_id=1&menuId=0501&rootMenuId=05",
-      "pages": 0,
-      "stopReason": "failed",
-      "error": "fetch failed",
-      "ok": false,
-      "listed": 0,
-      "candidates": 0,
-      "detailsRead": 0,
+      "pages": 3,
+      "stopReason": "lookback-reached",
+      "error": "",
+      "ok": true,
+      "listed": 18,
+      "candidates": 6,
+      "detailsRead": 6,
       "detailsFailed": 0
     },
     {
@@ -69,11 +69,63 @@
       "ok": true,
       "listed": 42,
       "candidates": 29,
-      "detailsRead": 28,
-      "detailsFailed": 1
+      "detailsRead": 29,
+      "detailsFailed": 0
     }
   ],
   "records": [
+    {
+      "source": "busan-highschool",
+      "sourceName": "부산교육청 고졸채용",
+      "url": "https://www.pen.go.kr/main/na/ntt/selectNttInfo.do?nttSn=1180570&bbsId=2756",
+      "title": "2026년 신입사원 채용공고[고졸전형 포함]",
+      "company": "한국국토정보공사",
+      "category": "공공기관‧공기업",
+      "postedAt": "",
+      "start": "2026-09-29",
+      "deadline": "2026-10-14",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "http://www.lx.or.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "published-match",
+      "firstSeenAt": "2026-09-21T08:49:35.928Z",
+      "unresolvedRuns": 0,
+      "matches": [
+        {
+          "id": "0d19a0c36f07c3bdbe",
+          "company": "한국국토정보공사",
+          "title": "2026년 한국국토정보공사 신입사원 채용 공고",
+          "url": "https://www.lx.or.kr/kor/BBSMSTR_000000000001/25605/view.do",
+          "companyNoticeUrl": "https://www.lx.or.kr/kor/BBSMSTR_000000000001/25605/view.do",
+          "published": true,
+          "qualification": "eligible",
+          "roles": []
+        },
+        {
+          "id": "d2bf71d43de9d965b4",
+          "company": "한국국토정보공사",
+          "title": "2026년 한국국토정보공사 신입사원 채용 공고",
+          "url": "https://www.gojobs.go.kr/apmView.do?empmnsn=303870",
+          "companyNoticeUrl": "",
+          "published": false,
+          "qualification": "review",
+          "roles": []
+        },
+        {
+          "id": "3e538d99cc34008fe9",
+          "company": "한국국토정보공사",
+          "title": "2026년 한국국토정보공사 신입사원 채용 공고",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=305120",
+          "companyNoticeUrl": "",
+          "published": false,
+          "qualification": "review",
+          "roles": []
+        }
+      ]
+    },
     {
       "source": "busan-highschool",
       "sourceName": "부산교육청 고졸채용",
@@ -98,7 +150,8 @@
           "id": "b9f1cbe7da63116c62",
           "company": "한국조폐공사",
           "title": "2027년도 한국조폐공사 경력직 채용공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=305146",
+          "url": "https://www.komsco.com/kor/88/recruitment/206?pageIndex=1&searchCondition=&searchKeyword=",
+          "companyNoticeUrl": "https://www.komsco.com/kor/88/recruitment/206?pageIndex=1&searchCondition=&searchKeyword=",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -107,8 +160,9 @@
           "id": "38cb95f4e1aa3de768",
           "company": "한국조폐공사",
           "title": "2027년도 한국조폐공사 신입직원(채용형인턴) 채용공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=305144",
-          "published": false,
+          "url": "https://www.komsco.com/kor/88/recruitment/205?pageIndex=1&searchCondition=&searchKeyword=",
+          "companyNoticeUrl": "https://www.komsco.com/kor/88/recruitment/205?pageIndex=1&searchCondition=&searchKeyword=",
+          "published": true,
           "qualification": "eligible",
           "roles": [
             "일반분야"
@@ -119,7 +173,8 @@
           "company": "한국조폐공사",
           "title": "2027년도 한국조폐공사 신입직원(채용형인턴) 채용공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=305144",
-          "published": true,
+          "companyNoticeUrl": "",
+          "published": false,
           "qualification": "eligible",
           "roles": [
             "일반분야"
@@ -130,6 +185,7 @@
           "company": "한국조폐공사",
           "title": "2027년도 한국조폐공사 경력직 채용공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=305146",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -154,13 +210,14 @@
       "detailStatus": "read",
       "outcome": "qualification-or-policy-review",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": [
         {
           "id": "11bb178937c27e1878",
           "company": "건설근로자공제회",
           "title": "2026년 건설근로자공제회 제2차 채용공고[일반직(6급, 7급), 무기직(기능직, 상담직), 휴직대체(기간제), 체험형 청년인턴]",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=304985",
+          "url": "https://cw.careerlink.kr/",
+          "companyNoticeUrl": "https://cw.careerlink.kr/",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -170,6 +227,7 @@
           "company": "건설근로자공제회",
           "title": "2026년 건설근로자공제회 제2차 채용공고[일반직(6급, 7급), 무기직(기능직, 상담직), 휴직대체(기간제), 체험형 청년인턴]",
           "url": "https://job.alio.go.kr/recruitview.do?idx=304985",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "review",
           "roles": []
@@ -194,13 +252,14 @@
       "detailStatus": "read",
       "outcome": "qualification-or-policy-review",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": [
         {
           "id": "ec32e3ef07ab3f7f78",
           "company": "한국토지주택공사",
           "title": "2026년 하반기 한국토지주택공사 신입사원(5·6급) 공채",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=304958",
+          "url": "https://www.lh.or.kr/board.es?mid=a10602060000&bid=0053&act=view&list_no=734050&tag=&nPage=1",
+          "companyNoticeUrl": "https://www.lh.or.kr/board.es?mid=a10602060000&bid=0053&act=view&list_no=734050&tag=&nPage=1",
           "published": false,
           "qualification": "review",
           "roles": []
@@ -209,7 +268,8 @@
           "id": "165dfd7132368bdc41",
           "company": "한국토지주택공사",
           "title": "2026년 하반기 한국토지주택공사 신입사원(5·6급) 공채",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=304958",
+          "url": "https://www.lh.or.kr/board.es?mid=a10602060000&bid=0053&act=view&list_no=734050&tag=&nPage=1",
+          "companyNoticeUrl": "https://www.lh.or.kr/board.es?mid=a10602060000&bid=0053&act=view&list_no=734050&tag=&nPage=1",
           "published": false,
           "qualification": "eligible",
           "roles": [
@@ -237,13 +297,14 @@
       "detailStatus": "read",
       "outcome": "qualification-or-policy-review",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": [
         {
           "id": "066cdca36729b34854",
           "company": "한국에너지공단",
           "title": "한국에너지공단 신입직원(채용형 인턴) 채용 공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=305072",
+          "url": "https://www.energy.or.kr/front/board/etc/jobList.do",
+          "companyNoticeUrl": "https://www.energy.or.kr/front/board/etc/jobList.do",
           "published": false,
           "qualification": "eligible",
           "roles": [
@@ -255,7 +316,8 @@
           "id": "2504a2d77d07a83cdc",
           "company": "한국에너지공단",
           "title": "한국에너지공단 전문경력직 채용 공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=305060",
+          "url": "https://www.energy.or.kr/front/board/etc/jobList.do",
+          "companyNoticeUrl": "https://www.energy.or.kr/front/board/etc/jobList.do",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -265,6 +327,7 @@
           "company": "한국에너지공단",
           "title": "한국에너지공단 전문경력직 채용 공고",
           "url": "https://www.gojobs.go.kr/apmView.do?empmnsn=303743",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "review",
           "roles": []
@@ -274,6 +337,7 @@
           "company": "한국에너지공단",
           "title": "한국에너지공단 신입직원(채용형 인턴) 채용 공고",
           "url": "https://www.gojobs.go.kr/apmView.do?empmnsn=303741",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "eligible",
           "roles": [
@@ -289,6 +353,7 @@
           "company": "한국에너지공단",
           "title": "한국에너지공단 신입직원(채용형 인턴) 채용 공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=305072",
+          "companyNoticeUrl": "",
           "published": true,
           "qualification": "eligible",
           "roles": [
@@ -301,6 +366,7 @@
           "company": "한국에너지공단",
           "title": "한국에너지공단 전문경력직 채용 공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=305060",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -325,13 +391,14 @@
       "detailStatus": "read",
       "outcome": "qualification-or-policy-review",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": [
         {
           "id": "df5c846a0ebaa0df91",
           "company": "한국소비자원",
           "title": "2026년 한국소비자원 제2차 신입, 경력 및 공무직 채용 공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=304989",
+          "url": "https://www.kca.go.kr/kca/sub.do?menukey=5113&mode=view&no=1004559980",
+          "companyNoticeUrl": "https://www.kca.go.kr/kca/sub.do?menukey=5113&mode=view&no=1004559980",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -340,7 +407,8 @@
           "id": "61b63ce5fbdf9313b6",
           "company": "한국소비자원",
           "title": "2026년 한국소비자원 제2차 신입, 경력 및 공무직 채용 공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=304989",
+          "url": "https://www.kca.go.kr/kca/sub.do?menukey=5113&mode=view&no=1004559980",
+          "companyNoticeUrl": "https://www.kca.go.kr/kca/sub.do?menukey=5113&mode=view&no=1004559980",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -371,7 +439,8 @@
           "id": "4dc32f27540fd4d4b0",
           "company": "국민건강보험공단",
           "title": "2026년도 하반기 국민건강보험공단 신규직원 채용 공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=305006",
+          "url": "http://www.nhis.or.kr/nhis/together/wbhaea02700m01.do?mode=view&articleNo=11013562&article.offset=0&articleLimit=10",
+          "companyNoticeUrl": "http://www.nhis.or.kr/nhis/together/wbhaea02700m01.do?mode=view&articleNo=11013562&article.offset=0&articleLimit=10",
           "published": true,
           "qualification": "eligible",
           "roles": [
@@ -385,7 +454,8 @@
           "id": "5d45cf38556e3b2198",
           "company": "국민건강보험공단",
           "title": "2026년도 하반기 국민건강보험공단 신규직원 채용 공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=305006",
+          "url": "http://www.nhis.or.kr/nhis/together/wbhaea02700m01.do?mode=view&articleNo=11013562&article.offset=0&articleLimit=10",
+          "companyNoticeUrl": "http://www.nhis.or.kr/nhis/together/wbhaea02700m01.do?mode=view&articleNo=11013562&article.offset=0&articleLimit=10",
           "published": false,
           "qualification": "eligible",
           "roles": [
@@ -423,7 +493,8 @@
           "id": "dd77f05489d2769ebb",
           "company": "한국공항공사",
           "title": "한국공항공사 하반기 경력직·계약직 공개채용",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=305017",
+          "url": "https://kac.careerlink.kr/",
+          "companyNoticeUrl": "https://kac.careerlink.kr/",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -432,7 +503,8 @@
           "id": "0c36690114ea3ab4d3",
           "company": "한국공항공사",
           "title": "한국공항공사 2026년도 하반기 신입사원 안전직(공항보안 및 보안검색감독) 공개채용",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=305016",
+          "url": "https://kac.careerlink.kr/",
+          "companyNoticeUrl": "https://kac.careerlink.kr/",
           "published": true,
           "qualification": "eligible",
           "roles": []
@@ -441,7 +513,8 @@
           "id": "3995373f1f0b65a17e",
           "company": "한국공항공사",
           "title": "한국공항공사 2026년도 하반기 신입사원 보훈(공항보안) 채용",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=305014",
+          "url": "https://kac.careerlink.kr/",
+          "companyNoticeUrl": "https://kac.careerlink.kr/",
           "published": false,
           "qualification": "eligible",
           "roles": []
@@ -450,7 +523,8 @@
           "id": "0e64a1c4960421a1a2",
           "company": "한국공항공사",
           "title": "한국공항공사 2026년도 하반기 신입사원 구조소방(소방원 및 응급구조사) 공개채용",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=305012",
+          "url": "https://kac.careerlink.kr/",
+          "companyNoticeUrl": "https://kac.careerlink.kr/",
           "published": true,
           "qualification": "eligible",
           "roles": [
@@ -461,8 +535,19 @@
           "id": "6f4d52a7ffbea872c8",
           "company": "한국공항공사",
           "title": "한국공항공사 2026년도 하반기 신입사원(5급갑, 6급갑 고졸수준) 공개채용",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=305011",
+          "url": "https://kac.careerlink.kr/",
+          "companyNoticeUrl": "https://kac.careerlink.kr/",
           "published": true,
+          "qualification": "eligible",
+          "roles": []
+        },
+        {
+          "id": "48414fa0c70427fb82",
+          "company": "한국공항공사",
+          "title": "한국공항공사 2026년도 하반기 신입사원(5급갑, 6급갑 고졸수준) 공개채용",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=305011",
+          "companyNoticeUrl": "",
+          "published": false,
           "qualification": "eligible",
           "roles": []
         },
@@ -471,6 +556,7 @@
           "company": "한국공항공사",
           "title": "한국공항공사 2026년도 하반기 신입사원 구조소방(소방원 및 응급구조사) 공개채용",
           "url": "https://job.alio.go.kr/recruitview.do?idx=305012",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "eligible",
           "roles": [
@@ -482,6 +568,7 @@
           "company": "한국공항공사",
           "title": "한국공항공사 2026년도 하반기 신입사원 보훈(공항보안) 채용",
           "url": "https://job.alio.go.kr/recruitview.do?idx=305014",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "eligible",
           "roles": []
@@ -491,15 +578,7 @@
           "company": "한국공항공사",
           "title": "한국공항공사 2026년도 하반기 신입사원 안전직(공항보안 및 보안검색감독) 공개채용",
           "url": "https://job.alio.go.kr/recruitview.do?idx=305016",
-          "published": false,
-          "qualification": "eligible",
-          "roles": []
-        },
-        {
-          "id": "48414fa0c70427fb82",
-          "company": "한국공항공사",
-          "title": "한국공항공사 2026년도 하반기 신입사원(5급갑, 6급갑 고졸수준) 공개채용",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=305011",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "eligible",
           "roles": []
@@ -509,6 +588,7 @@
           "company": "한국공항공사",
           "title": "한국공항공사 하반기 경력직·계약직 공개채용",
           "url": "https://job.alio.go.kr/recruitview.do?idx=305017",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -533,13 +613,14 @@
       "detailStatus": "read",
       "outcome": "qualification-or-policy-review",
       "firstSeenAt": "2026-09-11T04:31:33.950Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": [
         {
           "id": "7575c987ce0d8ac645",
           "company": "한국남부발전(주)",
           "title": "한국남부발전(주) 2026년 개방형직위(산재예방부장) 채용공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=304842",
+          "url": "https://kospo.machuda.kr/",
+          "companyNoticeUrl": "https://kospo.machuda.kr/",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -548,7 +629,8 @@
           "id": "1d73812d065fac8b81",
           "company": "한국남부발전(주)",
           "title": "한국남부발전(주) 2026년 하반기 신입사원 및 별정직 채용공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=304839",
+          "url": "https://kospo.machuda.kr/",
+          "companyNoticeUrl": "https://kospo.machuda.kr/",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -558,6 +640,7 @@
           "company": "한국남부발전(주)",
           "title": "한국남부발전(주) 2026년 하반기 신입사원 및 별정직 채용공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=304839",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -567,6 +650,7 @@
           "company": "한국남부발전(주)",
           "title": "한국남부발전(주) 2026년 개방형직위(산재예방부장) 채용공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=304842",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -597,7 +681,8 @@
           "id": "441d8e23e60f5ec2e1",
           "company": "한국가스안전공사",
           "title": "2026년 하반기 한국가스안전공사 정규직(채용형인턴) 채용 공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=304810",
+          "url": "https://kgs.saramin.co.kr/",
+          "companyNoticeUrl": "https://kgs.saramin.co.kr/",
           "published": false,
           "qualification": "review",
           "roles": []
@@ -607,6 +692,7 @@
           "company": "한국가스안전공사",
           "title": "2026년 하반기 한국가스안전공사 정규직(채용형인턴) 채용 공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=304810",
+          "companyNoticeUrl": "",
           "published": true,
           "qualification": "eligible",
           "roles": [
@@ -633,7 +719,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-11T04:31:33.950Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -654,7 +740,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-11T04:31:33.950Z",
-      "unresolvedRuns": 4,
+      "unresolvedRuns": 5,
       "matches": []
     },
     {
@@ -681,7 +767,8 @@
           "id": "a6f622ae4c7bcd4c46",
           "company": "한국전력기술주식회사",
           "title": "한국전력기술주식회사 2026년도 하반기 정규직(신입사원) 채용공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=304717",
+          "url": "https://kepco-enc.cairos.co.kr/kepco-enc/",
+          "companyNoticeUrl": "https://kepco-enc.cairos.co.kr/kepco-enc/",
           "published": false,
           "qualification": "review",
           "roles": []
@@ -691,6 +778,7 @@
           "company": "한국전력기술(주)",
           "title": "한국전력기술(주) 2026년도 하반기 정규직(신입사원) 채용공고",
           "url": "https://www.gojobs.go.kr/apmView.do?empmnsn=303052",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -700,6 +788,7 @@
           "company": "한국전력기술주식회사",
           "title": "한국전력기술주식회사 2026년도 하반기 정규직(신입사원) 채용공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=304717",
+          "companyNoticeUrl": "",
           "published": true,
           "qualification": "eligible",
           "roles": [
@@ -726,13 +815,14 @@
       "detailStatus": "read",
       "outcome": "qualification-or-policy-review",
       "firstSeenAt": "2026-09-10T05:29:36.101Z",
-      "unresolvedRuns": 5,
+      "unresolvedRuns": 6,
       "matches": [
         {
           "id": "fedebe6e3a38cbf15d",
           "company": "한국수목원정원관리원",
           "title": "한국수목원정원관리원 2026년 제3차 신규직원 채용 공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=304713",
+          "url": "https://www.koagi.or.kr/www/user/bbs/BD_selectBbsList.do?q_bbsSn=1009",
+          "companyNoticeUrl": "https://www.koagi.or.kr/www/user/bbs/BD_selectBbsList.do?q_bbsSn=1009",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -742,6 +832,7 @@
           "company": "한국수목원정원관리원",
           "title": "한국수목원정원관리원 2026년 제3차 신규직원 채용 공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=304713",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -772,7 +863,8 @@
           "id": "d3acf951628e74998e",
           "company": "한국도로공사",
           "title": "한국도로공사 동서울지사 기간제근로자(도로관리원) 채용공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=305042",
+          "url": "https://www.ex.co.kr/",
+          "companyNoticeUrl": "https://www.ex.co.kr/",
           "published": false,
           "qualification": "eligible",
           "roles": []
@@ -781,7 +873,8 @@
           "id": "3838ed24f7262a4696",
           "company": "한국도로공사",
           "title": "2026년 하반기 한국도로공사 일반직 신입(인턴)사원 채용 공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=304761",
+          "url": "https://www.ex.co.kr/",
+          "companyNoticeUrl": "https://www.ex.co.kr/",
           "published": true,
           "qualification": "eligible",
           "roles": [
@@ -793,6 +886,7 @@
           "company": "한국도로공사",
           "title": "2026년 하반기 한국도로공사 일반직 신입(인턴)사원 채용",
           "url": "https://www.gojobs.go.kr/apmView.do?empmnsn=303108",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "review",
           "roles": []
@@ -802,6 +896,7 @@
           "company": "한국도로공사",
           "title": "2026년 하반기 한국도로공사 일반직 신입(인턴)사원 채용 공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=304761",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "eligible",
           "roles": [
@@ -813,6 +908,7 @@
           "company": "한국도로공사",
           "title": "한국도로공사 동서울지사 기간제근로자(도로관리원) 채용공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=305042",
+          "companyNoticeUrl": "",
           "published": true,
           "qualification": "eligible",
           "roles": []
@@ -843,7 +939,8 @@
           "id": "ec501e70b0cc3f05b9",
           "company": "한국전기안전공사",
           "title": "한국전기안전공사 2026년 하반기 공무직원 채용",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=304764",
+          "url": "https://kesco.or.kr/recruit/main.do",
+          "companyNoticeUrl": "https://kesco.or.kr/recruit/main.do",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -852,7 +949,8 @@
           "id": "521d5590ac6819b5f7",
           "company": "한국전기안전공사",
           "title": "한국전기안전공사 2026년 하반기 경력직원 채용",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=304763",
+          "url": "https://kesco.or.kr/recruit/main.do",
+          "companyNoticeUrl": "https://kesco.or.kr/recruit/main.do",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -861,8 +959,22 @@
           "id": "87feb1214969616474",
           "company": "한국전기안전공사",
           "title": "한국전기안전공사 2026년 하반기 채용형 인턴 채용",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=304762",
+          "url": "https://kesco.or.kr/recruit/main.do",
+          "companyNoticeUrl": "https://kesco.or.kr/recruit/main.do",
           "published": true,
+          "qualification": "eligible",
+          "roles": [
+            "경영관리(일반)",
+            "기술(일반)"
+          ]
+        },
+        {
+          "id": "0bf24ffb9d6e6732a4",
+          "company": "한국전기안전공사",
+          "title": "한국전기안전공사 2026년 하반기 채용형 인턴 채용",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304762",
+          "companyNoticeUrl": "",
+          "published": false,
           "qualification": "eligible",
           "roles": [
             "경영관리(일반)",
@@ -889,13 +1001,14 @@
       "detailStatus": "read",
       "outcome": "qualification-or-policy-review",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
       "matches": [
         {
           "id": "de3cca184fa6deb7ff",
           "company": "한국산림복지진흥원",
           "title": "2026년도 하반기 한국산림복지진흥원 공무직 채용 공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=304615",
+          "url": "https://fowi.or.kr/user/bbs/bbsView.do?bbsManageId=22&bbsId=9166",
+          "companyNoticeUrl": "https://fowi.or.kr/user/bbs/bbsView.do?bbsManageId=22&bbsId=9166",
           "published": true,
           "qualification": "eligible",
           "roles": [
@@ -906,7 +1019,8 @@
           "id": "8fe83e6e396c85f374",
           "company": "한국산림복지진흥원",
           "title": "2026년도 하반기 한국산림복지진흥원 정규직(5급, 6급) 채용 공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=304612",
+          "url": "https://fowi.or.kr/user/bbs/bbsView.do?bbsManageId=22&bbsId=9165",
+          "companyNoticeUrl": "https://fowi.or.kr/user/bbs/bbsView.do?bbsManageId=22&bbsId=9165",
           "published": true,
           "qualification": "eligible",
           "roles": [
@@ -917,7 +1031,8 @@
           "id": "3c60430d824be19bc1",
           "company": "한국산림복지진흥원",
           "title": "2026년도 하반기 한국산림복지진흥원 정규직(5급, 6급) 채용 공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=304612",
+          "url": "https://fowi.or.kr/user/bbs/bbsView.do?bbsManageId=22&bbsId=9165",
+          "companyNoticeUrl": "https://fowi.or.kr/user/bbs/bbsView.do?bbsManageId=22&bbsId=9165",
           "published": false,
           "qualification": "eligible",
           "roles": [
@@ -950,7 +1065,8 @@
           "id": "ebfaff38e2358297c6",
           "company": "국민연금공단",
           "title": "국민연금공단 2026년도 하반기 일반직 신입직원 공개채용 공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=304656",
+          "url": "https://www.nps.or.kr/pnsgdnc/hiregdnc/getOHAE0004M1.do?menuId=MN24000969&pstId=ZZ202600000000001011&hmpgCd=01&hmpgBbsCd=BS20240138&sortSe=FR&pageIndex=1&searchText=&searchGbu=&pstSeCd=",
+          "companyNoticeUrl": "https://www.nps.or.kr/pnsgdnc/hiregdnc/getOHAE0004M1.do?menuId=MN24000969&pstId=ZZ202600000000001011&hmpgCd=01&hmpgBbsCd=BS20240138&sortSe=FR&pageIndex=1&searchText=&searchGbu=&pstSeCd=",
           "published": false,
           "qualification": "eligible",
           "roles": [
@@ -984,7 +1100,8 @@
           "id": "99f053b8f989a61201",
           "company": "부산항만공사",
           "title": "부산항만공사 정규직(신입) 채용 공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=304555",
+          "url": "https://www.busanpa.com/board/view.bpa?boardId=BBS_0000046&menuCd=DOM_000000107001001000&paging=ok&startPage=1&dataSid=36228",
+          "companyNoticeUrl": "https://www.busanpa.com/board/view.bpa?boardId=BBS_0000046&menuCd=DOM_000000107001001000&paging=ok&startPage=1&dataSid=36228",
           "published": false,
           "qualification": "eligible",
           "roles": [
@@ -1033,17 +1150,7 @@
       "outcome": "closed",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
       "unresolvedRuns": 0,
-      "matches": [
-        {
-          "id": "9ebe93b3fbc99b04d4",
-          "company": "예금보험공사",
-          "title": "2026년도 예금보험공사 신입직원 채용안내",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=304400",
-          "published": false,
-          "qualification": "eligible",
-          "roles": []
-        }
-      ]
+      "matches": []
     },
     {
       "source": "busan-highschool",
@@ -1175,6 +1282,7 @@
           "company": "서울대학교병원",
           "title": "2026년도 서울대학교병원 하반기 신규 직원 채용 공고 (장애인 특별우대)",
           "url": "https://job.alio.go.kr/recruitview.do?idx=304035",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "review",
           "roles": []
@@ -1206,6 +1314,7 @@
           "company": "한국산업단지공단",
           "title": "한국산업단지공단 2026년 하반기 신입직원 및 경력직원 채용 공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=304044",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -1237,6 +1346,7 @@
           "company": "한국장애인개발원",
           "title": "[제2026-89호] 한국장애인개발원 2026년도 경영지원부 사회형평적(고졸) 청년인턴 채용 공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=303905",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "eligible",
           "roles": []
@@ -1262,7 +1372,18 @@
       "outcome": "closed",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
       "unresolvedRuns": 0,
-      "matches": []
+      "matches": [
+        {
+          "id": "2cb8e34e78373c0ddf",
+          "company": "한국전력거래소",
+          "title": "한국전력거래소 2026년도 하반기 전력거래소 공개채용(일반직_신입직)",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=303880",
+          "companyNoticeUrl": "",
+          "published": false,
+          "qualification": "review",
+          "roles": []
+        }
+      ]
     },
     {
       "source": "busan-highschool",
@@ -1289,6 +1410,7 @@
           "company": "한국석유공사",
           "title": "한국석유공사 2026년 하반기 직원(정규직) 채용 공고(8급 고졸수준)",
           "url": "https://job.alio.go.kr/recruitview.do?idx=303892",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "review",
           "roles": []
@@ -1320,6 +1442,7 @@
           "company": "한국무역보험공사",
           "title": "한국무역보험공사 2026년 사무직(고졸) 신입사원 채용공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=303768",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "review",
           "roles": []
@@ -1477,6 +1600,7 @@
           "company": "한국철도공사",
           "title": "2026년 하반기 한국철도공사 신입사원 채용 공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=303642",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "review",
           "roles": []
@@ -1508,6 +1632,7 @@
           "company": "한국산업안전보건공단",
           "title": "한국산업안전보건공단 2026년도 하반기 신규직원(신입직 6급) 채용공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=303583",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "review",
           "roles": []
@@ -1538,7 +1663,8 @@
           "id": "04e69e4fbc5d681966",
           "company": "한국산림복지진흥원",
           "title": "한국산림복지진흥원 2026년 하반기 체험형 청년인턴 채용 공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=303547",
+          "url": "https://fowi.or.kr/user/bbs/bbsView.do?bbsManageId=22&bbsId=9069",
+          "companyNoticeUrl": "https://fowi.or.kr/user/bbs/bbsView.do?bbsManageId=22&bbsId=9069",
           "published": false,
           "qualification": "eligible",
           "roles": []
@@ -1564,7 +1690,18 @@
       "outcome": "closed",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
       "unresolvedRuns": 0,
-      "matches": []
+      "matches": [
+        {
+          "id": "2014ad573570cf9392",
+          "company": "근로복지공단",
+          "title": "[근로복지공단] '26년 2차 신규직원(행정직) 채용 공고",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=303549",
+          "companyNoticeUrl": "",
+          "published": false,
+          "qualification": "review",
+          "roles": []
+        }
+      ]
     },
     {
       "source": "busan-highschool",
@@ -1633,6 +1770,7 @@
           "company": "한국남동발전(주)",
           "title": "2026년 한국남동발전(주) 하반기 신입사원 채용공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=303429",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -1706,6 +1844,7 @@
           "company": "한국가스공사",
           "title": "한국가스공사 2026년 하반기 고졸 채용형 인턴(7급) 채용공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=303318",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "review",
           "roles": []
@@ -1736,7 +1875,8 @@
           "id": "bf1c7d9b0fb5090c2c",
           "company": "한국주택금융공사",
           "title": "2026년도 한국주택금융공사 직무능력 평가기반 신입직원 채용",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=303344",
+          "url": "https://www.hf.go.kr/ko/sub05/sub05_07_03.do?mode=view&articleNo=600433&article.offset=0&articleLimit=10",
+          "companyNoticeUrl": "https://www.hf.go.kr/ko/sub05/sub05_07_03.do?mode=view&articleNo=600433&article.offset=0&articleLimit=10",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -1762,7 +1902,18 @@
       "outcome": "closed",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
       "unresolvedRuns": 0,
-      "matches": []
+      "matches": [
+        {
+          "id": "9d9fc312c11459e204",
+          "company": "한국부동산원",
+          "title": "한국부동산원 신입 및 경력직원 채용 공고",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=303139",
+          "companyNoticeUrl": "",
+          "published": false,
+          "qualification": "ineligible",
+          "roles": []
+        }
+      ]
     },
     {
       "source": "busan-highschool",
@@ -1789,6 +1940,7 @@
           "company": "한국산업인력공단",
           "title": "한국산업인력공단 2026년 하반기 일반직 신규직원 채용공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=303146",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -1863,6 +2015,7 @@
           "company": "한국공항공사",
           "title": "2026년 한국공항공사 체험형 인턴 공개 채용",
           "url": "https://job.alio.go.kr/recruitview.do?idx=303125",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "eligible",
           "roles": []
@@ -1915,6 +2068,7 @@
           "company": "한국석유관리원",
           "title": "2026년 한국석유관리원 채용형 인턴 채용공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=302985",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "eligible",
           "roles": [
@@ -1948,6 +2102,7 @@
           "company": "한국수력원자력(주)",
           "title": "한국수력원자력(주) 2026년도 제4차 신입사원(고졸수준 일반전형) 선발",
           "url": "https://job.alio.go.kr/recruitview.do?idx=302994",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -2041,7 +2196,8 @@
           "id": "38b7fe8f6418c66770",
           "company": "서울올림픽기념국민체육진흥공단",
           "title": "2026년 서울올림픽기념국민체육진흥공단 채용형 청년인턴(8급 전환형) 채용공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=302698",
+          "url": "https://kspo.or.kr/kspo/singl/empmn/view.do?empmnId=763&menuNo=200186",
+          "companyNoticeUrl": "https://kspo.or.kr/kspo/singl/empmn/view.do?empmnId=763&menuNo=200186",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -2094,7 +2250,8 @@
           "id": "fdbf473778e59fd226",
           "company": "한국국제협력단",
           "title": "한국국제협력단 제29기 KOICA 청년인턴(홍보분야) 모집 공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=302244",
+          "url": "https://koica.recruiter.co.kr/career/jobs/120486",
+          "companyNoticeUrl": "https://koica.recruiter.co.kr/career/jobs/120486",
           "published": false,
           "qualification": "review",
           "roles": []
@@ -2147,6 +2304,7 @@
           "company": "한국중부발전(주)",
           "title": "한국중부발전(주) 2026년도 제2차 4직급 신입직원 채용공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=302314",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -2178,6 +2336,7 @@
           "company": "코레일테크(주)",
           "title": "코레일테크(주) 2026년 제3차 공무직사원 채용 공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=302030",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "review",
           "roles": []
@@ -2203,7 +2362,18 @@
       "outcome": "closed",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
       "unresolvedRuns": 0,
-      "matches": []
+      "matches": [
+        {
+          "id": "596061ac8457551c6c",
+          "company": "한전KDN",
+          "title": "한전KDN 2026년도 공개모집형 청년인턴(고졸 또는 사회적배려대상자) 2차 채용",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=302103",
+          "companyNoticeUrl": "",
+          "published": false,
+          "qualification": "eligible",
+          "roles": []
+        }
+      ]
     },
     {
       "source": "busan-highschool",
@@ -2251,6 +2421,7 @@
           "company": "주택도시보증공사",
           "title": "2026년도 주택도시보증공사 정규직(신입직) 채용공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=301943",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "review",
           "roles": []
@@ -2968,13 +3139,14 @@
       "detailStatus": "read",
       "outcome": "qualification-or-policy-review",
       "firstSeenAt": "2026-09-14T04:49:05.485Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": [
         {
           "id": "fedebe6e3a38cbf15d",
           "company": "한국수목원정원관리원",
           "title": "한국수목원정원관리원 2026년 제3차 신규직원 채용 공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=304713",
+          "url": "https://www.koagi.or.kr/www/user/bbs/BD_selectBbsList.do?q_bbsSn=1009",
+          "companyNoticeUrl": "https://www.koagi.or.kr/www/user/bbs/BD_selectBbsList.do?q_bbsSn=1009",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -2984,6 +3156,7 @@
           "company": "한국수목원정원관리원",
           "title": "한국수목원정원관리원 2026년 제3차 신규직원 채용 공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=304713",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -3035,7 +3208,8 @@
           "id": "ebfaff38e2358297c6",
           "company": "국민연금공단",
           "title": "국민연금공단 2026년도 하반기 일반직 신입직원 공개채용 공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=304656",
+          "url": "https://www.nps.or.kr/pnsgdnc/hiregdnc/getOHAE0004M1.do?menuId=MN24000969&pstId=ZZ202600000000001011&hmpgCd=01&hmpgBbsCd=BS20240138&sortSe=FR&pageIndex=1&searchText=&searchGbu=&pstSeCd=",
+          "companyNoticeUrl": "https://www.nps.or.kr/pnsgdnc/hiregdnc/getOHAE0004M1.do?menuId=MN24000969&pstId=ZZ202600000000001011&hmpgCd=01&hmpgBbsCd=BS20240138&sortSe=FR&pageIndex=1&searchText=&searchGbu=&pstSeCd=",
           "published": false,
           "qualification": "eligible",
           "roles": [
@@ -3070,6 +3244,7 @@
           "company": "한국산업인력공단",
           "title": "한국산업인력공단 2026년 하반기 일반직 신규직원 채용공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=303146",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -3100,7 +3275,8 @@
           "id": "bf1c7d9b0fb5090c2c",
           "company": "한국주택금융공사",
           "title": "2026년도 한국주택금융공사 직무능력 평가기반 신입직원 채용",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=303344",
+          "url": "https://www.hf.go.kr/ko/sub05/sub05_07_03.do?mode=view&articleNo=600433&article.offset=0&articleLimit=10",
+          "companyNoticeUrl": "https://www.hf.go.kr/ko/sub05/sub05_07_03.do?mode=view&articleNo=600433&article.offset=0&articleLimit=10",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -3173,7 +3349,8 @@
           "id": "fdbf473778e59fd226",
           "company": "한국국제협력단",
           "title": "한국국제협력단 제29기 KOICA 청년인턴(홍보분야) 모집 공고",
-          "url": "https://job.alio.go.kr/recruitview.do?idx=302244",
+          "url": "https://koica.recruiter.co.kr/career/jobs/120486",
+          "companyNoticeUrl": "https://koica.recruiter.co.kr/career/jobs/120486",
           "published": false,
           "qualification": "review",
           "roles": []
@@ -3206,6 +3383,7 @@
           "company": "한국중부발전(주)",
           "title": "한국중부발전(주) 2026년도 제2차 4직급 신입직원 채용공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=302314",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "ineligible",
           "roles": []
@@ -3235,6 +3413,7 @@
           "company": "대한무역투자진흥공사",
           "title": "대한무역투자진흥공사 2026년 KOTRA 행정직 채용 공고",
           "url": "https://job.alio.go.kr/recruitview.do?idx=302006",
+          "companyNoticeUrl": "",
           "published": false,
           "qualification": "eligible",
           "roles": [
@@ -3248,7 +3427,7 @@
       "sourceName": "광주교육청 공공기관·추천채용",
       "url": "https://jpl.gen.go.kr/xboard/board.php?mode=view&number=3160&tbnum=1&sCat=0&page=1&keyset=&searchword=",
       "title": "국민연금공단(학력무관, 고졸채용), NH농협은행(학력무관) ..",
-      "company": "",
+      "company": "국민연금공단",
       "category": "",
       "postedAt": "2026-09-11",
       "start": "2026-09-04",
@@ -3265,7 +3444,21 @@
       "outcome": "closed",
       "firstSeenAt": "2026-09-11T09:35:57.556Z",
       "unresolvedRuns": 0,
-      "matches": []
+      "matches": [
+        {
+          "id": "ebfaff38e2358297c6",
+          "company": "국민연금공단",
+          "title": "국민연금공단 2026년도 하반기 일반직 신입직원 공개채용 공고",
+          "url": "https://www.nps.or.kr/pnsgdnc/hiregdnc/getOHAE0004M1.do?menuId=MN24000969&pstId=ZZ202600000000001011&hmpgCd=01&hmpgBbsCd=BS20240138&sortSe=FR&pageIndex=1&searchText=&searchGbu=&pstSeCd=",
+          "companyNoticeUrl": "https://www.nps.or.kr/pnsgdnc/hiregdnc/getOHAE0004M1.do?menuId=MN24000969&pstId=ZZ202600000000001011&hmpgCd=01&hmpgBbsCd=BS20240138&sortSe=FR&pageIndex=1&searchText=&searchGbu=&pstSeCd=",
+          "published": false,
+          "qualification": "eligible",
+          "roles": [
+            "6급 사무직 일반",
+            "6급보 사무직 일반"
+          ]
+        }
+      ]
     },
     {
       "source": "gwangju-public",
@@ -3285,7 +3478,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
       "matches": []
     },
     {
@@ -3349,7 +3542,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
       "matches": []
     },
     {
@@ -3413,7 +3606,127 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
+      "matches": []
+    },
+    {
+      "source": "hifive-central",
+      "sourceName": "HIFIVE 중앙 취업지원 공지",
+      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=146525",
+      "title": "[한국패션협회] K-Fashion IP캠페인 서포터즈 챌린지 모집",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-09-15",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": false,
+      "externalLinks": [
+        "http://www.koreafashion.org/news/notice/read.jsp?reqPageNo=1&no=3543"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-21T08:49:35.928Z",
+      "unresolvedRuns": 1,
+      "matches": []
+    },
+    {
+      "source": "hifive-central",
+      "sourceName": "HIFIVE 중앙 취업지원 공지",
+      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=145990",
+      "title": "[한국광해광업공단] 고졸 채용형 인턴 공고(고졸제한)",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-08-10",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "http://komir.saramin.co.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 8,
+      "matches": []
+    },
+    {
+      "source": "hifive-central",
+      "sourceName": "HIFIVE 중앙 취업지원 공지",
+      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=145918",
+      "title": "[한국주택금융공사] 한국주택금융공사 신입직원 채용(고졸전형)",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-08-05",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 8,
+      "matches": []
+    },
+    {
+      "source": "hifive-central",
+      "sourceName": "HIFIVE 중앙 취업지원 공지",
+      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=145635",
+      "title": "[한국산업인력공단] 2027년도 과정평가형 국가기술자격 교육훈련과정 모집공고",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-07-06",
+      "start": "2026-07-13",
+      "deadline": "2026-08-14",
+      "recruitment": true,
+      "highSchoolSignal": false,
+      "externalLinks": [],
+      "detailStatus": "read",
+      "outcome": "closed",
+      "firstSeenAt": "2026-09-21T08:49:35.928Z",
+      "unresolvedRuns": 0,
+      "matches": []
+    },
+    {
+      "source": "hifive-central",
+      "sourceName": "HIFIVE 중앙 취업지원 공지",
+      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=145617",
+      "title": "[주택도시보증공사] 2026년도 정규직(관리7급-금융, 전산) 채용",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-07-01",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [
+        "https://khug.kpcice.kr/"
+      ],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 8,
+      "matches": []
+    },
+    {
+      "source": "hifive-central",
+      "sourceName": "HIFIVE 중앙 취업지원 공지",
+      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=145579",
+      "title": "[KOTRA] 행정직 채용 공고(사무직 행정 6직급)",
+      "company": "",
+      "category": "",
+      "postedAt": "2026-06-24",
+      "start": "",
+      "deadline": "",
+      "recruitment": true,
+      "highSchoolSignal": true,
+      "externalLinks": [],
+      "detailStatus": "read",
+      "outcome": "unmatched-discovery",
+      "firstSeenAt": "2026-09-09T18:20:42.175Z",
+      "unresolvedRuns": 8,
       "matches": []
     },
     {
@@ -3421,7 +3734,7 @@
       "sourceName": "제주교육청 취업지원센터",
       "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=1&dataSid=1481785",
       "title": "[채용공고] 2026년 하반기 한국도로공사 일반직 8급(채용형인턴 행정, 토목-고졸) 채용 공고",
-      "company": "",
+      "company": "한국도로공사",
       "category": "",
       "postedAt": "2026-09-18",
       "start": "",
@@ -3434,7 +3747,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3455,7 +3768,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3463,7 +3776,7 @@
       "sourceName": "제주교육청 취업지원센터",
       "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=1&dataSid=1481771",
       "title": "[채용공고] 2026년 한국소비자원 제2차 신입(채용형인턴-고졸) 채용 공고",
-      "company": "",
+      "company": "한국소비자원",
       "category": "",
       "postedAt": "2026-09-18",
       "start": "",
@@ -3476,7 +3789,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3497,7 +3810,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3505,7 +3818,7 @@
       "sourceName": "제주교육청 취업지원센터",
       "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=1&dataSid=1481374",
       "title": "[채용] 한국가스안전공사(고졸채용)",
-      "company": "",
+      "company": "한국가스안전공사",
       "category": "",
       "postedAt": "2026-09-14",
       "start": "2026-09-15",
@@ -3516,17 +3829,40 @@
         "https://kgs.saramin.co.kr/"
       ],
       "detailStatus": "read",
-      "outcome": "unmatched-discovery",
+      "outcome": "published-match",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 1,
-      "matches": []
+      "unresolvedRuns": 0,
+      "matches": [
+        {
+          "id": "441d8e23e60f5ec2e1",
+          "company": "한국가스안전공사",
+          "title": "2026년 하반기 한국가스안전공사 정규직(채용형인턴) 채용 공고",
+          "url": "https://kgs.saramin.co.kr/",
+          "companyNoticeUrl": "https://kgs.saramin.co.kr/",
+          "published": false,
+          "qualification": "review",
+          "roles": []
+        },
+        {
+          "id": "c8794b625b37139d54",
+          "company": "한국가스안전공사",
+          "title": "2026년 하반기 한국가스안전공사 정규직(채용형인턴) 채용 공고",
+          "url": "https://job.alio.go.kr/recruitview.do?idx=304810",
+          "companyNoticeUrl": "",
+          "published": true,
+          "qualification": "eligible",
+          "roles": [
+            "7급 사무원 회계수납(고졸 학교장추천)"
+          ]
+        }
+      ]
     },
     {
       "source": "jeju-highschool",
       "sourceName": "제주교육청 취업지원센터",
       "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=1&dataSid=1480928",
       "title": "[채용공고] 한국남부발전(주) 2026년 하반기 신입사원(고졸-4직급) 채용공고",
-      "company": "",
+      "company": "한국남부발전",
       "category": "",
       "postedAt": "2026-09-12",
       "start": "",
@@ -3539,7 +3875,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-14T04:49:05.485Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -3547,7 +3883,7 @@
       "sourceName": "제주교육청 취업지원센터",
       "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=1&dataSid=1480926",
       "title": "[채용공고] 한국수목원정원관리원(고졸-5급나) 채용 공고",
-      "company": "",
+      "company": "한국수목원정원관리원",
       "category": "",
       "postedAt": "2026-09-12",
       "start": "",
@@ -3560,7 +3896,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-14T04:49:05.485Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -3568,7 +3904,7 @@
       "sourceName": "제주교육청 취업지원센터",
       "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=1&dataSid=1480924",
       "title": "[채용공고] 2026년도 하반기 국민연금공단 신입직원(고졸-6급보) 채용 공고",
-      "company": "",
+      "company": "국민연금공단",
       "category": "",
       "postedAt": "2026-09-12",
       "start": "",
@@ -3581,7 +3917,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-14T04:49:05.485Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -3589,7 +3925,7 @@
       "sourceName": "제주교육청 취업지원센터",
       "url": "https://www.jje.go.kr/job/board/view.jje?boardId=BBS_0000266&menuCd=DOM_000000301001000000&paging=ok&startPage=1&dataSid=1479097",
       "title": "[채용공고] 2026년도 하반기 신용보증기금 신입직원 채용 공고",
-      "company": "",
+      "company": "신용보증기금",
       "category": "",
       "postedAt": "2026-09-04",
       "start": "",
@@ -3602,7 +3938,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
       "matches": []
     },
     {
@@ -3645,7 +3981,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3666,7 +4002,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3687,7 +4023,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3708,7 +4044,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3729,7 +4065,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-14T04:49:05.485Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -3750,7 +4086,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
       "matches": []
     },
     {
@@ -3771,7 +4107,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
       "matches": []
     },
     {
@@ -3806,13 +4142,14 @@
       "start": "",
       "deadline": "",
       "recruitment": true,
-      "detailStatus": "failed",
-      "detailError": "Detail schema missing: boardViewWrap",
-      "externalLinks": [],
       "highSchoolSignal": true,
+      "externalLinks": [
+        "http://www.khnp.co.kr/recruit"
+      ],
+      "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3833,7 +4170,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3915,7 +4252,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
     },
     {
@@ -3936,7 +4273,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-14T04:49:05.485Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -3957,7 +4294,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-14T04:49:05.485Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -3978,7 +4315,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-14T04:49:05.485Z",
-      "unresolvedRuns": 2,
+      "unresolvedRuns": 3,
       "matches": []
     },
     {
@@ -3999,7 +4336,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
       "matches": []
     },
     {
@@ -4020,92 +4357,8 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-21T06:34:21.110Z",
-      "unresolvedRuns": 1,
+      "unresolvedRuns": 2,
       "matches": []
-    },
-    {
-      "source": "hifive-central",
-      "sourceName": "HIFIVE 중앙 취업지원 공지",
-      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=145990",
-      "title": "[한국광해광업공단] 고졸 채용형 인턴 공고(고졸제한)",
-      "company": "",
-      "category": "",
-      "postedAt": "2026-08-10",
-      "start": "",
-      "deadline": "",
-      "recruitment": true,
-      "highSchoolSignal": true,
-      "externalLinks": [
-        "http://komir.saramin.co.kr/"
-      ],
-      "detailStatus": "read",
-      "outcome": "unmatched-discovery",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
-      "matches": [],
-      "missingFromCurrentScan": true
-    },
-    {
-      "source": "hifive-central",
-      "sourceName": "HIFIVE 중앙 취업지원 공지",
-      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=145918",
-      "title": "[한국주택금융공사] 한국주택금융공사 신입직원 채용(고졸전형)",
-      "company": "",
-      "category": "",
-      "postedAt": "2026-08-05",
-      "start": "",
-      "deadline": "",
-      "recruitment": true,
-      "highSchoolSignal": true,
-      "externalLinks": [],
-      "detailStatus": "read",
-      "outcome": "unmatched-discovery",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
-      "matches": [],
-      "missingFromCurrentScan": true
-    },
-    {
-      "source": "hifive-central",
-      "sourceName": "HIFIVE 중앙 취업지원 공지",
-      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=145617",
-      "title": "[주택도시보증공사] 2026년도 정규직(관리7급-금융, 전산) 채용",
-      "company": "",
-      "category": "",
-      "postedAt": "2026-07-01",
-      "start": "",
-      "deadline": "",
-      "recruitment": true,
-      "highSchoolSignal": true,
-      "externalLinks": [
-        "https://khug.kpcice.kr/"
-      ],
-      "detailStatus": "read",
-      "outcome": "unmatched-discovery",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
-      "matches": [],
-      "missingFromCurrentScan": true
-    },
-    {
-      "source": "hifive-central",
-      "sourceName": "HIFIVE 중앙 취업지원 공지",
-      "url": "https://www.hifive.go.kr/front/bbs/bbsDetail.do?bbs_id=1&menuId=0501&rootMenuId=05&bbs_seq=145579",
-      "title": "[KOTRA] 행정직 채용 공고(사무직 행정 6직급)",
-      "company": "",
-      "category": "",
-      "postedAt": "2026-06-24",
-      "start": "",
-      "deadline": "",
-      "recruitment": true,
-      "highSchoolSignal": true,
-      "externalLinks": [],
-      "detailStatus": "read",
-      "outcome": "unmatched-discovery",
-      "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
-      "matches": [],
-      "missingFromCurrentScan": true
     },
     {
       "source": "jeju-highschool",
@@ -4125,7 +4378,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4147,7 +4400,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4169,7 +4422,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4191,7 +4444,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4213,7 +4466,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4235,7 +4488,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4255,7 +4508,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4277,7 +4530,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4299,7 +4552,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4321,7 +4574,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4343,7 +4596,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4365,7 +4618,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4387,7 +4640,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4409,7 +4662,7 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
       "matches": [],
       "missingFromCurrentScan": true
     },
@@ -4431,20 +4684,157 @@
       "detailStatus": "read",
       "outcome": "unmatched-discovery",
       "firstSeenAt": "2026-09-09T18:20:42.175Z",
-      "unresolvedRuns": 7,
+      "unresolvedRuns": 8,
       "matches": [],
       "missingFromCurrentScan": true
     }
   ],
+  "acceptanceCoverage": [
+    {
+      "employer": "한국에너지공단",
+      "discoveredLeadCount": 4,
+      "officialFeedLeadCount": 3,
+      "activeOrUnknownDeadlineCount": 4,
+      "outcomes": [
+        "qualification-or-policy-review",
+        "published-match"
+      ]
+    },
+    {
+      "employer": "한국토지주택공사",
+      "discoveredLeadCount": 4,
+      "officialFeedLeadCount": 3,
+      "activeOrUnknownDeadlineCount": 3,
+      "outcomes": [
+        "qualification-or-policy-review"
+      ]
+    },
+    {
+      "employer": "한국소비자원",
+      "discoveredLeadCount": 7,
+      "officialFeedLeadCount": 5,
+      "activeOrUnknownDeadlineCount": 5,
+      "outcomes": [
+        "qualification-or-policy-review",
+        "unmatched-discovery"
+      ]
+    },
+    {
+      "employer": "한국가스안전공사",
+      "discoveredLeadCount": 7,
+      "officialFeedLeadCount": 5,
+      "activeOrUnknownDeadlineCount": 4,
+      "outcomes": [
+        "published-match",
+        "qualification-or-policy-review"
+      ]
+    },
+    {
+      "employer": "한국남부발전",
+      "discoveredLeadCount": 6,
+      "officialFeedLeadCount": 4,
+      "activeOrUnknownDeadlineCount": 4,
+      "outcomes": [
+        "qualification-or-policy-review",
+        "unmatched-discovery"
+      ]
+    },
+    {
+      "employer": "한국도로공사",
+      "discoveredLeadCount": 7,
+      "officialFeedLeadCount": 4,
+      "activeOrUnknownDeadlineCount": 4,
+      "outcomes": [
+        "published-match",
+        "closed",
+        "unmatched-discovery",
+        "qualification-or-policy-review"
+      ]
+    },
+    {
+      "employer": "한국수목원정원관리원",
+      "discoveredLeadCount": 9,
+      "officialFeedLeadCount": 6,
+      "activeOrUnknownDeadlineCount": 6,
+      "outcomes": [
+        "qualification-or-policy-review",
+        "unmatched-discovery"
+      ]
+    },
+    {
+      "employer": "한국전력기술",
+      "discoveredLeadCount": 4,
+      "officialFeedLeadCount": 3,
+      "activeOrUnknownDeadlineCount": 4,
+      "outcomes": [
+        "published-match",
+        "qualification-or-policy-review"
+      ]
+    },
+    {
+      "employer": "국민연금공단",
+      "discoveredLeadCount": 7,
+      "officialFeedLeadCount": 3,
+      "activeOrUnknownDeadlineCount": 1,
+      "outcomes": [
+        "closed",
+        "unmatched-discovery",
+        "qualification-or-policy-review"
+      ]
+    },
+    {
+      "employer": "KB국민은행",
+      "discoveredLeadCount": 1,
+      "officialFeedLeadCount": 1,
+      "activeOrUnknownDeadlineCount": 0,
+      "outcomes": [
+        "qualification-or-policy-review"
+      ]
+    },
+    {
+      "employer": "부산항만공사",
+      "discoveredLeadCount": 2,
+      "officialFeedLeadCount": 1,
+      "activeOrUnknownDeadlineCount": 0,
+      "outcomes": [
+        "closed",
+        "qualification-or-policy-review"
+      ]
+    },
+    {
+      "employer": "한국산림복지진흥원",
+      "discoveredLeadCount": 5,
+      "officialFeedLeadCount": 3,
+      "activeOrUnknownDeadlineCount": 3,
+      "outcomes": [
+        "qualification-or-policy-review",
+        "closed",
+        "published-match"
+      ]
+    },
+    {
+      "employer": "신용보증기금",
+      "discoveredLeadCount": 2,
+      "officialFeedLeadCount": 0,
+      "activeOrUnknownDeadlineCount": 1,
+      "outcomes": [
+        "closed",
+        "unmatched-discovery"
+      ]
+    }
+  ],
+  "acceptanceScope": "13개 기관은 회귀 점검 표본이며 전체 수집 대상을 제한하지 않습니다.",
   "summary": {
-    "discovered": 167,
-    "publishedMatches": 7,
-    "closed": 104,
+    "discovered": 170,
+    "publishedMatches": 9,
+    "closed": 105,
     "unresolved": 56,
-    "activeDatedUnresolved": 11,
-    "unknownDeadlineUnresolved": 45,
-    "highSchoolUnresolved": 56,
-    "sourceFailures": 1,
-    "detailFailures": 1
+    "activeDatedUnresolved": 10,
+    "unknownDeadlineUnresolved": 46,
+    "highSchoolUnresolved": 55,
+    "acceptanceSampleCount": 13,
+    "acceptanceSampleWithLeads": 13,
+    "sourceFailures": 0,
+    "detailFailures": 0
   }
 }
