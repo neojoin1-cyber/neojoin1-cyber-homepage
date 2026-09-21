@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { PRIORITY_BOARDS, boardDates, parsePriorityBoard, parsePriorityDetail, discoverPriorityJobs, reconcilePriorityDiscovery, discoveredRecruiterEntries } from './priority_job_discovery.mjs';
+import { PRIORITY_BOARDS, HIGH_SCHOOL_EMPLOYER_ACCEPTANCE_FIXTURE, canonicalHighSchoolEmployer, boardDates, parsePriorityBoard, parsePriorityDetail, discoverPriorityJobs, reconcilePriorityDiscovery, discoveredRecruiterEntries } from './priority_job_discovery.mjs';
 const pen = PRIORITY_BOARDS[0];
 const table = (rows) => `<table><tbody>${rows.join('')}</tbody></table>`;
 const penRow = (id = '1234', company = '부산항만공사', title = '고졸 신입 채용') => `<tr><td>1</td><td>공기업</td><td>${company}</td><td><a href="/main/na/ntt/selectNttInfo.do?nttSn=${id}&amp;bbsId=2756">${title}</a></td><td>2026/09/09 ~ 2026/09/17</td><td>5</td></tr>`;
@@ -47,6 +47,33 @@ test('plain employer URLs and the IBK legal entity are retained', () => {
     { title: '2026년 IBK기업은행 신입행원 채용', url: PRIORITY_BOARDS[4].url }, PRIORITY_BOARDS[4]);
   assert.equal(row.company, '중소기업은행'); assert.equal(row.deadline, '2026-09-14');
   assert.ok(row.externalLinks.includes('https://www.ibk.incruit.com/'));
+});
+test('the 13 requested employers are recognized from board titles without restricting other employers', () => {
+  assert.equal(HIGH_SCHOOL_EMPLOYER_ACCEPTANCE_FIXTURE.length, 13);
+  for (const employer of HIGH_SCHOOL_EMPLOYER_ACCEPTANCE_FIXTURE) {
+    const row = parsePriorityDetail(`<div class="bbs_ViewA">${employer} 고졸(예정) 채용 접수기간 2026.9.1 ~ 9.30</div>`,
+      { title: `${employer} 고졸 채용`, url: pen.url }, pen);
+    assert.equal(canonicalHighSchoolEmployer(row.company), employer);
+    assert.equal(row.highSchoolSignal, true);
+  }
+  assert.equal(canonicalHighSchoolEmployer('새로운 공기업'), '');
+  assert.equal(canonicalHighSchoolEmployer('LH 한국토지주택공사'), '한국토지주택공사');
+  assert.equal(canonicalHighSchoolEmployer('한국남부발전(주)'), '한국남부발전');
+  assert.equal(canonicalHighSchoolEmployer('국민은행 고졸 신입 채용'), 'KB국민은행');
+  const unknownLead = { title: '고졸 채용', company: '새로운 공기업', highSchoolSignal: true, url: 'https://example.com/notice/1', externalLinks: [] };
+  const result = reconcilePriorityDiscovery({ sources: [], records: [unknownLead] }, [], [], new Date('2026-09-10'));
+  assert.equal(result.records.length, 1);
+  assert.equal(result.records[0].company, '새로운 공기업');
+  assert.equal(result.summary.acceptanceSampleCount, 13);
+  assert.equal(result.summary.acceptanceSampleWithLeads, 0);
+  assert.equal(result.acceptanceCoverage.length, 13);
+  const apiLead = { id: 'kb-api', source: 'finance-large-company-recruit', company: 'KB국민은행',
+    title: '신입행원 특성화고 특별채용', deadline: '2026-09-09', url: 'https://kbstar.careerlink.kr/jobs/recruit-1' };
+  const merged = reconcilePriorityDiscovery({ sources: [], records: [] }, [apiLead], [apiLead], new Date('2026-09-10'));
+  const kb = merged.acceptanceCoverage.find((row) => row.employer === 'KB국민은행');
+  assert.equal(kb.discoveredLeadCount, 1);
+  assert.equal(kb.officialFeedLeadCount, 1);
+  assert.deepEqual(kb.outcomes, ['published-match']);
 });
 test('page cap and repeated inventory remain explicitly incomplete', async () => {
   const html = table(Array.from({ length: 10 }, (_, i) => penRow(String(1234 + i))));

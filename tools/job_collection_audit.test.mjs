@@ -172,15 +172,21 @@ test('ALIO high-school education filters scan every employer and both single/mix
       const form = new URLSearchParams(init.body);
       assert.equal(init.headers.Cookie, 'JSESSIONID=scan-session');
       assert.equal(form.get('_csrf'), 'test-token');
-      assert.equal(form.get('education'), 'R7030');
-      assert.equal(['single', 'multi'].includes(form.get('eduType')), true);
       assert.equal(form.has('org_type') || form.has('org_name'), false);
       assert.equal(form.get('s_date'), '2026.06.23');
       assert.equal(form.get('e_date'), '2026.09.21');
+      if (form.has('eduType')) {
+        assert.equal(form.get('education'), 'R7030');
+        assert.equal(['single', 'multi'].includes(form.get('eduType')), true);
+      } else {
+        assert.equal(form.get('search_type'), 'elig');
+        assert.ok(form.get('keyword'));
+      }
+      if (form.get('search_type') === 'elig') return alioResponse('<table></table>');
       return alioResponse(`<table>${pages[`${form.get('eduType')}:${form.get('pageNo')}`] || ''}</table>`);
     }
   });
-  assert.equal(requests.length, 5);
+  assert.equal(requests.length, 10);
   assert.equal(result.pagination.complete, true);
   assert.deepEqual(result.rows.map((row) => row.idx), ['101', '202']);
   assert.deepEqual(result.rows[0].scanReasons, ['education-high-school-single', 'education-high-school-multi']);

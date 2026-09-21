@@ -142,6 +142,11 @@
         const counts = Object.entries(audit.summary.counts).map(([key, count]) => `${labels[key] || key} ${Number(count)}건`).join(' · ');
         const unconnected = audit.sources.filter((source) => !source.configured).length;
         const problems = audit.sources.filter((source) => source.configured && (!source.ok || source.failedUrlCount || source.discoveryIncompleteCount || source.pagination && !source.pagination.complete));
+        let priorityCoverage = null;
+        try {
+          const priorityResponse = await fetch('assets/job-priority-coverage.json', { cache: 'no-store' });
+          if (priorityResponse.ok) priorityCoverage = await priorityResponse.json();
+        } catch { /* The audit link below remains available if the detail file is temporarily unreachable. */ }
         const priorityByKey = new Map(audit.records
           .filter((row) => row.priority === 'high' && row.unresolvedSince)
           .map((row) => [`${row.source}:${row.sourceId}`, row]));
@@ -158,7 +163,21 @@
             const sourceUrl = /^https?:\/\//i.test(row.url || '') ? row.url : '';
             return `<li>${sourceUrl ? `<a href="${escapeHtml(sourceUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(row.title)}</a>` : escapeHtml(row.title)} · ${escapeHtml(row.company || '')} · ${escapeHtml(labels[row.disposition] || row.disposition)}${row.deadline ? ` · 마감 ${escapeHtml(row.deadline)}` : ''}</li>`;
           }).join('')}</ul>` : ''}
-          ${audit.priorityDiscovery ? `<p><strong>고졸채용 독립 탐색 대조</strong><br>교육청·중앙 취업지원 공지 ${Number(audit.priorityDiscovery.discovered)}건 · 고졸 전형 게시 대조 ${Number(audit.priorityDiscovery.publishedMatches)}건 · 접수기간 내 재확인 ${Number(audit.priorityDiscovery.activeDatedUnresolved)}건 · 마감일 확인 대기 ${Number(audit.priorityDiscovery.unknownDeadlineUnresolved)}건<br><a href="assets/job-priority-coverage.json">독립 탐색 출처·미해결 공고 보기(JSON)</a></p>` : ''}
+          ${audit.priorityDiscovery ? (() => {
+            const aligned = priorityCoverage?.generatedAt === audit.generatedAt;
+            const activeLeads = aligned ? priorityCoverage.records.filter((row) => row.highSchoolSignal && row.outcome !== 'closed'
+              && (!row.deadline || Date.parse(`${row.deadline}T23:59:59+09:00`) >= Date.now())) : [];
+            const statusNames = { 'published-match': '게시 대조 완료', 'qualification-or-policy-review': '자격·게시 검토 중', 'unmatched-discovery': '기관 공고 대조 대기' };
+            const leadRows = activeLeads.slice(0, 12).map((row) => {
+              const notice = row.matches?.find((match) => /^https?:\/\//i.test(match.url || ''));
+              const boardLink = /^https?:\/\//i.test(row.url || '')
+                ? `<a href="${escapeHtml(row.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(row.company ? `${row.company} · ${row.title}` : row.title)}</a>`
+                : escapeHtml(row.title);
+              const noticeLink = notice ? ` · <a href="${escapeHtml(notice.url)}" target="_blank" rel="noopener noreferrer">${notice.companyNoticeUrl ? '기관 채용공고' : '잡알리오 대조'}</a>` : '';
+              return `<li>${boardLink} · ${escapeHtml(statusNames[row.outcome] || row.outcome)}${row.deadline ? ` · 마감 ${escapeHtml(row.deadline)}` : ''}${noticeLink}</li>`;
+            }).join('');
+            return `<p><strong>고졸채용 독립 탐색 대조</strong><br>교육청·중앙 취업지원 공지 ${Number(audit.priorityDiscovery.discovered)}건 · 게시 대조 ${Number(audit.priorityDiscovery.publishedMatches)}건 · 자격/기관공고 확인 대기 ${Number(audit.priorityDiscovery.highSchoolUnresolved)}건<br>13개 기관은 회귀 표본이며 전체 수집 범위를 제한하지 않습니다. 기준 표본 발견 ${Number(audit.priorityDiscovery.acceptanceSampleWithLeads || 0)}/${Number(audit.priorityDiscovery.acceptanceSampleCount || 13)}곳<br>${aligned && activeLeads.length ? `<details><summary>진행 중·마감일 미확인 고졸 발견 공고 ${activeLeads.length}건 보기</summary><ul>${leadRows}</ul><p>교육청 게시물은 발견 경로입니다. '게시 대조 완료' 외 항목은 기관 공고의 지원 자격과 현재 접수 여부를 확인해야 합니다.</p></details>` : ''}<a href="assets/job-priority-coverage.json">독립 탐색 출처·미해결 공고 보기(JSON)</a></p>`;
+          })() : ''}
           <a href="assets/job-collection-audit.json">전체 점검 기록(JSON) 보기</a>`;
       } catch {
         output.textContent = '수집 점검 기록을 불러오지 못했습니다. 이를 정상 수집으로 판단하지 마세요. 잠시 후 다시 펼쳐 확인해 주세요.';

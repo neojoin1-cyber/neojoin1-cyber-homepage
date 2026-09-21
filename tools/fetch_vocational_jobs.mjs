@@ -16,6 +16,7 @@ import { enrichEmployerNotices } from './employer_notice_resolver.mjs';
 import { auditJobAttachments } from './job_attachment_audit.mjs';
 import { cacheJobAttachments } from './job_attachment_cache.mjs';
 import { isEmployerDetailUrl } from '../assets/job-official-links.mjs';
+import { fetchCareerlinkPublicJobs } from './careerlink_public_jobs.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(__dirname, '..');
@@ -517,7 +518,7 @@ const FINANCE_LARGE_COMPANY_OFFICIAL_WATCHLIST = [
   { employer: '현대모비스', group: 'large-company', url: 'https://mobis.recruiter.co.kr/', tags: ['대기업', '채용대행공식'] },
   { employer: '네이버', group: 'large-company', url: 'https://recruit.navercorp.com/', tags: ['대기업', 'IT'] },
   { employer: '카카오', group: 'large-company', url: 'https://careers.kakao.com/', tags: ['대기업', 'IT'] },
-  { employer: 'KB국민은행', group: 'finance', url: 'https://kbstar.careerlink.kr/', tags: ['1금융권', '은행'] },
+  { employer: 'KB국민은행', group: 'finance', url: 'https://kbstar.careerlink.kr/jobs', careerlinkCoNo: 'CO202507252710', careerlinkGroupCoNo: 'CO202507252710', tags: ['1금융권', '은행', '공식 공개 API'] },
   { employer: '신한은행', group: 'finance', url: 'https://shinhan.recruiter.co.kr/', tags: ['1금융권', '은행'] },
   { employer: '하나은행', group: 'finance', url: 'https://hanabank.recruiter.co.kr/', tags: ['1금융권', '은행'] },
   { employer: '우리은행', group: 'finance', url: 'https://wooribank.recruiter.co.kr/', tags: ['1금융권', '은행'] },
@@ -7200,16 +7201,16 @@ async function fetchJobAlioRecruit() {
       rawItemCount: rawItems.length,
       recentDetailRows: rowSelection.recentRows.length,
       failedUrlCount: errors.length,
-      discoveryIncompleteCount: educationFilterScan.pagination.issues.length,
+      discoveryIncompleteCount: educationFilterScan.pagination.issues.length + (educationFilterScan.pagination.keywordSearchIssues?.length || 0),
       educationFilterScan: educationFilterScan.pagination,
-      collectionScope: `모든 기관 공통 고졸 학력필터(single·multi, 최근 ${educationFilterScan.pagination.lookbackDays}일)와 최근 ${JOB_ALIO_SCAN_PAGES}개 목록 페이지 및 보조 감시; 기재부 공고 API 별도 대조`,
+      collectionScope: `모든 기관 공통 고졸 학력필터(single·multi, 최근 ${educationFilterScan.pagination.lookbackDays}일), 응시자격 키워드 보조검색 및 최근 ${JOB_ALIO_SCAN_PAGES}개 목록 페이지; 기재부 공고 API 별도 대조`,
       selectedRecentDetailRows: rowSelection.selectedRecentCount,
       dynamicDiscovery,
       criticalCoverage,
       firstDayCandidates,
       missedReviewNeeded: missedReview,
       message: ok
-        ? `공식 공개 원문 ${scannedCount}건과 고졸 학력필터 ${educationFilterScan.rows.length}건/${educationFilterScan.pagination.queries.reduce((sum, query) => sum + query.pages, 0)}페이지 확인, 최근 상세 ${dynamicDiscovery.recentRowsDetailed}/${dynamicDiscovery.recentRowsScanned}건, 표시누락 ${dynamicDiscovery.missingCandidateCount}건${errors.length ? `, 부분 실패 ${errors.length}건` : ''}`
+        ? `공식 공개 원문 ${scannedCount}건과 고졸 학력필터 ${educationFilterScan.rows.length}건, 전체기관 자격 키워드 보조검색 ${educationFilterScan.pagination.keywordQueries?.reduce((sum, query) => sum + query.discovered, 0) || 0}건 확인, 최근 상세 ${dynamicDiscovery.recentRowsDetailed}/${dynamicDiscovery.recentRowsScanned}건, 표시누락 ${dynamicDiscovery.missingCandidateCount}건${errors.length ? `, 부분 실패 ${errors.length}건` : ''}`
         : `연결 실패: ${errors.slice(0, 2).join('; ')}`
     })
   };
@@ -7627,10 +7628,44 @@ async function fetchGenericConfiguredSource(id) {
   let recruiterApiTotalCount = 0;
   let recruiterApiCurrentCount = 0;
   let recruiterApiRecordCount = 0;
+  let careerlinkApiCheckedCount = 0;
+  let careerlinkApiListCount = 0;
+  let careerlinkApiRecordCount = 0;
+  let careerlinkApiDetailFailures = 0;
   const reachabilityOnlyEmployers = [];
   const recruiterApiFailures = [];
+  const careerlinkApiFailures = [];
   const providerPagination = [];
   const results = await mapWithConcurrency(entries, GENERIC_OFFICIAL_FEED_CONCURRENCY, async (entry) => {
+    if (entry.builtIn && entry.careerlinkCoNo) {
+      try {
+        const apiResult = await fetchCareerlinkPublicJobs({ entry, source });
+        return {
+          ok: true,
+          entry,
+          records: apiResult.records,
+          recordCount: apiResult.records.length,
+          url: safePublicFeedUrl(entry.url),
+          careerlinkApiChecked: true,
+          careerlinkApiListCount: apiResult.listCount,
+          careerlinkApiRecordCount: apiResult.records.length,
+          careerlinkApiDetailFailures: apiResult.detailFailures,
+          careerlinkApiComplete: apiResult.complete
+        };
+      } catch (error) {
+        const message = sanitizeFetchErrorMessage(error.message);
+        return {
+          ok: false,
+          entry,
+          records: [],
+          recordCount: 0,
+          url: safePublicFeedUrl(entry.url),
+          careerlinkApiChecked: true,
+          careerlinkApiFailures: [message],
+          error: message
+        };
+      }
+    }
     try {
       let { body, sourceUrl } = await fetchEntryBody(entry);
       for (let redirectCount = 0; redirectCount < 2; redirectCount += 1) {
@@ -7734,6 +7769,15 @@ async function fetchGenericConfiguredSource(id) {
       if (result.recruiterApiError) {
         recruiterApiFailures.push(`${result.entry.employer || result.url}: ${result.recruiterApiError}`);
       }
+      if (result.careerlinkApiChecked) {
+        careerlinkApiCheckedCount += 1;
+        careerlinkApiListCount += result.careerlinkApiListCount || 0;
+        careerlinkApiRecordCount += result.careerlinkApiRecordCount || 0;
+        careerlinkApiDetailFailures += result.careerlinkApiDetailFailures || 0;
+        if (result.careerlinkApiComplete === false) {
+          careerlinkApiFailures.push(`${result.entry.employer}: 상세 ${result.careerlinkApiDetailFailures || 0}건 실패 또는 API 목록 상한 초과`);
+        }
+      }
       if (result.reachabilityOnly) {
         reachabilityOnlyCount += 1;
         reachabilityOnlyEmployers.push(result.entry.employer || result.url);
@@ -7741,6 +7785,10 @@ async function fetchGenericConfiguredSource(id) {
       rawItems.push(...result.records);
     } else {
       errors.push(`${result.entry.employer || result.url}: ${result.error}`);
+      if (result.careerlinkApiChecked) {
+        careerlinkApiCheckedCount += 1;
+        careerlinkApiFailures.push(`${result.entry.employer || result.url}: ${result.error}`);
+      }
     }
   }
 
@@ -7771,16 +7819,21 @@ async function fetchGenericConfiguredSource(id) {
       recruiterApiCurrentCount,
       recruiterApiRecordCount,
       recruiterApiFailures: recruiterApiFailures.slice(0, 12),
+      careerlinkApiCheckedCount,
+      careerlinkApiListCount,
+      careerlinkApiRecordCount,
+      careerlinkApiDetailFailures,
+      careerlinkApiFailures: careerlinkApiFailures.slice(0, 12),
       failedUrlCount: errors.length,
-      discoveryIncompleteCount: reachabilityOnlyCount + recruiterApiFailures.length
+      discoveryIncompleteCount: reachabilityOnlyCount + recruiterApiFailures.length + careerlinkApiFailures.length
         + providerPagination.reduce((n, scan) => n + scan.detailFailures + scan.detailDeferred + Number(!scan.complete), 0),
       pagination: providerPagination.length ? { complete: providerPagination.every((scan) => scan.complete), providers: providerPagination } : undefined,
       collectionScope: verificationOnlyRegionalEducation
         ? 'Configured education-office board pages; secondary verification only, not employer-original recommendations'
-        : 'Configured employer watch pages and paginated recruiter API lists; HTML-only sites may need dedicated adapters',
+        : 'Configured employer watch pages, official Careerlink list/detail API, and paginated recruiter API lists; HTML-only sites may need dedicated adapters',
       watchFailures: errors.slice(0, 12),
       message: ok
-        ? `공식 채용 페이지 ${checkedUrlCount}/${entries.length}개 감시, 채용대행 API ${recruiterApiCheckedCount}개 추가확인, 표시후보 ${normalized.length}건, 보조검증 후보 ${verificationItems.length}건, 접속확인전용 ${reachabilityOnlyCount}개, 실패 ${errors.length}개`
+        ? `공식 채용 페이지 ${checkedUrlCount}/${entries.length}개 감시, 채용대행 API ${recruiterApiCheckedCount}개·Careerlink 공식 API ${careerlinkApiCheckedCount}개 추가확인, 표시후보 ${normalized.length}건, 보조검증 후보 ${verificationItems.length}건, 접속확인전용 ${reachabilityOnlyCount}개, 실패 ${errors.length}개`
         : `연결 실패: ${errors.slice(0, 2).join('; ')}`
     })
   };
@@ -8211,7 +8264,9 @@ async function main() {
         eduTypes: JOB_ALIO_HIGH_SCHOOL_EDUCATION_FILTER.eduTypes,
         lookbackDays: JOB_ALIO_HIGH_SCHOOL_EDUCATION_FILTER.lookbackDays,
         institutionRestricted: false,
-        selectionRule: 'official education filter; each row detail and applicant qualifications are independently verified before recommendation'
+        selectionRule: 'official education filter plus all-employer eligibility-keyword fallback; each row detail and applicant qualifications are independently verified before recommendation',
+        fallbackKeywords: educationFilterScan.pagination.keywordQueries?.map((query) => query.keyword) || [],
+        fallbackComplete: educationFilterScan.pagination.keywordSearchComplete === true
       },
       jobAlioCriticalWatchInstitutions: jobAlioWatchOrgs.map((org) => org.orgName),
       jobAlioBaseWatchInstitutions: CRITICAL_JOB_ALIO_ORGS.map((org) => org.orgName),

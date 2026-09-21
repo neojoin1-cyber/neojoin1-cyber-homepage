@@ -6,6 +6,9 @@ export const JOB_ALIO_HIGH_SCHOOL_EDUCATION_FILTER = Object.freeze({
   eduTypes: Object.freeze(['single', 'multi']),
   lookbackDays: 90
 });
+export const JOB_ALIO_HIGH_SCHOOL_KEYWORD_QUERIES = Object.freeze([
+  '고졸', '고등학교', '졸업예정', '특성화고', '학력무관'
+]);
 
 const decodeHtml = (value) => String(value || '')
   .replace(/&nbsp;|&#160;/gi, ' ')
@@ -81,6 +84,7 @@ export async function fetchJobAlioHighSchoolRows({
   now = new Date(),
   lookbackDays = JOB_ALIO_HIGH_SCHOOL_EDUCATION_FILTER.lookbackDays,
   maxPagesPerType = 50,
+  maxPagesPerKeyword = 20,
   pause = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 } = {}) {
   const today = koreaDate(now);
@@ -182,6 +186,74 @@ export async function fetchJobAlioHighSchoolRows({
       result.pagination.issues.push({ type: 'incomplete-query', eduType });
     }
   }
+
+  // Some agencies mislabel education filters; search eligibility text across all employers too.
+  result.pagination.keywordQueries = [];
+  for (const keyword of JOB_ALIO_HIGH_SCHOOL_KEYWORD_QUERIES) {
+    const query = { keyword, searchType: 'elig', pages: 0, complete: false, discovered: 0 };
+    result.pagination.keywordQueries.push(query);
+    const fingerprints = new Set();
+    for (let pageNo = 1; pageNo <= maxPagesPerKeyword; pageNo += 1) {
+      await pause(350);
+      const form = new URLSearchParams({
+        _csrf: csrf,
+        pageNo: String(pageNo),
+        s_date: startDate.replaceAll('-', '.'),
+        e_date: today.replaceAll('-', '.'),
+        search_type: query.searchType,
+        keyword
+      });
+      try {
+        const response = await fetchImpl(LIST_URL, {
+          method: 'POST',
+          headers: {
+            Accept: 'text/html',
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'User-Agent': USER_AGENT,
+            Origin: 'https://job.alio.go.kr',
+            Referer: LIST_URL,
+            ...(cookies ? { Cookie: cookies } : {})
+          },
+          body: form,
+          signal: AbortSignal.timeout(15000)
+        });
+        if (!response.ok) throw Object.assign(new Error('Keyword search unavailable'), { status: response.status });
+        const html = await response.text();
+        cookies = mergeCookies(cookies, response);
+        csrf = csrfToken(html) || csrf;
+        const rows = parseJobAlioRows(html);
+        query.pages += 1;
+        query.discovered += rows.length;
+        if (!rows.length) { query.complete = true; break; }
+        const fingerprint = rows.map((row) => row.idx).join('|');
+        if (fingerprints.has(fingerprint)) {
+          result.pagination.keywordSearchIssues ||= [];
+          result.pagination.keywordSearchIssues.push({ type: 'repeated-page', keyword, page: pageNo });
+          break;
+        }
+        fingerprints.add(fingerprint);
+        for (const row of rows) {
+          const existing = allRows.get(row.idx);
+          allRows.set(row.idx, {
+            ...existing,
+            ...row,
+            scanReasons: [...new Set([...(existing?.scanReasons || []), `eligibility-keyword:${keyword}`])],
+            priority: Math.min(existing?.priority ?? 99, 1)
+          });
+        }
+        if (pageNo === maxPagesPerKeyword) {
+          result.pagination.keywordSearchIssues ||= [];
+          result.pagination.keywordSearchIssues.push({ type: 'page-limit', keyword, page: pageNo });
+        }
+      } catch (error) {
+        result.pagination.keywordSearchIssues ||= [];
+        result.pagination.keywordSearchIssues.push({ type: cleanFailure(error), keyword, page: pageNo });
+        break;
+      }
+    }
+  }
+  result.pagination.keywordSearchComplete = !result.pagination.keywordSearchIssues?.length
+    && result.pagination.keywordQueries.every((query) => query.complete);
   result.rows = [...allRows.values()];
   result.pagination.discovered = result.rows.length;
   return result;

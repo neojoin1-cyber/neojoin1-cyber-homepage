@@ -9,6 +9,11 @@ export const PRIORITY_BOARDS = [
   { id: 'hifive-central', name: 'HIFIVE 중앙 취업지원 공지', type: 'hifive', pageKey: 'currpage', container: 'kcci_bbs_editor', url: 'https://www.hifive.go.kr/front/bbs/bbsList.do?bbs_id=1&menuId=0501&rootMenuId=05' },
   { id: 'jeju-highschool', name: '제주교육청 취업지원센터', type: 'jeju', pageKey: 'startPage', container: 'boardViewWrap', url: 'https://www.jje.go.kr/job/board/list.jje?boardId=BBS_0000266&contentsSid=531&menuCd=DOM_000000301001000000&paging=ok' }
 ];
+export const HIGH_SCHOOL_EMPLOYER_ACCEPTANCE_FIXTURE = Object.freeze([
+  '한국에너지공단', '한국토지주택공사', '한국소비자원', '한국가스안전공사', '한국남부발전',
+  '한국도로공사', '한국수목원정원관리원', '한국전력기술', '국민연금공단', 'KB국민은행',
+  '부산항만공사', '한국산림복지진흥원', '신용보증기금'
+]);
 const decode = (s) => String(s || '').replace(/&#(x[0-9a-f]+|\d+);/gi, (_, n) => String.fromCodePoint(n[0].toLowerCase() === 'x' ? parseInt(n.slice(1), 16) : Number(n)))
   .replace(/&(?:nbsp|amp|quot|lt|gt|apos);/g, (x) => ({ '&nbsp;': ' ', '&amp;': '&', '&quot;': '"', '&lt;': '<', '&gt;': '>', '&apos;': "'" })[x]);
 export const boardText = (html) => decode(String(html || '').replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, ' ').replace(/<em\b[^>]*class=["']mTit["'][^>]*>[\s\S]*?<\/em>/gi, '').replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim();
@@ -100,7 +105,7 @@ export function parsePriorityDetail(html, row, source) {
   }
   const externalLinks = [...new Set(links.filter((u) => new URL(u).hostname !== new URL(row.url).hostname))];
   const period = boardDates(fields['접수기간'] || text.match(/(?:접수기간|접수 기간|공고기간)\s*[:：]?\s*(.{0,140})/)?.[1] || '');
-  return { ...row, company: fields['기관(기업)명'] || row.company || (/IBK기업은행/.test(row.title) ? '중소기업은행' : ''),
+  return { ...row, company: fields['기관(기업)명'] || canonicalHighSchoolEmployer(row.title) || row.company || canonicalHighSchoolEmployer(text) || (/IBK기업은행/.test(row.title) ? '중소기업은행' : ''),
     title: fields['공고명'] || row.title,
     deadline: row.deadline || period.end, start: row.start || period.start,
     highSchoolSignal: /고졸|고등학교|특성화고|마이스터고|직업계고|고교/.test(row.title + ' ' + text),
@@ -159,6 +164,15 @@ export async function discoverPriorityJobs({ fetchHtml = readHtml, boards = PRIO
   return { version: 1, generatedAt: now.toISOString(), scope: { lookbackDays: days, maxPagesPerBoard: maxPages, nationwideCompletenessGuaranteed: false }, sources: results.map((r) => r.source), records: results.flatMap((r) => r.records) };
 }
 const compact = (text) => String(text || '').replace(/주식회사|\(주\)|㈜/g, '').replace(/[^a-zA-Z0-9가-힣]/g, '').toLowerCase();
+export function canonicalHighSchoolEmployer(value) {
+  const text = compact(value);
+  const match = HIGH_SCHOOL_EMPLOYER_ACCEPTANCE_FIXTURE
+    .slice()
+    .sort((a, b) => compact(b).length - compact(a).length)
+    .find((name) => text.includes(compact(name)));
+  if (match) return match;
+  return text.includes('국민은행') ? 'KB국민은행' : '';
+}
 const urlsOf = (r) => [r.url, r.originalUrl, r.companyNoticeUrl, r.sourceDetailUrl].filter(Boolean);
 const exactNotice = (u) => /(?:idx|nttSn|recruitNo|id|number|dataSid)=\d+|\/\d{4,}(?:[/?#]|$)/.test(u);
 export function reconcilePriorityDiscovery(discovery, assessed, published, now = new Date(), previous = {}) {
@@ -184,15 +198,45 @@ export function reconcilePriorityDiscovery(discovery, assessed, published, now =
     return { ...publicRow, outcome, firstSeenAt: old?.firstSeenAt || discovery.generatedAt,
       unresolvedRuns: ['closed', 'published-match'].includes(outcome) ? 0 : (old?.unresolvedRuns || 0) + 1,
       matches: matches.map((i) => ({ id: i.id, company: i.company, title: i.baseTitle || i.title,
-      url: i.originalUrl || i.url, published: publishedIds.has(i.id), qualification: i.studentChannelAssessment?.qualificationAssessment?.status,
+      url: i.companyNoticeUrl || i.originalUrl || i.url, companyNoticeUrl: i.companyNoticeUrl || '',
+      published: publishedIds.has(i.id), qualification: i.studentChannelAssessment?.qualificationAssessment?.status,
       roles: i.studentChannelAssessment?.qualificationAssessment?.eligibleRoles || [] })) };
   });
-  return { ...discovery, records, summary: { discovered: records.length, publishedMatches: records.filter((r) => r.outcome === 'published-match').length,
+  const boardLeads = records.filter((row) => row.highSchoolSignal).map((row) => ({
+    employer: canonicalHighSchoolEmployer(`${row.company || ''} ${row.title || ''}`),
+    deadline: row.deadline,
+    outcome: row.outcome,
+    source: row.source,
+    url: row.url
+  }));
+  const officialLeads = assessed.filter((item) => /고졸|고등학교|특성화고|직업계고|마이스터고|고교/.test([
+    item.title, item.education, item.career, item.recruitField, item.detailText,
+    item.studentChannelAssessment?.qualificationAssessment?.evidence
+  ].join(' '))).map((item) => ({
+    employer: canonicalHighSchoolEmployer(`${item.company || ''} ${item.title || ''}`),
+    deadline: item.deadline,
+    outcome: publishedIds.has(item.id) ? 'published-match' : 'qualification-or-policy-review',
+    source: item.source,
+    url: item.companyNoticeUrl || item.originalUrl || item.url
+  }));
+  const acceptanceCoverage = HIGH_SCHOOL_EMPLOYER_ACCEPTANCE_FIXTURE.map((employer) => {
+    const leads = [...boardLeads, ...officialLeads].filter((row) => row.employer === employer);
+    const distinctLeads = [...new Map(leads.map((row) => [`${row.source}:${row.url}`, row])).values()];
+    return { employer, discoveredLeadCount: distinctLeads.length,
+      officialFeedLeadCount: distinctLeads.filter((row) => officialLeads.includes(row)).length,
+      activeOrUnknownDeadlineCount: distinctLeads.filter((row) => !row.deadline || row.deadline >= today).length,
+      outcomes: [...new Set(distinctLeads.map((row) => row.outcome))] };
+  });
+  return { ...discovery, records, acceptanceCoverage,
+    acceptanceScope: '13개 기관은 회귀 점검 표본이며 전체 수집 대상을 제한하지 않습니다.',
+    summary: { discovered: records.length, publishedMatches: records.filter((r) => r.outcome === 'published-match').length,
     closed: records.filter((r) => r.outcome === 'closed').length,
     unresolved: records.filter((r) => !['closed', 'published-match'].includes(r.outcome)).length,
     activeDatedUnresolved: records.filter((r) => r.deadline >= today && !['closed', 'published-match'].includes(r.outcome)).length,
     unknownDeadlineUnresolved: records.filter((r) => !r.deadline && !['closed', 'published-match'].includes(r.outcome)).length,
     highSchoolUnresolved: records.filter((r) => r.highSchoolSignal && !['closed', 'published-match'].includes(r.outcome)).length,
+    acceptanceSampleCount: acceptanceCoverage.length,
+    acceptanceSampleWithLeads: acceptanceCoverage.filter((entry) => entry.discoveredLeadCount > 0).length,
     sourceFailures: discovery.sources.filter((s) => !s.ok).length, detailFailures: discovery.sources.reduce((n, s) => n + s.detailsFailed, 0) } };
 }
 export function discoveredRecruiterEntries(discovery) {

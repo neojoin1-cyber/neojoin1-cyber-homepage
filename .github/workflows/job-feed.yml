@@ -12,7 +12,10 @@ on:
     paths:
       - ".github/workflows/job-feed.yml"
       - "tools/fetch_vocational_jobs.mjs"
+      - "tools/careerlink_public_jobs.mjs"
+      - "tools/careerlink_public_jobs.test.mjs"
       - "tools/job_alio_highschool_scan.mjs"
+      - "tools/job_alio_highschool_scan.test.mjs"
       - "tools/student_job_eligibility.mjs"
       - "tools/student_job_eligibility.test.mjs"
       - "tools/reviewed_job_evidence.mjs"
@@ -71,7 +74,7 @@ jobs:
         run: node -e "require('fs').appendFileSync(process.env.GITHUB_ENV, 'JOB_FEED_RUN_STARTED_AT=' + new Date().toISOString() + '\n')"
 
       - name: Verify source gate regressions
-        run: node --test tools/job_source_gate.test.mjs tools/job_collection_audit.test.mjs tools/priority_job_discovery.test.mjs tools/employer_notice_resolver.test.mjs tools/job_attachment_cache.test.mjs
+        run: node --test tools/job_source_gate.test.mjs tools/job_collection_audit.test.mjs tools/priority_job_discovery.test.mjs tools/job_alio_highschool_scan.test.mjs tools/careerlink_public_jobs.test.mjs tools/employer_notice_resolver.test.mjs tools/job_attachment_cache.test.mjs
 
       - name: Official source preflight
         continue-on-error: true
