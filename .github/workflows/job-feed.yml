@@ -1,43 +1,6 @@
 name: Update vocational job feed
 
 on:
-  schedule:
-    # 09:10, 14:10, 23:10 KST
-    - cron: "10 0,5,14 * * *"
-    # Backup checks 30 minutes later in case an external source was slow or transiently unavailable.
-    - cron: "40 0,5,14 * * *"
-  push:
-    branches:
-      - main
-    paths:
-      - ".github/workflows/job-feed.yml"
-      - "tools/fetch_vocational_jobs.mjs"
-      - "tools/careerlink_public_jobs.mjs"
-      - "tools/careerlink_public_jobs.test.mjs"
-      - "tools/job_alio_highschool_scan.mjs"
-      - "tools/job_alio_highschool_scan.test.mjs"
-      - "tools/student_job_eligibility.mjs"
-      - "tools/student_job_eligibility.test.mjs"
-      - "tools/reviewed_job_evidence.mjs"
-      - "tools/extract_job_attachment.test.py"
-      - "tools/extract_job_attachment.py"
-      - "tools/job_source_gate.mjs"
-      - "tools/job_source_gate.test.mjs"
-      - "tools/job_collection_audit.mjs"
-      - "tools/job_collection_audit.test.mjs"
-      - "tools/priority_job_discovery.mjs"
-      - "tools/priority_job_discovery.test.mjs"
-      - "tools/employer_notice_resolver.mjs"
-      - "tools/job_attachment_audit.mjs"
-      - "tools/job_attachment_cache.mjs"
-      - "tools/job_attachment_cache.test.mjs"
-      - "tools/employer_notice_resolver.test.mjs"
-      - "assets/job-official-links.mjs"
-      - "assets/job-attachments.mjs"
-      - "tools/verify_platform_reliability.mjs"
-      - "index.html"
-      - "docs/JOB_FEED_AUTOMATION.md"
-      - "docs/JOB_FEED_SECRET_SETUP_SIMPLE.md"
   workflow_dispatch:
 
 permissions:
